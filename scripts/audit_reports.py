@@ -7,6 +7,7 @@ import argparse
 import json
 import py_compile
 import re
+import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -91,6 +92,11 @@ def parse_warnings(log_text: str) -> dict[str, int]:
 def run_tex_audit(*, mode: str) -> tuple[list[dict[str, Any]], dict[str, int]]:
     rows: list[dict[str, Any]] = []
     agg = {k: 0 for k in WARN_PATTERNS}
+    if shutil.which("latexmk") is None:
+        print("[tex] SKIP latexmk not found; TeX audit skipped")
+        TEX_JSON.write_text(json.dumps(rows, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        return rows, agg
+
     for case in discover_tex_cases(mode=mode):
         tex_dir = case.path.parent
         cmd = LATEXMK_COMMON + [case.engine, case.path.name]

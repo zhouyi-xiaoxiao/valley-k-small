@@ -1,94 +1,113 @@
 {
   "ok": true,
-  "generated_at": "2026-02-25T01:27:20.933925Z",
+  "generated_at": "2026-02-25T01:39:52.548624Z",
   "agent_id": "vk-review-qa",
-  "session_id": "oc-review-8e3747e8-4f8d-4a85-8470-8a2330d77cd2",
+  "session_id": "oc-review-009f1b3f-b231-4a1b-a09c-7d46db4520e4",
   "model": "openai-codex/gpt-5.3-codex",
   "model_candidates": [
+    "openai/gpt-5.2-pro",
     "openai-codex/gpt-5.3-codex",
-    "openai-codex/gpt-5.2",
-    "openai/gpt-5.2-pro"
+    "openai-codex/gpt-5.2"
   ],
   "agent_setup_note": "agent created",
-  "attempt_errors": [],
+  "attempt_errors": [
+    {
+      "model": "openai/gpt-5.2-pro",
+      "stage": "parse",
+      "error": "{\"raw_text\": \"I can continue, but the prior run in this session stopped before it produced a usable plan.\\n\\nWhat I can see right now:\\n- only one tracked in-progress change: `scripts/run_openclaw_review.py`\\n- it reorders model priority to try `openai/gpt-5.2-pro` first.\\n\\nIf that’s the task, I’ll finish it now (sanity check + commit). If not, paste the exact task line and I’ll pick up immediately.\"}"
+    }
+  ],
   "review": {
-    "score": 58,
+    "score": 62,
     "findings": [
       {
         "severity": "high",
+        "area": "mathematical_coherence",
+        "issue": "Math logic chain appears templated and semantically misclassified, weakening trust in derivations.",
+        "evidence": "site/src/lib/render-pages.tsx renders meta.math_story verbatim as a 'Mathematical Logic Chain'; in data (e.g., site/public/data/v1/reports/ring_deriv_k2/meta.json), stages like 'Shortcut Perturbation' are attached to generic equations such as P(t+1)=B P(t), and many reports reuse identical stage descriptions.",
+        "fix": "Regenerate math_story with equation-aware tagging (symbol/rule-based or human-reviewed), add CI checks for stage-diversity and stage-equation consistency, and fail build when chains are overly repetitive."
+      },
+      {
+        "severity": "high",
         "area": "readability",
-        "issue": "Report prose shown on pages is often mathematically garbled due lossy extraction, which harms comprehension.",
-        "evidence": "render-pages.tsx renders meta.summary/narrative directly (line 129, 133-141). Example from site/public/data/v1/reports/ring_lazy_jump_ext/meta.json: \"N=100,q=2/3, =1 and only varied...\"; from ring_lazy_jump_ext_rev2/meta.json: \"K \\\\ 2,4\\\\ , q=2/3 , =0.01...\".",
-        "fix": "Harden TeX->text pipeline: preserve inline math tokens, convert to KaTeX-safe inline spans, and add CI checks for corruption patterns (e.g., ', =0', 't_ p1', raw '\\\\ ')."
+        "issue": "Large portions of report narratives are truncated/placeholders, reducing scientific readability.",
+        "evidence": "site/public/data/v1/reports/ring_deriv_k2/meta.json and ring_lazy_jump_ext/meta.json contain ellipsis-heavy summaries ('…') and placeholder key findings like 'See ... report assets for detailed findings.'; narrative.model_overview/method_overview/result_overview are often duplicated.",
+        "fix": "Add extraction quality gates: prohibit placeholder-only findings, enforce non-truncated sentence completion, and require narrative field uniqueness thresholds per report."
       },
       {
         "severity": "high",
         "area": "duplication_risk",
-        "issue": "Asset list rendering can collide on React keys because key uses only sha256 while duplicate hashes exist in a single report.",
-        "evidence": "render-pages.tsx line 243 uses key={asset.sha256}. In ring_lazy_jump_ext/meta.json and ring_lazy_jump/meta.json, first 20 assets already contain repeated sha256 values (same content in multiple paths).",
-        "fix": "Use stable unique key `${asset.sha256}:${asset.web_path}` and optionally deduplicate assets by (sha256, web_path label policy) before rendering."
+        "issue": "Asset catalogs contain substantial duplication (same labels/content at multiple paths), obscuring canonical outputs.",
+        "evidence": "site/public/data/v1/reports/ring_lazy_jump_ext/meta.json lists repeated labels (e.g., N100_K2_beta002.* appears multiple times) and repeated sha256 values across data/cases, figures/cases, outputs paths.",
+        "fix": "Deduplicate assets at generation time by sha256 + canonical source path, keep one canonical entry plus aliases, and surface grouped duplicates in UI instead of raw repetition."
       },
       {
         "severity": "medium",
         "area": "interaction_quality",
-        "issue": "Log-scale mode can drop a large fraction of points, risking misleading interpretation.",
-        "evidence": "ReportPlotPanel.tsx lines 84-97 replace non-positive y with null and only show aggregate dropped count. Example dataset site/public/data/v1/reports/grid2d_rect_bimodality/series/ot_scan_bias2d-2.json has 60% non-positive values.",
-        "fix": "Warn per series with dropped percentage, disable log toggle when drop ratio is high, or offer symlog/offset transform as safer alternative."
+        "issue": "Hard caps hide content without true exploration controls.",
+        "evidence": "site/src/lib/render-pages.tsx slices math_blocks to 10, assets to 20, figures to 24; large reports (e.g., ring_lazy_jump_ext) exceed these limits, so users must expand manually or miss items.",
+        "fix": "Add searchable/paginated tables for formulas/assets/figures with sort/filter by kind, source, and duplication status."
       },
       {
         "severity": "medium",
-        "area": "mathematical_coherence",
-        "issue": "Theory-map QA check for duplicate findings is a false negative, so coherence diagnostics are over-optimistic.",
-        "evidence": "theory_map.json has consistency_checks entry {check:\"duplicate_key_findings\", pass:true, details:[]}, but exact duplicates exist across reports (e.g., grid2d_blackboard_bimodality and grid2d_reflecting_bimodality share 3 identical key_findings strings).",
-        "fix": "Recompute duplicate checks across all report metas with normalization (trim/markdown-strip/punctuation-fold) and include offending report_ids/details in theory_map output."
+        "area": "interaction_quality",
+        "issue": "Log-scale behavior can silently alter interpretation by dropping non-positive points and auto-reverting scale.",
+        "evidence": "site/src/components/ReportPlotPanel.tsx maps non-positive y to null in log mode and auto-switches back to linear when all points drop (setYScale('linear')); this can hide mathematically meaningful sign structure.",
+        "fix": "Disable log option when data contain non-positive values unless user confirms transform; show persistent warning with dropped ratio and offer signed-log/symlog alternative."
+      },
+      {
+        "severity": "high",
+        "area": "readability",
+        "issue": "Language metadata and localized content are inconsistent.",
+        "evidence": "site/public/data/v1/index.json marks ring_deriv_k2 and ring_valley as ['en'], but corresponding meta.cn.json files exist; ring_valley/meta.cn.json title and major narrative text remain English.",
+        "fix": "Generate languages field from validated localized content, add CN-language quality checks (character ratio/translation completeness), and hide locale toggle per report when localization is not real."
       },
       {
         "severity": "medium",
         "area": "readability",
-        "issue": "Per-report freshness signal is weak: all reports share the same updated_at timestamp.",
-        "evidence": "site/public/data/v1/index.json has one identical updated_at for all 14 reports (same as generated_at).",
-        "fix": "Store true per-report source mtime or commit timestamp; keep generated_at as pipeline build time only."
-      },
-      {
-        "severity": "low",
-        "area": "duplication_risk",
-        "issue": "Math-card rendering logic is duplicated in two branches, increasing maintenance drift risk.",
-        "evidence": "render-pages.tsx lines 162-178 and 184-200 repeat near-identical JSX for math blocks.",
-        "fix": "Extract a reusable MathBlockCard component and map once (with optional collapsed pagination)."
+        "issue": "Page renderer is overly monolithic, increasing maintenance and inconsistency risk.",
+        "evidence": "site/src/lib/render-pages.tsx centralizes all page sections with repeated card/grid patterns and inline style literals.",
+        "fix": "Refactor into section components (OverviewCard, MathChainSection, AssetsSection, FiguresSection) and drive rendering via typed section config to reduce duplication and improve QA coverage."
       }
     ],
     "quick_wins": [
-      "Change asset key to sha256+web_path (1-line UI fix with immediate collision reduction).",
-      "Add CI lint rule for extracted text corruption tokens before publishing meta.json.",
-      "Show dropped-per-series badge in log mode and auto-fallback to linear when all points vanish.",
-      "Upgrade theory_map duplicate check to emit concrete duplicates (report_id + text hash).",
-      "Backfill index.json updated_at from report-level mtimes/git metadata."
+      "Add a CI rule that fails if key_findings contains placeholder phrases like 'See ... report assets'.",
+      "Deduplicate report assets by sha256 before writing meta.json and expose duplicate_count per asset.",
+      "Replace fixed slices (10/20/24) with paginated lists and a simple client-side search box.",
+      "Add a 'localization completeness' check to keep index.languages aligned with actual translated content.",
+      "In ReportPlotPanel, show a permanent badge when log mode drops >10% points and provide a symlog toggle.",
+      "Add semantic duplicate detection in theory_map consistency checks (not only exact-string duplicates)."
     ],
     "crosscheck": [
       {
         "file": "site/src/lib/render-pages.tsx",
-        "status": "warn",
-        "notes": "Directly renders extracted summary/narrative; asset key uses sha256 only; duplicated math-card JSX blocks."
+        "status": "checked",
+        "notes": "Section slicing limits, monolithic renderer, direct rendering of math_story/math_blocks via KaTeX."
       },
       {
         "file": "site/src/components/ReportPlotPanel.tsx",
-        "status": "warn",
-        "notes": "Good controls and fetch abort handling; log transform drops non-positive data aggressively with limited guidance."
+        "status": "checked",
+        "notes": "Log-mode point dropping, auto linear fallback, smoothing/normalization controls present."
       },
       {
         "file": "site/public/data/v1/index.json",
-        "status": "warn",
-        "notes": "Structure valid (14 reports, groups present), but updated_at lacks per-report granularity."
+        "status": "checked",
+        "notes": "Report catalog valid JSON; language metadata inconsistent with available cn meta files for some reports."
       },
       {
         "file": "site/public/data/v1/theory_map.json",
-        "status": "warn",
-        "notes": "Card counts and report mapping are internally consistent, but duplicate_key_findings check misses real duplicates."
+        "status": "checked",
+        "notes": "Coverage checks pass, but duplicate detection appears too weak for templated/placeholder narrative duplication."
       },
       {
-        "file": "index.json ↔ theory_map.json",
-        "status": "pass",
-        "notes": "All index report_ids are mapped in theory cards; no unmapped/extra IDs."
+        "file": "site/public/data/v1/reports/*/meta*.json",
+        "status": "sampled",
+        "notes": "Observed truncation, placeholder findings, repeated narrative fields, and mixed localization quality."
+      },
+      {
+        "file": "site build",
+        "status": "checked",
+        "notes": "next build succeeds; issues are primarily content quality/coherence/UX rather than compile failures."
       }
     ]
   }

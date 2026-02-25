@@ -13,6 +13,7 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO_ROOT / "artifacts" / "checks" / "openclaw_review.json"
+DEFAULT_HISTORY = REPO_ROOT / "artifacts" / "checks" / "openclaw_review_history.jsonl"
 
 
 def utc_now_iso() -> str:
@@ -93,13 +94,17 @@ def select_models(candidates: list[str]) -> list[str]:
 
 def build_prompt(repo_root: Path) -> str:
     return (
-        "You are a strict QA reviewer for a mathematics-heavy website. "
+        "You are a strict QA reviewer for a mathematics-heavy website and publication pipeline. "
         "Review the repository at "
         f"{repo_root.as_posix()} "
-        "with focus on readability, mathematical coherence, interaction quality, and duplication risk. "
+        "with focus on content coherence, readability, mathematical continuity, interaction quality, verifiability, and duplication risk. "
         "Cross-check these files first: "
         "site/src/lib/render-pages.tsx, site/src/components/ReportPlotPanel.tsx, "
-        "site/public/data/v1/index.json, site/public/data/v1/theory_map.json. "
+        "site/public/data/v1/index.json, site/public/data/v1/theory_map.json, "
+        "site/public/data/v1/report_network.json, site/public/data/v1/content_map.json, "
+        "artifacts/deliverables/publication/valley_k_small_compendium_en.pdf. "
+        "Also sample-check at least 5 report metadata files under site/public/data/v1/reports/*/meta.json. "
+        "For each finding, emphasize concrete content-level defects and whether statements are verifiable from evidence paths. "
         "Return ONLY compact JSON with keys: "
         "score (0-100), findings (array of {severity, area, issue, evidence, fix}), "
         "quick_wins (array), crosscheck (array). "
@@ -112,6 +117,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--agent-id", default="vk-review-qa")
     parser.add_argument("--workspace", type=Path, default=REPO_ROOT)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--history", type=Path, default=DEFAULT_HISTORY)
     return parser.parse_args()
 
 
@@ -195,6 +201,9 @@ def main() -> int:
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
+        args.history.parent.mkdir(parents=True, exist_ok=True)
+        with args.history.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(output, ensure_ascii=False) + "\n")
         print(json.dumps(output, ensure_ascii=False, indent=2))
         return 0
 
@@ -208,6 +217,9 @@ def main() -> int:
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    args.history.parent.mkdir(parents=True, exist_ok=True)
+    with args.history.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(payload, ensure_ascii=False) + "\n")
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 1
 

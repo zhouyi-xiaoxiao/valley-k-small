@@ -184,9 +184,20 @@ def render_theory_cards(theory_map: dict[str, Any], lang: str) -> str:
     return "\n".join(lines)
 
 
-def render_report_digest(registry: list[dict[str, Any]], lang: str) -> tuple[str, list[dict[str, Any]]]:
+def render_report_digest(
+    registry: list[dict[str, Any]],
+    lang: str,
+    *,
+    content_map: dict[str, Any] | None = None,
+) -> tuple[str, list[dict[str, Any]]]:
     lines: list[str] = []
     included: list[dict[str, Any]] = []
+    guide_by_report: dict[str, dict[str, Any]] = {}
+    if isinstance(content_map, dict):
+        for row in content_map.get("report_guides", []):
+            rid = str(row.get("report_id", "")).strip()
+            if rid:
+                guide_by_report[rid] = row
     for item in registry:
         rid = item["id"]
         meta = choose_meta(rid, lang=lang)
@@ -198,6 +209,28 @@ def render_report_digest(registry: list[dict[str, Any]], lang: str) -> tuple[str
 
         lines.append(rf"\subsection*{{{tex_escape(title)} (\texttt{{{tex_escape(rid)}}})}}")
         lines.append(rf"\textbf{{Summary}}: {tex_escape(summary)}")
+        guide = guide_by_report.get(rid, {})
+        objective = clean_text(
+            str(
+                guide.get("objective_cn")
+                if lang == "cn"
+                else guide.get("objective_en")
+            )
+        )
+        if objective:
+            lines.append(rf"\textbf{{Continuity Objective}}: {tex_escape(objective)}")
+        upstream = [str(x) for x in guide.get("upstream_report_ids", []) if str(x).strip()]
+        downstream = [str(x) for x in guide.get("downstream_report_ids", []) if str(x).strip()]
+        related = [str(x) for x in guide.get("related_report_ids", []) if str(x).strip()]
+        continuity_tokens = []
+        if upstream:
+            continuity_tokens.append(f"upstream={','.join(upstream[:2])}")
+        if downstream:
+            continuity_tokens.append(f"downstream={','.join(downstream[:2])}")
+        if related:
+            continuity_tokens.append(f"bridges={','.join(related[:3])}")
+        if continuity_tokens:
+            lines.append(rf"\textbf{{Cross-Report Links}}: {tex_escape('; '.join(continuity_tokens))}")
         lines.append(r"\textbf{Key Findings}")
         lines.append(r"\begin{itemize}[leftmargin=1.2em]")
         if findings:
@@ -212,8 +245,12 @@ def render_report_digest(registry: list[dict[str, Any]], lang: str) -> tuple[str
         if math_story:
             for node in math_story:
                 stage = str(node.get("stage") or "step")
-                explanation = str(node.get("explanation") or "")
-                lines.append(rf"\item [{tex_escape(stage)}] {tex_escape(explanation)}")
+                explanation = str(node.get("description") or node.get("explanation") or "")
+                formula = clean_text(str(node.get("latex") or ""))
+                detail = explanation
+                if formula:
+                    detail = f"{detail} | {formula}" if detail else formula
+                lines.append(rf"\item [{tex_escape(stage)}] {tex_escape(detail)}")
         else:
             lines.append(r"\item No math logic chain extracted.")
         lines.append(r"\end{itemize}")
@@ -247,6 +284,7 @@ def build_compendium(*, lang: str, include_appendix: bool, base_url: str) -> dic
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     index = read_json(DATA_ROOT / "index.json")
     theory_map = read_json(DATA_ROOT / "theory_map.json")
+    content_map = read_json(DATA_ROOT / "content_map.json") if (DATA_ROOT / "content_map.json").exists() else {}
     registry = load_registry()
 
     header_tex, sec_reports, sec_appendix = render_header(
@@ -256,7 +294,7 @@ def build_compendium(*, lang: str, include_appendix: bool, base_url: str) -> dic
         base_url=base_url,
     )
     theory_tex = render_theory_cards(theory_map, lang=lang)
-    digest_tex, digest_rows = render_report_digest(registry, lang=lang)
+    digest_tex, digest_rows = render_report_digest(registry, lang=lang, content_map=content_map)
 
     appendix_paths: list[Path] = []
     for item in registry:

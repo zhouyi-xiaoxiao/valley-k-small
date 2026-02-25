@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import type { AgentManifest, FigureRecord, Lang, ReportMeta, ReportNetwork, TheoryMap, WebIndex } from '@/types';
+import type { AgentManifest, ContentMap, FigureRecord, Lang, ReportMeta, ReportNetwork, TheoryMap, WebIndex } from '@/types';
 import { withBasePath } from '@/lib/url';
 
 const DATA_ROOT = path.join(process.cwd(), 'public', 'data', 'v1');
@@ -63,6 +63,20 @@ export function loadReportNetwork(): ReportNetwork {
         report_ids: [],
       },
       reports: [],
+    }
+  );
+}
+
+export function loadContentMap(): ContentMap {
+  return (
+    readJson<ContentMap>(path.join(DATA_ROOT, 'content_map.json')) ?? {
+      version: 'v1',
+      generated_at: new Date(0).toISOString(),
+      report_count: 0,
+      arcs: [],
+      claims: [],
+      report_guides: [],
+      consistency_checks: [],
     }
   );
 }

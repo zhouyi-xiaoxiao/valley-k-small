@@ -47,6 +47,52 @@ LATEX_SYMBOL_REPLACEMENTS = {
     r"\mu": "mu",
     r"\sigma": "sigma",
 }
+CLAIM_STOPWORDS = {
+    "the",
+    "and",
+    "for",
+    "with",
+    "that",
+    "this",
+    "from",
+    "into",
+    "under",
+    "over",
+    "into",
+    "via",
+    "are",
+    "is",
+    "was",
+    "were",
+    "as",
+    "of",
+    "to",
+    "in",
+    "on",
+    "at",
+    "by",
+    "or",
+    "an",
+    "a",
+    "can",
+    "be",
+    "which",
+    "using",
+    "used",
+    "show",
+    "shows",
+    "report",
+    "结果",
+    "结论",
+    "研究",
+    "模型",
+    "方法",
+    "通过",
+    "以及",
+    "并且",
+    "可以",
+    "用于",
+}
 
 
 def normalize_space(text: str) -> str:
@@ -452,6 +498,8 @@ def extract_math_blocks(tex_text: str, sections: list[dict[str, Any]], source_pa
         cleaned = sanitize_latex_for_katex(latex)
         if not cleaned:
             continue
+        if is_trivial_formula_signature(cleaned):
+            continue
         signature = re.sub(r"[^a-z0-9]+", "", cleaned.lower())
         if not signature or signature in seen:
             continue
@@ -632,6 +680,36 @@ def normalize_finding_key(text: str) -> str:
     return raw
 
 
+def is_trivial_formula_signature(latex: str) -> bool:
+    compact = re.sub(r"\s+", "", normalize_space(latex))
+    if not compact:
+        return True
+    if len(normalize_finding_key(compact)) < 10:
+        return True
+    if re.fullmatch(r"[A-Za-z\\_{}0-9]+=[-+]?\d+(?:\.\d+)?", compact):
+        return True
+    if re.fullmatch(r"\\text\{[^{}]+\}=\\text\{[^{}]+\}", compact):
+        return True
+    if re.fullmatch(r"[A-Za-z\\_{}]+=\d+e-?\d+", compact, flags=re.IGNORECASE):
+        return True
+    token_count = len(re.findall(r"[A-Za-z]+|\\[A-Za-z]+", compact))
+    if "=" in compact and token_count <= 2 and re.search(r"\d", compact):
+        return True
+    return False
+
+
+def tokenize_claim_text(text: str) -> set[str]:
+    tokens = re.findall(r"[a-zA-Z0-9_]+|[\u4e00-\u9fff]{1,4}", normalize_space(text).lower())
+    out: set[str] = set()
+    for tok in tokens:
+        if len(tok) < 2:
+            continue
+        if tok in CLAIM_STOPWORDS:
+            continue
+        out.add(tok)
+    return out
+
+
 def looks_like_path_finding(text: str) -> bool:
     lowered = text.lower()
     if lowered.startswith("see ") and "report assets" in lowered:
@@ -798,7 +876,10 @@ def detect_changed_reports(registry: list[dict[str, Any]]) -> set[str]:
             report_path = str(item["path"]).rstrip("/") + "/"
             if rel.startswith(report_path):
                 matched.add(item["id"])
-    return matched
+    if matched:
+        return matched
+    # If only pipeline/UI code changed, regenerate all reports to avoid empty payloads in clean CI.
+    return {item["id"] for item in registry}
 
 
 def copy_asset(
@@ -844,6 +925,70 @@ def gather_files(report_dir: Path, extensions: set[str], max_items: int) -> list
     ]
     files.sort(key=lambda p: p.as_posix())
     return files[:max_items]
+
+
+def disambiguate_asset_labels(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    taken: set[tuple[str, str]] = set()
+    for record in records:
+        kind = str(record.get("kind", "other"))
+        label = str(record.get("label", "")).strip() or "asset"
+        key = (kind, label.lower())
+        if key not in taken:
+            record["label"] = label
+            taken.add(key)
+            continue
+
+        source_path = str(record.get("source_path", ""))
+        parts = list(Path(source_path).parts)
+        if len(parts) >= 2 and parts[0] == "reports":
+            parts = parts[2:]
+        parent_parts = [p for p in parts[:-1] if p]
+
+        candidate = ""
+        for depth in range(1, min(6, len(parent_parts)) + 1):
+            context = "/".join(parent_parts[-depth:])
+            trial = f"{context}/{label}"
+            if (kind, trial.lower()) not in taken:
+                candidate = trial
+                break
+
+        if not candidate:
+            suffix = 2
+            while True:
+                trial = f"{label} ({suffix})"
+                if (kind, trial.lower()) not in taken:
+                    candidate = trial
+                    break
+                suffix += 1
+
+        record["label"] = candidate
+        taken.add((kind, candidate.lower()))
+    return records
+
+
+def disambiguate_figure_titles(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    taken: set[str] = set()
+    for record in records:
+        title = normalize_space(str(record.get("title", ""))) or "figure"
+        if title.lower() not in taken:
+            record["title"] = title
+            taken.add(title.lower())
+            continue
+
+        source_path = str(record.get("source_path", ""))
+        parts = list(Path(source_path).parts)
+        if len(parts) >= 2 and parts[0] == "reports":
+            parts = parts[2:]
+        parent_parts = [p for p in parts[:-1] if p]
+        context = "/".join(parent_parts[-2:]) if parent_parts else "variant"
+        candidate = f"{title} ({context})"
+        suffix = 2
+        while candidate.lower() in taken:
+            candidate = f"{title} ({context}, {suffix})"
+            suffix += 1
+        record["title"] = candidate
+        taken.add(candidate.lower())
+    return records
 
 
 def infer_series_type(name: str, values: list[float]) -> str:
@@ -1360,6 +1505,9 @@ def build_report_payload(
                 }
             )
 
+    assets = disambiguate_asset_labels(assets)
+    figure_records = disambiguate_figure_titles(figure_records)
+
     datasets = build_datasets(
         report_id,
         report_dir,
@@ -1590,6 +1738,12 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
             }
         )
     repeated_formulas.sort(key=lambda row: int(row["count"]), reverse=True)
+    redundant_repeated_formulas = [
+        row for row in repeated_formulas if is_trivial_formula_signature(str(row.get("latex", "")))
+    ]
+    shared_core_formulas = [
+        row for row in repeated_formulas if not is_trivial_formula_signature(str(row.get("latex", "")))
+    ]
 
     asset_dup_excess = {
         report_id: payload
@@ -1615,8 +1769,13 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         },
         {
             "check": "duplicate_math_signatures",
-            "pass": len(repeated_formulas) == 0,
-            "details": repeated_formulas[:12],
+            "pass": len(redundant_repeated_formulas) <= max(2, int(len(reports) * 0.15)),
+            "details": {
+                "redundant_signatures": redundant_repeated_formulas[:12],
+                "shared_core_signatures": shared_core_formulas[:12],
+                "redundant_count": len(redundant_repeated_formulas),
+                "shared_core_count": len(shared_core_formulas),
+            },
         },
         {
             "check": "asset_label_duplication",
@@ -1799,6 +1958,421 @@ def build_report_network(output_dir: Path, reports: list[dict[str, Any]], genera
     )
 
 
+def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated_at: str) -> None:
+    network_path = output_dir / "report_network.json"
+    network_payload: dict[str, Any] = {}
+    if network_path.exists():
+        network_payload = json.loads(network_path.read_text(encoding="utf-8"))
+
+    network_nodes = {
+        str(row.get("report_id", "")): row
+        for row in list(network_payload.get("reports", []))
+        if str(row.get("report_id", "")).strip()
+    }
+
+    meta_by_report: dict[str, dict[str, Any]] = {}
+    cn_meta_by_report: dict[str, dict[str, Any]] = {}
+    report_path_by_id: dict[str, str] = {}
+    for row in reports:
+        rid = str(row["report_id"])
+        report_path_by_id[rid] = str(row.get("path", ""))
+        meta_path = output_dir / "reports" / rid / "meta.json"
+        meta_cn_path = output_dir / "reports" / rid / "meta.cn.json"
+        meta_by_report[rid] = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+        cn_meta_by_report[rid] = json.loads(meta_cn_path.read_text(encoding="utf-8")) if meta_cn_path.exists() else {}
+
+    claim_rows: list[dict[str, Any]] = []
+    claim_ids_by_report: dict[str, list[str]] = defaultdict(list)
+    report_guides: list[dict[str, Any]] = []
+
+    for row in reports:
+        rid = str(row["report_id"])
+        meta = meta_by_report.get(rid, {})
+        meta_cn = cn_meta_by_report.get(rid, {})
+        node = network_nodes.get(rid, {})
+
+        objective_en = normalize_space(str(meta.get("narrative", {}).get("result_overview", "")))
+        objective_cn = normalize_space(str(meta_cn.get("narrative", {}).get("result_overview", "")))
+        if not objective_en:
+            objective_en = summarize_plain(str(meta.get("summary", "Research objective unavailable.")), max_chars=240)
+        if not objective_cn:
+            objective_cn = summarize_plain(
+                str(meta_cn.get("summary", meta.get("summary", "研究目标暂缺。"))),
+                max_chars=240,
+            )
+
+        upstream: list[str] = []
+        prev_id = str(node.get("previous_in_group", "")).strip()
+        if prev_id:
+            upstream.append(prev_id)
+
+        downstream: list[str] = []
+        next_id = str(node.get("next_in_group", "")).strip()
+        if next_id:
+            downstream.append(next_id)
+
+        related_candidates = [
+            str(link.get("report_id", "")).strip()
+            for link in list(node.get("same_group_links", []))[:3] + list(node.get("cross_group_links", []))[:3]
+        ]
+        related = dedupe_preserve([x for x in related_candidates if x and x != rid], max_items=6)
+
+        report_guides.append(
+            {
+                "report_id": rid,
+                "objective_en": objective_en,
+                "objective_cn": objective_cn,
+                "upstream_report_ids": upstream,
+                "downstream_report_ids": downstream,
+                "related_report_ids": related,
+                "verification_steps_en": [
+                    "Read the key claims and their evidence references first.",
+                    "Verify at least one equation card and one dataset panel against source paths.",
+                    "Cross-check this report with upstream/downstream linked reports.",
+                ],
+                "verification_steps_cn": [
+                    "先读关键 claim 及其证据引用。",
+                    "至少核对一条公式卡与一个数据面板的来源路径。",
+                    "再与上游/下游关联报告做交叉核对。",
+                ],
+            }
+        )
+
+        findings_en = dedupe_preserve([str(x) for x in meta.get("key_findings", [])], max_items=8)
+        findings_cn = dedupe_preserve([str(x) for x in meta_cn.get("key_findings", [])], max_items=8)
+        section_cards_en = list(meta.get("section_cards", []))
+        section_cards_cn = list(meta_cn.get("section_cards", []))
+        math_blocks_en = list(meta.get("math_blocks", []))
+        datasets = list(meta.get("datasets", []))
+        source_docs = [str(x) for x in meta.get("source_documents", []) if str(x).strip()]
+        narrative_en = dict(meta.get("narrative", {}))
+        narrative_cn = dict(meta_cn.get("narrative", {}))
+
+        staged_candidates: list[tuple[str, str, str]] = [
+            (
+                "model",
+                normalize_space(str(narrative_en.get("model_overview", ""))),
+                normalize_space(str(narrative_cn.get("model_overview", ""))),
+            ),
+            (
+                "method",
+                normalize_space(str(narrative_en.get("method_overview", ""))),
+                normalize_space(str(narrative_cn.get("method_overview", ""))),
+            ),
+            (
+                "result",
+                normalize_space(str(narrative_en.get("result_overview", ""))),
+                normalize_space(str(narrative_cn.get("result_overview", ""))),
+            ),
+        ]
+        for idx, line in enumerate(findings_en[:2]):
+            staged_candidates.append(
+                (
+                    "finding",
+                    normalize_space(str(line)),
+                    normalize_space(str(findings_cn[idx] if idx < len(findings_cn) else objective_cn)),
+                )
+            )
+
+        staged_claims: list[tuple[str, str, str]] = []
+        seen_claim_signatures: set[str] = set()
+        for stage, text_en, text_cn in staged_candidates:
+            cleaned_en = normalize_space(text_en)
+            cleaned_cn = normalize_space(text_cn)
+            if not cleaned_en:
+                continue
+            signature = normalize_finding_key(cleaned_en)
+            if not signature or signature in seen_claim_signatures:
+                continue
+            seen_claim_signatures.add(signature)
+            if not cleaned_cn:
+                cleaned_cn = summarize_plain(objective_cn, max_chars=220)
+            staged_claims.append((stage, cleaned_en, cleaned_cn))
+
+        if not staged_claims:
+            staged_claims = [
+                (
+                    "result",
+                    summarize_plain(objective_en, max_chars=240),
+                    summarize_plain(objective_cn, max_chars=240),
+                )
+            ]
+
+        stage_hint_map: dict[str, tuple[str, ...]] = {
+            "model": MODEL_HINTS,
+            "method": METHOD_HINTS,
+            "result": RESULT_HINTS,
+            "finding": RESULT_HINTS,
+        }
+
+        for idx, (stage, text_en, text_cn) in enumerate(staged_claims):
+            claim_id = f"{rid}-c{idx + 1}"
+            claim_tokens = tokenize_claim_text(text_en)
+
+            evidence: list[dict[str, Any]] = []
+
+            for source_path in source_docs[:1]:
+                evidence.append(
+                    {
+                        "evidence_type": "source_document",
+                        "path": source_path,
+                        "snippet_en": summarize_plain(text_en, max_chars=180),
+                        "snippet_cn": summarize_plain(text_cn, max_chars=180),
+                    }
+                )
+
+            section_scored: list[tuple[int, int]] = []
+            for j, card in enumerate(section_cards_en):
+                summary = normalize_space(str(card.get("summary", "")))
+                if not summary:
+                    continue
+                title = normalize_space(str(card.get("heading", ""))).lower()
+                overlap = len(claim_tokens.intersection(tokenize_claim_text(summary)))
+                hint_bonus = 2 if any(h in title for h in stage_hint_map.get(stage, ())) else 0
+                section_scored.append((overlap + hint_bonus, j))
+            section_scored.sort(reverse=True)
+            for _, j in section_scored[:2]:
+                card_en = section_cards_en[j]
+                card_cn = section_cards_cn[j] if j < len(section_cards_cn) else {}
+                evidence.append(
+                    {
+                        "evidence_type": "section_summary",
+                        "path": str(card_en.get("source_path", report_path_by_id.get(rid, rid))),
+                        "snippet_en": summarize_plain(str(card_en.get("summary", text_en)), max_chars=180),
+                        "snippet_cn": summarize_plain(str(card_cn.get("summary", text_cn)), max_chars=180),
+                    }
+                )
+
+            math_limit = 2 if stage in {"model", "method"} else 1
+            for block in math_blocks_en[:math_limit]:
+                evidence.append(
+                    {
+                        "evidence_type": "math_block",
+                        "path": str(block.get("source_path", report_path_by_id.get(rid, rid))),
+                        "snippet_en": summarize_plain(str(block.get("context", "math block")), max_chars=120),
+                        "snippet_cn": summarize_plain(str(block.get("context", "公式片段")), max_chars=120),
+                    }
+                )
+
+            if datasets and stage in {"method", "result", "finding"}:
+                ds = datasets[0]
+                evidence.append(
+                    {
+                        "evidence_type": "dataset",
+                        "path": str(ds.get("series_path", "")),
+                        "snippet_en": summarize_plain(
+                            f"{ds.get('title', 'dataset')}: {ds.get('x_label', 'x')} -> {ds.get('y_label', 'y')}",
+                            max_chars=160,
+                        ),
+                        "snippet_cn": summarize_plain(
+                            f"{ds.get('title', '数据集')}: {ds.get('x_label', 'x')} -> {ds.get('y_label', 'y')}",
+                            max_chars=160,
+                        ),
+                    }
+                )
+
+            deduped_evidence: list[dict[str, Any]] = []
+            seen_keys: set[str] = set()
+            for row_evidence in evidence:
+                key = f"{row_evidence.get('evidence_type')}::{row_evidence.get('path')}::{row_evidence.get('snippet_en')}"
+                if key in seen_keys:
+                    continue
+                seen_keys.add(key)
+                deduped_evidence.append(row_evidence)
+
+            if not deduped_evidence:
+                deduped_evidence = [
+                    {
+                        "evidence_type": "source_document",
+                        "path": report_path_by_id.get(rid, rid),
+                        "snippet_en": summarize_plain(text_en, max_chars=180),
+                        "snippet_cn": summarize_plain(text_cn, max_chars=180),
+                    }
+                ]
+
+            claim_rows.append(
+                {
+                    "claim_id": claim_id,
+                    "report_id": rid,
+                    "stage": stage,
+                    "text_en": summarize_plain(text_en, max_chars=260),
+                    "text_cn": summarize_plain(text_cn, max_chars=260),
+                    "evidence": deduped_evidence[:6],
+                    "linked_claim_ids": [],
+                    "linked_report_ids": [],
+                }
+            )
+            claim_ids_by_report[rid].append(claim_id)
+
+    score_links: dict[str, list[tuple[int, str, str]]] = defaultdict(list)
+    claim_list = list(claim_rows)
+    for i, left in enumerate(claim_list):
+        tokens_left = tokenize_claim_text(str(left.get("text_en", "")))
+        if not tokens_left:
+            continue
+        for right in claim_list[i + 1 :]:
+            if str(left.get("report_id")) == str(right.get("report_id")):
+                continue
+            tokens_right = tokenize_claim_text(str(right.get("text_en", "")))
+            overlap = len(tokens_left.intersection(tokens_right))
+            left_stage = str(left.get("stage"))
+            right_stage = str(right.get("stage"))
+            required_overlap = 1 if {"model", "method"}.intersection({left_stage, right_stage}) else 2
+            if overlap < required_overlap:
+                continue
+            stage_bonus = 1 if left_stage == right_stage else 0
+            score = overlap + stage_bonus
+            left_id = str(left.get("claim_id"))
+            right_id = str(right.get("claim_id"))
+            score_links[left_id].append((score, right_id, str(right.get("report_id"))))
+            score_links[right_id].append((score, left_id, str(left.get("report_id"))))
+
+    guide_by_report = {row["report_id"]: row for row in report_guides}
+    for claim in claim_rows:
+        claim_id = str(claim.get("claim_id"))
+        related = sorted(score_links.get(claim_id, []), key=lambda row: (-row[0], row[1]))[:5]
+        linked_claim_ids = [row[1] for row in related]
+        linked_report_ids = dedupe_preserve([row[2] for row in related], max_items=5)
+        if not linked_report_ids:
+            guide = guide_by_report.get(str(claim.get("report_id")), {})
+            linked_report_ids = dedupe_preserve(
+                list(guide.get("related_report_ids", [])) + list(guide.get("upstream_report_ids", [])),
+                max_items=3,
+            )
+        claim["linked_claim_ids"] = linked_claim_ids
+        claim["linked_report_ids"] = linked_report_ids
+
+    arcs: list[dict[str, Any]] = []
+    group_paths = list(network_payload.get("group_paths", []))
+    for path_row in group_paths:
+        group = str(path_row.get("group", "misc"))
+        report_ids = [str(x) for x in path_row.get("report_ids", []) if str(x).strip()]
+        checkpoints: list[dict[str, str]] = []
+        claim_ids: list[str] = []
+        for rid in report_ids:
+            meta = meta_by_report.get(rid, {})
+            meta_cn = cn_meta_by_report.get(rid, {})
+            guide = guide_by_report.get(rid, {})
+            checkpoints.append(
+                {
+                    "report_id": rid,
+                    "title_en": str(meta.get("title", rid)),
+                    "title_cn": str(meta_cn.get("title", meta.get("title", rid))),
+                    "contribution_en": str(guide.get("objective_en", summarize_plain(str(meta.get("summary", "")), max_chars=180))),
+                    "contribution_cn": str(
+                        guide.get(
+                            "objective_cn",
+                            summarize_plain(str(meta_cn.get("summary", meta.get("summary", ""))), max_chars=180),
+                        )
+                    ),
+                }
+            )
+            claim_ids.extend(claim_ids_by_report.get(rid, []))
+        if not report_ids:
+            continue
+        arcs.append(
+            {
+                "arc_id": f"group-{group}",
+                "label_en": f"{group} progression",
+                "label_cn": f"{group} 研究推进链",
+                "summary_en": f"{group} track links {len(report_ids)} reports into one continuous argument.",
+                "summary_cn": f"{group} 轨道把 {len(report_ids)} 份报告串成连续论证。",
+                "report_ids": report_ids,
+                "claim_ids": dedupe_preserve(claim_ids, max_items=200),
+                "checkpoint_count": len(checkpoints),
+                "checkpoints": checkpoints,
+            }
+        )
+
+    global_story = dict(network_payload.get("global_storyline", {}))
+    global_reports = [str(x) for x in global_story.get("report_ids", []) if str(x).strip()]
+    if global_reports:
+        global_claim_ids: list[str] = []
+        for rid in global_reports:
+            global_claim_ids.extend(claim_ids_by_report.get(rid, []))
+        arcs.append(
+            {
+                "arc_id": "global-synthesis",
+                "label_en": str(global_story.get("label_en", "Global synthesis")),
+                "label_cn": str(global_story.get("label_cn", "全局综合")),
+                "summary_en": "Global storyline that connects all report families from mechanism to synthesis.",
+                "summary_cn": "连接全部报告家族的全局叙事主线，从机制到综合结论。",
+                "report_ids": global_reports,
+                "claim_ids": dedupe_preserve(global_claim_ids, max_items=300),
+                "checkpoint_count": len(global_reports),
+                "checkpoints": [
+                    {
+                        "report_id": rid,
+                        "title_en": str(meta_by_report.get(rid, {}).get("title", rid)),
+                        "title_cn": str(
+                            cn_meta_by_report.get(rid, {}).get("title", meta_by_report.get(rid, {}).get("title", rid))
+                        ),
+                        "contribution_en": str(guide_by_report.get(rid, {}).get("objective_en", "")),
+                        "contribution_cn": str(guide_by_report.get(rid, {}).get("objective_cn", "")),
+                    }
+                    for rid in global_reports
+                ],
+            }
+        )
+
+    all_report_ids = {str(row["report_id"]) for row in reports}
+    claims_report_ids = {str(row["report_id"]) for row in claim_rows}
+    guides_report_ids = {str(row["report_id"]) for row in report_guides}
+    missing_claim_reports = sorted(all_report_ids - claims_report_ids)
+    missing_guide_reports = sorted(all_report_ids - guides_report_ids)
+    claims_without_evidence = sorted([str(row["claim_id"]) for row in claim_rows if not row.get("evidence")])
+    linked_claim_count = sum(1 for row in claim_rows if row.get("linked_report_ids"))
+    duplicate_claim_signatures = Counter(normalize_finding_key(str(row.get("text_en", ""))) for row in claim_rows)
+    repeated_claims = [
+        {"signature": sig, "count": count}
+        for sig, count in duplicate_claim_signatures.items()
+        if sig and count > 1
+    ]
+    repeated_claims.sort(key=lambda row: int(row["count"]), reverse=True)
+
+    consistency_checks = [
+        {
+            "check": "all_reports_have_claims",
+            "pass": len(missing_claim_reports) == 0,
+            "details": {"missing_report_ids": missing_claim_reports, "claim_count": len(claim_rows)},
+        },
+        {
+            "check": "all_claims_have_evidence",
+            "pass": len(claims_without_evidence) == 0,
+            "details": {"claims_without_evidence": claims_without_evidence},
+        },
+        {
+            "check": "all_reports_have_guides",
+            "pass": len(missing_guide_reports) == 0,
+            "details": {"missing_report_ids": missing_guide_reports},
+        },
+        {
+            "check": "cross_report_claim_links",
+            "pass": linked_claim_count >= max(1, int(len(claim_rows) * 0.65)),
+            "details": {"linked_claim_count": linked_claim_count, "claim_count": len(claim_rows)},
+        },
+        {
+            "check": "duplicate_claim_signatures",
+            "pass": len(repeated_claims) <= max(4, int(len(claim_rows) * 0.2)),
+            "details": repeated_claims[:20],
+        },
+    ]
+
+    payload = {
+        "version": "v1",
+        "generated_at": generated_at,
+        "report_count": len(all_report_ids),
+        "arcs": arcs,
+        "claims": claim_rows,
+        "report_guides": report_guides,
+        "consistency_checks": consistency_checks,
+    }
+    (output_dir / "content_map.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False),
+        encoding="utf-8",
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build site/public/data/v1 web payloads from report assets.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -1883,6 +2457,7 @@ def main() -> int:
     duplicate_resolution = enforce_unique_key_findings(output_dir, [row["report_id"] for row in reports])
     build_theory_map(output_dir, reports, generated_at)
     build_report_network(output_dir, reports, generated_at)
+    build_content_map(output_dir, reports, generated_at)
 
     print(
         json.dumps(

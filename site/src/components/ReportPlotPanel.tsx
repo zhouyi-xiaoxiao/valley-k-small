@@ -40,7 +40,11 @@ function inferSeriesType(name: string, values: number[]): SeriesType {
     if (values.length > 0) {
       const min = Math.min(...values);
       const max = Math.max(...values);
-      if (max - min > 2 || uniq.size > 4) {
+      const spread = max - min;
+      if (spread > 2 || uniq.size > 4 || values.length >= 10) {
+        return 'metric';
+      }
+      if (spread >= 1 && uniq.size >= 3) {
         return 'metric';
       }
     }
@@ -196,8 +200,15 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     if (rawVisibleSeries.length === 0) {
       return false;
     }
-    return rawVisibleSeries.some((series) => series.y.some((value) => value > 0));
-  }, [rawVisibleSeries]);
+    return rawVisibleSeries.some((series) => {
+      const semantic = semanticsByName.get(series.name);
+      const inferred = semantic?.series_type ?? inferSeriesType(series.name, series.y);
+      if (inferred === 'binary' || inferred === 'parameter') {
+        return false;
+      }
+      return series.y.some((value) => value > 0);
+    });
+  }, [rawVisibleSeries, semanticsByName]);
 
   useEffect(() => {
     if (!logEligible && yScale === 'log') {
@@ -274,20 +285,21 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
 
   const effectiveYLabel = useMemo(() => {
     const parts: string[] = [];
-    if (normalize) {
+    const hasTransformable = transformed.some((series) => series.canTransform);
+    if (normalize && hasTransformable) {
       parts.push(lang === 'cn' ? '归一化' : 'normalized');
     }
-    if (smoothWindow > 1) {
+    if (smoothWindow > 1 && hasTransformable) {
       parts.push(lang === 'cn' ? `平滑w=${smoothWindow}` : `smooth w=${smoothWindow}`);
     }
-    if (yScale === 'log') {
+    if (yScale === 'log' && logEligible) {
       parts.push('log');
     }
     if (parts.length === 0) {
       return selected?.y_label;
     }
     return `${selected?.y_label} (${parts.join(', ')})`;
-  }, [lang, normalize, selected?.y_label, smoothWindow, yScale]);
+  }, [lang, logEligible, normalize, selected?.y_label, smoothWindow, transformed, yScale]);
 
   const applySeriesPreset = (mode: 'metric' | 'all') => {
     if (!payload) {

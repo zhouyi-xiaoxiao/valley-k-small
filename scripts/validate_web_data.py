@@ -19,6 +19,7 @@ DEFAULT_DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
 WEB_SCHEMA_PATH = REPO_ROOT / "schemas" / "web_report.schema.json"
 AGENT_SCHEMA_PATH = REPO_ROOT / "schemas" / "agent_sync_v1.schema.json"
 THEORY_SCHEMA_PATH = REPO_ROOT / "schemas" / "theory_map_v1.schema.json"
+CONTENT_SCHEMA_PATH = REPO_ROOT / "schemas" / "content_map_v1.schema.json"
 
 
 def read_json(path: Path) -> Any:
@@ -74,6 +75,17 @@ def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
     non_placeholder = [x for x in findings if not (x.lower().startswith("see ") and "report assets" in x.lower())]
     if findings and not non_placeholder:
         raise SystemExit(f"Low readability in {label}: key_findings are placeholders only")
+    for idx, card in enumerate(meta_payload.get("section_cards", []), start=1):
+        heading = str(card.get("heading", "")).strip().lower()
+        summary = str(card.get("summary", "")).strip().lower()
+        if not summary:
+            raise SystemExit(f"Low readability in {label}: section_cards[{idx}] has empty summary")
+        if summary == heading:
+            raise SystemExit(f"Low readability in {label}: section_cards[{idx}] duplicates heading text only")
+        if re.search(r"section summary\.?$", summary):
+            raise SystemExit(f"Low readability in {label}: section_cards[{idx}] contains placeholder summary")
+        if "fallback narrative card" in summary:
+            raise SystemExit(f"Low readability in {label}: section_cards[{idx}] contains fallback placeholder")
 
 
 def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label: str) -> None:
@@ -171,6 +183,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--web-schema", type=Path, default=WEB_SCHEMA_PATH)
     parser.add_argument("--agent-schema", type=Path, default=AGENT_SCHEMA_PATH)
     parser.add_argument("--theory-schema", type=Path, default=THEORY_SCHEMA_PATH)
+    parser.add_argument("--content-schema", type=Path, default=CONTENT_SCHEMA_PATH)
     return parser.parse_args()
 
 
@@ -185,6 +198,7 @@ def main() -> int:
     web_schema = read_json(args.web_schema)
     agent_schema = read_json(args.agent_schema)
     theory_schema = read_json(args.theory_schema)
+    content_schema = read_json(args.content_schema)
 
     index_payload = read_json(index_path)
     reports = list(index_payload.get("reports", []))
@@ -282,6 +296,31 @@ def main() -> int:
     if len(nodes) != len(reports):
         raise SystemExit(
             f"Invalid report network payload: reports length mismatch ({len(nodes)} vs {len(reports)})"
+        )
+
+    content_map_path = data_root / "content_map.json"
+    if not content_map_path.exists():
+        raise SystemExit(f"Missing content map file: {content_map_path}")
+    content_map = read_json(content_map_path)
+    validate_with_schema(content_map, content_schema, str(content_map_path))
+    if int(content_map.get("report_count", -1)) != len(reports):
+        raise SystemExit(
+            f"Invalid content map payload: report_count mismatch ({content_map.get('report_count')} vs {len(reports)})"
+        )
+    claim_rows = list(content_map.get("claims", []))
+    claim_report_ids = {str(row.get("report_id", "")).strip() for row in claim_rows if str(row.get("report_id", "")).strip()}
+    report_ids = {str(item.get("report_id", "")).strip() for item in reports if str(item.get("report_id", "")).strip()}
+    missing_claim_reports = sorted(report_ids - claim_report_ids)
+    if missing_claim_reports:
+        raise SystemExit(
+            "Invalid content map payload: some reports have no claims: "
+            + ",".join(missing_claim_reports[:10])
+        )
+    claims_without_evidence = [str(row.get("claim_id", "")) for row in claim_rows if not list(row.get("evidence", []))]
+    if claims_without_evidence:
+        raise SystemExit(
+            "Invalid content map payload: claims missing evidence: "
+            + ",".join(claims_without_evidence[:12])
         )
 
     report_record_schema = agent_schema["$defs"]["report_record"]

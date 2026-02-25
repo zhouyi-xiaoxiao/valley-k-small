@@ -33,7 +33,7 @@ def run_step(name: str, cmd: list[str], *, cwd: Path | None = None, env: dict[st
     }
 
 
-def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool) -> dict[str, Any]:
+def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_rounds: int) -> dict[str, Any]:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     steps: list[dict[str, Any]] = []
 
@@ -70,19 +70,17 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool) -> dict[
     steps.append(run_step("Agent-F-PublicationCN", [PYTHON, "scripts/build_publication_pdf.py", "--lang", "cn"]))
     steps.append(run_step("Agent-G-AgentPack", [PYTHON, "scripts/build_agent_pack.py"]))
 
-    if not skip_openclaw:
-        steps.append(run_step("Agent-H-OpenClawReview", [PYTHON, "scripts/run_openclaw_review.py"]))
-    else:
-        steps.append(
-            {
-                "agent": "Agent-H-OpenClawReview",
-                "command": ["skip:openclaw-review"],
-                "return_code": 0,
-                "status": "pass",
-                "output_tail": "Skipped by --skip-openclaw",
-                "finished_at": utc_now_iso(),
-            }
-        )
+    content_cmd = [
+        PYTHON,
+        "scripts/run_content_iteration.py",
+        "--rounds",
+        str(max(1, int(content_rounds))),
+        "--mode",
+        mode,
+    ]
+    if skip_openclaw:
+        content_cmd.append("--skip-openclaw")
+    steps.append(run_step("Agent-H-ContentIteration", content_cmd))
 
     ok = all(s["status"] == "pass" for s in steps)
     payload = {
@@ -91,12 +89,14 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool) -> dict[
         "mode": mode,
         "skip_site_build": skip_site_build,
         "skip_openclaw": skip_openclaw,
+        "content_rounds": int(content_rounds),
         "steps": steps,
         "deliverables": {
             "website": "https://zhouyi-xiaoxiao.github.io/valley-k-small/",
             "publication_en": "artifacts/deliverables/publication/valley_k_small_compendium_en.pdf",
             "publication_cn": "artifacts/deliverables/publication/valley_k_small_compendium_cn.pdf",
             "agent_pack": "artifacts/deliverables/agent_pack/v1",
+            "content_iteration": "artifacts/checks/content_iteration/summary.json",
         },
     }
     out_path = OUT_DIR / "delivery_manifest.json"
@@ -109,6 +109,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--mode", choices=["full", "changed"], default="changed")
     p.add_argument("--skip-site-build", action="store_true")
     p.add_argument("--skip-openclaw", action="store_true")
+    p.add_argument("--content-rounds", type=int, default=2)
     return p.parse_args()
 
 
@@ -118,6 +119,7 @@ def main() -> int:
         mode=str(args.mode),
         skip_site_build=bool(args.skip_site_build),
         skip_openclaw=bool(args.skip_openclaw),
+        content_rounds=max(1, int(args.content_rounds)),
     )
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0 if payload["ok"] else 1

@@ -123,6 +123,7 @@ export type AgentManifest = {
     theory_map: string;
     guide_json: string;
     report_network?: string;
+    content_map?: string;
   };
 };
 
@@ -186,6 +187,59 @@ export type TheoryMap = {
     description_cn: string;
     report_ids: string[];
     report_count: number;
+  }>;
+  consistency_checks: Array<{
+    check: string;
+    pass: boolean;
+    details: unknown;
+  }>;
+};
+
+export type ContentMap = {
+  version: string;
+  generated_at: string;
+  report_count: number;
+  arcs: Array<{
+    arc_id: string;
+    label_en: string;
+    label_cn: string;
+    summary_en: string;
+    summary_cn: string;
+    report_ids: string[];
+    claim_ids: string[];
+    checkpoint_count: number;
+    checkpoints: Array<{
+      report_id: string;
+      title_en: string;
+      title_cn: string;
+      contribution_en: string;
+      contribution_cn: string;
+    }>;
+  }>;
+  claims: Array<{
+    claim_id: string;
+    report_id: string;
+    stage: 'model' | 'method' | 'result' | 'finding';
+    text_en: string;
+    text_cn: string;
+    evidence: Array<{
+      evidence_type: 'source_document' | 'section_summary' | 'math_block' | 'dataset';
+      path: string;
+      snippet_en: string;
+      snippet_cn: string;
+    }>;
+    linked_claim_ids: string[];
+    linked_report_ids: string[];
+  }>;
+  report_guides: Array<{
+    report_id: string;
+    objective_en: string;
+    objective_cn: string;
+    upstream_report_ids: string[];
+    downstream_report_ids: string[];
+    related_report_ids: string[];
+    verification_steps_en: string[];
+    verification_steps_cn: string[];
   }>;
   consistency_checks: Array<{
     check: string;

@@ -42,14 +42,19 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def build_report_cards(index: dict[str, Any]) -> list[dict[str, Any]]:
+def build_report_cards(
+    index: dict[str, Any],
+    *,
+    claims_by_report: dict[str, list[dict[str, Any]]],
+    arcs_by_report: dict[str, list[str]],
+) -> list[dict[str, Any]]:
     cards: list[dict[str, Any]] = []
     for row in index.get("reports", []):
         rid = row["report_id"]
         report_root = DATA_ROOT / "reports" / rid
-        meta_path = report_root / "meta.en.json"
+        meta_path = report_root / "meta.json"
         if not meta_path.exists():
-            meta_path = report_root / "meta.json"
+            meta_path = report_root / "meta.cn.json"
         meta = read_json(meta_path)
         cards.append(
             {
@@ -62,10 +67,13 @@ def build_report_cards(index: dict[str, Any]) -> list[dict[str, Any]]:
                 "math_story": list(meta.get("math_story", [])),
                 "dataset_count": len(meta.get("datasets", [])),
                 "asset_count": len(meta.get("assets", [])),
+                "claim_count": len(claims_by_report.get(rid, [])),
+                "arc_ids": arcs_by_report.get(rid, []),
                 "web_url": f"/reports/{rid}",
                 "data_urls": {
                     "meta": f"/data/v1/reports/{rid}/meta.json",
                     "figures": f"/data/v1/reports/{rid}/figures.json",
+                    "content_map": "/data/v1/content_map.json",
                 },
             }
         )
@@ -110,15 +118,17 @@ def build_guide_markdown(manifest: dict[str, Any]) -> str:
         "",
         "## Entry Files",
         "- `manifest.json` : package-level index and hashes",
+        "- `content_map.json` : claim-level narrative arcs + evidence trails",
         "- `report_cards.jsonl` : one normalized report card per report",
         "- `openclaw_tasks.json` : actionable tasks extracted from OpenClaw review",
         "- `schema_refs.json` : schema + hash references",
         "",
         "## Recommended Agent Workflow",
         "1. Read `manifest.json` and validate all hashes.",
-        "2. Read `report_cards.jsonl` to locate target report(s) and math logic chain.",
-        "3. Follow `openclaw_tasks.json` high severity items first.",
-        "4. Regenerate via `python3 scripts/reportctl.py agent-pack` after edits.",
+        "2. Read `content_map.json` to follow cross-report arcs and claim evidence links.",
+        "3. Read `report_cards.jsonl` to locate target report(s) and math logic chain.",
+        "4. Follow `openclaw_tasks.json` high severity items first.",
+        "5. Regenerate via `python3 scripts/reportctl.py agent-pack` after edits.",
         "",
         "## Non-Temporary Review Trace",
         "OpenClaw review outputs are persisted to `artifacts/checks/openclaw_review.json` and mirrored into this pack.",
@@ -131,12 +141,32 @@ def build_agent_pack() -> dict[str, Any]:
         raise SystemExit("missing web data index; run `python3 scripts/reportctl.py web-data --mode full` first")
     if not (AGENT_DATA_ROOT / "manifest.json").exists():
         raise SystemExit("missing agent sync outputs; run `python3 scripts/reportctl.py agent-sync` first")
+    if not (DATA_ROOT / "content_map.json").exists():
+        raise SystemExit("missing content map outputs; run `python3 scripts/reportctl.py web-data --mode full` first")
 
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
     index = read_json(DATA_ROOT / "index.json")
     agent_manifest = read_json(AGENT_DATA_ROOT / "manifest.json")
     theory_map = read_json(DATA_ROOT / "theory_map.json")
-    report_cards = build_report_cards(index)
+    content_map = read_json(DATA_ROOT / "content_map.json")
+    claims_by_report: dict[str, list[dict[str, Any]]] = {}
+    for claim in content_map.get("claims", []):
+        rid = str(claim.get("report_id", "")).strip()
+        if not rid:
+            continue
+        claims_by_report.setdefault(rid, []).append(claim)
+    arcs_by_report: dict[str, list[str]] = {}
+    for arc in content_map.get("arcs", []):
+        arc_id = str(arc.get("arc_id", "")).strip()
+        if not arc_id:
+            continue
+        for rid in arc.get("report_ids", []):
+            rid_key = str(rid).strip()
+            if not rid_key:
+                continue
+            arcs_by_report.setdefault(rid_key, []).append(arc_id)
+
+    report_cards = build_report_cards(index, claims_by_report=claims_by_report, arcs_by_report=arcs_by_report)
     openclaw_tasks, openclaw_raw = build_openclaw_tasks()
 
     report_cards_path = OUT_ROOT / "report_cards.jsonl"
@@ -172,10 +202,12 @@ def build_agent_pack() -> dict[str, Any]:
         dst = OUT_ROOT / "agent_sync" / name
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
+    shutil.copy2(DATA_ROOT / "content_map.json", OUT_ROOT / "content_map.json")
 
     summary = {
         "generated_at": utc_now_iso(),
         "report_count": len(report_cards),
+        "claim_count": len(content_map.get("claims", [])),
         "theory_card_count": len(theory_map.get("cards", [])),
         "openclaw_task_count": len(openclaw_tasks),
         "agent_manifest_generated_at": agent_manifest.get("generated_at"),
@@ -191,12 +223,14 @@ def build_agent_pack() -> dict[str, Any]:
             "report_cards": "report_cards.jsonl",
             "openclaw_tasks": "openclaw_tasks.json",
             "schema_refs": "schema_refs.json",
+            "content_map": "content_map.json",
             "agent_sync": "agent_sync/",
             "guide": "AGENT_GUIDE.md",
         },
         "hashes": {
             "report_cards_sha256": sha256_file(report_cards_path),
             "openclaw_tasks_sha256": sha256_file(openclaw_tasks_path),
+            "content_map_sha256": sha256_file(OUT_ROOT / "content_map.json"),
         },
     }
     write_json(OUT_ROOT / "manifest.json", manifest)

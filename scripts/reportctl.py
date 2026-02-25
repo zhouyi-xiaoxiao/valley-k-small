@@ -227,10 +227,29 @@ def cmd_agent_pack() -> int:
     return subprocess.run(cmd, cwd=REPO_ROOT).returncode
 
 
-def cmd_deliverables(*, mode: str, skip_site_build: bool, skip_openclaw: bool) -> int:
+def cmd_deliverables(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_rounds: int) -> int:
     cmd = [PYTHON, "scripts/build_three_deliverables.py", "--mode", mode]
     if skip_site_build:
         cmd.append("--skip-site-build")
+    if skip_openclaw:
+        cmd.append("--skip-openclaw")
+    cmd += ["--content-rounds", str(max(1, content_rounds))]
+    return subprocess.run(cmd, cwd=REPO_ROOT).returncode
+
+
+def cmd_content_iterate(*, rounds: int, mode: str, build_site: bool, skip_openclaw: bool, target_score: int) -> int:
+    cmd = [
+        PYTHON,
+        "scripts/run_content_iteration.py",
+        "--rounds",
+        str(max(1, rounds)),
+        "--mode",
+        mode,
+        "--target-score",
+        str(max(1, target_score)),
+    ]
+    if build_site:
+        cmd.append("--build-site")
     if skip_openclaw:
         cmd.append("--skip-openclaw")
     return subprocess.run(cmd, cwd=REPO_ROOT).returncode
@@ -295,6 +314,14 @@ def parse_args() -> argparse.Namespace:
     p_deliv.add_argument("--mode", choices=["full", "changed"], default="changed")
     p_deliv.add_argument("--skip-site-build", action="store_true")
     p_deliv.add_argument("--skip-openclaw", action="store_true")
+    p_deliv.add_argument("--content-rounds", type=int, default=2)
+
+    p_iter = sub.add_parser("content-iterate", help="Run multi-round content QA loop with persistent artifacts")
+    p_iter.add_argument("--rounds", type=int, default=3)
+    p_iter.add_argument("--mode", choices=["full", "changed"], default="full")
+    p_iter.add_argument("--build-site", action="store_true")
+    p_iter.add_argument("--skip-openclaw", action="store_true")
+    p_iter.add_argument("--target-score", type=int, default=75)
 
     return parser.parse_args()
 
@@ -340,6 +367,15 @@ def main() -> int:
             mode=str(args.mode),
             skip_site_build=bool(args.skip_site_build),
             skip_openclaw=bool(args.skip_openclaw),
+            content_rounds=int(args.content_rounds),
+        )
+    if args.subcmd == "content-iterate":
+        return cmd_content_iterate(
+            rounds=int(args.rounds),
+            mode=str(args.mode),
+            build_site=bool(args.build_site),
+            skip_openclaw=bool(args.skip_openclaw),
+            target_score=int(args.target_score),
         )
     raise SystemExit(f"unsupported subcmd: {args.subcmd}")
 

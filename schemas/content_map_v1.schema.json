@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valley-k-small.dev/schemas/content_map_v1.schema.json",
+  "title": "Content Map V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "generated_at",
+    "report_count",
+    "arcs",
+    "claims",
+    "report_guides",
+    "consistency_checks"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "report_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "arcs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "arc_id",
+          "label_en",
+          "label_cn",
+          "summary_en",
+          "summary_cn",
+          "report_ids",
+          "claim_ids",
+          "checkpoint_count",
+          "checkpoints"
+        ],
+        "properties": {
+          "arc_id": { "type": "string", "minLength": 1 },
+          "label_en": { "type": "string", "minLength": 1 },
+          "label_cn": { "type": "string", "minLength": 1 },
+          "summary_en": { "type": "string", "minLength": 1 },
+          "summary_cn": { "type": "string", "minLength": 1 },
+          "report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "claim_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "checkpoint_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "checkpoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["report_id", "title_en", "title_cn", "contribution_en", "contribution_cn"],
+              "properties": {
+                "report_id": { "type": "string", "minLength": 1 },
+                "title_en": { "type": "string", "minLength": 1 },
+                "title_cn": { "type": "string", "minLength": 1 },
+                "contribution_en": { "type": "string", "minLength": 1 },
+                "contribution_cn": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claim_id",
+          "report_id",
+          "stage",
+          "text_en",
+          "text_cn",
+          "evidence",
+          "linked_claim_ids",
+          "linked_report_ids"
+        ],
+        "properties": {
+          "claim_id": { "type": "string", "minLength": 1 },
+          "report_id": { "type": "string", "minLength": 1 },
+          "stage": { "type": "string", "enum": ["model", "method", "result", "finding"] },
+          "text_en": { "type": "string", "minLength": 1 },
+          "text_cn": { "type": "string", "minLength": 1 },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["evidence_type", "path", "snippet_en", "snippet_cn"],
+              "properties": {
+                "evidence_type": {
+                  "type": "string",
+                  "enum": ["source_document", "section_summary", "math_block", "dataset"]
+                },
+                "path": { "type": "string", "minLength": 1 },
+                "snippet_en": { "type": "string", "minLength": 1 },
+                "snippet_cn": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "linked_claim_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "linked_report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "report_guides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "report_id",
+          "objective_en",
+          "objective_cn",
+          "upstream_report_ids",
+          "downstream_report_ids",
+          "related_report_ids",
+          "verification_steps_en",
+          "verification_steps_cn"
+        ],
+        "properties": {
+          "report_id": { "type": "string", "minLength": 1 },
+          "objective_en": { "type": "string", "minLength": 1 },
+          "objective_cn": { "type": "string", "minLength": 1 },
+          "upstream_report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "downstream_report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "related_report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "verification_steps_en": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "verification_steps_cn": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "consistency_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check", "pass", "details"],
+        "properties": {
+          "check": { "type": "string", "minLength": 1 },
+          "pass": { "type": "boolean" },
+          "details": {}
+        }
+      }
+    }
+  }
+}

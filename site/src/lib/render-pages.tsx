@@ -5,6 +5,7 @@ import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
   groupReports,
   loadAgentManifest,
+  loadContentMap,
   loadFigures,
   loadIndex,
   loadReportNetwork,
@@ -14,7 +15,7 @@ import {
   prefixPath,
   withBasePath,
 } from '@/lib/content';
-import type { AssetRecord, Lang, ReportMeta, ReportNetwork } from '@/types';
+import type { AssetRecord, ContentMap, Lang, ReportMeta, ReportNetwork } from '@/types';
 
 type LatexRenderResult = {
   html: string;
@@ -127,7 +128,7 @@ function extractReportPreview(meta: ReportMeta | null, reportId: string, lang: L
   }
   return {
     title: meta.title || reportId,
-    summary: compactText(meta.summary || '', 230),
+    summary: compactText(meta.summary || '', 280),
   };
 }
 
@@ -208,6 +209,25 @@ function renderConnectionReason(
   );
 }
 
+function reportClaims(contentMap: ContentMap, reportId: string) {
+  return contentMap.claims.filter((row) => row.report_id === reportId);
+}
+
+function reportGuide(contentMap: ContentMap, reportId: string) {
+  return contentMap.report_guides.find((row) => row.report_id === reportId) ?? null;
+}
+
+function reportArcs(contentMap: ContentMap, reportId: string) {
+  return contentMap.arcs.filter((row) => row.report_ids.includes(reportId));
+}
+
+const CLAIM_STAGE_ORDER: Record<'model' | 'method' | 'result' | 'finding', number> = {
+  model: 0,
+  method: 1,
+  result: 2,
+  finding: 3,
+};
+
 function isImageFigure(webPath: string): boolean {
   return /\.(png|jpg|jpeg|webp|svg)$/i.test(webPath);
 }
@@ -226,6 +246,7 @@ export function renderHomePage(lang: Lang, prefix: string) {
   const grouped = groupReports(index);
   const groups = Object.keys(grouped).sort();
   const network = loadReportNetwork();
+  const contentMap = loadContentMap();
 
   return (
     <AppShell lang={lang} prefix={prefix}>
@@ -291,6 +312,33 @@ export function renderHomePage(lang: Lang, prefix: string) {
                   </li>
                 ))}
               </ol>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Narrative Arcs', '叙事弧线')}</h2>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'Each arc links concrete claims to evidence, so readers can verify the story step by step.',
+            '每条弧线都把具体 claim 对应到证据，方便逐步核对。',
+          )}
+        </p>
+        <div className="grid grid-2">
+          {contentMap.arcs.slice(0, 4).map((arc) => (
+            <article key={arc.arc_id} className="card">
+              <h3>{lang === 'cn' ? arc.label_cn : arc.label_en}</h3>
+              <p>{lang === 'cn' ? arc.summary_cn : arc.summary_en}</p>
+              <p>
+                <span className="badge">
+                  {localizedText(lang, 'Checkpoints', '检查点')}: {arc.checkpoint_count}
+                </span>{' '}
+                <span className="badge">
+                  {localizedText(lang, 'Claims', 'Claim 数')}: {arc.claim_ids.length}
+                </span>
+              </p>
             </article>
           ))}
         </div>
@@ -382,7 +430,19 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
   const figures = loadFigures(reportId);
   const network = loadReportNetwork();
+  const contentMap = loadContentMap();
   const networkNode = network.reports.find((row) => row.report_id === reportId);
+  const claims = reportClaims(contentMap, reportId);
+  const claimsOrdered = [...claims].sort((left, right) => {
+    const leftRank = CLAIM_STAGE_ORDER[left.stage] ?? 99;
+    const rightRank = CLAIM_STAGE_ORDER[right.stage] ?? 99;
+    if (leftRank !== rightRank) {
+      return leftRank - rightRank;
+    }
+    return left.claim_id.localeCompare(right.claim_id);
+  });
+  const arcsForReport = reportArcs(contentMap, reportId);
+  const guide = reportGuide(contentMap, reportId);
   const groupedAssets = groupAssets(meta.assets);
   const duplicateAssetCount = Math.max(0, meta.assets.length - groupedAssets.length);
   const topFindings = meta.key_findings.slice(0, 5);
@@ -393,6 +453,8 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const navItems = [
     { id: 'reading-path', label: localizedText(lang, 'Reading Path', '阅读路径') },
     { id: 'connected-reports', label: localizedText(lang, 'Connected Reports', '关联报告链') },
+    { id: 'narrative-arcs', label: localizedText(lang, 'Narrative Arc Position', '叙事弧线定位') },
+    { id: 'verifiable-claims', label: localizedText(lang, 'Verifiable Claims', '可核对 Claim') },
     { id: 'interactive', label: localizedText(lang, 'Interactive Figures', '交互图形') },
     { id: 'math-chain', label: localizedText(lang, 'Mathematical Logic', '数学逻辑') },
     { id: 'math-principles', label: localizedText(lang, 'Formula Library', '公式库') },
@@ -549,6 +611,138 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             )}
           </article>
         </div>
+      </section>
+
+      <section id="narrative-arcs" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Narrative Arc Position', '叙事弧线定位')}</h3>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'This report appears in one or more global arcs. Use these checkpoints to keep reading continuity across pages.',
+            '该报告处于一个或多个全局叙事弧线中，可按检查点保持跨页面阅读连续性。',
+          )}
+        </p>
+        {arcsForReport.length > 0 ? (
+          <div className="grid grid-2">
+            {arcsForReport.map((arc) => (
+              <article key={`arc-placement-${arc.arc_id}`} className="card">
+                <h4>{lang === 'cn' ? arc.label_cn : arc.label_en}</h4>
+                <p>{lang === 'cn' ? arc.summary_cn : arc.summary_en}</p>
+                <p>
+                  <span className="badge">
+                    {localizedText(lang, 'Checkpoints', '检查点')}: {arc.checkpoint_count}
+                  </span>{' '}
+                  <span className="badge">
+                    {localizedText(lang, 'Claims', 'Claim 数')}: {arc.claim_ids.length}
+                  </span>
+                </p>
+                <details>
+                  <summary>{localizedText(lang, 'Open arc sequence', '展开弧线序列')}</summary>
+                  <ol>
+                    {arc.checkpoints.map((cp) => (
+                      <li key={`${arc.arc_id}-${cp.report_id}`}>
+                        <Link href={prefixPath(prefix, `/reports/${cp.report_id}`)}>
+                          {lang === 'cn' ? cp.title_cn : cp.title_en}
+                        </Link>
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p>{localizedText(lang, 'No narrative arc placement found.', '未找到叙事弧线定位信息。')}</p>
+        )}
+      </section>
+
+      <section id="verifiable-claims" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Verifiable Claims', '可核对 Claim')}</h3>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'Claims below are tied to explicit evidence paths so each statement can be audited.',
+            '下列 claim 都绑定了证据路径，便于逐条审计核对。',
+          )}
+        </p>
+        {guide ? (
+          <div className="card" style={{ marginBottom: '0.8rem' }}>
+            <h4>{localizedText(lang, 'Report Objective', '报告目标')}</h4>
+            <p>{lang === 'cn' ? guide.objective_cn : guide.objective_en}</p>
+            <details>
+              <summary>{localizedText(lang, 'Verification Steps', '核对步骤')}</summary>
+              <ol>
+                {(lang === 'cn' ? guide.verification_steps_cn : guide.verification_steps_en).map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            </details>
+          </div>
+        ) : null}
+        {claimsOrdered.length > 0 ? (
+          <div style={{ display: 'grid', gap: '0.9rem' }}>
+            {(['model', 'method', 'result', 'finding'] as const).map((stage) => {
+              const stageClaims = claimsOrdered.filter((claim) => claim.stage === stage);
+              if (stageClaims.length === 0) {
+                return null;
+              }
+              return (
+                <article key={`stage-${stage}`} className="card">
+                  <h4>
+                    {localizedText(
+                      lang,
+                      stage.toUpperCase(),
+                      stage === 'model'
+                        ? '模型'
+                        : stage === 'method'
+                          ? '方法'
+                          : stage === 'result'
+                            ? '结果'
+                            : '关键结论',
+                    )}
+                  </h4>
+                  <div className="grid grid-2">
+                    {stageClaims.map((claim) => (
+                      <article key={claim.claim_id} className="card">
+                        <p>
+                          <span className="badge">{claim.stage}</span> <span className="badge">{claim.claim_id}</span>
+                        </p>
+                        <p>{lang === 'cn' ? claim.text_cn : claim.text_en}</p>
+                        <details>
+                          <summary>{localizedText(lang, 'Evidence trail', '证据链')}</summary>
+                          <ul>
+                            {claim.evidence.map((ev) => (
+                              <li key={`${claim.claim_id}-${ev.evidence_type}-${ev.path}`}>
+                                <code>{ev.evidence_type}</code> <code>{ev.path}</code>
+                                <p style={{ margin: '0.35rem 0 0' }}>{lang === 'cn' ? ev.snippet_cn : ev.snippet_en}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        </details>
+                        {claim.linked_report_ids.length > 0 ? (
+                          <p style={{ marginTop: '0.45rem' }}>
+                            <span className="badge">{localizedText(lang, 'Linked reports', '关联报告')}</span>{' '}
+                            {claim.linked_report_ids.slice(0, 4).map((rid) => (
+                              <Link
+                                key={`${claim.claim_id}-${rid}`}
+                                href={prefixPath(prefix, `/reports/${rid}`)}
+                                style={{ marginRight: '0.45rem' }}
+                              >
+                                {lookupReportTitle(rid, lang, network)}
+                              </Link>
+                            ))}
+                          </p>
+                        ) : null}
+                      </article>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <p>{localizedText(lang, 'No claim map found for this report.', '该报告尚未生成 claim 映射。')}</p>
+        )}
       </section>
 
       <div id="interactive" style={{ marginTop: '1rem' }}>
@@ -772,6 +966,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 export function renderTheoryPage(lang: Lang, prefix: string) {
   const map = loadTheoryMap();
   const network = loadReportNetwork();
+  const contentMap = loadContentMap();
   return (
     <AppShell lang={lang} prefix={prefix}>
       <section className="card section-enter">
@@ -863,6 +1058,38 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
           ))}
         </div>
       </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Content-Level Arcs', '内容层叙事弧线')}</h2>
+        <div className="grid grid-2">
+          {contentMap.arcs.map((arc) => (
+            <article key={`arc-${arc.arc_id}`} className="card">
+              <h3>{lang === 'cn' ? arc.label_cn : arc.label_en}</h3>
+              <p>{lang === 'cn' ? arc.summary_cn : arc.summary_en}</p>
+              <p>
+                <span className="badge">
+                  {localizedText(lang, 'Checkpoints', '检查点')}: {arc.checkpoint_count}
+                </span>{' '}
+                <span className="badge">
+                  {localizedText(lang, 'Claims', 'Claim 数')}: {arc.claim_ids.length}
+                </span>
+              </p>
+              <details>
+                <summary>{localizedText(lang, 'Open checkpoints', '展开检查点')}</summary>
+                <ol>
+                  {arc.checkpoints.map((cp) => (
+                    <li key={`${arc.arc_id}-${cp.report_id}`}>
+                      <Link href={prefixPath(prefix, `/reports/${cp.report_id}`)}>
+                        {lang === 'cn' ? cp.title_cn : cp.title_en}
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            </article>
+          ))}
+        </div>
+      </section>
     </AppShell>
   );
 }
@@ -910,6 +1137,11 @@ export function renderAgentSyncPage(lang: Lang, prefix: string) {
             </a>
           </li>
           <li>
+            <a href={withBasePath('/data/v1/content_map.json')} target="_blank" rel="noreferrer">
+              /data/v1/content_map.json
+            </a>
+          </li>
+          <li>
             <a href={withBasePath('/data/v1/agent/guide.json')} target="_blank" rel="noreferrer">
               /data/v1/agent/guide.json
             </a>
@@ -926,6 +1158,13 @@ export function renderAgentSyncPage(lang: Lang, prefix: string) {
               lang,
               'Traverse report_network.json to follow upstream/downstream report logic.',
               '通过 report_network.json 追踪上游/下游报告逻辑链。',
+            )}
+          </li>
+          <li>
+            {localizedText(
+              lang,
+              'Use content_map.json for claim-level evidence chains and narrative arcs.',
+              '使用 content_map.json 读取 claim 级证据链与叙事弧线。',
             )}
           </li>
         </ol>
@@ -963,10 +1202,16 @@ export function renderAboutPage(lang: Lang, prefix: string) {
             <code>python3 scripts/reportctl.py agent-sync</code>
           </li>
           <li>
+            <code>python3 scripts/reportctl.py content-iterate --rounds 3 --mode full</code>
+          </li>
+          <li>
             <code>python3 scripts/validate_web_data.py</code>
           </li>
           <li>
             <code>cd site && npm run build</code>
+          </li>
+          <li>
+            <code>python3 scripts/reportctl.py deliverables --mode full</code>
           </li>
         </ul>
       </section>

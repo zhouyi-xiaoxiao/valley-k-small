@@ -52,6 +52,7 @@ def main() -> int:
     agent_dir = data_root / "agent"
     agent_dir.mkdir(parents=True, exist_ok=True)
     report_network_path = data_root / "report_network.json"
+    content_map_path = data_root / "content_map.json"
 
     report_records: list[dict[str, Any]] = []
     events: list[dict[str, Any]] = []
@@ -118,6 +119,10 @@ def main() -> int:
         report_network_raw = report_network_path.read_bytes()
         manifest["files"]["report_network"] = "/data/v1/report_network.json"
         manifest["hashes"]["report_network_sha256"] = sha256_bytes(report_network_raw)
+    if content_map_path.exists():
+        content_map_raw = content_map_path.read_bytes()
+        manifest["files"]["content_map"] = "/data/v1/content_map.json"
+        manifest["hashes"]["content_map_sha256"] = sha256_bytes(content_map_raw)
     write_json(agent_dir / "manifest.json", manifest)
 
     guide_payload = {
@@ -130,6 +135,7 @@ def main() -> int:
             "event_record": "/schemas/agent_sync_v1.schema.json#/$defs/event_record",
             "web_report": "/schemas/web_report.schema.json",
             "theory_map": "/schemas/theory_map_v1.schema.json",
+            "content_map": "/schemas/content_map_v1.schema.json",
         },
         "recommended_flow": [
             "Read manifest.json and verify SHA256 values before consuming streams.",
@@ -137,6 +143,7 @@ def main() -> int:
             "Use events.jsonl for incremental checkpoints and replay.",
             "Join report_id with /data/v1/theory_map.json for cross-report concept queries.",
             "Use /data/v1/report_network.json to traverse upstream/downstream report logic paths.",
+            "Use /data/v1/content_map.json for claim-level evidence chains and narrative arcs.",
         ],
         "record_contract": {
             "identity": ["report_id", "group", "path", "languages", "updated_at"],

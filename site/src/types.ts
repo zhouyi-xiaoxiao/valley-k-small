@@ -122,7 +122,57 @@ export type AgentManifest = {
     events_jsonl: string;
     theory_map: string;
     guide_json: string;
+    report_network?: string;
   };
+};
+
+export type ReportNetwork = {
+  version: string;
+  generated_at: string;
+  notion_labels: Record<
+    string,
+    {
+      label_en: string;
+      label_cn: string;
+    }
+  >;
+  group_paths: Array<{
+    group: string;
+    report_ids: string[];
+    step_count: number;
+  }>;
+  global_storyline: {
+    label_en: string;
+    label_cn: string;
+    report_ids: string[];
+  };
+  reports: Array<{
+    report_id: string;
+    group: string;
+    title_en: string;
+    title_cn: string;
+    summary_en: string;
+    summary_cn: string;
+    notion_ids: string[];
+    previous_in_group: string;
+    next_in_group: string;
+    same_group_links: Array<{
+      report_id: string;
+      score: number;
+      same_group: boolean;
+      adjacent_in_track: boolean;
+      shared_notion_ids: string[];
+      shared_token_count: number;
+    }>;
+    cross_group_links: Array<{
+      report_id: string;
+      score: number;
+      same_group: boolean;
+      adjacent_in_track: boolean;
+      shared_notion_ids: string[];
+      shared_token_count: number;
+    }>;
+  }>;
 };
 
 export type TheoryMap = {

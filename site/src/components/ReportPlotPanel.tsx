@@ -36,7 +36,17 @@ function inferSeriesType(name: string, values: number[]): SeriesType {
   if (/(pmf|cdf|prob|mass|survival|hazard|density|ratio|rate|share)/i.test(lowered)) {
     return 'probability';
   }
-  if (/(^k$|^n$|^t$|beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)/i.test(lowered)) {
+  if (/^(n|t|k)$/i.test(lowered)) {
+    if (values.length > 0) {
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      if (max - min > 2 || uniq.size > 4) {
+        return 'metric';
+      }
+    }
+    return 'parameter';
+  }
+  if (/(beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)/i.test(lowered)) {
     return 'parameter';
   }
   return 'metric';

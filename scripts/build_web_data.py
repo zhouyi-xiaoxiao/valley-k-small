@@ -168,6 +168,41 @@ def summarize_plain(text: str, *, max_chars: int = 320) -> str:
     return clipped[:stop].rstrip(" ,;。；") + "…"
 
 
+def canonical_summary(text: str, *, max_chars: int = 1200) -> str:
+    """
+    Canonical summary text for meta payloads.
+    Keep complete prose where possible and avoid terminal ellipsis.
+    """
+    plain = normalize_space(text).replace("…", "")
+    if len(plain) <= max_chars:
+        return plain
+    clipped = plain[: max_chars + 1]
+    stop = max(clipped.rfind(". "), clipped.rfind("。"), clipped.rfind("; "), clipped.rfind("；"))
+    if stop >= int(max_chars * 0.6):
+        return clipped[: stop + 1].rstrip(" ,;。；")
+    return clipped[:max_chars].rstrip(" ,;。；")
+
+
+def is_placeholder_section_summary(heading: str, summary: str) -> bool:
+    normalized = normalize_space(summary)
+    if not normalized:
+        return True
+    lowered = normalized.lower()
+    heading_key = normalize_finding_key(heading)
+    summary_key = normalize_finding_key(normalized)
+    if heading_key and summary_key == heading_key:
+        return True
+    if re.search(r"section summary\.?$", lowered):
+        return True
+    if "fallback narrative card" in lowered:
+        return True
+    if lowered in {"overview.", "introduction.", "methods.", "results.", "discussion."}:
+        return True
+    if len(normalized) < 18:
+        return True
+    return False
+
+
 def parse_tex_title(tex_text: str) -> str:
     m = re.search(r"\\title\{(.*?)\}", tex_text, flags=re.DOTALL)
     if not m:
@@ -179,7 +214,7 @@ def parse_tex_abstract(tex_text: str) -> str:
     m = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex_text, flags=re.DOTALL)
     if not m:
         return ""
-    return summarize_plain(latex_to_plain(m.group(1)), max_chars=420)
+    return canonical_summary(latex_to_plain(m.group(1)), max_chars=1200)
 
 
 def pick_main_tex_path(item: dict[str, Any], report_dir: Path, lang: str) -> Path | None:
@@ -466,7 +501,12 @@ def build_narrative_fields(sections: list[dict[str, Any]], fallback: str) -> dic
             "result_overview": result,
         }
 
-    section_summaries = [str(section.get("summary", fallback)) for section in sections if section.get("summary")]
+    section_summaries = [
+        str(section.get("summary", fallback))
+        for section in sections
+        if section.get("summary")
+        and not is_placeholder_section_summary(str(section.get("title", "")), str(section.get("summary", "")))
+    ]
     while len(section_summaries) < 3:
         section_summaries.append(fallback)
     return {
@@ -512,19 +552,30 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
 
     raw = tex_path.read_text(encoding="utf-8", errors="ignore")
     sections = split_sections(raw)
-    section_cards = [
-        {
-            "heading": str(section["title"]),
-            "summary": str(section["summary"]).strip() or f"{section['title']} section summary.",
-            "source_path": rel_repo_path(tex_path),
-        }
-        for section in sections[:10]
-    ]
+    abstract = parse_tex_abstract(raw)
+    summary_fallback = canonical_summary(
+        abstract or (sections[0]["summary"] if sections else f"Research report {report_id}."),
+        max_chars=1200,
+    )
+    section_cards: list[dict[str, str]] = []
+    for section in sections[:10]:
+        heading = str(section["title"])
+        summary = normalize_space(str(section.get("summary", "")))
+        if is_placeholder_section_summary(heading, summary):
+            body_candidate = summarize_plain(latex_to_plain(str(section.get("body", ""))), max_chars=240)
+            summary = normalize_space(body_candidate)
+        if is_placeholder_section_summary(heading, summary):
+            summary = summarize_plain(summary_fallback, max_chars=240)
+        section_cards.append(
+            {
+                "heading": heading,
+                "summary": summary,
+                "source_path": rel_repo_path(tex_path),
+            }
+        )
     findings = extract_findings_from_sections(sections)
     math_blocks = extract_math_blocks(raw, sections, rel_repo_path(tex_path), lang)
     math_story = build_math_story(math_blocks, lang)
-    abstract = parse_tex_abstract(raw)
-    summary_fallback = abstract or (sections[0]["summary"] if sections else f"Research report {report_id}.")
     if not section_cards:
         section_cards = [
             {
@@ -535,7 +586,7 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
         ]
     return {
         "title": parse_tex_title(raw),
-        "summary": summary_fallback,
+        "summary": canonical_summary(summary_fallback, max_chars=1200),
         "section_cards": section_cards,
         "math_blocks": math_blocks,
         "math_story": math_story,
@@ -689,7 +740,7 @@ def parse_readme(report_dir: Path, report_id: str) -> tuple[str, str, list[str]]
         break
     if not summary:
         summary = f"Research report {report_id}."
-    summary = summarize_plain(summary, max_chars=320)
+    summary = canonical_summary(summary, max_chars=1200)
 
     findings: list[str] = []
     for line in lines:
@@ -806,7 +857,14 @@ def infer_series_type(name: str, values: list[float]) -> str:
         return "binary"
     if re.search(r"(pmf|cdf|prob|mass|survival|hazard|density|ratio|rate|share)", lowered):
         return "probability"
-    if re.search(r"(^k$|^n$|^t$|beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)", lowered):
+    # Ambiguous tokens like n/t/k are often true metrics in this corpus.
+    if lowered in {"n", "t", "k"}:
+        if finite_values:
+            span = max(finite_values) - min(finite_values)
+            if span > 2 or len(unique_values) > 4:
+                return "metric"
+        return "parameter"
+    if re.search(r"(beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)", lowered):
         return "parameter"
     return "metric"
 
@@ -870,7 +928,7 @@ def ensure_locale_field_parity(
     right: list[Any],
     *,
     max_items: int | None = None,
-    min_ratio: float = 0.5,
+    min_ratio: float = 0.9,
 ) -> tuple[list[Any], list[Any]]:
     a = dedupe_sequence(list(left), max_items=max_items)
     b = dedupe_sequence(list(right), max_items=max_items)
@@ -899,7 +957,7 @@ def align_locale_payloads(base_meta: dict[str, Any], cn_meta: dict[str, Any]) ->
     for field, limit in limits.items():
         left = list(base_meta.get(field, []))
         right = list(cn_meta.get(field, []))
-        aligned_left, aligned_right = ensure_locale_field_parity(left, right, max_items=limit, min_ratio=0.5)
+        aligned_left, aligned_right = ensure_locale_field_parity(left, right, max_items=limit, min_ratio=0.9)
         base_meta[field] = aligned_left
         cn_meta[field] = aligned_right
     return base_meta, cn_meta
@@ -1314,8 +1372,8 @@ def build_report_payload(
 
     title_en = tex_en["title"] or readme_title
     title_cn = tex_cn["title"] or title_en
-    summary_en = tex_en["summary"] or readme_summary
-    summary_cn = tex_cn["summary"] or summary_en
+    summary_en = canonical_summary(tex_en["summary"] or readme_summary, max_chars=1200)
+    summary_cn = canonical_summary(tex_cn["summary"] or summary_en, max_chars=1200)
     findings_en = clean_findings(readme_findings + list(tex_en["findings"]), report_id, max_items=8)
     findings_cn = clean_findings(readme_findings + list(tex_cn["findings"]), report_id, max_items=8)
     inferred_languages = ["en"]
@@ -1579,6 +1637,168 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
     )
 
 
+def build_report_network(output_dir: Path, reports: list[dict[str, Any]], generated_at: str) -> None:
+    theory_map_path = output_dir / "theory_map.json"
+    theory_payload: dict[str, Any] = {}
+    if theory_map_path.exists():
+        theory_payload = json.loads(theory_map_path.read_text(encoding="utf-8"))
+
+    cards = list(theory_payload.get("cards", []))
+    notion_labels: dict[str, dict[str, str]] = {}
+    notion_by_report: dict[str, set[str]] = defaultdict(set)
+    for card in cards:
+        notion_id = str(card.get("id", "")).strip()
+        if not notion_id:
+            continue
+        notion_labels[notion_id] = {
+            "label_en": str(card.get("label_en", notion_id)),
+            "label_cn": str(card.get("label_cn", notion_id)),
+        }
+        for report_id in card.get("report_ids", []):
+            rid = str(report_id).strip()
+            if rid:
+                notion_by_report[rid].add(notion_id)
+
+    ordered_ids = [str(row["report_id"]) for row in reports]
+    report_by_id = {str(row["report_id"]): row for row in reports}
+    group_tracks: dict[str, list[str]] = defaultdict(list)
+    for row in reports:
+        group_tracks[str(row.get("group", "misc"))].append(str(row["report_id"]))
+
+    meta_by_report: dict[str, dict[str, Any]] = {}
+    cn_meta_by_report: dict[str, dict[str, Any]] = {}
+    for rid in ordered_ids:
+        meta_path = output_dir / "reports" / rid / "meta.json"
+        meta_cn_path = output_dir / "reports" / rid / "meta.cn.json"
+        if meta_path.exists():
+            meta_by_report[rid] = json.loads(meta_path.read_text(encoding="utf-8"))
+        else:
+            meta_by_report[rid] = {}
+        if meta_cn_path.exists():
+            cn_meta_by_report[rid] = json.loads(meta_cn_path.read_text(encoding="utf-8"))
+        else:
+            cn_meta_by_report[rid] = {}
+
+    token_cache: dict[str, set[str]] = {}
+
+    def id_tokens(report_id: str) -> set[str]:
+        cached = token_cache.get(report_id)
+        if cached is not None:
+            return cached
+        tokens = {tok for tok in re.split(r"[_\-]+", report_id.lower()) if tok}
+        token_cache[report_id] = tokens
+        return tokens
+
+    def adjacency_in_group(a: str, b: str) -> bool:
+        group = str(report_by_id.get(a, {}).get("group", "misc"))
+        track = group_tracks.get(group, [])
+        if a not in track or b not in track:
+            return False
+        return abs(track.index(a) - track.index(b)) == 1
+
+    def build_link(a: str, b: str) -> dict[str, Any] | None:
+        if a == b:
+            return None
+        group_a = str(report_by_id.get(a, {}).get("group", "misc"))
+        group_b = str(report_by_id.get(b, {}).get("group", "misc"))
+        notions_a = notion_by_report.get(a, set())
+        notions_b = notion_by_report.get(b, set())
+        shared_notions = sorted(notions_a.intersection(notions_b))
+        score = 0.0
+        if shared_notions:
+            score += 3.0 * len(shared_notions)
+        if group_a == group_b:
+            score += 2.0
+        if adjacency_in_group(a, b):
+            score += 1.0
+        overlap = id_tokens(a).intersection(id_tokens(b))
+        if len(overlap) >= 2:
+            score += 1.0
+        if score <= 0:
+            return None
+        return {
+            "report_id": b,
+            "score": round(score, 2),
+            "same_group": group_a == group_b,
+            "adjacent_in_track": adjacency_in_group(a, b),
+            "shared_notion_ids": shared_notions,
+            "shared_token_count": len(overlap),
+        }
+
+    report_nodes: list[dict[str, Any]] = []
+    for rid in ordered_ids:
+        group = str(report_by_id.get(rid, {}).get("group", "misc"))
+        track = group_tracks.get(group, [])
+        idx = track.index(rid) if rid in track else -1
+        previous_in_group = track[idx - 1] if idx > 0 else ""
+        next_in_group = track[idx + 1] if idx >= 0 and idx + 1 < len(track) else ""
+
+        links: list[dict[str, Any]] = []
+        for other in ordered_ids:
+            row = build_link(rid, other)
+            if row:
+                links.append(row)
+
+        same_group_links = [row for row in links if bool(row.get("same_group"))]
+        cross_group_links = [row for row in links if not bool(row.get("same_group"))]
+        same_group_links.sort(key=lambda row: (-float(row["score"]), str(row["report_id"])))
+        cross_group_links.sort(key=lambda row: (-float(row["score"]), str(row["report_id"])))
+
+        meta = meta_by_report.get(rid, {})
+        meta_cn = cn_meta_by_report.get(rid, {})
+        report_nodes.append(
+            {
+                "report_id": rid,
+                "group": group,
+                "title_en": str(meta.get("title", rid)),
+                "title_cn": str(meta_cn.get("title", meta.get("title", rid))),
+                "summary_en": summarize_plain(str(meta.get("summary", "")), max_chars=220),
+                "summary_cn": summarize_plain(str(meta_cn.get("summary", meta.get("summary", ""))), max_chars=220),
+                "notion_ids": sorted(notion_by_report.get(rid, set())),
+                "previous_in_group": previous_in_group,
+                "next_in_group": next_in_group,
+                "same_group_links": same_group_links[:6],
+                "cross_group_links": cross_group_links[:6],
+            }
+        )
+
+    ordered_groups = []
+    for row in reports:
+        group = str(row.get("group", "misc"))
+        if group not in ordered_groups:
+            ordered_groups.append(group)
+
+    group_paths = [
+        {
+            "group": group,
+            "report_ids": group_tracks.get(group, []),
+            "step_count": len(group_tracks.get(group, [])),
+        }
+        for group in ordered_groups
+    ]
+
+    full_story = []
+    for group in ordered_groups:
+        full_story.extend(group_tracks.get(group, []))
+
+    payload = {
+        "version": "v1",
+        "generated_at": generated_at,
+        "notion_labels": notion_labels,
+        "group_paths": group_paths,
+        "global_storyline": {
+            "label_en": "Grid and ring mechanisms converge into cross-report synthesis.",
+            "label_cn": "二维与环模型机制最终汇入跨报告综合结论。",
+            "report_ids": full_story,
+        },
+        "reports": report_nodes,
+    }
+    (output_dir / "report_network.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False),
+        encoding="utf-8",
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build site/public/data/v1 web payloads from report assets.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -1662,6 +1882,7 @@ def main() -> int:
     )
     duplicate_resolution = enforce_unique_key_findings(output_dir, [row["report_id"] for row in reports])
     build_theory_map(output_dir, reports, generated_at)
+    build_report_network(output_dir, reports, generated_at)
 
     print(
         json.dumps(

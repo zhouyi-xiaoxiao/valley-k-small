@@ -21,7 +21,8 @@
             "reports_jsonl": { "type": "string", "pattern": "^/data/v1/agent/reports\\.jsonl$" },
             "events_jsonl": { "type": "string", "pattern": "^/data/v1/agent/events\\.jsonl$" },
             "theory_map": { "type": "string", "pattern": "^/data/v1/theory_map\\.json$" },
-            "guide_json": { "type": "string", "pattern": "^/data/v1/agent/guide\\.json$" }
+            "guide_json": { "type": "string", "pattern": "^/data/v1/agent/guide\\.json$" },
+            "report_network": { "type": "string", "pattern": "^/data/v1/report_network\\.json$" }
           }
         },
         "hashes": {
@@ -30,7 +31,8 @@
           "required": ["reports_jsonl_sha256", "events_jsonl_sha256"],
           "properties": {
             "reports_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-            "events_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            "events_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "report_network_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
           }
         }
       }

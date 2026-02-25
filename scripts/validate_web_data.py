@@ -96,7 +96,7 @@ def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label
             raise SystemExit(f"Locale parity error in {label}: CN {field} is empty while EN is non-empty")
         if left and right:
             ratio = min(len(left), len(right)) / max(1, max(len(left), len(right)))
-            if ratio < 0.5:
+            if ratio < 0.9:
                 raise SystemExit(
                     f"Locale parity error in {label}: field {field} has severe mismatch (EN={len(left)}, CN={len(right)})"
                 )
@@ -271,6 +271,18 @@ def main() -> int:
         raise SystemExit(f"Missing theory map file: {theory_map_path}")
     theory_map = read_json(theory_map_path)
     validate_with_schema(theory_map, theory_schema, str(theory_map_path))
+
+    report_network_path = data_root / "report_network.json"
+    if not report_network_path.exists():
+        raise SystemExit(f"Missing report network file: {report_network_path}")
+    report_network = read_json(report_network_path)
+    if not isinstance(report_network, dict):
+        raise SystemExit("Invalid report network payload: expected object")
+    nodes = list(report_network.get("reports", []))
+    if len(nodes) != len(reports):
+        raise SystemExit(
+            f"Invalid report network payload: reports length mismatch ({len(nodes)} vs {len(reports)})"
+        )
 
     report_record_schema = agent_schema["$defs"]["report_record"]
     for idx, line in enumerate(reports_jsonl.read_text(encoding="utf-8").splitlines(), start=1):

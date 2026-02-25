@@ -7,13 +7,14 @@ import {
   loadAgentManifest,
   loadFigures,
   loadIndex,
+  loadReportNetwork,
   loadReportMeta,
   loadTheoryMap,
   localizedText,
   prefixPath,
   withBasePath,
 } from '@/lib/content';
-import type { AssetRecord, Lang, ReportMeta } from '@/types';
+import type { AssetRecord, Lang, ReportMeta, ReportNetwork } from '@/types';
 
 type LatexRenderResult = {
   html: string;
@@ -126,19 +127,85 @@ function extractReportPreview(meta: ReportMeta | null, reportId: string, lang: L
   }
   return {
     title: meta.title || reportId,
-    summary: compactText(meta.summary || '', 170),
+    summary: compactText(meta.summary || '', 230),
   };
 }
 
+function isPlaceholderCardSummary(heading: string, summary: string): boolean {
+  const normalizedHeading = heading.replace(/\s+/g, ' ').trim().toLowerCase();
+  const normalizedSummary = summary.replace(/\s+/g, ' ').trim().toLowerCase();
+  if (!normalizedSummary) {
+    return true;
+  }
+  if (normalizedSummary === normalizedHeading) {
+    return true;
+  }
+  if (/section summary\.?$/i.test(normalizedSummary)) {
+    return true;
+  }
+  if (/fallback narrative card/i.test(normalizedSummary)) {
+    return true;
+  }
+  if (normalizedSummary.length < 18) {
+    return true;
+  }
+  return false;
+}
+
 function pruneSectionCards(cards: Array<{ heading: string; summary: string; source_path: string }>) {
+  const seen = new Set<string>();
   return cards.filter((card) => {
-    const heading = card.heading.toLowerCase();
-    const summary = card.summary.toLowerCase();
-    if ((heading === 'figures' || heading === 'tables') && summary.includes('section summary')) {
+    if (isPlaceholderCardSummary(card.heading, card.summary)) {
       return false;
     }
+    const key = `${card.heading.toLowerCase()}::${card.summary.toLowerCase()}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
     return true;
   });
+}
+
+function lookupReportTitle(reportId: string, lang: Lang, network: ReportNetwork): string {
+  const node = network.reports.find((row) => row.report_id === reportId);
+  if (node) {
+    return lang === 'cn' ? node.title_cn : node.title_en;
+  }
+  const meta = loadReportMeta(reportId, lang);
+  return meta?.title || reportId;
+}
+
+function renderConnectionReason(
+  lang: Lang,
+  network: ReportNetwork,
+  row: {
+    adjacent_in_track: boolean;
+    shared_notion_ids: string[];
+  },
+) {
+  const reasonBadges: string[] = [];
+  if (row.adjacent_in_track) {
+    reasonBadges.push(localizedText(lang, 'adjacent in track', '同轨道相邻'));
+  }
+  const notionLabels = row.shared_notion_ids
+    .slice(0, 3)
+    .map((notionId) => network.notion_labels[notionId])
+    .filter(Boolean)
+    .map((payload) => (lang === 'cn' ? payload.label_cn : payload.label_en));
+  reasonBadges.push(...notionLabels);
+  if (reasonBadges.length === 0) {
+    return null;
+  }
+  return (
+    <p style={{ marginTop: '0.25rem' }}>
+      {reasonBadges.map((badge) => (
+        <span key={badge} className="badge" style={{ marginRight: '0.35rem' }}>
+          {badge}
+        </span>
+      ))}
+    </p>
+  );
 }
 
 function isImageFigure(webPath: string): boolean {
@@ -158,6 +225,7 @@ export function renderHomePage(lang: Lang, prefix: string) {
   const index = loadIndex();
   const grouped = groupReports(index);
   const groups = Object.keys(grouped).sort();
+  const network = loadReportNetwork();
 
   return (
     <AppShell lang={lang} prefix={prefix}>
@@ -202,12 +270,38 @@ export function renderHomePage(lang: Lang, prefix: string) {
           ))}
         </div>
       </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Research Storyline', '研究主线串联')}</h2>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'Reports are connected as one chain: foundations, mechanism extensions, and cross-report synthesis.',
+            '报告不是孤立页面，而是同一条研究链：基础模型、机制扩展、跨报告综合。',
+          )}
+        </p>
+        <div className="grid grid-3">
+          {network.group_paths.map((pathRow) => (
+            <article key={pathRow.group} className="card">
+              <h3>{pathRow.group}</h3>
+              <ol>
+                {pathRow.report_ids.map((rid) => (
+                  <li key={`${pathRow.group}-${rid}`}>
+                    <Link href={prefixPath(prefix, `/reports/${rid}`)}>{lookupReportTitle(rid, lang, network)}</Link>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
     </AppShell>
   );
 }
 
 export function renderReportsPage(lang: Lang, prefix: string) {
   const index = loadIndex();
+  const network = loadReportNetwork();
   const enriched = index.reports.map((item) => {
     const meta = loadReportMeta(item.report_id, lang);
     const preview = extractReportPreview(meta, item.report_id, lang);
@@ -226,6 +320,23 @@ export function renderReportsPage(lang: Lang, prefix: string) {
             '先看每份报告的简短预览，再进入与你当前问题最相关的报告详情页。',
           )}
         </p>
+        <details style={{ marginTop: '0.8rem' }}>
+          <summary>{localizedText(lang, 'Open cross-report storyline', '展开跨报告主线')}</summary>
+          <div className="grid grid-3" style={{ marginTop: '0.8rem' }}>
+            {network.group_paths.map((pathRow) => (
+              <article key={`path-${pathRow.group}`} className="card">
+                <h3>{pathRow.group}</h3>
+                <ol>
+                  {pathRow.report_ids.map((rid) => (
+                    <li key={`path-${pathRow.group}-${rid}`}>
+                      <Link href={prefixPath(prefix, `/reports/${rid}`)}>{lookupReportTitle(rid, lang, network)}</Link>
+                    </li>
+                  ))}
+                </ol>
+              </article>
+            ))}
+          </div>
+        </details>
         <div className="grid grid-2">
           {enriched.map(({ item, preview }) => (
             <article key={item.report_id} className="card">
@@ -270,6 +381,8 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   }
 
   const figures = loadFigures(reportId);
+  const network = loadReportNetwork();
+  const networkNode = network.reports.find((row) => row.report_id === reportId);
   const groupedAssets = groupAssets(meta.assets);
   const duplicateAssetCount = Math.max(0, meta.assets.length - groupedAssets.length);
   const topFindings = meta.key_findings.slice(0, 5);
@@ -279,6 +392,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const sectionsExtra = filteredSections.slice(6);
   const navItems = [
     { id: 'reading-path', label: localizedText(lang, 'Reading Path', '阅读路径') },
+    { id: 'connected-reports', label: localizedText(lang, 'Connected Reports', '关联报告链') },
     { id: 'interactive', label: localizedText(lang, 'Interactive Figures', '交互图形') },
     { id: 'math-chain', label: localizedText(lang, 'Mathematical Logic', '数学逻辑') },
     { id: 'math-principles', label: localizedText(lang, 'Formula Library', '公式库') },
@@ -361,6 +475,80 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             </ul>
           </details>
         ) : null}
+      </section>
+
+      <section id="connected-reports" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Connected Reports', '关联报告链')}</h3>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'This report sits inside a shared chain. Use links below to move upstream/downstream and across model families.',
+            '该报告位于同一研究链中，可通过下方链接跳转到上游/下游和跨模型家族的关联报告。',
+          )}
+        </p>
+        <div className="grid grid-3">
+          <article className="card">
+            <h4>{localizedText(lang, 'Track Continuity', '轨道连续关系')}</h4>
+            <ul>
+              {networkNode?.previous_in_group ? (
+                <li>
+                  {localizedText(lang, 'Previous', '上游')}:{' '}
+                  <Link href={prefixPath(prefix, `/reports/${networkNode.previous_in_group}`)}>
+                    {lookupReportTitle(networkNode.previous_in_group, lang, network)}
+                  </Link>
+                </li>
+              ) : (
+                <li>{localizedText(lang, 'No previous report in this track.', '该轨道中没有上游报告。')}</li>
+              )}
+              {networkNode?.next_in_group ? (
+                <li>
+                  {localizedText(lang, 'Next', '下游')}:{' '}
+                  <Link href={prefixPath(prefix, `/reports/${networkNode.next_in_group}`)}>
+                    {lookupReportTitle(networkNode.next_in_group, lang, network)}
+                  </Link>
+                </li>
+              ) : (
+                <li>{localizedText(lang, 'No next report in this track.', '该轨道中没有下游报告。')}</li>
+              )}
+            </ul>
+          </article>
+
+          <article className="card">
+            <h4>{localizedText(lang, 'Same-Group Links', '同组强关联')}</h4>
+            {networkNode && networkNode.same_group_links.length > 0 ? (
+              <ul>
+                {networkNode.same_group_links.slice(0, 4).map((row) => (
+                  <li key={`same-${row.report_id}`}>
+                    <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
+                      {lookupReportTitle(row.report_id, lang, network)}
+                    </Link>
+                    {renderConnectionReason(lang, network, row)}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>{localizedText(lang, 'No same-group links detected.', '未检测到同组强关联。')}</p>
+            )}
+          </article>
+
+          <article className="card">
+            <h4>{localizedText(lang, 'Cross-Group Bridges', '跨组桥接')}</h4>
+            {networkNode && networkNode.cross_group_links.length > 0 ? (
+              <ul>
+                {networkNode.cross_group_links.slice(0, 4).map((row) => (
+                  <li key={`cross-${row.report_id}`}>
+                    <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
+                      {lookupReportTitle(row.report_id, lang, network)}
+                    </Link>
+                    {renderConnectionReason(lang, network, row)}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>{localizedText(lang, 'No cross-group bridges detected.', '未检测到跨组桥接。')}</p>
+            )}
+          </article>
+        </div>
       </section>
 
       <div id="interactive" style={{ marginTop: '1rem' }}>
@@ -583,6 +771,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
 export function renderTheoryPage(lang: Lang, prefix: string) {
   const map = loadTheoryMap();
+  const network = loadReportNetwork();
   return (
     <AppShell lang={lang} prefix={prefix}>
       <section className="card section-enter">
@@ -649,6 +838,31 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
           ))}
         </ul>
       </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Cross-Report Routes', '跨报告路线图')}</h2>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'These routes stitch reports into continuous tracks instead of isolated pages.',
+            '这些路线把报告串成连续轨道，而不是孤立页面。',
+          )}
+        </p>
+        <div className="grid grid-3">
+          {network.group_paths.map((route) => (
+            <article key={`route-${route.group}`} className="card">
+              <h3>{route.group}</h3>
+              <ol>
+                {route.report_ids.map((reportId) => (
+                  <li key={`route-${route.group}-${reportId}`}>
+                    <Link href={prefixPath(prefix, `/reports/${reportId}`)}>{lookupReportTitle(reportId, lang, network)}</Link>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
     </AppShell>
   );
 }
@@ -691,6 +905,11 @@ export function renderAgentSyncPage(lang: Lang, prefix: string) {
             </a>
           </li>
           <li>
+            <a href={withBasePath('/data/v1/report_network.json')} target="_blank" rel="noreferrer">
+              /data/v1/report_network.json
+            </a>
+          </li>
+          <li>
             <a href={withBasePath('/data/v1/agent/guide.json')} target="_blank" rel="noreferrer">
               /data/v1/agent/guide.json
             </a>
@@ -702,6 +921,13 @@ export function renderAgentSyncPage(lang: Lang, prefix: string) {
           <li>{localizedText(lang, 'Stream reports.jsonl for normalized per-report records.', '再流式读取 reports.jsonl 获取标准化报告记录。')}</li>
           <li>{localizedText(lang, 'Use events.jsonl for incremental sync checkpoints.', '用 events.jsonl 做增量同步检查点。')}</li>
           <li>{localizedText(lang, 'Join with theory_map.json for cross-report concept coverage.', '结合 theory_map.json 做跨报告概念映射。')}</li>
+          <li>
+            {localizedText(
+              lang,
+              'Traverse report_network.json to follow upstream/downstream report logic.',
+              '通过 report_network.json 追踪上游/下游报告逻辑链。',
+            )}
+          </li>
         </ol>
         {manifest ? (
           <p>

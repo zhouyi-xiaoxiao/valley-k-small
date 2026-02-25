@@ -51,6 +51,7 @@ def main() -> int:
     generated_at = utc_now_iso()
     agent_dir = data_root / "agent"
     agent_dir.mkdir(parents=True, exist_ok=True)
+    report_network_path = data_root / "report_network.json"
 
     report_records: list[dict[str, Any]] = []
     events: list[dict[str, Any]] = []
@@ -113,6 +114,10 @@ def main() -> int:
             "events_jsonl_sha256": sha256_bytes(events_jsonl.encode("utf-8")),
         },
     }
+    if report_network_path.exists():
+        report_network_raw = report_network_path.read_bytes()
+        manifest["files"]["report_network"] = "/data/v1/report_network.json"
+        manifest["hashes"]["report_network_sha256"] = sha256_bytes(report_network_raw)
     write_json(agent_dir / "manifest.json", manifest)
 
     guide_payload = {
@@ -131,6 +136,7 @@ def main() -> int:
             "Process reports.jsonl as append-only normalized report snapshots.",
             "Use events.jsonl for incremental checkpoints and replay.",
             "Join report_id with /data/v1/theory_map.json for cross-report concept queries.",
+            "Use /data/v1/report_network.json to traverse upstream/downstream report logic paths.",
         ],
         "record_contract": {
             "identity": ["report_id", "group", "path", "languages", "updated_at"],

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import type { AgentManifest, FigureRecord, Lang, ReportMeta, TheoryMap, WebIndex } from '@/types';
+import type { AgentManifest, FigureRecord, Lang, ReportMeta, ReportNetwork, TheoryMap, WebIndex } from '@/types';
 import { withBasePath } from '@/lib/url';
 
 const DATA_ROOT = path.join(process.cwd(), 'public', 'data', 'v1');
@@ -46,6 +46,23 @@ export function loadTheoryMap(): TheoryMap {
       generated_at: new Date(0).toISOString(),
       cards: [],
       consistency_checks: [],
+    }
+  );
+}
+
+export function loadReportNetwork(): ReportNetwork {
+  return (
+    readJson<ReportNetwork>(path.join(DATA_ROOT, 'report_network.json')) ?? {
+      version: 'v1',
+      generated_at: new Date(0).toISOString(),
+      notion_labels: {},
+      group_paths: [],
+      global_storyline: {
+        label_en: '',
+        label_cn: '',
+        report_ids: [],
+      },
+      reports: [],
     }
   );
 }

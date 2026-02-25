@@ -215,6 +215,27 @@ def cmd_openclaw_review() -> int:
     return subprocess.run(cmd, cwd=REPO_ROOT).returncode
 
 
+def cmd_publication_pdf(*, lang: str, no_appendix: bool, base_url: str) -> int:
+    cmd = [PYTHON, "scripts/build_publication_pdf.py", "--lang", lang, "--base-url", base_url]
+    if no_appendix:
+        cmd.append("--no-appendix")
+    return subprocess.run(cmd, cwd=REPO_ROOT).returncode
+
+
+def cmd_agent_pack() -> int:
+    cmd = [PYTHON, "scripts/build_agent_pack.py"]
+    return subprocess.run(cmd, cwd=REPO_ROOT).returncode
+
+
+def cmd_deliverables(*, mode: str, skip_site_build: bool, skip_openclaw: bool) -> int:
+    cmd = [PYTHON, "scripts/build_three_deliverables.py", "--mode", mode]
+    if skip_site_build:
+        cmd.append("--skip-site-build")
+    if skip_openclaw:
+        cmd.append("--skip-openclaw")
+    return subprocess.run(cmd, cwd=REPO_ROOT).returncode
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Unified report operations")
     sub = parser.add_subparsers(dest="subcmd", required=True)
@@ -263,6 +284,17 @@ def parse_args() -> argparse.Namespace:
     p_web_preview.add_argument("--port", type=int, default=4173)
 
     sub.add_parser("openclaw-review", help="Run OpenClaw high-thinking QA review and write artifacts/checks/openclaw_review.json")
+    p_pub = sub.add_parser("publication-pdf", help="Build publication-grade compendium PDF")
+    p_pub.add_argument("--lang", choices=["en", "cn"], default="en")
+    p_pub.add_argument("--no-appendix", action="store_true")
+    p_pub.add_argument("--base-url", default="https://zhouyi-xiaoxiao.github.io/valley-k-small/")
+
+    sub.add_parser("agent-pack", help="Build agent handoff package under artifacts/deliverables/agent_pack/v1")
+
+    p_deliv = sub.add_parser("deliverables", help="Build 3 deliverables (website + publication + agent pack)")
+    p_deliv.add_argument("--mode", choices=["full", "changed"], default="changed")
+    p_deliv.add_argument("--skip-site-build", action="store_true")
+    p_deliv.add_argument("--skip-openclaw", action="store_true")
 
     return parser.parse_args()
 
@@ -295,6 +327,20 @@ def main() -> int:
         return cmd_web_preview(port=int(args.port))
     if args.subcmd == "openclaw-review":
         return cmd_openclaw_review()
+    if args.subcmd == "publication-pdf":
+        return cmd_publication_pdf(
+            lang=str(args.lang),
+            no_appendix=bool(args.no_appendix),
+            base_url=str(args.base_url),
+        )
+    if args.subcmd == "agent-pack":
+        return cmd_agent_pack()
+    if args.subcmd == "deliverables":
+        return cmd_deliverables(
+            mode=str(args.mode),
+            skip_site_build=bool(args.skip_site_build),
+            skip_openclaw=bool(args.skip_openclaw),
+        )
     raise SystemExit(f"unsupported subcmd: {args.subcmd}")
 
 

@@ -143,6 +143,32 @@
             "type": "string",
             "pattern": "^/data/v1/reports/[^/]+/series/[^/]+\\.json$"
           },
+          "default_series": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "series_semantics": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "series_type", "unit", "min", "max", "positive_ratio"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "series_type": {
+                  "type": "string",
+                  "enum": ["metric", "probability", "binary", "parameter"]
+                },
+                "unit": { "type": "string", "minLength": 1 },
+                "min": { "type": "number" },
+                "max": { "type": "number" },
+                "positive_ratio": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            }
+          },
           "provenance": {
             "type": "object",
             "additionalProperties": false,

@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -75,6 +76,76 @@ def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
         raise SystemExit(f"Low readability in {label}: key_findings are placeholders only")
 
 
+def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label: str) -> None:
+    key_fields = (
+        "key_findings",
+        "math_blocks",
+        "math_story",
+        "section_cards",
+        "reproducibility_commands",
+        "source_documents",
+    )
+    for field in key_fields:
+        left = meta_en.get(field, [])
+        right = meta_cn.get(field, [])
+        if not isinstance(left, list) or not isinstance(right, list):
+            raise SystemExit(f"Locale parity error in {label}: field {field} must be list in both locales")
+        if not left and right:
+            raise SystemExit(f"Locale parity error in {label}: EN {field} is empty while CN is non-empty")
+        if not right and left:
+            raise SystemExit(f"Locale parity error in {label}: CN {field} is empty while EN is non-empty")
+        if left and right:
+            ratio = min(len(left), len(right)) / max(1, max(len(left), len(right)))
+            if ratio < 0.5:
+                raise SystemExit(
+                    f"Locale parity error in {label}: field {field} has severe mismatch (EN={len(left)}, CN={len(right)})"
+                )
+
+
+def run_katex_lint(formulas: list[dict[str, str]]) -> list[dict[str, str]]:
+    if not formulas:
+        return []
+    script = r"""
+const fs = require('fs');
+const katex = require('./site/node_modules/katex');
+const payload = JSON.parse(fs.readFileSync(0, 'utf8'));
+const errors = [];
+for (const row of payload) {
+  try {
+    katex.renderToString(row.latex, { throwOnError: true, displayMode: true, strict: 'error' });
+  } catch (err) {
+    errors.push({
+      report_id: row.report_id || '',
+      lang: row.lang || '',
+      context: row.context || '',
+      latex: row.latex || '',
+      error: String(err && err.message ? err.message : err)
+    });
+  }
+}
+process.stdout.write(JSON.stringify({ errors }));
+"""
+    proc = subprocess.run(
+        ["node", "-e", script],
+        cwd=REPO_ROOT,
+        input=json.dumps(formulas, ensure_ascii=False),
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise SystemExit(f"KaTeX lint failed to run: {proc.stdout.strip()[:1200]}")
+    try:
+        parsed = json.loads(proc.stdout)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"KaTeX lint invalid JSON output: {exc}") from exc
+    errors = parsed.get("errors", [])
+    if not isinstance(errors, list):
+        raise SystemExit("KaTeX lint output malformed: errors is not a list")
+    return errors
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate web + agent sync payloads.")
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -100,21 +171,29 @@ def main() -> int:
     reports = list(index_payload.get("reports", []))
     finding_report_ids: dict[str, set[str]] = {}
     finding_examples: dict[str, str] = {}
+    formulas_for_lint: list[dict[str, str]] = []
 
     for item in reports:
         report_id = item["report_id"]
         report_dir = data_root / "reports" / report_id
         if not report_dir.exists():
             raise SystemExit(f"Missing report dir: {report_dir}")
+        meta_en_path = report_dir / "meta.json"
+        meta_cn_path = report_dir / "meta.cn.json"
+        if not meta_en_path.exists():
+            raise SystemExit(f"Missing meta file: {meta_en_path}")
+        if not meta_cn_path.exists():
+            raise SystemExit(f"Missing meta file: {meta_cn_path}")
 
-        for meta_name in ("meta.json", "meta.cn.json"):
-            meta_path = report_dir / meta_name
-            if not meta_path.exists():
-                raise SystemExit(f"Missing meta file: {meta_path}")
-            meta_payload = read_json(meta_path)
-            validate_with_schema(meta_payload, web_schema, str(meta_path))
-            assert_text_quality(meta_payload, str(meta_path))
+        meta_en = read_json(meta_en_path)
+        meta_cn = read_json(meta_cn_path)
+        validate_with_schema(meta_en, web_schema, str(meta_en_path))
+        validate_with_schema(meta_cn, web_schema, str(meta_cn_path))
+        assert_text_quality(meta_en, str(meta_en_path))
+        assert_text_quality(meta_cn, str(meta_cn_path))
+        assert_locale_parity(meta_en, meta_cn, str(report_id))
 
+        for meta_payload, meta_path in ((meta_en, meta_en_path), (meta_cn, meta_cn_path)):
             for dataset in meta_payload.get("datasets", []):
                 rel = dataset.get("series_path", "")
                 if not isinstance(rel, str) or not rel.startswith("/data/v1/"):
@@ -123,16 +202,39 @@ def main() -> int:
                 if not series_path.exists():
                     raise SystemExit(f"Missing series file: {series_path}")
 
-            if meta_name == "meta.json":
-                for finding in meta_payload.get("key_findings", []):
-                    text = str(finding).strip()
-                    if not text or looks_like_path_finding(text):
-                        continue
-                    key = normalize_finding_key(text)
-                    if not key:
-                        continue
-                    finding_report_ids.setdefault(key, set()).add(str(report_id))
-                    finding_examples.setdefault(key, text)
+            lang = str(meta_payload.get("lang", "en"))
+            for block in meta_payload.get("math_blocks", []):
+                latex = str(block.get("latex", "")).strip()
+                if latex:
+                    formulas_for_lint.append(
+                        {
+                            "report_id": str(report_id),
+                            "lang": lang,
+                            "context": str(block.get("context", "math_blocks")),
+                            "latex": latex,
+                        }
+                    )
+            for block in meta_payload.get("math_story", []):
+                latex = str(block.get("latex", "")).strip()
+                if latex:
+                    formulas_for_lint.append(
+                        {
+                            "report_id": str(report_id),
+                            "lang": lang,
+                            "context": str(block.get("context", "math_story")),
+                            "latex": latex,
+                        }
+                    )
+
+        for finding in meta_en.get("key_findings", []):
+            text = str(finding).strip()
+            if not text or looks_like_path_finding(text):
+                continue
+            key = normalize_finding_key(text)
+            if not key:
+                continue
+            finding_report_ids.setdefault(key, set()).add(str(report_id))
+            finding_examples.setdefault(key, text)
 
     manifest_path = data_root / "agent" / "manifest.json"
     reports_jsonl = data_root / "agent" / "reports.jsonl"
@@ -180,6 +282,15 @@ def main() -> int:
             f"{first['text']} (reports={','.join(first['report_ids'])})"
         )
 
+    formula_errors = run_katex_lint(formulas_for_lint)
+    if formula_errors:
+        first = formula_errors[0]
+        raise SystemExit(
+            "KaTeX renderability check failed: "
+            f"{len(formula_errors)} formula(s) invalid; first at report={first.get('report_id')} "
+            f"lang={first.get('lang')} context={first.get('context')} error={first.get('error')}"
+        )
+
     print(
         json.dumps(
             {
@@ -187,6 +298,7 @@ def main() -> int:
                 "reports": len(reports),
                 "index": index_path.as_posix(),
                 "agent_manifest": manifest_path.as_posix(),
+                "formula_count": len(formulas_for_lint),
             },
             ensure_ascii=False,
             indent=2,

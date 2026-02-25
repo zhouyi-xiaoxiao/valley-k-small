@@ -414,13 +414,16 @@ def extract_math_blocks(tex_text: str, sections: list[dict[str, Any]], source_pa
     blocks: list[dict[str, str]] = []
     seen: set[str] = set()
     for latex, idx in sorted(candidates, key=lambda row: row[1]):
-        signature = re.sub(r"[^a-z0-9]+", "", latex.lower())
+        cleaned = sanitize_latex_for_katex(latex)
+        if not cleaned:
+            continue
+        signature = re.sub(r"[^a-z0-9]+", "", cleaned.lower())
         if not signature or signature in seen:
             continue
         seen.add(signature)
         blocks.append(
             {
-                "latex": latex,
+                "latex": cleaned,
                 "context": section_title_for_index(sections, idx),
                 "source_path": source_path,
                 "lang": lang,
@@ -792,6 +795,134 @@ def gather_files(report_dir: Path, extensions: set[str], max_items: int) -> list
     return files[:max_items]
 
 
+def infer_series_type(name: str, values: list[float]) -> str:
+    lowered = name.lower()
+    finite_values = [float(v) for v in values if isinstance(v, (int, float)) and math.isfinite(float(v))]
+    unique_values = sorted({round(v, 10) for v in finite_values})
+
+    if unique_values and set(unique_values).issubset({0.0, 1.0}):
+        return "binary"
+    if re.search(r"(flag|indicator|bool|pass|fail|is_)", lowered):
+        return "binary"
+    if re.search(r"(pmf|cdf|prob|mass|survival|hazard|density|ratio|rate|share)", lowered):
+        return "probability"
+    if re.search(r"(^k$|^n$|^t$|beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)", lowered):
+        return "parameter"
+    return "metric"
+
+
+def infer_series_unit(name: str, series_type: str) -> str:
+    lowered = name.lower()
+    if series_type == "binary":
+        return "indicator"
+    if series_type == "probability":
+        return "probability"
+    if re.search(r"(time|step|tick|iter)", lowered):
+        return "step"
+    if re.search(r"(count|hits|visits|size)", lowered):
+        return "count"
+    if series_type == "parameter":
+        return "parameter"
+    return "value"
+
+
+def build_series_semantics(name: str, values: list[float]) -> dict[str, Any]:
+    finite_values = [float(v) for v in values if isinstance(v, (int, float)) and math.isfinite(float(v))]
+    series_type = infer_series_type(name, finite_values)
+    unit = infer_series_unit(name, series_type)
+    if finite_values:
+        min_v = min(finite_values)
+        max_v = max(finite_values)
+        positive_ratio = sum(1 for v in finite_values if v > 0) / max(1, len(finite_values))
+    else:
+        min_v = 0.0
+        max_v = 0.0
+        positive_ratio = 0.0
+    return {
+        "name": name,
+        "series_type": series_type,
+        "unit": unit,
+        "min": float(min_v),
+        "max": float(max_v),
+        "positive_ratio": float(round(positive_ratio, 6)),
+    }
+
+
+def dedupe_sequence(items: list[Any], *, max_items: int | None = None) -> list[Any]:
+    out: list[Any] = []
+    seen: set[str] = set()
+    for item in items:
+        if isinstance(item, (dict, list)):
+            key = json.dumps(item, ensure_ascii=False, sort_keys=True)
+        else:
+            key = normalize_space(str(item))
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(item)
+        if max_items is not None and len(out) >= max_items:
+            break
+    return out
+
+
+def ensure_locale_field_parity(
+    left: list[Any],
+    right: list[Any],
+    *,
+    max_items: int | None = None,
+    min_ratio: float = 0.5,
+) -> tuple[list[Any], list[Any]]:
+    a = dedupe_sequence(list(left), max_items=max_items)
+    b = dedupe_sequence(list(right), max_items=max_items)
+    if not a and b:
+        a = list(b)
+    if not b and a:
+        b = list(a)
+    if a and b:
+        ratio = min(len(a), len(b)) / max(1, max(len(a), len(b)))
+        if ratio < min_ratio:
+            merged = dedupe_sequence(a + b, max_items=max_items)
+            a = dedupe_sequence(a + merged, max_items=max_items)
+            b = dedupe_sequence(b + merged, max_items=max_items)
+    return a, b
+
+
+def align_locale_payloads(base_meta: dict[str, Any], cn_meta: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+    limits = {
+        "key_findings": 8,
+        "math_blocks": 14,
+        "math_story": 6,
+        "section_cards": 10,
+        "reproducibility_commands": 10,
+        "source_documents": 6,
+    }
+    for field, limit in limits.items():
+        left = list(base_meta.get(field, []))
+        right = list(cn_meta.get(field, []))
+        aligned_left, aligned_right = ensure_locale_field_parity(left, right, max_items=limit, min_ratio=0.5)
+        base_meta[field] = aligned_left
+        cn_meta[field] = aligned_right
+    return base_meta, cn_meta
+
+
+def sanitize_latex_for_katex(latex: str) -> str:
+    value = normalize_space(strip_tex_comments(latex))
+    if not value:
+        return ""
+    value = re.sub(r"\\(?:label|tag\*?)\{[^{}]*\}", " ", value)
+    value = value.replace("\\nonumber", " ")
+    value = value.replace("\\notag", " ")
+    value = re.sub(r"\\(?:eqref|ref)\{([^{}]+)\}", r"\\text{[\1]}", value)
+    value = re.sub(r"\\textbf\{([^{}]*)\}", r"\\text{\1}", value)
+    value = re.sub(r"\\mathrm\{([^{}]*)\}", r"\\text{\1}", value)
+    if contains_cjk(value) and not re.search(r"[=\\_^{}()\\[\\]+\\-*/]", value):
+        return ""
+    if ("&" in value or "\\\\" in value) and "\\begin{" not in value:
+        value = rf"\begin{{aligned}} {value} \end{{aligned}}"
+    value = normalize_space(value)
+    return value
+
+
 def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     with path.open("r", encoding="utf-8", errors="ignore", newline="") as f:
         reader = csv.DictReader(f)
@@ -861,13 +992,31 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
                 y_value = 0.0
             y_map[y_name].append(y_value)
 
+    semantics: list[dict[str, Any]] = []
+    default_series: list[str] = []
     for y_name in y_fields:
-        series.append({"name": y_name, "x": x_values, "y": y_map[y_name]})
+        semantic = build_series_semantics(y_name, y_map[y_name])
+        semantics.append(semantic)
+        if semantic["series_type"] in {"metric", "probability"}:
+            default_series.append(y_name)
+        series.append(
+            {
+                "name": y_name,
+                "x": x_values,
+                "y": y_map[y_name],
+                "series_type": semantic["series_type"],
+                "unit": semantic["unit"],
+            }
+        )
+    if not default_series and y_fields:
+        default_series = [y_fields[0]]
 
     return {
         "x_label": x_field,
         "y_label": ", ".join(y_fields),
         "series": series,
+        "series_semantics": semantics,
+        "default_series": default_series,
         "provenance": {"type": "csv", "source": rel_repo_path(path)},
     }
 
@@ -939,11 +1088,31 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
             else:
                 series_map[y_name].append(0.0)
 
-    series = [{"name": y_name, "x": x_values, "y": series_map[y_name]} for y_name in y_fields]
+    semantics: list[dict[str, Any]] = []
+    default_series: list[str] = []
+    series: list[dict[str, Any]] = []
+    for y_name in y_fields:
+        semantic = build_series_semantics(y_name, series_map[y_name])
+        semantics.append(semantic)
+        if semantic["series_type"] in {"metric", "probability"}:
+            default_series.append(y_name)
+        series.append(
+            {
+                "name": y_name,
+                "x": x_values,
+                "y": series_map[y_name],
+                "series_type": semantic["series_type"],
+                "unit": semantic["unit"],
+            }
+        )
+    if not default_series and y_fields:
+        default_series = [y_fields[0]]
     return {
         "x_label": x_field,
         "y_label": ", ".join(y_fields),
         "series": series,
+        "series_semantics": semantics,
+        "default_series": default_series,
         "provenance": {"type": "json", "source": rel_repo_path(path)},
     }
 
@@ -958,7 +1127,17 @@ def fallback_asset_dataset(report_id: str, assets: list[dict[str, Any]]) -> dict
         "series_id": "asset-size-profile",
         "x_label": "Asset rank",
         "y_label": "Size (bytes)",
-        "series": [{"name": "size_by_rank", "x": x_vals, "y": y_vals}],
+        "series": [
+            {
+                "name": "size_by_rank",
+                "x": x_vals,
+                "y": y_vals,
+                "series_type": "metric",
+                "unit": "bytes",
+            }
+        ],
+        "series_semantics": [build_series_semantics("size_by_rank", y_vals)],
+        "default_series": ["size_by_rank"],
         "provenance": {"type": "derived", "source": f"assets:{','.join(labels[:5])}"},
     }
 
@@ -1015,6 +1194,8 @@ def build_datasets(
             "x_label": parsed["x_label"],
             "y_label": parsed["y_label"],
             "series": parsed["series"],
+            "series_semantics": parsed.get("series_semantics", []),
+            "default_series": parsed.get("default_series", []),
             "provenance": parsed["provenance"],
         }
 
@@ -1029,6 +1210,8 @@ def build_datasets(
                 "x_label": parsed["x_label"],
                 "y_label": parsed["y_label"],
                 "series_path": series_rel,
+                "default_series": parsed.get("default_series", []),
+                "series_semantics": parsed.get("series_semantics", []),
                 "provenance": parsed["provenance"],
             }
         )
@@ -1045,6 +1228,8 @@ def build_datasets(
                 "x_label": fallback["x_label"],
                 "y_label": fallback["y_label"],
                 "series_path": series_rel,
+                "default_series": fallback.get("default_series", []),
+                "series_semantics": fallback.get("series_semantics", []),
                 "provenance": fallback["provenance"],
             }
         )
@@ -1170,6 +1355,7 @@ def build_report_payload(
         else tex_en["reproducibility_commands"],
         "source_documents": tex_cn["source_documents"] if tex_cn["source_documents"] else tex_en["source_documents"],
     }
+    base_meta, cn_meta = align_locale_payloads(base_meta, cn_meta)
 
     (out_report_dir / "meta.json").write_text(
         json.dumps(base_meta, ensure_ascii=False, indent=2, allow_nan=False),
@@ -1256,6 +1442,10 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
     finding_counter: Counter[str] = Counter()
     finding_examples: dict[str, str] = {}
     finding_reports: dict[str, set[str]] = defaultdict(set)
+    formula_counter: Counter[str] = Counter()
+    formula_examples: dict[str, str] = {}
+    formula_reports: dict[str, set[str]] = defaultdict(set)
+    asset_dup_stats: dict[str, dict[str, int]] = {}
 
     for row in reports:
         report_id = str(row["report_id"])
@@ -1268,6 +1458,11 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         report_notions: set[str] = set()
         for block in math_blocks:
             latex = str(block.get("latex", ""))
+            signature = normalize_finding_key(latex)
+            if signature:
+                formula_counter[signature] += 1
+                formula_examples.setdefault(signature, latex)
+                formula_reports[signature].add(report_id)
             for notion in detect_notions_from_formula(latex):
                 notion_reports[notion].add(report_id)
                 report_notions.add(notion)
@@ -1286,6 +1481,11 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
             finding_counter[key] += 1
             finding_examples.setdefault(key, text)
             finding_reports[key].add(report_id)
+
+        labels = [f"{row.get('kind', 'other')}::{str(row.get('label', '')).lower()}" for row in meta.get("assets", [])]
+        duplicate_count = max(0, len(labels) - len(set(labels)))
+        if labels:
+            asset_dup_stats[report_id] = {"duplicate_count": duplicate_count, "total_assets": len(labels)}
 
     theory_cards = []
     for notion_id, payload in notions_meta.items():
@@ -1319,6 +1519,26 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         )
     repeated_findings.sort(key=lambda row: int(row["count"]), reverse=True)
 
+    repeated_formulas = []
+    for key, count in formula_counter.items():
+        report_ids = sorted(formula_reports.get(key, set()))
+        if len(report_ids) <= 1:
+            continue
+        repeated_formulas.append(
+            {
+                "latex": formula_examples[key],
+                "count": count,
+                "report_ids": report_ids,
+            }
+        )
+    repeated_formulas.sort(key=lambda row: int(row["count"]), reverse=True)
+
+    asset_dup_excess = {
+        report_id: payload
+        for report_id, payload in asset_dup_stats.items()
+        if payload.get("duplicate_count", 0) > 0
+    }
+
     consistency_checks = [
         {
             "check": "all_reports_have_formula",
@@ -1334,6 +1554,16 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
             "check": "duplicate_key_findings",
             "pass": len(repeated_findings) == 0,
             "details": repeated_findings[:12],
+        },
+        {
+            "check": "duplicate_math_signatures",
+            "pass": len(repeated_formulas) == 0,
+            "details": repeated_formulas[:12],
+        },
+        {
+            "check": "asset_label_duplication",
+            "pass": len(asset_dup_excess) == 0,
+            "details": asset_dup_excess,
         },
     ]
 

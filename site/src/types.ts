@@ -29,6 +29,15 @@ export type DatasetMeta = {
   x_label: string;
   y_label: string;
   series_path: string;
+  default_series?: string[];
+  series_semantics?: Array<{
+    name: string;
+    series_type: 'metric' | 'probability' | 'binary' | 'parameter';
+    unit: string;
+    min: number;
+    max: number;
+    positive_ratio: number;
+  }>;
   provenance: {
     type: string;
     source: string;
@@ -79,7 +88,18 @@ export type SeriesPayload = {
     name: string;
     x: Array<number | string>;
     y: number[];
+    series_type?: 'metric' | 'probability' | 'binary' | 'parameter';
+    unit?: string;
   }>;
+  series_semantics?: Array<{
+    name: string;
+    series_type: 'metric' | 'probability' | 'binary' | 'parameter';
+    unit: string;
+    min: number;
+    max: number;
+    positive_ratio: number;
+  }>;
+  default_series?: string[];
   provenance: {
     type: string;
     source: string;

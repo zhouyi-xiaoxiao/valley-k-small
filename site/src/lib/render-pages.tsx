@@ -13,7 +13,7 @@ import {
   prefixPath,
   withBasePath,
 } from '@/lib/content';
-import type { Lang } from '@/types';
+import type { AssetRecord, Lang } from '@/types';
 
 type LatexRenderResult = {
   html: string;
@@ -49,7 +49,6 @@ function renderMathBlockCard(
   key: string,
 ) {
   const rendered = renderLatex(block.latex);
-  const isCn = block.lang === 'cn';
 
   return (
     <article key={key} className="card">
@@ -62,20 +61,41 @@ function renderMathBlockCard(
           __html: rendered.html,
         }}
       />
-      {rendered.error ? (
-        <details style={{ marginBottom: '0.5rem' }}>
-          <summary>{isCn ? '公式渲染警告（KaTeX）' : 'Formula render warning (KaTeX)'}</summary>
-          <p style={{ margin: '0.45rem 0 0.3rem' }}>
-            {isCn ? '已回退为原始 LaTeX 文本。来源：' : 'Fallback to raw LaTeX text. Source: '} <code>{block.source_path}</code>
-          </p>
-          <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{rendered.error}</pre>
-        </details>
-      ) : null}
+      {rendered.error ? renderFormulaWarning(block.lang === 'cn' ? 'cn' : 'en', block.source_path, rendered.error) : null}
       <p style={{ marginBottom: 0 }}>
         <code>{block.source_path}</code>
       </p>
     </article>
   );
+}
+
+function renderFormulaWarning(lang: Lang, context: string, error: string) {
+  return (
+    <details style={{ marginBottom: '0.5rem' }}>
+      <summary>{localizedText(lang, 'Formula render warning (KaTeX)', '公式渲染警告（KaTeX）')}</summary>
+      <p style={{ margin: '0.45rem 0 0.3rem' }}>
+        {localizedText(lang, 'Fallback to raw LaTeX text. Context:', '已回退为原始 LaTeX 文本。上下文：')} <code>{context}</code>
+      </p>
+      <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{error}</pre>
+    </details>
+  );
+}
+
+function groupAssets(assets: AssetRecord[]) {
+  const groups = new Map<string, { primary: AssetRecord; variants: AssetRecord[] }>();
+  for (const asset of assets) {
+    const key = `${asset.kind}:${asset.label.toLowerCase()}`;
+    const existing = groups.get(key);
+    if (!existing) {
+      groups.set(key, { primary: asset, variants: [asset] });
+      continue;
+    }
+    existing.variants.push(asset);
+    if (asset.size > existing.primary.size) {
+      existing.primary = asset;
+    }
+  }
+  return [...groups.values()].sort((a, b) => b.primary.size - a.primary.size);
 }
 
 function isImageFigure(webPath: string): boolean {
@@ -188,6 +208,8 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   }
 
   const figures = loadFigures(reportId);
+  const groupedAssets = groupAssets(meta.assets);
+  const duplicateAssetCount = Math.max(0, meta.assets.length - groupedAssets.length);
 
   return (
     <AppShell lang={lang} prefix={prefix}>
@@ -241,16 +263,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                     __html: rendered.html,
                   }}
                 />
-                {rendered.error ? (
-                  <details style={{ marginBottom: '0.5rem' }}>
-                    <summary>{localizedText(lang, 'Formula render warning (KaTeX)', '公式渲染警告（KaTeX）')}</summary>
-                    <p style={{ margin: '0.45rem 0 0.3rem' }}>
-                      {localizedText(lang, 'Fallback to raw LaTeX text. Context:', '已回退为原始 LaTeX 文本。上下文：')}{' '}
-                      <code>{item.context}</code>
-                    </p>
-                    <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{rendered.error}</pre>
-                  </details>
-                ) : null}
+                {rendered.error ? renderFormulaWarning(lang, item.context, rendered.error) : null}
                 <p style={{ marginBottom: 0 }}>
                   <span className="badge">{item.context}</span>
                 </p>
@@ -313,15 +326,43 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Download Assets', '下载资源')}</h3>
         <p>
-          {localizedText(lang, 'Showing', '当前展示')} {Math.min(20, meta.assets.length)} / {meta.assets.length}
+          {localizedText(lang, 'Showing', '当前展示')} {Math.min(20, groupedAssets.length)} / {groupedAssets.length}
+          {duplicateAssetCount > 0 ? (
+            <>
+              {' '}
+              <span className="badge">
+                {localizedText(lang, 'collapsed duplicates', '折叠重复')} {duplicateAssetCount}
+              </span>
+            </>
+          ) : null}
         </p>
         <ul>
-          {meta.assets.slice(0, 20).map((asset) => (
-            <li key={`${asset.sha256}:${asset.web_path}`}>
-              <a href={withBasePath(asset.web_path)} target="_blank" rel="noreferrer">
-                {asset.label}
+          {groupedAssets.slice(0, 20).map((assetGroup) => (
+            <li key={`${assetGroup.primary.kind}:${assetGroup.primary.label.toLowerCase()}`}>
+              <a href={withBasePath(assetGroup.primary.web_path)} target="_blank" rel="noreferrer">
+                {assetGroup.primary.label}
               </a>{' '}
-              <code>{asset.kind}</code>
+              <code>{assetGroup.primary.kind}</code>{' '}
+              {assetGroup.variants.length > 1 ? (
+                <span className="badge">
+                  {localizedText(lang, 'variants', '变体')} x{assetGroup.variants.length}
+                </span>
+              ) : null}
+              {assetGroup.variants.length > 1 ? (
+                <details style={{ marginTop: '0.35rem' }}>
+                  <summary>{localizedText(lang, 'Show variants', '查看变体')}</summary>
+                  <ul>
+                    {assetGroup.variants.map((variant) => (
+                      <li key={`${variant.sha256}:${variant.web_path}`}>
+                        <a href={withBasePath(variant.web_path)} target="_blank" rel="noreferrer">
+                          {variant.source_path}
+                        </a>{' '}
+                        <code>{variant.sha256.slice(0, 10)}</code>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ) : null}
             </li>
           ))}
         </ul>

@@ -2,8 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useState } from 'react';
-import type { DatasetMeta, SeriesPayload } from '@/types';
-import type { Lang } from '@/types';
+import type { DatasetMeta, Lang, SeriesPayload } from '@/types';
 import { withBasePath } from '@/lib/url';
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
@@ -14,6 +13,69 @@ type Props = {
   lang: Lang;
 };
 
+type SeriesType = 'metric' | 'probability' | 'binary' | 'parameter';
+
+type SeriesSemantic = {
+  name: string;
+  series_type: SeriesType;
+  unit: string;
+  min: number;
+  max: number;
+  positive_ratio: number;
+};
+
+function inferSeriesType(name: string, values: number[]): SeriesType {
+  const lowered = name.toLowerCase();
+  const uniq = new Set(values.map((v) => Number(v.toFixed(10))));
+  if (uniq.size > 0 && [...uniq].every((v) => v === 0 || v === 1)) {
+    return 'binary';
+  }
+  if (/(flag|indicator|bool|pass|fail|is_)/i.test(lowered)) {
+    return 'binary';
+  }
+  if (/(pmf|cdf|prob|mass|survival|hazard|density|ratio|rate|share)/i.test(lowered)) {
+    return 'probability';
+  }
+  if (/(^k$|^n$|^t$|beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)/i.test(lowered)) {
+    return 'parameter';
+  }
+  return 'metric';
+}
+
+function inferUnit(name: string, seriesType: SeriesType): string {
+  const lowered = name.toLowerCase();
+  if (seriesType === 'binary') {
+    return 'indicator';
+  }
+  if (seriesType === 'probability') {
+    return 'probability';
+  }
+  if (/(time|step|tick|iter)/i.test(lowered)) {
+    return 'step';
+  }
+  if (/(count|hits|visits|size|mass)/i.test(lowered)) {
+    return 'count';
+  }
+  if (seriesType === 'parameter') {
+    return 'parameter';
+  }
+  return 'value';
+}
+
+function uniqueStrings(values: string[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const value of values) {
+    const normalized = value.trim();
+    if (!normalized || seen.has(normalized)) {
+      continue;
+    }
+    seen.add(normalized);
+    out.push(normalized);
+  }
+  return out;
+}
+
 export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [selectedId, setSelectedId] = useState<string>(datasets[0]?.series_id ?? '');
   const [payload, setPayload] = useState<SeriesPayload | null>(null);
@@ -22,6 +84,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [normalize, setNormalize] = useState<boolean>(false);
   const [smoothWindow, setSmoothWindow] = useState<number>(1);
   const [markers, setMarkers] = useState<boolean>(true);
+  const [visibleSeries, setVisibleSeries] = useState<string[]>([]);
   const [autoScaleNotice, setAutoScaleNotice] = useState<string | null>(null);
 
   const selected = useMemo(
@@ -59,9 +122,83 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         setPayload(null);
         setStatus('error');
       });
-
     return () => controller.abort();
   }, [selected?.series_path]);
+
+  const semanticsByName = useMemo(() => {
+    const out = new Map<string, SeriesSemantic>();
+    if (!payload) {
+      return out;
+    }
+    for (const item of payload.series_semantics ?? []) {
+      out.set(item.name, item);
+    }
+    for (const series of payload.series) {
+      if (out.has(series.name)) {
+        continue;
+      }
+      const finite = series.y.filter((v) => Number.isFinite(v));
+      const seriesType = inferSeriesType(series.name, finite);
+      const min = finite.length > 0 ? Math.min(...finite) : 0;
+      const max = finite.length > 0 ? Math.max(...finite) : 0;
+      const positiveRatio = finite.length > 0 ? finite.filter((v) => v > 0).length / finite.length : 0;
+      out.set(series.name, {
+        name: series.name,
+        series_type: seriesType,
+        unit: inferUnit(series.name, seriesType),
+        min,
+        max,
+        positive_ratio: positiveRatio,
+      });
+    }
+    return out;
+  }, [payload]);
+
+  useEffect(() => {
+    if (!payload || payload.series.length === 0) {
+      setVisibleSeries([]);
+      return;
+    }
+    const available = payload.series.map((item) => item.name);
+    const preferred = uniqueStrings([
+      ...(selected?.default_series ?? []),
+      ...(payload.default_series ?? []),
+      ...available.filter((name) => {
+        const semantic = semanticsByName.get(name);
+        return semantic?.series_type === 'metric' || semantic?.series_type === 'probability';
+      }),
+    ]);
+    const seeded = preferred.length > 0 ? preferred : [available[0]];
+    const defaults = seeded.filter((name) => available.includes(name));
+    setVisibleSeries(defaults.length > 0 ? defaults : [available[0]]);
+  }, [payload, selected?.default_series, semanticsByName]);
+
+  const visibleSet = useMemo(() => new Set(visibleSeries), [visibleSeries]);
+
+  const rawVisibleSeries = useMemo(() => {
+    if (!payload) {
+      return [];
+    }
+    return payload.series.filter((series) => visibleSet.has(series.name));
+  }, [payload, visibleSet]);
+
+  const logEligible = useMemo(() => {
+    if (rawVisibleSeries.length === 0) {
+      return false;
+    }
+    return rawVisibleSeries.some((series) => series.y.some((value) => value > 0));
+  }, [rawVisibleSeries]);
+
+  useEffect(() => {
+    if (!logEligible && yScale === 'log') {
+      setYScale('linear');
+      setAutoScaleNotice(
+        lang === 'cn'
+          ? '当前可见序列均不满足 log 条件，已自动切回线性坐标。'
+          : 'Visible series do not satisfy log requirements; switched back to linear scale.',
+      );
+    }
+  }, [lang, logEligible, yScale]);
 
   const transformed = useMemo(() => {
     if (!payload) {
@@ -82,24 +219,24 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       });
     };
 
-    return payload.series.map((series) => {
-      const smooth = movingAverage(series.y, smoothWindow);
-      const maxAbs = Math.max(...smooth.map((item) => Math.abs(item)), 1e-12);
-      const normalized = normalize ? smooth.map((item) => item / maxAbs) : smooth;
-      const y = yScale === 'log' ? normalized.map((item) => (item > 0 ? item : null)) : normalized;
-      return {
-        ...series,
-        y,
-      };
-    });
-  }, [normalize, payload, smoothWindow, yScale]);
-
-  const logBlocked = useMemo(() => {
-    if (!payload) {
-      return false;
-    }
-    return payload.series.some((series) => series.y.some((value) => value <= 0));
-  }, [payload]);
+    return payload.series
+      .filter((series) => visibleSet.has(series.name))
+      .map((series) => {
+        const semantic = semanticsByName.get(series.name);
+        const canTransform = semantic ? semantic.series_type === 'metric' || semantic.series_type === 'probability' : true;
+        const smooth = canTransform ? movingAverage(series.y, smoothWindow) : series.y;
+        const maxAbs = Math.max(...smooth.map((item) => Math.abs(item)), 1e-12);
+        const normalized = canTransform && normalize ? smooth.map((item) => item / maxAbs) : smooth;
+        const y = yScale === 'log' ? normalized.map((item) => (item > 0 ? item : null)) : normalized;
+        return {
+          ...series,
+          y,
+          series_type: semantic?.series_type ?? inferSeriesType(series.name, series.y),
+          unit: semantic?.unit ?? inferUnit(series.name, inferSeriesType(series.name, series.y)),
+          canTransform,
+        };
+      });
+  }, [normalize, payload, semanticsByName, smoothWindow, visibleSet, yScale]);
 
   const droppedForLog = useMemo(() => {
     if (yScale !== 'log') {
@@ -109,45 +246,21 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   }, [transformed, yScale]);
 
   const perSeriesDrop = useMemo(() => {
-    if (yScale !== 'log' || !payload) {
+    if (yScale !== 'log') {
       return [];
     }
-    return transformed.map((series, idx) => {
-      const total = Math.max(1, payload.series[idx]?.y.length ?? 1);
+    return transformed.map((series) => {
+      const total = Math.max(1, series.y.length);
       const dropped = series.y.filter((v) => v === null).length;
       const ratio = dropped / total;
       return { name: series.name, dropped, total, ratio };
     });
-  }, [payload, transformed, yScale]);
-
-  const allDroppedInLog = useMemo(() => {
-    if (yScale !== 'log' || transformed.length === 0) {
-      return false;
-    }
-    return transformed.every((series) => series.y.every((point) => point === null));
   }, [transformed, yScale]);
 
-  useEffect(() => {
-    if (logBlocked && yScale === 'log') {
-      setYScale('linear');
-      setAutoScaleNotice(
-        lang === 'cn'
-          ? '检测到非正值数据，log 模式已禁用并自动切回线性坐标。'
-          : 'Detected non-positive values. Log mode is disabled and the plot was switched back to linear scale.',
-      );
-    }
-  }, [lang, logBlocked, yScale]);
-
-  useEffect(() => {
-    if (allDroppedInLog && yScale === 'log') {
-      setYScale('linear');
-      setAutoScaleNotice(
-        lang === 'cn'
-          ? 'log 模式下全部数据点被隐藏，已自动切回线性坐标。'
-          : 'All points were hidden in log mode, automatically switched back to linear scale.',
-      );
-    }
-  }, [allDroppedInLog, lang, yScale]);
+  const transformSuppressed = useMemo(
+    () => transformed.filter((series) => !series.canTransform).map((series) => series.name),
+    [transformed],
+  );
 
   const effectiveYLabel = useMemo(() => {
     const parts: string[] = [];
@@ -165,6 +278,38 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     }
     return `${selected?.y_label} (${parts.join(', ')})`;
   }, [lang, normalize, selected?.y_label, smoothWindow, yScale]);
+
+  const applySeriesPreset = (mode: 'metric' | 'all') => {
+    if (!payload) {
+      return;
+    }
+    if (mode === 'all') {
+      setVisibleSeries(payload.series.map((item) => item.name));
+      return;
+    }
+    const preferred = payload.series
+      .map((item) => item.name)
+      .filter((name) => {
+        const semantic = semanticsByName.get(name);
+        return semantic?.series_type === 'metric' || semantic?.series_type === 'probability';
+      });
+    setVisibleSeries(preferred.length > 0 ? preferred : [payload.series[0].name]);
+  };
+
+  const toggleSeries = (name: string, checked: boolean) => {
+    setVisibleSeries((prev) => {
+      const next = new Set(prev);
+      if (checked) {
+        next.add(name);
+      } else {
+        next.delete(name);
+      }
+      if (next.size === 0) {
+        next.add(name);
+      }
+      return [...next];
+    });
+  };
 
   if (datasets.length === 0) {
     return <p>{lang === 'cn' ? `${reportId} 暂无可交互数据集。` : `No interactive datasets are available for ${reportId}.`}</p>;
@@ -186,6 +331,36 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           </option>
         ))}
       </select>
+
+      {payload ? (
+        <details style={{ marginTop: '0.75rem' }} open>
+          <summary>{lang === 'cn' ? '可见序列与语义' : 'Visible series and semantics'}</summary>
+          <div style={{ display: 'flex', gap: '0.5rem', margin: '0.5rem 0 0.7rem', flexWrap: 'wrap' }}>
+            <button type="button" onClick={() => applySeriesPreset('metric')}>
+              {lang === 'cn' ? '仅指标/概率' : 'Metric/probability only'}
+            </button>
+            <button type="button" onClick={() => applySeriesPreset('all')}>
+              {lang === 'cn' ? '显示全部' : 'Show all'}
+            </button>
+          </div>
+          <div style={{ display: 'grid', gap: '0.35rem' }}>
+            {payload.series.map((series) => {
+              const semantic = semanticsByName.get(series.name);
+              const checked = visibleSet.has(series.name);
+              return (
+                <label key={series.name}>
+                  <input type="checkbox" checked={checked} onChange={(event) => toggleSeries(series.name, event.target.checked)} />{' '}
+                  {series.name}{' '}
+                  <span className="badge">
+                    {(semantic?.series_type ?? 'metric')}/{semantic?.unit ?? 'value'}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </details>
+      ) : null}
+
       <div className="plot-controls">
         <label htmlFor="scale-select">{lang === 'cn' ? 'Y 轴' : 'Y scale'}</label>
         <select
@@ -193,11 +368,11 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           value={yScale}
           onChange={(event) => {
             const nextScale = event.target.value as 'linear' | 'log';
-            if (nextScale === 'log' && logBlocked) {
+            if (nextScale === 'log' && !logEligible) {
               setAutoScaleNotice(
                 lang === 'cn'
-                  ? '当前数据含非正值，log 模式不可用。'
-                  : 'Log scale is unavailable because this dataset includes non-positive values.',
+                  ? '当前可见序列没有正值，log 模式不可用。'
+                  : 'Log mode is unavailable because visible series contain no positive values.',
               );
               return;
             }
@@ -205,7 +380,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           }}
         >
           <option value="linear">{lang === 'cn' ? '线性' : 'Linear'}</option>
-          <option value="log" disabled={logBlocked}>
+          <option value="log" disabled={!logEligible}>
             {lang === 'cn' ? '对数' : 'Log'}
           </option>
         </select>
@@ -229,14 +404,14 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           {lang === 'cn' ? '标记点' : 'Markers'}
         </label>
       </div>
+
       <p>
         <span className="badge">{selected?.x_label}</span> <span className="badge">{effectiveYLabel}</span>
       </p>
-      {logBlocked ? (
+      {transformSuppressed.length > 0 ? (
         <p style={{ marginBottom: '0.2rem' }}>
-          {lang === 'cn'
-            ? '提示：当前数据包含非正值，log 模式已禁用。'
-            : 'Note: this dataset includes non-positive values, so log mode is disabled.'}
+          {lang === 'cn' ? '以下序列按原始值展示（不做平滑/归一化）: ' : 'These series stay raw (no smoothing/normalization): '}
+          {transformSuppressed.join(', ')}
         </p>
       ) : null}
       {droppedForLog > 0 ? (
@@ -256,31 +431,36 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         </div>
       ) : null}
       {autoScaleNotice ? <p style={{ marginBottom: '0.2rem' }}>{autoScaleNotice}</p> : null}
+
       {payload && status === 'ready' ? (
-        <Plot
-          data={transformed.map((series) => ({
-            type: 'scatter',
-            mode: markers ? 'lines+markers' : 'lines',
-            name: series.name,
-            x: series.x,
-            y: series.y,
-            marker: { size: 4 },
-            line: { width: 2.1 },
-          }))}
-          layout={{
-            autosize: true,
-            margin: { l: 44, r: 20, t: 18, b: 42 },
-            paper_bgcolor: 'rgba(0,0,0,0)',
-            plot_bgcolor: '#fffdf8',
-            font: { family: 'IBM Plex Serif, Georgia, serif', color: '#1a1f1d' },
-            xaxis: { title: selected?.x_label, gridcolor: '#e6dbc7' },
-            yaxis: { title: effectiveYLabel, gridcolor: '#e6dbc7', type: yScale },
-            legend: { orientation: 'h' },
-          }}
-          style={{ width: '100%', height: '440px' }}
-          config={{ responsive: true, displaylogo: false }}
-          useResizeHandler
-        />
+        transformed.length > 0 ? (
+          <Plot
+            data={transformed.map((series) => ({
+              type: 'scatter',
+              mode: markers ? 'lines+markers' : 'lines',
+              name: series.name,
+              x: series.x,
+              y: series.y,
+              marker: { size: 4 },
+              line: { width: 2.1 },
+            }))}
+            layout={{
+              autosize: true,
+              margin: { l: 44, r: 20, t: 18, b: 42 },
+              paper_bgcolor: 'rgba(0,0,0,0)',
+              plot_bgcolor: '#fffdf8',
+              font: { family: 'IBM Plex Serif, Georgia, serif', color: '#1a1f1d' },
+              xaxis: { title: selected?.x_label, gridcolor: '#e6dbc7' },
+              yaxis: { title: effectiveYLabel, gridcolor: '#e6dbc7', type: yScale },
+              legend: { orientation: 'h' },
+            }}
+            style={{ width: '100%', height: '440px' }}
+            config={{ responsive: true, displaylogo: false }}
+            useResizeHandler
+          />
+        ) : (
+          <p>{lang === 'cn' ? '当前没有可见序列，请在上方勾选至少一个。' : 'No visible series. Please enable at least one above.'}</p>
+        )
       ) : (
         <p>
           {status === 'error'

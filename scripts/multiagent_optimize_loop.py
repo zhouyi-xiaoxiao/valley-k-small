@@ -37,9 +37,8 @@ class Profile:
 PROFILES: list[Profile] = [
     Profile("balanced", max_assets=40, max_figures=24, max_datasets=3, max_points=1200),
     Profile("lean", max_assets=28, max_figures=16, max_datasets=2, max_points=800),
-    Profile("fidelity", max_assets=60, max_figures=36, max_datasets=4, max_points=1800),
+    Profile("fidelity", max_assets=60, max_figures=36, max_datasets=4, max_points=1600),
     Profile("ultra-lean", max_assets=20, max_figures=12, max_datasets=1, max_points=500),
-    Profile("rich", max_assets=80, max_figures=48, max_datasets=5, max_points=2500),
 ]
 
 

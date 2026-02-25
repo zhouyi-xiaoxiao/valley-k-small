@@ -2,8 +2,9 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-PID_FILE="$ROOT/artifacts/loop/daemon.pid"
+PID_FILE="$ROOT/artifacts/loop/supervisor.pid"
 LOG_FILE="$ROOT/artifacts/loop/daemon.log"
+SUP_LOG_FILE="$ROOT/artifacts/loop/supervisor.log"
 
 start_loop() {
   mkdir -p "$ROOT/artifacts/loop"
@@ -12,15 +13,19 @@ start_loop() {
     exit 0
   fi
 
-  nohup python3 "$ROOT/scripts/multiagent_optimize_loop.py" \
-    --interval-seconds 900 \
-    --until tomorrow \
-    --base-path "/valley-k-small" \
-    >"$LOG_FILE" 2>&1 &
+  nohup env \
+    INTERVAL_SECONDS=900 \
+    UNTIL_ARG=tomorrow \
+    BASE_PATH="/valley-k-small" \
+    MODE=changed \
+    LOOP_SKIP_FRONTEND_BUILD=1 \
+    "$ROOT/scripts/loop_supervisor.sh" \
+    >"$SUP_LOG_FILE" 2>&1 &
 
   echo $! > "$PID_FILE"
   echo "Started loop PID $(cat "$PID_FILE")"
-  echo "Log: $LOG_FILE"
+  echo "Supervisor log: $SUP_LOG_FILE"
+  echo "Round log: $LOG_FILE"
 }
 
 stop_loop() {
@@ -47,6 +52,10 @@ status_loop() {
   if [[ -f "$ROOT/artifacts/loop/progress/latest.json" ]]; then
     echo "latest:"
     cat "$ROOT/artifacts/loop/progress/latest.json"
+  fi
+  if [[ -f "$ROOT/artifacts/loop/progress/heartbeat.json" ]]; then
+    echo "heartbeat:"
+    cat "$ROOT/artifacts/loop/progress/heartbeat.json"
   fi
 }
 

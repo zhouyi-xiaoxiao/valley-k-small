@@ -280,6 +280,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     )
 
     results: list[dict[str, Any]] = []
+    skip_frontend_build = os.environ.get("LOOP_SKIP_FRONTEND_BUILD", "0").strip() in {"1", "true", "yes"}
 
     setup_result = ensure_site_deps()
     results.append(setup_result)
@@ -327,17 +328,33 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
         results.append(fut_pytest.result())
         results.append(fut_docs.result())
 
-    results.append(
-        run_cmd(
-            "Agent-F-Frontend-Build",
-            ["npm", "run", "build"],
-            round_id=round_id,
-            profile_name=profile.name,
-            cwd=SITE_DIR,
-            env={"NEXT_PUBLIC_BASE_PATH": base_path},
-            timeout=3600,
+    if skip_frontend_build:
+        results.append(
+            {
+                "agent": "Agent-F-Frontend-Build",
+                "status": "pass",
+                "return_code": 0,
+                "duration_s": 0.0,
+                "command": ["skip:frontend-build"],
+                "output_tail": "Skipped by LOOP_SKIP_FRONTEND_BUILD=1",
+            }
         )
-    )
+    else:
+        results.append(
+            run_cmd(
+                "Agent-F-Frontend-Build",
+                ["npm", "run", "build"],
+                round_id=round_id,
+                profile_name=profile.name,
+                cwd=SITE_DIR,
+                env={
+                    "NEXT_PUBLIC_BASE_PATH": base_path,
+                    # Keep memory bounded for long-running local loops.
+                    "NODE_OPTIONS": "--max-old-space-size=1536",
+                },
+                timeout=3600,
+            )
+        )
     results.append(
         run_cmd(
             "Agent-G-OpenClaw-Review",

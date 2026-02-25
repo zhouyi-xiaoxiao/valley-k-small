@@ -123,12 +123,28 @@ export type AgentManifest = {
     book_manifest: string;
     book_chapters_jsonl: string;
     claim_graph_jsonl: string;
+    book_claim_coverage: string;
     translation_qc: string;
     theory_map: string;
     guide_json: string;
     report_network: string;
     content_map: string;
   };
+};
+
+export type BookClaimCoverage = {
+  version: string;
+  generated_at: string;
+  policy_en: string;
+  policy_cn: string;
+  global_claim_count: number;
+  chapter_claim_count: number;
+  chapter_total_claim_count?: number;
+  chapter_native_claim_count?: number;
+  excluded_claim_count: number;
+  chapter_claim_ids: string[];
+  chapter_native_claim_ids?: string[];
+  excluded_claim_ids: string[];
 };
 
 export type ReportNetwork = {

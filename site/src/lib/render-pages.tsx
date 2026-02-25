@@ -171,18 +171,44 @@ function isPlaceholderCardSummary(heading: string, summary: string): boolean {
 }
 
 function pruneSectionCards(cards: Array<{ heading: string; summary: string; source_path: string }>) {
-  const seen = new Set<string>();
-  return cards.filter((card) => {
+  const byHeading = new Map<string, { heading: string; summary: string; source_path: string }>();
+  const summaryQuality = (summary: string) => {
+    const normalized = summary.replace(/\s+/g, ' ').trim().toLowerCase();
+    let score = 0;
+    if (!normalized) {
+      score -= 50;
+    }
+    score += Math.min(48, normalized.length);
+    if (/this section /i.test(normalized)) {
+      score -= 8;
+    }
+    if (/本节/.test(normalized)) {
+      score -= 6;
+    }
+    if (/asset size profile|manifest|placeholder|fallback/i.test(normalized)) {
+      score -= 12;
+    }
+    return score;
+  };
+
+  for (const card of cards) {
     if (isPlaceholderCardSummary(card.heading, card.summary)) {
-      return false;
+      continue;
     }
-    const key = `${card.heading.toLowerCase()}::${card.summary.toLowerCase()}`;
-    if (seen.has(key)) {
-      return false;
+    const headingKey = card.heading.replace(/\s+/g, ' ').trim().toLowerCase();
+    if (!headingKey) {
+      continue;
     }
-    seen.add(key);
-    return true;
-  });
+    const current = byHeading.get(headingKey);
+    if (!current) {
+      byHeading.set(headingKey, card);
+      continue;
+    }
+    if (summaryQuality(card.summary) > summaryQuality(current.summary)) {
+      byHeading.set(headingKey, card);
+    }
+  }
+  return [...byHeading.values()];
 }
 
 function lookupReportTitle(reportId: string, lang: Lang, network: ReportNetwork): string {

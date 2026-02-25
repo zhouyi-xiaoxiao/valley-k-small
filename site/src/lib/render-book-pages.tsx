@@ -4,6 +4,7 @@ import { AppShell } from '@/components/AppShell';
 import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
   loadBookBackbone,
+  loadBookClaimCoverage,
   loadBookChapter,
   loadBookManifest,
   loadGlossary,
@@ -38,15 +39,34 @@ function renderLatex(latex: string, displayMode = true): { html: string; error: 
   }
 }
 
-function renderGlossaryFormula(latex: string) {
+function renderMathFallbackNotice(lang: Lang, reason: string) {
+  return (
+    <details className="math-error-note">
+      <summary>{localizedText(lang, 'Formula fallback details', '公式回退详情')}</summary>
+      <p className="muted" style={{ marginTop: '0.4rem' }}>
+        {localizedText(
+          lang,
+          'KaTeX parsing failed, so this formula is rendered as escaped plain text for audit continuity.',
+          'KaTeX 解析失败，当前公式已回退为转义纯文本以保证可核查连续性。',
+        )}
+      </p>
+      <code>{reason}</code>
+    </details>
+  );
+}
+
+function renderGlossaryFormula(latex: string, lang: Lang) {
   const rendered = renderLatex(latex, false);
   return (
-    <div
-      className="math-inline"
-      dangerouslySetInnerHTML={{
-        __html: rendered.html,
-      }}
-    />
+    <>
+      <div
+        className="math-inline"
+        dangerouslySetInnerHTML={{
+          __html: rendered.html,
+        }}
+      />
+      {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
+    </>
   );
 }
 
@@ -133,6 +153,7 @@ function loadOrderedBookChapters(): BookChapter[] {
 export function renderBookPage(lang: Lang, prefix: string) {
   const manifest = loadBookManifest();
   const backbone = loadBookBackbone();
+  const claimCoverage = loadBookClaimCoverage();
   const glossary = loadGlossary();
   const translationQc = loadTranslationQC();
 
@@ -210,6 +231,60 @@ export function renderBookPage(lang: Lang, prefix: string) {
         </section>
       ) : null}
 
+      {claimCoverage ? (
+        <section className="card section-enter" style={{ marginTop: '1rem' }}>
+          <h2>{localizedText(lang, 'Claim Coverage Policy', 'Claim 覆盖策略')}</h2>
+          <p className="lead">{lang === 'cn' ? claimCoverage.policy_cn : claimCoverage.policy_en}</p>
+          <p>
+            <span className="badge">
+              {localizedText(lang, 'Global claims', '全局 claim')} {claimCoverage.global_claim_count}
+            </span>{' '}
+            <span className="badge">
+              {localizedText(lang, 'In chapters', '主线已纳入')} {claimCoverage.chapter_claim_count}
+            </span>{' '}
+            {typeof claimCoverage.chapter_native_claim_count === 'number' ? (
+              <>
+                <span className="badge">
+                  {localizedText(lang, 'Chapter-native synthesis claims', '章节新增综合 claim')}{' '}
+                  {claimCoverage.chapter_native_claim_count}
+                </span>{' '}
+              </>
+            ) : null}
+            <span className="badge">
+              {localizedText(lang, 'Excluded from mainline', '主线外留存')} {claimCoverage.excluded_claim_count}
+            </span>
+          </p>
+          <details>
+            <summary>{localizedText(lang, 'Open excluded claim IDs', '展开主线外 claim ID')}</summary>
+            <p className="muted" style={{ marginTop: '0.4rem' }}>
+              {localizedText(
+                lang,
+                'Excluded claims are still available in report pages and content_map for deep audit.',
+                '主线外 claim 仍保留在报告页与 content_map，便于深度核验。',
+              )}
+            </p>
+            <div className="table-wrap">
+              <table className="theory-table">
+                <thead>
+                  <tr>
+                    <th>{localizedText(lang, 'Claim ID', 'Claim ID')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {claimCoverage.excluded_claim_ids.map((claimId) => (
+                    <tr key={`excluded-${claimId}`}>
+                      <td>
+                        <code>{claimId}</code>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+      ) : null}
+
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Table of Contents', '目录')}</h2>
         <div className="book-toc-grid">
@@ -245,7 +320,7 @@ export function renderBookPage(lang: Lang, prefix: string) {
             <article key={term.term_id} className="card">
               <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
               <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
-              {term.formula ? renderGlossaryFormula(term.formula) : null}
+              {term.formula ? renderGlossaryFormula(term.formula, lang) : null}
             </article>
           ))}
         </div>
@@ -362,11 +437,7 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
                     __html: rendered.html,
                   }}
                 />
-                {rendered.error ? (
-                  <p className="muted" style={{ marginBottom: 0 }}>
-                    {localizedText(lang, 'Formula fallback rendered as plain text.', '公式已回退为纯文本渲染。')}
-                  </p>
-                ) : null}
+                {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
               </article>
             );
           })}
@@ -558,6 +629,7 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
                       </p>
                       <p>{lang === 'cn' ? item.description_cn : item.description_en}</p>
                       <div className="math-block" dangerouslySetInnerHTML={{ __html: rendered.html }} />
+                      {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
                     </article>
                   );
                 })}

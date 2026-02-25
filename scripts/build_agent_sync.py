@@ -103,6 +103,7 @@ def main() -> int:
     content_map_path = ensure_required(data_root / "content_map.json")
     book_manifest_path = ensure_required(data_root / "book" / "book_manifest.json")
     book_backbone_path = ensure_required(data_root / "book" / "backbone.json")
+    book_claim_coverage_path = ensure_required(data_root / "book" / "book_claim_coverage.json")
     translation_qc_path = ensure_required(data_root / "agent" / "translation_qc.json")
 
     index_payload = read_json(index_path)
@@ -110,6 +111,7 @@ def main() -> int:
     content_map = read_json(content_map_path)
     book_manifest = read_json(book_manifest_path)
     book_backbone = read_json(book_backbone_path)
+    book_claim_coverage = read_json(book_claim_coverage_path)
     translation_qc = read_json(translation_qc_path)
 
     reports = list(index_payload.get("reports", []))
@@ -189,6 +191,7 @@ def main() -> int:
             "book_manifest": "/data/v1/agent/book_manifest.json",
             "book_chapters_jsonl": "/data/v1/agent/book_chapters.jsonl",
             "claim_graph_jsonl": "/data/v1/agent/claim_graph.jsonl",
+            "book_claim_coverage": "/data/v1/book/book_claim_coverage.json",
             "translation_qc": "/data/v1/agent/translation_qc.json",
             "theory_map": "/data/v1/theory_map.json",
             "guide_json": "/data/v1/agent/guide.json",
@@ -201,6 +204,7 @@ def main() -> int:
             "book_manifest_sha256": sha256_file(book_manifest_agent_path),
             "book_chapters_jsonl_sha256": sha256_bytes(book_chapters_jsonl.encode("utf-8")),
             "claim_graph_jsonl_sha256": sha256_bytes(claim_graph_jsonl.encode("utf-8")),
+            "book_claim_coverage_sha256": sha256_file(book_claim_coverage_path),
             "translation_qc_sha256": sha256_file(translation_qc_path),
             "report_network_sha256": sha256_file(report_network_path),
             "content_map_sha256": sha256_file(content_map_path),
@@ -240,6 +244,19 @@ def main() -> int:
             "chapter_identity": ["chapter_id", "order", "title_en", "title_cn", "report_ids"],
             "claim_graph": ["claim_id", "report_id", "stage", "evidence_paths", "linked_report_ids"],
             "book_backbone": ["acts", "chapter_spine", "quality_checks"],
+            "book_claim_coverage": [
+                "global_claim_count",
+                "chapter_claim_count",
+                "chapter_native_claim_count",
+                "excluded_claim_count",
+                "excluded_claim_ids",
+            ],
+        },
+        "book_claim_coverage": {
+            "global_claim_count": int(book_claim_coverage.get("global_claim_count", 0)),
+            "chapter_claim_count": int(book_claim_coverage.get("chapter_claim_count", 0)),
+            "chapter_native_claim_count": int(book_claim_coverage.get("chapter_native_claim_count", 0)),
+            "excluded_claim_count": int(book_claim_coverage.get("excluded_claim_count", 0)),
         },
     }
     write_json(agent_dir / "guide.json", guide_payload)

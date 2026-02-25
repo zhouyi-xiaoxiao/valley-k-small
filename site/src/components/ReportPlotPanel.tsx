@@ -39,6 +39,35 @@ function uniqueStrings(values: string[]): string[] {
   return out;
 }
 
+function inferSeriesType(name: string, values: number[]): SeriesType {
+  const label = name.toLowerCase();
+  if (values.length === 0) {
+    if (/(phase|state|flag|binary|mask)/.test(label)) {
+      return 'binary';
+    }
+    if (/(beta|alpha|lambda|k=|n=|param|parameter)/.test(label)) {
+      return 'parameter';
+    }
+    return 'unknown';
+  }
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const binaryLike = values.every((value) => value === 0 || value === 1);
+  if (binaryLike || /(phase|state|flag|binary|mask|winner)/.test(label)) {
+    return 'binary';
+  }
+  if (/(beta|alpha|lambda|theta|param|parameter|scan)/.test(label)) {
+    return 'parameter';
+  }
+  if (min >= 0 && max <= 1.000001) {
+    return 'probability';
+  }
+  if (Number.isFinite(min) && Number.isFinite(max)) {
+    return 'metric';
+  }
+  return 'unknown';
+}
+
 export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [selectedId, setSelectedId] = useState<string>(datasets[0]?.series_id ?? '');
   const [payload, setPayload] = useState<SeriesPayload | null>(null);
@@ -121,10 +150,12 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       const min = finite.length > 0 ? Math.min(...finite) : 0;
       const max = finite.length > 0 ? Math.max(...finite) : 0;
       const positiveRatio = finite.length > 0 ? finite.filter((v) => v > 0).length / finite.length : 0;
+      const inferredType = inferSeriesType(series.name, finite);
+      const inferredUnit = inferredType === 'probability' ? 'probability' : inferredType === 'binary' ? 'state' : 'value';
       out.set(series.name, {
         name: series.name,
-        series_type: 'unknown',
-        unit: 'unknown',
+        series_type: inferredType,
+        unit: inferredUnit,
         min,
         max,
         positive_ratio: positiveRatio,
@@ -341,7 +372,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       >
         {datasets.map((item) => (
           <option key={item.series_id} value={item.series_id}>
-            {item.title}
+            {item.title} — {item.series_id}
           </option>
         ))}
       </select>

@@ -32,6 +32,8 @@ LATEX_SYMBOL_REPLACEMENTS = {
     r"\dots": "...",
     r"\cdots": "...",
     r"\to": "->",
+    r"\rightarrow": "->",
+    r"\leftarrow": "<-",
     r"\mapsto": "=>",
     r"\times": "×",
     r"\cdot": "·",
@@ -744,7 +746,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "summary": (
                 "This cross-report study benchmarks full-FPT solvers under fixed-horizon fairness, comparing sparse exact recursion "
                 "against Luca defect-reduced routes while keeping linear-system MFPT only as reference. The core output is a reproducible "
-                "speed-ratio map R=t_luca/t_sparse and a regime classification that distinguishes where acceleration is real versus negligible."
+                "speed-ratio map R=t_sparse/t_luca and a regime classification that distinguishes where acceleration is real versus negligible."
             ),
             "narrative": {
                 "model_overview": (
@@ -761,7 +763,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
             },
             "key_findings": [
-                "The ratio metric R=t_luca/t_sparse is computed under fixed full-FPT fairness, with MFPT linear systems separated as reference only.",
+                "The ratio metric R=t_sparse/t_luca is computed under fixed full-FPT fairness, with MFPT linear systems separated as reference only.",
                 "Pooled timing medians indicate sparse exact dominates most scanned regimes in full-FPT mode.",
                 "Luca acceleration is regime-dependent and concentrated in specific defect-pair configurations.",
                 "Cross-report transfer claims are accepted only when both model families satisfy the same fairness and observability constraints.",
@@ -771,7 +773,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "title": "跨模型 Luca 相区图",
             "summary": (
                 "该跨报告研究在固定时域公平口径下比较 full-FPT 求解器：以 sparse 精确递推为基线，"
-                "对照 Luca 缺陷约化路径，并把线性系统 MFPT 仅作为参考。核心产出是可复现的速度比 R=t_luca/t_sparse 及其相区分类。"
+                "对照 Luca 缺陷约化路径，并把线性系统 MFPT 仅作为参考。核心产出是可复现的速度比 R=t_sparse/t_luca 及其相区分类。"
             ),
             "narrative": {
                 "model_overview": (
@@ -785,7 +787,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
             },
             "key_findings": [
-                "速度比 R=t_luca/t_sparse 在固定 full-FPT 公平口径下计算，MFPT 线性系统仅作对照参考。",
+                "速度比 R=t_sparse/t_luca 在固定 full-FPT 公平口径下计算，MFPT 线性系统仅作对照参考。",
                 "汇总中位计时显示 sparse 精确解在多数扫描区间保持主导。",
                 "Luca 的加速收益具有相区依赖性，集中在特定缺陷配对构型。",
                 "跨模型迁移结论仅在两侧公平口径与观测约束一致时成立。",
@@ -1127,10 +1129,19 @@ def summary_quality_cleanup(text: str) -> str:
     value = repair_common_math_noise(str(text or ""))
     if not value:
         return ""
+    value = value.replace("rightarrow", "to")
+    value = value.replace("leftarrow", "from")
+    value = re.sub(r"\b([A-Za-z])\s*=\s*([0-9]+)\s*rightarrow\s*([0-9]+)\b", r"\1 from \2 to \3", value)
+    value = re.sub(r"\b([A-Za-z])\s*=\s*([0-9]+)\s*->\s*([0-9]+)\b", r"\1 from \2 to \3", value)
+    value = re.sub(r"\b([A-Za-z]+20\d{2}[a-z]?)\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b(?:Reproduce with|复现命令)\s*:\s*\d+\s+[A-Za-z0-9_]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bdefine\s*=\s*[0-9.]+\s*,\s*[0-9.]+\s*\([^)]*\)", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"--\s*\)\s*", " ", value)
     value = re.sub(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b[a-z]\s*=\s*t\d+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b[a-z]\s*=\s*[a-z]\s*[0-9]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bto(\d+)\b", r"to \1", value, flags=re.IGNORECASE)
     value = re.sub(r"\b[txyzkn]\s*_[a-z0-9]{0,2}\s*[,;:]\s*$", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b(?:Fig|Figs)\.?\s*$", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\(\s*(?:Fig|Figs)\.?\s*\)$", " ", value, flags=re.IGNORECASE)
@@ -1205,6 +1216,18 @@ def has_malformed_readability_tokens(text: str) -> bool:
         r"\bthe defect[-\s]*free eigenvalues are the lazy parameter q enters the eigenvalue spectrum directly\.?$",
         r"\bEq\.\s*$",
         r"\bi\.e\.\s*$",
+        r"\b[a-z]\s*=\s*\d+\s*(?:rightarrow|->)\s*\d+\b",
+        r"\b[a-z]+\d{4}[a-z]?\b",
+        r"--\s*\)",
+        r"\bdefine\s*=\s*[0-9.]+\s*,\s*[0-9.]+\s*\([^)]*\)",
+        r"\bReproduce with:\s*\d+\s+[A-Za-z0-9_]+\b",
+        r"\bf\s*\(t\)\s*=\s*p\s*f\s*\+\s*p\s*f\b",
+        r"\bt\s*fast\s*t\s*slow\b",
+        r"\bx\s*=\s*\d+\s*to\d+\b",
+        r"^[a-z0-9_./-]+\.tex$",
+        r"^[a-z0-9_./-]+\.pdf$",
+        r"\b[a-z0-9_./-]+\.tex\b",
+        r"\b[a-z0-9_./-]+\.pdf\b",
     ]
     return any(re.search(pattern, value, flags=re.IGNORECASE) for pattern in patterns)
 
@@ -1485,6 +1508,8 @@ def is_generic_en_role_text(text: str, report_id: str, role: str) -> bool:
         return lowered.startswith("this section summarizes derivation, inversion, simulation")
     if role == "model":
         return lowered.startswith("this section defines the model state space")
+    if role == "section":
+        return lowered.startswith("this section ") and ("evidence" in lowered or "verification" in lowered)
     return False
 
 
@@ -1601,7 +1626,11 @@ def is_placeholder_section_summary(heading: str, summary: str) -> bool:
         return True
     if "consolidates key evidence and verification notes" in lowered:
         return True
+    if "this section consolidates evidence and verification notes" in lowered:
+        return True
     if "supplementary evidence and verification paths" in lowered:
+        return True
+    if "this section extends mechanism interpretation with parameter contrasts and traceable evidence entry points" in lowered:
         return True
     if "关键证据与核验说明" in lowered:
         return True
@@ -1612,6 +1641,63 @@ def is_placeholder_section_summary(heading: str, summary: str) -> bool:
     if len(normalized) < 18:
         return True
     return False
+
+
+def section_fallback_summary(heading: str, report_id: str, lang: str) -> str:
+    heading_clean = normalize_space(heading) or ("Section" if lang == "en" else "章节")
+    report_label = humanize_report_id(report_id)
+    lowered = heading_clean.lower()
+    if lang == "cn":
+        if any(token in lowered for token in ("figure", "图")):
+            return f"{heading_clean}：本节解释关键图件所对应的机制差异与可核验指标。"
+        if any(token in lowered for token in ("table", "表")):
+            return f"{heading_clean}：本节汇总参数区间、判据结果与跨案例对照结论。"
+        if any(token in lowered for token in ("recommend", "建议", "practical")):
+            return f"{heading_clean}：本节给出可执行建议及其证据边界条件。"
+        return f"{heading_clean}：本节梳理 {report_label} 的关键假设、可测输出与证据入口。"
+    if any(token in lowered for token in ("figure", "plot", "visual")):
+        return f"{heading_clean}: this section interprets the key figures and links shape changes to mechanism-level diagnostics."
+    if any(token in lowered for token in ("table", "matrix")):
+        return f"{heading_clean}: this section summarizes parameter regimes, decision criteria, and side-by-side outcome checks."
+    if any(token in lowered for token in ("recommend", "practical", "guideline")):
+        return f"{heading_clean}: this section states actionable recommendations with explicit evidence limits."
+    return f"{heading_clean}: this section maps {report_label} assumptions, measurable outputs, and auditable evidence entry points."
+
+
+def dedupe_section_cards_by_heading(cards: list[dict[str, str]], *, lang: str) -> list[dict[str, str]]:
+    best_by_heading: dict[str, dict[str, str]] = {}
+    for row in cards:
+        heading = normalize_space(str(row.get("heading", "")))
+        summary = normalize_space(str(row.get("summary", "")))
+        source_path = normalize_space(str(row.get("source_path", "")))
+        if not heading or not summary:
+            continue
+        if is_placeholder_section_summary(heading, summary) or has_malformed_readability_tokens(summary):
+            continue
+        heading_key = normalize_finding_key(heading) or heading.lower()
+        current = best_by_heading.get(heading_key)
+        if not current:
+            best_by_heading[heading_key] = {"heading": heading, "summary": summary, "source_path": source_path}
+            continue
+        current_penalty = summary_penalty(str(current.get("summary", "")))
+        candidate_penalty = summary_penalty(summary)
+        if candidate_penalty < current_penalty:
+            best_by_heading[heading_key] = {"heading": heading, "summary": summary, "source_path": source_path}
+            continue
+        if candidate_penalty == current_penalty and len(summary) > len(str(current.get("summary", ""))):
+            best_by_heading[heading_key] = {"heading": heading, "summary": summary, "source_path": source_path}
+    rows = list(best_by_heading.values())
+    rows.sort(key=lambda item: normalize_finding_key(item.get("heading", "")))
+    if not rows and cards:
+        seed = cards[0]
+        rows = [
+            {
+                "heading": normalize_space(str(seed.get("heading", ""))) or ("Section" if lang == "en" else "章节"),
+                "summary": normalize_space(str(seed.get("summary", ""))),
+                "source_path": normalize_space(str(seed.get("source_path", ""))),
+            }
+        ]
+    return rows[:10]
 
 
 def parse_tex_title(tex_text: str) -> str:
@@ -1753,9 +1839,30 @@ def ensure_repro_commands(commands: list[str], report_id: str) -> list[str]:
             continue
     executable = dedupe_preserve(executable, max_items=10)
     if executable:
-        return executable
+        has_report_specific = any(
+            report_id in cmd
+            or f"--report {report_id}" in cmd
+            or f"reports/{report_id}" in cmd
+            or "reportctl.py build --report" in cmd
+            for cmd in executable
+        )
+        if not has_report_specific:
+            executable.insert(0, f"python3 scripts/reportctl.py build --report {report_id} --lang en")
+        has_validation = any(
+            "translation-qc" in cmd
+            or "validate_web_data.py" in cmd
+            or "validate_bilingual_quality.py" in cmd
+            for cmd in executable
+        )
+        if not has_validation:
+            executable.append("python3 scripts/reportctl.py translation-qc")
+        has_web_build = any("web-build" in cmd for cmd in executable)
+        if not has_web_build:
+            executable.append("python3 scripts/reportctl.py web-build --mode changed --skip-npm-ci")
+        return dedupe_preserve(executable, max_items=10)
     return [
         f"python3 scripts/reportctl.py build --report {report_id} --lang en",
+        "python3 scripts/reportctl.py translation-qc",
         "python3 scripts/reportctl.py web-build --mode changed --skip-npm-ci",
     ]
 
@@ -2004,15 +2111,15 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
     for section in sections[:10]:
         heading = str(section["title"])
         summary = normalize_space(str(section.get("summary", "")))
-        if is_placeholder_section_summary(heading, summary):
+        if is_placeholder_section_summary(heading, summary) or has_malformed_readability_tokens(summary):
             body_candidate = readable_summary(latex_to_plain(str(section.get("body", ""))), max_chars=280, max_sentences=2)
             summary = normalize_space(body_candidate)
-        if is_placeholder_section_summary(heading, summary):
+        if is_placeholder_section_summary(heading, summary) or has_malformed_readability_tokens(summary):
             summary = readable_summary(summary_fallback, max_chars=280, max_sentences=2)
         summary = readable_summary(strip_mathish_fragments(summary_quality_cleanup(summary)), max_chars=320, max_sentences=2) or summary
         summary = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(summary)), max_chars=320)
         summary_key = normalize_finding_key(summary)
-        if not summary or summary_penalty(summary) > 14:
+        if not summary or summary_penalty(summary) > 14 or has_malformed_readability_tokens(summary):
             summary = readable_summary(
                 strip_mathish_fragments(summary_quality_cleanup(latex_to_plain(str(section.get("body", ""))))),
                 max_chars=320,
@@ -2020,11 +2127,8 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
             ) or summary
             summary = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(summary)), max_chars=320)
             summary_key = normalize_finding_key(summary)
-        if not summary or summary_penalty(summary) > 14:
-            if lang == "cn":
-                summary = f"{heading}：本节给出 {humanize_report_id(report_id)} 的核心设定、可测指标与可复现实验线索。"
-            else:
-                summary = f"{heading}: this section states core assumptions, measurable outputs, and reproducible checks for {humanize_report_id(report_id)}."
+        if not summary or summary_penalty(summary) > 14 or has_malformed_readability_tokens(summary):
+            summary = section_fallback_summary(heading, report_id, lang)
             summary_key = normalize_finding_key(summary)
         if summary_key and summary_key in seen_section_summary_keys:
             body_alternative = readable_summary(
@@ -2041,10 +2145,7 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
                 summary = candidate
                 summary_key = candidate_key
             else:
-                if lang == "cn":
-                    summary = f"{heading}：该部分补充机制解释、参数对比与可追溯证据入口。"
-                else:
-                    summary = f"{heading}: this section extends mechanism interpretation with parameter contrasts and traceable evidence entry points."
+                summary = section_fallback_summary(heading, report_id, lang)
                 summary_key = normalize_finding_key(summary)
         if summary_key:
             seen_section_summary_keys.add(summary_key)
@@ -2501,6 +2602,8 @@ def infer_series_type(name: str, values: list[float]) -> str:
 
     if re.search(r"(runtime|elapsed|latency|duration|seconds|sec$|_sec|ms$|millisecond)", lowered):
         return "metric"
+    if re.search(r"(beta|alpha|lambda|theta|param|parameter|step|time|index|dst|start|target|door|seed)", lowered):
+        return "parameter"
     if dist_type in {"binary", "probability"}:
         return dist_type
     if re.search(r"(flag|indicator|bool|pass|fail|is_)", lowered):
@@ -2518,8 +2621,6 @@ def infer_series_type(name: str, values: list[float]) -> str:
                 return "metric"
         return "parameter"
 
-    if re.search(r"(beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)", lowered):
-        return "parameter"
     if dist_type is not None:
         return dist_type
     return "metric"
@@ -2590,6 +2691,7 @@ def ensure_locale_field_parity(
     max_items: int | None = None,
     min_ratio: float = 0.9,
     allow_cross_copy: bool = True,
+    allow_padding: bool = True,
 ) -> tuple[list[Any], list[Any]]:
     a = dedupe_sequence(list(left), max_items=max_items)
     b = dedupe_sequence(list(right), max_items=max_items)
@@ -2599,14 +2701,21 @@ def ensure_locale_field_parity(
         b = list(a)
     if a and b:
         ratio = min(len(a), len(b)) / max(1, max(len(a), len(b)))
-        if ratio < min_ratio:
-            target = max(len(a), len(b))
+        if allow_padding:
+            if ratio < min_ratio:
+                target = max(len(a), len(b))
+                if max_items is not None:
+                    target = min(target, max_items)
+                if len(a) < target and a:
+                    a = (a + [a[i % len(a)] for i in range(target - len(a))])[:target]
+                if len(b) < target and b:
+                    b = (b + [b[i % len(b)] for i in range(target - len(b))])[:target]
+        elif ratio < 1.0:
+            target = min(len(a), len(b))
             if max_items is not None:
                 target = min(target, max_items)
-            if len(a) < target and a:
-                a = (a + [a[i % len(a)] for i in range(target - len(a))])[:target]
-            if len(b) < target and b:
-                b = (b + [b[i % len(b)] for i in range(target - len(b))])[:target]
+            a = a[:target]
+            b = b[:target]
     return a, b
 
 
@@ -2631,6 +2740,7 @@ def align_locale_payloads(base_meta: dict[str, Any], cn_meta: dict[str, Any]) ->
             max_items=limit,
             min_ratio=min_ratio,
             allow_cross_copy=field in cross_copy_fields,
+            allow_padding=field not in {"section_cards"},
         )
         base_meta[field] = aligned_left
         cn_meta[field] = aligned_right
@@ -2671,11 +2781,13 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         return None
 
     numeric_fields: list[str] = []
+    unique_counts: dict[str, int] = {}
     for field in reader.fieldnames:
         if not field:
             continue
         values = [row.get(field, "") for row in rows]
         numeric = 0
+        observed: list[float] = []
         for v in values:
             if not v:
                 continue
@@ -2683,10 +2795,12 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
                 num = float(v)
                 if math.isfinite(num):
                     numeric += 1
+                    observed.append(num)
             except ValueError:
                 pass
         if numeric >= max(3, int(len(values) * 0.65)):
             numeric_fields.append(field)
+            unique_counts[field] = len({round(x, 10) for x in observed})
 
     if len(numeric_fields) < 1:
         return None
@@ -2696,7 +2810,23 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         for name in numeric_fields
         if re.search(r"(^t$|time|step|x|index|n$)", name, re.IGNORECASE)
     ]
-    x_field = preferred_x[0] if preferred_x else numeric_fields[0]
+    preferred_param_x = [
+        name
+        for name in numeric_fields
+        if unique_counts.get(name, 0) > 1 and re.search(r"(beta|alpha|lambda|theta|rho|^q$|^p$)", name, re.IGNORECASE)
+    ]
+    varying_preferred_x = [name for name in preferred_x if unique_counts.get(name, 0) > 1]
+    varying_numeric = [name for name in numeric_fields if unique_counts.get(name, 0) > 1]
+    if preferred_param_x:
+        x_field = preferred_param_x[0]
+    elif varying_preferred_x:
+        x_field = varying_preferred_x[0]
+    elif preferred_x:
+        x_field = preferred_x[0]
+    elif varying_numeric:
+        x_field = varying_numeric[0]
+    else:
+        x_field = numeric_fields[0]
     y_fields = [name for name in numeric_fields if name != x_field][:3]
     if not y_fields:
         y_fields = [x_field]
@@ -2753,6 +2883,56 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     }
 
 
+def to_finite_float(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return float(int(value))
+    if isinstance(value, (int, float)):
+        cast = float(value)
+        if math.isfinite(cast):
+            return cast
+    return None
+
+
+def flatten_numeric_object(value: Any, *, prefix: str = "", depth: int = 0, max_depth: int = 3) -> dict[str, float]:
+    out: dict[str, float] = {}
+    if depth > max_depth:
+        return out
+    if isinstance(value, dict):
+        for raw_key, raw_val in value.items():
+            key = re.sub(r"[^a-zA-Z0-9_]+", "_", str(raw_key)).strip("_").lower()
+            if not key:
+                continue
+            merged = key if not prefix else f"{prefix}_{key}"
+            maybe = to_finite_float(raw_val)
+            if maybe is not None:
+                out[merged] = maybe
+                continue
+            if isinstance(raw_val, dict):
+                out.update(flatten_numeric_object(raw_val, prefix=merged, depth=depth + 1, max_depth=max_depth))
+    return out
+
+
+def flatten_record_rows(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    flat_rows: list[dict[str, Any]] = []
+    for row in records:
+        if not isinstance(row, dict):
+            continue
+        flat: dict[str, Any] = {}
+        for raw_key, raw_val in row.items():
+            key = re.sub(r"[^a-zA-Z0-9_]+", "_", str(raw_key)).strip("_").lower()
+            if not key:
+                continue
+            maybe = to_finite_float(raw_val)
+            if maybe is not None:
+                flat[key] = maybe
+                continue
+            if isinstance(raw_val, dict):
+                flat.update(flatten_numeric_object(raw_val, prefix=key))
+        if flat:
+            flat_rows.append(flat)
+    return flat_rows
+
+
 def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     try:
         payload = json.loads(path.read_text(encoding="utf-8", errors="ignore"))
@@ -2763,11 +2943,26 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     if isinstance(payload, list) and payload and isinstance(payload[0], dict):
         records = [item for item in payload[:max_points] if isinstance(item, dict)]
     elif isinstance(payload, dict):
-        for key in ("rows", "data", "results"):
+        for key in ("rows", "data", "results", "details", "variants", "records", "cases"):
             maybe = payload.get(key)
             if isinstance(maybe, list) and maybe and isinstance(maybe[0], dict):
                 records = [item for item in maybe[:max_points] if isinstance(item, dict)]
                 break
+            if isinstance(maybe, dict):
+                nested_rows: list[dict[str, Any]] = []
+                for group_key, group_value in maybe.items():
+                    if isinstance(group_value, list) and group_value and isinstance(group_value[0], dict):
+                        for item in group_value[:max_points]:
+                            row = dict(item)
+                            row["_group"] = group_key
+                            nested_rows.append(row)
+                    elif isinstance(group_value, dict):
+                        row = dict(group_value)
+                        row["_group"] = group_key
+                        nested_rows.append(row)
+                if nested_rows:
+                    records = nested_rows[:max_points]
+                    break
         if records is None:
             vector_keys = [k for k, v in payload.items() if isinstance(v, list)]
             if vector_keys:
@@ -2781,13 +2976,21 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     if not records:
         return None
 
+    records = flatten_record_rows(records)
+    if not records:
+        return None
+
     numeric_fields: list[str] = []
+    unique_counts: dict[str, int] = {}
     all_keys = sorted({k for row in records for k in row.keys()})
     for key in all_keys:
         values = [row.get(key) for row in records]
-        numeric = sum(1 for v in values if isinstance(v, (int, float)) and math.isfinite(float(v)))
+        observed = [to_finite_float(v) for v in values]
+        numeric_values = [v for v in observed if v is not None]
+        numeric = len(numeric_values)
         if numeric >= max(3, int(len(values) * 0.65)):
             numeric_fields.append(key)
+            unique_counts[key] = len({round(float(v), 10) for v in numeric_values})
 
     if not numeric_fields:
         return None
@@ -2797,7 +3000,23 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         for name in numeric_fields
         if re.search(r"(^t$|time|step|x|index|n$)", name, re.IGNORECASE)
     ]
-    x_field = preferred_x[0] if preferred_x else numeric_fields[0]
+    preferred_param_x = [
+        name
+        for name in numeric_fields
+        if unique_counts.get(name, 0) > 1 and re.search(r"(beta|alpha|lambda|theta|rho|^q$|^p$)", name, re.IGNORECASE)
+    ]
+    varying_preferred_x = [name for name in preferred_x if unique_counts.get(name, 0) > 1]
+    varying_numeric = [name for name in numeric_fields if unique_counts.get(name, 0) > 1]
+    if preferred_param_x:
+        x_field = preferred_param_x[0]
+    elif varying_preferred_x:
+        x_field = varying_preferred_x[0]
+    elif preferred_x:
+        x_field = preferred_x[0]
+    elif varying_numeric:
+        x_field = varying_numeric[0]
+    else:
+        x_field = numeric_fields[0]
     y_fields = [name for name in numeric_fields if name != x_field][:3]
     if not y_fields:
         y_fields = [x_field]
@@ -2806,19 +3025,14 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     series_map: dict[str, list[float]] = {name: [] for name in y_fields}
     for idx, row in enumerate(records):
         raw_x = row.get(x_field, idx)
-        if isinstance(raw_x, (int, float)):
-            x_val = float(raw_x) if math.isfinite(float(raw_x)) else float(idx)
-        else:
-            x_val = float(idx)
+        maybe_x = to_finite_float(raw_x)
+        x_val = maybe_x if maybe_x is not None else float(idx)
         x_values.append(x_val)
 
         for y_name in y_fields:
             raw_y = row.get(y_name, 0.0)
-            if isinstance(raw_y, (int, float)):
-                y_val = float(raw_y)
-                series_map[y_name].append(y_val if math.isfinite(y_val) else 0.0)
-            else:
-                series_map[y_name].append(0.0)
+            maybe_y = to_finite_float(raw_y)
+            series_map[y_name].append(maybe_y if maybe_y is not None else 0.0)
 
     semantics: list[dict[str, Any]] = []
     default_series: list[str] = []
@@ -2847,6 +3061,136 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         "default_series": default_series,
         "provenance": {"type": "json", "source": rel_repo_path(path)},
     }
+
+
+def normalize_tex_cell(cell: str) -> str:
+    value = normalize_space(strip_tex_comments(cell))
+    if not value:
+        return ""
+    value = value.replace("$", " ")
+    value = value.replace("\\ldots", " ")
+    value = re.sub(r"\\(?:textbf|mathrm|mathit|operatorname)\{([^{}]*)\}", r"\1", value)
+    value = re.sub(r"\\[a-zA-Z]+\*?", " ", value)
+    value = value.replace("{", " ").replace("}", " ")
+    value = normalize_space(value)
+    return value
+
+
+def parse_numeric_from_tex_cell(cell: str) -> float | None:
+    normalized = normalize_tex_cell(cell).replace("−", "-")
+    if not normalized:
+        return None
+    match = re.search(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?", normalized)
+    if not match:
+        return None
+    try:
+        value = float(match.group(0))
+    except ValueError:
+        return None
+    if not math.isfinite(value):
+        return None
+    return value
+
+
+def parse_tex_tabular_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
+    raw = path.read_text(encoding="utf-8", errors="ignore")
+    blocks = re.findall(r"\\begin\{tabular\}\{[^{}]*\}(.*?)\\end\{tabular\}", raw, flags=re.DOTALL)
+    if not blocks:
+        return None
+
+    best: tuple[int, dict[str, Any]] | None = None
+    for block in blocks:
+        rows: list[list[str]] = []
+        for segment in re.split(r"\\\\", block):
+            line = normalize_space(segment.replace("\\hline", " ").replace("\\toprule", " ").replace("\\midrule", " ").replace("\\bottomrule", " "))
+            if not line or line.startswith("%"):
+                continue
+            cells = [c.strip() for c in line.split("&")]
+            if len(cells) < 2:
+                continue
+            rows.append(cells)
+        if len(rows) < 4:
+            continue
+
+        header_row: list[str] | None = None
+        body_rows = rows
+        first_numeric_count = sum(1 for cell in rows[0] if parse_numeric_from_tex_cell(cell) is not None)
+        if first_numeric_count <= 1:
+            header_row = rows[0]
+            body_rows = rows[1:]
+        if len(body_rows) < 3:
+            continue
+
+        width = min(len(row) for row in body_rows)
+        numeric_matrix: list[list[float | None]] = []
+        for row in body_rows[:max_points]:
+            numeric_matrix.append([parse_numeric_from_tex_cell(cell) for cell in row[:width]])
+        if len(numeric_matrix) < 3:
+            continue
+
+        numeric_columns = [
+            idx
+            for idx in range(width)
+            if sum(1 for row in numeric_matrix if row[idx] is not None) >= max(3, int(len(numeric_matrix) * 0.6))
+        ]
+        if len(numeric_columns) < 2:
+            continue
+
+        x_col = numeric_columns[0]
+        y_cols = numeric_columns[1:4]
+        if not y_cols:
+            continue
+
+        headers: list[str] = []
+        if header_row and len(header_row) >= width:
+            headers = [normalize_tex_cell(cell) or f"col_{idx + 1}" for idx, cell in enumerate(header_row[:width])]
+        else:
+            headers = [f"col_{idx + 1}" for idx in range(width)]
+
+        x_values: list[float] = []
+        series_values: dict[int, list[float]] = {idx: [] for idx in y_cols}
+        for row_idx, row in enumerate(numeric_matrix):
+            x_val = row[x_col] if row[x_col] is not None else float(row_idx)
+            x_values.append(float(x_val))
+            for col_idx in y_cols:
+                y_val = row[col_idx] if row[col_idx] is not None else 0.0
+                series_values[col_idx].append(float(y_val))
+
+        series: list[dict[str, Any]] = []
+        semantics: list[dict[str, Any]] = []
+        default_series: list[str] = []
+        for col_idx in y_cols:
+            name = headers[col_idx]
+            values = series_values[col_idx]
+            semantic = build_series_semantics(name, values)
+            semantics.append(semantic)
+            if semantic["series_type"] in {"metric", "probability", "binary"}:
+                default_series.append(name)
+            series.append(
+                {
+                    "name": name,
+                    "x": x_values,
+                    "y": values,
+                    "series_type": semantic["series_type"],
+                    "unit": semantic["unit"],
+                }
+            )
+        if not default_series and series:
+            default_series = [series[0]["name"]]
+
+        payload = {
+            "x_label": headers[x_col],
+            "y_label": ", ".join(headers[idx] for idx in y_cols),
+            "series": series,
+            "series_semantics": semantics,
+            "default_series": default_series,
+            "provenance": {"type": "tex_tabular", "source": rel_repo_path(path)},
+        }
+        quality = len(series) * len(x_values)
+        if best is None or quality > best[0]:
+            best = (quality, payload)
+
+    return best[1] if best else None
 
 
 def fallback_asset_dataset(report_id: str, assets: list[dict[str, Any]]) -> dict[str, Any]:
@@ -2926,11 +3270,11 @@ def split_dataset_by_semantics(parsed: dict[str, Any]) -> list[dict[str, Any]]:
         defaults = [name for name in default_series if name in names]
         if not defaults:
             defaults = names[:1]
-        y_label_base = str(parsed.get("y_label", "value"))
+        y_label_base = ", ".join(names) if names else str(parsed.get("y_label", "value"))
         pretty_type = series_type.replace("-", " ")
         provenance = dict(parsed.get("provenance", {}))
         provenance["semantic_split"] = series_type
-        provenance["semantic_mix"] = mixed_types
+        provenance["semantic_mix"] = [series_type]
         variants.append(
             {
                 **parsed,
@@ -2945,6 +3289,58 @@ def split_dataset_by_semantics(parsed: dict[str, Any]) -> list[dict[str, Any]]:
         )
 
     return variants
+
+
+def interactive_dataset_priority(dataset: dict[str, Any]) -> int:
+    series_id = normalize_space(str(dataset.get("series_id", ""))).lower()
+    title = normalize_space(str(dataset.get("title", ""))).lower()
+    x_label = normalize_space(str(dataset.get("x_label", ""))).lower()
+    y_label = normalize_space(str(dataset.get("y_label", ""))).lower()
+    source = normalize_space(str(dataset.get("provenance", {}).get("source", ""))).lower()
+    haystack = " ".join([series_id, title, x_label, y_label, source])
+    score = 0
+
+    if series_id == "asset-size-profile":
+        score -= 160
+    if "manifest" in haystack:
+        score -= 50
+    if "/data/" in source:
+        score += 14
+    if "/config/" in source:
+        score -= 10
+    if "asset rank" in x_label or "size (bytes)" in y_label:
+        score -= 24
+
+    for token in (
+        "runtime",
+        "hazard",
+        "survival",
+        "fpt",
+        "peak",
+        "valley",
+        "phase",
+        "bimodal",
+        "gap",
+        "scan",
+        "beta",
+        "two_target",
+    ):
+        if token in haystack:
+            score += 4
+
+    semantics = list(dataset.get("series_semantics", []))
+    types = {str(item.get("series_type", "")).strip().lower() for item in semantics if str(item.get("series_type", "")).strip()}
+    if "metric" in types:
+        score += 10
+    if "probability" in types:
+        score += 12
+    if "binary" in types:
+        score += 7
+    if types and types.issubset({"parameter"}):
+        score -= 14
+    if dataset.get("default_series"):
+        score += 2
+    return score
 
 
 def build_datasets(
@@ -2968,6 +3364,7 @@ def build_datasets(
 
     datasets_meta: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
+    seen_titles: set[str] = set()
 
     series_dir = out_report_dir / "series"
     series_dir.mkdir(parents=True, exist_ok=True)
@@ -2978,8 +3375,6 @@ def build_datasets(
             pass
 
     for candidate in data_candidates:
-        if len(datasets_meta) >= max_datasets:
-            break
         parsed: dict[str, Any] | None = None
         if candidate.suffix.lower() == ".csv":
             parsed = parse_csv_dataset(candidate, max_points)
@@ -2993,8 +3388,6 @@ def build_datasets(
         stem = re.sub(r"[^a-zA-Z0-9_-]+", "-", candidate.stem.lower()).strip("-")
         stem = stem or f"dataset-{len(datasets_meta) + 1}"
         for variant_index, variant in enumerate(variants):
-            if len(datasets_meta) >= max_datasets:
-                break
             suffix = str(variant.get("variant_suffix", "")).strip().lower().replace(" ", "-")
             raw_series_id = stem if not suffix else f"{stem}-{suffix}"
             series_id = raw_series_id
@@ -3024,6 +3417,11 @@ def build_datasets(
             title = candidate.stem if not title_suffix else f"{candidate.stem} [{title_suffix}]"
             if len(variants) == 1 and variant_index == 0:
                 title = candidate.stem
+            title_key = normalize_space(title).lower()
+            if title_key in seen_titles:
+                title = f"{title} · {series_id}"
+                title_key = normalize_space(title).lower()
+            seen_titles.add(title_key)
             datasets_meta.append(
                 {
                     "series_id": series_id,
@@ -3036,6 +3434,61 @@ def build_datasets(
                     "provenance": variant["provenance"],
                 }
             )
+
+    if not datasets_meta:
+        tex_candidates = sorted(
+            p
+            for p in report_dir.rglob("*.tex")
+            if p.is_file() and "build" not in p.parts
+        )
+        for tex_path in tex_candidates:
+            parsed_tex = parse_tex_tabular_dataset(tex_path, max_points)
+            if not parsed_tex:
+                continue
+            variants = split_dataset_by_semantics(parsed_tex)
+            stem = re.sub(r"[^a-zA-Z0-9_-]+", "-", tex_path.stem.lower()).strip("-") or "tex-tabular"
+            for variant_index, variant in enumerate(variants):
+                suffix = str(variant.get("variant_suffix", "")).strip().lower().replace(" ", "-")
+                raw_series_id = stem if not suffix else f"{stem}-{suffix}"
+                series_id = raw_series_id
+                if series_id in seen_ids:
+                    dedupe_suffix = 2
+                    while f"{series_id}-{dedupe_suffix}" in seen_ids:
+                        dedupe_suffix += 1
+                    series_id = f"{series_id}-{dedupe_suffix}"
+                seen_ids.add(series_id)
+                payload = {
+                    "report_id": report_id,
+                    "series_id": series_id,
+                    "x_label": variant["x_label"],
+                    "y_label": variant["y_label"],
+                    "series": variant["series"],
+                    "series_semantics": variant.get("series_semantics", []),
+                    "default_series": variant.get("default_series", []),
+                    "provenance": variant["provenance"],
+                }
+                series_rel = f"/data/v1/reports/{report_id}/series/{series_id}.json"
+                series_path = series_dir / f"{series_id}.json"
+                series_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+                title_suffix = str(variant.get("variant_title_suffix", "")).strip()
+                title = f"{tex_path.stem} [tabular]"
+                if title_suffix:
+                    title = f"{tex_path.stem} [tabular {title_suffix}]"
+                if len(variants) == 1 and variant_index == 0:
+                    title = f"{tex_path.stem} [tabular]"
+                datasets_meta.append(
+                    {
+                        "series_id": series_id,
+                        "title": title,
+                        "x_label": variant["x_label"],
+                        "y_label": variant["y_label"],
+                        "series_path": series_rel,
+                        "default_series": variant.get("default_series", []),
+                        "series_semantics": variant.get("series_semantics", []),
+                        "provenance": variant["provenance"],
+                    }
+                )
+            break
 
     if not datasets_meta:
         fallback = fallback_asset_dataset(report_id, assets)
@@ -3054,6 +3507,16 @@ def build_datasets(
                 "provenance": fallback["provenance"],
             }
         )
+    else:
+        datasets_meta.sort(
+            key=lambda row: (
+                interactive_dataset_priority(row),
+                -len(str(row.get("series_id", ""))),
+                str(row.get("series_id", "")),
+            ),
+            reverse=True,
+        )
+        datasets_meta = datasets_meta[:max_datasets]
 
     return datasets_meta
 
@@ -3318,18 +3781,23 @@ def build_report_payload(
     en_section_cards = []
     for card in tex_en["section_cards"]:
         heading = str(card.get("heading", "")).strip() or "Section"
+        raw_summary = str(card.get("summary", ""))
+        sanitized_summary = ensure_en_text(
+            raw_summary,
+            report_id,
+            role="section",
+            max_chars=320,
+        )
+        if has_malformed_readability_tokens(sanitized_summary) or is_placeholder_section_summary(heading, sanitized_summary):
+            sanitized_summary = section_fallback_summary(heading, report_id, "en")
         en_section_cards.append(
             {
                 "heading": heading,
-                "summary": ensure_en_text(
-                    str(card.get("summary", "")),
-                    report_id,
-                    role="section",
-                    max_chars=320,
-                ),
+                "summary": sanitized_summary,
                 "source_path": str(card.get("source_path", "")),
             }
         )
+    en_section_cards = dedupe_section_cards_by_heading(en_section_cards, lang="en")
 
     cn_narrative_source = tex_cn["narrative"] if tex_cn["section_cards"] else tex_en["narrative"]
     cn_section_cards_source = tex_cn["section_cards"] if tex_cn["section_cards"] else tex_en["section_cards"]
@@ -3483,19 +3951,24 @@ def build_report_payload(
     cn_section_cards = []
     for card in cn_section_cards_source:
         heading = str(card.get("heading", "")).strip() or "章节"
+        raw_summary = str(card.get("summary", ""))
+        sanitized_summary = ensure_cn_text(
+            raw_summary,
+            report_id,
+            role="section",
+            max_chars=320,
+            hint=heading,
+        )
+        if has_malformed_readability_tokens(sanitized_summary) or is_placeholder_section_summary(heading, sanitized_summary):
+            sanitized_summary = section_fallback_summary(heading, report_id, "cn")
         cn_section_cards.append(
             {
                 "heading": heading,
-                "summary": ensure_cn_text(
-                    str(card.get("summary", "")),
-                    report_id,
-                    role="section",
-                    max_chars=320,
-                    hint=heading,
-                ),
+                "summary": sanitized_summary,
                 "source_path": str(card.get("source_path", "")),
             }
         )
+    cn_section_cards = dedupe_section_cards_by_heading(cn_section_cards, lang="cn")
     cn_meta = {
         **base_meta,
         "lang": "cn",
@@ -3512,6 +3985,26 @@ def build_report_payload(
         "source_documents": tex_cn["source_documents"] if tex_cn["source_documents"] else tex_en["source_documents"],
     }
     base_meta, cn_meta = align_locale_payloads(base_meta, cn_meta)
+    merged_repro_commands = dedupe_preserve(
+        [
+            normalize_space(str(x))
+            for x in list(base_meta.get("reproducibility_commands", [])) + list(cn_meta.get("reproducibility_commands", []))
+            if normalize_space(str(x))
+        ],
+        max_items=10,
+    )
+    base_meta["reproducibility_commands"] = merged_repro_commands
+    cn_meta["reproducibility_commands"] = list(merged_repro_commands)
+    merged_source_docs = dedupe_preserve(
+        [
+            normalize_space(str(x))
+            for x in list(base_meta.get("source_documents", [])) + list(cn_meta.get("source_documents", []))
+            if normalize_space(str(x))
+        ],
+        max_items=8,
+    )
+    base_meta["source_documents"] = merged_source_docs
+    cn_meta["source_documents"] = list(merged_source_docs)
 
     (out_report_dir / "meta.json").write_text(
         json.dumps(base_meta, ensure_ascii=False, indent=2, allow_nan=False),
@@ -4044,6 +4537,87 @@ def build_report_network(output_dir: Path, reports: list[dict[str, Any]], genera
     )
 
 
+LOW_SIGNAL_EVIDENCE_TOKENS = (
+    "asset size profile",
+    "asset rank",
+    "size (bytes)",
+    "manifest",
+    "registry",
+    "placeholder",
+    "download assets",
+    "figure gallery",
+)
+
+EVIDENCE_DATASET_POSITIVE_HINTS = (
+    "probability",
+    "pmf",
+    "fpt",
+    "hazard",
+    "survival",
+    "peak",
+    "valley",
+    "phase",
+    "beta",
+    "scan",
+    "bimodal",
+    "two_target",
+    "cond_by_t",
+)
+
+
+def is_low_signal_evidence_text(text: str) -> bool:
+    lowered = normalize_space(text).lower()
+    if not lowered:
+        return True
+    if any(token in lowered for token in LOW_SIGNAL_EVIDENCE_TOKENS):
+        return True
+    if lowered.startswith("this section ") and "evidence" in lowered and "verification" in lowered:
+        return True
+    if lowered.startswith("本节") and ("证据" in lowered or "核验" in lowered):
+        return True
+    if len(lowered) < 20:
+        return True
+    return False
+
+
+def dataset_evidence_score(dataset: dict[str, Any]) -> int:
+    title = normalize_space(str(dataset.get("title", ""))).lower()
+    series_id = normalize_space(str(dataset.get("series_id", ""))).lower()
+    x_label = normalize_space(str(dataset.get("x_label", ""))).lower()
+    y_label = normalize_space(str(dataset.get("y_label", ""))).lower()
+    haystack = " ".join([title, series_id, x_label, y_label])
+    score = 0
+    for token in EVIDENCE_DATASET_POSITIVE_HINTS:
+        if token in haystack:
+            score += 3
+    for token in LOW_SIGNAL_EVIDENCE_TOKENS:
+        if token in haystack:
+            score -= 10
+    if "probability" in y_label:
+        score += 4
+    if "binary" in y_label or "phase" in y_label:
+        score += 2
+    if "asset rank" in x_label:
+        score -= 12
+    if str(dataset.get("series_path", "")).strip().startswith("/data/v1/reports/"):
+        score += 1
+    return score
+
+
+def pick_best_dataset_for_claim(datasets: list[dict[str, Any]]) -> dict[str, Any] | None:
+    if not datasets:
+        return None
+    ranked = sorted(
+        ((dataset_evidence_score(ds), idx, ds) for idx, ds in enumerate(datasets)),
+        key=lambda row: (row[0], -row[1]),
+        reverse=True,
+    )
+    best_score, _, best = ranked[0]
+    if best_score < -8:
+        return None
+    return best
+
+
 def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated_at: str) -> None:
     network_path = output_dir / "report_network.json"
     network_payload: dict[str, Any] = {}
@@ -4317,6 +4891,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                 if not summary:
                     continue
                 title = normalize_space(str(card.get("heading", ""))).lower()
+                if is_low_signal_evidence_text(f"{title} {summary}"):
+                    continue
                 overlap = len(claim_tokens.intersection(tokenize_claim_text(summary)))
                 hint_bonus = 2 if any(h in title for h in stage_hint_map.get(stage, ())) else 0
                 section_scored.append((overlap + hint_bonus, j))
@@ -4324,40 +4900,60 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
             for _, j in section_scored[:2]:
                 card_en = section_cards_en[j]
                 card_cn = section_cards_cn[j] if j < len(section_cards_cn) else {}
+                snippet_en = summarize_plain(str(card_en.get("summary", text_en)), max_chars=180)
+                snippet_cn = summarize_plain(str(card_cn.get("summary", text_cn)), max_chars=180)
+                if is_low_signal_evidence_text(snippet_en):
+                    continue
                 evidence.append(
                     {
                         "evidence_type": "section_summary",
                         "path": str(card_en.get("source_path", report_path_by_id.get(rid, rid))),
-                        "snippet_en": summarize_plain(str(card_en.get("summary", text_en)), max_chars=180),
-                        "snippet_cn": summarize_plain(str(card_cn.get("summary", text_cn)), max_chars=180),
+                        "snippet_en": snippet_en,
+                        "snippet_cn": snippet_cn,
                     }
                 )
 
             math_limit = 2 if stage in {"model", "method"} else 1
             for block in math_blocks_en[:math_limit]:
+                block_context = summarize_plain(str(block.get("context", "math block")), max_chars=120)
+                if is_low_signal_evidence_text(block_context):
+                    continue
                 evidence.append(
                     {
                         "evidence_type": "math_block",
                         "path": str(block.get("source_path", report_path_by_id.get(rid, rid))),
-                        "snippet_en": summarize_plain(str(block.get("context", "math block")), max_chars=120),
+                        "snippet_en": block_context,
                         "snippet_cn": summarize_plain(str(block.get("context", "公式片段")), max_chars=120),
                     }
                 )
 
             if datasets and stage in {"method", "result", "finding"}:
-                ds = datasets[0]
+                ds = pick_best_dataset_for_claim(datasets)
+                if ds is None:
+                    ds = datasets[0]
+                ds_snippet_en = summarize_plain(
+                    f"{ds.get('title', 'dataset')}: {ds.get('x_label', 'x')} -> {ds.get('y_label', 'y')}",
+                    max_chars=160,
+                )
+                ds_snippet_cn = summarize_plain(
+                    f"{ds.get('title', '数据集')}: {ds.get('x_label', 'x')} -> {ds.get('y_label', 'y')}",
+                    max_chars=160,
+                )
+                if is_low_signal_evidence_text(ds_snippet_en):
+                    ds_snippet_en = summarize_plain(
+                        f"Mechanism dataset for {report_title_en}: {ds.get('series_id', 'series')}",
+                        max_chars=160,
+                    )
+                    ds_snippet_cn = summarize_plain(
+                        f"{report_title_cn} 的机制数据集：{ds.get('series_id', 'series')}",
+                        max_chars=160,
+                    )
                 evidence.append(
                     {
                         "evidence_type": "dataset",
                         "path": str(ds.get("series_path", "")),
-                        "snippet_en": summarize_plain(
-                            f"{ds.get('title', 'dataset')}: {ds.get('x_label', 'x')} -> {ds.get('y_label', 'y')}",
-                            max_chars=160,
-                        ),
-                        "snippet_cn": summarize_plain(
-                            f"{ds.get('title', '数据集')}: {ds.get('x_label', 'x')} -> {ds.get('y_label', 'y')}",
-                            max_chars=160,
-                        ),
+                        "snippet_en": ds_snippet_en,
+                        "snippet_cn": ds_snippet_cn,
                     }
                 )
 

@@ -1357,6 +1357,45 @@ def main() -> int:
         },
     ]
 
+    chapter_all_claim_ids = sorted(
+        {
+            str(claim.get("claim_id", "")).strip()
+            for chapter in chapter_rows
+            for claim in chapter.get("claim_ledger", [])
+            if str(claim.get("claim_id", "")).strip()
+        }
+    )
+    global_claim_ids = sorted(
+        {
+            str(claim.get("claim_id", "")).strip()
+            for claim in content_map.get("claims", [])
+            if str(claim.get("claim_id", "")).strip()
+        }
+    )
+    global_claim_set = set(global_claim_ids)
+    chapter_claim_ids = [claim_id for claim_id in chapter_all_claim_ids if claim_id in global_claim_set]
+    chapter_claim_set = set(chapter_claim_ids)
+    chapter_native_claim_ids = [claim_id for claim_id in chapter_all_claim_ids if claim_id not in global_claim_set]
+    excluded_claim_ids = [claim_id for claim_id in global_claim_ids if claim_id not in chapter_claim_set]
+    coverage_payload = {
+        "version": "v1",
+        "generated_at": utc_now_iso(),
+        "policy_en": (
+            "Book chapters prioritize non-redundant continuity claims from report-level content_map records. "
+            "Excluded report claims remain available in report pages and content_map for deep audit. "
+            "Chapter-native synthesis claims are tracked separately."
+        ),
+        "policy_cn": "Book 章节优先保留来自 content_map 的非冗余主线 claim；未纳入章节的报告 claim 仍保留在报告页与 content_map 供深度核查。章节自生成综合 claim 单独统计。",
+        "global_claim_count": len(global_claim_ids),
+        "chapter_claim_count": len(chapter_claim_ids),
+        "chapter_total_claim_count": len(chapter_all_claim_ids),
+        "chapter_native_claim_count": len(chapter_native_claim_ids),
+        "excluded_claim_count": len(excluded_claim_ids),
+        "chapter_claim_ids": chapter_claim_ids,
+        "chapter_native_claim_ids": chapter_native_claim_ids,
+        "excluded_claim_ids": excluded_claim_ids,
+    }
+
     manifest = {
         "version": "v1",
         "generated_at": utc_now_iso(),
@@ -1378,6 +1417,7 @@ def main() -> int:
 
     write_json(data_root / "book" / "book_manifest.json", manifest)
     write_json(data_root / "book" / "toc.json", {"version": "v1", "generated_at": utc_now_iso(), "en": toc_en, "cn": toc_cn})
+    write_json(data_root / "book" / "book_claim_coverage.json", coverage_payload)
 
     backbone_payload = build_backbone_payload(chapter_rows)
     write_json(data_root / "book" / "backbone.json", backbone_payload)
@@ -1390,6 +1430,7 @@ def main() -> int:
                 "manifest": (data_root / "book" / "book_manifest.json").as_posix(),
                 "toc": (data_root / "book" / "toc.json").as_posix(),
                 "backbone": (data_root / "book" / "backbone.json").as_posix(),
+                "claim_coverage": (data_root / "book" / "book_claim_coverage.json").as_posix(),
             },
             ensure_ascii=False,
             indent=2,

@@ -52,15 +52,57 @@ def parse_json_maybe(text: str) -> dict[str, Any] | None:
         return json.loads(text)
     except json.JSONDecodeError:
         pass
+    for line in reversed(text.splitlines()):
+        row = line.strip()
+        if not row:
+            continue
+        if not (row.startswith("{") and row.endswith("}")):
+            continue
+        try:
+            payload = json.loads(row)
+            if isinstance(payload, dict):
+                return payload
+        except json.JSONDecodeError:
+            continue
 
-    match = re.search(r"\{.*\}", text, flags=re.DOTALL)
-    if not match:
-        return None
-    candidate = match.group(0)
-    try:
-        return json.loads(candidate)
-    except json.JSONDecodeError:
-        return None
+    candidates = re.findall(r"(\{(?:[^{}]|(?:\{[^{}]*\}))*\})", text, flags=re.DOTALL)
+    for candidate in reversed(candidates):
+        try:
+            payload = json.loads(candidate)
+            if isinstance(payload, dict):
+                return payload
+        except json.JSONDecodeError:
+            continue
+    return None
+
+
+def extract_payload_text(raw: dict[str, Any]) -> str:
+    payloads = raw.get("payloads")
+    if isinstance(payloads, list):
+        chunks: list[str] = []
+        for row in payloads:
+            if not isinstance(row, dict):
+                continue
+            text = str(row.get("text", "")).strip()
+            if text:
+                chunks.append(text)
+        if chunks:
+            return "\n".join(chunks)
+    for key in ("text", "output", "response"):
+        value = raw.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return ""
+
+
+def build_lightweight_prompt(repo_root: Path, compact_snapshot: dict[str, Any]) -> str:
+    return (
+        f"Audit {repo_root.as_posix()} quickly. "
+        "Return ONLY JSON with keys score/findings/quick_wins/crosscheck. "
+        "Findings max 5; prioritize concrete high-impact issues with file evidence. "
+        f"Snapshot constraints: {json.dumps(compact_snapshot, ensure_ascii=False)}. "
+        "No markdown."
+    )
 
 
 def ensure_agent(agent_id: str, workspace: Path, model: str) -> tuple[bool, str]:
@@ -351,28 +393,43 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
     return snapshot
 
 
-def build_prompt(repo_root: Path, local_snapshot: dict[str, Any]) -> str:
+def compact_snapshot_for_prompt(snapshot: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "theory_checks": snapshot.get("theory_checks", {}),
+        "locale_parity": {
+            "mismatch_count": int(snapshot.get("locale_parity", {}).get("mismatch_count", 0)),
+        },
+        "semantic_payload_homogeneity": snapshot.get("semantic_payload_homogeneity", {}),
+        "repro_coverage": snapshot.get("repro_coverage", {}),
+        "meta_text_quality": snapshot.get("meta_text_quality", {}),
+        "content_map_quality": {
+            "claim_count": int(snapshot.get("content_map_quality", {}).get("claim_count", 0)),
+            "stage_gap_report_count": int(snapshot.get("content_map_quality", {}).get("stage_gap_report_count", 0)),
+            "operational_like_claim_count": int(snapshot.get("content_map_quality", {}).get("operational_like_claim_count", 0)),
+        },
+        "theory_ui": snapshot.get("theory_ui", {}),
+        "interaction_ui": snapshot.get("interaction_ui", {}),
+    }
+
+
+def build_prompt(repo_root: Path, compact_snapshot: dict[str, Any]) -> str:
     return (
         "You are a strict QA reviewer for a mathematics-heavy website and publication pipeline. "
-        "Review the repository at "
-        f"{repo_root.as_posix()} "
-        "with focus on content coherence, readability, mathematical continuity, interaction quality, verifiability, and duplication risk. "
-        "Cross-check these files first: "
+        f"Review repository: {repo_root.as_posix()}. "
+        "Focus only on content coherence, mathematical continuity, interaction quality, and verifiability. "
+        "Cross-check these files: "
         "site/src/lib/render-pages.tsx, site/src/lib/render-book-pages.tsx, site/src/components/ReportPlotPanel.tsx, "
         "site/public/data/v1/index.json, site/public/data/v1/theory_map.json, "
         "site/public/data/v1/report_network.json, site/public/data/v1/content_map.json, "
         "site/public/data/v1/book/book_manifest.json, site/public/data/v1/book/toc.json, "
         "artifacts/deliverables/publication/valley_k_small_compendium_en.pdf. "
-        "Also sample-check at least 5 report metadata files under site/public/data/v1/reports/*/meta.json. "
-        "Ground-truth snapshot computed locally (must be respected unless you provide explicit contradictory evidence): "
-        f"{json.dumps(local_snapshot, ensure_ascii=False)}. "
-        "If snapshot.locale_parity.mismatch_count is 0, do not claim locale mismatch unless you provide exact conflicting file values. "
-        "If snapshot.theory_ui.contains_raw_json_rendering is false, do not claim raw-JSON UI rendering without contrary file evidence. "
-        "For each finding, emphasize concrete content-level defects and whether statements are verifiable from evidence paths. "
-        "If your claim contradicts the snapshot, set severity='disputed' and provide exact contrary values from files. "
+        "Sample-check at least 5 report metadata files under site/public/data/v1/reports/*/meta.json. "
+        f"Deterministic local snapshot: {json.dumps(compact_snapshot, ensure_ascii=False)}. "
+        "Respect snapshot unless you provide explicit conflicting file evidence. "
         "Return ONLY compact JSON with keys: "
         "score (0-100), findings (array of {severity, area, issue, evidence, fix}), "
         "quick_wins (array), crosscheck (array). "
+        "Keep findings <= 8 and each evidence field <= 320 chars. "
         "No markdown."
     )
 
@@ -544,9 +601,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     model_candidates = [
-        "openai/gpt-5.2-pro-extended-thinking",
         "openai-codex/gpt-5.3-codex",
-        "openai/gpt-5.2-pro",
+        "openai-codex/gpt-5.3-codex-spark",
         "openai-codex/gpt-5.2",
     ]
     if str(args.model).strip():
@@ -565,7 +621,9 @@ def main() -> int:
         flush=True,
     )
     local_snapshot = build_local_snapshot(args.workspace)
-    prompt = build_prompt(args.workspace, local_snapshot)
+    compact_snapshot = compact_snapshot_for_prompt(local_snapshot)
+    prompt = build_prompt(args.workspace, compact_snapshot)
+    fallback_prompt = build_lightweight_prompt(args.workspace, compact_snapshot)
     attempt_errors: list[dict[str, str]] = []
 
     for selected_model in selected_models:
@@ -619,14 +677,38 @@ def main() -> int:
             continue
 
         raw = parse_json_maybe(reviewed.stdout) or {}
-        text_payload = ""
-        if isinstance(raw, dict):
-            payloads = raw.get("payloads")
-            if isinstance(payloads, list) and payloads:
-                first = payloads[0]
-                if isinstance(first, dict):
-                    text_payload = str(first.get("text", ""))
+        text_payload = extract_payload_text(raw if isinstance(raw, dict) else {})
         parsed_review = parse_json_maybe(text_payload) or {"raw_text": text_payload.strip()}
+        if (not text_payload.strip()) or not (isinstance(parsed_review, dict) and "score" in parsed_review and "findings" in parsed_review):
+            retry_session_id = f"{session_id}-fallback"
+            print(f"[openclaw-review] retry lightweight prompt: {retry_session_id}", flush=True)
+            retry = run(
+                [
+                    "openclaw",
+                    "agent",
+                    "--local",
+                    "--agent",
+                    args.agent_id,
+                    "--session-id",
+                    retry_session_id,
+                    "--thinking",
+                    "high",
+                    "--timeout",
+                    str(max(60, int(args.review_timeout))),
+                    "--json",
+                    "--message",
+                    fallback_prompt,
+                ],
+                timeout=max(90, int(args.review_timeout) + 60),
+            )
+            if retry.returncode == 0:
+                retry_raw = parse_json_maybe(retry.stdout) or {}
+                retry_text = extract_payload_text(retry_raw if isinstance(retry_raw, dict) else {})
+                retry_parsed = parse_json_maybe(retry_text) or {"raw_text": retry_text.strip()}
+                if isinstance(retry_parsed, dict) and "score" in retry_parsed and "findings" in retry_parsed:
+                    parsed_review = retry_parsed
+                    text_payload = retry_text
+                    session_id = retry_session_id
         review_ok = isinstance(parsed_review, dict) and "score" in parsed_review and "findings" in parsed_review
         if not review_ok:
             attempt_errors.append(

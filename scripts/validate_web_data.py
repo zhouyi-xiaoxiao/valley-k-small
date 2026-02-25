@@ -312,6 +312,20 @@ def main() -> int:
         assert_locale_parity(meta_en, meta_cn, str(report_id))
 
         for meta_payload, meta_path in ((meta_en, meta_en_path), (meta_cn, meta_cn_path)):
+            title_counts: dict[str, int] = {}
+            for dataset in meta_payload.get("datasets", []):
+                title = str(dataset.get("title", "")).strip().lower()
+                key = re.sub(r"\s+", " ", title)
+                if not key:
+                    continue
+                title_counts[key] = title_counts.get(key, 0) + 1
+            duplicates = [title for title, count in title_counts.items() if count > 1]
+            if duplicates:
+                raise SystemExit(
+                    "Invalid dataset metadata: duplicated dataset titles in "
+                    f"{meta_path}: {', '.join(duplicates[:6])}"
+                )
+
             for dataset in meta_payload.get("datasets", []):
                 rel = dataset.get("series_path", "")
                 if not isinstance(rel, str) or not rel.startswith("/data/v1/"):
@@ -422,10 +436,32 @@ def main() -> int:
             "Invalid content map payload: claims missing evidence: "
             + ",".join(claims_without_evidence[:12])
         )
+    low_signal_tokens = (
+        "asset size profile",
+        "asset rank",
+        "size (bytes)",
+        "manifest",
+        "placeholder",
+        "fallback narrative",
+    )
+    low_signal_snippets = 0
+    total_evidence = 0
+    for row in claim_rows:
+        for ev in list(row.get("evidence", [])):
+            total_evidence += 1
+            snippet = str(ev.get("snippet_en", "")).strip().lower()
+            if not snippet or any(token in snippet for token in low_signal_tokens):
+                low_signal_snippets += 1
+    if total_evidence > 0 and low_signal_snippets > max(4, int(total_evidence * 0.25)):
+        raise SystemExit(
+            "Invalid content map payload: too many low-signal evidence snippets "
+            f"({low_signal_snippets}/{total_evidence})"
+        )
 
     book_root = data_root / "book"
     book_manifest_path = book_root / "book_manifest.json"
     book_backbone_path = book_root / "backbone.json"
+    book_claim_coverage_path = book_root / "book_claim_coverage.json"
     book_toc_path = book_root / "toc.json"
     glossary_path = data_root / "glossary" / "terms.json"
 
@@ -433,6 +469,8 @@ def main() -> int:
         raise SystemExit(f"Missing book manifest: {book_manifest_path}")
     if not book_backbone_path.exists():
         raise SystemExit(f"Missing book backbone: {book_backbone_path}")
+    if not book_claim_coverage_path.exists():
+        raise SystemExit(f"Missing book claim coverage: {book_claim_coverage_path}")
     if not book_toc_path.exists():
         raise SystemExit(f"Missing book toc: {book_toc_path}")
     if not glossary_path.exists():
@@ -440,6 +478,7 @@ def main() -> int:
 
     book_manifest_payload = read_json(book_manifest_path)
     book_backbone_payload = read_json(book_backbone_path)
+    book_claim_coverage_payload = read_json(book_claim_coverage_path)
     book_toc_payload = read_json(book_toc_path)
     glossary_payload = read_json(glossary_path)
     translation_qc_payload = read_json(translation_qc_json)
@@ -457,6 +496,77 @@ def main() -> int:
             "Invalid book toc payload: chapter count mismatch "
             f"(toc_en={len(toc_en)}, toc_cn={len(toc_cn)}, chapters={len(chapter_rows)})"
         )
+    global_claim_ids = {
+        str(row.get("claim_id", "")).strip()
+        for row in claim_rows
+        if str(row.get("claim_id", "")).strip()
+    }
+    chapter_claim_ids = {
+        str(x).strip()
+        for x in list(book_claim_coverage_payload.get("chapter_claim_ids", []))
+        if str(x).strip()
+    }
+    chapter_native_claim_ids = {
+        str(x).strip()
+        for x in list(book_claim_coverage_payload.get("chapter_native_claim_ids", []))
+        if str(x).strip()
+    }
+    excluded_claim_ids = {
+        str(x).strip()
+        for x in list(book_claim_coverage_payload.get("excluded_claim_ids", []))
+        if str(x).strip()
+    }
+    chapter_claim_count = len(chapter_claim_ids)
+    global_claim_count = len(global_claim_ids)
+    if int(book_claim_coverage_payload.get("global_claim_count", -1)) != global_claim_count:
+        raise SystemExit(
+            "Invalid book claim coverage payload: global_claim_count mismatch "
+            f"({book_claim_coverage_payload.get('global_claim_count')} vs {global_claim_count})"
+        )
+    if int(book_claim_coverage_payload.get("chapter_claim_count", -1)) != chapter_claim_count:
+        raise SystemExit(
+            "Invalid book claim coverage payload: chapter_claim_count mismatch "
+            f"({book_claim_coverage_payload.get('chapter_claim_count')} vs {chapter_claim_count})"
+        )
+    if not chapter_claim_ids.issubset(global_claim_ids):
+        unknown_claim_ids = sorted(chapter_claim_ids - global_claim_ids)
+        raise SystemExit(
+            "Invalid book claim coverage payload: chapter_claim_ids contains unknown ids: "
+            + ",".join(unknown_claim_ids[:12])
+        )
+    expected_excluded_ids = global_claim_ids - chapter_claim_ids
+    if excluded_claim_ids != expected_excluded_ids:
+        missing = sorted(expected_excluded_ids - excluded_claim_ids)
+        unknown = sorted(excluded_claim_ids - expected_excluded_ids)
+        raise SystemExit(
+            "Invalid book claim coverage payload: excluded_claim_ids mismatch "
+            f"(missing={missing[:8]}, unknown={unknown[:8]})"
+        )
+    expected_excluded = len(expected_excluded_ids)
+    if int(book_claim_coverage_payload.get("excluded_claim_count", -1)) != expected_excluded:
+        raise SystemExit(
+            "Invalid book claim coverage payload: excluded_claim_count mismatch "
+            f"({book_claim_coverage_payload.get('excluded_claim_count')} vs {expected_excluded})"
+        )
+    if chapter_native_claim_ids:
+        if chapter_native_claim_ids & global_claim_ids:
+            overlap = sorted(chapter_native_claim_ids & global_claim_ids)
+            raise SystemExit(
+                "Invalid book claim coverage payload: chapter_native_claim_ids overlaps global claim ids: "
+                + ",".join(overlap[:12])
+            )
+        native_count = len(chapter_native_claim_ids)
+        if int(book_claim_coverage_payload.get("chapter_native_claim_count", -1)) != native_count:
+            raise SystemExit(
+                "Invalid book claim coverage payload: chapter_native_claim_count mismatch "
+                f"({book_claim_coverage_payload.get('chapter_native_claim_count')} vs {native_count})"
+            )
+        total_expected = chapter_claim_count + native_count
+        if int(book_claim_coverage_payload.get("chapter_total_claim_count", -1)) != total_expected:
+            raise SystemExit(
+                "Invalid book claim coverage payload: chapter_total_claim_count mismatch "
+                f"({book_claim_coverage_payload.get('chapter_total_claim_count')} vs {total_expected})"
+            )
 
     chapter_ids = {str(row.get("chapter_id", "")).strip() for row in chapter_rows if str(row.get("chapter_id", "")).strip()}
     if len(chapter_ids) != len(chapter_rows):

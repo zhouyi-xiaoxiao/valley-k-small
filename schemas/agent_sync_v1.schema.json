@@ -22,6 +22,7 @@
             "book_manifest",
             "book_chapters_jsonl",
             "claim_graph_jsonl",
+            "book_claim_coverage",
             "translation_qc",
             "theory_map",
             "guide_json",
@@ -34,6 +35,7 @@
             "book_manifest": { "type": "string", "pattern": "^/data/v1/agent/book_manifest\\.json$" },
             "book_chapters_jsonl": { "type": "string", "pattern": "^/data/v1/agent/book_chapters\\.jsonl$" },
             "claim_graph_jsonl": { "type": "string", "pattern": "^/data/v1/agent/claim_graph\\.jsonl$" },
+            "book_claim_coverage": { "type": "string", "pattern": "^/data/v1/book/book_claim_coverage\\.json$" },
             "translation_qc": { "type": "string", "pattern": "^/data/v1/agent/translation_qc\\.json$" },
             "theory_map": { "type": "string", "pattern": "^/data/v1/theory_map\\.json$" },
             "guide_json": { "type": "string", "pattern": "^/data/v1/agent/guide\\.json$" },
@@ -50,6 +52,7 @@
             "book_manifest_sha256",
             "book_chapters_jsonl_sha256",
             "claim_graph_jsonl_sha256",
+            "book_claim_coverage_sha256",
             "translation_qc_sha256",
             "report_network_sha256",
             "content_map_sha256"
@@ -60,6 +63,7 @@
             "book_manifest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "book_chapters_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "claim_graph_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "book_claim_coverage_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "translation_qc_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "report_network_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "content_map_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }

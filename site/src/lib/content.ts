@@ -4,6 +4,7 @@ import type {
   AgentManifest,
   BookBackbone,
   BookChapter,
+  BookClaimCoverage,
   BookManifest,
   ContentMap,
   FigureRecord,
@@ -105,6 +106,10 @@ export function loadBookChapter(chapterId: string): BookChapter | null {
 
 export function loadBookBackbone(): BookBackbone | null {
   return readJson<BookBackbone>(path.join(DATA_ROOT, 'book', 'backbone.json'));
+}
+
+export function loadBookClaimCoverage(): BookClaimCoverage | null {
+  return readJson<BookClaimCoverage>(path.join(DATA_ROOT, 'book', 'book_claim_coverage.json'));
 }
 
 export function loadBookToc(): { version: string; generated_at: string; en: Array<{ chapter_id: string; order: number; title: string; path: string }>; cn: Array<{ chapter_id: string; order: number; title: string; path: string }>; } | null {

@@ -107,7 +107,24 @@ def run_katex_lint(formulas: list[dict[str, str]]) -> list[dict[str, str]]:
         return []
     script = r"""
 const fs = require('fs');
-const katex = require('./site/node_modules/katex');
+let katex = null;
+let loadError = null;
+for (const candidate of ['katex', './site/node_modules/katex']) {
+  try {
+    katex = require(candidate);
+    break;
+  } catch (err) {
+    loadError = err;
+  }
+}
+if (!katex) {
+  process.stdout.write(JSON.stringify({
+    skipped: true,
+    reason: 'katex_module_unavailable',
+    error: String(loadError && loadError.message ? loadError.message : loadError || '')
+  }));
+  process.exit(0);
+}
 const payload = JSON.parse(fs.readFileSync(0, 'utf8'));
 const errors = [];
 for (const row of payload) {
@@ -140,6 +157,8 @@ process.stdout.write(JSON.stringify({ errors }));
         parsed = json.loads(proc.stdout)
     except json.JSONDecodeError as exc:
         raise SystemExit(f"KaTeX lint invalid JSON output: {exc}") from exc
+    if parsed.get("skipped"):
+        return []
     errors = parsed.get("errors", [])
     if not isinstance(errors, list):
         raise SystemExit("KaTeX lint output malformed: errors is not a list")

@@ -1,91 +1,94 @@
 {
   "ok": true,
-  "generated_at": "2026-02-25T01:05:43.245253Z",
+  "generated_at": "2026-02-25T01:27:20.933925Z",
   "agent_id": "vk-review-qa",
-  "session_id": "oc-review-03d8bba3-32d0-4aa1-8fad-941f16f18c17",
+  "session_id": "oc-review-8e3747e8-4f8d-4a85-8470-8a2330d77cd2",
   "model": "openai-codex/gpt-5.3-codex",
+  "model_candidates": [
+    "openai-codex/gpt-5.3-codex",
+    "openai-codex/gpt-5.2",
+    "openai/gpt-5.2-pro"
+  ],
   "agent_setup_note": "agent created",
+  "attempt_errors": [],
   "review": {
-    "score": 48,
+    "score": 58,
     "findings": [
       {
-        "severity": "critical",
-        "area": "interaction_quality",
-        "issue": "Interactive plot data pipeline breaks on invalid JSON containing NaN; affected datasets silently fail and UI stays in loading state.",
-        "evidence": "ReportPlotPanel fetches with res.json() and on any error sets payload=null (site/src/components/ReportPlotPanel.tsx:44-52), then renders only 'Loading plot data…' when payload is null (line 161). Strict parse check: 5 invalid series files under site/public/data/v1/reports/**/series/*cond_by_t.json (Unexpected token 'N').",
-        "fix": "Sanitize export to strict JSON (replace NaN with null or finite numbers), add schema/CI check using strict JSON.parse, and show explicit error state with retry instead of perpetual loading."
-      },
-      {
         "severity": "high",
-        "area": "mathematical_coherence",
-        "issue": "Theory map makes an 'all reports' claim that contradicts its own mapping payload.",
-        "evidence": "theory_map card fpt-pmf says 'used by all reports' (site/public/data/v1/theory_map.json:9) but lists only 6 report_ids with report_count=6 (lines 11-19), while index has 14 reports (site/public/data/v1/index.json:4-143).",
-        "fix": "Either widen report_ids to all applicable reports or change wording to subset scope; enforce semantic consistency checks in data generation."
-      },
-      {
-        "severity": "high",
-        "area": "mathematical_coherence",
-        "issue": "Unified theory coverage is incomplete: 4 reports are not mapped by any concept card.",
-        "evidence": "render-pages labels theory section as 'Unified Mathematical Map' (site/src/lib/render-pages.tsx:248). Cross-check index report_ids vs union(theory_map.cards[*].report_ids) leaves unmapped: grid2d_blackboard_bimodality, grid2d_rect_bimodality, ring_valley, ring_valley_dst.",
-        "fix": "Add an 'unmapped_reports' consistency check and fail build when non-empty; include at least one concept linkage per report or clearly label reports as intentionally unmapped."
+        "area": "readability",
+        "issue": "Report prose shown on pages is often mathematically garbled due lossy extraction, which harms comprehension.",
+        "evidence": "render-pages.tsx renders meta.summary/narrative directly (line 129, 133-141). Example from site/public/data/v1/reports/ring_lazy_jump_ext/meta.json: \"N=100,q=2/3, =1 and only varied...\"; from ring_lazy_jump_ext_rev2/meta.json: \"K \\\\ 2,4\\\\ , q=2/3 , =0.01...\".",
+        "fix": "Harden TeX->text pipeline: preserve inline math tokens, convert to KaTeX-safe inline spans, and add CI checks for corruption patterns (e.g., ', =0', 't_ p1', raw '\\\\ ')."
       },
       {
         "severity": "high",
         "area": "duplication_risk",
-        "issue": "Duplicate-content check gives false confidence.",
-        "evidence": "theory_map consistency check reports duplicate_key_findings PASS with empty details (site/public/data/v1/theory_map.json:114-117), but identical line 'See report assets for detailed findings.' appears in 5 report meta files (e.g., ring_lazy_jump/meta.json:7, ring_lazy_jump_ext/meta.json:7, ring_lazy_flux/meta.json:7, ring_deriv_k2/meta.json:7, ring_valley/meta.json:7).",
-        "fix": "Change duplicate detection to sentence-level normalized matching across all reports (not only full-list equality) and flag high-frequency boilerplate."
+        "issue": "Asset list rendering can collide on React keys because key uses only sha256 while duplicate hashes exist in a single report.",
+        "evidence": "render-pages.tsx line 243 uses key={asset.sha256}. In ring_lazy_jump_ext/meta.json and ring_lazy_jump/meta.json, first 20 assets already contain repeated sha256 values (same content in multiple paths).",
+        "fix": "Use stable unique key `${asset.sha256}:${asset.web_path}` and optionally deduplicate assets by (sha256, web_path label policy) before rendering."
+      },
+      {
+        "severity": "medium",
+        "area": "interaction_quality",
+        "issue": "Log-scale mode can drop a large fraction of points, risking misleading interpretation.",
+        "evidence": "ReportPlotPanel.tsx lines 84-97 replace non-positive y with null and only show aggregate dropped count. Example dataset site/public/data/v1/reports/grid2d_rect_bimodality/series/ot_scan_bias2d-2.json has 60% non-positive values.",
+        "fix": "Warn per series with dropped percentage, disable log toggle when drop ratio is high, or offer symlog/offset transform as safer alternative."
+      },
+      {
+        "severity": "medium",
+        "area": "mathematical_coherence",
+        "issue": "Theory-map QA check for duplicate findings is a false negative, so coherence diagnostics are over-optimistic.",
+        "evidence": "theory_map.json has consistency_checks entry {check:\"duplicate_key_findings\", pass:true, details:[]}, but exact duplicates exist across reports (e.g., grid2d_blackboard_bimodality and grid2d_reflecting_bimodality share 3 identical key_findings strings).",
+        "fix": "Recompute duplicate checks across all report metas with normalization (trim/markdown-strip/punctuation-fold) and include offending report_ids/details in theory_map output."
       },
       {
         "severity": "medium",
         "area": "readability",
-        "issue": "Bilingual UX claim is overstated and plot controls are English-only.",
-        "evidence": "Homepage claims 'full online, bilingual interface for 14 reports' (site/src/lib/render-pages.tsx:39-40). index shows some reports are en-only (ring_deriv_k2 at site/public/data/v1/index.json:56-60; ring_valley:125-129). ReportPlotPanel labels are hardcoded English ('Interactive Dataset', 'Y scale', 'Smoothing', etc., site/src/components/ReportPlotPanel.tsx:94-130).",
-        "fix": "Localize ReportPlotPanel via lang prop + localizedText; revise homepage claim to actual coverage (e.g., 'primarily bilingual' or count-based wording)."
+        "issue": "Per-report freshness signal is weak: all reports share the same updated_at timestamp.",
+        "evidence": "site/public/data/v1/index.json has one identical updated_at for all 14 reports (same as generated_at).",
+        "fix": "Store true per-report source mtime or commit timestamp; keep generated_at as pipeline build time only."
       },
       {
-        "severity": "medium",
+        "severity": "low",
         "area": "duplication_risk",
-        "issue": "Path-prefix utility logic is duplicated, increasing divergence risk.",
-        "evidence": "withBasePath is reimplemented in ReportPlotPanel (site/src/components/ReportPlotPanel.tsx:8-17) while equivalent logic exists in site/src/lib/content.ts (BASE_PATH + withBasePath).",
-        "fix": "Centralize in one shared utility and import it in both server/client-safe contexts (or split pure util module)."
-      },
-      {
-        "severity": "medium",
-        "area": "interaction_quality",
-        "issue": "Hard truncation hides mathematical context without disclosure or pagination.",
-        "evidence": "render-pages slices content silently: math_blocks.slice(0,10) (line 161), assets.slice(0,20) (214), figures.slice(0,24) (228), theory report_ids.slice(0,8) (271).",
-        "fix": "Show total counts, add 'show more' controls, and preserve discoverability for long math/report content."
+        "issue": "Math-card rendering logic is duplicated in two branches, increasing maintenance drift risk.",
+        "evidence": "render-pages.tsx lines 162-178 and 184-200 repeat near-identical JSX for math blocks.",
+        "fix": "Extract a reusable MathBlockCard component and map once (with optional collapsed pagination)."
       }
     ],
     "quick_wins": [
-      "Replace NaN tokens with null in generated series JSON and rerun strict JSON validation in CI.",
-      "Add explicit plot error state: 'Failed to load dataset' + retry button when fetch/parse fails.",
-      "Introduce coverage gate: every report_id in index.json must appear in at least one theory_map card.",
-      "Refactor ReportPlotPanel text to localized strings and pass lang from renderReportPage.",
-      "Consolidate withBasePath into one shared util and remove duplicate implementation.",
-      "Update duplicate_key_findings check to normalized sentence-level dedupe."
+      "Change asset key to sha256+web_path (1-line UI fix with immediate collision reduction).",
+      "Add CI lint rule for extracted text corruption tokens before publishing meta.json.",
+      "Show dropped-per-series badge in log mode and auto-fallback to linear when all points vanish.",
+      "Upgrade theory_map duplicate check to emit concrete duplicates (report_id + text hash).",
+      "Backfill index.json updated_at from report-level mtimes/git metadata."
     ],
     "crosscheck": [
       {
-        "target": "site/src/lib/render-pages.tsx",
-        "status": "checked",
-        "focus": "claim consistency, truncation behavior, theory/report rendering"
+        "file": "site/src/lib/render-pages.tsx",
+        "status": "warn",
+        "notes": "Directly renders extracted summary/narrative; asset key uses sha256 only; duplicated math-card JSX blocks."
       },
       {
-        "target": "site/src/components/ReportPlotPanel.tsx",
-        "status": "checked",
-        "focus": "fetch/parse robustness, localization, transformation behavior"
+        "file": "site/src/components/ReportPlotPanel.tsx",
+        "status": "warn",
+        "notes": "Good controls and fetch abort handling; log transform drops non-positive data aggressively with limited guidance."
       },
       {
-        "target": "site/public/data/v1/index.json",
-        "status": "checked",
-        "focus": "report inventory, language coverage baseline (14 reports)"
+        "file": "site/public/data/v1/index.json",
+        "status": "warn",
+        "notes": "Structure valid (14 reports, groups present), but updated_at lacks per-report granularity."
       },
       {
-        "target": "site/public/data/v1/theory_map.json",
-        "status": "checked",
-        "focus": "concept coverage, consistency_checks credibility, semantic claim alignment"
+        "file": "site/public/data/v1/theory_map.json",
+        "status": "warn",
+        "notes": "Card counts and report mapping are internally consistent, but duplicate_key_findings check misses real duplicates."
+      },
+      {
+        "file": "index.json ↔ theory_map.json",
+        "status": "pass",
+        "notes": "All index report_ids are mapped in theory cards; no unmapped/extra IDs."
       }
     ]
   }

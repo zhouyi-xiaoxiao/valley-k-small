@@ -82,15 +82,13 @@ def ensure_agent(agent_id: str, workspace: Path, model: str) -> tuple[bool, str]
     return True, "agent created"
 
 
-def select_model(candidates: list[str]) -> str:
+def select_models(candidates: list[str]) -> list[str]:
     listed = run(["openclaw", "models", "list", "--all", "--plain"], timeout=120)
     if listed.returncode != 0:
-        return candidates[-1]
+        return candidates
     available = {line.strip() for line in listed.stdout.splitlines() if line.strip()}
-    for model in candidates:
-        if model in available:
-            return model
-    return candidates[-1]
+    resolved = [model for model in candidates if model in available]
+    return resolved or candidates
 
 
 def build_prompt(repo_root: Path) -> str:
@@ -124,79 +122,94 @@ def main() -> int:
         "openai-codex/gpt-5.2",
         "openai/gpt-5.2-pro",
     ]
-    selected_model = select_model(model_candidates)
-    ok, note = ensure_agent(args.agent_id, args.workspace, selected_model)
-    if not ok:
-        payload = {
-            "ok": False,
-            "generated_at": utc_now_iso(),
-            "agent_id": args.agent_id,
-            "model": selected_model,
-            "error": note.strip()[:4000],
-        }
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(json.dumps(payload, ensure_ascii=False, indent=2))
-        return 1
-
+    selected_models = select_models(model_candidates)
     prompt = build_prompt(args.workspace)
-    session_id = f"oc-review-{uuid.uuid4()}"
-    reviewed = run(
-        [
-            "openclaw",
-            "agent",
-            "--local",
-            "--agent",
-            args.agent_id,
-            "--session-id",
-            session_id,
-            "--thinking",
-            "high",
-            "--timeout",
-            "900",
-            "--json",
-            "--message",
-            prompt,
-        ],
-        timeout=960,
-    )
-    if reviewed.returncode != 0:
-        payload = {
-            "ok": False,
+    attempt_errors: list[dict[str, str]] = []
+
+    for selected_model in selected_models:
+        ok, note = ensure_agent(args.agent_id, args.workspace, selected_model)
+        if not ok:
+            attempt_errors.append({"model": selected_model, "stage": "ensure_agent", "error": note.strip()[:4000]})
+            continue
+
+        session_id = f"oc-review-{uuid.uuid4()}"
+        reviewed = run(
+            [
+                "openclaw",
+                "agent",
+                "--local",
+                "--agent",
+                args.agent_id,
+                "--session-id",
+                session_id,
+                "--thinking",
+                "high",
+                "--timeout",
+                "900",
+                "--json",
+                "--message",
+                prompt,
+            ],
+            timeout=960,
+        )
+        if reviewed.returncode != 0:
+            attempt_errors.append(
+                {
+                    "model": selected_model,
+                    "stage": "review",
+                    "error": reviewed.stdout.strip()[:8000],
+                }
+            )
+            continue
+
+        raw = parse_json_maybe(reviewed.stdout) or {}
+        text_payload = ""
+        if isinstance(raw, dict):
+            payloads = raw.get("payloads")
+            if isinstance(payloads, list) and payloads:
+                first = payloads[0]
+                if isinstance(first, dict):
+                    text_payload = str(first.get("text", ""))
+        parsed_review = parse_json_maybe(text_payload) or {"raw_text": text_payload.strip()}
+        review_ok = isinstance(parsed_review, dict) and "score" in parsed_review and "findings" in parsed_review
+        if not review_ok:
+            attempt_errors.append(
+                {
+                    "model": selected_model,
+                    "stage": "parse",
+                    "error": json.dumps(parsed_review, ensure_ascii=False)[:4000],
+                }
+            )
+            continue
+
+        output = {
+            "ok": True,
             "generated_at": utc_now_iso(),
             "agent_id": args.agent_id,
+            "session_id": session_id,
             "model": selected_model,
-            "error": reviewed.stdout.strip()[:8000],
+            "model_candidates": selected_models,
+            "agent_setup_note": note,
+            "attempt_errors": attempt_errors,
+            "review": parsed_review,
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(json.dumps(payload, ensure_ascii=False, indent=2))
-        return 1
+        args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(json.dumps(output, ensure_ascii=False, indent=2))
+        return 0
 
-    raw = parse_json_maybe(reviewed.stdout) or {}
-    text_payload = ""
-    if isinstance(raw, dict):
-        payloads = raw.get("payloads")
-        if isinstance(payloads, list) and payloads:
-            first = payloads[0]
-            if isinstance(first, dict):
-                text_payload = str(first.get("text", ""))
-    parsed_review = parse_json_maybe(text_payload) or {"raw_text": text_payload.strip()}
-    review_ok = isinstance(parsed_review, dict) and "score" in parsed_review and "findings" in parsed_review
-
-    output = {
-        "ok": review_ok,
+    payload = {
+        "ok": False,
         "generated_at": utc_now_iso(),
         "agent_id": args.agent_id,
-        "session_id": session_id,
-        "model": selected_model,
-        "agent_setup_note": note,
-        "review": parsed_review,
+        "model_candidates": selected_models,
+        "attempt_errors": attempt_errors,
+        "error": "All configured models failed for OpenClaw review.",
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(json.dumps(output, ensure_ascii=False, indent=2))
-    return 0 if review_ok else 1
+    args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(json.dumps(payload, ensure_ascii=False, indent=2))
+    return 1
 
 
 if __name__ == "__main__":

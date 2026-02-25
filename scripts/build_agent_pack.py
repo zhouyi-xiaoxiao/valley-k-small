@@ -118,6 +118,10 @@ def build_guide_markdown(manifest: dict[str, Any]) -> str:
         "",
         "## Entry Files",
         "- `manifest.json` : package-level index and hashes",
+        "- `book_manifest.json` : chapter topology and report-to-chapter mapping",
+        "- `book_chapters.jsonl` : chapter-level normalized records",
+        "- `claim_graph.jsonl` : claim-to-evidence graph edges",
+        "- `translation_qc.json` : bilingual purity gate status",
         "- `content_map.json` : claim-level narrative arcs + evidence trails",
         "- `report_cards.jsonl` : one normalized report card per report",
         "- `openclaw_tasks.json` : actionable tasks extracted from OpenClaw review",
@@ -125,10 +129,12 @@ def build_guide_markdown(manifest: dict[str, Any]) -> str:
         "",
         "## Recommended Agent Workflow",
         "1. Read `manifest.json` and validate all hashes.",
-        "2. Read `content_map.json` to follow cross-report arcs and claim evidence links.",
-        "3. Read `report_cards.jsonl` to locate target report(s) and math logic chain.",
-        "4. Follow `openclaw_tasks.json` high severity items first.",
-        "5. Regenerate via `python3 scripts/reportctl.py agent-pack` after edits.",
+        "2. Read `book_manifest.json` and `book_chapters.jsonl` to recover chapter-first narrative context.",
+        "3. Read `claim_graph.jsonl` + `content_map.json` to follow claim evidence links.",
+        "4. Read `translation_qc.json` before language-specific edits or generation.",
+        "5. Read `report_cards.jsonl` to locate target report(s) and math logic chain.",
+        "6. Follow `openclaw_tasks.json` high severity items first.",
+        "7. Regenerate via `python3 scripts/reportctl.py agent-pack` after edits.",
         "",
         "## Non-Temporary Review Trace",
         "OpenClaw review outputs are persisted to `artifacts/checks/openclaw_review.json` and mirrored into this pack.",
@@ -143,12 +149,22 @@ def build_agent_pack() -> dict[str, Any]:
         raise SystemExit("missing agent sync outputs; run `python3 scripts/reportctl.py agent-sync` first")
     if not (DATA_ROOT / "content_map.json").exists():
         raise SystemExit("missing content map outputs; run `python3 scripts/reportctl.py web-data --mode full` first")
+    if not (DATA_ROOT / "book" / "book_manifest.json").exists():
+        raise SystemExit("missing book outputs; run `python3 scripts/reportctl.py book-data` first")
+    if not (AGENT_DATA_ROOT / "book_chapters.jsonl").exists():
+        raise SystemExit("missing book chapter stream; run `python3 scripts/reportctl.py agent-sync` first")
+    if not (AGENT_DATA_ROOT / "claim_graph.jsonl").exists():
+        raise SystemExit("missing claim graph stream; run `python3 scripts/reportctl.py agent-sync` first")
+    if not (AGENT_DATA_ROOT / "translation_qc.json").exists():
+        raise SystemExit("missing translation qc payload; run `python3 scripts/reportctl.py translation-qc` first")
 
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
     index = read_json(DATA_ROOT / "index.json")
     agent_manifest = read_json(AGENT_DATA_ROOT / "manifest.json")
     theory_map = read_json(DATA_ROOT / "theory_map.json")
     content_map = read_json(DATA_ROOT / "content_map.json")
+    book_manifest = read_json(DATA_ROOT / "book" / "book_manifest.json")
+    translation_qc = read_json(AGENT_DATA_ROOT / "translation_qc.json")
     claims_by_report: dict[str, list[dict[str, Any]]] = {}
     for claim in content_map.get("claims", []):
         rid = str(claim.get("report_id", "")).strip()
@@ -196,6 +212,10 @@ def build_agent_pack() -> dict[str, Any]:
         "guide.json",
         "reports.jsonl",
         "events.jsonl",
+        "book_manifest.json",
+        "book_chapters.jsonl",
+        "claim_graph.jsonl",
+        "translation_qc.json",
     ]
     for name in sync_files:
         src = AGENT_DATA_ROOT / name
@@ -203,16 +223,33 @@ def build_agent_pack() -> dict[str, Any]:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
     shutil.copy2(DATA_ROOT / "content_map.json", OUT_ROOT / "content_map.json")
+    shutil.copy2(DATA_ROOT / "book" / "book_manifest.json", OUT_ROOT / "book_manifest.json")
+    shutil.copy2(DATA_ROOT / "book" / "toc.json", OUT_ROOT / "book_toc.json")
 
     summary = {
         "generated_at": utc_now_iso(),
         "report_count": len(report_cards),
         "claim_count": len(content_map.get("claims", [])),
+        "book_chapter_count": int(book_manifest.get("chapter_count", 0)),
         "theory_card_count": len(theory_map.get("cards", [])),
         "openclaw_task_count": len(openclaw_tasks),
+        "translation_qc_passed": bool(translation_qc.get("passed", False)),
         "agent_manifest_generated_at": agent_manifest.get("generated_at"),
     }
     write_json(OUT_ROOT / "summary.json", summary)
+
+    trace_specs = [
+        (CHECKS_ROOT / "openclaw_review_history.jsonl", "openclaw_review_history.jsonl"),
+        (CHECKS_ROOT / "content_iteration" / "run_history.jsonl", "content_iteration_run_history.jsonl"),
+    ]
+    copied_traces: list[str] = []
+    for src, out_name in trace_specs:
+        if not src.exists():
+            continue
+        dst = OUT_ROOT / "traces" / out_name
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        copied_traces.append(dst.relative_to(OUT_ROOT).as_posix())
 
     manifest = {
         "version": "agent-pack-v1",
@@ -220,21 +257,50 @@ def build_agent_pack() -> dict[str, Any]:
         "report_count": len(report_cards),
         "files": {
             "summary": "summary.json",
+            "book_manifest": "book_manifest.json",
+            "book_toc": "book_toc.json",
             "report_cards": "report_cards.jsonl",
             "openclaw_tasks": "openclaw_tasks.json",
             "schema_refs": "schema_refs.json",
             "content_map": "content_map.json",
             "agent_sync": "agent_sync/",
+            "traces": copied_traces,
             "guide": "AGENT_GUIDE.md",
+            "process_trace": "PROCESS_TRACE.md",
         },
         "hashes": {
+            "book_manifest_sha256": sha256_file(OUT_ROOT / "book_manifest.json"),
             "report_cards_sha256": sha256_file(report_cards_path),
             "openclaw_tasks_sha256": sha256_file(openclaw_tasks_path),
             "content_map_sha256": sha256_file(OUT_ROOT / "content_map.json"),
+            "claim_graph_sha256": sha256_file(OUT_ROOT / "agent_sync" / "claim_graph.jsonl"),
+            "translation_qc_sha256": sha256_file(OUT_ROOT / "agent_sync" / "translation_qc.json"),
         },
     }
     write_json(OUT_ROOT / "manifest.json", manifest)
     (OUT_ROOT / "AGENT_GUIDE.md").write_text(build_guide_markdown(manifest), encoding="utf-8")
+    trace_md = [
+        "# Process Trace",
+        "",
+        "This pack preserves non-temporary review records for long-horizon agent continuation.",
+        "",
+        "## Included Trace Streams",
+    ]
+    if copied_traces:
+        trace_md.extend([f"- `{path}`" for path in copied_traces])
+    else:
+        trace_md.append("- No trace stream found in artifacts/checks yet.")
+    trace_md.extend(
+        [
+            "",
+            "## Regeneration",
+            "- `python3 scripts/reportctl.py content-iterate --rounds 3 --mode full`",
+            "- `python3 scripts/reportctl.py openclaw-review`",
+            "- `python3 scripts/reportctl.py agent-pack`",
+            "",
+        ]
+    )
+    (OUT_ROOT / "PROCESS_TRACE.md").write_text("\n".join(trace_md), encoding="utf-8")
 
     history_path = OUT_ROOT / "run_history.jsonl"
     with history_path.open("a", encoding="utf-8") as f:

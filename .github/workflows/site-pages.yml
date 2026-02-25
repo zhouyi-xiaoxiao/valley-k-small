@@ -48,6 +48,8 @@ jobs:
             MODE="full"
           fi
           python3 scripts/reportctl.py web-data --mode "$MODE"
+          python3 scripts/reportctl.py book-data
+          python3 scripts/reportctl.py translation-qc
           python3 scripts/reportctl.py agent-sync
           python3 scripts/validate_web_data.py
 

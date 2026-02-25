@@ -98,7 +98,7 @@ def choose_report_pdf(report_item: dict[str, Any], lang: str) -> Path | None:
     return None
 
 
-def render_header(lang: str, report_count: int, generated_at: str, base_url: str) -> str:
+def render_header(lang: str, report_count: int, generated_at: str, base_url: str) -> tuple[str, str, str, str]:
     if lang == "cn":
         title = "Valley-K Small 研究总册"
         subtitle = "网站-出版物-Agent 三位一体交付版"
@@ -109,6 +109,7 @@ def render_header(lang: str, report_count: int, generated_at: str, base_url: str
         sec_exec = "执行摘要"
         sec_scope = "覆盖范围"
         sec_theory = "统一理论框架"
+        sec_book = "书籍主线章节"
         sec_reports = "报告综述"
         sec_appendix = "附录：完整报告 PDF"
     else:
@@ -121,6 +122,7 @@ def render_header(lang: str, report_count: int, generated_at: str, base_url: str
         sec_exec = "Executive Summary"
         sec_scope = "Coverage"
         sec_theory = "Unified Theory Framework"
+        sec_book = "Book Mainline Chapters"
         sec_reports = "Report Digest"
         sec_appendix = "Appendix: Full Report PDFs"
 
@@ -170,7 +172,7 @@ def render_header(lang: str, report_count: int, generated_at: str, base_url: str
         rf"\section*{{{tex_escape(sec_theory)}}}",
         ]
     )
-    return "\n".join(lines), sec_reports, sec_appendix
+    return "\n".join(lines), sec_book, sec_reports, sec_appendix
 
 
 def render_theory_cards(theory_map: dict[str, Any], lang: str) -> str:
@@ -182,6 +184,95 @@ def render_theory_cards(theory_map: dict[str, Any], lang: str) -> str:
         lines.append(f"{tex_escape(str(label or ''))} & {tex_escape(str(desc or ''))}\\\\")
     lines.extend([r"\bottomrule", r"\end{longtable}"])
     return "\n".join(lines)
+
+
+def render_book_mainline(lang: str) -> tuple[str, list[dict[str, Any]]]:
+    manifest_path = DATA_ROOT / "book" / "book_manifest.json"
+    chapter_root = DATA_ROOT / "book" / "chapters"
+    if not manifest_path.exists() or not chapter_root.exists():
+        return "", []
+
+    manifest = read_json(manifest_path)
+    rows = sorted(manifest.get("chapters", []), key=lambda row: int(row.get("order", 0)))
+    lines: list[str] = []
+    summary_rows: list[dict[str, Any]] = []
+
+    for row in rows:
+        chapter_id = str(row.get("chapter_id", "")).strip()
+        if not chapter_id:
+            continue
+        chapter_path = chapter_root / f"{chapter_id}.json"
+        if not chapter_path.exists():
+            continue
+        chapter = read_json(chapter_path)
+
+        title = chapter.get("title_cn") if lang == "cn" else chapter.get("title_en")
+        summary = chapter.get("summary_cn") if lang == "cn" else chapter.get("summary_en")
+        intros = chapter.get("intro_cn") if lang == "cn" else chapter.get("intro_en")
+        concept_cards = chapter.get("concept_cards", [])
+        theory_chain = chapter.get("theory_chain", [])
+        claim_ledger = chapter.get("claim_ledger", [])
+        linked_reports = chapter.get("linked_reports", [])
+
+        lines.append(rf"\subsection*{{{tex_escape(str(title))} (\texttt{{{tex_escape(chapter_id)}}})}}")
+        lines.append(rf"\textbf{{Summary}}: {tex_escape(str(summary))}")
+
+        lines.append(r"\textbf{Chapter Guide}")
+        lines.append(r"\begin{itemize}[leftmargin=1.2em]")
+        for paragraph in list(intros or [])[:3]:
+            lines.append(rf"\item {tex_escape(str(paragraph))}")
+        lines.append(r"\end{itemize}")
+
+        lines.append(r"\textbf{Concept Cards}")
+        lines.append(r"\begin{itemize}[leftmargin=1.2em]")
+        for card in concept_cards[:4]:
+            label = card.get("label_cn") if lang == "cn" else card.get("label_en")
+            desc = card.get("description_cn") if lang == "cn" else card.get("description_en")
+            lines.append(rf"\item {tex_escape(str(label))}: {tex_escape(clean_text(str(desc)))}")
+        lines.append(r"\end{itemize}")
+
+        lines.append(r"\textbf{Theory Chain}")
+        lines.append(r"\begin{itemize}[leftmargin=1.2em]")
+        for item in theory_chain[:5]:
+            desc = item.get("description_cn") if lang == "cn" else item.get("description_en")
+            latex = clean_text(str(item.get("latex") or ""))
+            if len(latex) > 120:
+                latex = latex[:117] + "..."
+            lines.append(
+                rf"\item [{tex_escape(str(item.get('stage', 'step')))}] "
+                rf"{tex_escape(clean_text(str(desc)))} (\texttt{{{tex_escape(latex)}}})"
+            )
+        lines.append(r"\end{itemize}")
+
+        lines.append(r"\textbf{Claim Ledger}")
+        lines.append(r"\begin{itemize}[leftmargin=1.2em]")
+        for claim in claim_ledger[:6]:
+            text = claim.get("text_cn") if lang == "cn" else claim.get("text_en")
+            lines.append(
+                rf"\item [{tex_escape(str(claim.get('stage', 'finding')))}] "
+                rf"{tex_escape(clean_text(str(text)))} "
+                rf"(evidence={len(claim.get('evidence', []))})"
+            )
+        lines.append(r"\end{itemize}")
+
+        lines.append(r"\textbf{Linked Reports}")
+        lines.append(r"\begin{itemize}[leftmargin=1.2em]")
+        for report in linked_reports[:6]:
+            rtitle = report.get("title_cn") if lang == "cn" else report.get("title_en")
+            lines.append(rf"\item {tex_escape(str(rtitle))} (\texttt{{{tex_escape(str(report.get('report_id', '')))}}})")
+        lines.append(r"\end{itemize}")
+
+        summary_rows.append(
+            {
+                "chapter_id": chapter_id,
+                "title": title,
+                "claim_count": len(claim_ledger),
+                "interactive_count": len(chapter.get("interactive_panels", [])),
+                "report_count": len(linked_reports),
+            }
+        )
+
+    return "\n".join(lines), summary_rows
 
 
 def render_report_digest(
@@ -287,13 +378,14 @@ def build_compendium(*, lang: str, include_appendix: bool, base_url: str) -> dic
     content_map = read_json(DATA_ROOT / "content_map.json") if (DATA_ROOT / "content_map.json").exists() else {}
     registry = load_registry()
 
-    header_tex, sec_reports, sec_appendix = render_header(
+    header_tex, sec_book, sec_reports, sec_appendix = render_header(
         lang=lang,
         report_count=len(index.get("reports", [])),
         generated_at=utc_now_iso(),
         base_url=base_url,
     )
     theory_tex = render_theory_cards(theory_map, lang=lang)
+    book_tex, book_rows = render_book_mainline(lang=lang)
     digest_tex, digest_rows = render_report_digest(registry, lang=lang, content_map=content_map)
 
     appendix_paths: list[Path] = []
@@ -308,9 +400,20 @@ def build_compendium(*, lang: str, include_appendix: bool, base_url: str) -> dic
     parts = [
         header_tex,
         theory_tex,
+    ]
+    if book_tex:
+        parts.extend(
+            [
+                rf"\section*{{{tex_escape(sec_book)}}}",
+                book_tex,
+            ]
+        )
+    parts.extend(
+        [
         rf"\section*{{{tex_escape(sec_reports)}}}",
         digest_tex,
-    ]
+        ]
+    )
     if include_appendix and appendix_paths:
         parts.append(rf"\section*{{{tex_escape(sec_appendix)}}}")
         parts.append(render_appendix(appendix_paths))
@@ -344,8 +447,10 @@ def build_compendium(*, lang: str, include_appendix: bool, base_url: str) -> dic
         "pdf_path": pdf_path.relative_to(REPO_ROOT).as_posix(),
         "pdf_sha256": sha256_file(pdf_path),
         "report_count": len(digest_rows),
+        "book_chapter_count": len(book_rows),
         "appendix_report_count": len(appendix_paths) if include_appendix else 0,
         "base_url": base_url,
+        "book_chapters": book_rows,
         "reports": digest_rows,
     }
     manifest_path = OUT_DIR / f"manifest_{lang}.json"

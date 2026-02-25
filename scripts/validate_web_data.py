@@ -20,6 +20,10 @@ WEB_SCHEMA_PATH = REPO_ROOT / "schemas" / "web_report.schema.json"
 AGENT_SCHEMA_PATH = REPO_ROOT / "schemas" / "agent_sync_v1.schema.json"
 THEORY_SCHEMA_PATH = REPO_ROOT / "schemas" / "theory_map_v1.schema.json"
 CONTENT_SCHEMA_PATH = REPO_ROOT / "schemas" / "content_map_v1.schema.json"
+BOOK_MANIFEST_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_manifest_v1.schema.json"
+BOOK_CHAPTER_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_chapter_v1.schema.json"
+GLOSSARY_SCHEMA_PATH = REPO_ROOT / "schemas" / "glossary_v1.schema.json"
+TRANSLATION_QC_SCHEMA_PATH = REPO_ROOT / "schemas" / "translation_qc_v1.schema.json"
 
 
 def read_json(path: Path) -> Any:
@@ -184,6 +188,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--agent-schema", type=Path, default=AGENT_SCHEMA_PATH)
     parser.add_argument("--theory-schema", type=Path, default=THEORY_SCHEMA_PATH)
     parser.add_argument("--content-schema", type=Path, default=CONTENT_SCHEMA_PATH)
+    parser.add_argument("--book-manifest-schema", type=Path, default=BOOK_MANIFEST_SCHEMA_PATH)
+    parser.add_argument("--book-chapter-schema", type=Path, default=BOOK_CHAPTER_SCHEMA_PATH)
+    parser.add_argument("--glossary-schema", type=Path, default=GLOSSARY_SCHEMA_PATH)
+    parser.add_argument("--translation-qc-schema", type=Path, default=TRANSLATION_QC_SCHEMA_PATH)
     return parser.parse_args()
 
 
@@ -199,6 +207,10 @@ def main() -> int:
     agent_schema = read_json(args.agent_schema)
     theory_schema = read_json(args.theory_schema)
     content_schema = read_json(args.content_schema)
+    book_manifest_schema = read_json(args.book_manifest_schema)
+    book_chapter_schema = read_json(args.book_chapter_schema)
+    glossary_schema = read_json(args.glossary_schema)
+    translation_qc_schema = read_json(args.translation_qc_schema)
 
     index_payload = read_json(index_path)
     reports = list(index_payload.get("reports", []))
@@ -272,9 +284,22 @@ def main() -> int:
     manifest_path = data_root / "agent" / "manifest.json"
     reports_jsonl = data_root / "agent" / "reports.jsonl"
     events_jsonl = data_root / "agent" / "events.jsonl"
+    book_manifest_json = data_root / "agent" / "book_manifest.json"
+    book_chapters_jsonl = data_root / "agent" / "book_chapters.jsonl"
+    claim_graph_jsonl = data_root / "agent" / "claim_graph.jsonl"
+    translation_qc_json = data_root / "agent" / "translation_qc.json"
     guide_json = data_root / "agent" / "guide.json"
 
-    if not manifest_path.exists() or not reports_jsonl.exists() or not events_jsonl.exists() or not guide_json.exists():
+    if (
+        not manifest_path.exists()
+        or not reports_jsonl.exists()
+        or not events_jsonl.exists()
+        or not book_manifest_json.exists()
+        or not book_chapters_jsonl.exists()
+        or not claim_graph_jsonl.exists()
+        or not translation_qc_json.exists()
+        or not guide_json.exists()
+    ):
         raise SystemExit("Missing one or more agent sync files")
 
     manifest_payload = read_json(manifest_path)
@@ -323,6 +348,72 @@ def main() -> int:
             + ",".join(claims_without_evidence[:12])
         )
 
+    book_root = data_root / "book"
+    book_manifest_path = book_root / "book_manifest.json"
+    book_toc_path = book_root / "toc.json"
+    glossary_path = data_root / "glossary" / "terms.json"
+
+    if not book_manifest_path.exists():
+        raise SystemExit(f"Missing book manifest: {book_manifest_path}")
+    if not book_toc_path.exists():
+        raise SystemExit(f"Missing book toc: {book_toc_path}")
+    if not glossary_path.exists():
+        raise SystemExit(f"Missing glossary terms: {glossary_path}")
+
+    book_manifest_payload = read_json(book_manifest_path)
+    book_toc_payload = read_json(book_toc_path)
+    glossary_payload = read_json(glossary_path)
+    translation_qc_payload = read_json(translation_qc_json)
+
+    validate_with_schema(book_manifest_payload, book_manifest_schema, str(book_manifest_path))
+    validate_with_schema(glossary_payload, glossary_schema, str(glossary_path))
+    validate_with_schema(translation_qc_payload, translation_qc_schema, str(translation_qc_json))
+
+    toc_en = list(book_toc_payload.get("en", []))
+    toc_cn = list(book_toc_payload.get("cn", []))
+    chapter_rows = list(book_manifest_payload.get("chapters", []))
+    if len(toc_en) != len(chapter_rows) or len(toc_cn) != len(chapter_rows):
+        raise SystemExit(
+            "Invalid book toc payload: chapter count mismatch "
+            f"(toc_en={len(toc_en)}, toc_cn={len(toc_cn)}, chapters={len(chapter_rows)})"
+        )
+
+    chapter_ids = {str(row.get("chapter_id", "")).strip() for row in chapter_rows if str(row.get("chapter_id", "")).strip()}
+    if len(chapter_ids) != len(chapter_rows):
+        raise SystemExit("Invalid book manifest: duplicate chapter_id detected")
+
+    for chapter in chapter_rows:
+        chapter_id = str(chapter.get("chapter_id", "")).strip()
+        chapter_path = book_root / "chapters" / f"{chapter_id}.json"
+        if not chapter_path.exists():
+            raise SystemExit(f"Missing chapter payload: {chapter_path}")
+        chapter_payload = read_json(chapter_path)
+        validate_with_schema(chapter_payload, book_chapter_schema, str(chapter_path))
+        if len(chapter_payload.get("interactive_panels", [])) < 1:
+            raise SystemExit(f"Invalid chapter payload: no interactive panels in {chapter_id}")
+        if len(chapter_payload.get("claim_ledger", [])) < 1:
+            raise SystemExit(f"Invalid chapter payload: no claim ledger rows in {chapter_id}")
+        for claim in chapter_payload.get("claim_ledger", []):
+            if not list(claim.get("evidence", [])):
+                raise SystemExit(
+                    f"Invalid chapter payload: claim without evidence in {chapter_id}: {claim.get('claim_id')}"
+                )
+
+    report_chapter_map = book_manifest_payload.get("report_chapter_map", {})
+    missing_book_links = sorted([rid for rid in report_ids if rid not in report_chapter_map])
+    if missing_book_links:
+        raise SystemExit(
+            "Invalid book manifest: some reports are not mapped to chapters: "
+            + ",".join(missing_book_links[:10])
+        )
+
+    if not bool(translation_qc_payload.get("passed", False)):
+        stats = translation_qc_payload.get("stats", {})
+        raise SystemExit(
+            "Translation QC gate failed: "
+            f"high={stats.get('high', 'n/a')} warning={stats.get('warning', 'n/a')}"
+        )
+
     report_record_schema = agent_schema["$defs"]["report_record"]
     for idx, line in enumerate(reports_jsonl.read_text(encoding="utf-8").splitlines(), start=1):
         if not line.strip():
@@ -336,6 +427,20 @@ def main() -> int:
             continue
         payload = json.loads(line)
         validate_with_schema(payload, event_schema, f"events.jsonl:{idx}")
+
+    chapter_record_schema = agent_schema["$defs"]["book_chapter_record"]
+    for idx, line in enumerate(book_chapters_jsonl.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        payload = json.loads(line)
+        validate_with_schema(payload, chapter_record_schema, f"book_chapters.jsonl:{idx}")
+
+    claim_graph_schema = agent_schema["$defs"]["claim_graph_record"]
+    for idx, line in enumerate(claim_graph_jsonl.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        payload = json.loads(line)
+        validate_with_schema(payload, claim_graph_schema, f"claim_graph.jsonl:{idx}")
 
     duplicates = [
         {
@@ -366,9 +471,11 @@ def main() -> int:
             {
                 "ok": True,
                 "reports": len(reports),
+                "book_chapters": len(chapter_rows),
                 "index": index_path.as_posix(),
                 "agent_manifest": manifest_path.as_posix(),
                 "formula_count": len(formulas_for_lint),
+                "translation_qc": translation_qc_json.as_posix(),
             },
             ensure_ascii=False,
             indent=2,

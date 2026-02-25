@@ -6,6 +6,7 @@ import json
 import re
 import subprocess
 import uuid
+import glob
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -92,19 +93,52 @@ def select_models(candidates: list[str]) -> list[str]:
     return resolved or candidates
 
 
-def build_prompt(repo_root: Path) -> str:
+def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
+    snapshot: dict[str, Any] = {}
+    theory_map_path = repo_root / "site" / "public" / "data" / "v1" / "theory_map.json"
+    if theory_map_path.exists():
+        try:
+            theory_map = json.loads(theory_map_path.read_text(encoding="utf-8"))
+            checks = {str(item.get("check", "")): bool(item.get("pass")) for item in theory_map.get("consistency_checks", [])}
+            snapshot["theory_checks"] = {
+                "duplicate_math_signatures": checks.get("duplicate_math_signatures"),
+                "asset_label_duplication": checks.get("asset_label_duplication"),
+            }
+        except json.JSONDecodeError:
+            snapshot["theory_checks"] = {"parse_error": True}
+
+    mixed = 0
+    total = 0
+    for path in glob.glob(str(repo_root / "site" / "public" / "data" / "v1" / "reports" / "*" / "series" / "*.json")):
+        try:
+            payload = json.loads(Path(path).read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        total += 1
+        types = {str(row.get("series_type", "")).strip() for row in payload.get("series", []) if str(row.get("series_type", "")).strip()}
+        if len(types) > 1:
+            mixed += 1
+    snapshot["semantic_payload_homogeneity"] = {"mixed_series_payloads": mixed, "total_series_payloads": total}
+    return snapshot
+
+
+def build_prompt(repo_root: Path, local_snapshot: dict[str, Any]) -> str:
     return (
         "You are a strict QA reviewer for a mathematics-heavy website and publication pipeline. "
         "Review the repository at "
         f"{repo_root.as_posix()} "
         "with focus on content coherence, readability, mathematical continuity, interaction quality, verifiability, and duplication risk. "
         "Cross-check these files first: "
-        "site/src/lib/render-pages.tsx, site/src/components/ReportPlotPanel.tsx, "
+        "site/src/lib/render-pages.tsx, site/src/lib/render-book-pages.tsx, site/src/components/ReportPlotPanel.tsx, "
         "site/public/data/v1/index.json, site/public/data/v1/theory_map.json, "
         "site/public/data/v1/report_network.json, site/public/data/v1/content_map.json, "
+        "site/public/data/v1/book/book_manifest.json, site/public/data/v1/book/toc.json, "
         "artifacts/deliverables/publication/valley_k_small_compendium_en.pdf. "
         "Also sample-check at least 5 report metadata files under site/public/data/v1/reports/*/meta.json. "
+        "Ground-truth snapshot computed locally (must be respected unless you provide explicit contradictory evidence): "
+        f"{json.dumps(local_snapshot, ensure_ascii=False)}. "
         "For each finding, emphasize concrete content-level defects and whether statements are verifiable from evidence paths. "
+        "If your claim contradicts the snapshot, set severity='disputed' and provide exact contrary values from files. "
         "Return ONLY compact JSON with keys: "
         "score (0-100), findings (array of {severity, area, issue, evidence, fix}), "
         "quick_wins (array), crosscheck (array). "
@@ -124,12 +158,14 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     model_candidates = [
+        "openai/gpt-5.2-pro-extended-thinking",
         "openai/gpt-5.2-pro",
         "openai-codex/gpt-5.3-codex",
         "openai-codex/gpt-5.2",
     ]
     selected_models = select_models(model_candidates)
-    prompt = build_prompt(args.workspace)
+    local_snapshot = build_local_snapshot(args.workspace)
+    prompt = build_prompt(args.workspace, local_snapshot)
     attempt_errors: list[dict[str, str]] = []
 
     for selected_model in selected_models:

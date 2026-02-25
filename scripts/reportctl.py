@@ -169,14 +169,41 @@ def cmd_web_data(*, mode: str, reports: list[str]) -> int:
     return subprocess.run(cmd, cwd=REPO_ROOT).returncode
 
 
+def cmd_book_data() -> int:
+    steps = [
+        ("build-glossary", [PYTHON, "scripts/build_glossary.py"]),
+        ("build-book-content", [PYTHON, "scripts/build_book_content.py"]),
+    ]
+    for name, cmd in steps:
+        rc = _run_cmd(name, cmd, scope="book-data")
+        if rc != 0:
+            return rc
+    return 0
+
+
 def cmd_agent_sync() -> int:
     cmd = [PYTHON, "scripts/build_agent_sync.py"]
+    return subprocess.run(cmd, cwd=REPO_ROOT).returncode
+
+
+def cmd_translation_qc(*, high_max: int, warning_max: int) -> int:
+    cmd = [
+        PYTHON,
+        "scripts/validate_bilingual_quality.py",
+        "--high-max",
+        str(max(0, high_max)),
+        "--warning-max",
+        str(max(0, warning_max)),
+    ]
     return subprocess.run(cmd, cwd=REPO_ROOT).returncode
 
 
 def cmd_web_build(*, mode: str, skip_npm_ci: bool) -> int:
     steps = [
         ("web-data", [PYTHON, "scripts/build_web_data.py", "--mode", mode]),
+        ("book-data", [PYTHON, "scripts/build_glossary.py"]),
+        ("build-book-content", [PYTHON, "scripts/build_book_content.py"]),
+        ("translation-qc", [PYTHON, "scripts/validate_bilingual_quality.py"]),
         ("agent-sync", [PYTHON, "scripts/build_agent_sync.py"]),
         ("validate-web-data", [PYTHON, "scripts/validate_web_data.py"]),
     ]
@@ -206,6 +233,17 @@ def cmd_web_preview(*, port: int) -> int:
         print("[web-preview] run `python3 scripts/reportctl.py web-build` first")
         return 1
 
+    cmd = [PYTHON, "-m", "http.server", str(port), "--directory", str(out_dir)]
+    return subprocess.run(cmd, cwd=SITE_DIR).returncode
+
+
+def cmd_book_preview(*, port: int) -> int:
+    out_dir = SITE_DIR / "out"
+    if not out_dir.exists():
+        print(f"[book-preview] missing build output: {out_dir}")
+        print("[book-preview] run `python3 scripts/reportctl.py web-build` first")
+        return 1
+    print(f"[book-preview] open http://127.0.0.1:{port}/book/ after server starts")
     cmd = [PYTHON, "-m", "http.server", str(port), "--directory", str(out_dir)]
     return subprocess.run(cmd, cwd=SITE_DIR).returncode
 
@@ -293,7 +331,13 @@ def parse_args() -> argparse.Namespace:
     p_web_data.add_argument("--mode", choices=["full", "changed"], default="changed")
     p_web_data.add_argument("--report", action="append", default=[])
 
+    sub.add_parser("book-data", help="Build chapterized book payloads + glossary")
+
     sub.add_parser("agent-sync", help="Build agent-sync JSONL + manifest outputs")
+
+    p_translation_qc = sub.add_parser("translation-qc", help="Run bilingual CN/EN quality checks")
+    p_translation_qc.add_argument("--high-max", type=int, default=0)
+    p_translation_qc.add_argument("--warning-max", type=int, default=80)
 
     p_web_build = sub.add_parser("web-build", help="Build web data + site static export")
     p_web_build.add_argument("--mode", choices=["full", "changed"], default="changed")
@@ -301,6 +345,9 @@ def parse_args() -> argparse.Namespace:
 
     p_web_preview = sub.add_parser("web-preview", help="Serve built static site locally")
     p_web_preview.add_argument("--port", type=int, default=4173)
+
+    p_book_preview = sub.add_parser("book-preview", help="Serve built static site and highlight /book")
+    p_book_preview.add_argument("--port", type=int, default=4173)
 
     sub.add_parser("openclaw-review", help="Run OpenClaw high-thinking QA review and write artifacts/checks/openclaw_review.json")
     p_pub = sub.add_parser("publication-pdf", help="Build publication-grade compendium PDF")
@@ -346,12 +393,18 @@ def main() -> int:
         return cmd_prune_legacy_artifacts(dry_run=bool(args.dry_run), report=args.report)
     if args.subcmd == "web-data":
         return cmd_web_data(mode=str(args.mode), reports=list(args.report))
+    if args.subcmd == "book-data":
+        return cmd_book_data()
     if args.subcmd == "agent-sync":
         return cmd_agent_sync()
+    if args.subcmd == "translation-qc":
+        return cmd_translation_qc(high_max=int(args.high_max), warning_max=int(args.warning_max))
     if args.subcmd == "web-build":
         return cmd_web_build(mode=str(args.mode), skip_npm_ci=bool(args.skip_npm_ci))
     if args.subcmd == "web-preview":
         return cmd_web_preview(port=int(args.port))
+    if args.subcmd == "book-preview":
+        return cmd_book_preview(port=int(args.port))
     if args.subcmd == "openclaw-review":
         return cmd_openclaw_review()
     if args.subcmd == "publication-pdf":

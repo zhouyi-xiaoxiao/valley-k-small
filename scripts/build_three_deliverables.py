@@ -38,13 +38,16 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
     steps: list[dict[str, Any]] = []
 
     steps.append(run_step("Agent-A-WebData", [PYTHON, "scripts/build_web_data.py", "--mode", mode]))
-    steps.append(run_step("Agent-B-AgentSync", [PYTHON, "scripts/build_agent_sync.py"]))
-    steps.append(run_step("Agent-C-Validate", [PYTHON, "scripts/validate_web_data.py"]))
+    steps.append(run_step("Agent-B-BookData-Glossary", [PYTHON, "scripts/build_glossary.py"]))
+    steps.append(run_step("Agent-C-BookData-Chapters", [PYTHON, "scripts/build_book_content.py"]))
+    steps.append(run_step("Agent-D-TranslationQC", [PYTHON, "scripts/validate_bilingual_quality.py"]))
+    steps.append(run_step("Agent-E-AgentSync", [PYTHON, "scripts/build_agent_sync.py"]))
+    steps.append(run_step("Agent-F-Validate", [PYTHON, "scripts/validate_web_data.py"]))
 
     if not skip_site_build:
         steps.append(
             run_step(
-                "Agent-D-FrontendBuild",
+                "Agent-G-FrontendBuild",
                 ["npm", "run", "build"],
                 cwd=SITE_DIR,
                 env={
@@ -57,7 +60,7 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
     else:
         steps.append(
             {
-                "agent": "Agent-D-FrontendBuild",
+                "agent": "Agent-G-FrontendBuild",
                 "command": ["skip:site-build"],
                 "return_code": 0,
                 "status": "pass",
@@ -66,9 +69,9 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
             }
         )
 
-    steps.append(run_step("Agent-E-PublicationEN", [PYTHON, "scripts/build_publication_pdf.py", "--lang", "en"]))
-    steps.append(run_step("Agent-F-PublicationCN", [PYTHON, "scripts/build_publication_pdf.py", "--lang", "cn"]))
-    steps.append(run_step("Agent-G-AgentPack", [PYTHON, "scripts/build_agent_pack.py"]))
+    steps.append(run_step("Agent-H-PublicationEN", [PYTHON, "scripts/build_publication_pdf.py", "--lang", "en"]))
+    steps.append(run_step("Agent-I-PublicationCN", [PYTHON, "scripts/build_publication_pdf.py", "--lang", "cn"]))
+    steps.append(run_step("Agent-J-AgentPack", [PYTHON, "scripts/build_agent_pack.py"]))
 
     content_cmd = [
         PYTHON,
@@ -80,7 +83,7 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
     ]
     if skip_openclaw:
         content_cmd.append("--skip-openclaw")
-    steps.append(run_step("Agent-H-ContentIteration", content_cmd))
+    steps.append(run_step("Agent-K-ContentIteration", content_cmd))
 
     ok = all(s["status"] == "pass" for s in steps)
     payload = {

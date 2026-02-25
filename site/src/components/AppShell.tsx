@@ -20,6 +20,7 @@ export function AppShell({
             valley-k-small
           </Link>
           <nav className="nav">
+            <Link href={prefixPath(prefix, '/book')}>{localizedText(lang, 'Book', '书籍')}</Link>
             <Link href={prefixPath(prefix, '/reports')}>
               {localizedText(lang, 'Reports', '报告')}
             </Link>

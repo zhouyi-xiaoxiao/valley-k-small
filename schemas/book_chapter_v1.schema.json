@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valley-k-small.dev/schemas/book_chapter_v1.schema.json",
+  "title": "Book Chapter V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "chapter_id",
+    "order",
+    "slug",
+    "title_en",
+    "title_cn",
+    "kicker_en",
+    "kicker_cn",
+    "intro_en",
+    "intro_cn",
+    "concept_cards",
+    "theory_chain",
+    "interactive_panels",
+    "linked_reports",
+    "claim_ledger",
+    "summary_en",
+    "summary_cn",
+    "previous_chapter_id",
+    "next_chapter_id",
+    "source_paths",
+    "updated_at"
+  ],
+  "properties": {
+    "chapter_id": { "type": "string", "minLength": 1 },
+    "order": { "type": "integer", "minimum": 0 },
+    "slug": { "type": "string", "minLength": 1 },
+    "title_en": { "type": "string", "minLength": 1 },
+    "title_cn": { "type": "string", "minLength": 1 },
+    "kicker_en": { "type": "string", "minLength": 1 },
+    "kicker_cn": { "type": "string", "minLength": 1 },
+    "intro_en": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "intro_cn": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "concept_cards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label_en", "label_cn", "description_en", "description_cn", "report_ids"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "label_en": { "type": "string", "minLength": 1 },
+          "label_cn": { "type": "string", "minLength": 1 },
+          "description_en": { "type": "string", "minLength": 1 },
+          "description_cn": { "type": "string", "minLength": 1 },
+          "report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "theory_chain": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["report_id", "stage", "label_en", "label_cn", "description_en", "description_cn", "latex", "context"],
+        "properties": {
+          "report_id": { "type": "string", "minLength": 1 },
+          "stage": { "type": "string", "minLength": 1 },
+          "label_en": { "type": "string", "minLength": 1 },
+          "label_cn": { "type": "string", "minLength": 1 },
+          "description_en": { "type": "string", "minLength": 1 },
+          "description_cn": { "type": "string", "minLength": 1 },
+          "latex": { "type": "string", "minLength": 1 },
+          "context": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "interactive_panels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "panel_id",
+          "report_id",
+          "title_en",
+          "title_cn",
+          "dataset_series_id",
+          "dataset_path",
+          "x_label",
+          "y_label",
+          "parameter_hint_en",
+          "parameter_hint_cn"
+        ],
+        "properties": {
+          "panel_id": { "type": "string", "minLength": 1 },
+          "report_id": { "type": "string", "minLength": 1 },
+          "title_en": { "type": "string", "minLength": 1 },
+          "title_cn": { "type": "string", "minLength": 1 },
+          "dataset_series_id": { "type": "string", "minLength": 1 },
+          "dataset_path": { "type": "string", "pattern": "^/data/v1/reports/" },
+          "x_label": { "type": "string", "minLength": 1 },
+          "y_label": { "type": "string", "minLength": 1 },
+          "parameter_hint_en": { "type": "string", "minLength": 1 },
+          "parameter_hint_cn": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "linked_reports": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "report_id",
+          "group",
+          "title_en",
+          "title_cn",
+          "summary_en",
+          "summary_cn",
+          "book_role_en",
+          "book_role_cn"
+        ],
+        "properties": {
+          "report_id": { "type": "string", "minLength": 1 },
+          "group": { "type": "string", "minLength": 1 },
+          "title_en": { "type": "string", "minLength": 1 },
+          "title_cn": { "type": "string", "minLength": 1 },
+          "summary_en": { "type": "string", "minLength": 1 },
+          "summary_cn": { "type": "string", "minLength": 1 },
+          "book_role_en": { "type": "string", "minLength": 1 },
+          "book_role_cn": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "claim_ledger": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim_id", "report_id", "stage", "text_en", "text_cn", "evidence", "linked_report_ids"],
+        "properties": {
+          "claim_id": { "type": "string", "minLength": 1 },
+          "report_id": { "type": "string", "minLength": 1 },
+          "stage": { "type": "string", "enum": ["model", "method", "result", "finding"] },
+          "text_en": { "type": "string", "minLength": 1 },
+          "text_cn": { "type": "string", "minLength": 1 },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["evidence_type", "path", "snippet_en", "snippet_cn"],
+              "properties": {
+                "evidence_type": { "type": "string", "minLength": 1 },
+                "path": { "type": "string", "minLength": 1 },
+                "snippet_en": { "type": "string", "minLength": 1 },
+                "snippet_cn": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "linked_report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "summary_en": { "type": "string", "minLength": 1 },
+    "summary_cn": { "type": "string", "minLength": 1 },
+    "previous_chapter_id": { "type": ["string", "null"] },
+    "next_chapter_id": { "type": ["string", "null"] },
+    "source_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

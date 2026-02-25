@@ -991,26 +991,60 @@ def disambiguate_figure_titles(records: list[dict[str, Any]]) -> list[dict[str, 
     return records
 
 
+def infer_series_type_by_distribution(values: list[float]) -> str | None:
+    finite_values = [float(v) for v in values if isinstance(v, (int, float)) and math.isfinite(float(v))]
+    if not finite_values:
+        return None
+    unique_values = sorted({round(v, 10) for v in finite_values})
+    if unique_values and set(unique_values).issubset({0.0, 1.0}):
+        return "binary"
+
+    min_v = min(finite_values)
+    max_v = max(finite_values)
+    span = max_v - min_v
+    in_unit_interval = min_v >= -1e-10 and max_v <= 1.0 + 1e-10
+    if in_unit_interval:
+        if len(unique_values) > 2:
+            return "probability"
+        non_integral = sum(1 for v in finite_values if not math.isclose(v, round(v), abs_tol=1e-10))
+        if non_integral >= max(1, int(len(finite_values) * 0.2)):
+            return "probability"
+
+    all_integerish = all(math.isclose(v, round(v), abs_tol=1e-10) for v in finite_values)
+    if all_integerish and len(unique_values) <= 8 and span <= 12:
+        return "parameter"
+    if all_integerish and len(unique_values) <= 4 and span <= 3:
+        return "parameter"
+    return None
+
+
 def infer_series_type(name: str, values: list[float]) -> str:
     lowered = name.lower()
     finite_values = [float(v) for v in values if isinstance(v, (int, float)) and math.isfinite(float(v))]
     unique_values = sorted({round(v, 10) for v in finite_values})
+    dist_type = infer_series_type_by_distribution(finite_values)
 
-    if unique_values and set(unique_values).issubset({0.0, 1.0}):
-        return "binary"
+    if dist_type in {"binary", "probability"}:
+        return dist_type
     if re.search(r"(flag|indicator|bool|pass|fail|is_)", lowered):
         return "binary"
     if re.search(r"(pmf|cdf|prob|mass|survival|hazard|density|ratio|rate|share)", lowered):
         return "probability"
-    # Ambiguous tokens like n/t/k are often true metrics in this corpus.
+
+    # Ambiguous single-letter symbols should prefer distribution over regex heuristics.
     if lowered in {"n", "t", "k"}:
+        if dist_type is not None:
+            return "metric" if dist_type == "probability" else dist_type
         if finite_values:
             span = max(finite_values) - min(finite_values)
             if span > 2 or len(unique_values) > 4:
                 return "metric"
         return "parameter"
+
     if re.search(r"(beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)", lowered):
         return "parameter"
+    if dist_type is not None:
+        return dist_type
     return "metric"
 
 
@@ -1345,6 +1379,76 @@ def fallback_asset_dataset(report_id: str, assets: list[dict[str, Any]]) -> dict
     }
 
 
+SERIES_TYPE_ORDER = ["metric", "probability", "binary", "parameter"]
+
+
+def split_dataset_by_semantics(parsed: dict[str, Any]) -> list[dict[str, Any]]:
+    series = list(parsed.get("series", []))
+    if not series:
+        return []
+
+    semantics_by_name: dict[str, dict[str, Any]] = {}
+    for item in parsed.get("series_semantics", []):
+        name = str(item.get("name", "")).strip()
+        if name:
+            semantics_by_name[name] = dict(item)
+
+    grouped_names: dict[str, list[str]] = defaultdict(list)
+    for item in series:
+        name = str(item.get("name", "")).strip()
+        if not name:
+            continue
+        semantic = semantics_by_name.get(name)
+        if semantic is None:
+            values = [float(v) for v in item.get("y", []) if isinstance(v, (int, float))]
+            semantic = build_series_semantics(name, values)
+            semantics_by_name[name] = semantic
+        series_type = str(semantic.get("series_type", "metric"))
+        grouped_names[series_type].append(name)
+
+    type_order = [tp for tp in SERIES_TYPE_ORDER if grouped_names.get(tp)]
+    extra_types = sorted(set(grouped_names.keys()) - set(SERIES_TYPE_ORDER))
+    type_order.extend(extra_types)
+
+    if len(type_order) <= 1:
+        normalized = dict(parsed)
+        normalized["series_semantics"] = [semantics_by_name[str(item.get("name", "")).strip()] for item in series if str(item.get("name", "")).strip() in semantics_by_name]
+        return [normalized]
+
+    variants: list[dict[str, Any]] = []
+    default_series = list(parsed.get("default_series", []))
+    mixed_types = type_order[:]
+
+    for series_type in type_order:
+        names = grouped_names.get(series_type, [])
+        if not names:
+            continue
+        selected = [item for item in series if str(item.get("name", "")).strip() in set(names)]
+        semantics = [semantics_by_name[name] for name in names if name in semantics_by_name]
+        defaults = [name for name in default_series if name in names]
+        if not defaults:
+            defaults = names[:1]
+        y_label_base = str(parsed.get("y_label", "value"))
+        pretty_type = series_type.replace("-", " ")
+        provenance = dict(parsed.get("provenance", {}))
+        provenance["semantic_split"] = series_type
+        provenance["semantic_mix"] = mixed_types
+        variants.append(
+            {
+                **parsed,
+                "y_label": f"{y_label_base} [{pretty_type}]",
+                "series": selected,
+                "series_semantics": semantics,
+                "default_series": defaults,
+                "provenance": provenance,
+                "variant_suffix": series_type,
+                "variant_title_suffix": pretty_type,
+            }
+        )
+
+    return variants
+
+
 def build_datasets(
     report_id: str,
     report_dir: Path,
@@ -1369,6 +1473,11 @@ def build_datasets(
 
     series_dir = out_report_dir / "series"
     series_dir.mkdir(parents=True, exist_ok=True)
+    for stale in series_dir.glob("*.json"):
+        try:
+            stale.unlink()
+        except OSError:
+            pass
 
     for candidate in data_candidates:
         if len(datasets_meta) >= max_datasets:
@@ -1382,42 +1491,53 @@ def build_datasets(
         if not parsed:
             continue
 
+        variants = split_dataset_by_semantics(parsed)
         stem = re.sub(r"[^a-zA-Z0-9_-]+", "-", candidate.stem.lower()).strip("-")
-        series_id = stem or f"dataset-{len(datasets_meta) + 1}"
-        if series_id in seen_ids:
-            suffix = 2
-            while f"{series_id}-{suffix}" in seen_ids:
-                suffix += 1
-            series_id = f"{series_id}-{suffix}"
-        seen_ids.add(series_id)
+        stem = stem or f"dataset-{len(datasets_meta) + 1}"
+        for variant_index, variant in enumerate(variants):
+            if len(datasets_meta) >= max_datasets:
+                break
+            suffix = str(variant.get("variant_suffix", "")).strip().lower().replace(" ", "-")
+            raw_series_id = stem if not suffix else f"{stem}-{suffix}"
+            series_id = raw_series_id
+            if series_id in seen_ids:
+                dedupe_suffix = 2
+                while f"{series_id}-{dedupe_suffix}" in seen_ids:
+                    dedupe_suffix += 1
+                series_id = f"{series_id}-{dedupe_suffix}"
+            seen_ids.add(series_id)
 
-        payload = {
-            "report_id": report_id,
-            "series_id": series_id,
-            "x_label": parsed["x_label"],
-            "y_label": parsed["y_label"],
-            "series": parsed["series"],
-            "series_semantics": parsed.get("series_semantics", []),
-            "default_series": parsed.get("default_series", []),
-            "provenance": parsed["provenance"],
-        }
-
-        series_rel = f"/data/v1/reports/{report_id}/series/{series_id}.json"
-        series_path = series_dir / f"{series_id}.json"
-        series_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
-
-        datasets_meta.append(
-            {
+            payload = {
+                "report_id": report_id,
                 "series_id": series_id,
-                "title": candidate.stem,
-                "x_label": parsed["x_label"],
-                "y_label": parsed["y_label"],
-                "series_path": series_rel,
-                "default_series": parsed.get("default_series", []),
-                "series_semantics": parsed.get("series_semantics", []),
-                "provenance": parsed["provenance"],
+                "x_label": variant["x_label"],
+                "y_label": variant["y_label"],
+                "series": variant["series"],
+                "series_semantics": variant.get("series_semantics", []),
+                "default_series": variant.get("default_series", []),
+                "provenance": variant["provenance"],
             }
-        )
+
+            series_rel = f"/data/v1/reports/{report_id}/series/{series_id}.json"
+            series_path = series_dir / f"{series_id}.json"
+            series_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+
+            title_suffix = str(variant.get("variant_title_suffix", "")).strip()
+            title = candidate.stem if not title_suffix else f"{candidate.stem} [{title_suffix}]"
+            if len(variants) == 1 and variant_index == 0:
+                title = candidate.stem
+            datasets_meta.append(
+                {
+                    "series_id": series_id,
+                    "title": title,
+                    "x_label": variant["x_label"],
+                    "y_label": variant["y_label"],
+                    "series_path": series_rel,
+                    "default_series": variant.get("default_series", []),
+                    "series_semantics": variant.get("series_semantics", []),
+                    "provenance": variant["provenance"],
+                }
+            )
 
     if not datasets_meta:
         fallback = fallback_asset_dataset(report_id, assets)

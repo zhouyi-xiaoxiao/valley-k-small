@@ -175,7 +175,12 @@
             "required": ["type", "source"],
             "properties": {
               "type": { "type": "string", "minLength": 1 },
-              "source": { "type": "string", "minLength": 1 }
+              "source": { "type": "string", "minLength": 1 },
+              "semantic_split": { "type": "string", "minLength": 1 },
+              "semantic_mix": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 }
+              }
             }
           }
         }

@@ -5,6 +5,7 @@ import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
   groupReports,
   loadAgentManifest,
+  loadBookManifest,
   loadContentMap,
   loadFigures,
   loadIndex,
@@ -221,6 +222,27 @@ function reportArcs(contentMap: ContentMap, reportId: string) {
   return contentMap.arcs.filter((row) => row.report_ids.includes(reportId));
 }
 
+function reportBookPlacement(reportId: string, lang: Lang, manifest: ReturnType<typeof loadBookManifest>) {
+  if (!manifest) {
+    return null;
+  }
+  const mapping = manifest.report_chapter_map?.[reportId];
+  if (!mapping) {
+    return null;
+  }
+  const primary = manifest.chapters.find((row) => row.chapter_id === mapping.primary_chapter_id);
+  if (!primary) {
+    return null;
+  }
+  return {
+    chapterId: primary.chapter_id,
+    chapterTitle: lang === 'cn' ? primary.title_cn : primary.title_en,
+    previousChapterId: primary.previous_chapter_id,
+    nextChapterId: primary.next_chapter_id,
+    chapterIds: mapping.chapter_ids,
+  };
+}
+
 const CLAIM_STAGE_ORDER: Record<'model' | 'method' | 'result' | 'finding', number> = {
   model: 0,
   method: 1,
@@ -241,6 +263,78 @@ function formatTimestamp(lang: Lang, iso: string): string {
   }).format(new Date(iso))} UTC`;
 }
 
+function summarizeCheckDetails(details: unknown, lang: Lang): string[] {
+  if (details === null || details === undefined) {
+    return [];
+  }
+  if (Array.isArray(details)) {
+    if (details.length === 0) {
+      return [localizedText(lang, 'No issues detected.', '未发现问题。')];
+    }
+    const preview = details.slice(0, 3).map((item) => {
+      if (typeof item === 'string') {
+        return item;
+      }
+      if (item && typeof item === 'object') {
+        const row = item as { report_id?: string; text?: string; latex?: string; count?: number };
+        if (row.report_id) {
+          return `${row.report_id}: ${row.count ?? ''}`.trim();
+        }
+        if (row.text) {
+          return compactText(row.text, 100);
+        }
+        if (row.latex) {
+          return compactText(row.latex, 100);
+        }
+      }
+      return compactText(String(item), 100);
+    });
+    if (details.length > preview.length) {
+      preview.push(
+        localizedText(
+          lang,
+          `${details.length - preview.length} more items in raw JSON.`,
+          `其余 ${details.length - preview.length} 条见原始 JSON。`,
+        ),
+      );
+    }
+    return preview;
+  }
+  if (typeof details === 'object') {
+    const payload = details as Record<string, unknown>;
+    const lines: string[] = [];
+    const preferredKeys = ['redundant_count', 'shared_core_count', 'unmapped_report_ids', 'duplicate_count', 'total_assets'];
+    for (const key of preferredKeys) {
+      if (payload[key] !== undefined) {
+        lines.push(`${key}: ${String(payload[key])}`);
+      }
+    }
+    if (lines.length > 0) {
+      return lines;
+    }
+    for (const [key, value] of Object.entries(payload).slice(0, 5)) {
+      if (Array.isArray(value)) {
+        lines.push(`${key}: ${value.length}`);
+      } else if (value && typeof value === 'object') {
+        lines.push(`${key}: ${Object.keys(value as Record<string, unknown>).length}`);
+      } else {
+        lines.push(`${key}: ${String(value)}`);
+      }
+    }
+    if (Object.keys(payload).length > 5) {
+      lines.push(
+        localizedText(
+          lang,
+          `${Object.keys(payload).length - 5} more fields in raw JSON.`,
+          `其余 ${Object.keys(payload).length - 5} 个字段见原始 JSON。`,
+        ),
+      );
+    }
+    return lines;
+  }
+  return [String(details)];
+}
+
 export function renderHomePage(lang: Lang, prefix: string) {
   const index = loadIndex();
   const grouped = groupReports(index);
@@ -257,6 +351,11 @@ export function renderHomePage(lang: Lang, prefix: string) {
           {lang === 'cn'
             ? `面向 ${index.reports.length} 份报告的在线界面，提供广覆盖中英文内容、交互图形、数学原理说明和机器可读同步产物。`
             : `A full online interface for ${index.reports.length} reports with broad CN/EN coverage, interactive figures, mathematical context, and machine-readable synchronization outputs.`}
+        </p>
+        <p>
+          <Link href={prefixPath(prefix, '/book')} className="badge">
+            {localizedText(lang, 'Start Book Mainline', '进入书籍主线')}
+          </Link>
         </p>
         <div className="grid grid-3">
           <div className="card">
@@ -350,10 +449,12 @@ export function renderHomePage(lang: Lang, prefix: string) {
 export function renderReportsPage(lang: Lang, prefix: string) {
   const index = loadIndex();
   const network = loadReportNetwork();
+  const bookManifest = loadBookManifest();
   const enriched = index.reports.map((item) => {
     const meta = loadReportMeta(item.report_id, lang);
     const preview = extractReportPreview(meta, item.report_id, lang);
-    return { item, preview };
+    const mapping = bookManifest?.report_chapter_map?.[item.report_id];
+    return { item, preview, mapping };
   });
 
   return (
@@ -386,10 +487,19 @@ export function renderReportsPage(lang: Lang, prefix: string) {
           </div>
         </details>
         <div className="grid grid-2">
-          {enriched.map(({ item, preview }) => (
+          {enriched.map(({ item, preview, mapping }) => (
             <article key={item.report_id} className="card">
               <p style={{ marginBottom: '0.35rem' }}>
                 <span className="badge">{item.group}</span>
+                {mapping?.primary_chapter_id ? (
+                  <>
+                    {' '}
+                    <span className="badge">
+                      {localizedText(lang, 'Book', '书籍')}:{' '}
+                      <Link href={prefixPath(prefix, `/book/${mapping.primary_chapter_id}`)}>{mapping.primary_chapter_id}</Link>
+                    </span>
+                  </>
+                ) : null}
               </p>
               <h3>
                 <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>{preview.title}</Link>
@@ -431,7 +541,9 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const figures = loadFigures(reportId);
   const network = loadReportNetwork();
   const contentMap = loadContentMap();
+  const bookManifest = loadBookManifest();
   const networkNode = network.reports.find((row) => row.report_id === reportId);
+  const bookPlacement = reportBookPlacement(reportId, lang, bookManifest);
   const claims = reportClaims(contentMap, reportId);
   const claimsOrdered = [...claims].sort((left, right) => {
     const leftRank = CLAIM_STAGE_ORDER[left.stage] ?? 99;
@@ -451,6 +563,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const sectionsPreview = filteredSections.slice(0, 6);
   const sectionsExtra = filteredSections.slice(6);
   const navItems = [
+    { id: 'book-position', label: localizedText(lang, 'Book Position', '书籍定位') },
     { id: 'reading-path', label: localizedText(lang, 'Reading Path', '阅读路径') },
     { id: 'connected-reports', label: localizedText(lang, 'Connected Reports', '关联报告链') },
     { id: 'narrative-arcs', label: localizedText(lang, 'Narrative Arc Position', '叙事弧线定位') },
@@ -494,6 +607,48 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             <p>{meta.narrative.result_overview}</p>
           </article>
         </div>
+      </section>
+
+      <section id="book-position" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Book Position', '书籍定位')}</h3>
+        {bookPlacement ? (
+          <>
+            <p className="lead">
+              {localizedText(
+                lang,
+                'This report is part of the chapterized mainline. Use chapter links to keep continuity instead of reading reports in isolation.',
+                '该报告已纳入章节化主线。建议通过章节链接保持连续阅读，而不是把报告孤立阅读。',
+              )}
+            </p>
+            <p>
+              <span className="badge">{localizedText(lang, 'Primary chapter', '主章节')}</span>{' '}
+              <Link href={prefixPath(prefix, `/book/${bookPlacement.chapterId}`)}>{bookPlacement.chapterTitle}</Link>
+            </p>
+            <p>
+              <span className="badge">{localizedText(lang, 'Also appears in', '同时出现于')}</span>{' '}
+              {bookPlacement.chapterIds.map((chapterId) => (
+                <Link key={`${reportId}-${chapterId}`} href={prefixPath(prefix, `/book/${chapterId}`)} style={{ marginRight: '0.45rem' }}>
+                  {chapterId}
+                </Link>
+              ))}
+            </p>
+            <p>
+              {bookPlacement.previousChapterId ? (
+                <Link href={prefixPath(prefix, `/book/${bookPlacement.previousChapterId}`)}>
+                  {localizedText(lang, '← Previous chapter', '← 上一章')}
+                </Link>
+              ) : null}
+              {'  '}
+              {bookPlacement.nextChapterId ? (
+                <Link href={prefixPath(prefix, `/book/${bookPlacement.nextChapterId}`)}>
+                  {localizedText(lang, 'Next chapter →', '下一章 →')}
+                </Link>
+              ) : null}
+            </p>
+          </>
+        ) : (
+          <p>{localizedText(lang, 'No chapter mapping found yet.', '尚未生成章节映射。')}</p>
+        )}
       </section>
 
       <section id="reading-path" className="card section-enter" style={{ marginTop: '1rem' }}>
@@ -1020,17 +1175,28 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Consistency Checks', '一致性检查')}</h2>
         <ul>
-          {map.consistency_checks.map((check) => (
-            <li key={check.check}>
-              <strong>{check.check}</strong>: {check.pass ? 'PASS' : 'FAIL'}
-              <details style={{ marginTop: '0.35rem' }}>
-                <summary>{localizedText(lang, 'Details', '详情')}</summary>
-                <pre style={{ whiteSpace: 'pre-wrap', margin: '0.45rem 0 0' }}>
-                  {JSON.stringify(check.details, null, 2)}
-                </pre>
-              </details>
-            </li>
-          ))}
+          {map.consistency_checks.map((check) => {
+            const summaryLines = summarizeCheckDetails(check.details, lang);
+            return (
+              <li key={check.check}>
+                <strong>{check.check}</strong>: {check.pass ? 'PASS' : 'FAIL'}
+                <details style={{ marginTop: '0.35rem' }}>
+                  <summary>{localizedText(lang, 'Details', '详情')}</summary>
+                  <ul style={{ marginTop: '0.35rem' }}>
+                    {summaryLines.map((line, index) => (
+                      <li key={`${check.check}-${index}`}>{line}</li>
+                    ))}
+                  </ul>
+                  <details style={{ marginTop: '0.35rem' }}>
+                    <summary>{localizedText(lang, 'Raw JSON (advanced)', '原始 JSON（高级）')}</summary>
+                    <pre style={{ whiteSpace: 'pre-wrap', margin: '0.45rem 0 0' }}>
+                      {JSON.stringify(check.details, null, 2)}
+                    </pre>
+                  </details>
+                </details>
+              </li>
+            );
+          })}
         </ul>
       </section>
 
@@ -1127,6 +1293,26 @@ export function renderAgentSyncPage(lang: Lang, prefix: string) {
             </a>
           </li>
           <li>
+            <a href={withBasePath('/data/v1/agent/book_manifest.json')} target="_blank" rel="noreferrer">
+              /data/v1/agent/book_manifest.json
+            </a>
+          </li>
+          <li>
+            <a href={withBasePath('/data/v1/agent/book_chapters.jsonl')} target="_blank" rel="noreferrer">
+              /data/v1/agent/book_chapters.jsonl
+            </a>
+          </li>
+          <li>
+            <a href={withBasePath('/data/v1/agent/claim_graph.jsonl')} target="_blank" rel="noreferrer">
+              /data/v1/agent/claim_graph.jsonl
+            </a>
+          </li>
+          <li>
+            <a href={withBasePath('/data/v1/agent/translation_qc.json')} target="_blank" rel="noreferrer">
+              /data/v1/agent/translation_qc.json
+            </a>
+          </li>
+          <li>
             <a href={withBasePath('/data/v1/theory_map.json')} target="_blank" rel="noreferrer">
               /data/v1/theory_map.json
             </a>
@@ -1151,6 +1337,9 @@ export function renderAgentSyncPage(lang: Lang, prefix: string) {
         <ol>
           <li>{localizedText(lang, 'Read manifest.json and verify hashes first.', '先读取 manifest.json 并校验哈希。')}</li>
           <li>{localizedText(lang, 'Stream reports.jsonl for normalized per-report records.', '再流式读取 reports.jsonl 获取标准化报告记录。')}</li>
+          <li>{localizedText(lang, 'Use book_manifest.json + book_chapters.jsonl to follow chapter continuity.', '结合 book_manifest.json 与 book_chapters.jsonl 追踪章节主线。')}</li>
+          <li>{localizedText(lang, 'Use claim_graph.jsonl and content_map.json for evidence graph traversal.', '使用 claim_graph.jsonl 与 content_map.json 构建证据图。')}</li>
+          <li>{localizedText(lang, 'Check translation_qc.json before language-specific generation.', '在语言生成前先检查 translation_qc.json。')}</li>
           <li>{localizedText(lang, 'Use events.jsonl for incremental sync checkpoints.', '用 events.jsonl 做增量同步检查点。')}</li>
           <li>{localizedText(lang, 'Join with theory_map.json for cross-report concept coverage.', '结合 theory_map.json 做跨报告概念映射。')}</li>
           <li>
@@ -1197,6 +1386,12 @@ export function renderAboutPage(lang: Lang, prefix: string) {
         <ul>
           <li>
             <code>python3 scripts/reportctl.py web-data</code>
+          </li>
+          <li>
+            <code>python3 scripts/reportctl.py book-data</code>
+          </li>
+          <li>
+            <code>python3 scripts/reportctl.py translation-qc</code>
           </li>
           <li>
             <code>python3 scripts/reportctl.py agent-sync</code>

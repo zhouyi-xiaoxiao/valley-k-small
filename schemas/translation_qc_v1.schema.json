@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valley-k-small.dev/schemas/translation_qc_v1.schema.json",
+  "title": "Translation QC V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "generated_at", "passed", "thresholds", "stats", "issues"],
+  "properties": {
+    "version": { "type": "string", "const": "v1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "passed": { "type": "boolean" },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["high_max", "warning_max"],
+      "properties": {
+        "high_max": { "type": "integer", "minimum": 0 },
+        "warning_max": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scanned_text_blocks", "high", "warning"],
+      "properties": {
+        "scanned_text_blocks": { "type": "integer", "minimum": 0 },
+        "high": { "type": "integer", "minimum": 0 },
+        "warning": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "scope", "location", "lang", "field", "excerpt", "message"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["high", "warning"] },
+          "scope": { "type": "string", "enum": ["report", "book", "global"] },
+          "location": { "type": "string", "minLength": 1 },
+          "lang": { "type": "string", "enum": ["en", "cn"] },
+          "field": { "type": "string", "minLength": 1 },
+          "excerpt": { "type": "string", "minLength": 1 },
+          "message": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

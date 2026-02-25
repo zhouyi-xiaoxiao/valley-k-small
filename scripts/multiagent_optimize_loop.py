@@ -307,20 +307,58 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
         )
     )
 
-    results.append(run_cmd("Agent-B-Sync", [sys.executable, "scripts/build_agent_sync.py"], round_id=round_id, profile_name=profile.name))
-    results.append(run_cmd("Agent-C-Validate", [sys.executable, "scripts/validate_web_data.py"], round_id=round_id, profile_name=profile.name))
+    results.append(
+        run_cmd(
+            "Agent-B-Glossary",
+            [sys.executable, "scripts/build_glossary.py"],
+            round_id=round_id,
+            profile_name=profile.name,
+        )
+    )
+    results.append(
+        run_cmd(
+            "Agent-C-BookContent",
+            [sys.executable, "scripts/build_book_content.py"],
+            round_id=round_id,
+            profile_name=profile.name,
+        )
+    )
+    results.append(
+        run_cmd(
+            "Agent-D-TranslationQC",
+            [sys.executable, "scripts/validate_bilingual_quality.py"],
+            round_id=round_id,
+            profile_name=profile.name,
+        )
+    )
+    results.append(
+        run_cmd(
+            "Agent-E-Sync",
+            [sys.executable, "scripts/build_agent_sync.py"],
+            round_id=round_id,
+            profile_name=profile.name,
+        )
+    )
+    results.append(
+        run_cmd(
+            "Agent-F-Validate",
+            [sys.executable, "scripts/validate_web_data.py"],
+            round_id=round_id,
+            profile_name=profile.name,
+        )
+    )
 
     with ThreadPoolExecutor(max_workers=2) as executor:
         fut_pytest = executor.submit(
             run_cmd,
-            "Agent-D-QA-Tests",
+            "Agent-G-QA-Tests",
             [sys.executable, "-m", "pytest", "-q", "tests/test_web_payload_pipeline.py"],
             round_id=round_id,
             profile_name=profile.name,
         )
         fut_docs = executor.submit(
             run_cmd,
-            "Agent-E-QA-Docs",
+            "Agent-H-QA-Docs",
             [sys.executable, "scripts/check_docs_paths.py"],
             round_id=round_id,
             profile_name=profile.name,
@@ -331,7 +369,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     if skip_frontend_build:
         results.append(
             {
-                "agent": "Agent-F-Frontend-Build",
+                "agent": "Agent-I-Frontend-Build",
                 "status": "pass",
                 "return_code": 0,
                 "duration_s": 0.0,
@@ -342,7 +380,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     else:
         results.append(
             run_cmd(
-                "Agent-F-Frontend-Build",
+                "Agent-I-Frontend-Build",
                 ["npm", "run", "build"],
                 round_id=round_id,
                 profile_name=profile.name,
@@ -357,7 +395,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
         )
     results.append(
         run_cmd(
-            "Agent-G-OpenClaw-Review",
+            "Agent-J-OpenClaw-Review",
             [sys.executable, "scripts/run_openclaw_review.py"],
             round_id=round_id,
             profile_name=profile.name,

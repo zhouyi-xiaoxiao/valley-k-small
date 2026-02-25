@@ -16,10 +16,25 @@
         "files": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["reports_jsonl", "events_jsonl", "theory_map", "guide_json"],
+          "required": [
+            "reports_jsonl",
+            "events_jsonl",
+            "book_manifest",
+            "book_chapters_jsonl",
+            "claim_graph_jsonl",
+            "translation_qc",
+            "theory_map",
+            "guide_json",
+            "report_network",
+            "content_map"
+          ],
           "properties": {
             "reports_jsonl": { "type": "string", "pattern": "^/data/v1/agent/reports\\.jsonl$" },
             "events_jsonl": { "type": "string", "pattern": "^/data/v1/agent/events\\.jsonl$" },
+            "book_manifest": { "type": "string", "pattern": "^/data/v1/agent/book_manifest\\.json$" },
+            "book_chapters_jsonl": { "type": "string", "pattern": "^/data/v1/agent/book_chapters\\.jsonl$" },
+            "claim_graph_jsonl": { "type": "string", "pattern": "^/data/v1/agent/claim_graph\\.jsonl$" },
+            "translation_qc": { "type": "string", "pattern": "^/data/v1/agent/translation_qc\\.json$" },
             "theory_map": { "type": "string", "pattern": "^/data/v1/theory_map\\.json$" },
             "guide_json": { "type": "string", "pattern": "^/data/v1/agent/guide\\.json$" },
             "report_network": { "type": "string", "pattern": "^/data/v1/report_network\\.json$" },
@@ -29,10 +44,23 @@
         "hashes": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["reports_jsonl_sha256", "events_jsonl_sha256"],
+          "required": [
+            "reports_jsonl_sha256",
+            "events_jsonl_sha256",
+            "book_manifest_sha256",
+            "book_chapters_jsonl_sha256",
+            "claim_graph_jsonl_sha256",
+            "translation_qc_sha256",
+            "report_network_sha256",
+            "content_map_sha256"
+          ],
           "properties": {
             "reports_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "events_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "book_manifest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "book_chapters_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "claim_graph_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "translation_qc_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "report_network_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
             "content_map_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
           }
@@ -106,6 +134,69 @@
         "dataset_count": { "type": "integer", "minimum": 0 },
         "asset_count": { "type": "integer", "minimum": 0 },
         "formula_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "book_chapter_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chapter_id",
+        "order",
+        "title_en",
+        "title_cn",
+        "report_ids",
+        "interactive_count",
+        "claim_count",
+        "theory_chain_count",
+        "source_paths"
+      ],
+      "properties": {
+        "chapter_id": { "type": "string", "minLength": 1 },
+        "order": { "type": "integer", "minimum": 0 },
+        "title_en": { "type": "string", "minLength": 1 },
+        "title_cn": { "type": "string", "minLength": 1 },
+        "report_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "interactive_count": { "type": "integer", "minimum": 1 },
+        "claim_count": { "type": "integer", "minimum": 0 },
+        "theory_chain_count": { "type": "integer", "minimum": 1 },
+        "source_paths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "claim_graph_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "report_id",
+        "stage",
+        "linked_claim_ids",
+        "linked_report_ids",
+        "evidence_paths",
+        "evidence_count"
+      ],
+      "properties": {
+        "claim_id": { "type": "string", "minLength": 1 },
+        "report_id": { "type": "string", "minLength": 1 },
+        "stage": { "type": "string", "enum": ["model", "method", "result", "finding"] },
+        "linked_claim_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "linked_report_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "evidence_paths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "evidence_count": { "type": "integer", "minimum": 0 }
       }
     }
   }

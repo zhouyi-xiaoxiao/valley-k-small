@@ -24,11 +24,40 @@ type SeriesSemantic = {
   positive_ratio: number;
 };
 
-function inferSeriesType(name: string, values: number[]): SeriesType {
-  const lowered = name.toLowerCase();
+function inferSeriesTypeByDistribution(values: number[]): SeriesType | null {
+  if (values.length === 0) {
+    return null;
+  }
   const uniq = new Set(values.map((v) => Number(v.toFixed(10))));
   if (uniq.size > 0 && [...uniq].every((v) => v === 0 || v === 1)) {
     return 'binary';
+  }
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max - min;
+  const inUnitInterval = min >= -1e-10 && max <= 1 + 1e-10;
+  if (inUnitInterval) {
+    const nonIntegral = values.filter((v) => Math.abs(v - Math.round(v)) > 1e-10).length;
+    if (uniq.size > 2 || nonIntegral >= Math.max(1, Math.floor(values.length * 0.2))) {
+      return 'probability';
+    }
+  }
+  const allIntegerish = values.every((v) => Math.abs(v - Math.round(v)) <= 1e-10);
+  if (allIntegerish && uniq.size <= 8 && span <= 12) {
+    return 'parameter';
+  }
+  if (allIntegerish && uniq.size <= 4 && span <= 3) {
+    return 'parameter';
+  }
+  return null;
+}
+
+function inferSeriesType(name: string, values: number[]): SeriesType {
+  const lowered = name.toLowerCase();
+  const uniq = new Set(values.map((v) => Number(v.toFixed(10))));
+  const distType = inferSeriesTypeByDistribution(values);
+  if (distType === 'binary' || distType === 'probability') {
+    return distType;
   }
   if (/(flag|indicator|bool|pass|fail|is_)/i.test(lowered)) {
     return 'binary';
@@ -37,6 +66,9 @@ function inferSeriesType(name: string, values: number[]): SeriesType {
     return 'probability';
   }
   if (/^(n|t|k)$/i.test(lowered)) {
+    if (distType !== null) {
+      return distType;
+    }
     if (values.length > 0) {
       const min = Math.min(...values);
       const max = Math.max(...values);
@@ -52,6 +84,9 @@ function inferSeriesType(name: string, values: number[]): SeriesType {
   }
   if (/(beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)/i.test(lowered)) {
     return 'parameter';
+  }
+  if (distType !== null) {
+    return distType;
   }
   return 'metric';
 }
@@ -283,14 +318,39 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     [transformed],
   );
 
+  const transformAppliedSeries = useMemo(
+    () =>
+      transformed
+        .filter((series) => series.canTransform && (normalize || smoothWindow > 1))
+        .map((series) => series.name),
+    [normalize, smoothWindow, transformed],
+  );
+
   const effectiveYLabel = useMemo(() => {
     const parts: string[] = [];
-    const hasTransformable = transformed.some((series) => series.canTransform);
-    if (normalize && hasTransformable) {
-      parts.push(lang === 'cn' ? '归一化' : 'normalized');
+    const visibleCount = transformed.length;
+    const transformedCount = transformAppliedSeries.length;
+    if (normalize && transformedCount > 0) {
+      parts.push(
+        transformedCount === visibleCount
+          ? lang === 'cn'
+            ? '归一化'
+            : 'normalized'
+          : lang === 'cn'
+            ? `归一化 ${transformedCount}/${visibleCount}`
+            : `normalized ${transformedCount}/${visibleCount}`,
+      );
     }
-    if (smoothWindow > 1 && hasTransformable) {
-      parts.push(lang === 'cn' ? `平滑w=${smoothWindow}` : `smooth w=${smoothWindow}`);
+    if (smoothWindow > 1 && transformedCount > 0) {
+      parts.push(
+        transformedCount === visibleCount
+          ? lang === 'cn'
+            ? `平滑 w=${smoothWindow}`
+            : `smooth w=${smoothWindow}`
+          : lang === 'cn'
+            ? `平滑 w=${smoothWindow} (${transformedCount}/${visibleCount})`
+            : `smooth w=${smoothWindow} (${transformedCount}/${visibleCount})`,
+      );
     }
     if (yScale === 'log' && logEligible) {
       parts.push('log');
@@ -299,7 +359,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       return selected?.y_label;
     }
     return `${selected?.y_label} (${parts.join(', ')})`;
-  }, [lang, logEligible, normalize, selected?.y_label, smoothWindow, transformed, yScale]);
+  }, [lang, logEligible, normalize, selected?.y_label, smoothWindow, transformAppliedSeries, transformed.length, yScale]);
 
   const applySeriesPreset = (mode: 'metric' | 'all') => {
     if (!payload) {
@@ -369,6 +429,9 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
             {payload.series.map((series) => {
               const semantic = semanticsByName.get(series.name);
               const checked = visibleSet.has(series.name);
+              const transformable = semantic
+                ? semantic.series_type === 'metric' || semantic.series_type === 'probability'
+                : true;
               return (
                 <label key={series.name}>
                   <input type="checkbox" checked={checked} onChange={(event) => toggleSeries(series.name, event.target.checked)} />{' '}
@@ -376,6 +439,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
                   <span className="badge">
                     {(semantic?.series_type ?? 'metric')}/{semantic?.unit ?? 'value'}
                   </span>
+                  <span className="badge">{transformable ? (lang === 'cn' ? '可变换' : 'transformable') : lang === 'cn' ? '原始' : 'raw'}</span>
                 </label>
               );
             })}

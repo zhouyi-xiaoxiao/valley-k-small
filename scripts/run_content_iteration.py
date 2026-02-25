@@ -98,6 +98,9 @@ def parse_openclaw_score() -> int | None:
 def run_round(round_idx: int, *, mode: str, build_site: bool, with_openclaw: bool) -> dict[str, Any]:
     steps: list[dict[str, Any]] = []
     steps.append(run([PYTHON, "scripts/build_web_data.py", "--mode", mode], timeout=2400))
+    steps.append(run([PYTHON, "scripts/build_glossary.py"], timeout=900))
+    steps.append(run([PYTHON, "scripts/build_book_content.py"], timeout=900))
+    steps.append(run([PYTHON, "scripts/validate_bilingual_quality.py"], timeout=900))
     steps.append(run([PYTHON, "scripts/build_agent_sync.py"], timeout=900))
     steps.append(run([PYTHON, "scripts/validate_web_data.py"], timeout=900))
     if build_site:

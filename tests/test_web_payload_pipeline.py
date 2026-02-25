@@ -52,6 +52,54 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
         "--checks-dir",
         str(checks_dir),
     ]
+    cmd_book_glossary = [
+        "python3",
+        "scripts/build_glossary.py",
+        "--data-root",
+        str(data_root),
+    ]
+    proc_book_glossary = subprocess.run(
+        cmd_book_glossary,
+        cwd=ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=False,
+    )
+    assert proc_book_glossary.returncode == 0, proc_book_glossary.stdout
+
+    cmd_book_content = [
+        "python3",
+        "scripts/build_book_content.py",
+        "--data-root",
+        str(data_root),
+    ]
+    proc_book_content = subprocess.run(
+        cmd_book_content,
+        cwd=ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=False,
+    )
+    assert proc_book_content.returncode == 0, proc_book_content.stdout
+
+    cmd_translation_qc = [
+        "python3",
+        "scripts/validate_bilingual_quality.py",
+        "--data-root",
+        str(data_root),
+    ]
+    proc_translation_qc = subprocess.run(
+        cmd_translation_qc,
+        cwd=ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=False,
+    )
+    assert proc_translation_qc.returncode == 0, proc_translation_qc.stdout
+
     proc_agent = subprocess.run(
         cmd_agent,
         cwd=ROOT,
@@ -80,4 +128,6 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
 
     assert (data_root / "index.json").exists()
     assert (data_root / "agent" / "manifest.json").exists()
+    assert (data_root / "book" / "book_manifest.json").exists()
+    assert (data_root / "agent" / "translation_qc.json").exists()
     assert (checks_dir / "crosscheck_report.json").exists()

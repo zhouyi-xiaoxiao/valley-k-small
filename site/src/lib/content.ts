@@ -1,6 +1,19 @@
 import fs from 'fs';
 import path from 'path';
-import type { AgentManifest, ContentMap, FigureRecord, Lang, ReportMeta, ReportNetwork, TheoryMap, WebIndex } from '@/types';
+import type {
+  AgentManifest,
+  BookChapter,
+  BookManifest,
+  ContentMap,
+  FigureRecord,
+  GlossaryPayload,
+  Lang,
+  ReportMeta,
+  ReportNetwork,
+  TheoryMap,
+  TranslationQC,
+  WebIndex,
+} from '@/types';
 import { withBasePath } from '@/lib/url';
 
 const DATA_ROOT = path.join(process.cwd(), 'public', 'data', 'v1');
@@ -79,6 +92,26 @@ export function loadContentMap(): ContentMap {
       consistency_checks: [],
     }
   );
+}
+
+export function loadBookManifest(): BookManifest | null {
+  return readJson<BookManifest>(path.join(DATA_ROOT, 'book', 'book_manifest.json'));
+}
+
+export function loadBookChapter(chapterId: string): BookChapter | null {
+  return readJson<BookChapter>(path.join(DATA_ROOT, 'book', 'chapters', `${chapterId}.json`));
+}
+
+export function loadBookToc(): { version: string; generated_at: string; en: Array<{ chapter_id: string; order: number; title: string; path: string }>; cn: Array<{ chapter_id: string; order: number; title: string; path: string }>; } | null {
+  return readJson(path.join(DATA_ROOT, 'book', 'toc.json'));
+}
+
+export function loadGlossary(): GlossaryPayload | null {
+  return readJson<GlossaryPayload>(path.join(DATA_ROOT, 'glossary', 'terms.json'));
+}
+
+export function loadTranslationQC(): TranslationQC | null {
+  return readJson<TranslationQC>(path.join(DATA_ROOT, 'agent', 'translation_qc.json'));
 }
 
 export function groupReports(index: WebIndex): Record<string, WebIndex['reports']> {

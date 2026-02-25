@@ -120,10 +120,14 @@ export type AgentManifest = {
   files: {
     reports_jsonl: string;
     events_jsonl: string;
+    book_manifest: string;
+    book_chapters_jsonl: string;
+    claim_graph_jsonl: string;
+    translation_qc: string;
     theory_map: string;
     guide_json: string;
-    report_network?: string;
-    content_map?: string;
+    report_network: string;
+    content_map: string;
   };
 };
 
@@ -245,5 +249,163 @@ export type ContentMap = {
     check: string;
     pass: boolean;
     details: unknown;
+  }>;
+};
+
+export type BookManifest = {
+  version: string;
+  generated_at: string;
+  chapter_count: number;
+  chapters: Array<{
+    chapter_id: string;
+    order: number;
+    slug: string;
+    title_en: string;
+    title_cn: string;
+    summary_en: string;
+    summary_cn: string;
+    report_ids: string[];
+    concept_ids: string[];
+    interactive_count: number;
+    claim_count: number;
+    estimated_read_minutes: number;
+    previous_chapter_id: string | null;
+    next_chapter_id: string | null;
+  }>;
+  toc: {
+    en: Array<{ chapter_id: string; order: number; title: string; path: string }>;
+    cn: Array<{ chapter_id: string; order: number; title: string; path: string }>;
+  };
+  report_chapter_map: Record<
+    string,
+    {
+      primary_chapter_id: string;
+      chapter_ids: string[];
+    }
+  >;
+  quality_checks: Array<{
+    check: string;
+    pass: boolean;
+    details: unknown;
+  }>;
+};
+
+export type BookChapter = {
+  chapter_id: string;
+  order: number;
+  slug: string;
+  title_en: string;
+  title_cn: string;
+  kicker_en: string;
+  kicker_cn: string;
+  intro_en: string[];
+  intro_cn: string[];
+  concept_cards: Array<{
+    id: string;
+    label_en: string;
+    label_cn: string;
+    description_en: string;
+    description_cn: string;
+    report_ids: string[];
+  }>;
+  theory_chain: Array<{
+    report_id: string;
+    stage: string;
+    label_en: string;
+    label_cn: string;
+    description_en: string;
+    description_cn: string;
+    latex: string;
+    context: string;
+  }>;
+  interactive_panels: Array<{
+    panel_id: string;
+    report_id: string;
+    title_en: string;
+    title_cn: string;
+    dataset_series_id: string;
+    dataset_path: string;
+    x_label: string;
+    y_label: string;
+    parameter_hint_en: string;
+    parameter_hint_cn: string;
+  }>;
+  linked_reports: Array<{
+    report_id: string;
+    group: string;
+    title_en: string;
+    title_cn: string;
+    summary_en: string;
+    summary_cn: string;
+    book_role_en: string;
+    book_role_cn: string;
+  }>;
+  claim_ledger: Array<{
+    claim_id: string;
+    report_id: string;
+    stage: 'model' | 'method' | 'result' | 'finding';
+    text_en: string;
+    text_cn: string;
+    evidence: Array<{
+      evidence_type: string;
+      path: string;
+      snippet_en: string;
+      snippet_cn: string;
+    }>;
+    linked_report_ids: string[];
+  }>;
+  summary_en: string;
+  summary_cn: string;
+  previous_chapter_id: string | null;
+  next_chapter_id: string | null;
+  source_paths: string[];
+  updated_at: string;
+};
+
+export type GlossaryPayload = {
+  version: string;
+  generated_at: string;
+  term_count: number;
+  terms: Array<{
+    term_id: string;
+    category: string;
+    term_en: string;
+    term_cn: string;
+    definition_en: string;
+    definition_cn: string;
+    aliases_en: string[];
+    aliases_cn: string[];
+    locked: boolean;
+    formula?: string;
+    related_report_ids: string[];
+    related_chapter_ids: string[];
+    provenance: Array<{
+      type: string;
+      source: string;
+    }>;
+  }>;
+};
+
+export type TranslationQC = {
+  version: string;
+  generated_at: string;
+  passed: boolean;
+  thresholds: {
+    high_max: number;
+    warning_max: number;
+  };
+  stats: {
+    scanned_text_blocks: number;
+    high: number;
+    warning: number;
+  };
+  issues: Array<{
+    severity: 'high' | 'warning';
+    scope: 'report' | 'book' | 'global';
+    location: string;
+    lang: Lang;
+    field: string;
+    excerpt: string;
+    message: string;
   }>;
 };

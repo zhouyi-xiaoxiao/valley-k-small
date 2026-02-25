@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valley-k-small.dev/schemas/glossary_v1.schema.json",
+  "title": "Glossary V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "generated_at", "term_count", "terms"],
+  "properties": {
+    "version": { "type": "string", "const": "v1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "term_count": { "type": "integer", "minimum": 0 },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "term_id",
+          "category",
+          "term_en",
+          "term_cn",
+          "definition_en",
+          "definition_cn",
+          "aliases_en",
+          "aliases_cn",
+          "locked",
+          "related_report_ids",
+          "related_chapter_ids",
+          "provenance"
+        ],
+        "properties": {
+          "term_id": { "type": "string", "minLength": 1 },
+          "category": { "type": "string", "minLength": 1 },
+          "term_en": { "type": "string", "minLength": 1 },
+          "term_cn": { "type": "string", "minLength": 1 },
+          "definition_en": { "type": "string", "minLength": 1 },
+          "definition_cn": { "type": "string", "minLength": 1 },
+          "aliases_en": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "aliases_cn": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "locked": { "type": "boolean" },
+          "formula": { "type": "string" },
+          "related_report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "related_chapter_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "provenance": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["type", "source"],
+              "properties": {
+                "type": { "type": "string", "minLength": 1 },
+                "source": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

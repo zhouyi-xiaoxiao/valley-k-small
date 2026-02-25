@@ -383,6 +383,33 @@ def improve_summary_if_needed(summary: str, fallback_candidates: list[str], *, m
     return cleaned
 
 
+def sanitize_claim_text_for_map(text: str, *, lang: str, max_chars: int) -> str:
+    value = summary_quality_cleanup(strip_mathish_fragments(normalize_space(text)))
+    if not value:
+        return ""
+    value = re.sub(r"\bshortcu\b", "shortcut", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bt\s*p(\d+)\b", r"peak-\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bP\s*:\s*([0-9.]+)\b", r"P=\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bK\s+(\d)\s*,\s*(\d)\b", r"K=\1,\2", value)
+    value = re.sub(r"\[\(\s*[A-Z]\s*\)\]", " ", value)
+    value = normalize_space(value)
+    value = readable_summary(value, max_chars=max_chars, max_sentences=2) or canonical_summary(value, max_chars=max_chars)
+    value = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(value)), max_chars=max_chars)
+    if not value:
+        return ""
+    if lang == "cn":
+        if value[-1] not in "。！？；":
+            value = value.rstrip(" ,;") + "。"
+    else:
+        if value[-1] not in ".!?;":
+            stop = max(value.rfind(". "), value.rfind("; "), value.rfind("! "), value.rfind("? "))
+            if stop >= int(len(value) * 0.55):
+                value = value[: stop + 1].strip()
+            if value and value[-1] not in ".!?;":
+                value += "."
+    return canonical_summary(value, max_chars=max_chars)
+
+
 def humanize_report_id(report_id: str) -> str:
     token_map = {
         "grid2d": "Grid2D",
@@ -594,9 +621,19 @@ def extract_repro_commands(tex_text: str, sections: list[dict[str, Any]]) -> lis
 
 
 def ensure_repro_commands(commands: list[str], report_id: str) -> list[str]:
-    cleaned = dedupe_preserve([normalize_space(str(x)) for x in commands], max_items=10)
-    if cleaned:
-        return cleaned
+    cleaned = dedupe_preserve([normalize_space(str(x)) for x in commands], max_items=14)
+    executable: list[str] = []
+    for cmd in cleaned:
+        lowered = cmd.lower()
+        if re.match(r"^(python\d?\b|pytest\b|npm\b|node\b|bash\b|sh\b|reportctl\b|make\b|uv\b|poetry\b)", lowered):
+            executable.append(cmd)
+            continue
+        if re.match(r"^cd\s+\S+\s*&&\s*(python\d?\b|pytest\b|npm\b|node\b|reportctl\b|bash\b|sh\b)", lowered):
+            executable.append(cmd)
+            continue
+    executable = dedupe_preserve(executable, max_items=10)
+    if executable:
+        return executable
     return [
         f"python3 scripts/reportctl.py build --report {report_id} --lang en",
         "python3 scripts/reportctl.py web-build --mode changed --skip-npm-ci",
@@ -2465,6 +2502,7 @@ def build_report_network(output_dir: Path, reports: list[dict[str, Any]], genera
                 str(meta.get("summary", "")),
                 str(meta.get("narrative", {}).get("result_overview", "")),
                 str(meta.get("narrative", {}).get("method_overview", "")),
+                " ".join([str(x) for x in list(meta.get("key_findings", []))[:2]]),
             ],
             max_chars=420,
         ) or canonical_summary(str(meta.get("summary", "")), max_chars=420)
@@ -2473,9 +2511,31 @@ def build_report_network(output_dir: Path, reports: list[dict[str, Any]], genera
                 str(meta_cn.get("summary", meta.get("summary", ""))),
                 str(meta_cn.get("narrative", {}).get("result_overview", "")),
                 str(meta_cn.get("narrative", {}).get("method_overview", "")),
+                " ".join([str(x) for x in list(meta_cn.get("key_findings", []))[:2]]),
             ],
             max_chars=420,
         ) or canonical_summary(str(meta_cn.get("summary", meta.get("summary", ""))), max_chars=420)
+        summary_en = improve_summary_if_needed(
+            summary_en,
+            [
+                str(meta.get("narrative", {}).get("result_overview", "")),
+                str(meta.get("narrative", {}).get("method_overview", "")),
+                " ".join([str(x) for x in list(meta.get("key_findings", []))[:2]]),
+                str(meta.get("title", rid)),
+            ],
+            max_chars=420,
+        )
+        summary_cn = improve_summary_if_needed(
+            summary_cn,
+            [
+                str(meta_cn.get("narrative", {}).get("result_overview", "")),
+                str(meta_cn.get("narrative", {}).get("method_overview", "")),
+                " ".join([str(x) for x in list(meta_cn.get("key_findings", []))[:2]]),
+                str(meta_cn.get("title", meta.get("title", rid))),
+                summary_en,
+            ],
+            max_chars=420,
+        )
         report_nodes.append(
             {
                 "report_id": rid,
@@ -2648,8 +2708,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
         staged_claims: list[tuple[str, str, str]] = []
         seen_claim_signatures: set[str] = set()
         for stage, text_en, text_cn in staged_candidates:
-            cleaned_en = normalize_space(text_en)
-            cleaned_cn = normalize_space(text_cn)
+            cleaned_en = sanitize_claim_text_for_map(text_en, lang="en", max_chars=460)
+            cleaned_cn = sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320)
             if not cleaned_en:
                 continue
             signature = normalize_finding_key(cleaned_en)
@@ -2766,8 +2826,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                     "claim_id": claim_id,
                     "report_id": rid,
                     "stage": stage,
-                    "text_en": readable_summary(text_en, max_chars=460, max_sentences=2),
-                    "text_cn": readable_summary(text_cn, max_chars=320, max_sentences=2),
+                    "text_en": sanitize_claim_text_for_map(text_en, lang="en", max_chars=460),
+                    "text_cn": sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320),
                     "evidence": deduped_evidence[:6],
                     "linked_claim_ids": [],
                     "linked_report_ids": [],

@@ -434,6 +434,23 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           {lang === 'cn'
             ? `语义告警：missing=${semanticAudit.missing.length}, conflicts=${semanticAudit.conflicts.length}。`
             : `Semantic warning: missing=${semanticAudit.missing.length}, conflicts=${semanticAudit.conflicts.length}.`}
+          {semanticAudit.missing.length > 0 ? (
+            <>
+              {' '}
+              {lang === 'cn' ? '缺失序列: ' : 'Missing series: '}
+              {semanticAudit.missing.slice(0, 3).join(', ')}
+              {semanticAudit.missing.length > 3 ? ', …' : ''}
+              .
+            </>
+          ) : null}
+          {semanticAudit.conflicts.length > 0 ? (
+            <>
+              {' '}
+              {lang === 'cn' ? '冲突示例: ' : 'Conflict examples: '}
+              {semanticAudit.conflicts.slice(0, 2).join(' | ')}
+              {semanticAudit.conflicts.length > 2 ? ' | …' : ''}
+            </>
+          ) : null}
         </p>
       ) : null}
       {transformSuppressed.length > 0 ? (

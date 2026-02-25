@@ -335,6 +335,17 @@ def summary_penalty(text: str) -> int:
         penalty += 6
     if re.search(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", value, flags=re.IGNORECASE):
         penalty += 6
+    if re.search(r"\b[a-z]\s+p\d+\s+\d+\b", value, flags=re.IGNORECASE):
+        penalty += 8
+    if re.search(r"\b[a-z]\s+\d+\b", value, flags=re.IGNORECASE):
+        penalty += 5
+    if re.search(r"\bsec:[a-z0-9_\-]+\b", value, flags=re.IGNORECASE):
+        penalty += 6
+    if re.search(r",\s*,", value):
+        penalty += 6
+    single_letter_tokens = re.findall(r"\b[a-z]\b", value, flags=re.IGNORECASE)
+    if len(single_letter_tokens) > 8 and not contains_cjk(value):
+        penalty += 5
     if value.count(",") > 12:
         penalty += 2
     if len(value) < 80:
@@ -360,6 +371,16 @@ def choose_best_summary(candidates: list[str], *, max_chars: int = 1000) -> str:
         return ""
     scored.sort(key=lambda row: (row[0], row[1]))
     return scored[0][2]
+
+
+def improve_summary_if_needed(summary: str, fallback_candidates: list[str], *, max_chars: int = 1000) -> str:
+    cleaned = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(summary or ""))), max_chars=max_chars)
+    if cleaned and summary_penalty(cleaned) <= 11:
+        return cleaned
+    fallback = choose_best_summary(fallback_candidates, max_chars=max_chars)
+    if fallback:
+        return canonical_summary(summary_quality_cleanup(strip_mathish_fragments(fallback)), max_chars=max_chars)
+    return cleaned
 
 
 def humanize_report_id(report_id: str) -> str:
@@ -827,7 +848,8 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
             summary = normalize_space(body_candidate)
         if is_placeholder_section_summary(heading, summary):
             summary = readable_summary(summary_fallback, max_chars=280, max_sentences=2)
-        summary = canonical_summary(summary_quality_cleanup(summary), max_chars=320)
+        summary = readable_summary(strip_mathish_fragments(summary_quality_cleanup(summary)), max_chars=320, max_sentences=2) or summary
+        summary = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(summary)), max_chars=320)
         section_cards.append(
             {
                 "heading": heading,
@@ -1909,11 +1931,15 @@ def build_report_payload(
     title_cn = title_cn_candidate if contains_cjk(title_cn_candidate) else title_en
     section_summary_en = [str(row.get("summary", "")) for row in list(tex_en.get("section_cards", []))[:3]]
     section_summary_cn = [str(row.get("summary", "")) for row in list(tex_cn.get("section_cards", []))[:3]]
+    findings_en = clean_findings(readme_findings + list(tex_en["findings"]), report_id, max_items=8)
+    findings_cn = clean_findings(readme_findings + list(tex_cn["findings"]), report_id, max_items=8)
     summary_en = choose_best_summary(
         [
             str(tex_en.get("summary", "")),
             str(readme_summary),
             str(tex_en.get("narrative", {}).get("result_overview", "")),
+            str(tex_en.get("narrative", {}).get("method_overview", "")),
+            " ".join(findings_en[:2]),
             *section_summary_en,
         ],
         max_chars=1000,
@@ -1922,6 +1948,8 @@ def build_report_payload(
         [
             str(tex_cn.get("summary", "")),
             str(tex_cn.get("narrative", {}).get("result_overview", "")),
+            str(tex_cn.get("narrative", {}).get("method_overview", "")),
+            " ".join(findings_cn[:2]),
             *section_summary_cn,
             summary_en,
         ],
@@ -1933,10 +1961,27 @@ def build_report_payload(
         summary_cn = canonical_summary(str(tex_cn.get("summary", "") or summary_en), max_chars=1000)
     title_en = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(title_en))), max_chars=220) or report_id
     title_cn = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(title_cn))), max_chars=220) or title_en
-    summary_en = canonical_summary(summary_quality_cleanup(summary_en), max_chars=1000)
-    summary_cn = canonical_summary(summary_quality_cleanup(summary_cn), max_chars=1000)
-    findings_en = clean_findings(readme_findings + list(tex_en["findings"]), report_id, max_items=8)
-    findings_cn = clean_findings(readme_findings + list(tex_cn["findings"]), report_id, max_items=8)
+    summary_en = improve_summary_if_needed(
+        summary_en,
+        [
+            str(tex_en.get("narrative", {}).get("result_overview", "")),
+            str(tex_en.get("narrative", {}).get("method_overview", "")),
+            " ".join(findings_en[:3]),
+            humanize_report_id(report_id),
+        ],
+        max_chars=1000,
+    )
+    summary_cn = improve_summary_if_needed(
+        summary_cn,
+        [
+            str(tex_cn.get("narrative", {}).get("result_overview", "")),
+            str(tex_cn.get("narrative", {}).get("method_overview", "")),
+            " ".join(findings_cn[:3]),
+            summary_en,
+            humanize_report_id(report_id),
+        ],
+        max_chars=1000,
+    )
     inferred_languages = ["en"]
     if contains_cjk(title_cn) or contains_cjk(summary_cn) or any(contains_cjk(item) for item in findings_cn):
         inferred_languages.append("cn")

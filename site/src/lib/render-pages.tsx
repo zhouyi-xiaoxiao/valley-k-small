@@ -33,10 +33,10 @@ function escapeHtml(value: string): string {
     .replaceAll("'", '&#39;');
 }
 
-function renderLatex(latex: string): LatexRenderResult {
+function renderLatex(latex: string, displayMode = true): LatexRenderResult {
   try {
     return {
-      html: katex.renderToString(latex, { throwOnError: true, displayMode: true, strict: 'error' }),
+      html: katex.renderToString(latex, { throwOnError: true, displayMode, strict: 'error' }),
       error: null,
     };
   } catch (error: unknown) {
@@ -46,6 +46,21 @@ function renderLatex(latex: string): LatexRenderResult {
       error: reason,
     };
   }
+}
+
+function renderGlossaryFormula(latex: string, lang: Lang, context: string) {
+  const rendered = renderLatex(latex, false);
+  return (
+    <>
+      <div
+        className="math-inline"
+        dangerouslySetInnerHTML={{
+          __html: rendered.html,
+        }}
+      />
+      {rendered.error ? renderFormulaWarning(lang, context, rendered.error) : null}
+    </>
+  );
 }
 
 function renderMathBlockCard(
@@ -1397,9 +1412,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                 <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
                 <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
                 {term.formula ? (
-                  <p>
-                    <code>{term.formula}</code>
-                  </p>
+                  renderGlossaryFormula(term.formula, lang, `glossary:${term.term_id}`)
                 ) : null}
                 <p>
                   <span className="badge">{term.category}</span>{' '}

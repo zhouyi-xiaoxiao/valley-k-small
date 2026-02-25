@@ -62,18 +62,23 @@ def tex_escape(text: str) -> str:
     return s
 
 
-def normalize_formula_for_publication(latex: str, *, max_chars: int = 260) -> str:
+def normalize_formula_for_publication(latex: str, *, max_chars: int | None = None) -> str:
     value = clean_text(str(latex or ""))
+    if not value:
+        return ""
     value = value.replace(r"\textbackslash{}", "\\")
-    value = value.replace("…", "")
-    value = value.replace("...", "")
-    value = value.replace("$", " ")
-    value = re.sub(r"\\begin\{[^{}]+\}", " ", value)
-    value = re.sub(r"\\end\{[^{}]+\}", " ", value)
-    value = value.replace("&", " ")
-    value = value.replace("\\\\", " ")
+    value = value.replace(r"\textbackslash\{\}", "\\")
+    value = value.replace(r"\{", "{").replace(r"\}", "}")
+    value = value.replace(r"\_", "_")
+    value = value.replace(r"\%", "%")
+    value = value.replace(r"\$", "$")
+    value = value.strip()
+    if value.startswith(r"\[") and value.endswith(r"\]"):
+        value = value[2:-2].strip()
+    value = value.replace("…", " ")
+    value = re.sub(r"\.{3,}\s*$", "", value)
     value = re.sub(r"\s+", " ", value).strip()
-    if len(value) <= max_chars:
+    if max_chars is None or len(value) <= max_chars:
         return value
     clipped = value[: max_chars + 1]
     stop = max(clipped.rfind(" + "), clipped.rfind(" - "), clipped.rfind(" = "), clipped.rfind(", "))
@@ -315,6 +320,7 @@ def render_report_digest(
         summary = clean_text(str(meta.get("summary") or ""))
         findings = list(meta.get("key_findings", []))[:8]
         math_story = list(meta.get("math_story", []))[:6]
+        repro_commands = [str(cmd).strip() for cmd in meta.get("reproducibility_commands", []) if str(cmd).strip()][:4]
         pdf_path = choose_report_pdf(item, lang=lang)
 
         lines.append(rf"\subsection*{{{tex_escape(title)} (\texttt{{{tex_escape(rid)}}})}}")
@@ -348,6 +354,15 @@ def render_report_digest(
                 lines.append(rf"\item {tex_escape(str(f))}")
         else:
             lines.append(r"\item No findings extracted.")
+        lines.append(r"\end{itemize}")
+
+        lines.append(r"\textbf{Reproducibility Commands}")
+        lines.append(r"\begin{itemize}[leftmargin=1.2em]")
+        if repro_commands:
+            for cmd in repro_commands:
+                lines.append(rf"\item \texttt{{{tex_escape(cmd)}}}")
+        else:
+            lines.append(r"\item No executable command was declared for this report snapshot.")
         lines.append(r"\end{itemize}")
 
         lines.append(r"\textbf{Mathematical Logic Chain}")

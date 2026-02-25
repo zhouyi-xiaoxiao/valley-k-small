@@ -207,6 +207,18 @@ ol {
   margin: 0.3rem 0;
 }
 
+.math-inline {
+  margin: 0.25rem 0 0.45rem;
+  padding: 0.35rem 0.5rem;
+  border-left: 3px solid #d8ccb3;
+  background: #fcf8ef;
+  overflow-x: auto;
+}
+
+.math-inline .katex-display {
+  margin: 0;
+}
+
 .lead {
   font-size: 1.06rem;
   max-width: 76ch;

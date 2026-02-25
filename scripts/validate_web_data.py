@@ -128,6 +128,21 @@ def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label
                 )
 
 
+def assert_repro_commands(meta_payload: dict[str, Any], label: str) -> None:
+    commands = [str(x).strip() for x in meta_payload.get("reproducibility_commands", []) if str(x).strip()]
+    if not commands:
+        raise SystemExit(f"Reproducibility gate failed in {label}: reproducibility_commands is empty")
+    placeholder_patterns = (
+        r"^todo\b",
+        r"^n/?a$",
+        r"placeholder",
+    )
+    for cmd in commands:
+        lowered = cmd.lower()
+        if any(re.search(pattern, lowered, flags=re.IGNORECASE) for pattern in placeholder_patterns):
+            raise SystemExit(f"Reproducibility gate failed in {label}: placeholder command '{cmd}'")
+
+
 def run_katex_lint(formulas: list[dict[str, str]]) -> list[dict[str, str]]:
     if not formulas:
         return []
@@ -287,6 +302,8 @@ def main() -> int:
         validate_with_schema(meta_cn, web_schema, str(meta_cn_path))
         assert_text_quality(meta_en, str(meta_en_path))
         assert_text_quality(meta_cn, str(meta_cn_path))
+        assert_repro_commands(meta_en, str(meta_en_path))
+        assert_repro_commands(meta_cn, str(meta_cn_path))
         assert_locale_parity(meta_en, meta_cn, str(report_id))
 
         for meta_payload, meta_path in ((meta_en, meta_en_path), (meta_cn, meta_cn_path)):

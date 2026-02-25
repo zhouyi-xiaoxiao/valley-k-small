@@ -49,6 +49,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [markers, setMarkers] = useState<boolean>(true);
   const [visibleSeries, setVisibleSeries] = useState<string[]>([]);
   const [autoScaleNotice, setAutoScaleNotice] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const selected = useMemo(
     () => datasets.find((item) => item.series_id === selectedId) ?? datasets[0],
@@ -63,9 +64,11 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     if (!selected?.series_path) {
       setPayload(null);
       setStatus('error');
+      setErrorMessage('Missing dataset path in report metadata.');
       return;
     }
     setStatus('loading');
+    setErrorMessage(null);
     const controller = new AbortController();
     fetch(withBasePath(selected.series_path), { signal: controller.signal })
       .then((res) => {
@@ -77,6 +80,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       .then((json) => {
         setPayload(json);
         setStatus('ready');
+        setErrorMessage(null);
       })
       .catch((err: unknown) => {
         if (err instanceof DOMException && err.name === 'AbortError') {
@@ -84,6 +88,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         }
         setPayload(null);
         setStatus('error');
+        setErrorMessage(err instanceof Error ? err.message : String(err));
       });
     return () => controller.abort();
   }, [selected?.series_path]);
@@ -488,13 +493,19 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         <p>
           {status === 'error'
             ? lang === 'cn'
-              ? '数据加载失败，请切换数据集或重试。'
-              : 'Failed to load dataset. Please switch dataset or retry.'
+              ? `数据加载失败，请切换数据集或重试。当前路径：${selected?.series_path ?? 'unknown'}`
+              : `Failed to load dataset. Please switch dataset or retry. Current path: ${selected?.series_path ?? 'unknown'}`
             : lang === 'cn'
               ? '加载图表数据中…'
               : 'Loading plot data…'}
         </p>
       )}
+      {status === 'error' && errorMessage ? (
+        <details>
+          <summary>{lang === 'cn' ? '错误详情' : 'Error details'}</summary>
+          <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{errorMessage}</pre>
+        </details>
+      ) : null}
       <p style={{ marginBottom: 0 }}>
         {lang === 'cn' ? '来源' : 'Provenance'}: <code>{selected?.provenance.source}</code>
       </p>

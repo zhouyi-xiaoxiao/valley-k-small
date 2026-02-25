@@ -23,10 +23,10 @@ function escapeHtml(value: string): string {
     .replaceAll("'", '&#39;');
 }
 
-function renderLatex(latex: string): { html: string; error: string | null } {
+function renderLatex(latex: string, displayMode = true): { html: string; error: string | null } {
   try {
     return {
-      html: katex.renderToString(latex, { throwOnError: true, displayMode: true, strict: 'error' }),
+      html: katex.renderToString(latex, { throwOnError: true, displayMode, strict: 'error' }),
       error: null,
     };
   } catch (error: unknown) {
@@ -36,6 +36,18 @@ function renderLatex(latex: string): { html: string; error: string | null } {
       error: reason,
     };
   }
+}
+
+function renderGlossaryFormula(latex: string) {
+  const rendered = renderLatex(latex, false);
+  return (
+    <div
+      className="math-inline"
+      dangerouslySetInnerHTML={{
+        __html: rendered.html,
+      }}
+    />
+  );
 }
 
 function chapterTitle(chapter: BookChapter, lang: Lang): string {
@@ -180,7 +192,7 @@ export function renderBookPage(lang: Lang, prefix: string) {
             <article key={term.term_id} className="card">
               <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
               <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
-              {term.formula ? <p><code>{term.formula}</code></p> : null}
+              {term.formula ? renderGlossaryFormula(term.formula) : null}
             </article>
           ))}
         </div>

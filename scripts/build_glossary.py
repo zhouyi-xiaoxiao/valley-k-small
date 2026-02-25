@@ -57,7 +57,7 @@ MANUAL_LOCKED_TERMS: list[dict[str, Any]] = [
         "definition_cn": "从生成函数到时域首达量的离散 Cauchy/FFT 反演过程。",
         "aliases_en": ["Abate-Whitt inversion", "FFT inversion"],
         "aliases_cn": ["Abate-Whitt 反演", "FFT 反演"],
-        "formula": "f_t \approx FFT(F(z_k))",
+        "formula": r"f_t \approx FFT(F(z_k))",
     },
     {
         "term_id": "bimodality-criterion",
@@ -160,6 +160,12 @@ def chapter_ids_for_reports(report_ids: list[str], mapping: dict[str, list[str]]
     return uniq(chapter_ids)
 
 
+def sanitize_formula_text(value: str) -> str:
+    cleaned = str(value or "").replace("\x07", "\\")
+    cleaned = cleaned.replace("\r", " ").replace("\n", " ")
+    return " ".join(cleaned.split())
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build bilingual glossary lock table for book pages.")
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -190,7 +196,7 @@ def main() -> int:
             "aliases_en": uniq(list(base.get("aliases_en", []))),
             "aliases_cn": uniq(list(base.get("aliases_cn", []))),
             "locked": True,
-            "formula": str(base.get("formula", "")),
+            "formula": sanitize_formula_text(str(base.get("formula", ""))),
             "related_report_ids": related_report_ids,
             "related_chapter_ids": chapter_ids_for_reports(related_report_ids, report_map),
             "provenance": [

@@ -119,6 +119,26 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
                     if isinstance(formula_depth.get("exception_rows"), list)
                     else 0,
                 }
+            duplicate_details = checks.get("duplicate_math_signatures", {}).get("details")
+            if isinstance(duplicate_details, dict):
+                shared = duplicate_details.get("shared_core_signatures", [])
+                has_count_fields = False
+                if isinstance(shared, list) and shared:
+                    first = shared[0] if isinstance(shared[0], dict) else {}
+                    has_count_fields = "report_count" in first and "occurrence_count" in first
+                snapshot["duplicate_signature_metrics"] = {
+                    "has_count_fields": has_count_fields,
+                    "shared_core_count": len(shared) if isinstance(shared, list) else 0,
+                }
+            asset_details = checks.get("asset_label_duplication", {}).get("details")
+            if isinstance(asset_details, dict):
+                snapshot["asset_duplication_metrics"] = {
+                    "has_metrics": all(
+                        key in asset_details
+                        for key in ("duplicate_count", "reports_with_duplicate_labels", "total_reports_scanned")
+                    ),
+                    "details": asset_details,
+                }
         except json.JSONDecodeError:
             snapshot["theory_checks"] = {"parse_error": True}
 
@@ -193,6 +213,55 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
             mixed += 1
     snapshot["semantic_payload_homogeneity"] = {"mixed_series_payloads": mixed, "total_series_payloads": total}
 
+    publication_tex = repo_root / "artifacts" / "deliverables" / "publication" / "valley_k_small_compendium_en.tex"
+    if publication_tex.exists():
+        tex_source = publication_tex.read_text(encoding="utf-8", errors="ignore")
+        escaped_markers = len(re.findall(r"textbackslash|\\texttt\{\\textbackslash|\\\{\}begin", tex_source))
+        display_math_blocks = len(re.findall(r"\\\[", tex_source))
+        ellipsis_in_math = len(re.findall(r"\\\[[^\]]*(?:\.{3,}|…)[^\]]*\\\]", tex_source, flags=re.DOTALL))
+        snapshot["publication_formula_rendering"] = {
+            "escaped_formula_markers": escaped_markers,
+            "display_math_blocks": display_math_blocks,
+            "ellipsis_in_math": ellipsis_in_math,
+        }
+
+    empty_repro_reports: list[str] = []
+    clipped_summary_reports: list[str] = []
+    malformed_summary_reports: list[str] = []
+    if index_path.exists():
+        try:
+            index_payload = json.loads(index_path.read_text(encoding="utf-8"))
+            for item in index_payload.get("reports", []):
+                report_id = str(item.get("report_id", "")).strip()
+                if not report_id:
+                    continue
+                meta_path = repo_root / "site" / "public" / "data" / "v1" / "reports" / report_id / "meta.json"
+                if not meta_path.exists():
+                    continue
+                meta_payload = json.loads(meta_path.read_text(encoding="utf-8"))
+                commands = [str(x).strip() for x in meta_payload.get("reproducibility_commands", []) if str(x).strip()]
+                if not commands:
+                    empty_repro_reports.append(report_id)
+                text_blocks = [str(meta_payload.get("title", "")), str(meta_payload.get("summary", ""))]
+                text_blocks.extend(str(x) for x in meta_payload.get("key_findings", []))
+                text_blocks.extend(str(row.get("summary", "")) for row in meta_payload.get("section_cards", []))
+                joined = " ".join(text_blocks)
+                if "..." in joined or "…" in joined:
+                    clipped_summary_reports.append(report_id)
+                if re.search(r"\b[a-z]\s+p\d+\s+\d+\b|\bt\s*t\s*\^\s*[a-z0-9_]+\b|&=|\\begin|\\end", joined, flags=re.IGNORECASE):
+                    malformed_summary_reports.append(report_id)
+        except json.JSONDecodeError:
+            pass
+    snapshot["repro_coverage"] = {
+        "empty_count": len(empty_repro_reports),
+        "empty_report_ids": empty_repro_reports[:20],
+    }
+    snapshot["meta_text_quality"] = {
+        "clipped_summary_count": len(clipped_summary_reports),
+        "malformed_summary_count": len(malformed_summary_reports),
+        "malformed_report_ids": malformed_summary_reports[:20],
+    }
+
     render_pages = repo_root / "site" / "src" / "lib" / "render-pages.tsx"
     if render_pages.exists():
         source = render_pages.read_text(encoding="utf-8", errors="ignore")
@@ -255,6 +324,18 @@ def normalize_review_against_snapshot(review: dict[str, Any], snapshot: dict[str
     has_duplication_section = bool(snapshot.get("theory_ui", {}).get("contains_duplication_governance_section", False))
     infer_symbol_absent = bool(snapshot.get("interaction_ui", {}).get("has_infer_series_type_function", True)) is False
     strict_semantics_validation = bool(snapshot.get("semantic_validation", {}).get("strict_series_semantics_check", False))
+    repro_empty_count = int(snapshot.get("repro_coverage", {}).get("empty_count", -1))
+    publication_rendering = snapshot.get("publication_formula_rendering", {})
+    escaped_formula_markers = int(publication_rendering.get("escaped_formula_markers", -1))
+    display_math_blocks = int(publication_rendering.get("display_math_blocks", 0))
+    ellipsis_in_math = int(publication_rendering.get("ellipsis_in_math", -1))
+    text_quality = snapshot.get("meta_text_quality", {})
+    clipped_summary_count = int(text_quality.get("clipped_summary_count", -1))
+    malformed_summary_count = int(text_quality.get("malformed_summary_count", -1))
+    duplicate_metrics = snapshot.get("duplicate_signature_metrics", {})
+    has_duplicate_count_fields = bool(duplicate_metrics.get("has_count_fields", False))
+    asset_dup_metrics = snapshot.get("asset_duplication_metrics", {})
+    has_asset_metrics = bool(asset_dup_metrics.get("has_metrics", False))
 
     normalized: list[dict[str, Any]] = []
     disputed_count = 0
@@ -279,6 +360,29 @@ def normalize_review_against_snapshot(review: dict[str, Any], snapshot: dict[str
                 dispute_notes.append("local snapshot theory_ui.contains_duplication_governance_section=true")
         if infer_symbol_absent and strict_semantics_validation and ("fallback" in combined and "series" in combined and "heuristic" in combined):
             dispute_notes.append("local snapshot interaction_ui.has_infer_series_type_function=false + semantic_validation.strict_series_semantics_check=true")
+        if (
+            repro_empty_count == 0
+            and "reproducibility_commands" in combined
+            and ("[]" in combined or "empty" in combined or "sparse" in combined)
+        ):
+            dispute_notes.append("local snapshot repro_coverage.empty_count=0")
+        if (
+            escaped_formula_markers == 0
+            and display_math_blocks > 0
+            and ellipsis_in_math == 0
+            and ("theory-chain math" in combined or "escaped text" in combined or "textbackslash" in combined)
+        ):
+            dispute_notes.append("local snapshot publication_formula_rendering shows math-mode formulas without escaped markers")
+        if (
+            clipped_summary_count == 0
+            and malformed_summary_count == 0
+            and ("metadata text quality" in combined or "aggressive clipping" in combined or "truncated" in combined)
+        ):
+            dispute_notes.append("local snapshot meta_text_quality has no clipped/malformed summaries")
+        if has_duplicate_count_fields and ("count ambiguity" in combined or "occurrence" in combined or "count:" in combined):
+            dispute_notes.append("local snapshot duplicate_signature_metrics.has_count_fields=true")
+        if has_asset_metrics and ("asset_label_duplication" in combined and "details" in combined and "empty" in combined):
+            dispute_notes.append("local snapshot asset_duplication_metrics.has_metrics=true")
 
         if dispute_notes:
             row["severity"] = "disputed"

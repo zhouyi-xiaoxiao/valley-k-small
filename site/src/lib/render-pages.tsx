@@ -8,6 +8,7 @@ import {
   loadBookManifest,
   loadContentMap,
   loadFigures,
+  loadGlossary,
   loadIndex,
   loadReportNetwork,
   loadReportMeta,
@@ -333,6 +334,160 @@ function summarizeCheckDetails(details: unknown, lang: Lang): string[] {
     return lines;
   }
   return [String(details)];
+}
+
+function stageLabel(lang: Lang, stage: string): string {
+  const key = stage.toLowerCase();
+  if (key === 'model') {
+    return localizedText(lang, 'Model', '模型');
+  }
+  if (key === 'method') {
+    return localizedText(lang, 'Method', '方法');
+  }
+  if (key === 'result') {
+    return localizedText(lang, 'Result', '结果');
+  }
+  if (key === 'finding') {
+    return localizedText(lang, 'Finding', '发现');
+  }
+  return stage;
+}
+
+function extractFormulaCoverage(map: ReturnType<typeof loadTheoryMap>): Record<string, number> {
+  const target = map.consistency_checks.find((item) => item.check === 'all_reports_have_formula');
+  if (!target || typeof target.details !== 'object' || Array.isArray(target.details) || target.details === null) {
+    return {};
+  }
+  const coverage: Record<string, number> = {};
+  for (const [key, value] of Object.entries(target.details as Record<string, unknown>)) {
+    const count = typeof value === 'number' ? value : Number(value);
+    if (Number.isFinite(count)) {
+      coverage[key] = Math.max(0, Math.round(count));
+    }
+  }
+  return coverage;
+}
+
+function extractDuplicationBuckets(map: ReturnType<typeof loadTheoryMap>) {
+  const target = map.consistency_checks.find((item) => item.check === 'duplicate_math_signatures');
+  const empty = { sharedCore: [] as Array<{ latex: string; count: number; report_ids: string[] }>, redundant: [] as Array<{ latex: string; count: number; report_ids: string[] }>, sharedCoreCount: 0, redundantCount: 0 };
+  if (!target || typeof target.details !== 'object' || Array.isArray(target.details) || target.details === null) {
+    return empty;
+  }
+  const details = target.details as Record<string, unknown>;
+  const pickRows = (value: unknown) =>
+    Array.isArray(value)
+      ? value
+          .map((row) => {
+            if (!row || typeof row !== 'object') {
+              return null;
+            }
+            const item = row as Record<string, unknown>;
+            return {
+              latex: String(item.latex ?? ''),
+              count: Number(item.count ?? 0),
+              report_ids: Array.isArray(item.report_ids) ? item.report_ids.map((rid) => String(rid)) : [],
+            };
+          })
+          .filter((row): row is { latex: string; count: number; report_ids: string[] } => Boolean(row?.latex))
+      : [];
+  const sharedCore = pickRows(details.shared_core_signatures);
+  const redundant = pickRows(details.redundant_signatures);
+  return {
+    sharedCore,
+    redundant,
+    sharedCoreCount: Number(details.shared_core_count ?? sharedCore.length) || sharedCore.length,
+    redundantCount: Number(details.redundant_count ?? redundant.length) || redundant.length,
+  };
+}
+
+function buildStageCoverageRows(contentMap: ContentMap, network: ReportNetwork) {
+  const byReport = new Map<
+    string,
+    { model: number; method: number; result: number; finding: number; total: number }
+  >();
+  for (const claim of contentMap.claims) {
+    const reportId = claim.report_id;
+    const row = byReport.get(reportId) ?? { model: 0, method: 0, result: 0, finding: 0, total: 0 };
+    const stage = claim.stage;
+    if (stage in row) {
+      row[stage] += 1;
+    }
+    row.total += 1;
+    byReport.set(reportId, row);
+  }
+  const rows = network.reports.map((report) => ({
+    report_id: report.report_id,
+    title_en: report.title_en,
+    title_cn: report.title_cn,
+    coverage: byReport.get(report.report_id) ?? { model: 0, method: 0, result: 0, finding: 0, total: 0 },
+  }));
+  rows.sort((left, right) => right.coverage.total - left.coverage.total || left.report_id.localeCompare(right.report_id));
+  return rows;
+}
+
+function buildNotionClaimDigests(map: ReturnType<typeof loadTheoryMap>, contentMap: ContentMap) {
+  return map.cards.map((card) => {
+    const claims = contentMap.claims
+      .filter((claim) => card.report_ids.includes(claim.report_id))
+      .sort((left, right) => {
+        const stageDelta = CLAIM_STAGE_ORDER[left.stage] - CLAIM_STAGE_ORDER[right.stage];
+        if (stageDelta !== 0) {
+          return stageDelta;
+        }
+        return right.evidence.length - left.evidence.length;
+      })
+      .slice(0, 5);
+    return {
+      card,
+      claims,
+    };
+  });
+}
+
+function compactLatex(latex: string): string {
+  return compactText(latex.replace(/\s+/g, ' '), 120);
+}
+
+type FormulaPolicyRow = {
+  report_id: string;
+  group: string;
+  formula_count: number;
+  min_required: number;
+  target: number;
+  pass: boolean;
+  exception_tag: string;
+  exception_reason: string;
+};
+
+function extractFormulaPolicyRows(map: ReturnType<typeof loadTheoryMap>): FormulaPolicyRow[] {
+  const target = map.consistency_checks.find((item) => item.check === 'formula_depth_policy');
+  if (!target || typeof target.details !== 'object' || Array.isArray(target.details) || target.details === null) {
+    return [];
+  }
+  const rows = (target.details as { rows?: unknown[] }).rows;
+  if (!Array.isArray(rows)) {
+    return [];
+  }
+  return rows
+    .map((row) => {
+      if (!row || typeof row !== 'object') {
+        return null;
+      }
+      const item = row as Record<string, unknown>;
+      return {
+        report_id: String(item.report_id ?? ''),
+        group: String(item.group ?? ''),
+        formula_count: Number(item.formula_count ?? 0),
+        min_required: Number(item.min_required ?? 1),
+        target: Number(item.target ?? 1),
+        pass: Boolean(item.pass),
+        exception_tag: String(item.exception_tag ?? ''),
+        exception_reason: String(item.exception_reason ?? ''),
+      };
+    })
+    .filter((row): row is FormulaPolicyRow => Boolean(row?.report_id))
+    .sort((left, right) => left.report_id.localeCompare(right.report_id));
 }
 
 export function renderHomePage(lang: Lang, prefix: string) {
@@ -1122,6 +1277,13 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
   const map = loadTheoryMap();
   const network = loadReportNetwork();
   const contentMap = loadContentMap();
+  const glossary = loadGlossary();
+  const bookManifest = loadBookManifest();
+  const formulaCoverage = extractFormulaCoverage(map);
+  const formulaPolicyRows = extractFormulaPolicyRows(map);
+  const duplicationBuckets = extractDuplicationBuckets(map);
+  const stageCoverageRows = buildStageCoverageRows(contentMap, network);
+  const notionDigests = buildNotionClaimDigests(map, contentMap);
   return (
     <AppShell lang={lang} prefix={prefix}>
       <section className="card section-enter">
@@ -1133,6 +1295,53 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
             'The cards below summarize shared mathematical notions across reports and map each notion to concrete report pages.',
             '下列卡片展示跨报告共享的数学概念，并映射到具体报告页面。',
           )}
+        </p>
+        <p className="muted">
+          {localizedText(
+            lang,
+            'Goal: keep the mathematics continuous from notation to derivation, then to evidence and cross-report verification.',
+            '目标：把符号、推导、证据和跨报告核对串成一条连续数学链。',
+          )}
+        </p>
+      </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Reading Protocol', '阅读协议')}</h2>
+        <ol>
+          <li>
+            {localizedText(
+              lang,
+              'Start from Chapter 0/1 in Book for notation and core FPT objects.',
+              '先从 Book 第0/1章进入，统一符号和核心 FPT 对象。',
+            )}{' '}
+            <Link href={prefixPath(prefix, '/book')}>/book</Link>
+          </li>
+          <li>
+            {localizedText(
+              lang,
+              'Use concept cards below to locate every notion in concrete reports.',
+              '使用下方概念卡，把每个理论概念定位到具体报告。',
+            )}
+          </li>
+          <li>
+            {localizedText(
+              lang,
+              'Inspect stage matrix and claim ledger to verify model/method/result/finding continuity.',
+              '查看阶段覆盖矩阵与 claim 账本，核对 model/method/result/finding 的连续性。',
+            )}
+          </li>
+          <li>
+            {localizedText(
+              lang,
+              'Use duplication governance to distinguish shared foundations from harmful repetition.',
+              '通过重复治理区分“共享基础公式”与“有害重复”。',
+            )}
+          </li>
+        </ol>
+        <p>
+          <span className="badge">{localizedText(lang, 'Theory cards', '理论卡片')} {map.cards.length}</span>{' '}
+          <span className="badge">{localizedText(lang, 'Claims', 'Claim 数')} {contentMap.claims.length}</span>{' '}
+          <span className="badge">{localizedText(lang, 'Book chapters', 'Book 章节')} {bookManifest?.chapter_count ?? 0}</span>
         </p>
       </section>
 
@@ -1172,6 +1381,207 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
         </div>
       </section>
 
+      {glossary ? (
+        <section className="card section-enter" style={{ marginTop: '1rem' }}>
+          <h2>{localizedText(lang, 'Notation & Term Lock', '符号与术语锁表')}</h2>
+          <p className="lead">
+            {localizedText(
+              lang,
+              'These locked terms keep CN/EN semantics aligned and provide formula anchors for quick lookup.',
+              '这些锁定术语用于保持中英文语义一致，并提供公式锚点便于快速查阅。',
+            )}
+          </p>
+          <div className="grid grid-2">
+            {glossary.terms.slice(0, 12).map((term) => (
+              <article key={term.term_id} className="card">
+                <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
+                <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
+                {term.formula ? (
+                  <p>
+                    <code>{term.formula}</code>
+                  </p>
+                ) : null}
+                <p>
+                  <span className="badge">{term.category}</span>{' '}
+                  <span className="badge">{localizedText(lang, 'Reports', '关联报告')} {term.related_report_ids.length}</span>
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Stage Coverage Matrix', '阶段覆盖矩阵')}</h2>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'Each row tracks whether one report closes the full chain from assumptions to findings.',
+            '每行跟踪单个报告是否完整覆盖从假设到结论的链条。',
+          )}
+        </p>
+        <div className="table-wrap">
+          <table className="theory-table">
+            <thead>
+              <tr>
+                <th>{localizedText(lang, 'Report', '报告')}</th>
+                <th>{stageLabel(lang, 'model')}</th>
+                <th>{stageLabel(lang, 'method')}</th>
+                <th>{stageLabel(lang, 'result')}</th>
+                <th>{stageLabel(lang, 'finding')}</th>
+                <th>{localizedText(lang, 'Claims', 'Claim')}</th>
+                <th>{localizedText(lang, 'Formulas', '公式')}</th>
+                <th>{localizedText(lang, 'Book', '章节')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stageCoverageRows.map((row) => {
+                const chapter = bookManifest?.report_chapter_map?.[row.report_id]?.primary_chapter_id ?? null;
+                return (
+                  <tr key={`stage-${row.report_id}`}>
+                    <td>
+                      <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
+                        {lang === 'cn' ? row.title_cn : row.title_en}
+                      </Link>
+                    </td>
+                    <td>{row.coverage.model}</td>
+                    <td>{row.coverage.method}</td>
+                    <td>{row.coverage.result}</td>
+                    <td>{row.coverage.finding}</td>
+                    <td>{row.coverage.total}</td>
+                    <td>{formulaCoverage[row.report_id] ?? 0}</td>
+                    <td>
+                      {chapter ? <Link href={prefixPath(prefix, `/book/${chapter}`)}>{chapter}</Link> : <span className="muted">-</span>}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {formulaPolicyRows.length > 0 ? (
+        <section className="card section-enter" style={{ marginTop: '1rem' }}>
+          <h2>{localizedText(lang, 'Formula Depth Governance', '公式深度治理')}</h2>
+          <p className="lead">
+            {localizedText(
+              lang,
+              'Thresholds are applied by report family so lightweight notes are explicit exceptions instead of silent gaps.',
+              '按报告族设置公式阈值，轻量文档必须通过显式例外标注，而不是隐性缺口。',
+            )}
+          </p>
+          <div className="table-wrap">
+            <table className="theory-table">
+              <thead>
+                <tr>
+                  <th>{localizedText(lang, 'Report', '报告')}</th>
+                  <th>{localizedText(lang, 'Group', '分组')}</th>
+                  <th>{localizedText(lang, 'Formulas', '公式数')}</th>
+                  <th>{localizedText(lang, 'Min', '最低')}</th>
+                  <th>{localizedText(lang, 'Target', '目标')}</th>
+                  <th>{localizedText(lang, 'Status', '状态')}</th>
+                  <th>{localizedText(lang, 'Exception', '例外')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {formulaPolicyRows.map((row) => {
+                  const report = network.reports.find((item) => item.report_id === row.report_id);
+                  return (
+                    <tr key={`formula-policy-${row.report_id}`}>
+                      <td>
+                        <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
+                          {lang === 'cn' ? report?.title_cn ?? row.report_id : report?.title_en ?? row.report_id}
+                        </Link>
+                      </td>
+                      <td>{row.group}</td>
+                      <td>{row.formula_count}</td>
+                      <td>{row.min_required}</td>
+                      <td>{row.target}</td>
+                      <td>
+                        <span className="badge">{row.pass ? localizedText(lang, 'PASS', '通过') : localizedText(lang, 'FAIL', '未通过')}</span>
+                      </td>
+                      <td>
+                        {row.exception_tag ? (
+                          <>
+                            <span className="badge">{row.exception_tag}</span>
+                            {row.exception_reason ? <div className="muted">{compactText(row.exception_reason, 90)}</div> : null}
+                          </>
+                        ) : (
+                          <span className="muted">-</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Notion → Claim → Evidence', '概念 → Claim → 证据')}</h2>
+        <div className="grid grid-2">
+          {notionDigests.map(({ card, claims }) => (
+            <article key={`notion-claims-${card.id}`} className="card">
+              <h3>{lang === 'cn' ? card.label_cn : card.label_en}</h3>
+              <p className="muted">{lang === 'cn' ? card.description_cn : card.description_en}</p>
+              {claims.length > 0 ? (
+                <ul>
+                  {claims.map((claim) => (
+                    <li key={claim.claim_id}>
+                      <span className="badge">{stageLabel(lang, claim.stage)}</span>{' '}
+                      <Link href={prefixPath(prefix, `/reports/${claim.report_id}`)}>{claim.report_id}</Link>{' '}
+                      <span className="muted">({localizedText(lang, 'evidence', '证据')} {claim.evidence.length})</span>
+                      <div>{compactText(lang === 'cn' ? claim.text_cn : claim.text_en, 150)}</div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="muted">{localizedText(lang, 'No linked claims.', '暂无关联 claim。')}</p>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Duplication Governance', '重复治理')}</h2>
+        <div className="grid grid-2">
+          <article className="card">
+            <h3>{localizedText(lang, 'Shared Foundations', '共享基础公式')}</h3>
+            <p>
+              <span className="badge">{localizedText(lang, 'Count', '数量')}: {duplicationBuckets.sharedCoreCount}</span>
+            </p>
+            <ul>
+              {duplicationBuckets.sharedCore.slice(0, 6).map((row, idx) => (
+                <li key={`shared-core-${idx}`}>
+                  <code>{compactLatex(row.latex)}</code> ({row.count})
+                </li>
+              ))}
+            </ul>
+          </article>
+          <article className="card">
+            <h3>{localizedText(lang, 'Redundant Duplicates', '冗余重复')}</h3>
+            <p>
+              <span className="badge">{localizedText(lang, 'Count', '数量')}: {duplicationBuckets.redundantCount}</span>
+            </p>
+            {duplicationBuckets.redundant.length > 0 ? (
+              <ul>
+                {duplicationBuckets.redundant.slice(0, 6).map((row, idx) => (
+                  <li key={`redundant-${idx}`}>
+                    <code>{compactLatex(row.latex)}</code> ({row.count})
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="muted">{localizedText(lang, 'No harmful duplicate signatures detected in current build.', '当前构建未检测到有害重复签名。')}</p>
+            )}
+          </article>
+        </div>
+      </section>
+
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Consistency Checks', '一致性检查')}</h2>
         <ul>
@@ -1187,12 +1597,12 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                       <li key={`${check.check}-${index}`}>{line}</li>
                     ))}
                   </ul>
-                  <details style={{ marginTop: '0.35rem' }}>
-                    <summary>{localizedText(lang, 'Raw JSON (advanced)', '原始 JSON（高级）')}</summary>
-                    <pre style={{ whiteSpace: 'pre-wrap', margin: '0.45rem 0 0' }}>
-                      {JSON.stringify(check.details, null, 2)}
-                    </pre>
-                  </details>
+                  <p className="muted" style={{ margin: '0.45rem 0 0' }}>
+                    {localizedText(lang, 'Raw payload is available in', '原始数据可在此查看')}{' '}
+                    <a href={withBasePath('/data/v1/theory_map.json')} target="_blank" rel="noreferrer">
+                      /data/v1/theory_map.json
+                    </a>
+                  </p>
                 </details>
               </li>
             );

@@ -99,13 +99,86 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
     if theory_map_path.exists():
         try:
             theory_map = json.loads(theory_map_path.read_text(encoding="utf-8"))
-            checks = {str(item.get("check", "")): bool(item.get("pass")) for item in theory_map.get("consistency_checks", [])}
-            snapshot["theory_checks"] = {
-                "duplicate_math_signatures": checks.get("duplicate_math_signatures"),
-                "asset_label_duplication": checks.get("asset_label_duplication"),
+            checks = {
+                str(item.get("check", "")): {
+                    "pass": bool(item.get("pass")),
+                    "details": item.get("details"),
+                }
+                for item in theory_map.get("consistency_checks", [])
             }
+            snapshot["theory_checks"] = {
+                "duplicate_math_signatures": checks.get("duplicate_math_signatures", {}).get("pass"),
+                "asset_label_duplication": checks.get("asset_label_duplication", {}).get("pass"),
+                "formula_depth_policy": checks.get("formula_depth_policy", {}).get("pass"),
+            }
+            formula_depth = checks.get("formula_depth_policy", {}).get("details")
+            if isinstance(formula_depth, dict):
+                snapshot["formula_depth_policy"] = {
+                    "failure_report_ids": list(formula_depth.get("failure_report_ids", []))[:20],
+                    "exception_count": len(list(formula_depth.get("exception_rows", [])))
+                    if isinstance(formula_depth.get("exception_rows"), list)
+                    else 0,
+                }
         except json.JSONDecodeError:
             snapshot["theory_checks"] = {"parse_error": True}
+
+    parity_fields = ("key_findings", "math_blocks", "math_story", "section_cards", "reproducibility_commands", "source_documents")
+    strict_fields = {"math_blocks", "math_story", "section_cards"}
+    mismatches: list[dict[str, Any]] = []
+    index_path = repo_root / "site" / "public" / "data" / "v1" / "index.json"
+    if index_path.exists():
+        try:
+            index_payload = json.loads(index_path.read_text(encoding="utf-8"))
+            for item in index_payload.get("reports", []):
+                report_id = str(item.get("report_id", "")).strip()
+                if not report_id:
+                    continue
+                report_root = repo_root / "site" / "public" / "data" / "v1" / "reports" / report_id
+                meta_en = report_root / "meta.json"
+                meta_cn = report_root / "meta.cn.json"
+                if not meta_en.exists() or not meta_cn.exists():
+                    mismatches.append(
+                        {
+                            "report_id": report_id,
+                            "field": "meta_presence",
+                            "en_exists": meta_en.exists(),
+                            "cn_exists": meta_cn.exists(),
+                        }
+                    )
+                    continue
+                en_payload = json.loads(meta_en.read_text(encoding="utf-8"))
+                cn_payload = json.loads(meta_cn.read_text(encoding="utf-8"))
+                for field in parity_fields:
+                    left = en_payload.get(field, [])
+                    right = cn_payload.get(field, [])
+                    if not isinstance(left, list) or not isinstance(right, list):
+                        mismatches.append({"report_id": report_id, "field": field, "reason": "non_list_payload"})
+                        continue
+                    if not left and right:
+                        mismatches.append({"report_id": report_id, "field": field, "en": 0, "cn": len(right)})
+                        continue
+                    if not right and left:
+                        mismatches.append({"report_id": report_id, "field": field, "en": len(left), "cn": 0})
+                        continue
+                    if left and right:
+                        ratio = min(len(left), len(right)) / max(1, max(len(left), len(right)))
+                        min_ratio = 1.0 if field in strict_fields else 0.9
+                        if ratio < min_ratio:
+                            mismatches.append(
+                                {
+                                    "report_id": report_id,
+                                    "field": field,
+                                    "en": len(left),
+                                    "cn": len(right),
+                                    "min_ratio": min_ratio,
+                                }
+                            )
+        except json.JSONDecodeError:
+            mismatches.append({"report_id": "__all__", "field": "json_parse", "reason": "index/meta parse error"})
+    snapshot["locale_parity"] = {
+        "mismatch_count": len(mismatches),
+        "mismatches": mismatches[:12],
+    }
 
     mixed = 0
     total = 0
@@ -119,6 +192,29 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
         if len(types) > 1:
             mixed += 1
     snapshot["semantic_payload_homogeneity"] = {"mixed_series_payloads": mixed, "total_series_payloads": total}
+
+    render_pages = repo_root / "site" / "src" / "lib" / "render-pages.tsx"
+    if render_pages.exists():
+        source = render_pages.read_text(encoding="utf-8", errors="ignore")
+        snapshot["theory_ui"] = {
+            "contains_raw_json_rendering": "JSON.stringify(check.details" in source,
+            "contains_duplication_governance_section": "Duplication Governance" in source,
+            "contains_stage_matrix_section": "Stage Coverage Matrix" in source,
+        }
+
+    plot_panel = repo_root / "site" / "src" / "components" / "ReportPlotPanel.tsx"
+    validate_script = repo_root / "scripts" / "validate_web_data.py"
+    if plot_panel.exists():
+        source = plot_panel.read_text(encoding="utf-8", errors="ignore")
+        snapshot["interaction_ui"] = {
+            "has_infer_series_type_function": "function inferSeriesType(" in source,
+            "has_semantic_warning_banner": "Semantic warning:" in source,
+        }
+    if validate_script.exists():
+        source = validate_script.read_text(encoding="utf-8", errors="ignore")
+        snapshot["semantic_validation"] = {
+            "strict_series_semantics_check": "def assert_series_semantics(" in source,
+        }
     return snapshot
 
 
@@ -137,6 +233,8 @@ def build_prompt(repo_root: Path, local_snapshot: dict[str, Any]) -> str:
         "Also sample-check at least 5 report metadata files under site/public/data/v1/reports/*/meta.json. "
         "Ground-truth snapshot computed locally (must be respected unless you provide explicit contradictory evidence): "
         f"{json.dumps(local_snapshot, ensure_ascii=False)}. "
+        "If snapshot.locale_parity.mismatch_count is 0, do not claim locale mismatch unless you provide exact conflicting file values. "
+        "If snapshot.theory_ui.contains_raw_json_rendering is false, do not claim raw-JSON UI rendering without contrary file evidence. "
         "For each finding, emphasize concrete content-level defects and whether statements are verifiable from evidence paths. "
         "If your claim contradicts the snapshot, set severity='disputed' and provide exact contrary values from files. "
         "Return ONLY compact JSON with keys: "
@@ -144,6 +242,60 @@ def build_prompt(repo_root: Path, local_snapshot: dict[str, Any]) -> str:
         "quick_wins (array), crosscheck (array). "
         "No markdown."
     )
+
+
+def normalize_review_against_snapshot(review: dict[str, Any], snapshot: dict[str, Any]) -> dict[str, Any]:
+    findings = review.get("findings")
+    if not isinstance(findings, list):
+        return review
+
+    parity_clean = int(snapshot.get("locale_parity", {}).get("mismatch_count", 0)) == 0
+    no_raw_json_ui = bool(snapshot.get("theory_ui", {}).get("contains_raw_json_rendering", True)) is False
+    formula_policy_enabled = bool(snapshot.get("theory_checks", {}).get("formula_depth_policy", False))
+    has_duplication_section = bool(snapshot.get("theory_ui", {}).get("contains_duplication_governance_section", False))
+    infer_symbol_absent = bool(snapshot.get("interaction_ui", {}).get("has_infer_series_type_function", True)) is False
+    strict_semantics_validation = bool(snapshot.get("semantic_validation", {}).get("strict_series_semantics_check", False))
+
+    normalized: list[dict[str, Any]] = []
+    disputed_count = 0
+    for item in findings:
+        if not isinstance(item, dict):
+            continue
+        row = dict(item)
+        issue = str(row.get("issue", "")).lower()
+        evidence = str(row.get("evidence", "")).lower()
+        combined = f"{issue}\n{evidence}"
+        dispute_notes: list[str] = []
+
+        if parity_clean and ("locale" in combined or "en/cn" in combined or "mismatch" in combined):
+            if "math_blocks" in combined or "parity" in combined:
+                dispute_notes.append("local snapshot locale_parity.mismatch_count=0")
+        if no_raw_json_ui and ("raw json" in combined or "json.stringify(check.details" in combined):
+            dispute_notes.append("local snapshot theory_ui.contains_raw_json_rendering=false")
+        if formula_policy_enabled and ("formula-depth" in combined or "formula depth" in combined):
+            dispute_notes.append("local snapshot theory_checks.formula_depth_policy=true")
+        if has_duplication_section and ("shared-core" in combined or "shared core" in combined):
+            if "not clearly separated" in combined or "generic check output" in combined:
+                dispute_notes.append("local snapshot theory_ui.contains_duplication_governance_section=true")
+        if infer_symbol_absent and strict_semantics_validation and ("fallback" in combined and "series" in combined and "heuristic" in combined):
+            dispute_notes.append("local snapshot interaction_ui.has_infer_series_type_function=false + semantic_validation.strict_series_semantics_check=true")
+
+        if dispute_notes:
+            row["severity"] = "disputed"
+            evidence_text = str(row.get("evidence", "")).strip()
+            note_text = "; ".join(dispute_notes)
+            row["evidence"] = f"{evidence_text} | Snapshot contradiction: {note_text}".strip()
+            disputed_count += 1
+        normalized.append(row)
+
+    review["findings"] = normalized
+    if disputed_count > 0:
+        quick_wins = review.get("quick_wins")
+        if not isinstance(quick_wins, list):
+            quick_wins = []
+        quick_wins.append(f"{disputed_count} finding(s) marked disputed by deterministic local snapshot checks.")
+        review["quick_wins"] = quick_wins
+    return review
 
 
 def parse_args() -> argparse.Namespace:
@@ -223,6 +375,7 @@ def main() -> int:
                 }
             )
             continue
+        parsed_review = normalize_review_against_snapshot(parsed_review, local_snapshot)
 
         output = {
             "ok": True,

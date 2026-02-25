@@ -1133,10 +1133,12 @@ def align_locale_payloads(base_meta: dict[str, Any], cn_meta: dict[str, Any]) ->
         "reproducibility_commands": 10,
         "source_documents": 6,
     }
+    strict_fields = {"math_blocks", "math_story", "section_cards"}
     for field, limit in limits.items():
         left = list(base_meta.get(field, []))
         right = list(cn_meta.get(field, []))
-        aligned_left, aligned_right = ensure_locale_field_parity(left, right, max_items=limit, min_ratio=0.9)
+        min_ratio = 1.0 if field in strict_fields else 0.9
+        aligned_left, aligned_right = ensure_locale_field_parity(left, right, max_items=limit, min_ratio=min_ratio)
         base_meta[field] = aligned_left
         cn_meta[field] = aligned_right
     return base_meta, cn_meta
@@ -1359,6 +1361,9 @@ def fallback_asset_dataset(report_id: str, assets: list[dict[str, Any]]) -> dict
     x_vals = list(range(1, len(ranked) + 1))
     y_vals = [float(item["size"]) for item in ranked]
     labels = [item["label"] for item in ranked]
+    semantic = build_series_semantics("size_by_rank", y_vals)
+    semantic["series_type"] = "metric"
+    semantic["unit"] = "bytes"
     return {
         "report_id": report_id,
         "series_id": "asset-size-profile",
@@ -1373,7 +1378,7 @@ def fallback_asset_dataset(report_id: str, assets: list[dict[str, Any]]) -> dict
                 "unit": "bytes",
             }
         ],
-        "series_semantics": [build_series_semantics("size_by_rank", y_vals)],
+        "series_semantics": [semantic],
         "default_series": ["size_by_rank"],
         "provenance": {"type": "derived", "source": f"assets:{','.join(labels[:5])}"},
     }
@@ -1723,6 +1728,56 @@ def detect_notions_from_formula(latex: str) -> set[str]:
     return notions
 
 
+def formula_depth_policy(report_id: str, group: str) -> dict[str, Any]:
+    group_defaults: dict[str, dict[str, Any]] = {
+        "grid2d": {
+            "min_required": 8,
+            "target": 12,
+            "policy_note": "Grid2D reports should carry full derivation context.",
+        },
+        "ring": {
+            "min_required": 4,
+            "target": 8,
+            "policy_note": "Ring reports should include baseline and shortcut-sensitive formulas.",
+        },
+        "cross": {
+            "min_required": 2,
+            "target": 4,
+            "policy_note": "Cross synthesis can be concise if it cites upstream derivations.",
+        },
+        "misc": {
+            "min_required": 2,
+            "target": 4,
+            "policy_note": "Misc reports should still expose key derivation anchors.",
+        },
+    }
+    policy = dict(group_defaults.get(group, group_defaults["misc"]))
+    overrides: dict[str, dict[str, Any]] = {
+        "ring_valley": {
+            "min_required": 1,
+            "target": 2,
+            "exception_tag": "lightweight_note",
+            "exception_reason": "Historical valley note with intentionally compact math appendix.",
+        },
+        "ring_lazy_jump_ext": {
+            "min_required": 2,
+            "target": 4,
+            "exception_tag": "extension_delta",
+            "exception_reason": "Extension report focuses on delta from baseline derivation.",
+        },
+        "ring_lazy_jump_ext_rev2": {
+            "min_required": 2,
+            "target": 4,
+            "exception_tag": "extension_revision",
+            "exception_reason": "Revision emphasizes corrected claims over repeated derivations.",
+        },
+    }
+    override = overrides.get(report_id)
+    if override:
+        policy.update(override)
+    return policy
+
+
 def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_at: str) -> None:
     notions_meta = {
         "fpt-pmf": {
@@ -1831,6 +1886,32 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
     mapped_report_ids = set().union(*(set(card["report_ids"]) for card in theory_cards)) if theory_cards else set()
     unmapped_report_ids = sorted(all_report_ids - mapped_report_ids)
 
+    formula_depth_rows: list[dict[str, Any]] = []
+    for row in reports:
+        report_id = str(row["report_id"])
+        group = infer_group(report_id)
+        policy = formula_depth_policy(report_id, group)
+        formula_count = int(report_formula_counts.get(report_id, 0))
+        min_required = int(policy.get("min_required", 1))
+        target = int(policy.get("target", min_required))
+        pass_check = formula_count >= min_required
+        formula_depth_rows.append(
+            {
+                "report_id": report_id,
+                "group": group,
+                "formula_count": formula_count,
+                "min_required": min_required,
+                "target": target,
+                "pass": pass_check,
+                "policy_note": str(policy.get("policy_note", "")).strip(),
+                "exception_tag": str(policy.get("exception_tag", "")).strip(),
+                "exception_reason": str(policy.get("exception_reason", "")).strip(),
+            }
+        )
+    formula_depth_rows.sort(key=lambda item: (str(item.get("group", "")), str(item.get("report_id", ""))))
+    formula_depth_failures = [str(item["report_id"]) for item in formula_depth_rows if not bool(item.get("pass"))]
+    formula_depth_exceptions = [item for item in formula_depth_rows if str(item.get("exception_tag", "")).strip()]
+
     repeated_findings = []
     for key, count in finding_counter.items():
         report_ids = sorted(finding_reports.get(key, set()))
@@ -1876,6 +1957,15 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
             "check": "all_reports_have_formula",
             "pass": all(count >= 1 for count in report_formula_counts.values()) if report_formula_counts else False,
             "details": report_formula_counts,
+        },
+        {
+            "check": "formula_depth_policy",
+            "pass": len(formula_depth_failures) == 0,
+            "details": {
+                "rows": formula_depth_rows,
+                "failure_report_ids": formula_depth_failures,
+                "exception_rows": formula_depth_exceptions,
+            },
         },
         {
             "check": "all_reports_mapped_in_theory_cards",

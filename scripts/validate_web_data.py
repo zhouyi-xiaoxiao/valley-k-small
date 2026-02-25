@@ -101,6 +101,7 @@ def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label
         "reproducibility_commands",
         "source_documents",
     )
+    strict_fields = {"math_blocks", "math_story", "section_cards"}
     for field in key_fields:
         left = meta_en.get(field, [])
         right = meta_cn.get(field, [])
@@ -112,7 +113,8 @@ def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label
             raise SystemExit(f"Locale parity error in {label}: CN {field} is empty while EN is non-empty")
         if left and right:
             ratio = min(len(left), len(right)) / max(1, max(len(left), len(right)))
-            if ratio < 0.9:
+            min_ratio = 1.0 if field in strict_fields else 0.9
+            if ratio < min_ratio:
                 raise SystemExit(
                     f"Locale parity error in {label}: field {field} has severe mismatch (EN={len(left)}, CN={len(right)})"
                 )
@@ -181,6 +183,45 @@ process.stdout.write(JSON.stringify({ errors }));
     return errors
 
 
+def assert_series_semantics(series_payload: dict[str, Any], label: str) -> None:
+    series = list(series_payload.get("series", []))
+    semantics = list(series_payload.get("series_semantics", []))
+    if not series:
+        raise SystemExit(f"Semantic payload error in {label}: empty series array")
+    if not semantics:
+        raise SystemExit(f"Semantic payload error in {label}: missing series_semantics")
+
+    sem_by_name: dict[str, dict[str, Any]] = {}
+    for item in semantics:
+        if not isinstance(item, dict):
+            continue
+        name = str(item.get("name", "")).strip()
+        if name:
+            sem_by_name[name] = item
+
+    for row in series:
+        if not isinstance(row, dict):
+            continue
+        name = str(row.get("name", "")).strip()
+        if not name:
+            raise SystemExit(f"Semantic payload error in {label}: unnamed series row")
+        semantic = sem_by_name.get(name)
+        if semantic is None:
+            raise SystemExit(f"Semantic payload error in {label}: missing semantic row for series '{name}'")
+        declared_type = str(row.get("series_type", "")).strip()
+        semantic_type = str(semantic.get("series_type", "")).strip()
+        if declared_type and semantic_type and declared_type != semantic_type:
+            raise SystemExit(
+                f"Semantic payload error in {label}: series_type mismatch for '{name}' ({declared_type} vs {semantic_type})"
+            )
+        declared_unit = str(row.get("unit", "")).strip()
+        semantic_unit = str(semantic.get("unit", "")).strip()
+        if declared_unit and semantic_unit and declared_unit != semantic_unit:
+            raise SystemExit(
+                f"Semantic payload error in {label}: unit mismatch for '{name}' ({declared_unit} vs {semantic_unit})"
+            )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate web + agent sync payloads.")
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -246,6 +287,8 @@ def main() -> int:
                 series_path = data_root.parent.parent / rel.lstrip("/")
                 if not series_path.exists():
                     raise SystemExit(f"Missing series file: {series_path}")
+                series_payload = read_json(series_path)
+                assert_series_semantics(series_payload, str(series_path))
 
             lang = str(meta_payload.get("lang", "en"))
             for block in meta_payload.get("math_blocks", []):

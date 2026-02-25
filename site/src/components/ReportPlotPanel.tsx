@@ -22,94 +22,8 @@ type SeriesSemantic = {
   min: number;
   max: number;
   positive_ratio: number;
+  source?: 'declared' | 'inferred';
 };
-
-function inferSeriesTypeByDistribution(values: number[]): SeriesType | null {
-  if (values.length === 0) {
-    return null;
-  }
-  const uniq = new Set(values.map((v) => Number(v.toFixed(10))));
-  if (uniq.size > 0 && [...uniq].every((v) => v === 0 || v === 1)) {
-    return 'binary';
-  }
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const span = max - min;
-  const inUnitInterval = min >= -1e-10 && max <= 1 + 1e-10;
-  if (inUnitInterval) {
-    const nonIntegral = values.filter((v) => Math.abs(v - Math.round(v)) > 1e-10).length;
-    if (uniq.size > 2 || nonIntegral >= Math.max(1, Math.floor(values.length * 0.2))) {
-      return 'probability';
-    }
-  }
-  const allIntegerish = values.every((v) => Math.abs(v - Math.round(v)) <= 1e-10);
-  if (allIntegerish && uniq.size <= 8 && span <= 12) {
-    return 'parameter';
-  }
-  if (allIntegerish && uniq.size <= 4 && span <= 3) {
-    return 'parameter';
-  }
-  return null;
-}
-
-function inferSeriesType(name: string, values: number[]): SeriesType {
-  const lowered = name.toLowerCase();
-  const uniq = new Set(values.map((v) => Number(v.toFixed(10))));
-  const distType = inferSeriesTypeByDistribution(values);
-  if (distType === 'binary' || distType === 'probability') {
-    return distType;
-  }
-  if (/(flag|indicator|bool|pass|fail|is_)/i.test(lowered)) {
-    return 'binary';
-  }
-  if (/(pmf|cdf|prob|mass|survival|hazard|density|ratio|rate|share)/i.test(lowered)) {
-    return 'probability';
-  }
-  if (/^(n|t|k)$/i.test(lowered)) {
-    if (distType !== null) {
-      return distType;
-    }
-    if (values.length > 0) {
-      const min = Math.min(...values);
-      const max = Math.max(...values);
-      const spread = max - min;
-      if (spread > 2 || uniq.size > 4 || values.length >= 10) {
-        return 'metric';
-      }
-      if (spread >= 1 && uniq.size >= 3) {
-        return 'metric';
-      }
-    }
-    return 'parameter';
-  }
-  if (/(beta|alpha|lambda|theta|step|time|index|dst|start|target|door|seed)/i.test(lowered)) {
-    return 'parameter';
-  }
-  if (distType !== null) {
-    return distType;
-  }
-  return 'metric';
-}
-
-function inferUnit(name: string, seriesType: SeriesType): string {
-  const lowered = name.toLowerCase();
-  if (seriesType === 'binary') {
-    return 'indicator';
-  }
-  if (seriesType === 'probability') {
-    return 'probability';
-  }
-  if (/(time|step|tick|iter)/i.test(lowered)) {
-    return 'step';
-  }
-  if (/(count|hits|visits|size|mass)/i.test(lowered)) {
-    return 'count';
-  }
-  if (seriesType === 'parameter') {
-    return 'parameter';
-  }
-  return 'value';
-}
 
 function uniqueStrings(values: string[]): string[] {
   const seen = new Set<string>();
@@ -174,34 +88,47 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     return () => controller.abort();
   }, [selected?.series_path]);
 
-  const semanticsByName = useMemo(() => {
+  const semanticAudit = useMemo(() => {
     const out = new Map<string, SeriesSemantic>();
+    const missing: string[] = [];
+    const conflicts: string[] = [];
     if (!payload) {
-      return out;
+      return { map: out, missing, conflicts };
     }
     for (const item of payload.series_semantics ?? []) {
-      out.set(item.name, item);
+      out.set(item.name, { ...item, source: 'declared' });
     }
     for (const series of payload.series) {
-      if (out.has(series.name)) {
+      const declared = out.get(series.name);
+      if (declared) {
+        const declaredType = (series.series_type || '').trim();
+        const declaredUnit = (series.unit || '').trim();
+        if (declaredType && declared.series_type && declaredType !== declared.series_type) {
+          conflicts.push(`${series.name}: series_type ${declaredType} != ${declared.series_type}`);
+        }
+        if (declaredUnit && declared.unit && declaredUnit !== declared.unit) {
+          conflicts.push(`${series.name}: unit ${declaredUnit} != ${declared.unit}`);
+        }
         continue;
       }
+      missing.push(series.name);
       const finite = series.y.filter((v) => Number.isFinite(v));
-      const seriesType = inferSeriesType(series.name, finite);
       const min = finite.length > 0 ? Math.min(...finite) : 0;
       const max = finite.length > 0 ? Math.max(...finite) : 0;
       const positiveRatio = finite.length > 0 ? finite.filter((v) => v > 0).length / finite.length : 0;
       out.set(series.name, {
         name: series.name,
-        series_type: seriesType,
-        unit: inferUnit(series.name, seriesType),
+        series_type: 'metric',
+        unit: 'value',
         min,
         max,
         positive_ratio: positiveRatio,
+        source: 'inferred',
       });
     }
-    return out;
+    return { map: out, missing, conflicts };
   }, [payload]);
+  const semanticsByName = semanticAudit.map;
 
   useEffect(() => {
     if (!payload || payload.series.length === 0) {
@@ -237,7 +164,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     }
     return rawVisibleSeries.some((series) => {
       const semantic = semanticsByName.get(series.name);
-      const inferred = semantic?.series_type ?? inferSeriesType(series.name, series.y);
+      const inferred = semantic?.series_type ?? 'metric';
       if (inferred === 'binary' || inferred === 'parameter') {
         return false;
       }
@@ -287,8 +214,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         return {
           ...series,
           y,
-          series_type: semantic?.series_type ?? inferSeriesType(series.name, series.y),
-          unit: semantic?.unit ?? inferUnit(series.name, inferSeriesType(series.name, series.y)),
+          series_type: semantic?.series_type ?? 'metric',
+          unit: semantic?.unit ?? 'value',
           canTransform,
         };
       });
@@ -497,6 +424,13 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       <p>
         <span className="badge">{selected?.x_label}</span> <span className="badge">{effectiveYLabel}</span>
       </p>
+      {semanticAudit.missing.length > 0 || semanticAudit.conflicts.length > 0 ? (
+        <p style={{ marginBottom: '0.2rem' }}>
+          {lang === 'cn'
+            ? `语义告警：missing=${semanticAudit.missing.length}, conflicts=${semanticAudit.conflicts.length}。`
+            : `Semantic warning: missing=${semanticAudit.missing.length}, conflicts=${semanticAudit.conflicts.length}.`}
+        </p>
+      ) : null}
       {transformSuppressed.length > 0 ? (
         <p style={{ marginBottom: '0.2rem' }}>
           {lang === 'cn' ? '以下序列按原始值展示（不做平滑/归一化）: ' : 'These series stay raw (no smoothing/normalization): '}

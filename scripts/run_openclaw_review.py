@@ -1,0 +1,203 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import subprocess
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_OUT = REPO_ROOT / "artifacts" / "checks" / "openclaw_review.json"
+
+
+def utc_now_iso() -> str:
+    return datetime.now(tz=timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def run(cmd: list[str], *, cwd: Path = REPO_ROOT, timeout: int = 900) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        cmd,
+        cwd=cwd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=False,
+        timeout=timeout,
+    )
+
+
+def parse_json_maybe(text: str) -> dict[str, Any] | None:
+    text = text.strip()
+    if not text:
+        return None
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    match = re.search(r"\{.*\}", text, flags=re.DOTALL)
+    if not match:
+        return None
+    candidate = match.group(0)
+    try:
+        return json.loads(candidate)
+    except json.JSONDecodeError:
+        return None
+
+
+def ensure_agent(agent_id: str, workspace: Path, model: str) -> tuple[bool, str]:
+    listed = run(["openclaw", "agents", "list", "--json"], timeout=120)
+    if listed.returncode != 0:
+        return False, listed.stdout
+    payload = parse_json_maybe(listed.stdout) or []
+    existing = next((item for item in payload if item.get("id") == agent_id), None)
+    if existing and existing.get("model") == model:
+        return True, "agent exists"
+    if existing:
+        deleted = run(["openclaw", "agents", "delete", agent_id, "--force", "--json"], timeout=120)
+        if deleted.returncode != 0:
+            return False, deleted.stdout
+    added = run(
+        [
+            "openclaw",
+            "agents",
+            "add",
+            agent_id,
+            "--workspace",
+            str(workspace),
+            "--model",
+            model,
+            "--non-interactive",
+            "--json",
+        ],
+        timeout=180,
+    )
+    if added.returncode != 0:
+        return False, added.stdout
+    return True, "agent created"
+
+
+def select_model(candidates: list[str]) -> str:
+    listed = run(["openclaw", "models", "list", "--all", "--plain"], timeout=120)
+    if listed.returncode != 0:
+        return candidates[-1]
+    available = {line.strip() for line in listed.stdout.splitlines() if line.strip()}
+    for model in candidates:
+        if model in available:
+            return model
+    return candidates[-1]
+
+
+def build_prompt(repo_root: Path) -> str:
+    return (
+        "You are a strict QA reviewer for a mathematics-heavy website. "
+        "Review the repository at "
+        f"{repo_root.as_posix()} "
+        "with focus on readability, mathematical coherence, interaction quality, and duplication risk. "
+        "Cross-check these files first: "
+        "site/src/lib/render-pages.tsx, site/src/components/ReportPlotPanel.tsx, "
+        "site/public/data/v1/index.json, site/public/data/v1/theory_map.json. "
+        "Return ONLY compact JSON with keys: "
+        "score (0-100), findings (array of {severity, area, issue, evidence, fix}), "
+        "quick_wins (array), crosscheck (array). "
+        "No markdown."
+    )
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run OpenClaw external review for valley-k-small web quality.")
+    parser.add_argument("--agent-id", default="vk-review-qa")
+    parser.add_argument("--workspace", type=Path, default=REPO_ROOT)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUT)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    model_candidates = [
+        "openai-codex/gpt-5.3-codex",
+        "openai-codex/gpt-5.2",
+        "openai/gpt-5.2-pro",
+    ]
+    selected_model = select_model(model_candidates)
+    ok, note = ensure_agent(args.agent_id, args.workspace, selected_model)
+    if not ok:
+        payload = {
+            "ok": False,
+            "generated_at": utc_now_iso(),
+            "agent_id": args.agent_id,
+            "model": selected_model,
+            "error": note.strip()[:4000],
+        }
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 1
+
+    prompt = build_prompt(args.workspace)
+    session_id = f"oc-review-{uuid.uuid4()}"
+    reviewed = run(
+        [
+            "openclaw",
+            "agent",
+            "--local",
+            "--agent",
+            args.agent_id,
+            "--session-id",
+            session_id,
+            "--thinking",
+            "high",
+            "--timeout",
+            "900",
+            "--json",
+            "--message",
+            prompt,
+        ],
+        timeout=960,
+    )
+    if reviewed.returncode != 0:
+        payload = {
+            "ok": False,
+            "generated_at": utc_now_iso(),
+            "agent_id": args.agent_id,
+            "model": selected_model,
+            "error": reviewed.stdout.strip()[:8000],
+        }
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 1
+
+    raw = parse_json_maybe(reviewed.stdout) or {}
+    text_payload = ""
+    if isinstance(raw, dict):
+        payloads = raw.get("payloads")
+        if isinstance(payloads, list) and payloads:
+            first = payloads[0]
+            if isinstance(first, dict):
+                text_payload = str(first.get("text", ""))
+    parsed_review = parse_json_maybe(text_payload) or {"raw_text": text_payload.strip()}
+    review_ok = isinstance(parsed_review, dict) and "score" in parsed_review and "findings" in parsed_review
+
+    output = {
+        "ok": review_ok,
+        "generated_at": utc_now_iso(),
+        "agent_id": args.agent_id,
+        "session_id": session_id,
+        "model": selected_model,
+        "agent_setup_note": note,
+        "review": parsed_review,
+    }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(json.dumps(output, ensure_ascii=False, indent=2))
+    return 0 if review_ok else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,92 @@
+{
+  "ok": true,
+  "generated_at": "2026-02-25T01:05:43.245253Z",
+  "agent_id": "vk-review-qa",
+  "session_id": "oc-review-03d8bba3-32d0-4aa1-8fad-941f16f18c17",
+  "model": "openai-codex/gpt-5.3-codex",
+  "agent_setup_note": "agent created",
+  "review": {
+    "score": 48,
+    "findings": [
+      {
+        "severity": "critical",
+        "area": "interaction_quality",
+        "issue": "Interactive plot data pipeline breaks on invalid JSON containing NaN; affected datasets silently fail and UI stays in loading state.",
+        "evidence": "ReportPlotPanel fetches with res.json() and on any error sets payload=null (site/src/components/ReportPlotPanel.tsx:44-52), then renders only 'Loading plot data…' when payload is null (line 161). Strict parse check: 5 invalid series files under site/public/data/v1/reports/**/series/*cond_by_t.json (Unexpected token 'N').",
+        "fix": "Sanitize export to strict JSON (replace NaN with null or finite numbers), add schema/CI check using strict JSON.parse, and show explicit error state with retry instead of perpetual loading."
+      },
+      {
+        "severity": "high",
+        "area": "mathematical_coherence",
+        "issue": "Theory map makes an 'all reports' claim that contradicts its own mapping payload.",
+        "evidence": "theory_map card fpt-pmf says 'used by all reports' (site/public/data/v1/theory_map.json:9) but lists only 6 report_ids with report_count=6 (lines 11-19), while index has 14 reports (site/public/data/v1/index.json:4-143).",
+        "fix": "Either widen report_ids to all applicable reports or change wording to subset scope; enforce semantic consistency checks in data generation."
+      },
+      {
+        "severity": "high",
+        "area": "mathematical_coherence",
+        "issue": "Unified theory coverage is incomplete: 4 reports are not mapped by any concept card.",
+        "evidence": "render-pages labels theory section as 'Unified Mathematical Map' (site/src/lib/render-pages.tsx:248). Cross-check index report_ids vs union(theory_map.cards[*].report_ids) leaves unmapped: grid2d_blackboard_bimodality, grid2d_rect_bimodality, ring_valley, ring_valley_dst.",
+        "fix": "Add an 'unmapped_reports' consistency check and fail build when non-empty; include at least one concept linkage per report or clearly label reports as intentionally unmapped."
+      },
+      {
+        "severity": "high",
+        "area": "duplication_risk",
+        "issue": "Duplicate-content check gives false confidence.",
+        "evidence": "theory_map consistency check reports duplicate_key_findings PASS with empty details (site/public/data/v1/theory_map.json:114-117), but identical line 'See report assets for detailed findings.' appears in 5 report meta files (e.g., ring_lazy_jump/meta.json:7, ring_lazy_jump_ext/meta.json:7, ring_lazy_flux/meta.json:7, ring_deriv_k2/meta.json:7, ring_valley/meta.json:7).",
+        "fix": "Change duplicate detection to sentence-level normalized matching across all reports (not only full-list equality) and flag high-frequency boilerplate."
+      },
+      {
+        "severity": "medium",
+        "area": "readability",
+        "issue": "Bilingual UX claim is overstated and plot controls are English-only.",
+        "evidence": "Homepage claims 'full online, bilingual interface for 14 reports' (site/src/lib/render-pages.tsx:39-40). index shows some reports are en-only (ring_deriv_k2 at site/public/data/v1/index.json:56-60; ring_valley:125-129). ReportPlotPanel labels are hardcoded English ('Interactive Dataset', 'Y scale', 'Smoothing', etc., site/src/components/ReportPlotPanel.tsx:94-130).",
+        "fix": "Localize ReportPlotPanel via lang prop + localizedText; revise homepage claim to actual coverage (e.g., 'primarily bilingual' or count-based wording)."
+      },
+      {
+        "severity": "medium",
+        "area": "duplication_risk",
+        "issue": "Path-prefix utility logic is duplicated, increasing divergence risk.",
+        "evidence": "withBasePath is reimplemented in ReportPlotPanel (site/src/components/ReportPlotPanel.tsx:8-17) while equivalent logic exists in site/src/lib/content.ts (BASE_PATH + withBasePath).",
+        "fix": "Centralize in one shared utility and import it in both server/client-safe contexts (or split pure util module)."
+      },
+      {
+        "severity": "medium",
+        "area": "interaction_quality",
+        "issue": "Hard truncation hides mathematical context without disclosure or pagination.",
+        "evidence": "render-pages slices content silently: math_blocks.slice(0,10) (line 161), assets.slice(0,20) (214), figures.slice(0,24) (228), theory report_ids.slice(0,8) (271).",
+        "fix": "Show total counts, add 'show more' controls, and preserve discoverability for long math/report content."
+      }
+    ],
+    "quick_wins": [
+      "Replace NaN tokens with null in generated series JSON and rerun strict JSON validation in CI.",
+      "Add explicit plot error state: 'Failed to load dataset' + retry button when fetch/parse fails.",
+      "Introduce coverage gate: every report_id in index.json must appear in at least one theory_map card.",
+      "Refactor ReportPlotPanel text to localized strings and pass lang from renderReportPage.",
+      "Consolidate withBasePath into one shared util and remove duplicate implementation.",
+      "Update duplicate_key_findings check to normalized sentence-level dedupe."
+    ],
+    "crosscheck": [
+      {
+        "target": "site/src/lib/render-pages.tsx",
+        "status": "checked",
+        "focus": "claim consistency, truncation behavior, theory/report rendering"
+      },
+      {
+        "target": "site/src/components/ReportPlotPanel.tsx",
+        "status": "checked",
+        "focus": "fetch/parse robustness, localization, transformation behavior"
+      },
+      {
+        "target": "site/public/data/v1/index.json",
+        "status": "checked",
+        "focus": "report inventory, language coverage baseline (14 reports)"
+      },
+      {
+        "target": "site/public/data/v1/theory_map.json",
+        "status": "checked",
+        "focus": "concept coverage, consistency_checks credibility, semantic claim alignment"
+      }
+    ]
+  }
+}

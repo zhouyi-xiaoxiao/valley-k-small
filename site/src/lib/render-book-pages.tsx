@@ -454,7 +454,7 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
           : [];
         const prevChapter = idx > 0 ? chapters[idx - 1] : null;
         const nextChapter = idx + 1 < chapters.length ? chapters[idx + 1] : null;
-        const visibleIntro = chapterIntro(chapter, lang).slice(0, 2);
+        const visibleIntro = chapterIntro(chapter, lang);
         return (
           <section id={chapter.chapter_id} key={`continuous-${chapter.chapter_id}`} className="card section-enter" style={{ marginTop: '1rem' }}>
             <div className="kicker">{chapterKicker(chapter, lang)}</div>
@@ -478,9 +478,11 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
             </div>
 
             <details className="chapter-disclosure">
-              <summary>{localizedText(lang, 'Open core derivation', '展开核心推导')}</summary>
+              <summary>
+                {localizedText(lang, 'Open core derivation', '展开核心推导')} ({chapter.theory_chain.length})
+              </summary>
               <div className="grid grid-2">
-                {chapter.theory_chain.slice(0, 6).map((item, theoryIdx) => {
+                {chapter.theory_chain.map((item, theoryIdx) => {
                   const rendered = renderLatex(item.latex);
                   return (
                     <article key={`${chapter.chapter_id}-${item.report_id}-${theoryIdx}`} className="card">
@@ -497,7 +499,9 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
             </details>
 
             <details className="chapter-disclosure">
-              <summary>{localizedText(lang, 'Open interactive lab', '展开交互实验区')}</summary>
+              <summary>
+                {localizedText(lang, 'Open interactive lab', '展开交互实验区')} ({chapter.interactive_panels.length})
+              </summary>
               {primaryPanel && selectedDatasets.length > 0 ? (
                 <article className="card">
                   <h4>{lang === 'cn' ? primaryPanel.title_cn : primaryPanel.title_en}</h4>
@@ -507,12 +511,29 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
               ) : (
                 <p className="muted">{localizedText(lang, 'No interactive panel available for this chapter.', '本章暂无可用交互图。')}</p>
               )}
+              {chapter.interactive_panels.length > 0 ? (
+                <div className="card" style={{ marginTop: '0.6rem' }}>
+                  <h4>{localizedText(lang, 'Panel index (all chapter panels)', '面板索引（本章全部面板）')}</h4>
+                  <ul>
+                    {chapter.interactive_panels.map((panel) => (
+                      <li key={`panel-index-${chapter.chapter_id}-${panel.panel_id}`}>
+                        <Link href={prefixPath(prefix, `/reports/${panel.report_id}`)}>
+                          {lang === 'cn' ? panel.title_cn : panel.title_en}
+                        </Link>{' '}
+                        <code>{panel.dataset_series_id}</code>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </details>
 
             <details className="chapter-disclosure">
-              <summary>{localizedText(lang, 'Open claims and evidence', '展开 Claim 与证据')}</summary>
+              <summary>
+                {localizedText(lang, 'Open claims and evidence', '展开 Claim 与证据')} ({chapter.claim_ledger.length})
+              </summary>
               <div className="grid grid-2">
-                {chapter.claim_ledger.slice(0, 6).map((claim) => (
+                {chapter.claim_ledger.map((claim) => (
                   <article key={`claim-${chapter.chapter_id}-${claim.claim_id}`} className="card">
                     <p>
                       <span className="badge">{claim.stage}</span>{' '}

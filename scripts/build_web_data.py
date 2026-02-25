@@ -126,6 +126,53 @@ def repair_common_math_noise(text: str) -> str:
     )
     value = re.sub(r"\bP\s*:\s*([0-9]+(?:\.[0-9]+)?)\b", r"P=\1", value, flags=re.IGNORECASE)
     value = re.sub(r"\^\s*-\s*(\d+)", r"e-\1", value)
+    value = value.replace(",,", ",")
+    value = re.sub(r",\s*,+", ", ", value)
+    value = re.sub(r"\bN\s*=\s*(\d+)\s*,\s*,", r"N=\1,", value, flags=re.IGNORECASE)
+    value = re.sub(
+        r"\bwith\s+N\s*=\s*(\d+)\s*,\s*=\s*1\b",
+        r"with N=\1 and fixed control parameter",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(
+        r"\bN\s*=\s*(\d+)\s*,\s*=\s*1\s*->\s*v\s*=\s*target\s*=\s*(\d+)\b",
+        r"N=\1 with target index v=\2",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(
+        r"\bN\s*=\s*(\d+)[^.;:]{0,80}?->\s*v\s*=\s*target\s*=\s*(\d+)\b",
+        r"N=\1 with target index v=\2",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(
+        r"\blambda\s*k\s*=\s*1-q\+q\b\.?",
+        "the lazy parameter q enters the eigenvalue spectrum directly.",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(
+        r"\bco-located\s*\(now in stacked panels\)\b",
+        "co-located figure (shown as stacked panels)",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(
+        r"\bsingle\s+co-located\s*\(now in stacked panels\)\s*and the associated sensitivity analyses\b",
+        "single co-located Figure 1 (shown as stacked panels) together with sensitivity analyses",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(r"\bunder\s+the\s+Fig\.?$", "under the reference figure.", value, flags=re.IGNORECASE)
+    value = re.sub(r"\(\s*Figs?\.\s*$", "", value, flags=re.IGNORECASE)
+    value = re.sub(r"\(\s*Section[^)]*\)", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\(\s*,\s*\)", " ", value)
+    value = re.sub(r"\b(?:sec|fig):[a-z0-9_\-]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"->\s*v\s*=\s*target\b", "toward target", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bfor,\s*", "for ", value)
+    value = re.sub(r",\s*=\s*1\b", ", with fixed control parameter", value, flags=re.IGNORECASE)
     value = re.sub(r"\bwe use,\s*hence\b", "With fixed parameters,", value, flags=re.IGNORECASE)
     value = re.sub(r"\bup to\.\s*$", "", value, flags=re.IGNORECASE)
     value = re.sub(r"\s*,\s*all\s*$", ".", value, flags=re.IGNORECASE)
@@ -172,12 +219,37 @@ def is_placeholder_finding(text: str, report_id: str) -> bool:
     return False
 
 
+def looks_like_operational_note(text: str) -> bool:
+    lowered = normalize_space(text).lower()
+    if not lowered:
+        return True
+    if lowered.startswith("main tex:") or lowered.startswith("full workflow notes:"):
+        return True
+    if re.search(r"`[^`]+`", lowered) and "/" in lowered:
+        if len(lowered) <= 180:
+            return True
+    if re.search(r"`[^`]+\.(?:tex|md|py|json|csv)`", lowered):
+        return True
+    if re.search(r"\b(?:outputs|tables|notes|code|reports)/", lowered):
+        return True
+    if re.search(r"\.(?:py|json|csv|tex|md)\b", lowered):
+        if any(token in lowered for token in ("script", "config", "notes", "path", "workflow", "file")):
+            return True
+    if lowered.startswith("`code/`") or lowered.startswith("`reports/`") or lowered.startswith("`outputs/`") or lowered.startswith("`tables/`"):
+        return True
+    if lowered in {"`code/`: data generation scripts.", "code/: data generation scripts."}:
+        return True
+    return False
+
+
 def clean_findings(findings: list[str], report_id: str, max_items: int = 8) -> list[str]:
     normalized = dedupe_preserve([repair_common_math_noise(x) for x in findings], max_items=max(12, max_items * 2))
     kept = [
         item
         for item in normalized
-        if not is_placeholder_finding(item, report_id) and summary_penalty(item) <= 22
+        if not is_placeholder_finding(item, report_id)
+        and not looks_like_operational_note(item)
+        and summary_penalty(item) <= 22
     ]
     if not kept:
         kept = [
@@ -286,6 +358,10 @@ def summary_quality_cleanup(text: str) -> str:
     value = re.sub(r"\b[a-z]\s*=\s*t\d+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b[a-z]\s*=\s*[a-z]\s*[0-9]+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b[txyzkn]\s*_[a-z0-9]{0,2}\s*[,;:]\s*$", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b(?:Fig|Figs)\.?\s*$", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\(\s*(?:Fig|Figs)\.?\s*\)$", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bsec:[a-z0-9_\-]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bfig:[a-z0-9_\-]+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\s{2,}", " ", value)
     return repair_common_math_noise(value)
 
@@ -334,6 +410,24 @@ def looks_like_math_fragment(sentence: str) -> bool:
     if symbol_ratio > 0.09:
         return True
     return False
+
+
+def has_malformed_readability_tokens(text: str) -> bool:
+    value = normalize_space(str(text or ""))
+    if not value:
+        return False
+    patterns = [
+        r",\s*,",
+        r"\b=\s*1\s*->\b",
+        r"\b=1toward\b",
+        r"\bu=n0toward\b",
+        r"\bunder\s+the\s+Fig\.?$",
+        r"\bunder\s*$",
+        r"\+\s*$",
+        r"\(\s*Figs?\.?\s*$",
+        r"\b(?:sec|fig):[a-z0-9_\-]+\b",
+    ]
+    return any(re.search(pattern, value, flags=re.IGNORECASE) for pattern in patterns)
 
 
 def readable_summary(text: str, *, max_chars: int = 480, max_sentences: int = 3) -> str:
@@ -511,9 +605,31 @@ def cn_topic_from_report_id(report_id: str) -> str:
     return "该研究报告"
 
 
+def normalize_cn_mixed_phrases(text: str) -> str:
+    value = str(text or "")
+    replacements: list[tuple[str, str]] = [
+        (
+            r"\bNo\s+Luca\s+winning\s+region\s+under\s+fixed[-\s]*T\s+full[-\s]*FPT\s+fairness\b\.?",
+            "在固定 T 的完整 FPT 公平口径下，不存在 Luca 获胜区域",
+        ),
+        (
+            r"\bLuca\s+winning\s+region\s+under\s+fixed[-\s]*T\s+full[-\s]*FPT\s+fairness\b\.?",
+            "固定 T 的完整 FPT 公平口径下的 Luca 获胜区域",
+        ),
+        (r"\bGlobal\s+regime\s+decision\s*:\s*", "全局判定："),
+    ]
+    for pattern, repl in replacements:
+        value = re.sub(pattern, repl, value, flags=re.IGNORECASE)
+    value = re.sub(r"\s+([，。；：！？])", r"\1", value)
+    value = re.sub(r"([，。；：！？]){2,}", lambda m: m.group(0)[0], value)
+    return normalize_space(value)
+
+
 def ensure_cn_text(text: str, report_id: str, *, role: str, max_chars: int, hint: str = "") -> str:
     cleaned = canonical_summary(
-        summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(str(text or "")))),
+        normalize_cn_mixed_phrases(
+            summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(str(text or ""))))
+        ),
         max_chars=max_chars,
     )
     if cleaned and contains_cjk(cleaned):
@@ -523,7 +639,7 @@ def ensure_cn_text(text: str, report_id: str, *, role: str, max_chars: int, hint
     default_by_role = {
         "title": f"{topic}：{report_id} 研究报告",
         "summary": f"{topic}：本报告围绕模型设定、首达时间分布、峰谷判据与可复现实验给出可核对证据链。",
-        "finding": f"{topic}：关键结论见本页公式链、交互图与原始资产。",
+        "finding": f"{topic}（{report_id}）：关键结论见本页公式链、交互图与原始资产。",
         "model": f"{topic}：本节说明状态空间、参数约束与边界条件设定。",
         "method": f"{topic}：本节给出解析/数值流程、反演方法与验证协议。",
         "result": f"{topic}：本节总结峰谷结构、通道机制与跨报告对比结论。",
@@ -533,7 +649,37 @@ def ensure_cn_text(text: str, report_id: str, *, role: str, max_chars: int, hint
     fallback = default_by_role.get(role, default_by_role["summary"])
     if role == "title" and hint and contains_cjk(hint):
         fallback = hint
-    return canonical_summary(fallback, max_chars=max_chars)
+    return canonical_summary(normalize_cn_mixed_phrases(fallback), max_chars=max_chars)
+
+
+def ensure_en_text(text: str, report_id: str, *, role: str, max_chars: int) -> str:
+    raw = summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(str(text or ""))))
+    cleaned = re.sub(r"[\u4e00-\u9fff]+", " ", raw)
+    cleaned = canonical_summary(summary_quality_cleanup(cleaned), max_chars=max_chars)
+    if cleaned and not contains_cjk(cleaned):
+        if not looks_like_operational_note(cleaned) and not has_malformed_readability_tokens(cleaned) and summary_penalty(cleaned) <= 14:
+            return cleaned
+        refined = readable_summary(cleaned, max_chars=max_chars, max_sentences=3)
+        refined = canonical_summary(summary_quality_cleanup(refined), max_chars=max_chars)
+        if (
+            refined
+            and not contains_cjk(refined)
+            and not looks_like_operational_note(refined)
+            and not has_malformed_readability_tokens(refined)
+            and summary_penalty(refined) <= 14
+        ):
+            return refined
+    fallback_by_role = {
+        "title": f"{humanize_report_id(report_id)} report",
+        "summary": f"This report on {humanize_report_id(report_id)} provides a coherent chain from model setup to reproducible evidence.",
+        "finding": f"Key finding for {report_id}: see the equation chain, interactive panels, and source-linked assets.",
+        "model": f"This section defines the model state space, parameters, and boundary assumptions for {report_id}.",
+        "method": f"This section summarizes derivation, inversion, simulation, and validation procedures for {report_id}.",
+        "result": f"This section reports peak-valley behavior, mechanism interpretation, and cross-report implications for {report_id}.",
+        "section": f"This section consolidates evidence and verification notes for {report_id}.",
+        "claim": f"This claim in {report_id} is backed by equation cards, datasets, and source-linked files.",
+    }
+    return canonical_summary(fallback_by_role.get(role, fallback_by_role["summary"]), max_chars=max_chars)
 
 
 def title_penalty(text: str, report_id: str) -> int:
@@ -1574,19 +1720,24 @@ def ensure_locale_field_parity(
     *,
     max_items: int | None = None,
     min_ratio: float = 0.9,
+    allow_cross_copy: bool = True,
 ) -> tuple[list[Any], list[Any]]:
     a = dedupe_sequence(list(left), max_items=max_items)
     b = dedupe_sequence(list(right), max_items=max_items)
-    if not a and b:
+    if not a and b and allow_cross_copy:
         a = list(b)
-    if not b and a:
+    if not b and a and allow_cross_copy:
         b = list(a)
     if a and b:
         ratio = min(len(a), len(b)) / max(1, max(len(a), len(b)))
         if ratio < min_ratio:
-            merged = dedupe_sequence(a + b, max_items=max_items)
-            a = dedupe_sequence(a + merged, max_items=max_items)
-            b = dedupe_sequence(b + merged, max_items=max_items)
+            target = max(len(a), len(b))
+            if max_items is not None:
+                target = min(target, max_items)
+            if len(a) < target and a:
+                a = (a + [a[i % len(a)] for i in range(target - len(a))])[:target]
+            if len(b) < target and b:
+                b = (b + [b[i % len(b)] for i in range(target - len(b))])[:target]
     return a, b
 
 
@@ -1600,11 +1751,18 @@ def align_locale_payloads(base_meta: dict[str, Any], cn_meta: dict[str, Any]) ->
         "source_documents": 6,
     }
     strict_fields = {"math_blocks", "math_story", "section_cards"}
+    cross_copy_fields = {"math_blocks", "math_story", "reproducibility_commands", "source_documents"}
     for field, limit in limits.items():
         left = list(base_meta.get(field, []))
         right = list(cn_meta.get(field, []))
         min_ratio = 1.0 if field in strict_fields else 0.9
-        aligned_left, aligned_right = ensure_locale_field_parity(left, right, max_items=limit, min_ratio=min_ratio)
+        aligned_left, aligned_right = ensure_locale_field_parity(
+            left,
+            right,
+            max_items=limit,
+            min_ratio=min_ratio,
+            allow_cross_copy=field in cross_copy_fields,
+        )
         base_meta[field] = aligned_left
         cn_meta[field] = aligned_right
     return base_meta, cn_meta
@@ -2115,6 +2273,7 @@ def build_report_payload(
     section_summary_en = [str(row.get("summary", "")) for row in list(tex_en.get("section_cards", []))[:3]]
     section_summary_cn = [str(row.get("summary", "")) for row in list(tex_cn.get("section_cards", []))[:3]]
     findings_en = clean_findings(readme_findings + list(tex_en["findings"]), report_id, max_items=8)
+    findings_en = [ensure_en_text(row, report_id, role="finding", max_chars=220) for row in findings_en]
     findings_cn = clean_findings(readme_findings + list(tex_cn["findings"]), report_id, max_items=8)
     findings_cn = [ensure_cn_text(row, report_id, role="finding", max_chars=220) for row in findings_cn]
     summary_en = choose_best_summary(
@@ -2143,7 +2302,7 @@ def build_report_payload(
         summary_en = canonical_summary(str(tex_en.get("summary", "") or readme_summary), max_chars=1000)
     if not summary_cn:
         summary_cn = canonical_summary(str(tex_cn.get("summary", "") or summary_en), max_chars=1000)
-    title_en = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(title_en))), max_chars=220) or report_id
+    title_en = ensure_en_text(title_en, report_id, role="title", max_chars=220)
     title_cn = ensure_cn_text(title_cn, report_id, role="title", max_chars=220, hint=str(tex_cn.get("title", "")))
     summary_en = improve_summary_if_needed(
         summary_en,
@@ -2155,6 +2314,7 @@ def build_report_payload(
         ],
         max_chars=1000,
     )
+    summary_en = ensure_en_text(summary_en, report_id, role="summary", max_chars=1000)
     summary_cn = improve_summary_if_needed(
         summary_cn,
         [
@@ -2173,14 +2333,51 @@ def build_report_payload(
     elif tex_cn.get("source_documents"):
         inferred_languages.append("cn")
 
+    en_narrative_source = tex_en["narrative"]
+    en_narrative = {
+        "model_overview": ensure_en_text(
+            str(en_narrative_source.get("model_overview", "")),
+            report_id,
+            role="model",
+            max_chars=320,
+        ),
+        "method_overview": ensure_en_text(
+            str(en_narrative_source.get("method_overview", "")),
+            report_id,
+            role="method",
+            max_chars=320,
+        ),
+        "result_overview": ensure_en_text(
+            str(en_narrative_source.get("result_overview", "")),
+            report_id,
+            role="result",
+            max_chars=320,
+        ),
+    }
+    en_section_cards = []
+    for card in tex_en["section_cards"]:
+        heading = str(card.get("heading", "")).strip() or "Section"
+        en_section_cards.append(
+            {
+                "heading": heading,
+                "summary": ensure_en_text(
+                    str(card.get("summary", "")),
+                    report_id,
+                    role="section",
+                    max_chars=320,
+                ),
+                "source_path": str(card.get("source_path", "")),
+            }
+        )
+
     base_meta = {
         "report_id": report_id,
         "lang": "en",
         "title": title_en,
         "summary": summary_en,
         "key_findings": findings_en,
-        "narrative": tex_en["narrative"],
-        "section_cards": tex_en["section_cards"],
+        "narrative": en_narrative,
+        "section_cards": en_section_cards,
         "math_blocks": tex_en["math_blocks"],
         "math_story": tex_en["math_story"],
         "reproducibility_commands": tex_en["reproducibility_commands"],
@@ -2189,14 +2386,52 @@ def build_report_payload(
         "assets": assets,
         "updated_at": report_updated_at,
     }
+    cn_narrative_source = tex_cn["narrative"] if tex_cn["section_cards"] else tex_en["narrative"]
+    cn_section_cards_source = tex_cn["section_cards"] if tex_cn["section_cards"] else tex_en["section_cards"]
+    cn_narrative = {
+        "model_overview": ensure_cn_text(
+            str(cn_narrative_source.get("model_overview", "")),
+            report_id,
+            role="model",
+            max_chars=320,
+        ),
+        "method_overview": ensure_cn_text(
+            str(cn_narrative_source.get("method_overview", "")),
+            report_id,
+            role="method",
+            max_chars=320,
+        ),
+        "result_overview": ensure_cn_text(
+            str(cn_narrative_source.get("result_overview", "")),
+            report_id,
+            role="result",
+            max_chars=320,
+        ),
+    }
+    cn_section_cards = []
+    for card in cn_section_cards_source:
+        heading = str(card.get("heading", "")).strip() or "章节"
+        cn_section_cards.append(
+            {
+                "heading": heading,
+                "summary": ensure_cn_text(
+                    str(card.get("summary", "")),
+                    report_id,
+                    role="section",
+                    max_chars=320,
+                    hint=heading,
+                ),
+                "source_path": str(card.get("source_path", "")),
+            }
+        )
     cn_meta = {
         **base_meta,
         "lang": "cn",
         "title": title_cn,
         "summary": summary_cn,
         "key_findings": findings_cn,
-        "narrative": tex_cn["narrative"] if tex_cn["section_cards"] else tex_en["narrative"],
-        "section_cards": tex_cn["section_cards"] if tex_cn["section_cards"] else tex_en["section_cards"],
+        "narrative": cn_narrative,
+        "section_cards": cn_section_cards,
         "math_blocks": tex_cn["math_blocks"] if tex_cn["math_blocks"] else tex_en["math_blocks"],
         "math_story": tex_cn["math_story"] if tex_cn["math_story"] else tex_en["math_story"],
         "reproducibility_commands": tex_cn["reproducibility_commands"]
@@ -2860,6 +3095,11 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
             cleaned_cn = sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320, report_id=rid)
             if not cleaned_en:
                 continue
+            role_key = stage if stage in {"model", "method", "result", "finding"} else "claim"
+            cleaned_en = ensure_en_text(cleaned_en, rid, role=role_key, max_chars=460)
+            cleaned_cn = ensure_cn_text(cleaned_cn, rid, role=role_key, max_chars=320)
+            if looks_like_operational_note(cleaned_en):
+                continue
             signature = normalize_finding_key(cleaned_en)
             if not signature or signature in seen_claim_signatures:
                 continue
@@ -2974,8 +3214,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                     "claim_id": claim_id,
                     "report_id": rid,
                     "stage": stage,
-                    "text_en": sanitize_claim_text_for_map(text_en, lang="en", max_chars=460, report_id=rid),
-                    "text_cn": sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320, report_id=rid),
+                    "text_en": text_en,
+                    "text_cn": text_cn,
                     "evidence": deduped_evidence[:6],
                     "linked_claim_ids": [],
                     "linked_report_ids": [],

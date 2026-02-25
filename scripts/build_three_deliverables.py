@@ -40,6 +40,7 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
     steps.append(run_step("Agent-A-WebData", [PYTHON, "scripts/build_web_data.py", "--mode", mode]))
     steps.append(run_step("Agent-B-BookData-Glossary", [PYTHON, "scripts/build_glossary.py"]))
     steps.append(run_step("Agent-C-BookData-Chapters", [PYTHON, "scripts/build_book_content.py"]))
+    steps.append(run_step("Agent-C2-BookBackbone", [PYTHON, "scripts/build_book_backbone.py"]))
     steps.append(run_step("Agent-D-TranslationQC", [PYTHON, "scripts/validate_bilingual_quality.py"]))
     steps.append(run_step("Agent-E-AgentSync", [PYTHON, "scripts/build_agent_sync.py"]))
     steps.append(run_step("Agent-F-Validate", [PYTHON, "scripts/validate_web_data.py"]))

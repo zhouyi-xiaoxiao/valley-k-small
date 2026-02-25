@@ -102,12 +102,14 @@ def main() -> int:
     report_network_path = ensure_required(data_root / "report_network.json")
     content_map_path = ensure_required(data_root / "content_map.json")
     book_manifest_path = ensure_required(data_root / "book" / "book_manifest.json")
+    book_backbone_path = ensure_required(data_root / "book" / "backbone.json")
     translation_qc_path = ensure_required(data_root / "agent" / "translation_qc.json")
 
     index_payload = read_json(index_path)
     theory_map = read_json(theory_map_path)
     content_map = read_json(content_map_path)
     book_manifest = read_json(book_manifest_path)
+    book_backbone = read_json(book_backbone_path)
     translation_qc = read_json(translation_qc_path)
 
     reports = list(index_payload.get("reports", []))
@@ -228,6 +230,7 @@ def main() -> int:
             "Read manifest.json and verify SHA256 values before consuming streams.",
             "Process reports.jsonl for normalized report snapshots and metadata joins.",
             "Load book_manifest.json and book_chapters.jsonl for chapter-first continuity traversal.",
+            "Load book/backbone.json as the canonical logic spine before report-level deep dives.",
             "Use claim_graph.jsonl and content_map.json for claim-level evidence graph construction.",
             "Check translation_qc.json before generating language-specific outputs.",
             "Join theory_map.json with report_network.json to traverse cross-report theory links.",
@@ -236,6 +239,7 @@ def main() -> int:
             "report_identity": ["report_id", "group", "path", "languages", "updated_at"],
             "chapter_identity": ["chapter_id", "order", "title_en", "title_cn", "report_ids"],
             "claim_graph": ["claim_id", "report_id", "stage", "evidence_paths", "linked_report_ids"],
+            "book_backbone": ["acts", "chapter_spine", "quality_checks"],
         },
     }
     write_json(agent_dir / "guide.json", guide_payload)
@@ -251,6 +255,7 @@ def main() -> int:
         "all_interactive": all(row["interactive_count"] >= 1 for row in chapter_rows),
         "all_claimed": all(row["claim_count"] >= 1 for row in chapter_rows),
         "all_theory": all(row["theory_chain_count"] >= 1 for row in chapter_rows),
+        "backbone_spine_covered": len(list(book_backbone.get("chapter_spine", []))) == len(chapter_rows),
     }
 
     publication_dir = REPO_ROOT / "artifacts" / "deliverables" / "publication"
@@ -309,6 +314,13 @@ def main() -> int:
             "notes": f"claim_graph rows={len(claim_graph_rows)}",
         },
         {
+            "id": "agent-I-backbone-system",
+            "agent": "Backbone System",
+            "status": "pass" if chapter_qc["backbone_spine_covered"] else "fail",
+            "generated_at": generated_at,
+            "notes": f"backbone_spine={len(list(book_backbone.get('chapter_spine', [])))}",
+        },
+        {
             "id": "agent-H-meta-qa",
             "agent": "Meta QA (OpenClaw)",
             "status": "pass" if isinstance(openclaw_score, int) and openclaw_score >= 85 else "warning",
@@ -335,6 +347,7 @@ def main() -> int:
                 "agent_manifest": (agent_dir / "manifest.json").as_posix(),
                 "report_count": len(report_records),
                 "chapter_count": len(chapter_rows),
+                "backbone_chapter_count": len(list(book_backbone.get("chapter_spine", []))),
                 "claim_graph_count": len(claim_graph_rows),
                 "checks_dir": checks_dir.as_posix(),
             },

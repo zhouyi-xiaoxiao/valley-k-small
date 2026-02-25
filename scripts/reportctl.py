@@ -173,12 +173,18 @@ def cmd_book_data() -> int:
     steps = [
         ("build-glossary", [PYTHON, "scripts/build_glossary.py"]),
         ("build-book-content", [PYTHON, "scripts/build_book_content.py"]),
+        ("build-book-backbone", [PYTHON, "scripts/build_book_backbone.py"]),
     ]
     for name, cmd in steps:
         rc = _run_cmd(name, cmd, scope="book-data")
         if rc != 0:
             return rc
     return 0
+
+
+def cmd_backbone_data() -> int:
+    cmd = [PYTHON, "scripts/build_book_backbone.py"]
+    return subprocess.run(cmd, cwd=REPO_ROOT).returncode
 
 
 def cmd_agent_sync() -> int:
@@ -203,6 +209,7 @@ def cmd_web_build(*, mode: str, skip_npm_ci: bool) -> int:
         ("web-data", [PYTHON, "scripts/build_web_data.py", "--mode", mode]),
         ("book-data", [PYTHON, "scripts/build_glossary.py"]),
         ("build-book-content", [PYTHON, "scripts/build_book_content.py"]),
+        ("build-book-backbone", [PYTHON, "scripts/build_book_backbone.py"]),
         ("translation-qc", [PYTHON, "scripts/validate_bilingual_quality.py"]),
         ("agent-sync", [PYTHON, "scripts/build_agent_sync.py"]),
         ("validate-web-data", [PYTHON, "scripts/validate_web_data.py"]),
@@ -332,6 +339,7 @@ def parse_args() -> argparse.Namespace:
     p_web_data.add_argument("--report", action="append", default=[])
 
     sub.add_parser("book-data", help="Build chapterized book payloads + glossary")
+    sub.add_parser("backbone-data", help="Build logical backbone payload for book-first storyline")
 
     sub.add_parser("agent-sync", help="Build agent-sync JSONL + manifest outputs")
 
@@ -395,6 +403,8 @@ def main() -> int:
         return cmd_web_data(mode=str(args.mode), reports=list(args.report))
     if args.subcmd == "book-data":
         return cmd_book_data()
+    if args.subcmd == "backbone-data":
+        return cmd_backbone_data()
     if args.subcmd == "agent-sync":
         return cmd_agent_sync()
     if args.subcmd == "translation-qc":

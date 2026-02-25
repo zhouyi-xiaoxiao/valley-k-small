@@ -477,8 +477,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
               yaxis: { title: effectiveYLabel, gridcolor: '#e6dbc7', type: yScale },
               legend: { orientation: 'h' },
             }}
-            style={{ width: '100%', height: '440px' }}
-            config={{ responsive: true, displaylogo: false }}
+            style={{ width: '100%', height: 'clamp(260px, 45vh, 420px)' }}
+            config={{ responsive: true, displaylogo: false, displayModeBar: false }}
             useResizeHandler
           />
         ) : (

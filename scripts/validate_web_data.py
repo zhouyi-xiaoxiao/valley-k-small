@@ -22,6 +22,7 @@ THEORY_SCHEMA_PATH = REPO_ROOT / "schemas" / "theory_map_v1.schema.json"
 CONTENT_SCHEMA_PATH = REPO_ROOT / "schemas" / "content_map_v1.schema.json"
 BOOK_MANIFEST_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_manifest_v1.schema.json"
 BOOK_CHAPTER_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_chapter_v1.schema.json"
+BOOK_BACKBONE_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_backbone_v1.schema.json"
 GLOSSARY_SCHEMA_PATH = REPO_ROOT / "schemas" / "glossary_v1.schema.json"
 TRANSLATION_QC_SCHEMA_PATH = REPO_ROOT / "schemas" / "translation_qc_v1.schema.json"
 
@@ -63,6 +64,10 @@ def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
         ("raw_itemize", r"\bitemize\b"),
         ("double_backslash", r"\\\\"),
         ("empty_math_marker", r"\s_[,.;:]"),
+        ("ellipsis_truncation", r"\.\.\.|…"),
+        ("math_alignment_fragment", r"&="),
+        ("broken_aw_token", r"\bt\s*t\s*\^\s*[a-z0-9_]+\b"),
+        ("range_fragment", r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b"),
     ]
     fields = [str(meta_payload.get("summary", ""))]
     narrative = meta_payload.get("narrative", {})
@@ -73,7 +78,7 @@ def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
         if not text:
             continue
         for name, pattern in suspect_patterns:
-            if re.search(pattern, text):
+            if re.search(pattern, text, flags=re.IGNORECASE):
                 raise SystemExit(f"Low readability in {label}: detected {name} pattern")
     findings = [str(x).strip() for x in meta_payload.get("key_findings", []) if str(x).strip()]
     non_placeholder = [x for x in findings if not (x.lower().startswith("see ") and "report assets" in x.lower())]
@@ -90,6 +95,9 @@ def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
             raise SystemExit(f"Low readability in {label}: section_cards[{idx}] contains placeholder summary")
         if "fallback narrative card" in summary:
             raise SystemExit(f"Low readability in {label}: section_cards[{idx}] contains fallback placeholder")
+        for name, pattern in suspect_patterns:
+            if re.search(pattern, summary, flags=re.IGNORECASE):
+                raise SystemExit(f"Low readability in {label}: section_cards[{idx}] detected {name} pattern")
 
 
 def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label: str) -> None:
@@ -231,6 +239,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--content-schema", type=Path, default=CONTENT_SCHEMA_PATH)
     parser.add_argument("--book-manifest-schema", type=Path, default=BOOK_MANIFEST_SCHEMA_PATH)
     parser.add_argument("--book-chapter-schema", type=Path, default=BOOK_CHAPTER_SCHEMA_PATH)
+    parser.add_argument("--book-backbone-schema", type=Path, default=BOOK_BACKBONE_SCHEMA_PATH)
     parser.add_argument("--glossary-schema", type=Path, default=GLOSSARY_SCHEMA_PATH)
     parser.add_argument("--translation-qc-schema", type=Path, default=TRANSLATION_QC_SCHEMA_PATH)
     return parser.parse_args()
@@ -250,6 +259,7 @@ def main() -> int:
     content_schema = read_json(args.content_schema)
     book_manifest_schema = read_json(args.book_manifest_schema)
     book_chapter_schema = read_json(args.book_chapter_schema)
+    book_backbone_schema = read_json(args.book_backbone_schema)
     glossary_schema = read_json(args.glossary_schema)
     translation_qc_schema = read_json(args.translation_qc_schema)
 
@@ -393,22 +403,27 @@ def main() -> int:
 
     book_root = data_root / "book"
     book_manifest_path = book_root / "book_manifest.json"
+    book_backbone_path = book_root / "backbone.json"
     book_toc_path = book_root / "toc.json"
     glossary_path = data_root / "glossary" / "terms.json"
 
     if not book_manifest_path.exists():
         raise SystemExit(f"Missing book manifest: {book_manifest_path}")
+    if not book_backbone_path.exists():
+        raise SystemExit(f"Missing book backbone: {book_backbone_path}")
     if not book_toc_path.exists():
         raise SystemExit(f"Missing book toc: {book_toc_path}")
     if not glossary_path.exists():
         raise SystemExit(f"Missing glossary terms: {glossary_path}")
 
     book_manifest_payload = read_json(book_manifest_path)
+    book_backbone_payload = read_json(book_backbone_path)
     book_toc_payload = read_json(book_toc_path)
     glossary_payload = read_json(glossary_path)
     translation_qc_payload = read_json(translation_qc_json)
 
     validate_with_schema(book_manifest_payload, book_manifest_schema, str(book_manifest_path))
+    validate_with_schema(book_backbone_payload, book_backbone_schema, str(book_backbone_path))
     validate_with_schema(glossary_payload, glossary_schema, str(glossary_path))
     validate_with_schema(translation_qc_payload, translation_qc_schema, str(translation_qc_json))
 
@@ -424,6 +439,20 @@ def main() -> int:
     chapter_ids = {str(row.get("chapter_id", "")).strip() for row in chapter_rows if str(row.get("chapter_id", "")).strip()}
     if len(chapter_ids) != len(chapter_rows):
         raise SystemExit("Invalid book manifest: duplicate chapter_id detected")
+    if int(book_backbone_payload.get("chapter_count", -1)) != len(chapter_rows):
+        raise SystemExit(
+            "Invalid book backbone: chapter_count mismatch "
+            f"({book_backbone_payload.get('chapter_count')} vs {len(chapter_rows)})"
+        )
+    spine_rows = list(book_backbone_payload.get("chapter_spine", []))
+    spine_ids = {str(row.get("chapter_id", "")).strip() for row in spine_rows if str(row.get("chapter_id", "")).strip()}
+    if spine_ids != chapter_ids:
+        missing_from_spine = sorted(chapter_ids - spine_ids)
+        unknown_in_spine = sorted(spine_ids - chapter_ids)
+        raise SystemExit(
+            "Invalid book backbone: chapter coverage mismatch "
+            f"(missing={missing_from_spine[:8]}, unknown={unknown_in_spine[:8]})"
+        )
 
     for chapter in chapter_rows:
         chapter_id = str(chapter.get("chapter_id", "")).strip()
@@ -515,6 +544,7 @@ def main() -> int:
                 "ok": True,
                 "reports": len(reports),
                 "book_chapters": len(chapter_rows),
+                "book_backbone_chapters": len(spine_rows),
                 "index": index_path.as_posix(),
                 "agent_manifest": manifest_path.as_posix(),
                 "formula_count": len(formulas_for_lint),

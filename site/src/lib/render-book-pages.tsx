@@ -3,6 +3,7 @@ import katex from 'katex';
 import { AppShell } from '@/components/AppShell';
 import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
+  loadBookBackbone,
   loadBookChapter,
   loadBookManifest,
   loadGlossary,
@@ -53,8 +54,20 @@ function chapterSummary(chapter: BookChapter, lang: Lang): string {
   return lang === 'cn' ? chapter.summary_cn : chapter.summary_en;
 }
 
+function loadOrderedBookChapters(): BookChapter[] {
+  const manifest = loadBookManifest();
+  if (!manifest) {
+    return [];
+  }
+  return [...manifest.chapters]
+    .sort((a, b) => a.order - b.order)
+    .map((meta) => loadBookChapter(meta.chapter_id))
+    .filter((row): row is BookChapter => Boolean(row));
+}
+
 export function renderBookPage(lang: Lang, prefix: string) {
   const manifest = loadBookManifest();
+  const backbone = loadBookBackbone();
   const glossary = loadGlossary();
   const translationQc = loadTranslationQC();
 
@@ -84,6 +97,14 @@ export function renderBookPage(lang: Lang, prefix: string) {
             '按第0章到第7章连续阅读，将理论链、交互证据与可审计 claim 融为同一条主线。',
           )}
         </p>
+        <p>
+          <Link href={prefixPath(prefix, '/book/continuous')} className="badge">
+            {localizedText(lang, 'Start continuous reading', '开始整本通读')}
+          </Link>{' '}
+          <Link href={prefixPath(prefix, '/book/chapter-0-reading-guide')} className="badge">
+            {localizedText(lang, 'Open Chapter 0', '从第0章开始')}
+          </Link>
+        </p>
         <div className="grid grid-3">
           <article className="card">
             <h3>{manifest.chapter_count}</h3>
@@ -100,6 +121,30 @@ export function renderBookPage(lang: Lang, prefix: string) {
         </div>
       </section>
 
+      {backbone ? (
+        <section className="card section-enter" style={{ marginTop: '1rem' }}>
+          <h2>{localizedText(lang, 'Backbone System', '主干系统')}</h2>
+          <p className="lead">
+            {localizedText(
+              lang,
+              'This system extracts a canonical logic spine so we can iterate details without losing narrative continuity.',
+              '该系统会先抽取规范化逻辑主干，再在不破坏连续性的前提下迭代细节内容。',
+            )}
+          </p>
+          <div className="grid grid-2">
+            {backbone.acts.map((act) => (
+              <article key={act.act_id} className="card">
+                <h3>{lang === 'cn' ? act.title_cn : act.title_en}</h3>
+                <p>{lang === 'cn' ? act.objective_cn : act.objective_en}</p>
+                <p className="muted">
+                  {localizedText(lang, 'Chapters', '章节')}: {act.chapter_ids.join(', ')}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Table of Contents', '目录')}</h2>
         <div className="book-toc-grid">
@@ -113,7 +158,7 @@ export function renderBookPage(lang: Lang, prefix: string) {
               </h3>
               <p>{lang === 'cn' ? chapter.summary_cn : chapter.summary_en}</p>
               <p>
-                <span className="badge">{localizedText(lang, 'Reports', '关联报告')} {chapter.report_ids.length}</span>{' '}
+                <span className="badge">{localizedText(lang, 'Evidence nodes', '证据节点')} {chapter.report_ids.length}</span>{' '}
                 <span className="badge">{localizedText(lang, 'Claims', 'Claim 数')} {chapter.claim_count}</span>
               </p>
             </article>
@@ -276,21 +321,27 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
       </section>
 
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h2>{localizedText(lang, 'Linked Reports', '关联报告')}</h2>
-        <div className="grid grid-2">
-          {chapter.linked_reports.map((report) => (
-            <article key={report.report_id} className="card">
-              <p className="badge">{report.group}</p>
-              <h3>
+        <h2>{localizedText(lang, 'Evidence Trail', '证据链路')}</h2>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'This chapter is presented as one coherent story. The underlying report artifacts are preserved as auditable evidence nodes.',
+            '本章按统一叙事组织；底层报告仅作为可核对的证据节点保留。',
+          )}
+        </p>
+        <details>
+          <summary>{localizedText(lang, 'Open evidence-node index', '展开证据节点索引')}</summary>
+          <ul>
+            {chapter.linked_reports.map((report) => (
+              <li key={report.report_id}>
                 <Link href={prefixPath(prefix, `/reports/${report.report_id}`)}>
                   {lang === 'cn' ? report.title_cn : report.title_en}
-                </Link>
-              </h3>
-              <p>{lang === 'cn' ? report.summary_cn : report.summary_en}</p>
-              <p className="muted">{lang === 'cn' ? report.book_role_cn : report.book_role_en}</p>
-            </article>
-          ))}
-        </div>
+                </Link>{' '}
+                <span className="muted">({lang === 'cn' ? report.book_role_cn : report.book_role_en})</span>
+              </li>
+            ))}
+          </ul>
+        </details>
       </section>
 
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
@@ -337,6 +388,155 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
         ) : null}
         {renderChapterNav(lang, prefix, chapter)}
       </section>
+    </AppShell>
+  );
+}
+
+export function renderBookContinuousPage(lang: Lang, prefix: string) {
+  const chapters = loadOrderedBookChapters();
+  const backbone = loadBookBackbone();
+  const manifest = loadBookManifest();
+  if (!manifest || chapters.length === 0) {
+    return (
+      <AppShell lang={lang} prefix={prefix}>
+        <section className="card section-enter">
+          <h1>{localizedText(lang, 'Continuous book unavailable', '整本通读页面不可用')}</h1>
+          <p>{localizedText(lang, 'Run reportctl book-data first.', '请先运行 reportctl book-data。')}</p>
+        </section>
+      </AppShell>
+    );
+  }
+
+  return (
+    <AppShell lang={lang} prefix={prefix}>
+      <section id="book-continuous-top" className="card section-enter book-hero">
+        <div className="kicker">{localizedText(lang, 'Continuous Reading', '连续通读')}</div>
+        <h1>{localizedText(lang, 'Valley-K Small: Full Storyline Edition', 'Valley-K Small：完整叙事版')}</h1>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'This page stitches all 8 chapters into one uninterrupted narrative from notation and assumptions to mechanism, evidence, and outlook.',
+            '本页把 8 章串成一条不中断叙事，从符号与假设一直推进到机制、证据与展望。',
+          )}
+        </p>
+        <div className="quick-nav continuous-progress">
+          {chapters.map((chapter) => (
+            <a key={`jump-${chapter.chapter_id}`} className="badge" href={`#${chapter.chapter_id}`}>
+              {localizedText(lang, 'Ch.', '第')}{chapter.order}
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {chapters.map((chapter, idx) => {
+        const spineRow = backbone?.chapter_spine.find((row) => row.chapter_id === chapter.chapter_id);
+        const primaryPanel = chapter.interactive_panels[0];
+        const primaryMeta = primaryPanel ? loadReportMeta(primaryPanel.report_id, lang) : null;
+        const primaryDatasets = primaryPanel
+          ? (primaryMeta?.datasets || []).filter((ds) => ds.series_id === primaryPanel.dataset_series_id)
+          : [];
+        const selectedDatasets = primaryPanel
+          ? primaryDatasets.length > 0
+            ? primaryDatasets
+            : (primaryMeta?.datasets || []).slice(0, 1)
+          : [];
+        const prevChapter = idx > 0 ? chapters[idx - 1] : null;
+        const nextChapter = idx + 1 < chapters.length ? chapters[idx + 1] : null;
+        const visibleIntro = chapterIntro(chapter, lang).slice(0, 2);
+        return (
+          <section id={chapter.chapter_id} key={`continuous-${chapter.chapter_id}`} className="card section-enter" style={{ marginTop: '1rem' }}>
+            <div className="kicker">{chapterKicker(chapter, lang)}</div>
+            <p>
+              <span className="badge">
+                {localizedText(lang, 'Chapter', '章节')} {idx + 1}/{chapters.length}
+              </span>{' '}
+              <span className="badge">{chapter.chapter_id}</span>
+            </p>
+            <h2>{chapterTitle(chapter, lang)}</h2>
+            <p className="lead">{chapterSummary(chapter, lang)}</p>
+            {spineRow ? (
+              <p className="muted">
+                {lang === 'cn' ? spineRow.core_question_cn : spineRow.core_question_en}
+              </p>
+            ) : null}
+            <div className="book-prose">
+              {visibleIntro.map((paragraph) => (
+                <p key={`intro-${chapter.chapter_id}-${paragraph}`}>{paragraph}</p>
+              ))}
+            </div>
+
+            <details className="chapter-disclosure">
+              <summary>{localizedText(lang, 'Open core derivation', '展开核心推导')}</summary>
+              <div className="grid grid-2">
+                {chapter.theory_chain.slice(0, 6).map((item, theoryIdx) => {
+                  const rendered = renderLatex(item.latex);
+                  return (
+                    <article key={`${chapter.chapter_id}-${item.report_id}-${theoryIdx}`} className="card">
+                      <p>
+                        <span className="badge">{item.stage}</span>{' '}
+                        <span className="badge">{item.report_id}</span>
+                      </p>
+                      <p>{lang === 'cn' ? item.description_cn : item.description_en}</p>
+                      <div className="math-block" dangerouslySetInnerHTML={{ __html: rendered.html }} />
+                    </article>
+                  );
+                })}
+              </div>
+            </details>
+
+            <details className="chapter-disclosure">
+              <summary>{localizedText(lang, 'Open interactive lab', '展开交互实验区')}</summary>
+              {primaryPanel && selectedDatasets.length > 0 ? (
+                <article className="card">
+                  <h4>{lang === 'cn' ? primaryPanel.title_cn : primaryPanel.title_en}</h4>
+                  <p>{lang === 'cn' ? primaryPanel.parameter_hint_cn : primaryPanel.parameter_hint_en}</p>
+                  <ReportPlotPanel reportId={primaryPanel.report_id} datasets={selectedDatasets} lang={lang} />
+                </article>
+              ) : (
+                <p className="muted">{localizedText(lang, 'No interactive panel available for this chapter.', '本章暂无可用交互图。')}</p>
+              )}
+            </details>
+
+            <details className="chapter-disclosure">
+              <summary>{localizedText(lang, 'Open claims and evidence', '展开 Claim 与证据')}</summary>
+              <div className="grid grid-2">
+                {chapter.claim_ledger.slice(0, 6).map((claim) => (
+                  <article key={`claim-${chapter.chapter_id}-${claim.claim_id}`} className="card">
+                    <p>
+                      <span className="badge">{claim.stage}</span>{' '}
+                      <span className="badge">{claim.claim_id}</span>
+                    </p>
+                    <p>{lang === 'cn' ? claim.text_cn : claim.text_en}</p>
+                    <p className="muted">
+                      {localizedText(lang, 'Evidence items', '证据项')} {claim.evidence.length}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </details>
+            {spineRow ? (
+              <p className="muted chapter-transition-note">
+                {lang === 'cn' ? spineRow.transition_to_next_cn : spineRow.transition_to_next_en}
+              </p>
+            ) : null}
+            <div className="chapter-endcap">
+              {prevChapter ? (
+                <a href={`#${prevChapter.chapter_id}`}>{localizedText(lang, '← Previous chapter', '← 上一章')}</a>
+              ) : (
+                <span className="muted">{localizedText(lang, 'Book start', '全书起点')}</span>
+              )}
+              <Link href={prefixPath(prefix, `/book/${chapter.chapter_id}`)}>
+                {localizedText(lang, 'Open chapter page', '打开章节页')}
+              </Link>
+              {nextChapter ? (
+                <a href={`#${nextChapter.chapter_id}`}>{localizedText(lang, 'Next chapter →', '下一章 →')}</a>
+              ) : (
+                <a href="#book-continuous-top">{localizedText(lang, 'Back to top', '返回顶部')}</a>
+              )}
+            </div>
+          </section>
+        );
+      })}
     </AppShell>
   );
 }

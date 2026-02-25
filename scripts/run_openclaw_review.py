@@ -310,9 +310,9 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     model_candidates = [
+        "openai-codex/gpt-5.3-codex",
         "openai/gpt-5.2-pro-extended-thinking",
         "openai/gpt-5.2-pro",
-        "openai-codex/gpt-5.3-codex",
         "openai-codex/gpt-5.2",
     ]
     selected_models = select_models(model_candidates)

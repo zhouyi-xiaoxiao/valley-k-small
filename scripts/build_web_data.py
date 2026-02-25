@@ -209,9 +209,15 @@ def summarize_plain(text: str, *, max_chars: int = 320) -> str:
         return plain
     clipped = plain[: max_chars + 1]
     stop = max(clipped.rfind(". "), clipped.rfind("。"), clipped.rfind("; "), clipped.rfind("；"))
-    if stop < int(max_chars * 0.5):
-        stop = max_chars
-    return clipped[:stop].rstrip(" ,;。；") + "…"
+    if stop >= int(max_chars * 0.55):
+        return clipped[: stop + 1].rstrip(" ,;。；")
+    fallback = clipped[:max_chars].rstrip(" ,;。；")
+    if contains_cjk(fallback):
+        return fallback
+    last_space = fallback.rfind(" ")
+    if last_space > int(max_chars * 0.6):
+        fallback = fallback[:last_space].rstrip(" ,;。；")
+    return fallback
 
 
 def canonical_summary(text: str, *, max_chars: int = 1200) -> str:
@@ -219,7 +225,9 @@ def canonical_summary(text: str, *, max_chars: int = 1200) -> str:
     Canonical summary text for meta payloads.
     Keep complete prose where possible and avoid terminal ellipsis.
     """
-    plain = normalize_space(text).replace("…", "")
+    plain = normalize_space(text).replace("…", " ")
+    plain = re.sub(r"\.{3,}", " ", plain)
+    plain = normalize_space(plain)
     if len(plain) <= max_chars:
         return plain
     clipped = plain[: max_chars + 1]
@@ -227,6 +235,195 @@ def canonical_summary(text: str, *, max_chars: int = 1200) -> str:
     if stop >= int(max_chars * 0.6):
         return clipped[: stop + 1].rstrip(" ,;。；")
     return clipped[:max_chars].rstrip(" ,;。；")
+
+
+def summary_quality_cleanup(text: str) -> str:
+    value = normalize_space(str(text or ""))
+    if not value:
+        return ""
+    value = value.replace("…", " ")
+    value = re.sub(r"\.{3,}", " ", value)
+    value = re.sub(r"\s*&=\s*", " = ", value)
+    value = re.sub(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s{2,}", " ", value)
+    return normalize_space(value)
+
+
+def strip_mathish_fragments(text: str) -> str:
+    value = str(text or "")
+    value = re.sub(r"\[[^\]]{0,240}[=<>/\\^_][^\]]{0,240}\]", " ", value)
+    value = re.sub(r"\[[^\]]{0,240}[=<>/\\^_][^\]]{0,240}$", " ", value)
+    value = re.sub(r"\(([^()]|\\\(|\\\)){0,240}[=<>/\\^_](?:[^()]|\\\(|\\\)){0,240}\)", " ", value)
+    value = re.sub(r"\b(?:t|p|q|h|s)\s*[=^]\s*[-+0-9a-zA-Z./()]+\b", " ", value)
+    value = re.sub(r"\b[a-z]\s+p\d+\s+\d+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s*&=\s*", " ", value)
+    value = normalize_space(value)
+    value = re.sub(r":\s*,", ": ", value)
+    value = re.sub(r"\s+,", ",", value)
+    value = re.sub(r"\s+\.", ".", value)
+    value = re.sub(r"\(\s*\)", " ", value)
+    value = re.sub(r"\b(?:at|to|from|with|under)\s+\.", ".", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s{2,}", " ", value)
+    return normalize_space(value)
+
+
+def looks_like_math_fragment(sentence: str) -> bool:
+    value = normalize_space(sentence)
+    if not value:
+        return True
+    if re.search(r"(\\begin|\\end|\\\\|&=)", value):
+        return True
+    if re.search(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", value, flags=re.IGNORECASE):
+        return True
+    if re.search(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", value, flags=re.IGNORECASE):
+        return True
+    symbol_ratio = len(re.findall(r"[=<>/\\^_\[\]\{\}]", value)) / max(1, len(value))
+    if symbol_ratio > 0.09:
+        return True
+    return False
+
+
+def readable_summary(text: str, *, max_chars: int = 480, max_sentences: int = 3) -> str:
+    plain = summary_quality_cleanup(strip_mathish_fragments(normalize_space(text)))
+    if not plain:
+        return ""
+    chunks = [normalize_space(part) for part in re.split(r"(?<=[。！？.!?;；])\s+", plain) if normalize_space(part)]
+    selected: list[str] = []
+    for sentence in chunks:
+        if len(sentence) < 24:
+            continue
+        if looks_like_math_fragment(sentence):
+            continue
+        symbol_ratio = len(re.findall(r"[=<>/\\^_\[\]\{\}]", sentence)) / max(1, len(sentence))
+        digit_ratio = len(re.findall(r"\d", sentence)) / max(1, len(sentence))
+        if symbol_ratio > 0.09:
+            continue
+        if digit_ratio > 0.45 and not contains_cjk(sentence):
+            continue
+        selected.append(sentence)
+        if len(selected) >= max_sentences:
+            break
+    if not selected:
+        return canonical_summary(plain, max_chars=max_chars)
+    joined = " ".join(selected)
+    return canonical_summary(joined, max_chars=max_chars)
+
+
+def summary_penalty(text: str) -> int:
+    value = summary_quality_cleanup(str(text or ""))
+    if not value:
+        return 100
+    penalty = 0
+    if value.count("(") != value.count(")"):
+        penalty += 5
+    if value.endswith(":"):
+        penalty += 3
+    if re.search(r"(Eq\.|Fig\.|Sec\.|Table)\s*$", value):
+        penalty += 4
+    if re.search(r"\b(at|to|from|with|under|for|and|or)\.$", value, flags=re.IGNORECASE):
+        penalty += 4
+    if re.search(r"[=:]\s*$", value):
+        penalty += 3
+    if re.search(r"\.\.\.|…", value):
+        penalty += 6
+    if re.search(r"(\\begin|\\end|\\\\|&=)", value):
+        penalty += 6
+    if re.search(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", value, flags=re.IGNORECASE):
+        penalty += 6
+    if re.search(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", value, flags=re.IGNORECASE):
+        penalty += 6
+    if value.count(",") > 12:
+        penalty += 2
+    if len(value) < 80:
+        penalty += 2
+    digit_ratio = len(re.findall(r"\d", value)) / max(1, len(value))
+    if digit_ratio > 0.34 and not contains_cjk(value):
+        penalty += 4
+    if len(re.findall(r"[=<>/\\^_]", value)) > max(8, int(len(value) * 0.08)):
+        penalty += 3
+    return penalty
+
+
+def choose_best_summary(candidates: list[str], *, max_chars: int = 1000) -> str:
+    scored: list[tuple[int, int, str]] = []
+    for raw in candidates:
+        cleaned = readable_summary(raw, max_chars=max_chars, max_sentences=4) or canonical_summary(raw, max_chars=max_chars)
+        cleaned = summary_quality_cleanup(cleaned)
+        if not cleaned:
+            continue
+        penalty = summary_penalty(cleaned)
+        scored.append((penalty, -min(len(cleaned), max_chars), cleaned))
+    if not scored:
+        return ""
+    scored.sort(key=lambda row: (row[0], row[1]))
+    return scored[0][2]
+
+
+def humanize_report_id(report_id: str) -> str:
+    token_map = {
+        "grid2d": "Grid2D",
+        "ring": "Ring",
+        "cross": "Cross",
+        "k2": "K=2",
+        "rev2": "Rev2",
+    }
+    parts = [part.strip() for part in str(report_id).split("_") if part.strip()]
+    rendered: list[str] = []
+    for part in parts:
+        lowered = part.lower()
+        if lowered in token_map:
+            rendered.append(token_map[lowered])
+        elif re.fullmatch(r"[a-z]+\d+", lowered):
+            rendered.append(part.upper())
+        else:
+            rendered.append(part.capitalize())
+    return " ".join(rendered) or str(report_id)
+
+
+def title_penalty(text: str, report_id: str) -> int:
+    value = summary_quality_cleanup(str(text))
+    if not value:
+        return 100
+    lowered = value.lower()
+    penalty = 0
+    if len(value) < 10:
+        penalty += 5
+    if len(value) > 120:
+        penalty += 4
+    if len(value) > 160:
+        penalty += 6
+    if re.search(r"\.\.\.|…|\$|&=|\\", value):
+        penalty += 7
+    if "_" in value:
+        penalty += 5
+    if "_" in value and value.lower() == value:
+        penalty += 4
+    if re.search(r"\b(notation|appendix|supplementary)\b", lowered):
+        penalty += 3
+    if re.search(r"\bvs\s*\([a-z0-9]+\)", lowered):
+        penalty += 2
+    if lowered == report_id.lower() or lowered == report_id.lower().replace("_", " "):
+        penalty += 2
+    if re.search(r"[=:]\s*$", value):
+        penalty += 2
+    return penalty
+
+
+def choose_best_title(candidates: list[str], report_id: str, *, max_chars: int = 140) -> str:
+    scored: list[tuple[int, int, str]] = []
+    for raw in candidates:
+        cleaned = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(raw))), max_chars=max_chars)
+        if not cleaned:
+            continue
+        penalty = title_penalty(cleaned, report_id)
+        scored.append((penalty, -len(cleaned), cleaned))
+    fallback = canonical_summary(humanize_report_id(report_id), max_chars=max_chars)
+    scored.append((title_penalty(fallback, report_id), -len(fallback), fallback))
+    scored.sort(key=lambda row: (row[0], row[1]))
+    return scored[0][2]
 
 
 def is_placeholder_section_summary(heading: str, summary: str) -> bool:
@@ -253,14 +450,15 @@ def parse_tex_title(tex_text: str) -> str:
     m = re.search(r"\\title\{(.*?)\}", tex_text, flags=re.DOTALL)
     if not m:
         return ""
-    return summarize_plain(latex_to_plain(m.group(1)), max_chars=140)
+    raw = strip_mathish_fragments(latex_to_plain(m.group(1)))
+    return canonical_summary(summary_quality_cleanup(raw), max_chars=220)
 
 
 def parse_tex_abstract(tex_text: str) -> str:
     m = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex_text, flags=re.DOTALL)
     if not m:
         return ""
-    return canonical_summary(latex_to_plain(m.group(1)), max_chars=1200)
+    return canonical_summary(summary_quality_cleanup(latex_to_plain(m.group(1))), max_chars=1200)
 
 
 def pick_main_tex_path(item: dict[str, Any], report_dir: Path, lang: str) -> Path | None:
@@ -372,6 +570,16 @@ def extract_repro_commands(tex_text: str, sections: list[dict[str, Any]]) -> lis
             continue
         cleaned.append(text)
     return dedupe_preserve(cleaned, max_items=10)
+
+
+def ensure_repro_commands(commands: list[str], report_id: str) -> list[str]:
+    cleaned = dedupe_preserve([normalize_space(str(x)) for x in commands], max_items=10)
+    if cleaned:
+        return cleaned
+    return [
+        f"python3 scripts/reportctl.py build --report {report_id} --lang en",
+        "python3 scripts/reportctl.py web-build --mode changed --skip-npm-ci",
+    ]
 
 
 def classify_formula_stage(latex: str, context: str, lang: str) -> tuple[str, str]:
@@ -538,9 +746,16 @@ def pick_narrative_summary(sections: list[dict[str, Any]], hints: tuple[str, ...
 
 
 def build_narrative_fields(sections: list[dict[str, Any]], fallback: str) -> dict[str, str]:
-    model = pick_narrative_summary(sections, MODEL_HINTS, fallback)
-    method = pick_narrative_summary(sections, METHOD_HINTS, fallback)
-    result = pick_narrative_summary(sections, RESULT_HINTS, fallback)
+    def clean_narrative_text(text: str) -> str:
+        cleaned = summary_quality_cleanup(strip_mathish_fragments(text))
+        if not cleaned:
+            cleaned = summary_quality_cleanup(text)
+        out = readable_summary(cleaned, max_chars=320, max_sentences=2) or canonical_summary(cleaned, max_chars=320)
+        return canonical_summary(summary_quality_cleanup(out), max_chars=320)
+
+    model = clean_narrative_text(pick_narrative_summary(sections, MODEL_HINTS, fallback))
+    method = clean_narrative_text(pick_narrative_summary(sections, METHOD_HINTS, fallback))
+    result = clean_narrative_text(pick_narrative_summary(sections, RESULT_HINTS, fallback))
     values = [model, method, result]
     if len({normalize_finding_key(v) for v in values if v}) >= 2:
         return {
@@ -550,13 +765,13 @@ def build_narrative_fields(sections: list[dict[str, Any]], fallback: str) -> dic
         }
 
     section_summaries = [
-        str(section.get("summary", fallback))
+        clean_narrative_text(str(section.get("summary", fallback)))
         for section in sections
         if section.get("summary")
         and not is_placeholder_section_summary(str(section.get("title", "")), str(section.get("summary", "")))
     ]
     while len(section_summaries) < 3:
-        section_summaries.append(fallback)
+        section_summaries.append(clean_narrative_text(fallback))
     return {
         "model_overview": section_summaries[0],
         "method_overview": section_summaries[1],
@@ -589,7 +804,7 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
             "math_blocks": fallback_math,
             "math_story": build_math_story(fallback_math, lang),
             "findings": [],
-            "reproducibility_commands": [],
+            "reproducibility_commands": ensure_repro_commands([], report_id),
             "narrative": {
                 "model_overview": f"Model summary placeholder for {report_id}.",
                 "method_overview": f"Method summary placeholder for {report_id}.",
@@ -601,19 +816,18 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
     raw = tex_path.read_text(encoding="utf-8", errors="ignore")
     sections = split_sections(raw)
     abstract = parse_tex_abstract(raw)
-    summary_fallback = canonical_summary(
-        abstract or (sections[0]["summary"] if sections else f"Research report {report_id}."),
-        max_chars=1200,
-    )
+    summary_seed = abstract or (sections[0]["summary"] if sections else f"Research report {report_id}.")
+    summary_fallback = readable_summary(summary_seed, max_chars=1000, max_sentences=4) or canonical_summary(summary_seed, max_chars=1000)
     section_cards: list[dict[str, str]] = []
     for section in sections[:10]:
         heading = str(section["title"])
         summary = normalize_space(str(section.get("summary", "")))
         if is_placeholder_section_summary(heading, summary):
-            body_candidate = summarize_plain(latex_to_plain(str(section.get("body", ""))), max_chars=240)
+            body_candidate = readable_summary(latex_to_plain(str(section.get("body", ""))), max_chars=280, max_sentences=2)
             summary = normalize_space(body_candidate)
         if is_placeholder_section_summary(heading, summary):
-            summary = summarize_plain(summary_fallback, max_chars=240)
+            summary = readable_summary(summary_fallback, max_chars=280, max_sentences=2)
+        summary = canonical_summary(summary_quality_cleanup(summary), max_chars=320)
         section_cards.append(
             {
                 "heading": heading,
@@ -628,18 +842,18 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
         section_cards = [
             {
                 "heading": "Overview",
-                "summary": summarize_plain(summary_fallback, max_chars=340),
+                "summary": readable_summary(summary_fallback, max_chars=360, max_sentences=2),
                 "source_path": rel_repo_path(tex_path),
             }
         ]
     return {
         "title": parse_tex_title(raw),
-        "summary": canonical_summary(summary_fallback, max_chars=1200),
+        "summary": readable_summary(summary_fallback, max_chars=1000, max_sentences=4),
         "section_cards": section_cards,
         "math_blocks": math_blocks,
         "math_story": math_story,
         "findings": findings,
-        "reproducibility_commands": extract_repro_commands(raw, sections),
+        "reproducibility_commands": ensure_repro_commands(extract_repro_commands(raw, sections), report_id),
         "narrative": build_narrative_fields(sections, summary_fallback),
         "source_documents": [rel_repo_path(tex_path)],
     }
@@ -807,18 +1021,59 @@ def parse_readme(report_dir: Path, report_id: str) -> tuple[str, str, list[str]]
             title = line.lstrip("#").strip()
             break
 
-    summary = ""
-    for line in lines:
+    def noisy_line(line: str) -> bool:
         stripped = line.strip()
         if not stripped:
+            return True
+        if stripped.startswith(("#", "-", "```", "`")):
+            return True
+        lowered = stripped.lower()
+        if lowered.endswith(":") and len(stripped) < 90:
+            return True
+        if re.search(r"\b(python|pytest|npm|node|latexmk|cd|reportctl)\b", lowered):
+            return True
+        if "--" in stripped:
+            return True
+        if "/" in stripped and any(token in lowered for token in ("reports/", "scripts/", ".py", ".json", ".tex")):
+            return True
+        return False
+
+    key_section = ""
+    key_results: list[str] = []
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("#"):
+            key_section = stripped.lstrip("#").strip().lower()
             continue
-        if stripped.startswith("#") or stripped.startswith("-"):
+        if not stripped or not stripped.startswith("- "):
             continue
-        summary = stripped
-        break
-    if not summary:
-        summary = f"Research report {report_id}."
-    summary = canonical_summary(summary, max_chars=1200)
+        if any(token in key_section for token in ("key result", "summary", "overview", "highlight", "结论", "结果", "摘要")):
+            bullet = summary_quality_cleanup(stripped[2:].strip())
+            if bullet and len(bullet) >= 24 and not noisy_line(bullet):
+                key_results.append(bullet)
+            if len(key_results) >= 3:
+                break
+
+    first_paragraph = ""
+    for line in lines:
+        stripped = line.strip()
+        if noisy_line(stripped):
+            continue
+        if len(stripped) < 40:
+            continue
+        first_paragraph = summary_quality_cleanup(stripped)
+        if first_paragraph:
+            break
+
+    summary_candidates: list[str] = []
+    if key_results:
+        summary_candidates.append(" ".join(key_results[:2]))
+        summary_candidates.extend(key_results[:3])
+    if first_paragraph:
+        summary_candidates.append(first_paragraph)
+    summary_candidates.append(f"Research report {report_id}.")
+    summary = choose_best_summary(summary_candidates, max_chars=1200) or canonical_summary(summary_candidates[0], max_chars=1200)
+    summary = summary_quality_cleanup(summary)
 
     findings: list[str] = []
     for line in lines:
@@ -830,7 +1085,7 @@ def parse_readme(report_dir: Path, report_id: str) -> tuple[str, str, list[str]]
     if not findings:
         findings = [f"See {report_id} report assets for detailed findings."]
 
-    return title, summary, dedupe_preserve(findings, max_items=8)
+    return title, canonical_summary(summary, max_chars=1200), dedupe_preserve(findings, max_items=8)
 
 
 def rel_repo_path(path: Path) -> str:
@@ -1024,6 +1279,8 @@ def infer_series_type(name: str, values: list[float]) -> str:
     unique_values = sorted({round(v, 10) for v in finite_values})
     dist_type = infer_series_type_by_distribution(finite_values)
 
+    if re.search(r"(runtime|elapsed|latency|duration|seconds|sec$|_sec|ms$|millisecond)", lowered):
+        return "metric"
     if dist_type in {"binary", "probability"}:
         return dist_type
     if re.search(r"(flag|indicator|bool|pass|fail|is_)", lowered):
@@ -1052,6 +1309,10 @@ def infer_series_unit(name: str, series_type: str) -> str:
     lowered = name.lower()
     if series_type == "binary":
         return "indicator"
+    if re.search(r"(seconds|second|_sec|sec$)", lowered):
+        return "seconds"
+    if re.search(r"(millisecond|_ms|ms$)", lowered):
+        return "milliseconds"
     if series_type == "probability":
         return "probability"
     if re.search(r"(time|step|tick|iter)", lowered):
@@ -1643,10 +1904,37 @@ def build_report_payload(
     )
     report_updated_at = detect_report_updated_at(report_dir, generated_at)
 
-    title_en = tex_en["title"] or readme_title
-    title_cn = tex_cn["title"] or title_en
-    summary_en = canonical_summary(tex_en["summary"] or readme_summary, max_chars=1200)
-    summary_cn = canonical_summary(tex_cn["summary"] or summary_en, max_chars=1200)
+    title_en = choose_best_title([str(tex_en.get("title", "")), str(readme_title), humanize_report_id(report_id)], report_id, max_chars=140)
+    title_cn_candidate = choose_best_title([str(tex_cn.get("title", "")), str(readme_title), humanize_report_id(report_id)], report_id, max_chars=120)
+    title_cn = title_cn_candidate if contains_cjk(title_cn_candidate) else title_en
+    section_summary_en = [str(row.get("summary", "")) for row in list(tex_en.get("section_cards", []))[:3]]
+    section_summary_cn = [str(row.get("summary", "")) for row in list(tex_cn.get("section_cards", []))[:3]]
+    summary_en = choose_best_summary(
+        [
+            str(tex_en.get("summary", "")),
+            str(readme_summary),
+            str(tex_en.get("narrative", {}).get("result_overview", "")),
+            *section_summary_en,
+        ],
+        max_chars=1000,
+    )
+    summary_cn = choose_best_summary(
+        [
+            str(tex_cn.get("summary", "")),
+            str(tex_cn.get("narrative", {}).get("result_overview", "")),
+            *section_summary_cn,
+            summary_en,
+        ],
+        max_chars=1000,
+    )
+    if not summary_en:
+        summary_en = canonical_summary(str(tex_en.get("summary", "") or readme_summary), max_chars=1000)
+    if not summary_cn:
+        summary_cn = canonical_summary(str(tex_cn.get("summary", "") or summary_en), max_chars=1000)
+    title_en = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(title_en))), max_chars=220) or report_id
+    title_cn = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(title_cn))), max_chars=220) or title_en
+    summary_en = canonical_summary(summary_quality_cleanup(summary_en), max_chars=1000)
+    summary_cn = canonical_summary(summary_quality_cleanup(summary_cn), max_chars=1000)
     findings_en = clean_findings(readme_findings + list(tex_en["findings"]), report_id, max_items=8)
     findings_cn = clean_findings(readme_findings + list(tex_cn["findings"]), report_id, max_items=8)
     inferred_languages = ["en"]
@@ -1920,11 +2208,12 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         repeated_findings.append(
             {
                 "text": finding_examples[key],
-                "count": count,
+                "report_count": len(report_ids),
+                "occurrence_count": count,
                 "report_ids": report_ids,
             }
         )
-    repeated_findings.sort(key=lambda row: int(row["count"]), reverse=True)
+    repeated_findings.sort(key=lambda row: int(row["occurrence_count"]), reverse=True)
 
     repeated_formulas = []
     for key, count in formula_counter.items():
@@ -1934,11 +2223,12 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         repeated_formulas.append(
             {
                 "latex": formula_examples[key],
-                "count": count,
+                "report_count": len(report_ids),
+                "occurrence_count": count,
                 "report_ids": report_ids,
             }
         )
-    repeated_formulas.sort(key=lambda row: int(row["count"]), reverse=True)
+    repeated_formulas.sort(key=lambda row: int(row["occurrence_count"]), reverse=True)
     redundant_repeated_formulas = [
         row for row in repeated_formulas if is_trivial_formula_signature(str(row.get("latex", "")))
     ]
@@ -1950,6 +2240,16 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         report_id: payload
         for report_id, payload in asset_dup_stats.items()
         if payload.get("duplicate_count", 0) > 0
+    }
+    asset_dup_total = sum(int(payload.get("duplicate_count", 0)) for payload in asset_dup_stats.values())
+    asset_dup_details = {
+        "duplicate_count": asset_dup_total,
+        "reports_with_duplicate_labels": len(asset_dup_excess),
+        "total_reports_scanned": len(asset_dup_stats),
+        "examples": {
+            rid: payload
+            for rid, payload in list(sorted(asset_dup_excess.items(), key=lambda row: row[0]))[:12]
+        },
     }
 
     consistency_checks = [
@@ -1990,7 +2290,7 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         {
             "check": "asset_label_duplication",
             "pass": len(asset_dup_excess) == 0,
-            "details": asset_dup_excess,
+            "details": asset_dup_details,
         },
     ]
 
@@ -2115,14 +2415,30 @@ def build_report_network(output_dir: Path, reports: list[dict[str, Any]], genera
 
         meta = meta_by_report.get(rid, {})
         meta_cn = cn_meta_by_report.get(rid, {})
+        summary_en = choose_best_summary(
+            [
+                str(meta.get("summary", "")),
+                str(meta.get("narrative", {}).get("result_overview", "")),
+                str(meta.get("narrative", {}).get("method_overview", "")),
+            ],
+            max_chars=420,
+        ) or canonical_summary(str(meta.get("summary", "")), max_chars=420)
+        summary_cn = choose_best_summary(
+            [
+                str(meta_cn.get("summary", meta.get("summary", ""))),
+                str(meta_cn.get("narrative", {}).get("result_overview", "")),
+                str(meta_cn.get("narrative", {}).get("method_overview", "")),
+            ],
+            max_chars=420,
+        ) or canonical_summary(str(meta_cn.get("summary", meta.get("summary", ""))), max_chars=420)
         report_nodes.append(
             {
                 "report_id": rid,
                 "group": group,
                 "title_en": str(meta.get("title", rid)),
                 "title_cn": str(meta_cn.get("title", meta.get("title", rid))),
-                "summary_en": summarize_plain(str(meta.get("summary", "")), max_chars=220),
-                "summary_cn": summarize_plain(str(meta_cn.get("summary", meta.get("summary", ""))), max_chars=220),
+                "summary_en": summary_en,
+                "summary_cn": summary_cn,
                 "notion_ids": sorted(notion_by_report.get(rid, set())),
                 "previous_in_group": previous_in_group,
                 "next_in_group": next_in_group,
@@ -2405,8 +2721,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                     "claim_id": claim_id,
                     "report_id": rid,
                     "stage": stage,
-                    "text_en": summarize_plain(text_en, max_chars=260),
-                    "text_cn": summarize_plain(text_cn, max_chars=260),
+                    "text_en": readable_summary(text_en, max_chars=460, max_sentences=2),
+                    "text_cn": readable_summary(text_cn, max_chars=320, max_sentences=2),
                     "evidence": deduped_evidence[:6],
                     "linked_claim_ids": [],
                     "linked_report_ids": [],

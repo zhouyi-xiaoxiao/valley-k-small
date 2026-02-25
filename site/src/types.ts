@@ -362,6 +362,44 @@ export type BookChapter = {
   updated_at: string;
 };
 
+export type BookBackbone = {
+  version: string;
+  generated_at: string;
+  chapter_count: number;
+  acts: Array<{
+    act_id: string;
+    title_en: string;
+    title_cn: string;
+    objective_en: string;
+    objective_cn: string;
+    chapter_ids: string[];
+  }>;
+  chapter_spine: Array<{
+    chapter_id: string;
+    order: number;
+    title_en: string;
+    title_cn: string;
+    core_question_en: string;
+    core_question_cn: string;
+    input_dependencies: string[];
+    output_to: string[];
+    key_claim_ids: string[];
+    key_formulae: string[];
+    key_notions: string[];
+    evidence_report_ids: string[];
+    transition_to_next_en: string;
+    transition_to_next_cn: string;
+    interactive_count: number;
+    claim_count: number;
+    formula_count: number;
+  }>;
+  quality_checks: Array<{
+    check: string;
+    pass: boolean;
+    details: unknown;
+  }>;
+};
+
 export type GlossaryPayload = {
   version: string;
   generated_at: string;

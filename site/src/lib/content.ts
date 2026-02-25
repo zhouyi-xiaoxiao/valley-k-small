@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import type {
   AgentManifest,
+  BookBackbone,
   BookChapter,
   BookManifest,
   ContentMap,
@@ -100,6 +101,10 @@ export function loadBookManifest(): BookManifest | null {
 
 export function loadBookChapter(chapterId: string): BookChapter | null {
   return readJson<BookChapter>(path.join(DATA_ROOT, 'book', 'chapters', `${chapterId}.json`));
+}
+
+export function loadBookBackbone(): BookBackbone | null {
+  return readJson<BookBackbone>(path.join(DATA_ROOT, 'book', 'backbone.json'));
 }
 
 export function loadBookToc(): { version: string; generated_at: string; en: Array<{ chapter_id: string; order: number; title: string; path: string }>; cn: Array<{ chapter_id: string; order: number; title: string; path: string }>; } | null {

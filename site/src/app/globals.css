@@ -224,6 +224,17 @@ ol {
   margin: 0.5rem 0 0.8rem;
 }
 
+.continuous-progress {
+  position: sticky;
+  top: 4.7rem;
+  z-index: 8;
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(255, 253, 248, 0.82));
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.45rem;
+}
+
 .book-hero {
   position: relative;
   overflow: hidden;
@@ -255,6 +266,40 @@ ol {
   justify-content: space-between;
   gap: 0.85rem;
   flex-wrap: wrap;
+}
+
+.chapter-disclosure {
+  margin-top: 0.8rem;
+  border-top: 1px dashed var(--line);
+  padding-top: 0.6rem;
+}
+
+.chapter-disclosure > summary {
+  font-size: 0.93rem;
+  margin-bottom: 0.45rem;
+}
+
+.chapter-disclosure .card {
+  box-shadow: 0 6px 14px rgba(17, 37, 30, 0.06);
+  border-color: #e7dcc7;
+}
+
+.chapter-transition-note {
+  margin-top: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  background: #f6efe2;
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+}
+
+.chapter-endcap {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  padding-top: 0.6rem;
+  border-top: 1px solid #eadfcb;
 }
 
 .table-wrap {
@@ -337,6 +382,15 @@ button:hover {
   }
 
   .shell-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .continuous-progress {
+    top: 6.6rem;
+  }
+
+  .chapter-endcap {
     flex-direction: column;
     align-items: flex-start;
   }

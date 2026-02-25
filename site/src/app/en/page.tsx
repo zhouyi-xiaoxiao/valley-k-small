@@ -1,5 +1,5 @@
-import { renderHomePage } from '@/lib/render-pages';
+import { renderBookPage } from '@/lib/render-book-pages';
 
 export default function EnHomePage() {
-  return renderHomePage('en', '/en');
+  return renderBookPage('en', '/en');
 }

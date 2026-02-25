@@ -62,6 +62,26 @@ def tex_escape(text: str) -> str:
     return s
 
 
+def normalize_formula_for_publication(latex: str, *, max_chars: int = 260) -> str:
+    value = clean_text(str(latex or ""))
+    value = value.replace(r"\textbackslash{}", "\\")
+    value = value.replace("…", "")
+    value = value.replace("...", "")
+    value = value.replace("$", " ")
+    value = re.sub(r"\\begin\{[^{}]+\}", " ", value)
+    value = re.sub(r"\\end\{[^{}]+\}", " ", value)
+    value = value.replace("&", " ")
+    value = value.replace("\\\\", " ")
+    value = re.sub(r"\s+", " ", value).strip()
+    if len(value) <= max_chars:
+        return value
+    clipped = value[: max_chars + 1]
+    stop = max(clipped.rfind(" + "), clipped.rfind(" - "), clipped.rfind(" = "), clipped.rfind(", "))
+    if stop < int(max_chars * 0.55):
+        stop = max_chars
+    return clipped[:stop].strip()
+
+
 def choose_meta(report_id: str, lang: str) -> dict[str, Any]:
     root = DATA_ROOT / "reports" / report_id
     preferred = root / f"meta.{lang}.json"
@@ -130,6 +150,7 @@ def render_header(lang: str, report_count: int, generated_at: str, base_url: str
         r"\documentclass[11pt]{article}",
         r"\usepackage[a4paper,margin=1in]{geometry}",
         r"\usepackage{fontspec}",
+        r"\usepackage{amsmath,amssymb}",
         r"\usepackage{hyperref}",
         r"\usepackage{longtable}",
         r"\usepackage{booktabs}",
@@ -235,13 +256,11 @@ def render_book_mainline(lang: str) -> tuple[str, list[dict[str, Any]]]:
         lines.append(r"\begin{itemize}[leftmargin=1.2em]")
         for item in theory_chain[:5]:
             desc = item.get("description_cn") if lang == "cn" else item.get("description_en")
-            latex = clean_text(str(item.get("latex") or ""))
-            if len(latex) > 120:
-                latex = latex[:117] + "..."
-            lines.append(
-                rf"\item [{tex_escape(str(item.get('stage', 'step')))}] "
-                rf"{tex_escape(clean_text(str(desc)))} (\texttt{{{tex_escape(latex)}}})"
-            )
+            stage = tex_escape(str(item.get("stage", "step")))
+            lines.append(rf"\item [{stage}] {tex_escape(clean_text(str(desc)))}")
+            formula = normalize_formula_for_publication(str(item.get("latex") or ""))
+            if formula:
+                lines.append(rf"\[ {formula} \]")
         lines.append(r"\end{itemize}")
 
         lines.append(r"\textbf{Claim Ledger}")
@@ -337,11 +356,10 @@ def render_report_digest(
             for node in math_story:
                 stage = str(node.get("stage") or "step")
                 explanation = str(node.get("description") or node.get("explanation") or "")
-                formula = clean_text(str(node.get("latex") or ""))
-                detail = explanation
+                lines.append(rf"\item [{tex_escape(stage)}] {tex_escape(explanation)}")
+                formula = normalize_formula_for_publication(str(node.get("latex") or ""))
                 if formula:
-                    detail = f"{detail} | {formula}" if detail else formula
-                lines.append(rf"\item [{tex_escape(stage)}] {tex_escape(detail)}")
+                    lines.append(rf"\[ {formula} \]")
         else:
             lines.append(r"\item No math logic chain extracted.")
         lines.append(r"\end{itemize}")

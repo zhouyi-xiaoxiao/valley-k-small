@@ -59,6 +59,115 @@ def looks_like_path_finding(text: str) -> bool:
     return "/" in lowered and any(tok in lowered for tok in ("reports/", "scripts/", "config/"))
 
 
+def is_path_heavy_section_summary(text: str) -> bool:
+    normalized = str(text or "").strip()
+    lowered = normalized.lower()
+    if not normalized:
+        return True
+    if re.fullmatch(r"[\w./-]+\.(?:tex|pdf|json|csv|png|jpg|jpeg|svg|md|py|npz)", lowered):
+        return True
+    path_hits = re.findall(
+        r"(?:reports|inputs|figures|data|scripts|code|artifacts)/[\w./-]+\.(?:tex|pdf|json|csv|png|jpg|jpeg|svg|md|py|npz)",
+        lowered,
+    )
+    if path_hits:
+        natural_tokens = re.findall(r"[A-Za-z]{3,}|[\u4e00-\u9fff]{2,}", normalized)
+        if len(natural_tokens) < 9 or sum(hit.count("/") + 1 for hit in path_hits) >= 4:
+            return True
+    if re.search(r"^(?:core|key|main)?\s*(?:data|files?)\s*[:：]", lowered) and re.search(
+        r"\.(?:json|csv|tex|pdf)\b", lowered
+    ):
+        natural_tokens = re.findall(r"[A-Za-z]{3,}|[\u4e00-\u9fff]{2,}", normalized)
+        if len(natural_tokens) < 12:
+            return True
+    return False
+
+
+def is_generic_template_section_summary(text: str) -> bool:
+    normalized = str(text or "").strip()
+    lowered = normalized.lower()
+    template_patterns = (
+        r"^figures?:\s*this section (?:interprets|summarizes|presents)\b",
+        r"^tables?:\s*this section (?:interprets|summarizes|presents)\b",
+        r"^this section (?:interprets|summarizes|presents)\s+(?:the\s+)?(?:key\s+)?(?:figures?|tables?)\b",
+        r"^本节(?:主要)?(?:解释|总结|汇总|呈现).*(?:图|表)",
+    )
+    if any(re.search(pattern, lowered) for pattern in template_patterns):
+        sentence_count = max(1, len(re.findall(r"[.!?。！？]", normalized)))
+        if len(normalized) < 220 or sentence_count <= 2:
+            return True
+    return False
+
+
+def is_low_information_claim_snippet(text: str) -> bool:
+    normalized = str(text or "").strip()
+    lowered = normalized.lower()
+    if not normalized:
+        return True
+    if len(normalized) < 24:
+        return True
+    low_signal_tokens = (
+        "asset size profile",
+        "asset rank",
+        "size (bytes)",
+        "manifest",
+        "placeholder",
+        "fallback narrative",
+    )
+    if any(token in lowered for token in low_signal_tokens):
+        return True
+    if re.search(r"(?:[,、]\s*){2,}", normalized):
+        return True
+    if re.search(r"\bthis section\b.*\b(evidence|verification)\b", lowered):
+        return True
+    if re.search(r"^figures?:\s*this section\b", lowered):
+        return True
+    if re.search(r"^tables?:\s*this section\b", lowered):
+        return True
+    if re.search(r"^本节(?:主要)?(?:解释|总结|汇总|呈现).*(?:图|表)", normalized):
+        return True
+    return False
+
+
+EN_MECHANISM_PATTERNS: dict[str, str] = {
+    "beta_scan": r"\b(beta|β)\b",
+    "n_sweep": r"\bn\s*sweeps?\b|\bacross\s+n\b|\bvarying\s+n\b|\bn-scan\b",
+    "monte_carlo": r"\bmonte\s+carlo\b|\bmc\b",
+    "transfer": r"\btransfer\b|\btransport\b|\bmigration\b",
+    "hazard": r"\bhazard\b",
+    "survival": r"\bsurvival\b",
+    "bimodality": r"\bbimodal\b|\bdouble[-\s]?peak\b|\btwo[-\s]?peak\b",
+    "phase_map": r"\bphase\b",
+}
+
+CN_MECHANISM_PATTERNS: dict[str, str] = {
+    "beta_scan": r"(beta|β)",
+    "n_sweep": r"(?:N\s*扫描|N扫描|随N|跨N|不同N|N范围)",
+    "monte_carlo": r"(?:蒙特卡洛|MC)",
+    "transfer": r"(?:转移|迁移|输运|传输)",
+    "hazard": r"(?:风险率|hazard|风险)",
+    "survival": r"(?:生存|survival)",
+    "bimodality": r"(?:双峰|双模|bimodal)",
+    "phase_map": r"(?:相图|phase|相位)",
+}
+
+
+def missing_cn_mechanism_tags(en_text: str, cn_text: str) -> list[str]:
+    en_lower = str(en_text or "").lower()
+    cn_value = str(cn_text or "")
+    active_tags = [
+        tag
+        for tag, pattern in EN_MECHANISM_PATTERNS.items()
+        if re.search(pattern, en_lower, flags=re.IGNORECASE)
+    ]
+    missing = [
+        tag
+        for tag in active_tags
+        if not re.search(CN_MECHANISM_PATTERNS.get(tag, r"$^"), cn_value, flags=re.IGNORECASE)
+    ]
+    return missing
+
+
 def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
     suspect_patterns = [
         ("raw_itemize", r"\bitemize\b"),
@@ -100,6 +209,10 @@ def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
             raise SystemExit(f"Low readability in {label}: section_cards[{idx}] contains placeholder summary")
         if "fallback narrative card" in summary:
             raise SystemExit(f"Low readability in {label}: section_cards[{idx}] contains fallback placeholder")
+        if is_path_heavy_section_summary(summary):
+            raise SystemExit(f"Low readability in {label}: section_cards[{idx}] is path-heavy")
+        if is_generic_template_section_summary(summary):
+            raise SystemExit(f"Low readability in {label}: section_cards[{idx}] is template-like")
         for name, pattern in suspect_patterns:
             if re.search(pattern, summary, flags=re.IGNORECASE):
                 raise SystemExit(f"Low readability in {label}: section_cards[{idx}] detected {name} pattern")
@@ -131,6 +244,30 @@ def assert_locale_parity(meta_en: dict[str, Any], meta_cn: dict[str, Any], label
                 raise SystemExit(
                     f"Locale parity error in {label}: field {field} has severe mismatch (EN={len(left)}, CN={len(right)})"
                 )
+
+    parity_pairs: list[tuple[str, str, str]] = []
+    summary_en = str(meta_en.get("summary", "")).strip()
+    summary_cn = str(meta_cn.get("summary", "")).strip()
+    if summary_en and summary_cn:
+        parity_pairs.append(("summary", summary_en, summary_cn))
+    narrative_en = meta_en.get("narrative", {})
+    narrative_cn = meta_cn.get("narrative", {})
+    if isinstance(narrative_en, dict) and isinstance(narrative_cn, dict):
+        for field in ("model_overview", "method_overview", "result_overview"):
+            en_text = str(narrative_en.get(field, "")).strip()
+            cn_text = str(narrative_cn.get(field, "")).strip()
+            if en_text and cn_text:
+                parity_pairs.append((f"narrative.{field}", en_text, cn_text))
+
+    for field_name, en_text, cn_text in parity_pairs:
+        missing_tags = missing_cn_mechanism_tags(en_text, cn_text)
+        expected_tag_count = len(
+            [tag for tag, pattern in EN_MECHANISM_PATTERNS.items() if re.search(pattern, en_text, flags=re.IGNORECASE)]
+        )
+        if expected_tag_count >= 3 and len(missing_tags) >= 2:
+            raise SystemExit(
+                f"Locale parity error in {label}: {field_name} misses mechanism tags in CN {missing_tags}"
+            )
 
 
 def assert_repro_commands(meta_payload: dict[str, Any], label: str) -> None:
@@ -436,23 +573,15 @@ def main() -> int:
             "Invalid content map payload: claims missing evidence: "
             + ",".join(claims_without_evidence[:12])
         )
-    low_signal_tokens = (
-        "asset size profile",
-        "asset rank",
-        "size (bytes)",
-        "manifest",
-        "placeholder",
-        "fallback narrative",
-    )
     low_signal_snippets = 0
     total_evidence = 0
     for row in claim_rows:
         for ev in list(row.get("evidence", [])):
             total_evidence += 1
-            snippet = str(ev.get("snippet_en", "")).strip().lower()
-            if not snippet or any(token in snippet for token in low_signal_tokens):
+            snippet = str(ev.get("snippet_en", "")).strip()
+            if is_low_information_claim_snippet(snippet):
                 low_signal_snippets += 1
-    if total_evidence > 0 and low_signal_snippets > max(4, int(total_evidence * 0.25)):
+    if total_evidence > 0 and low_signal_snippets > max(3, int(total_evidence * 0.18)):
         raise SystemExit(
             "Invalid content map payload: too many low-signal evidence snippets "
             f"({low_signal_snippets}/{total_evidence})"

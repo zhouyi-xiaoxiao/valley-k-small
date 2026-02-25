@@ -5,6 +5,7 @@ import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
   groupReports,
   loadAgentManifest,
+  loadBookBackbone,
   loadBookManifest,
   loadContentMap,
   loadFigures,
@@ -164,6 +165,21 @@ function isPlaceholderCardSummary(heading: string, summary: string): boolean {
   if (/fallback narrative card/i.test(normalizedSummary)) {
     return true;
   }
+  if (/^(figures?|tables?):\s*this section (interprets|summarizes|presents)/i.test(normalizedSummary)) {
+    return true;
+  }
+  if (/^this section (interprets|summarizes|presents)\s+(the\s+)?(key\s+)?(figures?|tables?)/i.test(normalizedSummary)) {
+    return true;
+  }
+  if (/^本节(主要)?(解释|总结|汇总|呈现).*(图|表)/.test(normalizedSummary)) {
+    return true;
+  }
+  const pathHits = normalizedSummary.match(
+    /(?:reports|inputs|figures|data|scripts|code|artifacts)\/[\w./-]+\.(?:tex|pdf|json|csv|png|jpg|jpeg|svg|md|py|npz)/g,
+  );
+  if (pathHits && (pathHits.length >= 2 || normalizedSummary.length < 160)) {
+    return true;
+  }
   if (normalizedSummary.length < 18) {
     return true;
   }
@@ -186,6 +202,13 @@ function pruneSectionCards(cards: Array<{ heading: string; summary: string; sour
       score -= 6;
     }
     if (/asset size profile|manifest|placeholder|fallback/i.test(normalized)) {
+      score -= 12;
+    }
+    if (
+      /(?:reports|inputs|figures|data|scripts|code|artifacts)\/[\w./-]+\.(?:tex|pdf|json|csv|png|jpg|jpeg|svg|md|py|npz)/i.test(
+        normalized,
+      )
+    ) {
       score -= 12;
     }
     return score;
@@ -375,6 +398,28 @@ function summarizeCheckDetails(details: unknown, lang: Lang): string[] {
     return lines;
   }
   return [String(details)];
+}
+
+function rawCheckPayloadPreview(details: unknown, lang: Lang): string {
+  let raw = '';
+  try {
+    raw = JSON.stringify(details, null, 2);
+  } catch {
+    raw = String(details);
+  }
+  const maxChars = 1800;
+  if (raw.length <= maxChars) {
+    return raw;
+  }
+  const clipped = raw.slice(0, maxChars);
+  const cut = Math.max(clipped.lastIndexOf('\n'), Math.floor(maxChars * 0.65));
+  const body = clipped.slice(0, Math.max(0, cut)).trimEnd();
+  const omitted = raw.length - body.length;
+  return `${body}\n\n${localizedText(
+    lang,
+    `... truncated ${omitted} chars. Open /data/v1/theory_map.json for full payload.`,
+    `... 已截断 ${omitted} 个字符。完整内容请查看 /data/v1/theory_map.json。`,
+  )}`;
 }
 
 function stageLabel(lang: Lang, stage: string): string {
@@ -1320,6 +1365,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
   const contentMap = loadContentMap();
   const glossary = loadGlossary();
   const bookManifest = loadBookManifest();
+  const backbone = loadBookBackbone();
   const formulaCoverage = extractFormulaCoverage(map);
   const formulaPolicyRows = extractFormulaPolicyRows(map);
   const duplicationBuckets = extractDuplicationBuckets(map);
@@ -1385,6 +1431,65 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
           <span className="badge">{localizedText(lang, 'Book chapters', 'Book 章节')} {bookManifest?.chapter_count ?? 0}</span>
         </p>
       </section>
+
+      {backbone ? (
+        <section className="card section-enter" style={{ marginTop: '1rem' }}>
+          <h2>{localizedText(lang, 'Continuity Spine', '主线脊柱')}</h2>
+          <p className="lead">
+            {localizedText(
+              lang,
+              'Acts define the long-form argument structure, and chapter spine transitions show how one verified block feeds the next.',
+              '幕结构定义整本论证骨架，章节脊柱过渡说明“上一段已验证结论”如何进入下一段推导。',
+            )}
+          </p>
+          <div className="grid grid-2">
+            {backbone.acts.map((act) => (
+              <article key={`act-${act.act_id}`} className="card">
+                <h3>{lang === 'cn' ? act.title_cn : act.title_en}</h3>
+                <p>{lang === 'cn' ? act.objective_cn : act.objective_en}</p>
+                <p>
+                  <span className="badge">
+                    {localizedText(lang, 'Chapters', '章节')}: {act.chapter_ids.length}
+                  </span>
+                </p>
+                <ul>
+                  {act.chapter_ids.map((chapterId) => {
+                    const chapterMeta = bookManifest?.chapters.find((row) => row.chapter_id === chapterId);
+                    const chapterTitle =
+                      chapterMeta == null
+                        ? chapterId
+                        : lang === 'cn'
+                          ? chapterMeta.title_cn
+                          : chapterMeta.title_en;
+                    return (
+                      <li key={`act-${act.act_id}-${chapterId}`}>
+                        <Link href={prefixPath(prefix, `/book/${chapterId}`)}>{chapterTitle}</Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </article>
+            ))}
+          </div>
+          <details style={{ marginTop: '0.8rem' }}>
+            <summary>{localizedText(lang, 'Open chapter transitions', '展开章节过渡')}</summary>
+            <ul style={{ marginTop: '0.5rem' }}>
+              {[...backbone.chapter_spine]
+                .sort((a, b) => a.order - b.order)
+                .map((row) => (
+                  <li key={`spine-${row.chapter_id}`}>
+                    <strong>
+                      <Link href={prefixPath(prefix, `/book/${row.chapter_id}`)}>
+                        {lang === 'cn' ? row.title_cn : row.title_en}
+                      </Link>
+                    </strong>
+                    : {lang === 'cn' ? row.transition_to_next_cn : row.transition_to_next_en}
+                  </li>
+                ))}
+            </ul>
+          </details>
+        </section>
+      ) : null}
 
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Concept Cards', '概念卡片')}</h2>
@@ -1639,7 +1744,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                   <details style={{ marginTop: '0.45rem' }}>
                     <summary>{localizedText(lang, 'Open raw check payload', '展开原始检查载荷')}</summary>
                     <pre style={{ whiteSpace: 'pre-wrap', marginTop: '0.45rem' }}>
-                      {JSON.stringify(check.details, null, 2)}
+                      {rawCheckPayloadPreview(check.details, lang)}
                     </pre>
                   </details>
                   <p className="muted" style={{ margin: '0.45rem 0 0' }}>

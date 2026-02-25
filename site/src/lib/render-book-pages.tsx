@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import katex from 'katex';
 import { AppShell } from '@/components/AppShell';
+import { LazyDisclosure } from '@/components/LazyDisclosure';
 import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
   loadBookBackbone,
@@ -649,10 +650,23 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
               </div>
             </details>
 
-            <details className="chapter-disclosure">
-              <summary>
-                {localizedText(lang, 'Open interactive lab', '展开交互实验区')} ({chapter.interactive_panels.length})
-              </summary>
+            <LazyDisclosure
+              className="chapter-disclosure"
+              summary={
+                <>
+                  {localizedText(lang, 'Open interactive lab', '展开交互实验区')} ({chapter.interactive_panels.length})
+                </>
+              }
+              placeholder={
+                <p className="muted" style={{ marginTop: '0.6rem' }}>
+                  {localizedText(
+                    lang,
+                    'Interactive plots are mounted on demand when this panel opens, so continuous reading stays responsive.',
+                    '交互图会在展开后按需挂载，以保证整本通读页面保持流畅。',
+                  )}
+                </p>
+              }
+            >
               {chapterPanels.length > 0 ? (
                 <div style={{ display: 'grid', gap: '0.8rem' }}>
                   {chapterPanels.map(({ panel, selectedDatasets, fallbackDatasetId }) => (
@@ -679,7 +693,7 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
               ) : (
                 <p className="muted">{localizedText(lang, 'No interactive panel available for this chapter.', '本章暂无可用交互图。')}</p>
               )}
-            </details>
+            </LazyDisclosure>
 
             <details className="chapter-disclosure">
               <summary>

@@ -1612,6 +1612,45 @@ def choose_best_title(candidates: list[str], report_id: str, *, max_chars: int =
 
 
 def is_placeholder_section_summary(heading: str, summary: str) -> bool:
+    def is_path_heavy_summary(text: str) -> bool:
+        normalized_text = normalize_space(text)
+        if not normalized_text:
+            return True
+        lowered_text = normalized_text.lower()
+        if re.fullmatch(r"[\w./-]+\.(?:tex|pdf|json|csv|png|jpg|jpeg|svg|md|py|npz)", lowered_text):
+            return True
+        path_hits = re.findall(
+            r"(?:reports|inputs|figures|data|scripts|code|artifacts)/[\w./-]+\.(?:tex|pdf|json|csv|png|jpg|jpeg|svg|md|py|npz)",
+            lowered_text,
+        )
+        if path_hits:
+            natural_tokens = re.findall(r"[A-Za-z]{3,}|[\u4e00-\u9fff]{2,}", normalized_text)
+            path_token_count = sum(hit.count("/") + 1 for hit in path_hits)
+            if len(natural_tokens) < 9 or path_token_count >= 4:
+                return True
+        if re.search(r"^(?:core|key|main)?\s*(?:data|files?)\s*[:：]", lowered_text) and re.search(
+            r"\.(?:json|csv|tex|pdf)\b", lowered_text
+        ):
+            natural_tokens = re.findall(r"[A-Za-z]{3,}|[\u4e00-\u9fff]{2,}", normalized_text)
+            if len(natural_tokens) < 12:
+                return True
+        return False
+
+    def is_generic_template_summary(text: str) -> bool:
+        normalized_text = normalize_space(text)
+        lowered_text = normalized_text.lower()
+        template_patterns = (
+            r"^figures?:\s*this section (?:interprets|summarizes|presents)\b",
+            r"^tables?:\s*this section (?:interprets|summarizes|presents)\b",
+            r"^this section (?:interprets|summarizes|presents)\s+(?:the\s+)?(?:key\s+)?(?:figures?|tables?)\b",
+            r"^本节(?:主要)?(?:解释|总结|汇总|呈现).*(?:图|表)",
+        )
+        if any(re.search(pattern, lowered_text) for pattern in template_patterns):
+            sentence_count = max(1, len(re.findall(r"[.!?。！？]", normalized_text)))
+            if len(normalized_text) < 220 or sentence_count <= 2:
+                return True
+        return False
+
     normalized = normalize_space(summary)
     if not normalized:
         return True
@@ -1632,6 +1671,10 @@ def is_placeholder_section_summary(heading: str, summary: str) -> bool:
         return True
     if "this section extends mechanism interpretation with parameter contrasts and traceable evidence entry points" in lowered:
         return True
+    if is_path_heavy_summary(normalized):
+        return True
+    if is_generic_template_summary(normalized):
+        return True
     if "关键证据与核验说明" in lowered:
         return True
     if "补充证据与核验路径" in lowered:
@@ -1649,19 +1692,28 @@ def section_fallback_summary(heading: str, report_id: str, lang: str) -> str:
     lowered = heading_clean.lower()
     if lang == "cn":
         if any(token in lowered for token in ("figure", "图")):
-            return f"{heading_clean}：本节解释关键图件所对应的机制差异与可核验指标。"
+            return f"{heading_clean}：本节把图中的相区转折与参数带对应起来，并给出可核验的判据锚点。"
         if any(token in lowered for token in ("table", "表")):
-            return f"{heading_clean}：本节汇总参数区间、判据结果与跨案例对照结论。"
+            return f"{heading_clean}：本节列出阈值区间、误差边界和跨案例差异，便于复现实验核对。"
         if any(token in lowered for token in ("recommend", "建议", "practical")):
             return f"{heading_clean}：本节给出可执行建议及其证据边界条件。"
-        return f"{heading_clean}：本节梳理 {report_label} 的关键假设、可测输出与证据入口。"
+        return f"{heading_clean}：本节连接 {report_label} 的模型假设、可测输出与证据命令入口。"
     if any(token in lowered for token in ("figure", "plot", "visual")):
-        return f"{heading_clean}: this section interprets the key figures and links shape changes to mechanism-level diagnostics."
+        return (
+            f"{heading_clean}: this section maps figure-level regime transitions to parameter bands, "
+            "with each turning point linked to a checkable claim."
+        )
     if any(token in lowered for token in ("table", "matrix")):
-        return f"{heading_clean}: this section summarizes parameter regimes, decision criteria, and side-by-side outcome checks."
+        return (
+            f"{heading_clean}: this section lists threshold bands, uncertainty margins, "
+            "and side-by-side outcome deltas for reproducible comparison."
+        )
     if any(token in lowered for token in ("recommend", "practical", "guideline")):
         return f"{heading_clean}: this section states actionable recommendations with explicit evidence limits."
-    return f"{heading_clean}: this section maps {report_label} assumptions, measurable outputs, and auditable evidence entry points."
+    return (
+        f"{heading_clean}: this section connects {report_label} assumptions to measurable observables, "
+        "verification commands, and downstream chapter claims."
+    )
 
 
 def dedupe_section_cards_by_heading(cards: list[dict[str, str]], *, lang: str) -> list[dict[str, str]]:
@@ -2700,15 +2752,23 @@ def infer_series_type(name: str, values: list[float]) -> str:
     finite_values = [float(v) for v in values if isinstance(v, (int, float)) and math.isfinite(float(v))]
     unique_values = sorted({round(v, 10) for v in finite_values})
     dist_type = infer_series_type_by_distribution(finite_values)
+    is_integerish = all(math.isclose(v, round(v), abs_tol=1e-10) for v in finite_values) if finite_values else False
 
     if re.search(r"(runtime|elapsed|latency|duration|seconds|sec$|_sec|ms$|millisecond)", lowered):
         return "metric"
     if re.search(r"(beta|alpha|lambda|theta|param|parameter|step|time|index|dst|start|target|door|seed)", lowered):
         return "parameter"
+    if re.search(r"(flag|indicator|bool|pass|fail|is_)", lowered):
+        # Keep strict binary only for true {0,1} flags; multi-valued flags are ordinal parameters.
+        if unique_values and set(unique_values).issubset({0.0, 1.0}):
+            return "binary"
+        if dist_type is not None:
+            return "parameter" if dist_type == "binary" else dist_type
+        if is_integerish and len(unique_values) <= 12:
+            return "parameter"
+        return "metric"
     if dist_type in {"binary", "probability"}:
         return dist_type
-    if re.search(r"(flag|indicator|bool|pass|fail|is_)", lowered):
-        return "binary"
     if re.search(r"(pmf|cdf|prob|mass|survival|hazard|density|ratio|rate|share)", lowered):
         return "probability"
 
@@ -4147,6 +4207,26 @@ def detect_notions_from_formula(latex: str) -> set[str]:
     return notions
 
 
+def detect_notions_from_text(text: str) -> set[str]:
+    lowered = normalize_space(str(text or "")).lower()
+    notions: set[str] = set()
+    if not lowered:
+        return notions
+    if any(token in lowered for token in ("first-passage", "first passage", "fpt", "首达", "首达时间")):
+        notions.add("fpt-pmf")
+    if "survival" in lowered or "生存" in lowered:
+        notions.add("survival")
+    if "hazard" in lowered or "风险率" in lowered or "风险" in lowered:
+        notions.add("hazard")
+    if "beta" in lowered or "\\beta" in lowered or "shortcut" in lowered:
+        notions.add("beta-scan")
+    if any(token in lowered for token in ("spectral", "eigen", "resolvent", "谱", "特征值")):
+        notions.add("spectral")
+    if any(token in lowered for token in ("aw", "fft", "inversion", "反演", "cauchy")):
+        notions.add("aw-inversion")
+    return notions
+
+
 def formula_depth_policy(report_id: str, group: str) -> dict[str, Any]:
     group_defaults: dict[str, dict[str, Any]] = {
         "grid2d": {
@@ -4265,6 +4345,23 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
             for notion in detect_notions_from_formula(latex):
                 notion_reports[notion].add(report_id)
                 report_notions.add(notion)
+
+        text_sources: list[str] = [
+            str(meta.get("summary", "")),
+            str(meta.get("narrative", {}).get("model_overview", "")),
+            str(meta.get("narrative", {}).get("method_overview", "")),
+            str(meta.get("narrative", {}).get("result_overview", "")),
+        ]
+        text_sources.extend(str(item) for item in meta.get("key_findings", []))
+        for dataset in meta.get("datasets", []):
+            text_sources.append(str(dataset.get("title", "")))
+            text_sources.append(str(dataset.get("x_label", "")))
+            text_sources.append(str(dataset.get("y_label", "")))
+        for text in text_sources:
+            for notion in detect_notions_from_text(text):
+                notion_reports[notion].add(report_id)
+                report_notions.add(notion)
+
         if not report_notions:
             notion_reports["fpt-pmf"].add(report_id)
 
@@ -4680,6 +4777,30 @@ def is_low_signal_evidence_text(text: str) -> bool:
     return False
 
 
+def is_generic_claim_evidence_snippet(text: str) -> bool:
+    cleaned = normalize_space(str(text or ""))
+    lowered = cleaned.lower()
+    if not cleaned:
+        return True
+    if is_low_signal_evidence_text(cleaned):
+        return True
+    if has_malformed_readability_tokens(cleaned):
+        return True
+    if re.search(r"(?:[,、]\s*){2,}", cleaned):
+        return True
+    if re.search(r"\bthis section\b.*\b(evidence|verification)\b", lowered):
+        return True
+    if re.search(r"^figures?:\s*this section\b", lowered):
+        return True
+    if re.search(r"^tables?:\s*this section\b", lowered):
+        return True
+    if re.search(r"^本节(?:主要)?(?:解释|总结|汇总|呈现).*(?:图|表)", cleaned):
+        return True
+    if summary_penalty(cleaned) > 18:
+        return True
+    return False
+
+
 def dataset_evidence_score(dataset: dict[str, Any]) -> int:
     title = normalize_space(str(dataset.get("title", ""))).lower()
     series_id = normalize_space(str(dataset.get("series_id", ""))).lower()
@@ -4972,16 +5093,33 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
         for idx, (stage, text_en, text_cn) in enumerate(staged_claims):
             claim_id = f"{rid}-c{idx + 1}"
             claim_tokens = tokenize_claim_text(text_en)
+            stage_label_cn = {
+                "model": "模型",
+                "method": "方法",
+                "result": "结果",
+                "finding": "发现",
+            }.get(stage, "结论")
 
             evidence: list[dict[str, Any]] = []
 
             for source_path in source_docs[:1]:
+                source_snippet_en = summarize_plain(text_en, max_chars=180)
+                source_snippet_cn = summarize_plain(text_cn, max_chars=180)
+                if is_generic_claim_evidence_snippet(source_snippet_en):
+                    source_snippet_en = summarize_plain(
+                        f"Source-backed {stage} claim in {report_title_en}: {text_en}",
+                        max_chars=180,
+                    )
+                    source_snippet_cn = summarize_plain(
+                        f"{report_title_cn} 的{stage_label_cn}结论来源摘要：{text_cn}",
+                        max_chars=180,
+                    )
                 evidence.append(
                     {
                         "evidence_type": "source_document",
                         "path": source_path,
-                        "snippet_en": summarize_plain(text_en, max_chars=180),
-                        "snippet_cn": summarize_plain(text_cn, max_chars=180),
+                        "snippet_en": source_snippet_en,
+                        "snippet_cn": source_snippet_cn,
                     }
                 )
 
@@ -5000,9 +5138,14 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
             for _, j in section_scored[:2]:
                 card_en = section_cards_en[j]
                 card_cn = section_cards_cn[j] if j < len(section_cards_cn) else {}
+                heading_en = normalize_space(str(card_en.get("heading", "Section")))
+                heading_cn = normalize_space(str(card_cn.get("heading", "章节")))
                 snippet_en = summarize_plain(str(card_en.get("summary", text_en)), max_chars=180)
                 snippet_cn = summarize_plain(str(card_cn.get("summary", text_cn)), max_chars=180)
-                if is_low_signal_evidence_text(snippet_en):
+                if is_generic_claim_evidence_snippet(snippet_en):
+                    snippet_en = summarize_plain(f"{heading_en}: {text_en}", max_chars=180)
+                    snippet_cn = summarize_plain(f"{heading_cn}: {text_cn}", max_chars=180)
+                if is_generic_claim_evidence_snippet(snippet_en):
                     continue
                 evidence.append(
                     {
@@ -5016,7 +5159,12 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
             math_limit = 2 if stage in {"model", "method"} else 1
             for block in math_blocks_en[:math_limit]:
                 block_context = summarize_plain(str(block.get("context", "math block")), max_chars=120)
-                if is_low_signal_evidence_text(block_context):
+                if is_generic_claim_evidence_snippet(block_context):
+                    block_context = summarize_plain(
+                        f"{stage.title()} formula context in {report_title_en}: {text_en}",
+                        max_chars=140,
+                    )
+                if is_generic_claim_evidence_snippet(block_context):
                     continue
                 evidence.append(
                     {
@@ -5048,6 +5196,17 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                         f"{report_title_cn} 的机制数据集：{ds.get('series_id', 'series')}",
                         max_chars=160,
                     )
+                if is_generic_claim_evidence_snippet(ds_snippet_en):
+                    ds_snippet_en = summarize_plain(
+                        f"{report_title_en} {stage} evidence uses dataset {ds.get('series_id', 'series')}.",
+                        max_chars=160,
+                    )
+                    ds_snippet_cn = summarize_plain(
+                        f"{report_title_cn} 的{stage_label_cn}证据使用数据集 {ds.get('series_id', 'series')}。",
+                        max_chars=160,
+                    )
+                if is_generic_claim_evidence_snippet(ds_snippet_en):
+                    continue
                 evidence.append(
                     {
                         "evidence_type": "dataset",
@@ -5065,6 +5224,14 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                     continue
                 seen_keys.add(key)
                 deduped_evidence.append(row_evidence)
+
+            filtered_evidence = [
+                row_evidence
+                for row_evidence in deduped_evidence
+                if not is_generic_claim_evidence_snippet(str(row_evidence.get("snippet_en", "")))
+            ]
+            if filtered_evidence:
+                deduped_evidence = filtered_evidence
 
             if not deduped_evidence:
                 deduped_evidence = [

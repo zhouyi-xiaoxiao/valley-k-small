@@ -48,7 +48,6 @@
 - 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 再做深度一致性回归并补上 summary 级防护：`case_summary.json` 现在额外记录并校验代表案例的 `outputs/*_fpt.csv`（`rep_series_csv`），且改为“先校验路径再写 summary”以避免异常时落盘不可信 summary。并验证了扩展分支在 `t_max=5000` 与 `t_max=20000` 下 phase 一致（`x0=8/10/12` 无不一致），排除时间窗截断导致的假失稳。
 - 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 再次做“代码+语言+逻辑”全链路复核并修复一项流程性隐患：`validate_representative_phase_consistency(...)` 与 `validate_summary_artifact_paths(...)` 之前定义但未接入主流程，现已在 `main()` 中启用；同时将启动清理从 case 级升级为 `purge_generated_artifacts(...)` 全量清理，避免旧扫描表/旧图残留造成的静默污染。已全量重跑脚本与中英文 `latexmk`，相图/代表案例/表格一致，LaTeX 无 overfull/undefined 引用。
 - 2026-02-16: 在 `reports/grid2d_rect_bimodality/code/rect_bimodality_report.py` 新增 `purge_case_level_artifacts(...)`，并在 `main()` 开始阶段启用。修复的问题是：历史运行遗留的按 case 命名文件（`outputs/TT_*_fpt.csv`、`outputs/OT_*_fpt.csv` 与对应 `figures/*`）会与当前扫描口径混在一起，造成“同名 case 看起来与当前 phase 相冲突”的假象。现在每次重跑都会先清理旧 case 级产物，再写入当前代表案例，避免报告资产歧义。
-- 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 再做一轮端到端审计（代码逻辑、CSV-表格一致性、代表案例 phase 一致性、`case_summary` 路径完整性、CN/EN `label-ref` 完整性、LaTeX 日志 warning/overfull）。本轮未发现新的数据/逻辑错误；全量重跑 `code/rect_bimodality_report.py` 与中英文 `latexmk` 均通过，关键结论保持不变：TT 仍为分支依赖临界（`x0=8:5-9`, `x0=10:5-8`, `x0=12:5-6`），OT 在锚点 `x_s=7,x_t=58` 下 `b_x=-0.08` 仍在 `W_y=8..16` 为 phase=2。
 ## 仓库速览（结构 + 入口）
 ```
 valley-k-small/

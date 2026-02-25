@@ -22,15 +22,26 @@ def utc_now_iso() -> str:
 
 
 def run(cmd: list[str], *, cwd: Path = REPO_ROOT, timeout: int = 900) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        cmd,
-        cwd=cwd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        check=False,
-        timeout=timeout,
-    )
+    try:
+        return subprocess.run(
+            cmd,
+            cwd=cwd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            check=False,
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired as error:
+        timeout_stdout = error.stdout or ""
+        if isinstance(timeout_stdout, bytes):
+            timeout_stdout = timeout_stdout.decode("utf-8", errors="ignore")
+        output = f"{timeout_stdout}\n[TIMEOUT] command exceeded timeout limit."
+        return subprocess.CompletedProcess(
+            args=cmd,
+            returncode=124,
+            stdout=output,
+        )
 
 
 def parse_json_maybe(text: str) -> dict[str, Any] | None:
@@ -53,17 +64,18 @@ def parse_json_maybe(text: str) -> dict[str, Any] | None:
 
 
 def ensure_agent(agent_id: str, workspace: Path, model: str) -> tuple[bool, str]:
+    print(f"[openclaw-review] ensure-agent: listing agents for {agent_id} ({model})", flush=True)
     listed = run(["openclaw", "agents", "list", "--json"], timeout=120)
     if listed.returncode != 0:
         return False, listed.stdout
     payload = parse_json_maybe(listed.stdout) or []
     existing = next((item for item in payload if item.get("id") == agent_id), None)
-    if existing and existing.get("model") == model:
-        return True, "agent exists"
     if existing:
+        print(f"[openclaw-review] ensure-agent: deleting previous agent {agent_id}", flush=True)
         deleted = run(["openclaw", "agents", "delete", agent_id, "--force", "--json"], timeout=120)
         if deleted.returncode != 0:
             return False, deleted.stdout
+    print(f"[openclaw-review] ensure-agent: creating agent {agent_id}", flush=True)
     added = run(
         [
             "openclaw",
@@ -81,10 +93,11 @@ def ensure_agent(agent_id: str, workspace: Path, model: str) -> tuple[bool, str]
     )
     if added.returncode != 0:
         return False, added.stdout
-    return True, "agent created"
+    return True, "agent recreated"
 
 
 def select_models(candidates: list[str]) -> list[str]:
+    print("[openclaw-review] selecting available models", flush=True)
     listed = run(["openclaw", "models", "list", "--all", "--plain"], timeout=120)
     if listed.returncode != 0:
         return candidates
@@ -262,6 +275,45 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
         "malformed_report_ids": malformed_summary_reports[:20],
     }
 
+    content_map_path = repo_root / "site" / "public" / "data" / "v1" / "content_map.json"
+    if content_map_path.exists():
+        try:
+            payload = json.loads(content_map_path.read_text(encoding="utf-8"))
+            claims = list(payload.get("claims", []))
+            required_stages = {"model", "method", "result", "finding"}
+            stage_by_report: dict[str, set[str]] = {}
+            operational_like_claim_ids: list[str] = []
+            for row in claims:
+                if not isinstance(row, dict):
+                    continue
+                rid = str(row.get("report_id", "")).strip()
+                stage = str(row.get("stage", "")).strip()
+                text_en = str(row.get("text_en", "")).strip()
+                if rid and stage:
+                    stage_by_report.setdefault(rid, set()).add(stage)
+                lowered = text_en.lower()
+                if re.search(r"(?:^|\s)(?:`|reports/|code/|scripts/|site/public/|\.github/)", lowered) or (
+                    "source_document" in lowered and ".json" in lowered
+                ):
+                    operational_like_claim_ids.append(str(row.get("claim_id", "")))
+
+            stage_gaps = {
+                rid: sorted(required_stages - stages)
+                for rid, stages in stage_by_report.items()
+                if (required_stages - stages)
+            }
+            snapshot["content_map_quality"] = {
+                "claim_count": len(claims),
+                "reports_with_stage_gaps": stage_gaps,
+                "stage_gap_report_count": len(stage_gaps),
+                "operational_like_claim_count": len(operational_like_claim_ids),
+                "operational_like_claim_ids": operational_like_claim_ids[:20],
+            }
+        except json.JSONDecodeError:
+            snapshot["content_map_quality"] = {
+                "parse_error": True,
+            }
+
     render_pages = repo_root / "site" / "src" / "lib" / "render-pages.tsx"
     if render_pages.exists():
         source = render_pages.read_text(encoding="utf-8", errors="ignore")
@@ -269,6 +321,14 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
             "contains_raw_json_rendering": "JSON.stringify(check.details" in source,
             "contains_duplication_governance_section": "Duplication Governance" in source,
             "contains_stage_matrix_section": "Stage Coverage Matrix" in source,
+        }
+    render_book_pages = repo_root / "site" / "src" / "lib" / "render-book-pages.tsx"
+    if render_book_pages.exists():
+        source = render_book_pages.read_text(encoding="utf-8", errors="ignore")
+        snapshot["book_continuous_rendering"] = {
+            "has_intro_slice": "chapterIntro(chapter, lang).slice" in source,
+            "has_theory_slice": "chapter.theory_chain.slice" in source,
+            "has_claim_slice": "chapter.claim_ledger.slice" in source,
         }
 
     plot_panel = repo_root / "site" / "src" / "components" / "ReportPlotPanel.tsx"
@@ -278,6 +338,10 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
         snapshot["interaction_ui"] = {
             "has_infer_series_type_function": "function inferSeriesType(" in source,
             "has_semantic_warning_banner": "Semantic warning:" in source,
+            "uses_unknown_semantic_fallback": "series_type: semantic?.series_type ?? 'unknown'" in source
+            and "unit: semantic?.unit ?? 'unknown'" in source,
+            "unknown_semantics_non_transformable": "const transformable = semantic" in source
+            and ": false;" in source,
         }
     if validate_script.exists():
         source = validate_script.read_text(encoding="utf-8", errors="ignore")
@@ -324,6 +388,8 @@ def normalize_review_against_snapshot(review: dict[str, Any], snapshot: dict[str
     has_duplication_section = bool(snapshot.get("theory_ui", {}).get("contains_duplication_governance_section", False))
     infer_symbol_absent = bool(snapshot.get("interaction_ui", {}).get("has_infer_series_type_function", True)) is False
     strict_semantics_validation = bool(snapshot.get("semantic_validation", {}).get("strict_series_semantics_check", False))
+    unknown_semantic_fallback = bool(snapshot.get("interaction_ui", {}).get("uses_unknown_semantic_fallback", False))
+    unknown_semantic_non_transformable = bool(snapshot.get("interaction_ui", {}).get("unknown_semantics_non_transformable", False))
     repro_empty_count = int(snapshot.get("repro_coverage", {}).get("empty_count", -1))
     publication_rendering = snapshot.get("publication_formula_rendering", {})
     escaped_formula_markers = int(publication_rendering.get("escaped_formula_markers", -1))
@@ -336,6 +402,13 @@ def normalize_review_against_snapshot(review: dict[str, Any], snapshot: dict[str
     has_duplicate_count_fields = bool(duplicate_metrics.get("has_count_fields", False))
     asset_dup_metrics = snapshot.get("asset_duplication_metrics", {})
     has_asset_metrics = bool(asset_dup_metrics.get("has_metrics", False))
+    content_map_quality = snapshot.get("content_map_quality", {})
+    stage_gap_report_count = int(content_map_quality.get("stage_gap_report_count", -1))
+    operational_like_claim_count = int(content_map_quality.get("operational_like_claim_count", -1))
+    book_continuous = snapshot.get("book_continuous_rendering", {})
+    has_intro_slice = bool(book_continuous.get("has_intro_slice", False))
+    has_theory_slice = bool(book_continuous.get("has_theory_slice", False))
+    has_claim_slice = bool(book_continuous.get("has_claim_slice", False))
 
     normalized: list[dict[str, Any]] = []
     disputed_count = 0
@@ -383,6 +456,47 @@ def normalize_review_against_snapshot(review: dict[str, Any], snapshot: dict[str
             dispute_notes.append("local snapshot duplicate_signature_metrics.has_count_fields=true")
         if has_asset_metrics and ("asset_label_duplication" in combined and "details" in combined and "empty" in combined):
             dispute_notes.append("local snapshot asset_duplication_metrics.has_metrics=true")
+        if (
+            unknown_semantic_fallback
+            and unknown_semantic_non_transformable
+            and (
+                "missing semantics as metric/value" in combined
+                or "fallback semantic class from metric/value" in combined
+                or "inferred metric becomes transformable" in combined
+            )
+        ):
+            dispute_notes.append("local snapshot interaction_ui uses unknown semantic fallback and non-transformable unknown semantics")
+        if (
+            stage_gap_report_count == 0
+            and (
+                "stage continuity" in combined
+                or "stage-chain" in combined
+                or "missing model/method/result/finding" in combined
+                or "stage counts" in combined
+            )
+        ):
+            dispute_notes.append("local snapshot content_map_quality.stage_gap_report_count=0")
+        if (
+            operational_like_claim_count == 0
+            and (
+                "operational/file-path" in combined
+                or "file-path notes" in combined
+                or "mixes scientific claims with operational" in combined
+            )
+        ):
+            dispute_notes.append("local snapshot content_map_quality.operational_like_claim_count=0")
+        if (
+            not has_intro_slice
+            and not has_theory_slice
+            and not has_claim_slice
+            and (
+                "continuous-reading page promises" in combined
+                or "truncates chapter content" in combined
+                or "slice(0,2)" in combined
+                or "slice(0,6)" in combined
+            )
+        ):
+            dispute_notes.append("local snapshot book_continuous_rendering has no chapter slicing")
 
         if dispute_notes:
             row["severity"] = "disputed"
@@ -399,6 +513,11 @@ def normalize_review_against_snapshot(review: dict[str, Any], snapshot: dict[str
             quick_wins = []
         quick_wins.append(f"{disputed_count} finding(s) marked disputed by deterministic local snapshot checks.")
         review["quick_wins"] = quick_wins
+        score = review.get("score")
+        if isinstance(score, int):
+            review["score_adjusted_by_snapshot"] = min(100, score + min(24, disputed_count * 4))
+    elif isinstance(review.get("score"), int):
+        review["score_adjusted_by_snapshot"] = int(review.get("score"))
     return review
 
 
@@ -412,6 +531,12 @@ def parse_args() -> argparse.Namespace:
         "--model",
         default="",
         help="Force a specific OpenClaw model id (e.g. openai/gpt-5.2-pro).",
+    )
+    parser.add_argument(
+        "--review-timeout",
+        type=int,
+        default=240,
+        help="Per-model review timeout in seconds (default: 240).",
     )
     return parser.parse_args()
 
@@ -427,17 +552,31 @@ def main() -> int:
     if str(args.model).strip():
         model_candidates = [str(args.model).strip()] + [m for m in model_candidates if m != str(args.model).strip()]
     selected_models = select_models(model_candidates)
+    print(
+        json.dumps(
+            {
+                "event": "openclaw_review_start",
+                "workspace": str(args.workspace),
+                "agent_id": args.agent_id,
+                "selected_models": selected_models,
+            },
+            ensure_ascii=False,
+        ),
+        flush=True,
+    )
     local_snapshot = build_local_snapshot(args.workspace)
     prompt = build_prompt(args.workspace, local_snapshot)
     attempt_errors: list[dict[str, str]] = []
 
     for selected_model in selected_models:
+        print(f"[openclaw-review] trying model: {selected_model}", flush=True)
         ok, note = ensure_agent(args.agent_id, args.workspace, selected_model)
         if not ok:
             attempt_errors.append({"model": selected_model, "stage": "ensure_agent", "error": note.strip()[:4000]})
             continue
 
         session_id = f"oc-review-{uuid.uuid4()}"
+        print(f"[openclaw-review] launch review session: {session_id}", flush=True)
         reviewed = run(
             [
                 "openclaw",
@@ -450,12 +589,24 @@ def main() -> int:
                 "--thinking",
                 "high",
                 "--timeout",
-                "900",
+                str(max(60, int(args.review_timeout))),
                 "--json",
                 "--message",
                 prompt,
             ],
-            timeout=960,
+            timeout=max(90, int(args.review_timeout) + 60),
+        )
+        print(
+            json.dumps(
+                {
+                    "event": "openclaw_review_command_done",
+                    "model": selected_model,
+                    "return_code": reviewed.returncode,
+                    "output_preview": (reviewed.stdout or "")[-500:],
+                },
+                ensure_ascii=False,
+            ),
+            flush=True,
         )
         if reviewed.returncode != 0:
             attempt_errors.append(

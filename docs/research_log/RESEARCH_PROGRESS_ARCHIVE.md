@@ -95,3 +95,6 @@
 
 ## Archived on 2026-02-25
 - 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 做“代码-数据-图表-中英文 LaTeX”全链路复核后，修复一个会影响代表案例排序的隐藏逻辑点：此前若 `valley_over_max=0.0`，排序键里使用 `r.get(... ) or 9.0` 会把 `0.0` 误判为缺失值并错误惩罚最强双峰；现改为显式 `None` 判定（新增 `_opt_float(...)`），并统一用于 two-target/one-target 代表案例排序键。修复后全量重跑脚本与 CN/EN PDF，日志无 warning/overfull，phase 相图与关键结论保持不变（TT clear 分支阈值仍为 `x0=8:5-9, x0=10:5-8, x0=12:5-6`；OT 在锚点 `x_s=7,x_t=58` 下 `b_x=-0.08` 仍为 `W_y=8..16` 的 phase=2）。
+
+## Archived on 2026-02-25
+- 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 再做一轮端到端审计（代码逻辑、CSV-表格一致性、代表案例 phase 一致性、`case_summary` 路径完整性、CN/EN `label-ref` 完整性、LaTeX 日志 warning/overfull）。本轮未发现新的数据/逻辑错误；全量重跑 `code/rect_bimodality_report.py` 与中英文 `latexmk` 均通过，关键结论保持不变：TT 仍为分支依赖临界（`x0=8:5-9`, `x0=10:5-8`, `x0=12:5-6`），OT 在锚点 `x_s=7,x_t=58` 下 `b_x=-0.08` 仍在 `W_y=8..16` 为 phase=2。

@@ -94,6 +94,732 @@ CLAIM_STOPWORDS = {
     "用于",
 }
 
+REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
+    "ring_lazy_flux": {
+        "en": {
+            "summary": (
+                "This report studies first-passage distributions on a lazy ring (k=1, K=2) with one directed shortcut "
+                "drawn from self-loop probability. It combines Chebyshev generating-function derivation, AW/FFT inversion, "
+                "and flux-recursion cross-checks to show a reproducible small-p bimodal regime, while equal4 and large shortcut "
+                "strength suppress the second peak."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model is a lazy nearest-neighbor ring with one directed shortcut u->v; away from the shortcut source, "
+                    "stay/left/right probabilities follow the equal-probability baseline."
+                ),
+                "method_overview": (
+                    "The pipeline derives the generating function analytically, inverts it via AW/FFT, and verifies the recovered "
+                    "pmf by independent flux recursion."
+                ),
+                "result_overview": (
+                    "A small-p selfloop regime yields clear two-peak structure (minimal N=10 example), whereas equal4 and stronger "
+                    "shortcut injection collapse the distribution toward unimodality."
+                ),
+            },
+            "key_findings": [
+                "A minimal reproducible bimodal case appears at N=10 under small shortcut strength in the selfloop construction.",
+                "AW inversion and flux recursion agree to numerical precision, validating both the derivation and implementation.",
+                "Full N scans show macro-bimodality concentrated in specific geometry-distance bands rather than uniformly.",
+                "Equal4 and large shortcut strength suppress late-time mass and remove the second dominant peak.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该报告研究 lazy ring（k=1, K=2）在单向 shortcut 且从自环分配概率时的首达分布。通过 Chebyshev 生成函数推导、"
+                "AW/FFT 反演与 flux 递推交叉校验，报告给出可复现的小 p 双峰区间，并说明 equal4 与较大 shortcut 强度会抑制第二峰。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型为 lazy 最近邻环并加入单向 shortcut u->v；在非 shortcut 源点处，停留/左右迁移遵循等概率基线。"
+                ),
+                "method_overview": (
+                    "方法链路为：解析推导生成函数，使用 AW/FFT 反演得到首达 pmf，再用 flux 递推进行独立数值核验。"
+                ),
+                "result_overview": (
+                    "自环分流且小 p 条件下可形成稳定双峰（最小 N=10 例）；equal4 或 shortcut 强度增大时，分布向单峰收敛。"
+                ),
+            },
+            "key_findings": [
+                "在 selfloop 小 p 条件下，N=10 可复现双峰首达分布。",
+                "AW 反演与 flux 递推在数值精度内一致，验证了理论与实现的正确性。",
+                "全 N 扫描显示宏观双峰主要出现在特定几何距离带，而非全域出现。",
+                "equal4 与大 shortcut 强度会削弱晚时通道并消除第二主峰。",
+            ],
+        },
+    },
+    "ring_valley": {
+        "en": {
+            "summary": (
+                "This valley-study report analyzes a non-lazy K-neighbor ring with a one-way shortcut 6->N/2+1 under the Fig.3 peak rule. "
+                "Exact AW inversion and MC validation map bimodality windows across even N and K: no bimodality for K=2 after parity-aware "
+                "coarse graining, but clear windows for K=4,6,8."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The graph is a directed-shortcut ring with uniform K-neighbor transitions and an absorbing target at N/2, "
+                    "using paper-consistent indexing and shortcut placement."
+                ),
+                "method_overview": (
+                    "The workflow combines AW inversion, MC trajectory simulation, and Fig.3 peak-valley criteria with K=2 parity coarse graining."
+                ),
+                "result_overview": (
+                    "Across scanned even N, K=2 remains unimodal under the study rule, while K=4/6/8 exhibit structured bimodality bands "
+                    "that are reproducible in both exact and MC diagnostics."
+                ),
+            },
+            "key_findings": [
+                "Under Fig.3 criteria with parity-aware treatment, K=2 shows no robust two-peak regime in the scanned range.",
+                "Bimodality windows emerge for K=4, K=6, and K=8 with distinct N bands.",
+                "Exact and MC pipelines agree on peak/valley timing and class-level shortcut usage trends.",
+                "Trajectory-class heatmaps separate fast, valley, and indirect pathways and support the mechanism interpretation.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该 valley 研究在非 lazy 的 K 邻接环上考察单向 shortcut（6->N/2+1）并采用 Fig.3 峰谷判据。"
+                "通过 AW 精确反演与 MC 校验，报告给出偶数 N 与 K 的双峰区间图：K=2 在奇偶振荡修正后仍不出现稳定双峰，"
+                "而 K=4、6、8 出现清晰双峰窗口。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型采用均匀 K 邻接跳转与单向 shortcut，吸收目标置于 N/2，并保持与论文图示一致的索引与几何构型。"
+                ),
+                "method_overview": (
+                    "方法链路结合 AW 反演、MC 全路径模拟与 Fig.3 峰谷判据，并对 K=2 使用两步粗粒化处理奇偶微峰。"
+                ),
+                "result_overview": (
+                    "在扫描的偶数 N 范围内，K=2 维持单峰；K=4/6/8 则出现可复现的双峰区间，并在精确解与 MC 诊断中一致。"
+                ),
+            },
+            "key_findings": [
+                "在 Fig.3 判据与奇偶修正下，K=2 在扫描区间内不呈现稳定双峰。",
+                "K=4、K=6、K=8 分别出现结构化双峰 N 区间。",
+                "精确反演与 MC 在峰位、谷位与 shortcut 使用趋势上保持一致。",
+                "轨迹分类热图区分了快通道、谷区与间接通道，支持机制解释。",
+            ],
+        },
+    },
+    "grid2d_bimodality": {
+        "en": {
+            "summary": (
+                "This foundational Grid2D report establishes how biased/lazy random walks generate first-passage bimodality on a square lattice. "
+                "It unifies model constraints, defect-aware propagators, AW inversion, and candidate-case scans into one auditable chain that "
+                "separates genuine two-channel mechanisms from plotting artifacts."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model is a two-dimensional N×N lattice with an absorbing target, anisotropic drift controls, and lazy waiting probability "
+                    "under explicit boundary assumptions."
+                ),
+                "method_overview": (
+                    "The method links defect-free and defect-corrected propagators to generating-function inversion, then validates candidate regimes "
+                    "through parameter scans and channel diagnostics."
+                ),
+                "result_overview": (
+                    "Bimodality emerges when fast direct routes and delayed wrap-around/detour routes coexist at measurable weights under the same "
+                    "diagnostic criterion."
+                ),
+            },
+            "key_findings": [
+                "A unified FPT criterion distinguishes structural bimodality from numerical or visualization artifacts.",
+                "Candidate corridor/bias settings show that delayed channels can be amplified without changing the target definition.",
+                "Model, method, and result statements are traceable through formula blocks, section summaries, and dataset panels.",
+                "The report serves as a baseline vocabulary for later reflecting and two-target Grid2D variants.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该基础 Grid2D 报告建立了偏置/惰性随机游走下首达双峰形成的统一框架。报告把模型约束、缺陷修正传播子、AW 反演与参数扫描串成可审计链路，"
+                "用于区分真实双通道机制与绘图伪峰。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型为二维 N×N 格点 + 吸收目标，包含各向异性漂移控制与惰性停留概率，并显式给出边界条件。"
+                ),
+                "method_overview": (
+                    "方法将无缺陷/缺陷修正传播子连接到生成函数反演，再通过参数扫描与通道诊断验证候选相区。"
+                ),
+                "result_overview": (
+                    "当快通道与延迟绕行通道在同一判据下都具有可观权重时，首达分布出现稳健双峰。"
+                ),
+            },
+            "key_findings": [
+                "统一 FPT 判据可稳定区分结构性双峰与数值/可视化伪峰。",
+                "走廊与偏置参数可在不改目标定义的前提下放大延迟通道贡献。",
+                "模型、方法、结果可通过公式块、章节摘要与数据面板逐项回链。",
+                "该报告为后续反射边界与双目标 Grid2D 变体提供基线词汇体系。",
+            ],
+        },
+    },
+    "grid2d_rect_bimodality": {
+        "en": {
+            "summary": (
+                "This report extends Grid2D bimodality from square to rectangular domains, testing how aspect ratio, reflecting walls, and endpoint "
+                "geometry reshape first-passage channels. It emphasizes reproducible two-target constructions and identifies when double peaks remain "
+                "structural under anisotropic geometry."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model uses a rectangular reflecting lattice with controllable width/height and either one or two absorbing endpoint targets."
+                ),
+                "method_overview": (
+                    "The workflow scans geometry and bias parameters while keeping first-passage diagnostics fixed, then compares pathway composition "
+                    "across rectangular configurations."
+                ),
+                "result_overview": (
+                    "Aspect ratio and endpoint arrangement shift the balance between direct and detour channels; robust double peaks persist only in "
+                    "specific rectangular geometry bands."
+                ),
+            },
+            "key_findings": [
+                "Rectangular anisotropy can suppress or recover bimodality depending on corridor alignment and target placement.",
+                "Two-target endpoint constructions offer a reproducible mechanism for separating fast and delayed channels.",
+                "Reflecting-boundary constraints change valley depth through route competition rather than simple amplitude scaling.",
+                "The report provides geometry-sensitive evidence needed for cross-family synthesis with ring models.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该报告把 Grid2D 双峰分析从方形域扩展到矩形域，系统考察长宽比、反射边界与端点几何如何重塑首达通道。"
+                "报告强调可复现的双目标构型，并识别在各向异性几何下双峰何时仍保持结构稳定。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型采用可控长宽比的矩形反射格点，并设置单目标或双端点吸收目标。"
+                ),
+                "method_overview": (
+                    "在固定首达诊断口径下扫描几何与偏置参数，再比较不同矩形构型中的路径类别组成。"
+                ),
+                "result_overview": (
+                    "长宽比与端点排布会改变直达/绕行通道权重平衡；稳健双峰只在特定矩形几何带中保持。"
+                ),
+            },
+            "key_findings": [
+                "矩形各向异性可根据走廊方向与目标位置抑制或恢复双峰。",
+                "双端点目标构型为快慢通道分离提供了可复现实验机制。",
+                "反射边界通过路径竞争改变谷深，而非仅做幅值缩放。",
+                "该报告补充了跨模型综合所需的“几何敏感性”证据。",
+            ],
+        },
+    },
+    "grid2d_reflecting_bimodality": {
+        "en": {
+            "summary": (
+                "This reflecting-boundary Grid2D report tests whether bimodality survives when periodic shortcuts are removed and all walls reflect. "
+                "Using representative detour, pore, and transport-track cases, it shows that multi-channel timing structure can persist under strict "
+                "boundary confinement."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model keeps a reflecting 2D lattice with absorbing target and controlled local transport structures (detours, pores, tracks)."
+                ),
+                "method_overview": (
+                    "Case families are evaluated under common PMF/hazard diagnostics and compared by channel decomposition and timing windows."
+                ),
+                "result_overview": (
+                    "Several reflecting cases preserve clear early/late channel separation, while others collapse toward long-tail unimodality depending "
+                    "on geometric bottlenecks."
+                ),
+            },
+            "key_findings": [
+                "Bimodality can persist under fully reflecting boundaries when competing pathways remain topologically distinct.",
+                "Pore/track structures modify delay channels through accessibility, not only through drift magnitude.",
+                "Case-level comparisons separate robust second peaks from late-window edge humps.",
+                "The report supplies boundary-robust evidence for later cross-model hazard interpretations.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该反射边界 Grid2D 报告检验：在移除周期绕行、四壁全反射后，双峰是否仍能保持。"
+                "通过绕行、孔道与输运轨道等代表案例，报告证明在严格边界约束下，多通道时序结构仍可出现。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型保持反射二维格点与吸收目标，并引入可控局部结构（绕行、孔道、轨道）。"
+                ),
+                "method_overview": (
+                    "各案例在统一 PMF/hazard 诊断口径下评估，并通过通道分解与时窗比较进行机制判别。"
+                ),
+                "result_overview": (
+                    "部分反射案例保留了清晰的早/晚通道分离；另一些在几何瓶颈下退化为长尾单峰。"
+                ),
+            },
+            "key_findings": [
+                "在竞争路径拓扑仍可区分时，双峰可在全反射边界下持续存在。",
+                "孔道与轨道结构通过可达性重塑延迟通道，而非仅靠漂移强度变化。",
+                "案例对比可区分稳健第二峰与晚时窗口边缘隆起。",
+                "该报告为后续跨模型 hazard 解释提供了边界稳健证据。",
+            ],
+        },
+    },
+    "grid2d_two_target_double_peak": {
+        "en": {
+            "summary": (
+                "This report studies two absorbing targets in 2D and maps when the total first-passage distribution develops visible double peaks. "
+                "Under reflecting boundaries and corridor-style bias design, it provides phase maps over target-coupling parameters and isolates "
+                "how competing destinations create multi-timescale structure."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model places two absorbing targets in a reflecting lattice with fixed start point and tunable target-channel coupling."
+                ),
+                "method_overview": (
+                    "The pipeline combines exact/approximate first-passage diagnostics, truncation controls, and parameter-phase scans over two-target "
+                    "coupling variables."
+                ),
+                "result_overview": (
+                    "Double-peak regions appear when direct-to-near-target and delayed-to-far-target channels both carry substantial mass; phase boundaries "
+                    "shift predictably with coupling strength."
+                ),
+            },
+            "key_findings": [
+                "Two-target competition creates a controlled mechanism for multi-timescale first-passage behavior.",
+                "Phase maps identify stable double-peak bands and transition zones to unimodal behavior.",
+                "Truncation and survival-tail diagnostics verify that observed second peaks are not finite-window artifacts.",
+                "The report is a key bridge between Grid2D family behavior and ring two-target synthesis.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该报告研究二维双吸收目标情形下总首达分布何时出现可见双峰。"
+                "在反射边界与走廊偏置设计下，报告给出目标耦合参数的相图，并解析“近目标直达”与“远目标延迟”竞争如何形成多时间尺度结构。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型在反射格点中设置固定起点与两个吸收目标，并可调节目标通道耦合强度。"
+                ),
+                "method_overview": (
+                    "流程结合精确/近似首达诊断、截断控制与双目标耦合参数扫描。"
+                ),
+                "result_overview": (
+                    "当近目标直达通道与远目标延迟通道都占有显著质量时，会出现稳定双峰；其相界随耦合强度呈可预测移动。"
+                ),
+            },
+            "key_findings": [
+                "双目标竞争为多时间尺度首达行为提供了可控机制。",
+                "相图明确给出稳定双峰区与向单峰退化的过渡区。",
+                "截断与生存尾部诊断验证第二峰并非有限时窗伪影。",
+                "该报告是 Grid2D 家族与 ring 双目标综合的关键桥梁。",
+            ],
+        },
+    },
+    "ring_lazy_jump_ext": {
+        "en": {
+            "summary": (
+                "This extension quantifies how shortcut strength beta reshapes first-passage bimodality on lazy rings (K=2,4) at fixed N=100, "
+                "then checks transfer by N sweeps and Monte Carlo class decomposition. Across beta in [0,0.2], both peaks move earlier and "
+                "tail decay accelerates, while K=4 preserves a wider and deeper bimodal window than K=2."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model keeps the lazy ring baseline (q=2/3) with one directed shortcut under the selfloop probability rule, "
+                    "and compares K=2 versus K=4 under matched parameter settings."
+                ),
+                "method_overview": (
+                    "The workflow runs exact AW beta sweeps, selects a stable beta anchor, executes N sweeps, and cross-checks class composition "
+                    "through Monte Carlo trajectory statistics and tail diagnostics."
+                ),
+                "result_overview": (
+                    "Increasing beta advances both peaks and steepens tail decay; under the same beta, K=4 remains more robustly bimodal, "
+                    "and exact-versus-MC diagnostics agree on phase-level trends."
+                ),
+            },
+            "key_findings": [
+                "At fixed N=100, beta sweeps show systematic left-shifts of peak times and a larger tail-decay rate as shortcut strength increases.",
+                "K=4 keeps a broader bimodal interval and deeper valley than K=2 under matched beta schedules.",
+                "An anchored beta choice supports stable N sweeps where exact AW and MC class-level diagnostics stay consistent.",
+                "Tail diagnostics confirm that shortcut strengthening suppresses late-time mass and changes pathway composition, not only peak height.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该扩展报告量化了 lazy ring（K=2,4）中 shortcut 强度 beta 对首达双峰结构的影响：先在 N=100 固定条件下做 beta 扫描，"
+                "再用 N 扫描与 Monte Carlo 轨迹分类验证迁移稳定性。结果显示 beta 增大时双峰整体前移、尾部衰减加快，且 K=4 的双峰窗口更宽更深。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型沿用 lazy ring 基线（q=2/3），采用 selfloop 分流规则加入单向 shortcut，并在统一参数口径下比较 K=2 与 K=4。"
+                ),
+                "method_overview": (
+                    "方法链路包括精确 AW 的 beta 扫描、稳定 beta 锚点选择、N 扫描，以及基于 MC 轨迹类别与尾部诊断的交叉核验。"
+                ),
+                "result_overview": (
+                    "随着 beta 提升，两个峰位整体提前且尾部衰减更快；在同等 beta 下，K=4 的双峰保持性优于 K=2，且精确解与 MC 在相区趋势上吻合。"
+                ),
+            },
+            "key_findings": [
+                "在固定 N=100 时，beta 扫描显示峰位前移与尾部衰减率增大具有一致趋势。",
+                "在同一 beta 计划下，K=4 相比 K=2 维持了更宽、更深的双峰区间。",
+                "基于锚点 beta 的 N 扫描中，精确 AW 与 MC 轨迹分类在相区判断上保持一致。",
+                "尾部诊断表明 shortcut 增强改变的不仅是峰高，还包括晚时概率质量与路径组成。",
+            ],
+        },
+    },
+    "ring_lazy_jump_ext_rev2": {
+        "en": {
+            "summary": (
+                "This revision reorganizes the lazy-shortcut extension into a publication-ready evidence flow: co-located Fig.1 overlays "
+                "f(t) with window-level class bars, while threshold, window-shift/width, and MC-uncertainty analyses test robustness. "
+                "The update strengthens readability and reproducibility without changing the core mechanism claims."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The chapter keeps the same lazy ring shortcut setup used in the extension baseline and focuses on clearer evidence alignment "
+                    "between K=2 and K=4 under the selected beta regime."
+                ),
+                "method_overview": (
+                    "The pipeline exports standardized Fig.1 inputs, validates schema, renders stacked-bar co-located panels, and runs three "
+                    "sensitivity tracks: threshold sweep, window perturbation, and MC confidence intervals."
+                ),
+                "result_overview": (
+                    "Across the three sensitivity tracks, the qualitative mechanism interpretation remains stable, and uncertainty bars do not "
+                    "contradict the phase-level conclusions used in the main narrative."
+                ),
+            },
+            "key_findings": [
+                "Co-located Fig.1 directly aligns peak/valley timing with class proportions, improving interpretability over split-panel layouts.",
+                "Schema-validated JSON/CSV inputs make figure reconstruction auditable and reproducible.",
+                "Threshold and window perturbation scans preserve the main mechanism ranking rather than flipping conclusions.",
+                "MC uncertainty intervals are compatible with the reported phase statements for K=2 and K=4.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该修订版把 lazy-shortcut 扩展重构为出版物级证据链：图1将 f(t) 与窗口分类柱状同轴展示，并加入阈值扫描、窗口位移/宽度扰动、"
+                "MC 不确定性三类敏感性分析。在不改变核心机制结论的前提下，显著提升了可读性与可复现性。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型保持与扩展基线一致的 lazy ring + shortcut 设定，重点是在选定 beta 区间下更清晰地对齐 K=2 与 K=4 的证据表达。"
+                ),
+                "method_overview": (
+                    "流程包括标准化导出图1输入、schema 校验、同轴栈叠面板绘制，以及阈值、窗口扰动、MC 置信区间三条敏感性分析链。"
+                ),
+                "result_overview": (
+                    "三类敏感性分析下，机制解释在定性层面保持稳定，且不确定性区间未推翻主线中的相区判断。"
+                ),
+            },
+            "key_findings": [
+                "同轴图1将峰谷时序与路径类别比例直接对齐，优于分面板展示。",
+                "经 schema 校验的 JSON/CSV 输入使图形可重建、可审计。",
+                "阈值与窗口扰动测试未改变核心机制排序，结论具有稳健性。",
+                "MC 置信区间与 K=2/K=4 的主结论一致，不构成反证。",
+            ],
+        },
+    },
+    "ring_two_target": {
+        "en": {
+            "summary": (
+                "This report builds an exact two-target lazy-ring framework and compares no-shortcut versus selfloop-shortcut regimes. "
+                "By scanning N, K, and beta with peak/valley diagnostics, it shows how target geometry and shortcut routing jointly control "
+                "the transition among unimodal, bimodal, and trimodal first-passage behavior."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model places two absorbing targets on a lazy ring with optional directed shortcut, keeping index conventions and "
+                    "distance geometry explicit for mechanism-level comparison."
+                ),
+                "method_overview": (
+                    "Exact generating-function/AW inversion is combined with parameter scans and trajectory-style diagnostics to classify "
+                    "peak structures under consistent criteria."
+                ),
+                "result_overview": (
+                    "No-shortcut drift can already produce strong bimodality, while shortcut activation redistributes pathway mass and can "
+                    "introduce trimodal behavior in selected geometry and parameter bands."
+                ),
+            },
+            "key_findings": [
+                "Two-target geometry introduces competing fast and delayed channels, making multimodality a structural rather than numerical artifact.",
+                "Under no-shortcut drift, robust bimodality appears in reproducible parameter windows.",
+                "Selfloop shortcut settings can reweight path classes and generate trimodal signatures in selected regimes.",
+                "K and beta scans provide a map of where multi-peak patterns are stable versus where they collapse to a single mode.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该报告建立了双目标 lazy ring 的精确分析框架，并比较无 shortcut 与 selfloop-shortcut 两类机制。"
+                "通过对 N、K、beta 的系统扫描与峰谷判据，报告说明了目标几何与 shortcut 路由如何共同决定首达分布在单峰、双峰、三峰之间的转变。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型在 lazy ring 上设置两个吸收目标，并可选加入单向 shortcut，显式保留索引与几何距离定义以支持机制级比较。"
+                ),
+                "method_overview": (
+                    "方法结合精确生成函数/AW 反演、参数扫描与轨迹诊断，在统一判据下对峰结构进行分类。"
+                ),
+                "result_overview": (
+                    "无 shortcut 漂移本身即可产生稳定双峰；加入 shortcut 后路径质量重新分配，在特定几何与参数带可出现三峰行为。"
+                ),
+            },
+            "key_findings": [
+                "双目标几何会形成快慢通道竞争，使多峰现象具有结构机制基础。",
+                "在无 shortcut 漂移条件下，可复现的参数窗口内可观察到稳健双峰。",
+                "selfloop shortcut 可重排路径类别权重，并在部分区间触发三峰结构。",
+                "K 与 beta 扫描给出了多峰稳定区与退化为单峰区的清晰边界。",
+            ],
+        },
+    },
+    "ring_lazy_jump": {
+        "en": {
+            "summary": (
+                "This report establishes the baseline jump-over mechanism for lazy rings with one directed shortcut, contrasting K=2 and K=4 "
+                "under exact first-passage diagnostics. It explains why double-peak behavior is selective in shortcut strength and how pathway "
+                "decomposition links peak structure to fast and delayed transport channels."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "A lazy ring with one directed shortcut is used as the baseline setting, with matched parameters across K=2 and K=4 to isolate "
+                    "neighborhood effects."
+                ),
+                "method_overview": (
+                    "The analysis combines AW inversion for exact first-passage series with trajectory decomposition that separates jump-over, "
+                    "direct, and delayed path classes."
+                ),
+                "result_overview": (
+                    "Bimodality appears only in selected shortcut-strength intervals; K=4 generally maintains stronger second-peak persistence than K=2 "
+                    "when geometry and waiting rules are aligned."
+                ),
+            },
+            "key_findings": [
+                "Jump-over pathways create a distinct delayed channel that is necessary for persistent second peaks.",
+                "Shortcut strength has a non-monotonic effect: too weak or too strong settings both reduce robust bimodality.",
+                "K=2 and K=4 share the same mechanism skeleton but differ in phase-window width and valley depth.",
+                "Exact inversion and trajectory decomposition give consistent interpretations of the observed peak transitions.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该报告建立了 lazy ring + 单向 shortcut 的 jump-over 基线机制，在精确首达诊断下比较 K=2 与 K=4。"
+                "报告解释了双峰为何只在特定 shortcut 强度区间出现，并通过路径分解把峰结构与快/慢通道对应起来。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型采用 lazy ring 与单向 shortcut 的基线构型，在统一参数设定下比较 K=2 与 K=4 的邻接效应。"
+                ),
+                "method_overview": (
+                    "方法结合 AW 精确反演与轨迹分解，将 jump-over、直达与延迟通道分离并进行量化。"
+                ),
+                "result_overview": (
+                    "双峰只在部分 shortcut 强度区间稳定出现；在几何与停留规则对齐时，K=4 往往比 K=2 保持更强的第二峰。"
+                ),
+            },
+            "key_findings": [
+                "jump-over 路径会形成独立的延迟通道，是稳定第二峰的重要条件。",
+                "shortcut 强度影响呈非单调：过弱或过强都会削弱稳健双峰。",
+                "K=2 与 K=4 共享机制骨架，但相区宽度与谷深存在系统差异。",
+                "精确反演与轨迹分解对峰转变机制给出了相互一致的解释。",
+            ],
+        },
+    },
+    "ring_deriv_k2": {
+        "en": {
+            "summary": (
+                "This derivation report provides the analytical backbone for ring models with one directed long-range link, including defect-free "
+                "propagators, defect corrections, and first-passage generating functions. It serves as the shared mathematical base used by later "
+                "shortcut and valley studies."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The setting is a finite ring random walk with periodic indexing and one directed long-range connection, expressed in a form "
+                    "compatible with both lazy-reservoir and rewiring interpretations."
+                ),
+                "method_overview": (
+                    "The report derives Green-function style propagators, constructs defect-resolvent corrections, and obtains first-passage "
+                    "generating forms that can be numerically inverted."
+                ),
+                "result_overview": (
+                    "The closed-form derivation clarifies which terms govern shortcut-induced asymmetry and provides reusable formula blocks "
+                    "for downstream ring reports."
+                ),
+            },
+            "key_findings": [
+                "Defect-free and defect-corrected propagators can be written in a unified analytic framework.",
+                "Directed long-range links alter first-passage statistics through resolvent-level corrections rather than ad-hoc fitting.",
+                "The derivation yields formula components that are directly reused in lazy-jump and valley analyses.",
+                "Analytic structure explains when shortcut asymmetry changes peak timing versus only changing overall scale.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该推导报告给出了“环 + 单向长程连边”模型的解析主干：包括无缺陷传播子、缺陷修正与首达生成函数。"
+                "它是后续 shortcut 与 valley 报告共用的数学基座。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型为有限环随机游走并加入单向长程连边，采用与 lazy-reservoir 与 rewiring 两类解释兼容的统一表达。"
+                ),
+                "method_overview": (
+                    "方法链从 Green 函数传播子出发，构造缺陷 resolvent 修正，再得到可数值反演的首达生成函数形式。"
+                ),
+                "result_overview": (
+                    "闭式推导明确了 shortcut 不对称性的主导项，并为后续 ring 报告提供可复用公式模块。"
+                ),
+            },
+            "key_findings": [
+                "无缺陷与缺陷修正传播子可在同一解析框架下统一表示。",
+                "单向长程连边对首达统计的影响体现在 resolvent 级修正，而非经验拟合。",
+                "推导得到的公式组件可直接复用于 lazy-jump 与 valley 分析。",
+                "解析结构解释了何时 shortcut 改变峰位时序，何时只改变整体尺度。",
+            ],
+        },
+    },
+    "grid2d_blackboard_bimodality": {
+        "en": {
+            "summary": (
+                "This blackboard-style Grid2D case studies reflecting boundaries with start and target anchored at wall endpoints. "
+                "The Z/S endpoint configurations are used to test whether a visually delayed hump is a true second peak or a window-edge artifact, "
+                "with diagnostics linked to channel decomposition and path geometry."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model keeps reflecting-boundary lattice dynamics and evaluates endpoint wall geometry where corridor shortcuts are strongly constrained."
+                ),
+                "method_overview": (
+                    "The pipeline runs blackboard case builders, screenshot-style scans, and channel/path decomposition diagnostics under the same FPT criteria."
+                ),
+                "result_overview": (
+                    "For the scanned endpoint cases, dominant behavior is single-peak plus long tail; the late-window hump is identified as an edge artifact "
+                    "instead of a robust bimodal signature."
+                ),
+            },
+            "key_findings": [
+                "Endpoint wall configurations remain primarily unimodal with a long tail under reflecting constraints.",
+                "The delayed hump in late windows is diagnostic-window edge behavior rather than a stable second structural peak.",
+                "Channel decomposition separates geometric detours from genuinely competing transport routes.",
+                "The blackboard pipeline keeps figure generation and case metadata reproducible across Z/S case variants.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该黑板图风格 Grid2D 报告研究了反射边界下“墙端点起止”构型。通过 Z/S 端点案例，报告检验晚时隆起究竟是稳定第二峰还是窗口边缘伪峰，"
+                "并将判断与通道分解和路径几何对应。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型保持反射边界格点动力学，重点考察走廊受限明显的墙端点几何。"
+                ),
+                "method_overview": (
+                    "流程包括黑板案例构建、截图式扫描与通道/路径分解诊断，并沿用统一 FPT 判据。"
+                ),
+                "result_overview": (
+                    "在已扫描的端点案例中，主导行为为单峰加长尾；晚时隆起被判定为窗口边缘效应，而非稳健双峰。"
+                ),
+            },
+            "key_findings": [
+                "墙端点构型在反射约束下总体表现为单峰 + 长尾。",
+                "晚时窗口中的隆起主要是窗口边缘伪峰，不构成稳定第二结构峰。",
+                "通道分解能够区分几何绕行与真正竞争通道。",
+                "黑板流程在 Z/S 案例下保持图形与元数据可复现。",
+            ],
+        },
+    },
+    "cross_luca_regime_map": {
+        "en": {
+            "summary": (
+                "This cross-report study benchmarks full-FPT solvers under fixed-horizon fairness, comparing sparse exact recursion "
+                "against Luca defect-reduced routes while keeping linear-system MFPT only as reference. The core output is a reproducible "
+                "speed-ratio map R=t_luca/t_sparse and a regime classification that distinguishes where acceleration is real versus negligible."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The comparison protocol aligns Grid2D and Ring instances under one fairness contract: same horizon, same observable, "
+                    "and no mixing of full-FPT metrics with MFPT-only claims."
+                ),
+                "method_overview": (
+                    "Runs use warm-up plus repeated timed executions, defect-pair routing rules, and pooled medians to stabilize solver-side "
+                    "variance before regime labeling."
+                ),
+                "result_overview": (
+                    "Across the scanned workload, sparse exact remains the dominant full-FPT baseline; Luca-mode speedups appear only in limited "
+                    "defect-regime subsets and are near-neutral in the aggregate ratio metric."
+                ),
+            },
+            "key_findings": [
+                "The ratio metric R=t_luca/t_sparse is computed under fixed full-FPT fairness, with MFPT linear systems separated as reference only.",
+                "Pooled timing medians indicate sparse exact dominates most scanned regimes in full-FPT mode.",
+                "Luca acceleration is regime-dependent and concentrated in specific defect-pair configurations.",
+                "Cross-report transfer claims are accepted only when both model families satisfy the same fairness and observability constraints.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该跨报告研究在固定时域公平口径下比较 full-FPT 求解器：以 sparse 精确递推为基线，"
+                "对照 Luca 缺陷约化路径，并把线性系统 MFPT 仅作为参考。核心产出是可复现的速度比 R=t_luca/t_sparse 及其相区分类。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "比较协议在 Grid2D 与 Ring 上统一为同一公平契约：相同时间窗、相同观测量，且不把 full-FPT 与仅 MFPT 指标混用。"
+                ),
+                "method_overview": (
+                    "流程采用预热+多次计时、中位数汇总和缺陷配对规则控制，以减少求解器侧波动对相区结论的影响。"
+                ),
+                "result_overview": (
+                    "在扫描工作负载上，sparse 精确解仍是 full-FPT 主基线；Luca 加速仅在部分缺陷区间显著，整体速度比接近中性。"
+                ),
+            },
+            "key_findings": [
+                "速度比 R=t_luca/t_sparse 在固定 full-FPT 公平口径下计算，MFPT 线性系统仅作对照参考。",
+                "汇总中位计时显示 sparse 精确解在多数扫描区间保持主导。",
+                "Luca 的加速收益具有相区依赖性，集中在特定缺陷配对构型。",
+                "跨模型迁移结论仅在两侧公平口径与观测约束一致时成立。",
+            ],
+        },
+    },
+    "ring_valley_dst": {
+        "en": {
+            "summary": (
+                "This report fixes N=100 and K=6, then scans shortcut destination dst to control the second-peak structure of first-passage "
+                "distributions. Deterministic flux/master-equation scans and Monte Carlo trajectory classes jointly identify where valley depth "
+                "and second-peak prominence are maximized."
+            ),
+            "narrative": {
+                "model_overview": (
+                    "The model uses a K=6 ring with one directed shortcut src->dst and an absorbing target; only dst is varied so mechanism changes "
+                    "can be attributed to geometric landing location."
+                ),
+                "method_overview": (
+                    "The workflow combines deterministic flux scans, AW-style first-passage diagnostics, and class-conditioned Monte Carlo paths "
+                    "under one peak/valley criterion."
+                ),
+                "result_overview": (
+                    "Destination scanning reveals structured dst windows where the second peak is amplified and trajectory-class usage shifts, "
+                    "with deterministic and Monte Carlo diagnostics remaining consistent."
+                ),
+            },
+            "key_findings": [
+                "Scanning dst alone can substantially change second-peak height ratio and valley depth at fixed N and K.",
+                "Deterministic flux/master-equation results and Monte Carlo class decomposition agree on high-contrast destination windows.",
+                "Second-peak strengthening correlates with increased delayed-route contribution rather than a uniform amplitude scaling.",
+                "Destination geometry acts as a controllable lever for phase behavior without changing base transition probabilities.",
+            ],
+        },
+        "cn": {
+            "summary": (
+                "该报告固定 N=100、K=6，仅扫描 shortcut 终点 dst 来调控首达分布第二峰。"
+                "通过确定性 flux/master 方程扫描与 Monte Carlo 轨迹分类联合诊断，报告识别出第二峰增强与谷值加深最显著的 dst 区间。"
+            ),
+            "narrative": {
+                "model_overview": (
+                    "模型为 K=6 环 + 单向 shortcut src->dst + 吸收目标；只改变 dst，使机制差异可归因于几何落点。"
+                ),
+                "method_overview": (
+                    "方法链结合确定性 flux 扫描、AW 首达诊断与按轨迹类别条件化的 Monte Carlo 统计，并采用统一峰谷判据。"
+                ),
+                "result_overview": (
+                    "dst 扫描给出了结构化的高对比区间：第二峰可被显著放大，且轨迹类别占比同步变化，确定性与 MC 结论一致。"
+                ),
+            },
+            "key_findings": [
+                "在固定 N、K 下，仅扫描 dst 就能显著改变第二峰高度比与谷深。",
+                "确定性 flux/master 方程与 MC 轨迹分类在高对比 dst 区间上相互印证。",
+                "第二峰增强对应的是延迟路径占比提升，而非整体幅度等比例放大。",
+                "终点几何可作为不改基础转移概率时的相位调控杠杆。",
+            ],
+        },
+    },
+}
+
 
 def normalize_space(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
@@ -125,6 +851,10 @@ def repair_common_math_noise(text: str) -> str:
         flags=re.IGNORECASE,
     )
     value = re.sub(r"\bP\s*:\s*([0-9]+(?:\.[0-9]+)?)\b", r"P=\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b10e-(\d+)\b", r"1e-\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"P\(\s*C\s*1\s*T\s*W\s*\)", "P(C>=1 | T in W)", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bover\s+t\s*(\d{2,5})\b", r"over t<=\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bfor\s+t\s*(\d{2,5})\b", r"for t<=\1", value, flags=re.IGNORECASE)
     value = re.sub(r"\^\s*-\s*(\d+)", r"e-\1", value)
     value = value.replace(",,", ",")
     value = re.sub(r",\s*,+", ", ", value)
@@ -202,7 +932,7 @@ def dedupe_preserve(items: list[str], *, max_items: int) -> list[str]:
         val = normalize_space(raw)
         if not val:
             continue
-        key = re.sub(r"[^a-z0-9]+", "", val.lower())
+        key = normalize_finding_key(val)
         if not key or key in seen:
             continue
         seen.add(key)
@@ -841,6 +1571,14 @@ def is_placeholder_section_summary(heading: str, summary: str) -> bool:
         return True
     if "fallback narrative card" in lowered:
         return True
+    if "consolidates key evidence and verification notes" in lowered:
+        return True
+    if "supplementary evidence and verification paths" in lowered:
+        return True
+    if "关键证据与核验说明" in lowered:
+        return True
+    if "补充证据与核验路径" in lowered:
+        return True
     if lowered in {"overview.", "introduction.", "methods.", "results.", "discussion."}:
         return True
     if len(normalized) < 18:
@@ -1256,9 +1994,9 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
             summary_key = normalize_finding_key(summary)
         if not summary or summary_penalty(summary) > 14:
             if lang == "cn":
-                summary = f"{heading}：本节整理与 {report_id} 相关的关键证据与核验说明。"
+                summary = f"{heading}：本节给出 {humanize_report_id(report_id)} 的核心设定、可测指标与可复现实验线索。"
             else:
-                summary = f"{heading}: this section consolidates key evidence and verification notes for {report_id}."
+                summary = f"{heading}: this section states core assumptions, measurable outputs, and reproducible checks for {humanize_report_id(report_id)}."
             summary_key = normalize_finding_key(summary)
         if summary_key and summary_key in seen_section_summary_keys:
             body_alternative = readable_summary(
@@ -1276,9 +2014,9 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
                 summary_key = candidate_key
             else:
                 if lang == "cn":
-                    summary = f"{heading}：该部分提供与 {report_id} 相关的补充证据与核验路径。"
+                    summary = f"{heading}：该部分补充机制解释、参数对比与可追溯证据入口。"
                 else:
-                    summary = f"{heading}: this section provides supplementary evidence and verification paths for {report_id}."
+                    summary = f"{heading}: this section extends mechanism interpretation with parameter contrasts and traceable evidence entry points."
                 summary_key = normalize_finding_key(summary)
         if summary_key:
             seen_section_summary_keys.add(summary_key)
@@ -2565,22 +3303,6 @@ def build_report_payload(
             }
         )
 
-    base_meta = {
-        "report_id": report_id,
-        "lang": "en",
-        "title": title_en,
-        "summary": summary_en,
-        "key_findings": findings_en,
-        "narrative": en_narrative,
-        "section_cards": en_section_cards,
-        "math_blocks": tex_en["math_blocks"],
-        "math_story": tex_en["math_story"],
-        "reproducibility_commands": tex_en["reproducibility_commands"],
-        "source_documents": tex_en["source_documents"],
-        "datasets": datasets,
-        "assets": assets,
-        "updated_at": report_updated_at,
-    }
     cn_narrative_source = tex_cn["narrative"] if tex_cn["section_cards"] else tex_en["narrative"]
     cn_section_cards_source = tex_cn["section_cards"] if tex_cn["section_cards"] else tex_en["section_cards"]
     cn_narrative = {
@@ -2636,6 +3358,88 @@ def build_report_payload(
         )
         if upgraded:
             cn_narrative["result_overview"] = upgraded
+
+    override = REPORT_TEXT_OVERRIDES.get(report_id, {})
+    override_en = override.get("en", {})
+    if override_en:
+        override_summary_en = normalize_space(str(override_en.get("summary", "")))
+        if override_summary_en:
+            summary_en = ensure_en_text(override_summary_en, report_id, role="summary", max_chars=1000)
+        override_findings_en = [normalize_space(str(x)) for x in list(override_en.get("key_findings", []))]
+        if override_findings_en:
+            findings_en = dedupe_preserve(
+                [ensure_en_text(x, report_id, role="finding", max_chars=220) for x in override_findings_en],
+                max_items=8,
+            )
+        override_narrative_en = dict(override_en.get("narrative", {}))
+        if override_narrative_en:
+            en_narrative["model_overview"] = ensure_en_text(
+                str(override_narrative_en.get("model_overview", en_narrative["model_overview"])),
+                report_id,
+                role="model",
+                max_chars=320,
+            )
+            en_narrative["method_overview"] = ensure_en_text(
+                str(override_narrative_en.get("method_overview", en_narrative["method_overview"])),
+                report_id,
+                role="method",
+                max_chars=320,
+            )
+            en_narrative["result_overview"] = ensure_en_text(
+                str(override_narrative_en.get("result_overview", en_narrative["result_overview"])),
+                report_id,
+                role="result",
+                max_chars=320,
+            )
+
+    override_cn = override.get("cn", {})
+    if override_cn:
+        override_summary_cn = normalize_space(str(override_cn.get("summary", "")))
+        if override_summary_cn:
+            summary_cn = ensure_cn_text(override_summary_cn, report_id, role="summary", max_chars=1000)
+        override_findings_cn = [normalize_space(str(x)) for x in list(override_cn.get("key_findings", []))]
+        if override_findings_cn:
+            findings_cn = dedupe_preserve(
+                [ensure_cn_text(x, report_id, role="finding", max_chars=220) for x in override_findings_cn],
+                max_items=8,
+            )
+        override_narrative_cn = dict(override_cn.get("narrative", {}))
+        if override_narrative_cn:
+            cn_narrative["model_overview"] = ensure_cn_text(
+                str(override_narrative_cn.get("model_overview", cn_narrative["model_overview"])),
+                report_id,
+                role="model",
+                max_chars=320,
+            )
+            cn_narrative["method_overview"] = ensure_cn_text(
+                str(override_narrative_cn.get("method_overview", cn_narrative["method_overview"])),
+                report_id,
+                role="method",
+                max_chars=320,
+            )
+            cn_narrative["result_overview"] = ensure_cn_text(
+                str(override_narrative_cn.get("result_overview", cn_narrative["result_overview"])),
+                report_id,
+                role="result",
+                max_chars=320,
+            )
+
+    base_meta = {
+        "report_id": report_id,
+        "lang": "en",
+        "title": title_en,
+        "summary": summary_en,
+        "key_findings": findings_en,
+        "narrative": en_narrative,
+        "section_cards": en_section_cards,
+        "math_blocks": tex_en["math_blocks"],
+        "math_story": tex_en["math_story"],
+        "reproducibility_commands": tex_en["reproducibility_commands"],
+        "source_documents": tex_en["source_documents"],
+        "datasets": datasets,
+        "assets": assets,
+        "updated_at": report_updated_at,
+    }
     cn_section_cards = []
     for card in cn_section_cards_source:
         heading = str(card.get("heading", "")).strip() or "章节"

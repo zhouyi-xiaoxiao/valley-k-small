@@ -66,6 +66,41 @@ def clean_text(text: str) -> str:
     return value.strip()
 
 
+def has_publication_claim_lint_issue(text: str) -> bool:
+    value = clean_text(text)
+    if not value:
+        return True
+    lowered = value.lower()
+    if ",," in value:
+        return True
+    if lowered.endswith(("under the fig.", "under fig.", "in the fig.", "in fig.", "single co-located")):
+        return True
+    if re.search(r"\bn=\d+\s*,\s*=\s*\d+\b", lowered):
+        return True
+    if re.search(r"\bcase\s+[a-z]\s*:\s*n=\d+", lowered) and len(value) < 44:
+        return True
+    if value.endswith(("(", "[", "with", "and", "->")):
+        return True
+    return False
+
+
+def cleaned_claim_text(claim: dict[str, Any], lang: str) -> str:
+    key = "text_cn" if lang == "cn" else "text_en"
+    text = clean_text(str(claim.get(key, "")))
+    if text and not has_publication_claim_lint_issue(text):
+        return text
+    evidence = claim.get("evidence", [])
+    if isinstance(evidence, list):
+        for row in evidence:
+            if not isinstance(row, dict):
+                continue
+            snippet_key = "snippet_cn" if lang == "cn" else "snippet_en"
+            snippet = clean_text(str(row.get(snippet_key, "")))
+            if snippet and not has_publication_claim_lint_issue(snippet):
+                return snippet
+    return text or clean_text(str(claim.get("claim_id", "")))
+
+
 def tex_escape(text: str) -> str:
     s = clean_text(text)
     repl = {
@@ -260,7 +295,12 @@ def render_book_mainline(lang: str) -> tuple[str, list[dict[str, Any]]]:
         intros = chapter.get("intro_cn") if lang == "cn" else chapter.get("intro_en")
         concept_cards = chapter.get("concept_cards", [])
         theory_chain = chapter.get("theory_chain", [])
-        claim_ledger = chapter.get("claim_ledger", [])
+        claim_ledger_raw = list(chapter.get("claim_ledger", []))
+        claim_ledger = [
+            row
+            for row in claim_ledger_raw
+            if str(row.get("claim_type", "scientific")).strip().lower() == "scientific"
+        ] or claim_ledger_raw
         linked_reports = chapter.get("linked_reports", [])
 
         lines.append(rf"\subsection*{{{tex_escape(str(title))} (\texttt{{{tex_escape(chapter_id)}}})}}")
@@ -293,11 +333,11 @@ def render_book_mainline(lang: str) -> tuple[str, list[dict[str, Any]]]:
 
         lines.append(r"\textbf{Claim Ledger}")
         lines.append(r"\begin{itemize}[leftmargin=1.2em]")
-        for claim in claim_ledger[:6]:
-            text = claim.get("text_cn") if lang == "cn" else claim.get("text_en")
+        for claim in claim_ledger:
+            text = cleaned_claim_text(claim, lang)
             lines.append(
                 rf"\item [{tex_escape(str(claim.get('stage', 'finding')))}] "
-                rf"{tex_escape(clean_text(str(text)))} "
+                rf"{tex_escape(text)} "
                 rf"(evidence={len(claim.get('evidence', []))})"
             )
         lines.append(r"\end{itemize}")

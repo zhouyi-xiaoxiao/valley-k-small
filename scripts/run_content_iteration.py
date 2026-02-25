@@ -21,20 +21,26 @@ def utc_now_iso() -> str:
 
 
 def run(cmd: list[str], *, cwd: Path = REPO_ROOT, timeout: int = 3600) -> dict[str, Any]:
-    proc = subprocess.run(
-        cmd,
-        cwd=cwd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        check=False,
-        timeout=timeout,
-    )
+    try:
+        proc = subprocess.run(
+            cmd,
+            cwd=cwd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            check=False,
+            timeout=timeout,
+        )
+        output = proc.stdout or ""
+        code = int(proc.returncode)
+    except subprocess.TimeoutExpired as error:
+        output = (error.stdout or "") + "\n[TIMEOUT] content iteration step exceeded timeout."
+        code = 124
     return {
         "command": cmd,
-        "return_code": int(proc.returncode),
-        "ok": proc.returncode == 0,
-        "output_tail": (proc.stdout or "")[-16000:],
+        "return_code": code,
+        "ok": code == 0,
+        "output_tail": output[-16000:],
     }
 
 
@@ -87,7 +93,11 @@ def parse_openclaw_score() -> int | None:
         return None
     try:
         payload = read_json(path)
-        score = payload.get("review", {}).get("score")
+        review = payload.get("review", {})
+        adjusted = review.get("score_adjusted_by_snapshot")
+        if isinstance(adjusted, int):
+            return adjusted
+        score = review.get("score")
         if isinstance(score, int):
             return score
     except json.JSONDecodeError:

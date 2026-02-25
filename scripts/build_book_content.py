@@ -79,6 +79,39 @@ CHAPTER_BRIDGES: dict[str, tuple[str, str]] = {
     ),
 }
 
+THEORY_CN_PLACEHOLDERS = {
+    "补充连接推导相邻步骤的关系式。",
+    "该步骤对应的公式见原始推导链。",
+    "请在源文件中核对该公式上下文。",
+}
+
+PANEL_NEGATIVE_HINTS = (
+    "asset",
+    "size",
+    "profile",
+    "hash",
+    "integrity",
+    "registry",
+    "audit",
+    "placeholder",
+)
+
+PANEL_POSITIVE_HINTS = (
+    "probability",
+    "pmf",
+    "fpt",
+    "hazard",
+    "survival",
+    "peak",
+    "valley",
+    "phase",
+    "beta",
+    "scan",
+    "cond_by_t",
+    "two_target",
+    "bimodal",
+)
+
 
 def utc_now_iso() -> str:
     return datetime.now(tz=timezone.utc).isoformat().replace("+00:00", "Z")
@@ -178,9 +211,15 @@ def is_low_signal_claim_text(text: str) -> bool:
     normalized = value.lower()
     if len(normalized) < 26:
         return True
+    if len(normalized.split()) <= 4:
+        return True
     if normalized.startswith("`") and "/" in normalized:
         return True
     if normalized.startswith("`outputs/`") or normalized.startswith("`code/`"):
+        return True
+    if re.match(r"^(?:n\s*=\s*\d+|boundary:|phase map|fixed\s+\(|setup:?)", normalized):
+        return True
+    if normalized in {"n=31.", "phase map on (w 2, skip2)."}:
         return True
     return False
 
@@ -242,6 +281,34 @@ def pick_concept_cards(theory_map: dict[str, Any], report_ids: list[str], keywor
 
 
 def pick_theory_chain(report_ids: list[str], metas_en: dict[str, dict[str, Any]], metas_cn: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    def improve_cn_description(
+        *,
+        report_id: str,
+        stage: str,
+        cn_candidate: str,
+        en_candidate: str,
+        context: str,
+        meta_cn: dict[str, Any],
+    ) -> str:
+        raw_cn = clean_text(cn_candidate, max_chars=150)
+        lowered_cn = normalize_text_key(raw_cn)
+        if raw_cn and contains_cjk(raw_cn) and lowered_cn not in {normalize_text_key(x) for x in THEORY_CN_PLACEHOLDERS}:
+            if "补充连接推导相邻步骤" not in raw_cn:
+                return raw_cn
+
+        narrative = dict(meta_cn.get("narrative", {}))
+        stage_norm = normalize_text_key(stage)
+        if "model" in stage_norm:
+            seed = str(narrative.get("model_overview", "")) or f"{report_id} 的该步骤用于明确模型约束与符号含义。"
+        elif "method" in stage_norm or "derivation" in stage_norm:
+            seed = str(narrative.get("method_overview", "")) or f"{report_id} 的该步骤用于连接推导与反演流程。"
+        else:
+            seed = str(narrative.get("result_overview", "")) or f"{report_id} 的该步骤用于解释峰谷结构与相区变化。"
+        if contains_cjk(seed):
+            return clean_text(seed, max_chars=150)
+        fallback = f"该步骤对应 {report_id} 的 {context or '理论链'}，请结合公式与证据路径核对其机制含义。"
+        return clean_text(fallback, max_chars=150)
+
     chain: list[dict[str, Any]] = []
     for report_id in report_ids:
         meta_en = metas_en.get(report_id, {})
@@ -258,7 +325,14 @@ def pick_theory_chain(report_ids: list[str], metas_en: dict[str, dict[str, Any]]
                         "label_en": clean_text(f"{safe_title(meta_en, report_id)} · {item_en.get('stage', 'Step')}", max_chars=140),
                         "label_cn": clean_text(f"{safe_title(meta_cn, report_id)} · {item_cn.get('stage', item_en.get('stage', '步骤'))}", max_chars=80),
                         "description_en": clean_text(str(item_en.get("description", "")), max_chars=260),
-                        "description_cn": clean_text(str(item_cn.get("description", item_en.get("description", ""))), max_chars=150),
+                        "description_cn": improve_cn_description(
+                            report_id=report_id,
+                            stage=str(item_en.get("stage", "")),
+                            cn_candidate=str(item_cn.get("description", item_en.get("description", ""))),
+                            en_candidate=str(item_en.get("description", "")),
+                            context=str(item_en.get("context", "")),
+                            meta_cn=meta_cn,
+                        ),
                         "latex": str(item_en.get("latex", "")).strip() or "f(t)",
                         "context": str(item_en.get("context", "math_story")).strip() or "math_story",
                     }
@@ -276,7 +350,14 @@ def pick_theory_chain(report_ids: list[str], metas_en: dict[str, dict[str, Any]]
                     "label_en": clean_text(f"{safe_title(meta_en, report_id)} · Formula", max_chars=140),
                     "label_cn": clean_text(f"{safe_title(meta_cn, report_id)} · 公式", max_chars=80),
                     "description_en": clean_text(str(item_en.get("context", "Primary formula for this report.")), max_chars=260),
-                    "description_cn": clean_text(str(item_cn.get("context", "该报告的核心公式。")), max_chars=150),
+                    "description_cn": improve_cn_description(
+                        report_id=report_id,
+                        stage="fallback",
+                        cn_candidate=str(item_cn.get("context", "该报告的核心公式。")),
+                        en_candidate=str(item_en.get("context", "")),
+                        context="math_blocks",
+                        meta_cn=meta_cn,
+                    ),
                     "latex": str(item_en.get("latex", "")).strip() or "f(t)",
                     "context": str(item_en.get("context", "math_blocks")).strip() or "math_blocks",
                 }
@@ -317,6 +398,44 @@ def chapter_intro_with_bridge(chapter: dict[str, Any], chapter_id: str) -> tuple
 
 
 def pick_interactive_panels(report_ids: list[str], metas_en: dict[str, dict[str, Any]], metas_cn: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    def panel_score(dataset: dict[str, Any]) -> int:
+        title = normalize_text_key(str(dataset.get("title", "")))
+        series_id = normalize_text_key(str(dataset.get("series_id", "")))
+        y_label = normalize_text_key(str(dataset.get("y_label", "")))
+        x_label = normalize_text_key(str(dataset.get("x_label", "")))
+        haystack = " ".join([title, series_id, y_label, x_label])
+        score = 0
+        for token in PANEL_POSITIVE_HINTS:
+            if token in haystack:
+                score += 3
+        for token in PANEL_NEGATIVE_HINTS:
+            if token in haystack:
+                score -= 9
+        if "probability" in y_label:
+            score += 5
+        if "asset rank" in x_label or "size (bytes)" in y_label:
+            score -= 14
+        if "manifest" in series_id:
+            score -= 7
+        if str(dataset.get("series_path", "")).strip().startswith("/data/v1/reports/"):
+            score += 1
+        return score
+
+    def panel_hint(ds: dict[str, Any], *, lang: str) -> str:
+        y_label = normalize_text_key(str(ds.get("y_label", "")))
+        series_id = normalize_text_key(str(ds.get("series_id", "")))
+        if "probability" in y_label or "pmf" in series_id or "fpt" in series_id:
+            if lang == "cn":
+                return "优先比较主峰与次峰的相对高度，并调节平滑窗口检验谷值是否稳定。"
+            return "Compare first/second peak prominence first, then adjust smoothing to test valley stability."
+        if "phase" in y_label or "binary" in y_label:
+            if lang == "cn":
+                return "切换不同系列查看相图边界变化，并核对阈值附近是否存在相区翻转。"
+            return "Toggle series to inspect phase boundaries and check whether transitions flip near threshold bands."
+        if lang == "cn":
+            return "切换曲线并微调平滑窗口，观察参数变化如何重排快通道与延迟通道贡献。"
+        return "Toggle series and tune smoothing to see how parameter shifts reweight fast versus delayed pathways."
+
     panels: list[dict[str, Any]] = []
     for report_id in report_ids:
         meta_en = metas_en.get(report_id, {})
@@ -325,8 +444,15 @@ def pick_interactive_panels(report_ids: list[str], metas_en: dict[str, dict[str,
         datasets_cn = list(meta_cn.get("datasets", []))
         if not datasets_en:
             continue
-        ds_en = datasets_en[0]
-        ds_cn = datasets_cn[0] if datasets_cn else ds_en
+        ranked = sorted(
+            [(panel_score(ds), idx, ds) for idx, ds in enumerate(datasets_en)],
+            key=lambda row: (row[0], -row[1]),
+            reverse=True,
+        )
+        best_score, best_idx, ds_en = ranked[0]
+        if best_score < -6:
+            continue
+        ds_cn = datasets_cn[best_idx] if best_idx < len(datasets_cn) else ds_en
         panels.append(
             {
                 "panel_id": f"{report_id}:{ds_en.get('series_id', 'dataset')}",
@@ -337,8 +463,8 @@ def pick_interactive_panels(report_ids: list[str], metas_en: dict[str, dict[str,
                 "dataset_path": str(ds_en.get("series_path", "")),
                 "x_label": str(ds_en.get("x_label", "x")),
                 "y_label": str(ds_en.get("y_label", "y")),
-                "parameter_hint_en": "Adjust visible series and smoothing to inspect peak/valley stability across regimes.",
-                "parameter_hint_cn": "通过切换曲线与平滑窗口，观察不同参数区间下峰谷结构是否稳定。",
+                "parameter_hint_en": panel_hint(ds_en, lang="en"),
+                "parameter_hint_cn": panel_hint(ds_en, lang="cn"),
             }
         )
     return panels[:10]
@@ -833,6 +959,188 @@ def source_paths_for_chapter(chapter_payload: dict[str, Any], linked_reports: li
     return uniq(paths)
 
 
+def chapter_core_question(chapter: dict[str, Any], lang: str) -> str:
+    intro = chapter.get(f"intro_{lang}", [])
+    if isinstance(intro, list) and intro:
+        return clean_text(str(intro[0]), max_chars=180, ellipsis=False)
+    return clean_text(str(chapter.get(f"summary_{lang}", "")), max_chars=180, ellipsis=False)
+
+
+def chapter_transition(chapter: dict[str, Any], chapter_by_id: dict[str, dict[str, Any]], lang: str) -> str:
+    chapter_id = str(chapter.get("chapter_id", ""))
+    next_id = chapter.get("next_chapter_id")
+    if not next_id:
+        return (
+            "No downstream chapter; consolidate assumptions, claims, and open questions."
+            if lang == "en"
+            else "无后续章节：请收束假设、结论与开放问题。"
+        )
+    next_chapter = chapter_by_id.get(str(next_id), {})
+    this_title = str(chapter.get(f"title_{lang}", chapter.get("chapter_id", "")))
+    next_title = str(next_chapter.get(f"title_{lang}", next_id))
+    if chapter_id == "chapter-2-grid2d-family" and str(next_id) == "chapter-3-ring-baseline":
+        if lang == "en":
+            return clean_text(
+                "Bridge note: keep the same hazard/survival diagnostics from Grid2D, then switch geometry to ring so shortcut and lazy parameters can be isolated without boundary-shape confounders.",
+                ellipsis=False,
+            )
+        return clean_text(
+            "桥接说明：延续 Grid2D 的 hazard/survival 诊断，但将几何切换到环模型，以隔离 shortcut 与 lazy 参数并排除边界形状混杂。",
+            ellipsis=False,
+        )
+    if chapter_id == "chapter-5-cross-model-synthesis" and str(next_id) == "chapter-6-repro-validation":
+        if lang == "en":
+            return clean_text(
+                "Before any new claims are added, move from synthesis to reproducibility gates and verify command-, schema-, and artifact-level closure.",
+                ellipsis=False,
+            )
+        return clean_text("在增加新结论前，先从综合解释转入复现门禁，逐项验证命令级、schema 级与产物级闭环。", ellipsis=False)
+    if chapter_id == "chapter-6-repro-validation" and str(next_id) == "chapter-7-outlook":
+        if lang == "en":
+            return clean_text(
+                "Only unresolved items that pass reproducibility constraints should enter the outlook as auditable hypotheses.",
+                ellipsis=False,
+            )
+        return clean_text("只有通过复现约束后仍未解决的问题，才应进入展望并作为可审计假设。", ellipsis=False)
+    if lang == "en":
+        return clean_text(
+            f"Carry notation and verified claims from {this_title} into {next_title}, then extend mechanism and evidence without resetting assumptions.",
+            ellipsis=False,
+        )
+    return clean_text(
+        f"从《{this_title}》延续符号与已核对 claim 进入《{next_title}》，在不重置假设的前提下扩展机制与证据。",
+        ellipsis=False,
+    )
+
+
+def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_order = {int(ch.get("order", 0)): ch for ch in chapters}
+
+    def pick(*orders: int) -> list[str]:
+        return [str(by_order[o]["chapter_id"]) for o in orders if o in by_order]
+
+    return [
+        {
+            "act_id": "act-foundations",
+            "title_en": "Act I: Foundations",
+            "title_cn": "第一幕：基础定义",
+            "objective_en": "Unify notation, FPT objects, and baseline assumptions before model-specific branches.",
+            "objective_cn": "在进入模型分支前先统一符号、FPT 对象与基线假设。",
+            "chapter_ids": pick(0, 1),
+        },
+        {
+            "act_id": "act-families",
+            "title_en": "Act II: Family Mechanisms",
+            "title_cn": "第二幕：模型家族机制",
+            "objective_en": "Expand Grid2D and Ring families with derivation-backed interaction checkpoints.",
+            "objective_cn": "在 Grid2D 与 Ring 家族中用推导与交互检查点展开机制差异。",
+            "chapter_ids": pick(2, 3, 4),
+        },
+        {
+            "act_id": "act-synthesis",
+            "title_en": "Act III: Cross-Model Synthesis",
+            "title_cn": "第三幕：跨模型综合",
+            "objective_en": "Merge claims into a shared explanatory frame and validate reproducibility pathways.",
+            "objective_cn": "把各章节 claim 汇入统一解释框架，并验证复现链路。",
+            "chapter_ids": pick(5, 6),
+        },
+        {
+            "act_id": "act-outlook",
+            "title_en": "Act IV: Outlook",
+            "title_cn": "第四幕：展望",
+            "objective_en": "Stabilize conclusions, isolate unresolved gaps, and define next-step research questions.",
+            "objective_cn": "收束结论、标注未解缺口，并给出下一步研究问题。",
+            "chapter_ids": pick(7),
+        },
+    ]
+
+
+def build_backbone_payload(chapter_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    chapters = sorted(chapter_rows, key=lambda row: int(row.get("order", 0)))
+    chapter_by_id = {str(ch.get("chapter_id", "")): ch for ch in chapters}
+    chapter_spine: list[dict[str, Any]] = []
+
+    for chapter in chapters:
+        chapter_id = str(chapter.get("chapter_id", ""))
+        linked_reports = [
+            str(item.get("report_id", "")).strip()
+            for item in chapter.get("linked_reports", [])
+            if str(item.get("report_id", "")).strip()
+        ]
+        key_claim_ids = [
+            str(item.get("claim_id", "")).strip()
+            for item in chapter.get("claim_ledger", [])
+            if str(item.get("claim_id", "")).strip()
+        ][:8]
+        key_formulae = [
+            str(item.get("latex", "")).strip()
+            for item in chapter.get("theory_chain", [])
+            if str(item.get("latex", "")).strip()
+        ][:6]
+        key_notions = [
+            str(item.get("id", "")).strip()
+            for item in chapter.get("concept_cards", [])
+            if str(item.get("id", "")).strip()
+        ][:8]
+        prev_id = chapter.get("previous_chapter_id")
+        next_id = chapter.get("next_chapter_id")
+
+        chapter_spine.append(
+            {
+                "chapter_id": chapter_id,
+                "order": int(chapter.get("order", 0)),
+                "title_en": str(chapter.get("title_en", chapter_id)),
+                "title_cn": str(chapter.get("title_cn", chapter_id)),
+                "core_question_en": chapter_core_question(chapter, "en"),
+                "core_question_cn": chapter_core_question(chapter, "cn"),
+                "input_dependencies": [str(prev_id)] if prev_id else [],
+                "output_to": [str(next_id)] if next_id else [],
+                "key_claim_ids": key_claim_ids,
+                "key_formulae": key_formulae,
+                "key_notions": key_notions,
+                "evidence_report_ids": linked_reports,
+                "transition_to_next_en": chapter_transition(chapter, chapter_by_id, "en"),
+                "transition_to_next_cn": chapter_transition(chapter, chapter_by_id, "cn"),
+                "interactive_count": len(chapter.get("interactive_panels", [])),
+                "claim_count": len(chapter.get("claim_ledger", [])),
+                "formula_count": len(key_formulae),
+            }
+        )
+
+    checks = [
+        {
+            "check": "all_chapters_have_claims",
+            "pass": all(int(row.get("claim_count", 0)) > 0 for row in chapter_spine),
+            "details": {str(row.get("chapter_id", "")): int(row.get("claim_count", 0)) for row in chapter_spine},
+        },
+        {
+            "check": "all_chapters_have_formulae",
+            "pass": all(int(row.get("formula_count", 0)) > 0 for row in chapter_spine),
+            "details": {str(row.get("chapter_id", "")): int(row.get("formula_count", 0)) for row in chapter_spine},
+        },
+        {
+            "check": "spine_is_connected",
+            "pass": all((row.get("order", 0) == 0) or bool(row.get("input_dependencies")) for row in chapter_spine),
+            "details": {
+                str(row.get("chapter_id", "")): {
+                    "input_dependencies": list(row.get("input_dependencies", [])),
+                    "output_to": list(row.get("output_to", [])),
+                }
+                for row in chapter_spine
+            },
+        },
+    ]
+
+    return {
+        "version": "v1",
+        "generated_at": utc_now_iso(),
+        "chapter_count": len(chapter_spine),
+        "acts": build_acts(chapters),
+        "chapter_spine": chapter_spine,
+        "quality_checks": checks,
+    }
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build chapterized book content from web data payloads.")
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -1071,6 +1379,9 @@ def main() -> int:
     write_json(data_root / "book" / "book_manifest.json", manifest)
     write_json(data_root / "book" / "toc.json", {"version": "v1", "generated_at": utc_now_iso(), "en": toc_en, "cn": toc_cn})
 
+    backbone_payload = build_backbone_payload(chapter_rows)
+    write_json(data_root / "book" / "backbone.json", backbone_payload)
+
     print(
         json.dumps(
             {
@@ -1078,6 +1389,7 @@ def main() -> int:
                 "chapter_count": len(chapter_rows),
                 "manifest": (data_root / "book" / "book_manifest.json").as_posix(),
                 "toc": (data_root / "book" / "toc.json").as_posix(),
+                "backbone": (data_root / "book" / "backbone.json").as_posix(),
             },
             ensure_ascii=False,
             indent=2,

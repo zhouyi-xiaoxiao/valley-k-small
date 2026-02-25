@@ -169,7 +169,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     }
     return rawVisibleSeries.some((series) => {
       const semantic = semanticsByName.get(series.name);
-      const inferred = semantic?.series_type ?? 'metric';
+      const inferred = semantic?.series_type ?? 'unknown';
       if (inferred === 'binary' || inferred === 'parameter' || inferred === 'unknown') {
         return false;
       }
@@ -219,8 +219,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         return {
           ...series,
           y,
-          series_type: semantic?.series_type ?? 'metric',
-          unit: semantic?.unit ?? 'value',
+          series_type: semantic?.series_type ?? 'unknown',
+          unit: semantic?.unit ?? 'unknown',
           canTransform,
         };
       });
@@ -363,13 +363,13 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
               const checked = visibleSet.has(series.name);
               const transformable = semantic
                 ? semantic.series_type === 'metric' || semantic.series_type === 'probability'
-                : true;
+                : false;
               return (
                 <label key={series.name}>
                   <input type="checkbox" checked={checked} onChange={(event) => toggleSeries(series.name, event.target.checked)} />{' '}
                   {series.name}{' '}
                   <span className="badge">
-                    {(semantic?.series_type ?? 'metric')}/{semantic?.unit ?? 'value'}
+                    {(semantic?.series_type ?? 'unknown')}/{semantic?.unit ?? 'unknown'}
                   </span>
                   <span className="badge">{transformable ? (lang === 'cn' ? '可变换' : 'transformable') : lang === 'cn' ? '原始' : 'raw'}</span>
                 </label>

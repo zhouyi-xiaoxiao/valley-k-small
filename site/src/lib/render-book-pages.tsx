@@ -66,6 +66,59 @@ function chapterSummary(chapter: BookChapter, lang: Lang): string {
   return lang === 'cn' ? chapter.summary_cn : chapter.summary_en;
 }
 
+function shortLine(text: string, max = 260): string {
+  const value = String(text || '').replace(/\s+/g, ' ').trim();
+  if (value.length <= max) {
+    return value;
+  }
+  const clipped = value.slice(0, max + 1);
+  const stop = Math.max(clipped.lastIndexOf('. '), clipped.lastIndexOf('。'), clipped.lastIndexOf('; '), clipped.lastIndexOf('；'));
+  const end = stop > Math.floor(max * 0.55) ? stop + 1 : max;
+  return `${clipped.slice(0, end).trimEnd()}…`;
+}
+
+function chapterStoryline(chapter: BookChapter, lang: Lang, transitionHint?: string): string[] {
+  const pickByStage = (stage: 'model' | 'method' | 'result' | 'finding') =>
+    chapter.claim_ledger.find((row) => row.stage === stage) || null;
+  const model = pickByStage('model');
+  const method = pickByStage('method');
+  const result = pickByStage('result');
+  const finding = pickByStage('finding');
+
+  const lines: string[] = [];
+  const modelText = model ? (lang === 'cn' ? model.text_cn : model.text_en) : '';
+  const methodText = method ? (lang === 'cn' ? method.text_cn : method.text_en) : '';
+  const resultText = result ? (lang === 'cn' ? result.text_cn : result.text_en) : '';
+  const findingText = finding ? (lang === 'cn' ? finding.text_cn : finding.text_en) : '';
+
+  if (modelText) {
+    lines.push(
+      lang === 'cn'
+        ? `本章首先固定模型前提：${shortLine(modelText, 170)}`
+        : `We begin by fixing the model premise: ${shortLine(modelText, 220)}`,
+    );
+  }
+  if (methodText) {
+    lines.push(
+      lang === 'cn'
+        ? `随后给出可复核的方法链路：${shortLine(methodText, 170)}`
+        : `We then move to an auditable method chain: ${shortLine(methodText, 220)}`,
+    );
+  }
+  if (resultText || findingText) {
+    const merged = [resultText, findingText].filter(Boolean).join(' ');
+    lines.push(
+      lang === 'cn'
+        ? `在统一判据下得到的结果与发现是：${shortLine(merged, 190)}`
+        : `Under the same diagnostic criterion, the chapter-level result and finding are: ${shortLine(merged, 240)}`,
+    );
+  }
+  if (transitionHint) {
+    lines.push(shortLine(transitionHint, lang === 'cn' ? 170 : 210));
+  }
+  return lines.slice(0, 4);
+}
+
 function loadOrderedBookChapters(): BookChapter[] {
   const manifest = loadBookManifest();
   if (!manifest) {
@@ -227,6 +280,7 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
   const chapter = loadBookChapter(chapterId);
   const manifest = loadBookManifest();
   const glossary = loadGlossary();
+  const backbone = loadBookBackbone();
 
   if (!chapter || !manifest) {
     return (
@@ -240,7 +294,9 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
   }
 
   const chapterMeta = manifest.chapters.find((row) => row.chapter_id === chapterId);
+  const spine = backbone?.chapter_spine.find((row) => row.chapter_id === chapter.chapter_id);
   const chapterTerms = (glossary?.terms || []).filter((term) => term.related_chapter_ids.includes(chapterId)).slice(0, 10);
+  const storyline = chapterStoryline(chapter, lang, lang === 'cn' ? spine?.transition_to_next_cn : spine?.transition_to_next_en);
 
   return (
     <AppShell lang={lang} prefix={prefix}>
@@ -262,6 +318,13 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
         <h2>{localizedText(lang, 'Chapter Guide', '章节导读')}</h2>
         {chapterIntro(chapter, lang).map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
+        ))}
+      </section>
+
+      <section className="card section-enter book-prose chapter-storyline" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Narrative Walkthrough', '叙事主线')}</h2>
+        {storyline.map((paragraph) => (
+          <p key={`storyline-${paragraph}`}>{paragraph}</p>
         ))}
       </section>
 
@@ -427,8 +490,8 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
         <p className="lead">
           {localizedText(
             lang,
-            'This page stitches all 8 chapters into one uninterrupted narrative from notation and assumptions to mechanism, evidence, and outlook.',
-            '本页把 8 章串成一条不中断叙事，从符号与假设一直推进到机制、证据与展望。',
+            'This page stitches all 8 chapters into one full storyline from notation and assumptions to mechanism, evidence, and outlook, with expandable derivations and claim ledgers in each chapter block.',
+            '本页将 8 章串成一条完整主线：从符号与假设推进到机制、证据与展望；每章均可展开推导链与 Claim 证据账本。',
           )}
         </p>
         <div className="quick-nav continuous-progress">
@@ -442,16 +505,13 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
 
       {chapters.map((chapter, idx) => {
         const spineRow = backbone?.chapter_spine.find((row) => row.chapter_id === chapter.chapter_id);
-        const primaryPanel = chapter.interactive_panels[0];
-        const primaryMeta = primaryPanel ? loadReportMeta(primaryPanel.report_id, lang) : null;
-        const primaryDatasets = primaryPanel
-          ? (primaryMeta?.datasets || []).filter((ds) => ds.series_id === primaryPanel.dataset_series_id)
-          : [];
-        const selectedDatasets = primaryPanel
-          ? primaryDatasets.length > 0
-            ? primaryDatasets
-            : (primaryMeta?.datasets || []).slice(0, 1)
-          : [];
+        const storyline = chapterStoryline(chapter, lang, lang === 'cn' ? spineRow?.transition_to_next_cn : spineRow?.transition_to_next_en);
+        const chapterPanels = chapter.interactive_panels.map((panel) => {
+          const panelMeta = loadReportMeta(panel.report_id, lang);
+          const panelDatasets = (panelMeta?.datasets || []).filter((ds) => ds.series_id === panel.dataset_series_id);
+          const selectedDatasets = panelDatasets.length > 0 ? panelDatasets : (panelMeta?.datasets || []).slice(0, 1);
+          return { panel, selectedDatasets };
+        });
         const prevChapter = idx > 0 ? chapters[idx - 1] : null;
         const nextChapter = idx + 1 < chapters.length ? chapters[idx + 1] : null;
         const visibleIntro = chapterIntro(chapter, lang);
@@ -474,6 +534,12 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
             <div className="book-prose">
               {visibleIntro.map((paragraph) => (
                 <p key={`intro-${chapter.chapter_id}-${paragraph}`}>{paragraph}</p>
+              ))}
+            </div>
+            <div className="book-prose chapter-storyline">
+              <h3>{localizedText(lang, 'Storyline in this chapter', '本章主线')}</h3>
+              {storyline.map((paragraph) => (
+                <p key={`storyline-continuous-${chapter.chapter_id}-${paragraph}`}>{paragraph}</p>
               ))}
             </div>
 
@@ -502,30 +568,23 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
               <summary>
                 {localizedText(lang, 'Open interactive lab', '展开交互实验区')} ({chapter.interactive_panels.length})
               </summary>
-              {primaryPanel && selectedDatasets.length > 0 ? (
-                <article className="card">
-                  <h4>{lang === 'cn' ? primaryPanel.title_cn : primaryPanel.title_en}</h4>
-                  <p>{lang === 'cn' ? primaryPanel.parameter_hint_cn : primaryPanel.parameter_hint_en}</p>
-                  <ReportPlotPanel reportId={primaryPanel.report_id} datasets={selectedDatasets} lang={lang} />
-                </article>
+              {chapterPanels.length > 0 ? (
+                <div style={{ display: 'grid', gap: '0.8rem' }}>
+                  {chapterPanels.map(({ panel, selectedDatasets }) => (
+                    <article key={`panel-${chapter.chapter_id}-${panel.panel_id}`} className="card">
+                      <h4>{lang === 'cn' ? panel.title_cn : panel.title_en}</h4>
+                      <p>{lang === 'cn' ? panel.parameter_hint_cn : panel.parameter_hint_en}</p>
+                      {selectedDatasets.length > 0 ? (
+                        <ReportPlotPanel reportId={panel.report_id} datasets={selectedDatasets} lang={lang} />
+                      ) : (
+                        <p className="muted">{localizedText(lang, 'Dataset unavailable in payload.', '当前数据包中未找到该数据集。')}</p>
+                      )}
+                    </article>
+                  ))}
+                </div>
               ) : (
                 <p className="muted">{localizedText(lang, 'No interactive panel available for this chapter.', '本章暂无可用交互图。')}</p>
               )}
-              {chapter.interactive_panels.length > 0 ? (
-                <div className="card" style={{ marginTop: '0.6rem' }}>
-                  <h4>{localizedText(lang, 'Panel index (all chapter panels)', '面板索引（本章全部面板）')}</h4>
-                  <ul>
-                    {chapter.interactive_panels.map((panel) => (
-                      <li key={`panel-index-${chapter.chapter_id}-${panel.panel_id}`}>
-                        <Link href={prefixPath(prefix, `/reports/${panel.report_id}`)}>
-                          {lang === 'cn' ? panel.title_cn : panel.title_en}
-                        </Link>{' '}
-                        <code>{panel.dataset_series_id}</code>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
             </details>
 
             <details className="chapter-disclosure">
@@ -543,6 +602,13 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
                     <p className="muted">
                       {localizedText(lang, 'Evidence items', '证据项')} {claim.evidence.length}
                     </p>
+                    <ul>
+                      {claim.evidence.slice(0, 2).map((ev) => (
+                        <li key={`ev-${claim.claim_id}-${ev.path}`}>
+                          <code>{ev.evidence_type}</code> <code>{ev.path}</code>
+                        </li>
+                      ))}
+                    </ul>
                   </article>
                 ))}
               </div>

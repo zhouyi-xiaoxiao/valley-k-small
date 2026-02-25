@@ -13,7 +13,7 @@ type Props = {
   lang: Lang;
 };
 
-type SeriesType = 'metric' | 'probability' | 'binary' | 'parameter';
+type SeriesType = 'metric' | 'probability' | 'binary' | 'parameter' | 'unknown';
 
 type SeriesSemantic = {
   name: string;
@@ -123,8 +123,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       const positiveRatio = finite.length > 0 ? finite.filter((v) => v > 0).length / finite.length : 0;
       out.set(series.name, {
         name: series.name,
-        series_type: 'metric',
-        unit: 'value',
+        series_type: 'unknown',
+        unit: 'unknown',
         min,
         max,
         positive_ratio: positiveRatio,
@@ -170,7 +170,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     return rawVisibleSeries.some((series) => {
       const semantic = semanticsByName.get(series.name);
       const inferred = semantic?.series_type ?? 'metric';
-      if (inferred === 'binary' || inferred === 'parameter') {
+      if (inferred === 'binary' || inferred === 'parameter' || inferred === 'unknown') {
         return false;
       }
       return series.y.some((value) => value > 0);
@@ -211,7 +211,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       .filter((series) => visibleSet.has(series.name))
       .map((series) => {
         const semantic = semanticsByName.get(series.name);
-        const canTransform = semantic ? semantic.series_type === 'metric' || semantic.series_type === 'probability' : true;
+        const canTransform = semantic ? semantic.series_type === 'metric' || semantic.series_type === 'probability' : false;
         const smooth = canTransform ? movingAverage(series.y, smoothWindow) : series.y;
         const maxAbs = Math.max(...smooth.map((item) => Math.abs(item)), 1e-12);
         const normalized = canTransform && normalize ? smooth.map((item) => item / maxAbs) : smooth;

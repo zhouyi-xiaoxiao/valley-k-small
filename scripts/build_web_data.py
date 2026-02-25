@@ -97,6 +97,7 @@ CLAIM_STOPWORDS = {
 REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "ring_lazy_flux": {
         "en": {
+            "title": "Lazy Ring Flux Baseline",
             "summary": (
                 "This report studies first-passage distributions on a lazy ring (k=1, K=2) with one directed shortcut "
                 "drawn from self-loop probability. It combines Chebyshev generating-function derivation, AW/FFT inversion, "
@@ -125,6 +126,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Lazy Ring Flux 基线机制",
             "summary": (
                 "该报告研究 lazy ring（k=1, K=2）在单向 shortcut 且从自环分配概率时的首达分布。通过 Chebyshev 生成函数推导、"
                 "AW/FFT 反演与 flux 递推交叉校验，报告给出可复现的小 p 双峰区间，并说明 equal4 与较大 shortcut 强度会抑制第二峰。"
@@ -150,6 +152,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_valley": {
         "en": {
+            "title": "Ring Valley Regime Map",
             "summary": (
                 "This valley-study report analyzes a non-lazy K-neighbor ring with a one-way shortcut 6->N/2+1 under the Fig.3 peak rule. "
                 "Exact AW inversion and MC validation map bimodality windows across even N and K: no bimodality for K=2 after parity-aware "
@@ -176,6 +179,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Ring Valley 相区研究",
             "summary": (
                 "该 valley 研究在非 lazy 的 K 邻接环上考察单向 shortcut（6->N/2+1）并采用 Fig.3 峰谷判据。"
                 "通过 AW 精确反演与 MC 校验，报告给出偶数 N 与 K 的双峰区间图：K=2 在奇偶振荡修正后仍不出现稳定双峰，"
@@ -202,6 +206,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_bimodality": {
         "en": {
+            "title": "Grid2D Bimodality Baseline",
             "summary": (
                 "This foundational Grid2D report establishes how biased/lazy random walks generate first-passage bimodality on a square lattice. "
                 "It unifies model constraints, defect-aware propagators, AW inversion, and candidate-case scans into one auditable chain that "
@@ -229,6 +234,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Grid2D 双峰基线",
             "summary": (
                 "该基础 Grid2D 报告建立了偏置/惰性随机游走下首达双峰形成的统一框架。报告把模型约束、缺陷修正传播子、AW 反演与参数扫描串成可审计链路，"
                 "用于区分真实双通道机制与绘图伪峰。"
@@ -254,6 +260,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_rect_bimodality": {
         "en": {
+            "title": "Grid2D Rectangle Bimodality",
             "summary": (
                 "This report extends Grid2D bimodality from square to rectangular domains, testing how aspect ratio, reflecting walls, and endpoint "
                 "geometry reshape first-passage channels. It emphasizes reproducible two-target constructions and identifies when double peaks remain "
@@ -280,6 +287,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Grid2D 矩形域双峰",
             "summary": (
                 "该报告把 Grid2D 双峰分析从方形域扩展到矩形域，系统考察长宽比、反射边界与端点几何如何重塑首达通道。"
                 "报告强调可复现的双目标构型，并识别在各向异性几何下双峰何时仍保持结构稳定。"
@@ -305,6 +313,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_reflecting_bimodality": {
         "en": {
+            "title": "Grid2D Reflecting-Boundary Bimodality",
             "summary": (
                 "This reflecting-boundary Grid2D report tests whether bimodality survives when periodic shortcuts are removed and all walls reflect. "
                 "Using representative detour, pore, and transport-track cases, it shows that multi-channel timing structure can persist under strict "
@@ -330,6 +339,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Grid2D 全反射边界双峰",
             "summary": (
                 "该反射边界 Grid2D 报告检验：在移除周期绕行、四壁全反射后，双峰是否仍能保持。"
                 "通过绕行、孔道与输运轨道等代表案例，报告证明在严格边界约束下，多通道时序结构仍可出现。"
@@ -355,6 +365,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_two_target_double_peak": {
         "en": {
+            "title": "Grid2D Two-Target Double-Peak",
             "summary": (
                 "This report studies two absorbing targets in 2D and maps when the total first-passage distribution develops visible double peaks. "
                 "Under reflecting boundaries and corridor-style bias design, it provides phase maps over target-coupling parameters and isolates "
@@ -381,6 +392,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Grid2D 双目标双峰",
             "summary": (
                 "该报告研究二维双吸收目标情形下总首达分布何时出现可见双峰。"
                 "在反射边界与走廊偏置设计下，报告给出目标耦合参数的相图，并解析“近目标直达”与“远目标延迟”竞争如何形成多时间尺度结构。"
@@ -406,6 +418,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_jump_ext": {
         "en": {
+            "title": "Lazy Ring Shortcut Beta Scan",
             "summary": (
                 "This extension quantifies how shortcut strength beta reshapes first-passage bimodality on lazy rings (K=2,4) at fixed N=100, "
                 "then checks transfer by N sweeps and Monte Carlo class decomposition. Across beta in [0,0.2], both peaks move earlier and "
@@ -433,6 +446,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Lazy Ring Shortcut beta 扫描",
             "summary": (
                 "该扩展报告量化了 lazy ring（K=2,4）中 shortcut 强度 beta 对首达双峰结构的影响：先在 N=100 固定条件下做 beta 扫描，"
                 "再用 N 扫描与 Monte Carlo 轨迹分类验证迁移稳定性。结果显示 beta 增大时双峰整体前移、尾部衰减加快，且 K=4 的双峰窗口更宽更深。"
@@ -458,6 +472,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_jump_ext_rev2": {
         "en": {
+            "title": "Lazy Ring Shortcut Figure-1 Revision",
             "summary": (
                 "This revision reorganizes the lazy-shortcut extension into a publication-ready evidence flow: co-located Fig.1 overlays "
                 "f(t) with window-level class bars, while threshold, window-shift/width, and MC-uncertainty analyses test robustness. "
@@ -485,6 +500,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Lazy Ring Shortcut 图1修订",
             "summary": (
                 "该修订版把 lazy-shortcut 扩展重构为出版物级证据链：图1将 f(t) 与窗口分类柱状同轴展示，并加入阈值扫描、窗口位移/宽度扰动、"
                 "MC 不确定性三类敏感性分析。在不改变核心机制结论的前提下，显著提升了可读性与可复现性。"
@@ -510,6 +526,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_two_target": {
         "en": {
+            "title": "Two-Target Lazy Ring Mechanics",
             "summary": (
                 "This report builds an exact two-target lazy-ring framework and compares no-shortcut versus selfloop-shortcut regimes. "
                 "By scanning N, K, and beta with peak/valley diagnostics, it shows how target geometry and shortcut routing jointly control "
@@ -537,6 +554,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "双目标 Lazy Ring 机制",
             "summary": (
                 "该报告建立了双目标 lazy ring 的精确分析框架，并比较无 shortcut 与 selfloop-shortcut 两类机制。"
                 "通过对 N、K、beta 的系统扫描与峰谷判据，报告说明了目标几何与 shortcut 路由如何共同决定首达分布在单峰、双峰、三峰之间的转变。"
@@ -562,6 +580,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_jump": {
         "en": {
+            "title": "Lazy Ring Jump-Over Mechanism (K2 vs K4)",
             "summary": (
                 "This report establishes the baseline jump-over mechanism for lazy rings with one directed shortcut, contrasting K=2 and K=4 "
                 "under exact first-passage diagnostics. It explains why double-peak behavior is selective in shortcut strength and how pathway "
@@ -589,6 +608,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Lazy Ring Jump-Over 机制（K2 对 K4）",
             "summary": (
                 "该报告建立了 lazy ring + 单向 shortcut 的 jump-over 基线机制，在精确首达诊断下比较 K=2 与 K=4。"
                 "报告解释了双峰为何只在特定 shortcut 强度区间出现，并通过路径分解把峰结构与快/慢通道对应起来。"
@@ -614,6 +634,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_deriv_k2": {
         "en": {
+            "title": "Ring Derivation Backbone (K=2)",
             "summary": (
                 "This derivation report provides the analytical backbone for ring models with one directed long-range link, including defect-free "
                 "propagators, defect corrections, and first-passage generating functions. It serves as the shared mathematical base used by later "
@@ -641,6 +662,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Ring 推导主干（K=2）",
             "summary": (
                 "该推导报告给出了“环 + 单向长程连边”模型的解析主干：包括无缺陷传播子、缺陷修正与首达生成函数。"
                 "它是后续 shortcut 与 valley 报告共用的数学基座。"
@@ -666,6 +688,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_blackboard_bimodality": {
         "en": {
+            "title": "Grid2D Blackboard Endpoint Case",
             "summary": (
                 "This blackboard-style Grid2D case studies reflecting boundaries with start and target anchored at wall endpoints. "
                 "The Z/S endpoint configurations are used to test whether a visually delayed hump is a true second peak or a window-edge artifact, "
@@ -691,6 +714,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "Grid2D 黑板端点构型",
             "summary": (
                 "该黑板图风格 Grid2D 报告研究了反射边界下“墙端点起止”构型。通过 Z/S 端点案例，报告检验晚时隆起究竟是稳定第二峰还是窗口边缘伪峰，"
                 "并将判断与通道分解和路径几何对应。"
@@ -716,6 +740,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "cross_luca_regime_map": {
         "en": {
+            "title": "Cross-Model Luca Regime Map",
             "summary": (
                 "This cross-report study benchmarks full-FPT solvers under fixed-horizon fairness, comparing sparse exact recursion "
                 "against Luca defect-reduced routes while keeping linear-system MFPT only as reference. The core output is a reproducible "
@@ -743,6 +768,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "跨模型 Luca 相区图",
             "summary": (
                 "该跨报告研究在固定时域公平口径下比较 full-FPT 求解器：以 sparse 精确递推为基线，"
                 "对照 Luca 缺陷约化路径，并把线性系统 MFPT 仅作为参考。核心产出是可复现的速度比 R=t_luca/t_sparse 及其相区分类。"
@@ -768,6 +794,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_valley_dst": {
         "en": {
+            "title": "Destination-Scan Valley Control (N=100, K=6)",
             "summary": (
                 "This report fixes N=100 and K=6, then scans shortcut destination dst to control the second-peak structure of first-passage "
                 "distributions. Deterministic flux/master-equation scans and Monte Carlo trajectory classes jointly identify where valley depth "
@@ -795,6 +822,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "title": "目的地扫描与谷值调控（N=100, K=6）",
             "summary": (
                 "该报告固定 N=100、K=6，仅扫描 shortcut 终点 dst 来调控首达分布第二峰。"
                 "通过确定性 flux/master 方程扫描与 Monte Carlo 轨迹分类联合诊断，报告识别出第二峰增强与谷值加深最显著的 dst 区间。"
@@ -3362,6 +3390,9 @@ def build_report_payload(
     override = REPORT_TEXT_OVERRIDES.get(report_id, {})
     override_en = override.get("en", {})
     if override_en:
+        override_title_en = normalize_space(str(override_en.get("title", "")))
+        if override_title_en:
+            title_en = ensure_en_text(override_title_en, report_id, role="title", max_chars=220)
         override_summary_en = normalize_space(str(override_en.get("summary", "")))
         if override_summary_en:
             summary_en = ensure_en_text(override_summary_en, report_id, role="summary", max_chars=1000)
@@ -3394,6 +3425,15 @@ def build_report_payload(
 
     override_cn = override.get("cn", {})
     if override_cn:
+        override_title_cn = normalize_space(str(override_cn.get("title", "")))
+        if override_title_cn:
+            title_cn = ensure_cn_text(
+                override_title_cn,
+                report_id,
+                role="title",
+                max_chars=220,
+                hint=override_title_cn,
+            )
         override_summary_cn = normalize_space(str(override_cn.get("summary", "")))
         if override_summary_cn:
             summary_cn = ensure_cn_text(override_summary_cn, report_id, role="summary", max_chars=1000)

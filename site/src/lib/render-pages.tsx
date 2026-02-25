@@ -13,7 +13,7 @@ import {
   prefixPath,
   withBasePath,
 } from '@/lib/content';
-import type { AssetRecord, Lang } from '@/types';
+import type { AssetRecord, Lang, ReportMeta } from '@/types';
 
 type LatexRenderResult = {
   html: string;
@@ -62,9 +62,12 @@ function renderMathBlockCard(
         }}
       />
       {rendered.error ? renderFormulaWarning(block.lang === 'cn' ? 'cn' : 'en', block.source_path, rendered.error) : null}
-      <p style={{ marginBottom: 0 }}>
-        <code>{block.source_path}</code>
-      </p>
+      <details>
+        <summary>{block.lang === 'cn' ? '公式来源' : 'Formula source'}</summary>
+        <p style={{ marginBottom: 0 }}>
+          <code>{block.source_path}</code>
+        </p>
+      </details>
     </article>
   );
 }
@@ -96,6 +99,46 @@ function groupAssets(assets: AssetRecord[]) {
     }
   }
   return [...groups.values()].sort((a, b) => b.primary.size - a.primary.size);
+}
+
+function compactText(text: string, maxChars: number): string {
+  const normalized = text.replace(/\s+/g, ' ').trim();
+  if (normalized.length <= maxChars) {
+    return normalized;
+  }
+  const clipped = normalized.slice(0, maxChars);
+  const stop = Math.max(clipped.lastIndexOf('. '), clipped.lastIndexOf('。'), clipped.lastIndexOf('; '), clipped.lastIndexOf('；'));
+  if (stop > maxChars * 0.45) {
+    return `${clipped.slice(0, stop + 1).trim()}…`;
+  }
+  return `${clipped.trim()}…`;
+}
+
+function extractReportPreview(meta: ReportMeta | null, reportId: string, lang: Lang): { title: string; summary: string } {
+  if (!meta) {
+    return {
+      title: reportId,
+      summary:
+        lang === 'cn'
+          ? `该报告 ${reportId} 已收录，可进入详情页查看数学逻辑链与交互图。`
+          : `Report ${reportId} is indexed. Open it to view mathematical logic and interactive plots.`,
+    };
+  }
+  return {
+    title: meta.title || reportId,
+    summary: compactText(meta.summary || '', 170),
+  };
+}
+
+function pruneSectionCards(cards: Array<{ heading: string; summary: string; source_path: string }>) {
+  return cards.filter((card) => {
+    const heading = card.heading.toLowerCase();
+    const summary = card.summary.toLowerCase();
+    if ((heading === 'figures' || heading === 'tables') && summary.includes('section summary')) {
+      return false;
+    }
+    return true;
+  });
 }
 
 function isImageFigure(webPath: string): boolean {
@@ -165,26 +208,45 @@ export function renderHomePage(lang: Lang, prefix: string) {
 
 export function renderReportsPage(lang: Lang, prefix: string) {
   const index = loadIndex();
+  const enriched = index.reports.map((item) => {
+    const meta = loadReportMeta(item.report_id, lang);
+    const preview = extractReportPreview(meta, item.report_id, lang);
+    return { item, preview };
+  });
 
   return (
     <AppShell lang={lang} prefix={prefix}>
       <section className="card section-enter">
         <div className="kicker">Catalog</div>
         <h1>{localizedText(lang, 'All Reports', '全部报告')}</h1>
+        <p className="lead">
+          {localizedText(
+            lang,
+            'Browse by concise previews first. Enter a report only when the topic matches your current question.',
+            '先看每份报告的简短预览，再进入与你当前问题最相关的报告详情页。',
+          )}
+        </p>
         <div className="grid grid-2">
-          {index.reports.map((item) => (
+          {enriched.map(({ item, preview }) => (
             <article key={item.report_id} className="card">
-              <p>
+              <p style={{ marginBottom: '0.35rem' }}>
                 <span className="badge">{item.group}</span>
               </p>
               <h3>
-                <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>{item.report_id}</Link>
+                <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>{preview.title}</Link>
               </h3>
+              <p className="muted">{item.report_id}</p>
+              <p>{preview.summary}</p>
               <p>
                 {localizedText(lang, 'Languages', '语言')}: {item.languages.join(', ')}
               </p>
               <p>
                 {localizedText(lang, 'Updated', '更新')}: {formatTimestamp(lang, item.updated_at)}
+              </p>
+              <p style={{ marginBottom: 0 }}>
+                <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>
+                  {localizedText(lang, 'Read this report', '进入阅读')}
+                </Link>
               </p>
             </article>
           ))}
@@ -210,13 +272,33 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const figures = loadFigures(reportId);
   const groupedAssets = groupAssets(meta.assets);
   const duplicateAssetCount = Math.max(0, meta.assets.length - groupedAssets.length);
+  const topFindings = meta.key_findings.slice(0, 5);
+  const extraFindings = meta.key_findings.slice(5);
+  const filteredSections = pruneSectionCards(meta.section_cards);
+  const sectionsPreview = filteredSections.slice(0, 6);
+  const sectionsExtra = filteredSections.slice(6);
+  const navItems = [
+    { id: 'reading-path', label: localizedText(lang, 'Reading Path', '阅读路径') },
+    { id: 'interactive', label: localizedText(lang, 'Interactive Figures', '交互图形') },
+    { id: 'math-chain', label: localizedText(lang, 'Mathematical Logic', '数学逻辑') },
+    { id: 'math-principles', label: localizedText(lang, 'Formula Library', '公式库') },
+    { id: 'narrative-sections', label: localizedText(lang, 'Narrative Notes', '叙事笔记') },
+    { id: 'appendix-assets', label: localizedText(lang, 'Appendix & Assets', '附录与资源') },
+  ];
 
   return (
     <AppShell lang={lang} prefix={prefix}>
       <section className="card section-enter">
         <div className="kicker">{meta.report_id}</div>
         <h1>{meta.title}</h1>
-        <p>{meta.summary}</p>
+        <p className="lead">{meta.summary}</p>
+        <div className="quick-nav">
+          {navItems.map((item) => (
+            <a key={item.id} className="badge" href={`#${item.id}`}>
+              {item.label}
+            </a>
+          ))}
+        </div>
         <p>
           <span className="badge">
             {localizedText(lang, 'Updated', '更新')}: {formatTimestamp(lang, meta.updated_at)}
@@ -236,20 +318,64 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             <p>{meta.narrative.result_overview}</p>
           </article>
         </div>
+      </section>
+
+      <section id="reading-path" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Reading Path', '阅读路径')}</h3>
+        <ol>
+          <li>
+            {localizedText(
+              lang,
+              'Scan key findings first to decide whether this report is relevant.',
+              '先看关键结论，确认这份报告是否与你当前问题匹配。',
+            )}
+          </li>
+          <li>
+            {localizedText(
+              lang,
+              'Use the interactive panel to test parameter and shape sensitivity.',
+              '进入交互图面板，快速验证参数与形状敏感性。',
+            )}
+          </li>
+          <li>
+            {localizedText(
+              lang,
+              'Then read the mathematical chain and formula library for derivation details.',
+              '再阅读数学逻辑链与公式库，把结论连到推导细节。',
+            )}
+          </li>
+        </ol>
         <h3>{localizedText(lang, 'Key Findings', '关键结论')}</h3>
         <ul>
-          {meta.key_findings.map((line) => (
+          {topFindings.map((line) => (
             <li key={line}>{line}</li>
           ))}
         </ul>
+        {extraFindings.length > 0 ? (
+          <details>
+            <summary>{localizedText(lang, 'Show remaining findings', '展开剩余结论')}</summary>
+            <ul>
+              {extraFindings.map((line) => (
+                <li key={`extra-${line}`}>{line}</li>
+              ))}
+            </ul>
+          </details>
+        ) : null}
       </section>
 
-      <div style={{ marginTop: '1rem' }}>
+      <div id="interactive" style={{ marginTop: '1rem' }}>
         <ReportPlotPanel reportId={reportId} datasets={meta.datasets} lang={lang} />
       </div>
 
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+      <section id="math-chain" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Mathematical Logic Chain', '数学逻辑链')}</h3>
+        <p className="muted">
+          {localizedText(
+            lang,
+            'From model assumptions to interpretation in a short, ordered chain.',
+            '从模型假设到解释结论，按步骤给出最短逻辑链。',
+          )}
+        </p>
         <div className="grid grid-2">
           {meta.math_story.map((item, idx) => {
             const rendered = renderLatex(item.latex);
@@ -273,57 +399,89 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         </div>
       </section>
 
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+      <section id="math-principles" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Mathematical Principles', '数学原理')}</h3>
         <p>
-          {localizedText(lang, 'Showing', '当前展示')} {Math.min(10, meta.math_blocks.length)} / {meta.math_blocks.length}
+          {localizedText(lang, 'Showing', '当前展示')} {Math.min(6, meta.math_blocks.length)} / {meta.math_blocks.length}
         </p>
         <div className="grid grid-2">
-          {meta.math_blocks.slice(0, 10).map((block, idx) => renderMathBlockCard(block, `${block.source_path}-${idx}`))}
+          {meta.math_blocks.slice(0, 6).map((block, idx) => renderMathBlockCard(block, `${block.source_path}-${idx}`))}
         </div>
-        {meta.math_blocks.length > 10 ? (
+        {meta.math_blocks.length > 6 ? (
           <details style={{ marginTop: '0.8rem' }}>
             <summary>{localizedText(lang, 'Show remaining formulas', '展开剩余公式')}</summary>
             <div className="grid grid-2" style={{ marginTop: '0.8rem' }}>
               {meta.math_blocks
-                .slice(10)
+                .slice(6)
                 .map((block, idx) => renderMathBlockCard(block, `extra-${block.source_path}-${idx}`))}
             </div>
           </details>
         ) : null}
       </section>
 
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+      <section id="narrative-sections" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Narrative Sections', '叙事章节')}</h3>
+        <p className="muted">
+          {localizedText(
+            lang,
+            'Cleaned chapter summaries are shown first; low-value placeholders are hidden.',
+            '优先展示清洗后的章节摘要，低信息量占位段落已隐藏。',
+          )}
+        </p>
         <div className="grid grid-2">
-          {meta.section_cards.map((card) => (
+          {sectionsPreview.map((card) => (
             <article key={`${card.heading}-${card.source_path}`} className="card">
               <h4>{card.heading}</h4>
               <p>{card.summary}</p>
-              <p style={{ marginBottom: 0 }}>
-                <code>{card.source_path}</code>
-              </p>
+              <details>
+                <summary>{localizedText(lang, 'Source', '来源')}</summary>
+                <p style={{ marginBottom: 0 }}>
+                  <code>{card.source_path}</code>
+                </p>
+              </details>
             </article>
           ))}
         </div>
+        {sectionsExtra.length > 0 ? (
+          <details style={{ marginTop: '0.8rem' }}>
+            <summary>{localizedText(lang, 'Show more sections', '显示更多章节')}</summary>
+            <div className="grid grid-2" style={{ marginTop: '0.8rem' }}>
+              {sectionsExtra.map((card) => (
+                <article key={`extra-${card.heading}-${card.source_path}`} className="card">
+                  <h4>{card.heading}</h4>
+                  <p>{card.summary}</p>
+                  <details>
+                    <summary>{localizedText(lang, 'Source', '来源')}</summary>
+                    <p style={{ marginBottom: 0 }}>
+                      <code>{card.source_path}</code>
+                    </p>
+                  </details>
+                </article>
+              ))}
+            </div>
+          </details>
+        ) : null}
       </section>
 
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Reproducibility Commands', '复现实验命令')}</h3>
-        {meta.reproducibility_commands.length > 0 ? (
-          <ul>
-            {meta.reproducibility_commands.map((cmd) => (
-              <li key={cmd}>
-                <code>{cmd}</code>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>{localizedText(lang, 'No explicit command block extracted.', '未提取到显式命令块。')}</p>
-        )}
+        <details>
+          <summary>{localizedText(lang, 'Open command list', '展开命令列表')}</summary>
+          {meta.reproducibility_commands.length > 0 ? (
+            <ul>
+              {meta.reproducibility_commands.map((cmd) => (
+                <li key={cmd}>
+                  <code>{cmd}</code>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>{localizedText(lang, 'No explicit command block extracted.', '未提取到显式命令块。')}</p>
+          )}
+        </details>
       </section>
 
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+      <section id="appendix-assets" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Download Assets', '下载资源')}</h3>
         <p>
           {localizedText(lang, 'Showing', '当前展示')} {Math.min(20, groupedAssets.length)} / {groupedAssets.length}
@@ -371,10 +529,10 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Figure Gallery', '图形预览')}</h3>
         <p>
-          {localizedText(lang, 'Showing', '当前展示')} {Math.min(24, figures.length)} / {figures.length}
+          {localizedText(lang, 'Showing', '当前展示')} {Math.min(12, figures.length)} / {figures.length}
         </p>
         <div className="grid grid-3">
-          {figures.slice(0, 24).map((fig) => (
+          {figures.slice(0, 12).map((fig) => (
             <article key={fig.id} className="card">
               <p>{fig.title}</p>
               {isImageFigure(fig.web_path) ? (
@@ -393,6 +551,31 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             </article>
           ))}
         </div>
+        {figures.length > 12 ? (
+          <details style={{ marginTop: '0.8rem' }}>
+            <summary>{localizedText(lang, 'Show remaining figures', '展开剩余图形')}</summary>
+            <div className="grid grid-3" style={{ marginTop: '0.8rem' }}>
+              {figures.slice(12).map((fig) => (
+                <article key={`extra-${fig.id}`} className="card">
+                  <p>{fig.title}</p>
+                  {isImageFigure(fig.web_path) ? (
+                    <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={withBasePath(fig.web_path)}
+                        alt={fig.title}
+                        style={{ width: '100%', borderRadius: '10px', border: '1px solid #d8ccb3' }}
+                      />
+                    </a>
+                  ) : null}
+                  <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
+                    {localizedText(lang, 'Open Figure', '打开图件')}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </details>
+        ) : null}
       </section>
     </AppShell>
   );

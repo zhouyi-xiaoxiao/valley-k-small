@@ -333,7 +333,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       </select>
 
       {payload ? (
-        <details style={{ marginTop: '0.75rem' }} open>
+        <details style={{ marginTop: '0.75rem' }}>
           <summary>{lang === 'cn' ? '可见序列与语义' : 'Visible series and semantics'}</summary>
           <div style={{ display: 'flex', gap: '0.5rem', margin: '0.5rem 0 0.7rem', flexWrap: 'wrap' }}>
             <button type="button" onClick={() => applySeriesPreset('metric')}>
@@ -361,49 +361,52 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         </details>
       ) : null}
 
-      <div className="plot-controls">
-        <label htmlFor="scale-select">{lang === 'cn' ? 'Y 轴' : 'Y scale'}</label>
-        <select
-          id="scale-select"
-          value={yScale}
-          onChange={(event) => {
-            const nextScale = event.target.value as 'linear' | 'log';
-            if (nextScale === 'log' && !logEligible) {
-              setAutoScaleNotice(
-                lang === 'cn'
-                  ? '当前可见序列没有正值，log 模式不可用。'
-                  : 'Log mode is unavailable because visible series contain no positive values.',
-              );
-              return;
-            }
-            setYScale(nextScale);
-          }}
-        >
-          <option value="linear">{lang === 'cn' ? '线性' : 'Linear'}</option>
-          <option value="log" disabled={!logEligible}>
-            {lang === 'cn' ? '对数' : 'Log'}
-          </option>
-        </select>
-        <label htmlFor="smooth-range">{lang === 'cn' ? '平滑' : 'Smoothing'}</label>
-        <input
-          id="smooth-range"
-          type="range"
-          min={1}
-          max={15}
-          step={2}
-          value={smoothWindow}
-          onChange={(event) => setSmoothWindow(Number(event.target.value))}
-        />
-        <span className="badge">{lang === 'cn' ? `窗口=${smoothWindow}` : `window=${smoothWindow}`}</span>
-        <label>
-          <input type="checkbox" checked={normalize} onChange={(event) => setNormalize(event.target.checked)} />{' '}
-          {lang === 'cn' ? '归一化' : 'Normalize'}
-        </label>
-        <label>
-          <input type="checkbox" checked={markers} onChange={(event) => setMarkers(event.target.checked)} />{' '}
-          {lang === 'cn' ? '标记点' : 'Markers'}
-        </label>
-      </div>
+      <details style={{ marginTop: '0.55rem' }}>
+        <summary>{lang === 'cn' ? '图表控制' : 'Plot controls'}</summary>
+        <div className="plot-controls">
+          <label htmlFor="scale-select">{lang === 'cn' ? 'Y 轴' : 'Y scale'}</label>
+          <select
+            id="scale-select"
+            value={yScale}
+            onChange={(event) => {
+              const nextScale = event.target.value as 'linear' | 'log';
+              if (nextScale === 'log' && !logEligible) {
+                setAutoScaleNotice(
+                  lang === 'cn'
+                    ? '当前可见序列没有正值，log 模式不可用。'
+                    : 'Log mode is unavailable because visible series contain no positive values.',
+                );
+                return;
+              }
+              setYScale(nextScale);
+            }}
+          >
+            <option value="linear">{lang === 'cn' ? '线性' : 'Linear'}</option>
+            <option value="log" disabled={!logEligible}>
+              {lang === 'cn' ? '对数' : 'Log'}
+            </option>
+          </select>
+          <label htmlFor="smooth-range">{lang === 'cn' ? '平滑' : 'Smoothing'}</label>
+          <input
+            id="smooth-range"
+            type="range"
+            min={1}
+            max={15}
+            step={2}
+            value={smoothWindow}
+            onChange={(event) => setSmoothWindow(Number(event.target.value))}
+          />
+          <span className="badge">{lang === 'cn' ? `窗口=${smoothWindow}` : `window=${smoothWindow}`}</span>
+          <label>
+            <input type="checkbox" checked={normalize} onChange={(event) => setNormalize(event.target.checked)} />{' '}
+            {lang === 'cn' ? '归一化' : 'Normalize'}
+          </label>
+          <label>
+            <input type="checkbox" checked={markers} onChange={(event) => setMarkers(event.target.checked)} />{' '}
+            {lang === 'cn' ? '标记点' : 'Markers'}
+          </label>
+        </div>
+      </details>
 
       <p>
         <span className="badge">{selected?.x_label}</span> <span className="badge">{effectiveYLabel}</span>

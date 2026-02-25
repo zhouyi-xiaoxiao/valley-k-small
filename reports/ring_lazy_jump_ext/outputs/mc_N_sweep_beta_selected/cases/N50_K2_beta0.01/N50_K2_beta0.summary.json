@@ -1,0 +1,112 @@
+{
+  "params": {
+    "N": 50,
+    "K": 2,
+    "n0": 0,
+    "target": 25,
+    "sc_src": 5,
+    "sc_dst": 26,
+    "mode": "lazy_selfloop",
+    "q": 0.6666666667,
+    "beta": 0.01,
+    "rho": 1.0,
+    "jumpover_absorbs": false,
+    "n0_paper": 1,
+    "target_paper": 26,
+    "sc_src_paper": 6,
+    "sc_dst_paper": 27,
+    "p_shortcut": 0.0033333333330000004
+  },
+  "paper_peaks": [
+    [
+      298,
+      0.0010437212185321948
+    ]
+  ],
+  "peaks_valley": {
+    "t1": 298,
+    "tv": null,
+    "t2": null,
+    "delta": 2
+  },
+  "exact_meta": {
+    "method": "aw",
+    "r": 0.9977000638225533,
+    "L": 8192,
+    "max_steps": 4000,
+    "x_nnz": 2
+  },
+  "cond_by_time": {
+    "max_t": 4000,
+    "min_n": 50,
+    "smooth_window": 21
+  },
+  "summaries": [
+    {
+      "window": "peak1",
+      "n": 1048,
+      "frac": 0.00524,
+      "P_sc_ge1": 0.09446564885496184,
+      "P_jo_ge1": 0.0,
+      "P_sc_ge1_ci95": [
+        0.07820937587951891,
+        0.11368415637857017
+      ],
+      "P_jo_ge1_ci95": [
+        2.168404344971009e-19,
+        0.0036522609487968528
+      ],
+      "C0": 0.9055343511450382,
+      "C1": 0.09446564885496184,
+      "C2p": 0.0,
+      "J0": 1.0,
+      "J1": 0.0,
+      "J2p": 0.0,
+      "class_C0J0": 0.9055343511450382,
+      "class_C1pJ0": 0.09446564885496184,
+      "class_C0J1p": 0.0,
+      "class_C1pJ1p": 0.0,
+      "class_D_taujo_lt_tausc": null,
+      "class_D_tausc_lt_taujo": null,
+      "class_D_tie": null
+    },
+    {
+      "window": "valley",
+      "n": 0,
+      "frac": 0.0
+    },
+    {
+      "window": "peak2",
+      "n": 0,
+      "frac": 0.0
+    },
+    {
+      "window": "other",
+      "n": 198952,
+      "frac": 0.99476,
+      "P_sc_ge1": 0.08904660420603965,
+      "P_jo_ge1": 0.0,
+      "P_sc_ge1_ci95": [
+        0.08780300360862438,
+        0.09030607484328472
+      ],
+      "P_jo_ge1_ci95": [
+        0.0,
+        1.930880726650652e-05
+      ],
+      "C0": 0.9109533957939604,
+      "C1": 0.08866460251719008,
+      "C2p": 0.00038200168884957176,
+      "J0": 1.0,
+      "J1": 0.0,
+      "J2p": 0.0,
+      "class_C0J0": 0.9109533957939604,
+      "class_C1pJ0": 0.08904660420603965,
+      "class_C0J1p": 0.0,
+      "class_C1pJ1p": 0.0,
+      "class_D_taujo_lt_tausc": null,
+      "class_D_tausc_lt_taujo": null,
+      "class_D_tie": null
+    }
+  ]
+}

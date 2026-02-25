@@ -1,0 +1,142 @@
+{
+  "run": {
+    "id": "20251214_232605",
+    "created_at_utc": "2025-12-14T23:26:07+00:00",
+    "platform": "macOS-15.7.2-arm64-arm-64bit",
+    "python": "3.9.6",
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "git_commit": null
+  },
+  "params": {
+    "N": 100,
+    "K": 6,
+    "n0_paper": 1,
+    "target_paper": 50,
+    "sc_src_paper": 6,
+    "rho": 1.0,
+    "max_steps": 2000,
+    "eps_stop": 1e-14,
+    "min_height": 1e-07,
+    "second_rel_height": 0.01,
+    "second_frac": 0.01,
+    "min_separation": 12,
+    "require_valley": false,
+    "valley_frac": 0.8
+  },
+  "summary": {
+    "n_dst_total": 100,
+    "n_valid": 93,
+    "n_fig3_bimodal": 15,
+    "n_robust_bimodal": 14,
+    "fig3_bimodal_dsts": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57
+    ],
+    "robust_bimodal_dsts": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57
+    ],
+    "example_dsts": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      51,
+      52,
+      53,
+      54,
+      55,
+      57
+    ]
+  },
+  "aw_check": {
+    "43": {
+      "max_abs": 1.1318201370834899e-13,
+      "l1": 1.515899145518307e-11
+    },
+    "44": {
+      "max_abs": 1.1397425675292662e-13,
+      "l1": 1.526337548646343e-11
+    },
+    "45": {
+      "max_abs": 1.1507560160171513e-13,
+      "l1": 1.5201562709481532e-11
+    },
+    "46": {
+      "max_abs": 1.1631848057379215e-13,
+      "l1": 1.5494352684586754e-11
+    },
+    "47": {
+      "max_abs": 1.182640360560547e-13,
+      "l1": 1.543276594327975e-11
+    },
+    "48": {
+      "max_abs": 1.2038720206537876e-13,
+      "l1": 1.54543262408411e-11
+    },
+    "50": {
+      "max_abs": 1.1402502960185094e-13,
+      "l1": 1.4938401337478772e-11
+    },
+    "51": {
+      "max_abs": 1.1753761255367643e-13,
+      "l1": 1.5263687305496034e-11
+    },
+    "52": {
+      "max_abs": 1.1579669472575635e-13,
+      "l1": 1.5340102783350913e-11
+    },
+    "53": {
+      "max_abs": 1.1723404399219348e-13,
+      "l1": 1.5074344244315603e-11
+    },
+    "54": {
+      "max_abs": 1.1946946134878652e-13,
+      "l1": 1.523869244325636e-11
+    },
+    "55": {
+      "max_abs": 1.138911238572854e-13,
+      "l1": 1.4841338830557533e-11
+    },
+    "57": {
+      "max_abs": 1.1301794935569646e-13,
+      "l1": 1.4939762487283013e-11
+    }
+  },
+  "files": {
+    "scan_csv": "data/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251214_232605/scan__20251214_232605.csv",
+    "bimodal_table_tex": "data/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251214_232605/bimodal_table__20251214_232605.tex",
+    "fig_bimodality_scan": "figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251214_232605/bimodality_scan__20251214_232605.pdf",
+    "fig_peak_times": "figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251214_232605/peak_times__20251214_232605.pdf",
+    "fig_examples": "figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251214_232605/example_curves__20251214_232605.pdf",
+    "fig_aw_vs_flux": "figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251214_232605/aw_vs_flux__20251214_232605.pdf"
+  }
+}

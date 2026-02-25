@@ -1,0 +1,131 @@
+{
+  "config": {
+    "N": 60,
+    "q": 0.8,
+    "g_x": -0.25,
+    "g_y": 0.4,
+    "boundary": {
+      "x": "periodic",
+      "y": "reflecting"
+    },
+    "start": [
+      50,
+      60
+    ],
+    "target": [
+      42,
+      60
+    ],
+    "local_bias_delta": 0.7,
+    "n_local_bias": 8,
+    "n_sticky": 0,
+    "n_barriers_reflect": 0,
+    "n_barriers_perm": 0
+  },
+  "peaks": {
+    "t_p1": 33,
+    "t_p2": 473,
+    "t_v": 220,
+    "h1": 0.002289200095202532,
+    "h2": 0.0022641351485003735,
+    "hv": 0.00013677413323359607,
+    "h2_over_h1": 0.9890507838285142,
+    "peak_ratio": 0.9890507838285142,
+    "valley_ratio": 0.06040899692943993,
+    "valley_depth": 0.9395910030705601,
+    "gap": 440,
+    "smooth_window": 9,
+    "min_sep": 5,
+    "min_gap": 20,
+    "p_fast": 0.04086666666666667,
+    "p_slow": 0.9591333333333333,
+    "heatmap_times": [
+      33,
+      220,
+      473
+    ],
+    "bimodality_proof": {
+      "t_p1": 33,
+      "t_p2": 473,
+      "t_v": 220,
+      "h1": 0.002289200095202532,
+      "h2": 0.0022641351485003735,
+      "hv": 0.00013677413323359607,
+      "h2_over_h1": 0.9890507838285142,
+      "peak_ratio": 0.9890507838285142,
+      "valley_ratio": 0.06040899692943993,
+      "valley_depth": 0.9395910030705601,
+      "gap": 440,
+      "smooth_window": 9,
+      "min_sep": 5,
+      "min_gap": 20
+    },
+    "bimodality_diagnostic": {
+      "t_p1": 33,
+      "t_v": 220,
+      "t_p2": 473,
+      "gap": 440,
+      "valley_ratio": 0.06040899692943993,
+      "passes": true,
+      "method": "peaks"
+    }
+  },
+  "mc": {
+    "n_walkers": 30000,
+    "corridor_fraction": 0.04086666666666672,
+    "truncated_fraction": 3.3333333333333335e-05,
+    "tail_mass": 0.0
+  },
+  "aw": {
+    "enabled": true,
+    "m": 16384,
+    "r": 0.9983149575896413,
+    "oversample": 4,
+    "r_pow10": 12.0,
+    "l1": 5.043076377160006e-13,
+    "linf": 9.56834979642288e-16,
+    "rel_l1": 5.043112541128403e-13,
+    "max_abs_error": 9.56834979642288e-16
+  },
+  "plot_params": {
+    "fig_version": "main",
+    "plot_style": "fig3v5",
+    "png_dpi": 800,
+    "mc_bin_width": 2,
+    "mc_smooth_window": 5,
+    "peak_smooth_window": 9,
+    "log_eps": 1e-14
+  },
+  "tuning": {
+    "gx": -0.25,
+    "gy": 0.4,
+    "delta": 0.7,
+    "length": 8,
+    "band_halfwidth": 1,
+    "start": [
+      50,
+      60
+    ],
+    "target": [
+      42,
+      60
+    ],
+    "mass": 0.9589066099928052,
+    "p_fast": 0.0433,
+    "score": 1.2930214733676686,
+    "t_p1": 33,
+    "t_p2": 473,
+    "t_v": 220,
+    "h1": 0.002289200095202532,
+    "h2": 0.0022641351485003735,
+    "hv": 0.00013677413323359607,
+    "h2_over_h1": 0.9890507838285142,
+    "peak_ratio": 0.9890507838285142,
+    "valley_ratio": 0.06040899692943993,
+    "valley_depth": 0.9395910030705601,
+    "gap": 440,
+    "smooth_window": 9,
+    "min_sep": 5,
+    "min_gap": 20
+  }
+}

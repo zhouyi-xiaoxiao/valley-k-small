@@ -1,0 +1,614 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{fvextra}
+\usepackage{microtype}
+\usepackage{placeins}
+\Urlmuskip=0mu plus 1mu
+
+\title{Bimodal first-passage times on a 2D $N\times N$ lattice with biased/lazy random walks}
+\author{}
+\date{}
+
+\newcommand{\FigDir}{figures}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{Summary and Key Figures}
+\begin{itemize}
+  \item \textbf{Candidate A} (periodic boundary + global bias): the FPT is bimodal under a unified criterion; fast/slow channels arise from an ``against-drift shortcut'' and a ``with-drift wrap-around'' path; AW inversion matches exact recursion on $t\le t_{\max}^{\mathrm{AW}}$ and MC overlays (Fig.~\ref{fig:A-fpt}, \ref{fig:A-unwrapped}).
+  \item \textbf{Candidate B} (edge corridor + mixed boundary): auto-tuning yields $g_x=-0.25$, $g_y=0.40$, $\delta=0.70$ and allows an $x$-periodic boundary to create a slow wrap-around channel, lifting the fast weight into a visible range; bimodality is clear in the peak--valley zoom (Fig.~\ref{fig:B-proof}).
+  \item \textbf{Candidate C} (door + sticky + wrap-around): bimodality already appears at $n_{\text{bias}}=0$, i.e., the minimum local bias count is zero (Fig.~\ref{fig:scan-C}).
+  \item Numerical comparison: AW inversion (frequency domain) and exact recursion (time domain) reach $\mathcal{O}(10^{-12})$ $L^1$ error for $t\le t_{\max}^{\mathrm{AW}}$ (Table~\ref{tab:aw-errors} and error metrics).
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/candidate_B_scan.pdf}
+    \caption*{(a) Candidate B scan}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/candidate_C_scan.pdf}
+    \caption*{(b) Candidate C scan}
+  \end{minipage}
+  \caption{Scan results for minimal corridor length and minimal local bias sites (B and C).}
+  \label{fig:scan-summary}
+\end{figure}
+
+\section*{Parameter Table}
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $N$ & $q$ & $g_x$ & $g_y$ & boundary & (start, target) \\
+    \midrule
+    A & 60 & 0.8 & +0.6 & 0 & $x$ periodic, $y$ reflecting & (10,30)$\to$(12,30) \\
+    B & 60 & 0.8 & -0.25 & +0.40 & $x$ periodic, $y$ reflecting & (50,60)$\to$(42,60) \\
+    C & 60 & 0.8 & +0.5 & 0 & $x$ periodic, $y$ reflecting & (10,30)$\to$(50,30) \\
+    \bottomrule
+  \end{tabular}
+  \caption{Core parameters for the three candidates. Candidate B uses an edge corridor with auto-tuned $(g_x,g_y)$; Candidate C uses door + sticky and preserves a wrap-around channel.}
+  \label{tab:params}
+\end{table}
+
+\section{Model Definition and Coordinate Convention}
+The state space is $\{1,\dots,N\}\times\{1,\dots,N\}$. The walker is at $(x,y)$ and the target $(x_t,y_t)$ is absorbing. One-step transition probabilities are
+\begin{align}
+  p_{\text{left}} &= \frac{q}{4}(1+g_x),\quad p_{\text{right}} = \frac{q}{4}(1-g_x),\\
+  p_{\text{down}} &= \frac{q}{4}(1+g_y),\quad p_{\text{up}} = \frac{q}{4}(1-g_y),\\
+  p_{\text{stay}} &= 1-q.
+\end{align}
+We adopt the convention ``$y$ increases downward'', so $g_y>0$ means downward drift. Boundaries are reflecting, periodic, or mixed ($x$ periodic, $y$ reflecting).
+\noindent From Eq.(1), \(g_x>0\) increases \(p_{\text{left}}=\frac{q}{4}(1+g_x)\) and decreases \(p_{\text{right}}=\frac{q}{4}(1-g_x)\), so we define \(g_x>0\) as a \textbf{leftward} global bias (\(g_x<0\) is rightward).
+
+\paragraph{Local heterogeneities (combinations).}
+\begin{itemize}
+  \item local bias (arrow): multiply $p_{\text{stay}}$ by $(1-\delta)$ and add $\Delta=\delta p_{\text{stay}}$ to the arrow direction; other directions stay unchanged.
+  \item sticky site: scale the move rate to $q_{\text{site}}=\text{factor}\cdot q$ (default 0.2); $p_{\text{stay}}$ increases accordingly.
+  \item barrier: a reflecting edge adds its probability back to stay; a door passes with $p_{\text{pass}}$ and reflects with $1-p_{\text{pass}}$.
+\end{itemize}
+
+\section{How to Read the Figures}
+Fig.~\ref{fig:symbol-legend} gives the unified symbol legend: red squares are starts, blue diamonds are targets; thick solid lines are reflecting walls, dashed lines are doors (labeled by $p_{\text{pass}}$), translucent shading is sticky regions; red arrows are local bias sites; large arrows outside the grid indicate the global drift and $(g_x,g_y)$. For readability, environment schematics, $P(n,t)$ slices, multiscale FPT plots, and channel decompositions are shown as separate figures; Candidate B adds a peak--valley zoom to emphasize the early peak and valley.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\FigDir/env/symbol_legend.pdf}
+  \caption{Symbol legend.}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\section{Analytical derivation: from defect-free propagator to time-domain FPT}
+This section provides a unified derivation chain: \emph{defect-free propagator $\to$ defect propagator $\to$ FPT generating function $\to$ AW inversion}. All three candidates fit this framework.
+
+\subsection{Matrix form and generating function}
+Let $A$ be the transition matrix for the non-absorbing system, with $A_{v,u}=\Pr(u\to v)$ so columns sum to 1 and $\mathbf{p}_{t+1}=A\mathbf{p}_t$. The propagator satisfies
+\begin{equation}
+  P_{n_0}(n,t)=\mathbf{e}_n^\top A^t \mathbf{e}_{n_0},
+  \qquad
+  \tilde{\mathbf{P}}(z)=\sum_{t\ge 0} A^t z^t=(I-zA)^{-1},
+\end{equation}
+so
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\mathbf{e}_n^\top (I-zA)^{-1}\mathbf{e}_{n_0}.
+\end{equation}
+We now give the spectral form of $A$ and the defect update formula to obtain $\tilde P$ for any configuration.
+
+\subsection{Spectral decomposition of the defect-free propagator}
+Write the 2D update as the sum of two 1D operators (along $x$ and $y$). Let $\{\lambda_k^{(\gamma)},h_k^{(\gamma)}\}$ be eigenpairs of the 1D step matrix, where $\gamma\in\{\text{periodic},\text{reflecting}\}$ denotes boundary type. Define
+\begin{equation}
+  s_k^{(\gamma)} = q\,\bigl(\lambda_k^{(\gamma)}-1\bigr),\qquad
+  \Lambda_{k_1,k_2}=1+\frac{s_{k_1}^{(\gamma_x)}+s_{k_2}^{(\gamma_y)}}{2}.
+\end{equation}
+Then the 2D defect-free propagator (Eq.(33) in PRE 102, 062124) is
+\begin{equation}
+  P^{(\gamma)}_{n_0}(n,t)=\sum_{k_1}\sum_{k_2} h_{k_1}^{(\gamma_x)}(x,x_0)\,h_{k_2}^{(\gamma_y)}(y,y_0)\,\Lambda_{k_1,k_2}^t.
+  \label{eq:P_time}
+\end{equation}
+The $z$-transform is
+\begin{equation}
+  \tilde P^{(\gamma)}_{n_0}(n,z)=\sum_{k_1}\sum_{k_2}
+  \frac{h_{k_1}^{(\gamma_x)}(x,x_0)\,h_{k_2}^{(\gamma_y)}(y,y_0)}{1-z\Lambda_{k_1,k_2}}.
+  \label{eq:P_z}
+\end{equation}
+
+\paragraph{Periodic boundary (periodic)} \;\;
+\begin{equation}
+  \theta_k=\frac{2\pi k}{N},\quad
+  \lambda_k^{(\text{per})}=\frac{1+g}{2}e^{-i\theta_k}+\frac{1-g}{2}e^{i\theta_k},\quad
+  h_k^{(\text{per})}(x,x_0)=\frac{1}{N}e^{i\theta_k(x-x_0)}.
+\end{equation}
+
+\paragraph{Reflecting boundary (reflecting)} \;\;
+Let $p_\ell=(1+g)/2,\;p_r=(1-g)/2,\;\rho=p_r/p_\ell$. A similarity transform symmetrizes the 1D operator, giving
+\begin{equation}
+  \lambda_0^{(\text{ref})}=1,\quad
+  \lambda_k^{(\text{ref})}=2\sqrt{p_\ell p_r}\cos\frac{k\pi}{N}\ (k\ge 1),\quad
+  h_k^{(\text{ref})}(x,x_0)=u_k(x)u_k(x_0)\sqrt{\frac{\pi_x}{\pi_{x_0}}},
+\end{equation}
+where $\pi_x\propto \rho^x$ is the stationary distribution and $u_k$ are orthogonal cosine modes (matching PRE Eq.(22)--(23)).
+
+\subsection{Determinant formula for defect propagator}
+Write the defect as a matrix perturbation $\underline{X}=\underline{B}-\underline{A}$. For each directed edge $(u_i\to v_i)$, define
+\begin{equation}
+  \eta_{u_i,v_i}=X_{v_i,u_i}=B_{v_i,u_i}-A_{v_i,u_i}.
+\end{equation}
+Define the difference propagator
+\begin{equation}
+  \tilde P^e_{\langle u-v\rangle}(n,z)=\tilde P^e_{u}(n,z)-\tilde P^e_{v}(n,z).
+\end{equation}
+Then the inert-heterogeneity formula (2311.00464v2) gives
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-1+\frac{\det[H(n,n_0;z)]}{\det[H(z)]},
+\end{equation}
+with
+\begin{align}
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(u_i,z)-\eta_{v_j,u_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(v_i,z),\\
+  H(n,n_0;z)_{ij}&=H_{ij}(z)-\tilde P^e_{\langle u_j-v_j\rangle}(n,z)\left[\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z)\right].
+\end{align}
+In numerical implementations, we solve the equivalent linear system for stability (by Cramer equivalence).
+The linear-algebra form reads
+\begin{align}
+  b_j(n,z)&=\tilde P^e_{u_j}(n,z)-\tilde P^e_{v_j}(n,z),\\
+  a_i(n_0,z)&=\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z),\\
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,b_j(u_i,z)-\eta_{v_j,u_j}\,b_j(v_i,z),
+\end{align}
+so that
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-\mathbf{b}(n,z)^\top H(z)^{-1}\mathbf{a}(n_0,z).
+\end{equation}
+
+\paragraph{Defect mapping (used in B/C)}
+\begin{itemize}
+  \item local bias: reduce the self-loop and add probability to the arrow direction, equivalent to $(u\to v)$ with $\eta_{u,v}=+\Delta$, plus a compensation term for $(u\to u)$ to keep column sums at 1.
+  \item door/permeable barrier: crossing the door multiplies by $p_{\text{pass}}$; both $(u\to v)$ and $(v\to u)$ have $\eta_{u,v}=(p_{\text{pass}}-1)P_{u\to v}^{\text{base}}$.
+  \item sticky: multiply all outgoing edges by $\alpha$; each outgoing edge $(u\to n)$ has $\eta_{u,n}=(\alpha-1)P_{u\to n}^{\text{base}}$, with a compensation term added to $(u\to u)$ to keep column sums at 1.
+\end{itemize}
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    feature & rule (example $u\to v$) & corresponding $\lambda_{u,v}$\\
+    \midrule
+    local bias & $p_{u\to v}=p_{u\to v}^0+\Delta$ & $-\Delta/p_{u\to v}^0$\\
+    sticky & $p_{u\to v}=\alpha p_{u\to v}^0$ & $1-\alpha$\\
+    barrier & $p_{u\to v}=0$ & $1$\\
+    door & $p_{u\to v}=p_{\text{pass}}p_{u\to v}^0$ & $1-p_{\text{pass}}$\\
+    \bottomrule
+  \end{tabular}
+  \caption{Mapping from features to $\lambda$ ($\eta_{u,v}=-\lambda_{u,v}p_{u\to v}^0$).}
+  \label{tab:lambda-map}
+\end{table}
+
+\subsection{FPT generating function and AW inversion}
+Consider the master equation with an absorbing state:
+\begin{equation}
+  \mathbf{p}_{t+1}=P\,\mathbf{p}_t,\qquad \mathbf{p}_0=\mathbf{e}_{n_0},
+\end{equation}
+with $z$-transform $\tilde{\mathbf{p}}(z)=\sum_{t\ge 0}\mathbf{p}_t z^t$ giving
+\begin{equation}
+  \tilde{\mathbf{p}}(z)=(I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+Let the cumulative arrival probability be $F(t)=\mathbf{e}_{n_t}^\top \mathbf{p}_t$, then
+\begin{equation}
+  \tilde F(z)=\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+With $f(t)=F(t)-F(t-1)$ (take $F(-1)=0$), the PMF generating function is
+\begin{equation}
+  \tilde f(z)=(1-z)\tilde F(z)=(1-z)\,\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+We keep both notations: $\tilde F$ for the CDF generating function and $\tilde f$ for the PMF generating function (used in AW inversion). The exact recursion in time domain is
+\begin{equation}
+  f(t)=r^\top Q^{t-1} p_0,\quad t\ge 1,
+  \label{eq:exact-recursion}
+\end{equation}
+so the generating function can be written as
+\begin{equation}
+  \tilde f(z)=\sum_{t\ge 1} f(t) z^t
+  = z\,r^\top (I-zQ)^{-1} p_0.
+\end{equation}
+On the other hand, the renewal relation gives
+\begin{equation}
+  \tilde f_{n_0\to n_t}(z)=\frac{\tilde P_{n_0}(n_t,z)}{\tilde P_{n_t}(n_t,z)},
+  \label{eq:Fz}
+\end{equation}
+which is equivalent: the former uses the transient submatrix $Q$, the latter uses the defect-free propagator.
+We then apply Abate--Whitt (AW) numerical inversion to extract coefficients:
+\begin{equation}
+  f(t)\approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)\,e^{-2\pi i k t/m},
+  \qquad z_k=r\,e^{2\pi i k/m},\quad t=1,\dots,t_{\max}^{\mathrm{AW}}.
+  \label{eq:AW}
+\end{equation}
+We choose $m=\mathrm{pow2}(\text{oversample}\cdot(t_{\max}^{\mathrm{AW}}+1))$ and set $r^m=10^{-\text{r\_pow10}}$, matching the repository defaults. Larger $r$ reduces truncation error but increases numerical sensitivity; smaller $r$ magnifies truncation error. We keep the auto-tuning strategy to balance stability and accuracy.
+
+\begin{quote}
+\textbf{Implementation workflow (Algorithm box)}
+\begin{enumerate}[leftmargin=*, itemsep=0pt]
+  \item Build the spectral decomposition of the defect-free $A$ (periodic/reflecting), yielding explicit mode sums for $\tilde P^e(n,z)$.
+  \item Construct $H(z)$ and vectors $\mathbf{a},\mathbf{b}$ from the defect list, solve the linear system to obtain $\tilde P(n,z)$.
+  \item Use the renewal formula $\tilde f(z)=\tilde P_{n_0}(n_t,z)/\tilde P_{n_t}(n_t,z)$ to get the generating function.
+  \item Sample $z_k=r e^{2\pi i k/m}$ and apply AW inversion to obtain $f(t)$.
+  \item Compare with exact recursion/MC, and record errors in the metrics JSON.
+\end{enumerate}
+\end{quote}
+
+\section{Numerical baseline: exact/flux recursion and MC}
+Exact recursion computes $f(t)=r^\top Q^{t-1} p_0$ (Eq.~\ref{eq:exact-recursion}) as the deterministic baseline, and we overlay it with AW inversion and MC histograms (Fig.~\ref{fig:A-fpt}--\ref{fig:C-fpt}). MC trajectories are also classified into ``fast/slow channels'' to explain bimodality.
+
+\paragraph{Peak and valley metrics}
+For the smoothed $f(t)$, take the two dominant peak locations $t_{p1},t_{p2}$ and the minimum $t_v$ between them, and define
+\begin{equation}
+  h_1=f(t_{p1}),\quad h_2=f(t_{p2}),\quad
+  \text{peak ratio}=\frac{\min(h_1,h_2)}{\max(h_1,h_2)},\quad
+  \text{valley ratio}=\frac{f(t_v)}{\min(h_1,h_2)}.
+\end{equation}
+% --- clarification: v_max vs v_min (Fig.1b) ---
+\noindent\textbf{Note:} For the scan in Fig.~1(b) we use
+\[
+  v_{\max}=\frac{h_v}{\max(h_1,h_2)},
+\]
+while the main-text \emph{valley ratio} is
+\[
+  v_{\min}=\frac{h_v}{\min(h_1,h_2)}.
+\]
+The relation is
+\[
+  v_{\max}=v_{\min}\,\frac{\min(h_1,h_2)}{\max(h_1,h_2)}
+  =v_{\min}\times \text{peak ratio}.
+\]
+All figure annotations and configuration card values are produced by the same metrics pipeline and written to the metrics JSON to ensure consistency.
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+    case & $L^1$ error & $L^\infty$ error \\
+    \midrule
+    A & $1.56\times 10^{-13}$ & $2.97\times 10^{-16}$ \\
+    B & $5.04\times 10^{-13}$ & $9.57\times 10^{-16}$ \\
+    C & $1.10\times 10^{-13}$ & $1.89\times 10^{-16}$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Errors between AW inversion and exact recursion for $t\le t_{\max}^{\mathrm{AW}}$ ($L^1$ and $L^\infty$).}
+  \label{tab:aw-errors}
+\end{table}
+
+\section{Three constructions and mechanisms}
+We present the three candidates with construction details, mechanism interpretations, and numerical verification (figures are separated to avoid crowded panels).
+
+\subsection{Candidate A: periodic boundary + global bias}
+This follows the ``periodic + bias'' bimodality mechanism in PhysRevE 102, 062124. The fast channel is an against-drift shortcut; the slow channel is a with-drift wrap-around.
+
+\paragraph{Configuration Card}
+\begin{itemize}
+  \item $N=60,\;q=0.8,\;g=(+0.6,0)$, boundary: $x$ periodic, $y$ reflecting; start=(10,30), target=(12,30).
+  \item Local structure: no local defects; bimodality comes purely from the wrap-around topology.
+  \item Channel criterion: no $x$ wrap-around is fast; at least one $x$ wrap-around is slow (matches MC classification).
+  \item Peak/valley metrics: $t_{p1}=6,\;t_v=110,\;t_{p2}=232$; $h_2/h_1=0.374$; valley ratio$=2.60\times 10^{-5}$.
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/candidate_A_env.pdf}
+  \caption{Candidate A: environment schematic. Symbols follow Fig.~\ref{fig:symbol-legend}.}
+  \label{fig:A-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/candidate_A_fig3_panel.pdf}
+  \caption{Candidate A: environment schematic and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:A-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_A_paths_fast.pdf}
+  \caption{Candidate A: fast-channel trajectory density + representative paths (full + ROI).}
+  \label{fig:A-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_A_paths_slow.pdf}
+  \caption{Candidate A: slow-channel trajectory density + representative paths (full + ROI).}
+  \label{fig:A-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/candidate_A_fpt.pdf}
+  \caption{Candidate A: multiscale FPT plot (global log + fast/slow windows; Exact/AW/MC).}
+  \label{fig:A-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/candidate_A_channel_decomp.pdf}
+  \caption{Candidate A: channel decomposition and mixture.}
+  \label{fig:A-channel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/unwrapped/candidate_A_unwrapped.pdf}
+  \caption{Candidate A: periodic unwrapped view (two tiles) with $Dx_{\text{short}}$ and $Dx_{\text{wrap}}$.}
+  \label{fig:A-unwrapped}
+\end{figure}
+\FloatBarrier
+
+\subsection{Candidate B: edge corridor + mixed boundary}
+This study places the corridor on the reflecting edge ($y=N$) and enables auto-tuning of $(g_x,g_y,\delta)$ to meet the bimodality visibility threshold. If a pure reflecting boundary cannot satisfy the threshold, the tuner allows an $x$-periodic boundary to create a ``wrap-around slow channel''. Compared with an interior corridor, the edge corridor reduces escape and boosts the fast weight.
+\paragraph{Failure baseline (interior corridor)} A pure reflecting interior corridor yields too small a fast weight (the early peak becomes a shoulder), and is kept as a failure baseline to illustrate why ``edge corridor + mixed boundary'' is needed for visible bimodality.
+
+\paragraph{Why is the interior-corridor early peak tiny? Why does an edge corridor fix it?}
+The interior-corridor construction behaves as a ``failure case'': the corridor lies in an interior band, and escape in $y$ occurs with probability $p_\uparrow+p_\downarrow\approx q/2$, so the probability of staying in the band for $L$ steps is roughly $(1-q/2)^L$. With $q=0.8,L=9$, this gives $(0.6)^9\approx 1\%$, matching $P_{\text{fast}}\approx 0.01$ for that construction and making the early peak nearly invisible. The edge-corridor variant places the corridor on a reflecting boundary, so outward escape is reflected and only one-sided escape remains ($p_\uparrow\approx q(1-g_y)/4$), raising the stay probability to $(1-p_\uparrow)^L$, which can reach $10\%$--$30\%$. This turns the early peak from ``almost invisible'' into ``visibly bimodal''; the $x$-periodic boundary then provides a clear wrap-around time scale for the slow channel.
+
+\paragraph{Configuration Card}
+\begin{itemize}
+  \item $N=60,\;q=0.8,\;g=(-0.25,+0.40)$, boundary: $x$ periodic, $y$ reflecting; start=(50,60), target=(42,60).
+  \item Corridor: $y=60$, $x\in[43,50]$, direction left, $\delta=0.70$, length $L=8$; corridor band $y\in\{59,60\}$.
+  \item Channel criterion: stay in the corridor band until hitting the target is fast; leaving the band before hitting is slow (matches MC classification).
+  \item Peak/valley metrics: $t_{p1}=33,\;t_v=220,\;t_{p2}=473$; $h_2/h_1=0.989$; valley ratio$=6.04\times 10^{-2}$.
+\end{itemize}
+
+\paragraph{Visualization tip} The two peaks in Candidate B have a large height difference; semilogy + local windows are required to clearly see the early peak and valley (Fig.~\ref{fig:B-proof}).
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/candidate_B_env.pdf}
+  \caption{Candidate B: environment schematic (edge corridor + local bias).}
+  \label{fig:B-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/candidate_B_fig3_panel.pdf}
+  \caption{Candidate B: environment schematic and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:B-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_B_paths_fast.pdf}
+  \caption{Candidate B: fast-channel density (corridor hits with small $y$ fluctuations).}
+  \label{fig:B-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_B_paths_slow.pdf}
+  \caption{Candidate B: slow-channel density (wrap-around after leaving the corridor band).}
+  \label{fig:B-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/candidate_B_fpt.pdf}
+  \caption{Candidate B: multiscale FPT plot (Exact/AW/MC).}
+  \label{fig:B-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/bimodality_proof_B.png}
+  \caption{Candidate B: peak--valley zoom (semilogy + linear; $t_{p1},t_v,t_{p2}$ and valley ratio).}
+  \label{fig:B-proof}
+\end{figure}
+
+\paragraph{Bimodality detection and significance}
+Fig.~\ref{fig:B-diagnostic} runs peak detection (prominence + distance) on the smoothed curve, marks $t_{p1},t_{p2}$ and $t_v$, and reports the valley ratio; this filters out noisy shoulders and provides a consistent bimodality criterion.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{\FigDir/fpt/bimodality_diagnostic_B.pdf}
+  \caption{Candidate B: bimodality diagnostic (raw vs smoothed + peak finding + valley metrics).}
+  \label{fig:B-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/candidate_B_channel_decomp.pdf}
+  \caption{Candidate B: channel decomposition and mixture.}
+  \label{fig:B-channel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/unwrapped/candidate_B_unwrapped.pdf}
+  \caption{Candidate B: periodic unwrapped view (two tiles) showing the wrap-around slow channel.}
+  \label{fig:B-unwrapped}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{\FigDir/channel_decomp/candidate_B_scan.pdf}
+  \caption{Candidate B: scan of $L$ vs peak ratio and valley depth; $L_{\min}=6$.}
+  \label{fig:scan-B}
+\end{figure}
+\FloatBarrier
+
+\paragraph{Failure case (interior corridor)}
+With interior-corridor parameters, Candidate B has too small an early-peak weight ($P_{\text{fast}}\approx 1\%$), so the smoothed curve fails the bimodality criterion. This failure emphasizes that an edge corridor (higher stay-in-band probability) is essential for a visually and statistically clear bimodality.
+
+\subsection{Candidate C: door + sticky + wrap-around channel}
+We place a permeable door ($p_{\text{pass}}=0.2$) on a vertical barrier and add a $3\times 3$ sticky block (factor=0.2) to its left. With $x$-periodic boundary and leftward global bias ($g_x=+0.5$), we classify channels by first door-crossing time: early crossing is fast, late crossing (including wrap-around and sticky/door delays) is slow; bimodality already appears at $n_{\text{bias}}=0$.
+
+\paragraph{Configuration Card}
+\begin{itemize}
+  \item $N=60,\;q=0.8,\;g=(+0.5,0)$, boundary: $x$ periodic, $y$ reflecting; start=(10,30), target=(50,30).
+  \item barrier/door: a vertical wall at $x=30$ reflects everywhere except a door at $(30,30)\leftrightarrow(31,30)$ with $p_{\text{pass}}=0.2$.
+  \item sticky: $x\in[27,29],\;y\in[29,31]$, factor=0.2; number of local bias sites is 0.
+  \item Channel criterion: first door-crossing time $\le t_v$ is fast, otherwise slow.
+  \item Peak/valley metrics: $t_{p1}=88,\;t_v=279,\;t_{p2}=500$; $h_2/h_1=0.0326$; valley ratio$=2.19\times 10^{-2}$.
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/candidate_C_env.pdf}
+  \caption{Candidate C: environment schematic (door/sticky highlighted).}
+  \label{fig:C-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/candidate_C_fig3_panel.pdf}
+  \caption{Candidate C: environment schematic and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:C-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_C_paths_fast.pdf}
+  \caption{Candidate C: fast-channel density (early door crossing).}
+  \label{fig:C-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_C_paths_slow.pdf}
+  \caption{Candidate C: slow-channel density (wrap-around or sticky/door delays).}
+  \label{fig:C-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/candidate_C_fpt.pdf}
+  \caption{Candidate C: multiscale FPT plot (Exact/AW/MC, adaptive slow-window y-axis).}
+  \label{fig:C-fpt}
+\end{figure}
+
+\paragraph{Bimodality diagnostic}
+Fig.~\ref{fig:C-diagnostic} uses windowed two-peak selection with an early window [1, 200] and a late window [200, 1200] on the smoothed curve. It yields $t_{p1}=88$, $t_v=279$, $t_{p2}=500$ and satisfies the unified criterion valley ratio $\le 0.07$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{\FigDir/fpt/bimodality_diagnostic_C.pdf}
+  \caption{Candidate C: bimodality diagnostic (windowed two-peak; raw vs smoothed + peak finding + valley metrics).}
+  \label{fig:C-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/candidate_C_channel_decomp.pdf}
+  \caption{Candidate C: channel decomposition and mixture.}
+  \label{fig:C-channel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/unwrapped/candidate_C_unwrapped.pdf}
+  \caption{Candidate C: periodic unwrapped view (two tiles).}
+  \label{fig:C-unwrapped}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{\FigDir/channel_decomp/candidate_C_scan.pdf}
+  \caption{Candidate C: scan of local bias count; $n_{\min}=0$.}
+  \label{fig:scan-C}
+\end{figure}
+\FloatBarrier
+
+\section{Intuitive mechanism diagram: two-channel mixture + time-scale separation}
+Classify trajectories by channel event $C\in\{\text{fast},\text{slow}\}$, then
+\begin{equation}
+  f(t)=\mathbb{P}(C=\text{fast})\,f(t\,|\,C=\text{fast})
+  +\mathbb{P}(C=\text{slow})\,f(t\,|\,C=\text{slow}).
+\end{equation}
+When the typical times satisfy $t_{\text{fast}}\ll t_{\text{slow}}$ and $\mathbb{P}(C=\text{fast})$ is not too small, a visible valley forms between the peaks.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.65\textwidth]{\FigDir/fig3_panels/channel_cartoon.pdf}
+  \caption{Conceptual cartoon: bimodality from two-channel mixture + time-scale separation.}
+  \label{fig:channel-cartoon}
+\end{figure}
+
+\paragraph{Channel criteria (for fast/slow classification)}
+\begin{itemize}
+  \item A: whether $x$ wrap-around occurs; no wrap is fast, any wrap is slow.
+  \item B: whether the trajectory leaves the corridor band ($y\in\{59,60\}$) before hitting; staying in the band is fast, leaving is slow.
+  \item C: whether the first door-crossing time is later than $t_v$; early crossing is fast, late crossing is slow.
+\end{itemize}
+
+\paragraph{Geometric interpretation of the three candidates}
+\begin{itemize}
+  \item A: fast is an against-drift shortcut; slow is a with-drift wrap-around; periodic topology makes the slow channel natural.
+  \item B: the edge corridor provides the fast channel; the $x$-periodic boundary plus global bias provides the wrap-around slow channel; scan yields $L_{\min}=6$.
+  \item C: door + sticky raise the cost of slow paths; early door crossing is fast, late door crossing with wrap-around or sticky delays is slow; the minimum local bias count is $n_{\min}=0$.
+\end{itemize}
+
+\paragraph{Periodic unwrapped view}
+The periodic mechanism for A, B, and C is shown in the unwrapped views (Fig.~\ref{fig:A-unwrapped}, Fig.~\ref{fig:B-unwrapped}, Fig.~\ref{fig:C-unwrapped}), with target images marked in two tiles and short vs wrap distances labeled as $Dx_{\text{short}}$ and $Dx_{\text{wrap}}$.
+
+\paragraph{Rough peak prediction}
+The approximate drift speed is $v_x \approx q|g_x|/2$, giving a rough estimate $t_{\text{peak}}\approx \Delta x / v_x$. Table~\ref{tab:peak-predict} compares the estimate with observed peak locations (for intuition only).
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccc}
+    \toprule
+    case & channel & $\Delta x$ & $t_{\text{pred}}$ & $t_{\text{peak}}$ \\
+    \midrule
+    A & fast (short) & 2 & 8.3 & 6 \\
+    A & slow (wrap) & 58 & 241.7 & 232 \\
+    B & fast (corridor) & 8 & 80.0 & 33 \\
+    B & slow (wrap) & 52 & 520.0 & 473 \\
+    C & fast (short) & 20 & 100.0 & 88 \\
+    C & slow (wrap) & 40 & 200.0 & 500 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Rough peak predictions based on $v_x \approx q|g_x|/2$ vs observed peaks.}
+  \label{tab:peak-predict}
+\end{table}
+
+The prediction errors are larger for B/C because corridor bias, periodic wrap-around, and door/sticky delays modify the effective drift and waiting time. The table is for order-of-magnitude intuition only.
+
+The shared mechanism can be summarized as follows:
+\begin{itemize}
+  \item A: periodic topology provides a wrap-around slow channel; the against-bias shortcut yields the fast channel.
+  \item B: the edge corridor provides the fast channel; the $x$-periodic boundary and global bias provide the wrap-around slow channel.
+  \item C: door + sticky raise the door-crossing cost; early door crossing is fast, late crossing (including wrap-around or sticky/door delays) is slow.
+\end{itemize}
+
+\section{Boundary conditions: physical meaning and rationale}
+\paragraph{reflecting} Closest to diffusion/search in finite containers or walled domains: probability is conserved and does not ``leak'' out of the system.
+\paragraph{periodic} Corresponds to a ring/torus topology or a tiled homogeneous medium; less common in reality but naturally introduces a wrap-around slow channel (Candidate A).
+\paragraph{mixed} Periodic in one direction only (e.g., cylindrical surfaces or strip geometries), balancing realism and analytical control (Candidates B and C).
+\paragraph{Recommendation} If realistic boundaries are emphasized, consider a pure reflecting corridor baseline; if bimodality visibility is prioritized, use an edge corridor and allow an $x$-periodic boundary. If minimal local bias is a priority, Candidate A is simplest but more idealized; if one wants a controllable wrap-around mechanism within walled domains, Candidate C is more suitable.
+
+\section{Links to references}
+\begin{itemize}
+  \item PhysRevE 102, 062124: periodic boundary + bias yields bimodality (explicitly in 1D), matching Candidate A and the wrap-around channel in Candidate C.
+  \item arXiv:2311.00464v2 Fig.3: construction rules for local bias, permeable barriers, and sticky sites (20\% stay, 80/20 door, sticky factor 0.2), used in Candidates B/C.
+\end{itemize}
+
+\section{Data and Code Availability}
+Scripts and data used in this study are organized under \url{reports/grid2d_bimodality/}. Figure outputs are stored in \url{figures/}, and numerical metrics and intermediate artifacts are stored in \url{data/} and \url{outputs/}. The PDF is compiled from the \LaTeX{} source; running the main pipeline reproduces all figures and metrics following the same directory structure.
+
+\begin{thebibliography}{9}
+  \bibitem{PRE102} S. Condamin et al., \emph{Phys. Rev. E} \textbf{102}, 062124 (2020).
+  \bibitem{arxiv2311} M. Abad et al., \emph{arXiv:2311.00464v2} (2023).
+\end{thebibliography}
+
+\end{document}

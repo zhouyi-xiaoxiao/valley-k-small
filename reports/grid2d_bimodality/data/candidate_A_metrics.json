@@ -1,0 +1,76 @@
+{
+  "config": {
+    "N": 60,
+    "q": 0.8,
+    "g_x": 0.6,
+    "g_y": 0.0,
+    "boundary": {
+      "x": "periodic",
+      "y": "reflecting"
+    },
+    "start": [
+      10,
+      30
+    ],
+    "target": [
+      12,
+      30
+    ],
+    "local_bias_delta": 0.2,
+    "n_local_bias": 0,
+    "n_sticky": 0,
+    "n_barriers_reflect": 0,
+    "n_barriers_perm": 0
+  },
+  "peaks": {
+    "t_p1": 6,
+    "t_p2": 232,
+    "t_v": 110,
+    "h1": 0.0025966044929915484,
+    "h2": 0.0009712871537239946,
+    "hv": 2.521089519148099e-08,
+    "h2_over_h1": 0.37406049182522,
+    "peak_ratio": 0.37406049182522,
+    "valley_ratio": 2.59561707316115e-05,
+    "valley_depth": 0.9999740438292684,
+    "gap": 226,
+    "smooth_window": 9,
+    "min_sep": 5,
+    "min_gap": 20,
+    "p_fast": 0.0307,
+    "p_slow": 0.9693,
+    "heatmap_times": [
+      6,
+      110,
+      232
+    ],
+    "bimodality_proof": null,
+    "bimodality_diagnostic": null
+  },
+  "mc": {
+    "n_walkers": 30000,
+    "wrap_fraction": 0.9693,
+    "truncated_fraction": 0.5678666666666666,
+    "tail_mass": 0.0
+  },
+  "aw": {
+    "enabled": true,
+    "m": 16384,
+    "r": 0.9983149575896413,
+    "oversample": 4,
+    "r_pow10": 12.0,
+    "l1": 1.5646457010175629e-13,
+    "linf": 2.965970568105658e-16,
+    "rel_l1": 3.6577126362727167e-13,
+    "max_abs_error": 2.965970568105658e-16
+  },
+  "plot_params": {
+    "fig_version": "main",
+    "plot_style": "fig3v5",
+    "png_dpi": 800,
+    "mc_bin_width": 2,
+    "mc_smooth_window": 5,
+    "peak_smooth_window": 9,
+    "log_eps": 1e-14
+  }
+}

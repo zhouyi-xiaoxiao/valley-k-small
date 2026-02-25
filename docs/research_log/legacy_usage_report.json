@@ -1,0 +1,719 @@
+{
+  "compatibility_layer": "removed",
+  "removed_on": "2026-02-16",
+  "totals": {
+    "\\b2d_bimodality\\b": 17,
+    "\\b2d_blackboard_bimodality\\b": 7,
+    "\\b2d_rect_bimodality\\b": 6,
+    "\\b2d_reflecting_bimodality\\b": 14,
+    "\\b2d_two_target_double_peak\\b": 12,
+    "\\bderiv_k2\\b": 4,
+    "\\blazy_flux\\b": 6,
+    "\\blazy_jump\\b": 5,
+    "\\blazy_jump_ext\\b": 10,
+    "\\blazy_jump_ext_rev2\\b": 8,
+    "\\bluca_regime_map\\b": 16,
+    "\\btwo_target_ring\\b": 7,
+    "\\bvalley\\b": 554,
+    "\\bvalley_dst\\b": 8,
+    "/Users/": 39
+  },
+  "files_with_legacy_refs": {
+    "README.md": {
+      "\\bvalley\\b": 2
+    },
+    "AGENTS.md": {
+      "\\bvalley\\b": 2
+    },
+    "tests/test_registry_resolution.py": {
+      "\\bvalley_dst\\b": 1
+    },
+    "docs/AGENT_REPORT_2025-12-14.md": {
+      "\\bvalley\\b": 3
+    },
+    "docs/RESEARCH_SUMMARY.md": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_blackboard_bimodality\\b": 3,
+      "\\b2d_rect_bimodality\\b": 3,
+      "\\b2d_reflecting_bimodality\\b": 2,
+      "\\b2d_two_target_double_peak\\b": 3,
+      "\\bderiv_k2\\b": 1,
+      "\\blazy_flux\\b": 3,
+      "\\blazy_jump\\b": 2,
+      "\\blazy_jump_ext\\b": 6,
+      "\\blazy_jump_ext_rev2\\b": 3,
+      "\\bluca_regime_map\\b": 2,
+      "\\btwo_target_ring\\b": 3,
+      "\\bvalley\\b": 16,
+      "\\bvalley_dst\\b": 4
+    },
+    "docs/agentreport.md": {
+      "\\bvalley\\b": 19
+    },
+    "scripts/migrate_report_names.py": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_blackboard_bimodality\\b": 1,
+      "\\b2d_rect_bimodality\\b": 1,
+      "\\b2d_reflecting_bimodality\\b": 1,
+      "\\b2d_two_target_double_peak\\b": 1,
+      "\\bderiv_k2\\b": 1,
+      "\\blazy_flux\\b": 1,
+      "\\blazy_jump\\b": 1,
+      "\\blazy_jump_ext\\b": 1,
+      "\\blazy_jump_ext_rev2\\b": 1,
+      "\\bluca_regime_map\\b": 1,
+      "\\btwo_target_ring\\b": 1,
+      "\\bvalley\\b": 1,
+      "\\bvalley_dst\\b": 1
+    },
+    "scripts/normalize_artifact_paths.py": {
+      "\\blazy_jump_ext_rev2\\b": 1,
+      "\\bluca_regime_map\\b": 1,
+      "/Users/": 1
+    },
+    "scripts/check_docs_paths.py": {
+      "/Users/": 1
+    },
+    "scripts/README.md": {
+      "/Users/": 1
+    },
+    "scripts/prune_legacy_artifacts.py": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_blackboard_bimodality\\b": 1,
+      "\\b2d_rect_bimodality\\b": 1,
+      "\\b2d_reflecting_bimodality\\b": 1,
+      "\\b2d_two_target_double_peak\\b": 1,
+      "\\bderiv_k2\\b": 1,
+      "\\blazy_flux\\b": 1,
+      "\\blazy_jump\\b": 1,
+      "\\blazy_jump_ext\\b": 1,
+      "\\blazy_jump_ext_rev2\\b": 1,
+      "\\bluca_regime_map\\b": 1,
+      "\\btwo_target_ring\\b": 1,
+      "\\bvalley\\b": 1,
+      "\\bvalley_dst\\b": 1
+    },
+    "scripts/check_legacy_usage.py": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_blackboard_bimodality\\b": 1,
+      "\\b2d_rect_bimodality\\b": 1,
+      "\\b2d_reflecting_bimodality\\b": 1,
+      "\\b2d_two_target_double_peak\\b": 1,
+      "\\bderiv_k2\\b": 1,
+      "\\blazy_flux\\b": 1,
+      "\\blazy_jump\\b": 1,
+      "\\blazy_jump_ext\\b": 1,
+      "\\blazy_jump_ext_rev2\\b": 1,
+      "\\bluca_regime_map\\b": 1,
+      "\\btwo_target_ring\\b": 1,
+      "\\bvalley\\b": 1,
+      "\\bvalley_dst\\b": 1,
+      "/Users/": 1
+    },
+    "reports/README.md": {
+      "\\bvalley\\b": 1
+    },
+    "src/vkcore/__init__.py": {
+      "\\bvalley\\b": 1
+    },
+    "src/vkcore/common/fpt_metrics.py": {
+      "\\bvalley\\b": 2
+    },
+    "src/vkcore/ring/jumpover_pipeline.py": {
+      "\\bvalley\\b": 16
+    },
+    "src/vkcore/ring/jump_reports.py": {
+      "\\bvalley\\b": 2
+    },
+    "src/vkcore/ring/valley_study.py": {
+      "\\bvalley\\b": 10
+    },
+    "src/vkcore/grid2d/rect_bimodality/cli.py": {
+      "\\bvalley\\b": 27
+    },
+    "src/vkcore/grid2d/bimodality2d/pipeline.py": {
+      "\\bvalley\\b": 4
+    },
+    "reports/ring_lazy_jump_ext_rev2/ring_lazy_jump_ext_rev2_en.tex": {
+      "\\bvalley\\b": 8
+    },
+    "reports/ring_lazy_jump_ext_rev2/ring_lazy_jump_ext_rev2_cn.tex": {
+      "\\bvalley\\b": 7
+    },
+    "reports/ring_two_target/README.md": {
+      "\\btwo_target_ring\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/method_comparison_cn.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/method_comparison_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/grid2d_two_target_double_peak_cn.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/grid2d_two_target_double_peak_en.tex": {
+      "\\bvalley\\b": 3
+    },
+    "reports/ring_lazy_jump_ext/ring_lazy_jump_ext_cn.tex": {
+      "\\bvalley\\b": 11
+    },
+    "reports/ring_lazy_jump_ext/ring_lazy_jump_ext_en.tex": {
+      "\\bvalley\\b": 13
+    },
+    "reports/grid2d_bimodality/grid2d_bimodality_cn.tex": {
+      "\\bvalley\\b": 14
+    },
+    "reports/grid2d_bimodality/grid2d_bimodality_en.tex": {
+      "\\bvalley\\b": 21
+    },
+    "reports/grid2d_rect_bimodality/grid2d_rect_bimodality_cn.tex": {
+      "\\bvalley\\b": 4
+    },
+    "reports/grid2d_rect_bimodality/grid2d_rect_bimodality_en.tex": {
+      "\\bvalley\\b": 10
+    },
+    "reports/grid2d_blackboard_bimodality/grid2d_blackboard_bimodality_en.tex": {
+      "\\bvalley\\b": 9
+    },
+    "reports/grid2d_blackboard_bimodality/grid2d_blackboard_bimodality_cn.tex": {
+      "\\bvalley\\b": 6
+    },
+    "reports/ring_valley_dst/ring_valley_dst_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/cross_luca_regime_map/cross_luca_regime_map_cn_smoke.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/cross_luca_regime_map/cross_luca_regime_map_cn.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/cross_luca_regime_map/cross_luca_regime_map_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/cross_luca_regime_map/cross_luca_regime_map_en_smoke.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_reflecting_bimodality/grid2d_reflecting_bimodality_en.tex": {
+      "\\bvalley\\b": 29
+    },
+    "reports/grid2d_reflecting_bimodality/README.md": {
+      "\\bvalley\\b": 2
+    },
+    "reports/grid2d_reflecting_bimodality/grid2d_reflecting_bimodality_cn.tex": {
+      "\\bvalley\\b": 12
+    },
+    "reports/ring_lazy_jump/ring_lazy_jump_en.tex": {
+      "\\bvalley\\b": 12
+    },
+    "reports/ring_lazy_jump/ring_lazy_jump_cn.tex": {
+      "\\bvalley\\b": 7
+    },
+    "reports/ring_lazy_flux/ring_lazy_flux_en.tex": {
+      "\\bvalley\\b": 6
+    },
+    "reports/ring_lazy_flux/ring_lazy_flux_cn.tex": {
+      "\\bvalley\\b": 3
+    },
+    "reports/ring_valley/README.md": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_valley/ring_valley.tex": {
+      "\\bvalley\\b": 20
+    },
+    "reports/ring_valley/data/N100K6_metrics.json": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_flux/tables/valley_report_k2_summary_cn.tex": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_flux/tables/valley_report_k2_summary_en.tex": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_flux/code/lazy_ring_flux_bimodality.py": {
+      "\\bvalley\\b": 12
+    },
+    "reports/ring_lazy_flux/code/plot_k2_valley_report_contrast.py": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_flux/code/scan_valley_report_k2_summary.py": {
+      "\\bvalley\\b": 5
+    },
+    "reports/ring_lazy_jump/tables/case_window_stats_N100_K2_beta002_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump/tables/case_window_stats_N100_K4_beta002_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump/tables/case_window_stats_N100_K2_beta002.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump/tables/case_window_stats_N100_K4_beta002.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump/data/cases/N100_K2_beta002/N100_K2_beta002.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump/data/cases/N100_K4_beta015/N100_K4_beta015.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump/data/cases/N100_K4_beta002/N100_K4_beta002.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_reflecting_bimodality/code/reflecting_bimodality_pipeline.py": {
+      "\\b2d_bimodality\\b": 2
+    },
+    "reports/grid2d_reflecting_bimodality/code/benchmark_aw_exact.py": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_reflecting_bimodality\\b": 2
+    },
+    "reports/cross_luca_regime_map/code/build_manifest.py": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_reflecting_bimodality\\b": 1,
+      "\\b2d_two_target_double_peak\\b": 1,
+      "\\bluca_regime_map\\b": 1
+    },
+    "reports/cross_luca_regime_map/code/run_regime_scan.py": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_reflecting_bimodality\\b": 1,
+      "\\b2d_two_target_double_peak\\b": 1,
+      "\\bluca_regime_map\\b": 3
+    },
+    "reports/cross_luca_regime_map/code/write_regime_report.py": {
+      "\\bluca_regime_map\\b": 1,
+      "\\bvalley\\b": 2
+    },
+    "reports/cross_luca_regime_map/code/plot_regime_figures.py": {
+      "\\b2d_two_target_double_peak\\b": 1,
+      "\\bluca_regime_map\\b": 5
+    },
+    "reports/ring_valley_dst/code/bimodality_flux_scan.py": {
+      "\\bvalley\\b": 19
+    },
+    "reports/ring_valley_dst/inputs/flux_validation_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_blackboard_bimodality/code/z_scan.py": {
+      "\\b2d_bimodality\\b": 1
+    },
+    "reports/grid2d_blackboard_bimodality/code/screenshot_scan.py": {
+      "\\b2d_bimodality\\b": 1
+    },
+    "reports/grid2d_blackboard_bimodality/code/blackboard_bimodality_pipeline.py": {
+      "\\b2d_bimodality\\b": 2
+    },
+    "reports/grid2d_rect_bimodality/tables/ot_representative_metrics.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_rect_bimodality/tables/tt_width_sweep_metrics.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_bimodality/code/plot_fpt_v12.py": {
+      "\\bvalley\\b": 2
+    },
+    "reports/grid2d_bimodality/code/plot_style_v9.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_bimodality/code/plot_fpt_v11.py": {
+      "\\bvalley\\b": 2
+    },
+    "reports/grid2d_bimodality/code/plot_style_v8.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_bimodality/code/plot_fpt_v10.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_bimodality/code/plot_fpt_v9.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_bimodality/code/plot_fpt_v8.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_bimodality/code/analysis/bimodality_metrics.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/tables/case_window_stats_N100_K2_beta002_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/tables/case_window_stats_N100_K4_beta002_en.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/tables/case_window_stats_N100_K2_beta002.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/tables/case_window_stats_N100_K4_beta002.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/sections/beta_sweep_en.tex": {
+      "\\bvalley\\b": 6
+    },
+    "reports/ring_lazy_jump_ext/sections/mc_n_cn.tex": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_jump_ext/sections/beta_sweep_cn.tex": {
+      "\\bvalley\\b": 3
+    },
+    "reports/ring_lazy_jump_ext/sections/mc_n_en.tex": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_jump_ext/sections/valley_en.tex": {
+      "\\bvalley\\b": 3
+    },
+    "reports/ring_lazy_jump_ext/sections/mc_beta_en.tex": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_jump_ext/sections/mc_beta_cn.tex": {
+      "\\bvalley\\b": 3
+    },
+    "reports/ring_lazy_jump_ext/code/mc_sweep_N_classes.py": {
+      "\\bvalley\\b": 4
+    },
+    "reports/ring_lazy_jump_ext/code/mc_sweep_beta_classes.py": {
+      "\\bvalley\\b": 4
+    },
+    "reports/ring_lazy_jump_ext/code/beta_sweep_peaks_tail.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/notes/readme_ext.md": {
+      "\\blazy_jump_ext\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/_smoketest/N100_K2_beta002.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.03/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.02/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.005/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.005/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.03/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.02/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.01/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.001/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.001/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.01/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N230_K2_beta0.01/N230_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N180_K4_beta0.01/N180_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N240_K2_beta0.01/N240_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N120_K2_beta0.01/N120_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N290_K4_beta0.01/N290_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N150_K2_beta0.01/N150_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N90_K2_beta0.01/N90_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N250_K2_beta0.01/N250_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N190_K4_beta0.01/N190_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N220_K2_beta0.01/N220_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N300_K2_beta0.01/N300_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N50_K4_beta0.01/N50_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N80_K2_beta0.01/N80_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N140_K2_beta0.01/N140_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N280_K4_beta0.01/N280_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N130_K2_beta0.01/N130_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N190_K2_beta0.01/N190_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N220_K4_beta0.01/N220_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N250_K4_beta0.01/N250_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N300_K4_beta0.01/N300_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N50_K2_beta0.01/N50_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N80_K4_beta0.01/N80_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N280_K2_beta0.01/N280_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N130_K4_beta0.01/N130_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N140_K4_beta0.01/N140_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N240_K4_beta0.01/N240_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N230_K4_beta0.01/N230_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N180_K2_beta0.01/N180_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N150_K4_beta0.01/N150_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N120_K4_beta0.01/N120_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N290_K2_beta0.01/N290_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N90_K4_beta0.01/N90_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N60_K2_beta0.01/N60_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N210_K4_beta0.01/N210_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N260_K4_beta0.01/N260_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N100_K4_beta0.01/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N170_K4_beta0.01/N170_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N270_K4_beta0.01/N270_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N200_K4_beta0.01/N200_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N70_K2_beta0.01/N70_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N160_K4_beta0.01/N160_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N110_K4_beta0.01/N110_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N200_K2_beta0.01/N200_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N270_K2_beta0.01/N270_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N70_K4_beta0.01/N70_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N110_K2_beta0.01/N110_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N160_K2_beta0.01/N160_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N60_K4_beta0.01/N60_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N260_K2_beta0.01/N260_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N210_K2_beta0.01/N210_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N170_K2_beta0.01/N170_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/outputs/mc_N_sweep_beta_selected/cases/N100_K2_beta0.01/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/data/cases/N100_K2_beta002/N100_K2_beta002.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/data/cases/N100_K4_beta015/N100_K4_beta015.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext/data/cases/N100_K4_beta002/N100_K4_beta002.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/tables/case_mechanism.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/tables/sparse_testset_metrics.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/code/compare_numeric_methods.py": {
+      "\\b2d_bimodality\\b": 1,
+      "\\b2d_two_target_double_peak\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/code/two_target_2d_report.py": {
+      "\\bvalley\\b": 4
+    },
+    "reports/grid2d_two_target_double_peak/notes/method_comparison_cn.md": {
+      "\\b2d_two_target_double_peak\\b": 1
+    },
+    "reports/grid2d_two_target_double_peak/notes/method_comparison_en.md": {
+      "\\b2d_two_target_double_peak\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/tables/window_params_beta0.01.tex": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/tables/window_params_beta0.01_en.tex": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/plot_fig2_overlap_binbars.py": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/validate_fig2_json.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/mc_sweep_N_classes.py": {
+      "\\bvalley\\b": 4
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/sensitivity_mc_uncertainty.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/export_fig2_inputs.py": {
+      "\\bvalley\\b": 10
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/mc_sweep_beta_classes.py": {
+      "\\bvalley\\b": 4
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/beta_sweep_peaks_tail.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/export_window_table.py": {
+      "\\bvalley\\b": 2
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/sensitivity_thresholds.py": {
+      "\\bvalley\\b": 4
+    },
+    "reports/ring_lazy_jump_ext_rev2/code/sensitivity_bin_intervals.py": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/notes/readme_rev.md": {
+      "\\blazy_jump_ext_rev2\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/notes/revision_notes.md": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/data/fig2_bins_bars_beta0.01.json": {
+      "\\bvalley\\b": 13
+    },
+    "reports/ring_lazy_jump_ext_rev2/data/fig2_bins_bars_schema.example.json": {
+      "\\bvalley\\b": 7
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.03/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.02/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.005/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.005/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.03/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.02/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.01/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.001/N100_K4_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.001/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.01/N100_K2_beta0.summary.json": {
+      "\\bvalley\\b": 1
+    },
+    "reports/ring_lazy_jump_ext_rev2/figures/standalone/fig2_overlap_binbars_beta0.01_x1350_description_en.tex": {
+      "\\bvalley\\b": 2
+    },
+    ".venv/lib/python3.14/site-packages/pip/_internal/utils/urls.py": {
+      "/Users/": 1
+    },
+    ".venv/lib/python3.12/site-packages/matplotlib/sphinxext/figmpl_directive.py": {
+      "/Users/": 2
+    },
+    ".venv/lib/python3.12/site-packages/contourpy/util/_build_config.py": {
+      "/Users/": 3
+    },
+    ".venv/lib/python3.12/site-packages/pip/_internal/utils/urls.py": {
+      "/Users/": 1
+    },
+    "docs/research_log/RESEARCH_PROGRESS_ARCHIVE.md": {
+      "\\b2d_bimodality\\b": 3,
+      "\\b2d_blackboard_bimodality\\b": 1,
+      "\\b2d_reflecting_bimodality\\b": 5,
+      "\\bvalley\\b": 2,
+      "/Users/": 1
+    },
+    "docs/research_log/legacy_usage_report.json": {
+      "/Users/": 15
+    },
+    ".venv312/lib/python3.12/site-packages/matplotlib/sphinxext/figmpl_directive.py": {
+      "/Users/": 2
+    },
+    ".venv312/lib/python3.12/site-packages/contourpy/util/_build_config.py": {
+      "/Users/": 3
+    },
+    ".venv312/lib/python3.12/site-packages/pip/_internal/utils/urls.py": {
+      "/Users/": 1
+    },
+    ".venv_py314_broken/lib/python3.14/site-packages/matplotlib/sphinxext/figmpl_directive.py": {
+      "/Users/": 2
+    },
+    ".venv_py314_broken/lib/python3.14/site-packages/contourpy/util/_build_config.py": {
+      "/Users/": 3
+    },
+    ".venv_py314_broken/lib/python3.14/site-packages/pip/_internal/utils/urls.py": {
+      "/Users/": 1
+    }
+  }
+}

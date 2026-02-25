@@ -1,0 +1,70 @@
+{
+  "baseline": {
+    "params": {
+      "N": 100,
+      "K": 4,
+      "n0": 0,
+      "target": 50,
+      "sc_src": 5,
+      "sc_dst": 51,
+      "mode": "lazy_selfloop",
+      "q": 0.6666667,
+      "beta": 0.02,
+      "rho": 1.0,
+      "jumpover_absorbs": false,
+      "p_shortcut": 0.006666666000000002
+    },
+    "survival_end": 9.992089703648366e-15,
+    "peaks_paper": [
+      [
+        31,
+        0.00021840306538041087
+      ],
+      [
+        475,
+        0.0006474699920135953
+      ]
+    ],
+    "t1_tv_t2": {
+      "t1": 31,
+      "tv": 95,
+      "t2": 475
+    },
+    "paper_bimodal": true,
+    "macro_bimodal": true
+  },
+  "control": {
+    "params": {
+      "N": 100,
+      "K": 4,
+      "n0": 0,
+      "target": 50,
+      "sc_src": 5,
+      "sc_dst": 51,
+      "mode": "lazy_selfloop",
+      "q": 0.6666667,
+      "beta": 0.02,
+      "rho": 1.0,
+      "jumpover_absorbs": true,
+      "p_shortcut": 0.006666666000000002
+    },
+    "survival_end": 9.993822110278252e-15,
+    "peaks_paper": [
+      [
+        25,
+        0.0002485627307370848
+      ],
+      [
+        464,
+        0.0006632154666336417
+      ]
+    ],
+    "t1_tv_t2": {
+      "t1": 25,
+      "tv": 95,
+      "t2": 464
+    },
+    "paper_bimodal": true,
+    "macro_bimodal": true
+  }
+}

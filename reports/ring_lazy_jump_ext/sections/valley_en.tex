@@ -1,0 +1,34 @@
+\section{Comparable definition of the valley and windowing}
+
+Let $f(t)=\mathbb{P}(T=t)$ for $t\in\mathbb{N}^+$ denote the pmf of the first absorption time.
+We detect candidate peaks as strict local maxima:
+\begin{equation}
+f(t)>f(t-1),\qquad f(t)>f(t+1),\qquad f(t)\ge h_{\min}.
+\end{equation}
+We further filter secondary peaks by a relative-height threshold:
+$f(t)\ge \texttt{second\_rel\_height}\cdot \max_{u} f(u)$.
+
+\subsection{V0: Default valley (minimum between the two peaks)}
+Given the first two peaks in chronological order $t_1<t_2$, define
+\begin{equation}
+t_v=\arg\min_{t_1<t<t_2} f(t).
+\end{equation}
+This definition is parameter-light and guarantees that $t_v$ lies strictly between the two peaks,
+facilitating comparisons across $\beta$ and across $K$.
+
+\subsection{V1: Relative-distance window scale (for trajectory-type comparisons)}
+Let $\Delta T=t_2-t_1$ be the peak separation and define the half window width
+\begin{equation}
+\Delta=\max\left(1,\left\lfloor \delta_{\mathrm{frac}}\Delta T\right\rfloor\right).
+\end{equation}
+Each sample is assigned to the nearest center in $\{t_1,t_v,t_2\}$ if
+$\min_{c\in\{t_1,t_v,t_2\}} |T-c|\le \Delta$, otherwise it is assigned to \texttt{other}.
+Because $\Delta$ scales proportionally with $\Delta T$, the windowing remains comparable across $\beta$.
+
+\subsection{V2: Robust valley (excluding regions close to peaks)}
+To avoid valleys too close to a peak (which may happen when peaks are close),
+we may define
+\begin{equation}
+t_v=\arg\min_{t_1+\alpha\Delta T\le t\le t_2-\alpha\Delta T} f(t),
+\end{equation}
+with $\alpha\in(0,1/2)$ (e.g., $\alpha=0.1$). We use V2 as a sensitivity-analysis convention.

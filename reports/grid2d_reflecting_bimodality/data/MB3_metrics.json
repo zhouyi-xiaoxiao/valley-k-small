@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9999999999989966,
+  "aw": {
+    "errors": {
+      "l1": 6.845688924639913e-15,
+      "linf": 1.2793428162810875e-17,
+      "rel_l1": 6.8456889246467824e-15
+    },
+    "params": {
+      "m": 65536,
+      "oversample": 4,
+      "r": 0.999578472944714,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "MB3",
+  "mc": {
+    "fast_fraction": 0.32866666666666666,
+    "n_walkers": 30000,
+    "slow_fraction": 0.6713333333333333,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "gap": 949,
+    "h1": 0.004439383667179878,
+    "h2": 0.00048133158111112644,
+    "h2_over_h1": 0.10842306437030541,
+    "hv": 1.0121528188625492e-05,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.10842306437030541,
+    "smooth_window": 9,
+    "t_p1": 234,
+    "t_p2": 1183,
+    "t_v": 476,
+    "valley_depth": 0.978971817795,
+    "valley_ratio": 0.021028182204999978
+  },
+  "name": "parallel lanes with short sticky segment",
+  "params": {
+    "N": 60,
+    "g_x": -0.5,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      1,
+      31
+    ],
+    "target": [
+      50,
+      30
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "absorption_prob": 0.9999999999990209,
+  "aw": {
+    "errors": {
+      "l1": 2.3457463766550187e-14,
+      "linf": 2.1577407202034445e-16,
+      "rel_l1": 2.3457463766573156e-14
+    },
+    "params": {
+      "m": 8192,
+      "oversample": 4,
+      "r": 0.9966327545472072,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "A",
+  "mc": {
+    "fast_fraction": 0.8070666666666666,
+    "n_walkers": 30000,
+    "slow_fraction": 0.19293333333333335,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "bimodal": true,
+    "gap": 280,
+    "h1": 0.011914956859160183,
+    "h2": 0.00032320791814590956,
+    "h2_over_h1": 0.02712623486315255,
+    "hv": 6.796122830057392e-05,
+    "min_gap": 20,
+    "min_sep": 5,
+    "passes": false,
+    "peak_ratio": 0.02712623486315255,
+    "smooth_window": 9,
+    "t_p1": 142,
+    "t_p2": 422,
+    "t_v": 303,
+    "valley_depth": 0.789729073809716,
+    "valley_ratio": 0.21027092619028404
+  },
+  "name": "geometry U-detour vs straight tube",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": -0.2,
+    "q": 0.8,
+    "start": [
+      30,
+      50
+    ],
+    "target": [
+      30,
+      10
+    ]
+  }
+}

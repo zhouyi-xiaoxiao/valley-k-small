@@ -1,0 +1,65 @@
+{
+  "absorption_prob": 0.5263027917345944,
+  "aw": {
+    "errors": {
+      "l1": 8.522880980768526e-15,
+      "linf": 5.75448773376154e-17,
+      "rel_l1": 1.619387378257813e-14
+    },
+    "params": {
+      "m": 8192,
+      "oversample": 2,
+      "r": 0.9977539079932738,
+      "r_pow10": 8.0
+    }
+  },
+  "case_id": "Z",
+  "mc": {
+    "fast_fraction": 0.55,
+    "n_walkers": 120,
+    "slow_fraction": 0.45,
+    "truncated_fraction": 0.38333333333333336
+  },
+  "metrics": {
+    "bimodal": false,
+    "early_window": [
+      1,
+      600
+    ],
+    "gap": 1218,
+    "h1": 0.0017712436363207652,
+    "h2": 2.9415452083962054e-06,
+    "h2_over_h1": 0.001660723092000147,
+    "hv": 2.9415452083962054e-06,
+    "late_window": [
+      1500,
+      3000
+    ],
+    "method": "windowed",
+    "min_gap": 20,
+    "min_sep": 0,
+    "passes": false,
+    "peak_ratio": 0.001660723092000147,
+    "smooth_window": 7,
+    "t_p1": 282,
+    "t_p2": 1500,
+    "t_v": 1500,
+    "valley_depth": 0.0,
+    "valley_ratio": 1.0
+  },
+  "name": "screenshot baseline (start/target at wall endpoints)",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": -0.2,
+    "q": 0.8,
+    "start": [
+      30,
+      45
+    ],
+    "target": [
+      30,
+      15
+    ]
+  }
+}

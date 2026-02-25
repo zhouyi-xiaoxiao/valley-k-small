@@ -1,0 +1,88 @@
+\section{理论推导：生成函数、AW 反演与尾部衰减}
+
+本节给出本文数值计算与尾部指标所依赖的核心理论推导。我们考虑在 $N$ 点环上、每步以概率 $q$ 做 $K=2k$ 邻居环走、以概率 $1-q$ 懒惰自环的随机游走，并在源点 $\mathrm{src}$ 增加一条到 $\mathrm{dst}$ 的有向 shortcut。
+
+\subsection{无缺陷（无 shortcut）的谱分解与 resolvent}
+记无缺陷转移矩阵为 $P_0$。对于非源点，单步转移为
+\[
+P_0(i\to i)=1-q,\qquad
+P_0(i\to i\pm r)=\frac{q}{K},\quad r=1,\dots,k.
+\]
+由于 $P_0$ 平移不变（循环矩阵），其特征向量为 Fourier 模式
+\[
+\phi_\ell(x)=\exp\Big(\frac{2\pi i\ell x}{N}\Big),\qquad \ell=0,\dots,N-1,
+\]
+对应特征值为
+\begin{equation}
+\lambda_\ell
+=(1-q)+\frac{q}{K}\sum_{r=1}^{k}\Big(e^{2\pi i\ell r/N}+e^{-2\pi i\ell r/N}\Big)
+=(1-q)+\frac{2q}{K}\sum_{r=1}^{k}\cos\Big(\frac{2\pi \ell r}{N}\Big).
+\end{equation}
+
+定义 resolvent（生成函数矩阵）
+\[
+S^{(0)}(z)=(I-zP_0)^{-1},\qquad |z|<1.
+\]
+利用谱分解可得矩阵元
+\begin{equation}
+S^{(0)}(z)_{x,y}
+=\frac{1}{N}\sum_{\ell=0}^{N-1}
+\frac{\exp\Big(\frac{2\pi i\ell(x-y)}{N}\Big)}{1-z\lambda_\ell}.
+\end{equation}
+进一步可定义位移形式 $Q(d,z):=S^{(0)}(z)_{y+d,y}$，用于快速构造带缺陷情形。
+
+\subsection{Selfloop 规则下的单向 shortcut：rank-one 更新}
+在 \texttt{lazy\_selfloop} 模式下，shortcut 概率
+\[
+p=\beta(1-q),
+\]
+并从源点 $\mathrm{src}$ 的自环概率中扣除同等质量：$P(\mathrm{src}\to\mathrm{src})=(1-q)-p$，同时增加 $P(\mathrm{src}\to\mathrm{dst})=p$。因此转移矩阵可写为对 $P_0$ 的 rank-one 更新：
+\begin{equation}
+P = P_0 + p\, e_{\mathrm{src}}(e_{\mathrm{dst}}-e_{\mathrm{src}})^\top,
+\end{equation}
+其中 $e_i$ 为标准基向量。于是
+\[
+I-zP = (I-zP_0) - z p\, e_{\mathrm{src}}(e_{\mathrm{dst}}-e_{\mathrm{src}})^\top.
+\]
+应用 Sherman--Morrison 公式：
+\[
+(A+uv^\top)^{-1}=A^{-1}-\frac{A^{-1}uv^\top A^{-1}}{1+v^\top A^{-1}u},
+\]
+可在已知无缺陷 resolvent $S^{(0)}(z)$ 的基础上，以 $O(1)$ 次矩阵元操作得到带缺陷 resolvent $S(z)$ 的所需矩阵元（具体实现可复用仓库原 pipeline 中的解析结构）。
+
+\subsection{几何吸收（\texorpdfstring{$\rho$}{rho}）下首吸收时间生成函数}
+令 target 结点为 $\mathrm{tar}$。到达 $\mathrm{tar}$ 时以概率 $\rho$ 吸收，否则以概率 $1-\rho$ 继续。设未吸收游走的访问生成函数为
+\[
+S_{i,j}(z)=\sum_{t\ge 0}\mathbb{P}(X_t=i\mid X_0=j)z^t.
+\]
+则首吸收时间 $T$ 的生成函数（$t\ge 1$ 的 pmf 系数）可写为
+\begin{equation}
+\tilde f(z)=\sum_{t\ge 1}f(t)z^t
+=\frac{\rho\,S_{\mathrm{tar},n_0}(z)}{(1-\rho)+\rho\,S_{\mathrm{tar},\mathrm{tar}}(z)}.
+\end{equation}
+当 $\rho=1$ 时简化为
+\[
+\tilde f(z)=\frac{S_{\mathrm{tar},n_0}(z)}{S_{\mathrm{tar},\mathrm{tar}}(z)}.
+\]
+
+\subsection{Abate--Whitt (AW) 反演：用 FFT 计算 \texorpdfstring{$f(t)$}{f(t)}}
+系数反演可由 Cauchy 积分与离散化得到。取 $z_m=re^{2\pi i m/L}$（$r<1$），则
+\begin{equation}
+f(t)\approx r^{-t}\frac{1}{L}\sum_{m=0}^{L-1}\tilde f(z_m)e^{-2\pi i mt/L},
+\end{equation}
+右侧为离散傅里叶反变换（iDFT），因此可用 FFT 在 $O(L\log L)$ 时间内同时得到 $t=1,\dots,T_{\max}$ 的近似 $f(t)$。仓库 pipeline 采用的 AW 参数选择（$r,L$ 的选取）与数值稳定性控制沿用原实现。
+
+\subsection{尾部指数衰减与谱半径指标 \texorpdfstring{$\gamma$}{gamma}}
+对吸收链，记 transient 子矩阵为 $Q$，则生存函数
+\[
+S(t)=\mathbb{P}(T>t)=\mathbf{1}^\top Q^t e_{n_0}.
+\]
+由于 $Q$ 为非负矩阵，且在通常连通条件下满足 Perron--Frobenius，存在最大特征值 $\lambda_{\max}\in(0,1)$ 使得
+\[
+S(t)\sim c\,\lambda_{\max}^t\quad (t\to\infty).
+\]
+因此定义尾部渐近指数衰减率
+\begin{equation}
+\gamma=-\log(\lambda_{\max}),
+\end{equation}
+作为跨 $\beta$、跨 $N$、跨 $K$ 的可比较 tail 指标。数值上我们通过构造 $Q$ 并求其谱半径得到 $\gamma$；当 $\rho=1$ 时删除 target 状态，当 $\rho<1$ 时 target 行乘 $(1-\rho)$ 表示吸收漏失。

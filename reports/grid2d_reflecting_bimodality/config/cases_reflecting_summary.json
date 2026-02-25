@@ -1,0 +1,276 @@
+{
+  "coordinate_system": "1-based (x,y), y points downward",
+  "boundary": "reflecting",
+  "cases": [
+    {
+      "id": "R1",
+      "name": "dual corridor with top U-shaped detour",
+      "N": 60,
+      "q": 0.8,
+      "gx": -0.2,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "short bottom corridor vs long top U detour",
+      "source_config": "R1_dual_corridor_U_top.json"
+    },
+    {
+      "id": "R2",
+      "name": "short top edge vs large rectangular detour",
+      "N": 60,
+      "q": 0.8,
+      "gx": -0.2,
+      "gy": 0.0,
+      "start": [
+        10,
+        10
+      ],
+      "target": [
+        50,
+        10
+      ],
+      "mechanism": "short top corridor vs long bottom rectangle detour",
+      "source_config": "R2_big_rectangle_detour.json"
+    },
+    {
+      "id": "R3",
+      "name": "sticky segment on slow branch",
+      "N": 60,
+      "q": 0.8,
+      "gx": -0.2,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "R1 geometry plus sticky segment on slow branch",
+      "source_config": "R3_sticky_segment_on_slow_branch.json"
+    },
+    {
+      "id": "R4",
+      "name": "mid-route branching with boundary loop",
+      "N": 60,
+      "q": 0.8,
+      "gx": -0.25,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "main corridor vs bottom boundary loop",
+      "source_config": "R4_internal_branch_boundary_loop.json"
+    },
+    {
+      "id": "R5",
+      "name": "rotated variant (vertical shortcut)",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": -0.2,
+      "start": [
+        30,
+        50
+      ],
+      "target": [
+        30,
+        10
+      ],
+      "mechanism": "short vertical path vs long left boundary detour",
+      "source_config": "R5_vertical_short_vs_left_detour.json"
+    },
+    {
+      "id": "R6",
+      "name": "parallel lanes with door array slowdown",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "parallel lanes; lower lane slowed by many doors",
+      "source_config": "R6_parallel_lanes_lower_has_many_doors.json"
+    },
+    {
+      "id": "R7",
+      "name": "semipermeable pore shortcut vs long detour",
+      "N": 60,
+      "q": 0.8,
+      "gx": -0.2,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "main corridor with a single door shortcut vs U-shaped detour",
+      "source_config": "R7_membrane_pore_detour.json"
+    },
+    {
+      "id": "C3",
+      "name": "local active track vs long detour loop",
+      "N": 60,
+      "q": 0.8,
+      "gx": -0.15,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "strong local-bias track vs long detour loop under reflecting walls",
+      "source_config": "C3_local_active_track_detour.json"
+    },
+    {
+      "id": "NB1",
+      "name": "boundary-layer slowdown with short sticky strip",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": 0.4,
+      "start": [
+        50,
+        60
+      ],
+      "target": [
+        42,
+        60
+      ],
+      "mechanism": "boundary-layer fast paths vs sticky strip delays (no internal walls/doors)",
+      "source_config": "NB1_boundary_layer_short_sticky.json"
+    },
+    {
+      "id": "NB2",
+      "name": "boundary-layer slowdown with longer sticky strip",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": 0.4,
+      "start": [
+        50,
+        60
+      ],
+      "target": [
+        42,
+        60
+      ],
+      "mechanism": "boundary-layer fast paths vs sticky strip delays (no internal walls/doors)",
+      "source_config": "NB2_boundary_layer_sticky_strip.json"
+    },
+    {
+      "id": "NB3",
+      "name": "boundary-layer sticky strip with mild local bias",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": 0.4,
+      "start": [
+        50,
+        60
+      ],
+      "target": [
+        42,
+        60
+      ],
+      "mechanism": "sticky strip plus mild local bias along boundary (no internal walls/doors)",
+      "source_config": "NB3_boundary_layer_sticky_strip_bias.json"
+    },
+    {
+      "id": "NB4",
+      "name": "perimeter clockwise belt (boundary-only sticky + bias)",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": 0.0,
+      "start": [
+        12,
+        60
+      ],
+      "target": [
+        10,
+        60
+      ],
+      "mechanism": "clockwise boundary belt yields short counterflow vs long loop without internal walls/doors",
+      "source_config": "NB4_perimeter_clockwise_belt.json"
+    },
+    {
+      "id": "NB5",
+      "name": "perimeter belt with global bias (boundary-only sticky + bias)",
+      "N": 60,
+      "q": 0.8,
+      "gx": -0.1,
+      "gy": 0.0,
+      "start": [
+        12,
+        60
+      ],
+      "target": [
+        10,
+        60
+      ],
+      "mechanism": "clockwise boundary belt plus global right bias; short counterflow vs long loop",
+      "source_config": "NB5_perimeter_clockwise_belt_gbias.json"
+    },
+    {
+      "id": "S1",
+      "name": "soft two tracks without barriers (turn at y=1)",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "soft fast track vs soft long detour via top edge (sticky + local bias, no barriers/doors)",
+      "source_config": "S1_soft_two_tracks_minbarrier0.json"
+    },
+    {
+      "id": "S2",
+      "name": "soft two tracks without barriers (turn at y=10)",
+      "N": 60,
+      "q": 0.8,
+      "gx": 0.0,
+      "gy": 0.0,
+      "start": [
+        10,
+        30
+      ],
+      "target": [
+        50,
+        30
+      ],
+      "mechanism": "soft fast track vs soft detour turning at y=10 (sticky + local bias, no barriers/doors)",
+      "source_config": "S2_soft_two_tracks_turn_y10.json"
+    }
+  ]
+}

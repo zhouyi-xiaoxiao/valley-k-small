@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9999999999990299,
+  "aw": {
+    "errors": {
+      "l1": 1.5248887811295513e-14,
+      "linf": 1.8979608189077472e-16,
+      "rel_l1": 1.5248887811310305e-14
+    },
+    "params": {
+      "m": 8192,
+      "oversample": 4,
+      "r": 0.9966327545472072,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "R2",
+  "mc": {
+    "fast_fraction": 0.3220333333333333,
+    "n_walkers": 30000,
+    "slow_fraction": 0.6779666666666667,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "gap": 403,
+    "h1": 0.006426593343028221,
+    "h2": 0.002490108072801758,
+    "h2_over_h1": 0.3874693698338808,
+    "hv": 7.669113270662487e-06,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.3874693698338808,
+    "smooth_window": 9,
+    "t_p1": 136,
+    "t_p2": 539,
+    "t_v": 318,
+    "valley_depth": 0.9969201685041591,
+    "valley_ratio": 0.0030798314958408787
+  },
+  "name": "short top edge vs large rectangular detour",
+  "params": {
+    "N": 60,
+    "g_x": -0.2,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      10,
+      10
+    ],
+    "target": [
+      50,
+      10
+    ]
+  }
+}

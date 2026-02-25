@@ -1,0 +1,306 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{fvextra}
+\usepackage{microtype}
+\usepackage{placeins}
+\setlength{\emergencystretch}{4em}
+\Urlmuskip=0mu plus 1mu
+
+\title{2D Blackboard-Style Case: Start/Target at Wall Endpoints}
+\author{}
+\date{}
+
+\newcommand{\FigDir}{figures}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{Summary}
+\begin{itemize}
+  \item \textbf{Start/target at the corridor endpoints}: $S=(30,45)$ and $T=(30,15)$, with the same two-wall corridor geometry.
+  \item \textbf{No bimodality}: $t_{p1}\approx102$, valley ratio $=1$ (single peak + long tail); absorption probability $\approx0.604$ at $t_{\max}=3000$.
+  \item \textbf{Small $N$ vertical rectangle also fails}: on an $18\times30$ rectangle with the same endpoint placement, $t_{p1}\approx40$, valley ratio $=1$, absorption $\approx0.664$ at $t_{\max}=2000$.
+  \item \textbf{Scan conclusion}: changing $g_y$, the opening-arrow strength, or adding only an outer sticky belt does not create a second peak; a late peak appears only after adding an \emph{outer sticky + directional loop} (an added slow channel).
+  \item \textbf{Full figure set included}: environment, three heatmap frames, fast/slow path density, FPT curve + zoom, diagnostic plot, and channel decomposition.
+\end{itemize}
+
+\section*{Global parameters}
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $N$ & $q$ & $g_x$ & $g_y$ & $t_{\max}$ & (start, target) \\
+    \midrule
+    Z & 60 & 0.8 & 0.00 & -0.20 & 3000 & (30,45)$\to$(30,15) \\
+    S & 30 & 0.8 & 0.00 & -0.20 & 2000 & (9,22)$\to$(9,9) \\
+    \bottomrule
+  \end{tabular}
+  \caption{Global parameters for the wall-endpoint case.}
+  \label{tab:params}
+\end{table}
+
+\section*{Statistics}
+\begin{table}[!htbp]
+  \centering
+  \scriptsize
+  \begin{tabular}{lccccccc}
+    \toprule
+    case & method & $t_{p1}$ & $t_{p2}$ & valley ratio & absorption & truncated (MC) & $P_{\text{fast}}$ (MC) \\
+    \midrule
+    Z & windowed & 102 & 1500 & 1.000 & 0.604 & 0.395 & 0.540 \\
+    S & windowed & 40 & 1000 & 1.000 & 0.664 & 0.333 & 0.543 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Statistics for the wall-endpoint case. $t_{p2}$ is the late-window maximum (not a genuine second peak).}
+  \label{tab:metrics}
+\end{table}
+
+\section*{Numerical scans (based on case Z)}
+\begin{table}[!htbp]
+  \centering
+  \scriptsize
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{l l c c c c c}
+    \toprule
+    variant & modification & absorption & $t_{p1}$ & $t_{p2}$ & valley ratio & bimodal \\
+    \midrule
+    Z0 & base ($g_y=-0.2,\ \delta_{\text{open}}=0.6$) & 0.604 & 102 & 1500 & 1.000 & no \\
+    Z1 & $g_y=0$ & 0.696 & 137 & 1500 & 1.000 & no \\
+    Z2 & $g_y=-0.4$ & 0.573 & 81 & 1500 & 1.000 & no \\
+    Z3 & $\delta_{\text{open}}=0.2$ & 0.611 & 102 & 1500 & 1.000 & no \\
+    Z4 & outer sticky belt ($\alpha=0.2$) & 0.603 & 102 & 1500 & 1.000 & no \\
+    Z5 & sticky ($\alpha=0.2$) + clockwise loop bias ($\delta=0.1$) & 0.603 & 102 & 2996 & 0.300 & yes \\
+    Z6 & stronger sticky ($\alpha=0.05$) + clockwise loop bias ($\delta=0.1$) & 0.623 & 102 & 1990 & 0.014 & yes \\
+    \bottomrule
+  \end{tabular}
+  }
+  \caption{Scan results at $t_{\max}=3000$. For Z0--Z4, $t_{p2}$ is the late-window maximum (not a genuine second peak).}
+  \label{tab:scan}
+\end{table}
+
+\paragraph{Scan takeaways}
+Z0--Z4 remain single-peak + long tail; the late-window ``peak'' is a window-edge artifact. Adding only a sticky belt does not induce bimodality; a clear second peak appears only when an outer directional loop is introduced (Z5/Z6), which effectively creates a new slow channel.
+
+\section{Model definition and coordinates}
+The state space is $\Omega\subseteq\{1,\dots,N_x\}\times\{1,\dots,N_y\}$ (rectangles are allowed), and the target $(x_t,y_t)$ is absorbing. One-step probabilities are
+\begin{align}
+  p_{\text{left}} &= \frac{q}{4}(1+g_x),\quad p_{\text{right}} = \frac{q}{4}(1-g_x),\\
+  p_{\text{down}} &= \frac{q}{4}(1+g_y),\quad p_{\text{up}} = \frac{q}{4}(1-g_y),\\
+  p_{\text{stay}} &= 1-q.
+\end{align}
+We use the convention ``$y$ increases downward,'' so $g_y>0$ biases downward and $g_x>0$ biases leftward. Both the outer boundary and internal walls are \textbf{fully reflecting}: any attempted move outside $\Omega$ or across a wall is reassigned to $p_{\text{stay}}$.
+
+\paragraph{Local heterogeneity (composition rules)}
+\begin{itemize}
+  \item local bias (arrow): multiply $p_{\text{stay}}$ by $(1-\delta)$ and add $\Delta=\delta\,p_{\text{stay}}$ to the arrow direction.
+  \item sticky: set $q_u=\alpha(u)q$ so $p_{\text{stay}}(u)=1-q_u$ is larger, then apply local bias.
+  \item barrier: remove edge $u\leftrightarrow v$ and add its probability to $p_{\text{stay}}(u)$.
+  \item door: pass with probability $p_{\text{pass}}$, reflect the remainder to $p_{\text{stay}}(u)$.
+\end{itemize}
+
+\section{Exact FPT recursion}
+Define $\tau=\inf\{t\ge1:\,X_t=(x_t,y_t)\}$, $f(t)=\Pr(\tau=t)$. Let $Q$ be the transient submatrix and $r$ the one-step flow into the absorbing state, then
+\[
+  f(t)=r^\top Q^{t-1}p_0,\qquad t\ge1,
+\]
+with the equivalent recursion $p_{t+1}=Qp_t$, $f(t)=r^\top p_t$. Exact recursion is the baseline; AW inversion and MC are used for validation and channel statistics.
+
+\section{Figure legend}
+Figure~\ref{fig:symbol-legend} shows the unified symbols: red square = start, blue diamond = target; solid thick lines = reflecting walls, dashed lines = doors, translucent shading = sticky region; red arrows = local bias; the outer arrow gives the global bias $(g_x,g_y)$. Channel cartoon is in Fig.~\ref{fig:channel-cartoon}.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{\FigDir/env/symbol_legend.pdf}
+  \caption{Symbol legend.}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{\FigDir/fig3_panels/channel_cartoon.pdf}
+  \caption{Channel cartoon (fast/slow mixture).}
+  \label{fig:channel-cartoon}
+\end{figure}
+
+\section{Case Z: Start/target at wall endpoints}
+\paragraph{Geometry and parameters}
+\begin{itemize}
+  \item Internal walls: $x=28\leftrightarrow29$ and $x=31\leftrightarrow32$ for $y=15..45$.
+  \item Corridor bias: upward arrows on $x=29..31$; core segment $y=15..45$ uses $\delta_{\text{core}}=0.95$, open segments $y=10..14,46..50$ use $\delta_{\text{open}}=0.6$.
+  \item Start/target: $S=(30,45),\ T=(30,15)$; $g=(0,-0.2)$, $t_{\max}=3000$.
+\end{itemize}
+
+\paragraph{Outcome}
+Early peak at $t\approx102$, valley ratio $=1$; absorption probability is $\approx0.604$ at $t_{\max}=3000$, so no stable late peak appears.
+
+\paragraph{Why there is no bimodality}
+With both endpoints inside the corridor, the strong upward corridor bias defines the dominant drift timescale. Trajectories that exit the corridor do not enter a \emph{quasi-closed} slow channel; they diffuse broadly in the outer domain and eventually return, producing a long tail rather than a concentrated late-time peak. In mixture terms, the ``slow'' conditional distribution is too broad to carve out a valley and a second peak in $f(t)$.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/env/case_Z_env.pdf}
+    \caption*{(Z1) Environment}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fig3_panels/case_Z_fig3_panel.pdf}
+    \caption*{(Z2) Heatmaps}
+  \end{minipage}
+  \caption{Case Z environment and $P(n,t)$ heatmaps.}
+  \label{fig:caseZ-env-heat}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_Z_paths_fast.pdf}
+    \caption*{(Z3) Fast-path density}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_Z_paths_slow.pdf}
+    \caption*{(Z4) Slow-path density}
+  \end{minipage}
+  \caption{Case Z fast/slow path densities.}
+  \label{fig:caseZ-paths}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_Z_fpt.pdf}
+    \caption*{(Z5) FPT curve}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_Z_proof.pdf}
+    \caption*{(Z6) Peak/valley zoom}
+  \end{minipage}
+  \caption{Case Z FPT and zoomed view.}
+  \label{fig:caseZ-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_Z_diagnostic.pdf}
+    \caption*{(Z7) Diagnostic}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/case_Z_channel_decomp.pdf}
+    \caption*{(Z8) Channel decomposition}
+  \end{minipage}
+  \caption{Case Z diagnostics and channel decomposition.}
+  \label{fig:caseZ-diagnose}
+\end{figure}
+
+\section{Case S: Small vertical rectangle (endpoints on walls)}
+\paragraph{Geometry and parameters}
+\begin{itemize}
+  \item Domain: $18\times30$ rectangle (allowed set $x=1..18,\ y=1..30$ embedded in an $N=30$ grid).
+  \item Internal walls: $x=7\leftrightarrow8$ and $x=10\leftrightarrow11$ for $y=9..22$.
+  \item Corridor bias: upward arrows on $x=8..10$; core segment $y=9..22$ uses $\delta_{\text{core}}=0.95$, open segments $y=4..8,23..27$ use $\delta_{\text{open}}=0.6$.
+  \item Start/target: $S=(9,22),\ T=(9,9)$; $g=(0,-0.2)$, $t_{\max}=2000$.
+\end{itemize}
+
+\paragraph{Outcome}
+Early peak at $t\approx40$, valley ratio $=1$; absorption probability is $\approx0.664$ at $t_{\max}=2000$, so no stable late peak appears.
+
+\paragraph{Mechanism}
+Shrinking to a vertical rectangle does not create a slow channel. Excursions outside the corridor diffuse broadly and return, producing a long tail rather than a concentrated late-time peak.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/env/case_S_env.pdf}
+    \caption*{(S1) Environment}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fig3_panels/case_S_fig3_panel.pdf}
+    \caption*{(S2) Heatmap frames}
+  \end{minipage}
+  \caption{Case S environment and $P(n,t)$ heatmaps.}
+  \label{fig:caseS-env-heat}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_S_paths_fast.pdf}
+    \caption*{(S3) Fast-path density}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_S_paths_slow.pdf}
+    \caption*{(S4) Slow-path density}
+  \end{minipage}
+  \caption{Case S fast/slow path densities.}
+  \label{fig:caseS-paths}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_S_fpt.pdf}
+    \caption*{(S5) Multiscale FPT}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_S_proof.pdf}
+    \caption*{(S6) Peak/valley zoom}
+  \end{minipage}
+  \caption{Case S FPT curve and zoom.}
+  \label{fig:caseS-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_S_diagnostic.pdf}
+    \caption*{(S7) Diagnostic}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/case_S_channel_decomp.pdf}
+    \caption*{(S8) Channel decomposition}
+  \end{minipage}
+  \caption{Case S diagnostics and channel decomposition.}
+  \label{fig:caseS-diagnose}
+\end{figure}
+
+\section*{Data and reproduction}
+\begin{Verbatim}[breaklines=true,breakanywhere=true]
+cd reports/grid2d_blackboard_bimodality
+python3 code/blackboard_bimodality_pipeline.py --cases Z,S
+python3 code/z_scan.py
+latexmk -xelatex -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_cn.tex
+latexmk -pdf -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_en.tex
+\end{Verbatim}
+
+\end{document}

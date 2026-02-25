@@ -1,0 +1,88 @@
+{
+  "run": {
+    "id": "p1_smoke_second_peak",
+    "created_at_utc": "2026-02-17T00:13:21+00:00",
+    "platform": "macOS-15.7.3-arm64-arm-64bit",
+    "python": "3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.6.3.2)]",
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "git_commit": null
+  },
+  "params": {
+    "N": 40,
+    "K": 4,
+    "rho": 1.0,
+    "max_steps": 400,
+    "min_height": 1e-07,
+    "second_rel_height": 0.01,
+    "n0_paper": 1,
+    "target_paper": 20,
+    "sc_src_paper": 6,
+    "scan": "shortcut-dst",
+    "x_field": "sc_dst_paper",
+    "x_label": "shortcut dst (paper index)",
+    "baseline_x": 21,
+    "selected_examples": [
+      10
+    ]
+  },
+  "rows": [
+    {
+      "sc_dst_paper": 10,
+      "target_paper": 20,
+      "n0_paper": 1,
+      "sc_src_paper": 6,
+      "bimodal_fig3": false,
+      "t1": 53,
+      "h1": 0.006169105538584088,
+      "t2": null,
+      "h2": null,
+      "h2_over_h1": null,
+      "t1_all": 53,
+      "h1_all": 0.006169105538584088,
+      "t2_all": null,
+      "h2_all": null,
+      "peaks_all": [
+        [
+          53,
+          0.006169105538584088
+        ]
+      ],
+      "peaks_fig3": [
+        [
+          53,
+          0.006169105538584088
+        ]
+      ]
+    },
+    {
+      "sc_dst_paper": 11,
+      "target_paper": 20,
+      "n0_paper": 1,
+      "sc_src_paper": 6,
+      "bimodal_fig3": false,
+      "t1": 52,
+      "h1": 0.006388588234612342,
+      "t2": null,
+      "h2": null,
+      "h2_over_h1": null,
+      "t1_all": 52,
+      "h1_all": 0.006388588234612342,
+      "t2_all": null,
+      "h2_all": null,
+      "peaks_all": [
+        [
+          52,
+          0.006388588234612342
+        ]
+      ],
+      "peaks_fig3": [
+        [
+          52,
+          0.006388588234612342
+        ]
+      ]
+    }
+  ],
+  "skipped": []
+}

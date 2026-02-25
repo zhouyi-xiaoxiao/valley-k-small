@@ -1,0 +1,36 @@
+\section{MC sweep: four classes vs \texorpdfstring{$\beta$}{beta} (\texorpdfstring{$N=100$}{N=100})}
+We use MC to estimate class probabilities within each window, defined by $(t_1,t_v,t_2)$ and $\Delta=\lfloor\delta_{\mathrm{frac}}(t_2-t_1)\rfloor$.
+The four mutually exclusive classes are:
+$\texttt{class\_C0J0}$ (no shortcut, no jump-over),
+$\texttt{class\_C1pJ0}$ (shortcut, no jump-over),
+$\texttt{class\_C0J1p}$ (no shortcut, jump-over),
+$\texttt{class\_C1pJ1p}$ (shortcut and jump-over).
+For $K=2$ we have $J\equiv0$, so $J$-related classes should be 0 or nearly 0.
+Figure~\ref{fig:mc-beta-classes-en} reports the conditional class probabilities across windows as $\beta$ varies.
+
+\paragraph{Interpretation highlights}
+For $K=2$, $J$-related classes vanish, confirming that jump-over is absent.
+For $K=4$, the valley and second-peak windows show larger shares of $J$-related classes, consistent with trajectories that cross the target without absorbing and hence contribute to delayed arrivals.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/aux_peak1_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/aux_valley_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/aux_peak2_vs_beta.png}
+  \end{minipage}
+  \caption{$\mathbb{P}(C\ge1\mid\text{window})$ and $\mathbb{P}(J\ge1\mid\text{window})$ vs $\beta$.}
+  \label{fig:mc-beta-aux-en}
+\end{figure}
+
+With the $\beta$-direction class structure established, we now fix $\beta_\ast$ and examine how the slow time scale varies with $N$.

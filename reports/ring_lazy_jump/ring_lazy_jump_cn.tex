@@ -1,0 +1,368 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage[hidelinks]{hyperref}
+\setlist{nosep}
+
+\title{Lazy 环 + 单向 shortcut：$K=2$ 与 $K=4$ 的双峰差异与 jump-over 机制\\（精确首达分布 + 轨迹互斥分解）}
+\author{}
+\date{}
+
+\newcommand{\FigDir}{figures}
+\newcommand{\CaseDir}{figures/cases}
+
+\begin{document}
+\maketitle
+
+\section{问题与目标（重述）}
+我们在 $K=2$（只能走 $\pm1$）的 lazy 环 + 单向 shortcut（selfloop 规则）里已观察到：
+当 shortcut 强度参数 $\beta$ 变大时，首达（首吸收）时间分布 $f(t)$ 的慢峰会被压低，双峰仅在较小 $\beta$ 下可能出现。
+现在将起点固定为 $n_0$，吸收点取离 $n_0$ 最远（近似 antipodal）的位置，并将邻域扩展到 $K=4$（允许 $\pm1,\pm2$）。
+由于 $K=4$ 允许一步跨过吸收点（jump-over 但不落在吸收点），本报告的目标是：
+\begin{itemize}
+  \item \textbf{层 A：}用精确（高精度）方法扫描参数，判定哪些 $(N,\beta,K)$ \textbf{真的}满足统一的双峰判据；
+  \item \textbf{层 B：}在双峰案例上做轨迹级别的\textbf{互斥分类}与条件统计，给出可发表的机制解释：$K=2$ 与 $K=4$ 的差异来自哪里，jump-over 在其中扮演何种角色。
+\end{itemize}
+
+\section{模型定义（固定口径）}
+\begin{itemize}
+  \item Ring：$N$ 个点，节点标号按论文惯例为 $1,\dots,N$。
+  \item $K=2k$ 个环邻居：以概率 $q$ 进行环上移动，并在 $\{\pm1,\dots,\pm k\}$ 中等概率选一个位移；即每条环边概率为 $q/K$。
+  \item Lazy：以概率 $1-q$ self-loop（原地不动）。
+  \item 单向 shortcut：在源点 $\mathrm{src}$ 增加一条有向边 $\mathrm{src}\to\mathrm{dst}$。
+  \item \textbf{selfloop 规则（本文主模型）：}从 $\mathrm{src}$ 的 self-loop 中挪出概率
+  \[
+    p=\beta(1-q),
+  \]
+  并把它加到 $\mathrm{src}\to\mathrm{dst}$；环上移动概率 $q$ 与每条环边概率 $q/K$ \textbf{保持不变}。
+  \item 吸收：到达 $\mathrm{target}$ 后以概率 $\rho$ 吸收（本文取 $\rho=1$）。
+\end{itemize}
+
+\paragraph{一步转移概率（显式写法）}
+以下默认所有加减均按模 $N$ 运算并回到 $1,\dots,N$。
+令 $k=K/2$。
+对任意非源点 $i\neq \mathrm{src}$，
+\[
+P(i\to i)=1-q,\qquad
+P(i\to i\pm r)=\frac{q}{K},\quad r=1,\dots,k.
+\]
+在源点 $i=\mathrm{src}$（selfloop 规则），仅改变 self-loop 与 shortcut 两项：
+\[
+P(\mathrm{src}\to\mathrm{src})=1-q-p,\qquad
+P(\mathrm{src}\to\mathrm{dst})=p,\qquad
+P(\mathrm{src}\to\mathrm{src}\pm r)=\frac{q}{K}.
+\]
+为保证概率非负，需要 $0\le p\le 1-q$，等价于 $0\le \beta\le 1$（在固定 $q$ 下）。
+
+\paragraph{首吸收时间的定义}
+记 $X_t$ 为第 $t$ 步结束后的所在节点（离散时间）。
+定义首吸收时间 $T$ 为第一次到达 $\mathrm{target}$ 且发生吸收的步数：
+若在某一步结束时 $X_t=\mathrm{target}$，则以概率 $\rho$ 终止（吸收），否则以概率 $1-\rho$ 继续行走。
+在本文的主设定 $\rho=1$ 下，$T$ 就是严格的首达时间（first passage）。
+
+几何设置（与既有报告一致的 ``paper-like'' 风格，但吸收点相对 $n_0$ 取近似 antipodal）：
+\[
+n_0=1,\qquad
+\mathrm{target} = n_0+\left\lfloor\frac{N}{2}\right\rfloor,\qquad
+\mathrm{src}=n_0+5,\qquad
+\mathrm{dst}=\mathrm{target}+1
+\]
+其中加法均在环上取模（并回到 $1..N$）。
+注意这里取 $\mathrm{dst}=\mathrm{target}+1$ 的目的，是避免 shortcut 直接指向吸收点（$\mathrm{dst}=\mathrm{target}$ 会引入 ``一旦用 shortcut 几乎立刻吸收'' 的另一种机制，在 \texttt{valley\_dst\_report} 中也被单独标注讨论）。
+
+\subsection{模型口径对照（与本仓库其他报告的关系）}
+本仓库里还存在另一类常用构造（见 \texttt{valley\_report} / \texttt{valley\_dst\_report}）：
+在 $\mathrm{src}$ 处\emph{新增}出边并对源点出边重归一（每条出边 $1/\deg(\mathrm{src})$），且通常为\textbf{非 lazy}（无 self-loop）。
+该构造与本文主模型（lazy + selfloop 规则 $p=\beta(1-q)$、并保持环上移动概率 $q$ 不变）在概率口径上不同。
+因此：
+\begin{itemize}
+  \item 本报告所有扫描与统计结论默认都指向 \textbf{lazy + selfloop} 这一口径；
+  \item 对于 ``第一峰更偏向 shortcut 路径族、第二峰更偏向 nonshortcut 路径族'' 这类\textbf{混合路径族解释}，我们预期其为跨构造的鲁棒现象，但具体双峰出现/消失的阈值（例如随 $\beta$ 的临界点）会依赖概率分配口径。
+\end{itemize}
+
+\section{双峰判据（必须统一）}
+沿用既有报告的 paper 风格判据：
+\begin{itemize}
+  \item \textbf{严格局部峰：}若 $f(t)>f(t-1)$ 且 $f(t)>f(t+1)$ 且 $f(t)\ge h_{\min}$，则 $t$ 为峰（边界取 $f(0)=f(T+1)=0$）。
+  \item \textbf{双峰（paper）：}存在至少两个峰，并要求第二高峰高度 $\ge 1\%$ 的最高峰高度。
+  \item \textbf{宏观双峰（可选）：}在 paper 双峰基础上，再要求两最高峰满足 $t_2/t_1\ge 10$。
+\end{itemize}
+本文默认 $h_{\min}=10^{-7}$，第二峰相对高度阈值 $1\%$，宏观比例阈值 $10$。
+
+\section{两类路径事件与互斥分类（机制变量）}
+\subsection{Shortcut 使用次数 $C$}
+令 $C$ 为轨迹中穿越有向边 $\mathrm{src}\to\mathrm{dst}$ 的次数。常用粗分类为 $C=0$ vs $C\ge1$（也可细分 $0/1/\ge2$）。
+
+\subsection{Jump-over 次数 $J$（$K=4$ 的新增核心）}
+在 $K=4$（允许 $\pm2$）时，环上一步可能跨过 $\mathrm{target}$ 但不落在 $\mathrm{target}$。
+定义 $J$ 为\textbf{仅对环上移动步}计数的 jump-over 次数：
+若某一步从 $x$ 走到 $x\pm r$（$r\ge2$）且
+\[
+\mathrm{target}\in\{x\pm1,x\pm2,\dots,x\pm(r-1)\},
+\]
+则记为一次 jump-over。对 $K=2$ 情形，恒有 $J\equiv0$。
+
+\paragraph{等价判据（用有向环距离表述）}
+对一次环上 $+r$ 跳（顺时针），令
+$d_+(x,\mathrm{target})=(\mathrm{target}-x)\bmod N$，则当 $1\le d_+(x,\mathrm{target})\le r-1$ 时发生 jump-over；
+对一次 $-r$ 跳（逆时针），令
+$d_-(x,\mathrm{target})=(x-\mathrm{target})\bmod N$，当 $1\le d_-(x,\mathrm{target})\le r-1$ 时发生 jump-over。
+特别地，对 $K=4$（仅有 $r=2$ 会产生 jump-over），jump-over 只可能在 $x=\mathrm{target}\pm1$ 且走 $\mp2$ 的那一步发生（例如从 $\mathrm{target}-1$ 走到 $\mathrm{target}+1$）。
+
+\subsection{第一层互斥分类（4 类）}
+用布尔量 $(C\ge1)$ 与 $(J\ge1)$ 组合成 4 个互斥且完备的类别：
+\[
+\text{A: }(C=0,J=0),\quad
+\text{B: }(C\ge1,J=0),\quad
+\text{C: }(C=0,J\ge1),\quad
+\text{D: }(C\ge1,J\ge1).
+\]
+该分类与既有 ``shortcut vs nonshortcut'' 完全兼容（把 A/C 合并为 nonshortcut，把 B/D 合并为 shortcut），同时把 jump-over 纳入解释变量。
+
+\section{峰/谷/峰三段窗口与条件统计}
+对每条精确 $f(t)$，在 paper 判据下取时间序上前两处主峰：
+\[
+t_1<t_2,\qquad
+t_v=\arg\min_{t_1<t<t_2}f(t).
+\]
+定义窗口宽度
+\[
+\Delta=\max\left(1,\left\lfloor 0.05\,(t_2-t_1)\right\rfloor\right),
+\]
+并将每条轨迹按其吸收时间 $T$ 互斥地归类到最接近的中心（$t_1/t_v/t_2$）且满足 $|T-\text{center}|\le \Delta$，否则为 other。
+在每个窗口内统计：
+\begin{itemize}
+  \item 窗口质量（样本比例）$\mathbb{P}(T\in W)$；
+  \item $\mathbb{P}(C\ge1\mid T\in W)$、$\mathbb{P}(J\ge1\mid T\in W)$（并给出 Wilson 95\% 置信区间）；
+  \item 4 类 (A/B/C/D) 的比例。
+\end{itemize}
+
+\paragraph{精确 $f(t)$：AW 反演（主模型）}
+为对齐本仓库既有报告中 ``解析精确曲线'' 的口径（例如 \texttt{valley\_dst\_report}），
+本文在主模型（允许 jump-over、$\mathrm{jumpover\_absorbs}=0$）下绘图所用的精确 $f(t)$ 采用 Abate--Whitt（AW）反演从生成函数得到。
+思路是：先在复平面上计算首吸收分布的生成函数，再用离散 Cauchy 反演（FFT 实现）恢复系数。
+
+\paragraph{无 defect 的 lazy 环：谱表示}
+先考虑不含 shortcut 的 lazy $K$-邻居环（$K=2k$）。
+其一步转移矩阵具有平移对称性，模态 $\ell=0,\dots,N-1$ 的特征值为
+\[
+\lambda_\ell=(1-q)+\frac{2q}{K}\sum_{r=1}^{k}\cos\!\left(\frac{2\pi r\ell}{N}\right).
+\]
+由此可写出 ``无缺陷'' resolvent（生成函数 Green 函数）
+\[
+Q(d,z)=\sum_{t\ge0}\Pr(X_t=X_0+d)\,z^t
+=\frac{1}{N}\sum_{\ell=0}^{N-1}\frac{\cos(2\pi \ell d/N)}{1-z\lambda_\ell},
+\qquad |z|<1,
+\]
+其中 $d$ 为环距离（模 $N$ 的位移）。
+
+\paragraph{单向 shortcut（selfloop 规则）：秩一缺陷 + Sherman--Morrison}
+selfloop 规则仅改变源点 $\mathrm{src}$ 的出概率，因此相对无缺陷环，转移矩阵是一个 ``单列'' 的秩一修正（本质上是 rank-one defect）。
+因此可以用 Sherman--Morrison 公式把含 defect 的 resolvent
+$S_{i,j}(z)=\sum_{t\ge0}\Pr(X_t=i\mid X_0=j)\,z^t$
+表示成若干个 $Q(\cdot,z)$ 的组合（实现中按需计算若干距离的 $Q$，并在每个 $z$ 上做一次秩一更新）。
+
+\paragraph{点吸收（$\rho$）的生成函数}
+在 ``到达 target 后以概率 $\rho$ 吸收'' 的约定下，首吸收分布 $f(t)=\Pr(T=t)$ 的生成函数为
+\[
+\tilde f(z)=\sum_{t\ge1}f(t)z^t
+=\frac{\rho\,S_{\mathrm{target},n_0}(z)}{(1-\rho)+\rho\,S_{\mathrm{target},\mathrm{target}}(z)}.
+\]
+本文主设定 $\rho=1$ 时，$\tilde f(z)=S_{\mathrm{target},n_0}(z)/S_{\mathrm{target},\mathrm{target}}(z)$。
+
+\paragraph{AW 反演（FFT）}
+给定 $\tilde f(z)$，在圆周 $z_m=r e^{2\pi i m/L}$ 上采样并做 FFT，可近似恢复 $f(t)$：
+\[
+f(t)\approx r^{-t}\frac{1}{L}\sum_{m=0}^{L-1}\tilde f(z_m)\,e^{-2\pi i mt/L},\qquad t=1,\dots,T_{\max}.
+\]
+本文默认取 $r=10^{-4/T_{\max}}$、$L$ 为略大于 $T_{\max}$ 的 2 的幂（与仓库内其他 AW 脚本一致），并在代表点上取 $T_{\max}=4000$ 以覆盖两处主峰与谷底的时间尺度。
+
+\paragraph{时间域 master-equation（扫描与对照）}
+层 A 的大规模扫描需要把尾部质量压到很低（例如 survival $\lesssim 10^{-14}$），
+因此我们用时间域 master-equation 迭代（吸收通量法）得到数值精确的 $f(t)$ 并用于双峰判据。
+同理，``jump-over$\to$吸收'' 的反事实对照中，吸收事件由 ``落点'' 扩展为 ``跨过''（非局部事件），无法直接套用上面的点吸收 AW 公式，因此该对照也使用时间域迭代。
+
+\section{层 A：参数扫描（哪里真的双峰）}
+\subsection{$N$ 扫描（固定 $\beta=0.02$）}
+固定 $q=2/3$、$\beta=0.02$（$p=\beta(1-q)$）、上述几何，并对偶数 $N=10..200$ 扫描：
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_N_beta002_bimodality.pdf}
+  \caption{$\beta=0.02$ 下 $K=2$ 与 $K=4$ 的 paper/macro 双峰标记（空心=paper，实心=macro）。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_N_beta002_peak_times.pdf}
+  \caption{仅对 paper-bimodal 案例，记录首两峰时间 $t_1,t_2$（对数坐标）。}
+\end{figure}
+
+\subsection{$\beta$ 扫描（固定 $N=100$）}
+固定 $N=100$、$q=2/3$，扫描 $\beta$ 并记录 paper/macro 与峰时间：
+\input{tables/beta_scan_N100_K2.tex}
+\input{tables/beta_scan_N100_K4.tex}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_beta_N100_bimodality.pdf}
+  \caption{$N=100$ 下 $K=2$ 与 $K=4$ 的 paper/macro 双峰标记随 $\beta$ 的变化。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_beta_N100_peak_times.pdf}
+  \caption{$N=100$ 下（仅 paper-bimodal），$t_1,t_2$ 随 $\beta$ 的变化（对数坐标）。}
+\end{figure}
+
+\section{层 B：机制解释（轨迹互斥分解）}
+\subsection{代表点：$N=100,\beta=0.02$（$K=2$ vs $K=4$）}
+先给出精确 $f(t)$（log 轴）及峰/谷/峰窗口：
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K2_beta002.f_t.pdf}
+  \caption{$K=2$：AW 反演得到的精确 $f(t)$ 与窗口标注（$q=2/3,\beta=0.02$）。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta002.f_t.pdf}
+  \caption{$K=4$：AW 反演得到的精确 $f(t)$ 与窗口标注（$q=2/3,\beta=0.02$）。}
+\end{figure}
+
+在同一窗口定义下，对 MC 轨迹做 4 类互斥分类（A/B/C/D）：
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{\CaseDir/N100_K2_beta002.classes.pdf}
+  \caption{$K=2$：peak1/valley/peak2 三段窗口内的 (C/J) 四类比例。此时 $J\equiv0$，退化为 shortcut vs nonshortcut。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{\CaseDir/N100_K4_beta002.classes.pdf}
+  \caption{$K=4$：peak1/valley/peak2 三段窗口内的 (C/J) 四类比例。}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta002.counts.pdf}
+  \caption{$K=4$：三段窗口内 $C$ 与 $J$ 的 $0/1/\ge2$ 计数分解（用于检验 ``多次 overshoot'' 是否在慢峰附近累积）。}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{\CaseDir/N100_K2_beta002.cond_by_t.pdf}
+  \caption{$K=2$：全时间条件曲线（按吸收时间逐点条件化）：$P(C\ge1\mid T=t)$ 以及四类 (A/B/C/D) 的时间权重随 $t$ 的变化。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{\CaseDir/N100_K4_beta002.cond_by_t.pdf}
+  \caption{$K=4$：全时间条件曲线：同时给出 $P(C\ge1\mid T=t)$、$P(J\ge1\mid T=t)$ 以及四类 (A/B/C/D) 的时间权重。该图把 ``三窗切片'' 升级为 ``随时间连续变化'' 的机制证据链。}
+\end{figure}
+
+\subsubsection{窗口统计的定量摘要（更具体）}
+为把 ``读图要点'' 从定性描述落到可复核的数字上，
+我们把代表点 $N=100,\beta=0.02$ 下三段窗口的条件统计整理成表格（由脚本从 \texttt{*.summary.json} 自动生成）：
+\input{tables/case_window_stats_N100_K2_beta002.tex}
+\input{tables/case_window_stats_N100_K4_beta002.tex}
+
+\paragraph{读图要点（机制链条）}
+\begin{itemize}
+  \item \textbf{第一峰由 shortcut 主导：}在 $K=2$ 与 $K=4$ 的 peak1 窗口里均有 $\Pr(C\ge 1\mid W)\approx 1$（表中 $P(C\ge1\mid W)$ 一列接近 1），对应 ``较早到达 $\mathrm{src}$ 并使用 shortcut'' 的快路径族，因此形成早峰（$K=2$ 的 $t_1=51$；$K=4$ 的 $t_1=31$）。
+  \item \textbf{谷底是 ``族群权重切换'' 的过渡区：}valley 窗口里 $C=0$ 的比例开始上升，且 $K=4$ 中 $J\ge1$ 的比例也明显升高，表示 ``接近吸收点但被 overshoot 打断'' 的延迟路径开始大量出现。
+  \item \textbf{第二峰主要由 nonshortcut（$C=0$）贡献：}在 peak2 窗口，$K=2$ 已有 $C=0$ 占主导；而在 $K=4$ 的 peak2 中 $C=0$ 仍占绝对多数（A+C 两类之和显著大于 B+D），说明慢峰对应 ``未有效利用 shortcut'' 的路径族在较晚时间尺度聚集。
+  \item \textbf{$K=4$ 的关键差别来自 jump-over 子类：}对 $K=4$ 的 peak2，nonshortcut 内部进一步被分成 A（$C=0,J=0$）与 C（$C=0,J\ge1$）两支，其中 C 类在慢峰窗口内占据可观权重，直接证实 ``跨过吸收点但不落点'' 不是罕见噪声，而是慢尺度结构的组成部分。
+\end{itemize}
+从可发表的 ``混合路径族'' 角度，这对应一个更细的分解：
+\[
+f(t)=\sum_{(c,j)\in\{0,1\}^2}\Pr(C\ge1=c,\;J\ge1=j)\,f(t\mid C\ge1=c,\;J\ge1=j),
+\]
+其中 $K=2$ 情形退化为 $J\equiv0$ 的二类混合，而 $K=4$ 则需要进一步区分 ``是否发生 jump-over'' 才能解释慢峰结构的差异来源。
+\paragraph{为什么 jump-over 会改变慢尺度？}
+在 $K=2$ 中，任何 ``跨过 target'' 的尝试都会必然落在 target（因为步长只有 1），因此一旦到达 target 的邻域，吸收几乎只取决于是否真正落点。
+而在 $K=4$ 中，局部接近 target 时若走到 $\mathrm{target}\pm1$，一次 $\mp2$ 的环上跳会把行走者送到 target 的另一侧而\emph{不吸收}，这相当于给 ``即将吸收'' 的局部路径插入一次额外的回返代价（甚至可能多次发生）。
+因此 jump-over 会把一部分原本应当更早吸收的轨迹推迟到更晚的时间尺度，改变 slow 族的形状/权重，从而影响整体 $f(t)$ 的双峰结构。
+
+\subsection{隔离 jump-over 的对照：jumpover 视为吸收}
+为把 ``$K=4$ 允许 $\pm2$ 导致扩散尺度变化'' 与 ``jump-over（跨过吸收点但不落点）导致的延迟'' 区分开，
+我们构造一个反事实对照模型：仍然允许 $\pm2$（因此步长分布与 $K=4$ 相同），但\textbf{若某一步发生 jump-over，则视为吸收}（等价于把吸收机制扩展为 ``到达或跨过 $\mathrm{target}$''）。
+下图叠加对比了原始模型与对照模型的精确 $f(t)$：
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta002_jumpover_control.compare_f_t.pdf}
+  \caption{$K=4$（$N=100,q=2/3,\beta=0.02$）：基线模型（允许 jump-over）与对照模型（jump-over$\to$吸收）的精确 $f(t)$ 叠加对比（时间域 master-equation）。该对照用于隔离 ``jump-over 不落点'' 机制对时间尺度结构的影响。}
+\end{figure}
+
+\subsection{更大 shortcut 强度：$K=4, N=100, \beta=0.15$}
+为对齐 ``$\beta$ 变大压掉慢峰'' 的既有直觉，这里给出 $K=4$ 在更大 $\beta$ 下的代表性双峰（仍满足 paper/macro 判据）：
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta015.f_t.pdf}
+  \caption{$K=4$：AW 反演得到的精确 $f(t)$（$N=100,q=2/3,\beta=0.15$）。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{\CaseDir/N100_K4_beta015.classes.pdf}
+  \caption{$K=4$：三段窗口内的 (C/J) 四类比例（$N=100,q=2/3,\beta=0.15$）。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta015.cond_by_t.pdf}
+  \caption{$K=4$（$\beta=0.15$）：全时间条件曲线（对照 $\beta=0.02$，用于展示随 shortcut 强度变化时机制权重如何在时间轴上迁移）。}
+\end{figure}
+可见随 $\beta$ 增大，peak1 的窗口质量显著增加（更大质量更早走上 shortcut），但在 $K=4$ 中仍存在可分辨的慢尺度结构（由 nonshortcut 及其 jump-over 子类贡献），直到 $\beta$ 增大到某一阈值后才不再满足 paper 判据（见 $\beta$ 扫描）。
+
+\section{可复现性：脚本与命令}
+本报告全部结果由以下脚本生成：
+\begin{itemize}
+  \item 精确分布 + 扫描：\texttt{code/jumpover\_bimodality\_pipeline.py}
+  \item 扫描可视化：\texttt{code/plot\_scan\_summaries.py}
+  \item $\beta$ 扫描表格：\texttt{code/make\_beta\_scan\_table.py}
+  \item 代表点窗口统计表：\texttt{code/make\_case\_window\_table.py}
+\end{itemize}
+建议复现实验流程（在本报告目录下）：
+\begin{verbatim}
+# N scan (beta fixed)
+python3 code/jumpover_bimodality_pipeline.py scan-n \
+  --K 2 --N-min 10 --N-max 200 --N-step 2 \
+  --beta 0.02 --q 0.6666667 \
+  --target auto --sc-src auto+5 --sc-dst auto_target+1 \
+  --out data/scan_N_K2_beta002.csv
+python3 code/jumpover_bimodality_pipeline.py scan-n \
+  --K 4 --N-min 10 --N-max 200 --N-step 2 \
+  --beta 0.02 --q 0.6666667 \
+  --target auto --sc-src auto+5 --sc-dst auto_target+1 \
+  --out data/scan_N_K4_beta002.csv
+
+# beta scan (N fixed)
+python3 code/jumpover_bimodality_pipeline.py scan-beta \
+  --N 100 --K 4 --q 0.6666667 --target auto \
+  --sc-src auto+5 --sc-dst auto_target+1 \
+  --betas 0 0.0005 0.001 0.002 0.005 0.01 0.02 0.03 \
+  0.05 0.07 0.1 0.15 0.2 0.3 0.5 1 \
+  --out data/scan_beta_N100_K4.csv
+
+# representative case analysis (exact + MC)
+python3 code/jumpover_bimodality_pipeline.py analyze \
+  --N 100 --K 4 --beta 0.02 --q 0.6666667 \
+  --exact-method aw --max-t-plot 4000 \
+  --target auto --sc-src auto+5 --sc-dst auto_target+1 \
+  --n-walkers 200000 --seed 0 \
+  --out-prefix data/cases/N100_K4_beta002/N100_K4_beta002
+
+# make window-stat tables (from the produced summary.json)
+python3 code/make_case_window_table.py \
+  --summary data/cases/N100_K4_beta002/N100_K4_beta002.summary.json \
+  --out tables/case_window_stats_N100_K4_beta002.tex \
+  --caption "N=100, K=4（$\\pm1,\\pm2$），$q=2/3,\\beta=0.02$： \
+  三窗条件统计（MC）" \
+  --label tab:case-window-N100-K4-beta002
+
+# control comparison: jumpover -> absorb (exact-only overlay)
+python3 code/jumpover_bimodality_pipeline.py compare-jumpover \
+  --N 100 --K 4 --beta 0.02 --q 0.6666667 \
+  --target auto --sc-src auto+5 --sc-dst auto_target+1 \
+  --out-prefix \
+  data/cases/N100_K4_beta002_jumpover_control/N100_K4_beta002_jumpover_control
+\end{verbatim}
+
+\end{document}

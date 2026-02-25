@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9999999980842074,
+  "aw": {
+    "errors": {
+      "l1": 9.319929986452718e-15,
+      "linf": 1.8040208726823222e-17,
+      "rel_l1": 9.31993000430777e-15
+    },
+    "params": {
+      "m": 65536,
+      "oversample": 4,
+      "r": 0.999578472944714,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "MB2",
+  "mc": {
+    "fast_fraction": 0.3310666666666666,
+    "n_walkers": 30000,
+    "slow_fraction": 0.6689333333333334,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "gap": 1287,
+    "h1": 0.00443939211667843,
+    "h2": 0.0003271557394761596,
+    "h2_over_h1": 0.0736938145758881,
+    "hv": 3.86955818722025e-06,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.0736938145758881,
+    "smooth_window": 9,
+    "t_p1": 234,
+    "t_p2": 1521,
+    "t_v": 503,
+    "valley_depth": 0.9881721219581348,
+    "valley_ratio": 0.01182787804186523
+  },
+  "name": "parallel lanes with 10 doors on slow lane",
+  "params": {
+    "N": 60,
+    "g_x": -0.5,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      1,
+      31
+    ],
+    "target": [
+      50,
+      30
+    ]
+  }
+}

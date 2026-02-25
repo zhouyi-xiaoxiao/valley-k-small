@@ -1,0 +1,988 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{fvextra}
+\usepackage{microtype}
+\usepackage{placeins}
+\Urlmuskip=0mu plus 1mu
+
+\title{Bimodal first-passage times on a 2D $N\times N$ lattice with \textbf{reflecting boundaries}}
+\author{}
+\date{}
+
+\newcommand{\FigDir}{figures}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{Summary and Key Figures}
+\begin{itemize}
+\item \textbf{Bimodality persists under fully reflecting boundaries}: we keep eight representative cases R1 (geometric detour), R7 (semipermeable pore + detour), C3 (active transport track), R6 (door array), NB4 (perimeter conveyor template), NB5 (conveyor + global bias), and S1/S2 (soft two-track constructions with zero internal barriers/doors), all showing clear bimodal FPTs.
+\item \textbf{Geometric vs dynamical slow channels}: R1/R7/C3 use ``short corridor + long detour'' geometry with a local pore/track; R6 delays by a door array; NB4/NB5 use a clockwise boundary belt vs a short counterflow path; S1/S2 create soft corridors via sticky + local arrows without hard walls.
+\item \textbf{Deep valley with minimal structure}: NB4/NB5 modify only the boundary (sticky + clockwise bias), while S1/S2 avoid internal barrier/door entirely yet still reach valley ratio $\le 0.07$.
+  \item \textbf{Quantified bimodality}: peak/valley metrics and MC fast-channel weights are summarized in Table~\ref{tab:metrics}; AW errors reach the $10^{-14}$ level (Table~\ref{tab:aw-errors}).
+  \item \textbf{AW vs exact validation}: for $t\le t_{\max}^{\mathrm{AW}}$, AW inversion matches exact recursion and agrees with the MC overlays.
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_R1_proof.pdf}
+    \caption*{(a) R1 peak--valley zoom}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_R6_proof.pdf}
+    \caption*{(b) R6 peak--valley zoom}
+  \end{minipage}
+  \caption{Bimodality examples under reflecting boundaries (R1 and R6).}
+  \label{fig:summary-proof}
+\end{figure}
+
+\section*{Parameter Table}
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $N$ & $q$ & $g_x$ & $g_y$ & boundary & (start, target) \\
+    \midrule
+    R1 & 60 & 0.8 & -0.20 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    R7 & 60 & 0.8 & -0.20 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    C3 & 60 & 0.8 & -0.15 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    R6 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    NB4 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (12,60)$\to$(10,60) \\
+    NB5 & 60 & 0.8 & -0.10 & 0.00 & reflecting & (12,60)$\to$(10,60) \\
+    S1 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    S2 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    \bottomrule
+  \end{tabular}
+  \caption{Core parameters for the representative reflecting-boundary constructions.}
+  \label{tab:params}
+\end{table}
+
+\section*{Bimodality Metrics}
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $t_{p1}$ & $t_v$ & $t_{p2}$ & peak ratio & valley ratio & $P_{\text{fast}}$ (MC) \\
+    \midrule
+    R1 & 136 & 269 & 424 & 0.451 & 0.035 & 0.321 \\
+    R7 & 140 & 280 & 428 & 0.294 & 0.066 & 0.248 \\
+    C3 & 160 & 388 & 702 & 0.231 & 0.022 & 0.293 \\
+    R6 & 347 & 1021 & 2160 & 0.141 & 0.063 & 0.498 \\
+    NB4 & 6 & 389 & 642 & 0.932 & 0.062 & 0.104 \\
+    NB5 & 6 & 379 & 621 & 0.930 & 0.009 & 0.024 \\
+    S1 & 47 & 240 & 363 & 0.641 & 0.037 & 0.127 \\
+    S2 & 48 & 274 & 462 & 0.647 & 0.061 & 0.171 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Peak/valley metrics and MC fast-channel weights for the representative constructions (absorption probability is near 1 at the truncation time).}
+  \label{tab:metrics}
+\end{table}
+
+\section{Model Definition and Coordinate Convention}
+The state space is $\{1,\dots,N\}\times\{1,\dots,N\}$. The walker is at $(x,y)$ and the target $(x_t,y_t)$ is absorbing. One-step transition probabilities are
+\begin{align}
+  p_{\text{left}} &= \frac{q}{4}(1+g_x),\quad p_{\text{right}} = \frac{q}{4}(1-g_x),\\
+  p_{\text{down}} &= \frac{q}{4}(1+g_y),\quad p_{\text{up}} = \frac{q}{4}(1-g_y),\\
+  p_{\text{stay}} &= 1-q.
+\end{align}
+We adopt the convention ``$y$ increases downward'', so $g_y>0$ means downward drift. This report uses \textbf{fully reflecting boundaries}: out-of-boundary probabilities are added back to $p_{\text{stay}}$.
+\noindent From Eq.(1), $g_x>0$ increases $p_{\text{left}}$ and decreases $p_{\text{right}}$, so we define $g_x>0$ as a \textbf{leftward} global bias ($g_x<0$ is rightward).
+
+\paragraph{Local heterogeneities (combinations).}
+\begin{itemize}
+  \item local bias (arrow): multiply $p_{\text{stay}}$ by $(1-\delta)$ and add $\Delta=\delta p_{\text{stay}}$ to the arrow direction; other directions stay unchanged.
+  \item sticky site: scale the move rate to $q_{\text{site}}=\text{factor}\cdot q$; $p_{\text{stay}}$ increases accordingly.
+  \item barrier: a reflecting wall adds its probability back to stay; a door passes with $p_{\text{pass}}$ and reflects with $1-p_{\text{pass}}$.
+\end{itemize}
+
+\section{How to Read the Figures}
+Fig.~\ref{fig:symbol-legend} gives the unified symbol legend: red squares are starts, blue diamonds are targets; thick solid lines are reflecting walls, dashed lines are doors (labeled by $p_{\text{pass}}$), translucent shading is sticky regions; red arrows are local bias sites; large arrows outside the grid indicate the global drift and $(g_x,g_y)$. For readability, environment schematics, $P(n,t)$ slices, multiscale FPT plots, peak--valley zooms, diagnostics, and channel decompositions are shown as separate figures.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\FigDir/env/symbol_legend.pdf}
+  \caption{Symbol legend.}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\section{FPT primer: definition, intuition, and three methods}
+\paragraph{Definition and intuition}
+The first-passage time (FPT) is
+\[
+  \tau=\inf\{t\ge 1:\,X_t=(x_t,y_t)\},
+\]
+with PMF $f(t)=\Pr(\tau=t)$, CDF $F(t)=\Pr(\tau\le t)$, and survival
+\[
+  S(t)=\Pr(\tau>t)=1-F(t).
+\]
+Intuitively, $f(t)$ is the probability of first hitting the target \emph{exactly} at step $t$. The bimodality in this report is simply two visible local maxima of $f(t)$ at early and late times.
+
+\paragraph{Three ways to compute $f(t)$ (plain-language)}
+We overlay three estimates of $f(t)$ throughout the report:
+\begin{itemize}
+  \item \textbf{Exact recursion (deterministic)}: build the transient submatrix $Q$, then push the distribution forward one step at a time:
+  \[
+    p_{t+1}=Qp_t,\qquad f(t)=r^\top p_t,\quad t\ge 1,
+  \]
+  where $r$ is the absorption flux vector. This is the step-by-step, deterministic baseline.
+  \item \textbf{AW inversion (generating-function inversion)}: compute the generating function $\tilde f(z)$ (from the propagator and defect formula), then invert via Abate--Whitt:
+  \[
+    f(t)\approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)e^{-2\pi i k t/m}.
+  \]
+  Think of it as “work in the $z$-domain, then invert back to time”.
+  \item \textbf{Monte Carlo (MC)}: simulate many random walks, then histogram the hitting times. This is flexible but noisy in the tail unless you run many samples.
+\end{itemize}
+
+\paragraph{AW vs Exact (beginner-friendly comparison)}
+\begin{itemize}
+  \item \textbf{Accuracy}: Exact is deterministic; AW can be as accurate as Exact with proper parameters; MC is statistical with error $\propto 1/\sqrt{N}$.
+  \item \textbf{Speed and use cases}: Exact is good for moderate sizes and finite $t_{\max}$; AW is efficient once $\tilde f(z)$ is available but can be slowed by solving a linear system at each $z_k$ when many defects exist; MC is best for quick sanity checks or very large systems where exact state-space recursion is too expensive.
+  \item \textbf{What we do here}: Exact is the baseline, AW is used to validate inversion accuracy, and MC provides a stochastic cross-check plus channel classification intuition.
+\end{itemize}
+
+\section{Analytical derivation: from defect-free propagator to time-domain FPT}
+This section provides a unified derivation chain: \emph{defect-free propagator $\to$ defect propagator $\to$ FPT generating function $\to$ AW inversion}. The constructions in this report fit this framework.
+
+\subsection{Matrix form and generating function}
+Let $A$ be the transition matrix for the non-absorbing system, with $A_{v,u}=\Pr(u\to v)$ so columns sum to 1 and $\mathbf{p}_{t+1}=A\mathbf{p}_t$. The propagator satisfies
+\begin{equation}
+  P_{n_0}(n,t)=\mathbf{e}_n^\top A^t \mathbf{e}_{n_0},
+  \qquad
+  \tilde{\mathbf{P}}(z)=\sum_{t\ge 0} A^t z^t=(I-zA)^{-1},
+\end{equation}
+so
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\mathbf{e}_n^\top (I-zA)^{-1}\mathbf{e}_{n_0}.
+\end{equation}
+We now give the spectral form of $A$ and the defect update formula to obtain $\tilde P$ for any configuration.
+
+\subsection{Spectral decomposition of the defect-free propagator (reflecting)}
+Write the 2D update as the sum of two 1D operators (along $x$ and $y$). Let $\{\lambda_k^{(\text{ref})},h_k^{(\text{ref})}\}$ be eigenpairs of the 1D step matrix. Define
+\begin{equation}
+  s_k^{(\text{ref})} = q\,\bigl(\lambda_k^{(\text{ref})}-1\bigr),\qquad
+  \Lambda_{k_1,k_2}=1+\frac{s_{k_1}^{(\text{ref})}+s_{k_2}^{(\text{ref})}}{2}.
+\end{equation}
+Then the 2D defect-free propagator (Eq.(33) in PRE 102, 062124) is
+\begin{equation}
+  P^{(\text{ref})}_{n_0}(n,t)=\sum_{k_1}\sum_{k_2} h_{k_1}^{(\text{ref})}(x,x_0)\,h_{k_2}^{(\text{ref})}(y,y_0)\,\Lambda_{k_1,k_2}^t.
+  \label{eq:P_time}
+\end{equation}
+The $z$-transform is
+\begin{equation}
+  \tilde P^{(\text{ref})}_{n_0}(n,z)=\sum_{k_1}\sum_{k_2}
+  \frac{h_{k_1}^{(\text{ref})}(x,x_0)\,h_{k_2}^{(\text{ref})}(y,y_0)}{1-z\Lambda_{k_1,k_2}}.
+  \label{eq:P_z}
+\end{equation}
+
+\paragraph{Reflecting boundary} \;\;
+Let $p_\ell=(1+g)/2,\;p_r=(1-g)/2,\;\rho=p_r/p_\ell$. A similarity transform symmetrizes the 1D operator, giving
+\begin{equation}
+  \lambda_0^{(\text{ref})}=1,\quad
+  \lambda_k^{(\text{ref})}=2\sqrt{p_\ell p_r}\cos\frac{k\pi}{N}\ (k\ge 1),\quad
+  h_k^{(\text{ref})}(x,x_0)=u_k(x)u_k(x_0)\sqrt{\frac{\pi_x}{\pi_{x_0}}},
+\end{equation}
+where $\pi_x\propto \rho^x$ is the stationary distribution and $u_k$ are orthogonal cosine modes (matching PRE Eq.(22)--(23)).
+
+\subsection{Determinant formula for defect propagator}
+Write the defect as a matrix perturbation $\underline{X}=\underline{B}-\underline{A}$. For each directed edge $(u_i\to v_i)$, define
+\begin{equation}
+  \eta_{u_i,v_i}=X_{v_i,u_i}=B_{v_i,u_i}-A_{v_i,u_i}.
+\end{equation}
+Define the difference propagator
+\begin{equation}
+  \tilde P^e_{\langle u-v\rangle}(n,z)=\tilde P^e_{u}(n,z)-\tilde P^e_{v}(n,z).
+\end{equation}
+Then the inert-heterogeneity formula (2311.00464v2) gives
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-1+\frac{\det[H(n,n_0;z)]}{\det[H(z)]},
+\end{equation}
+with
+\begin{align}
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(u_i,z)-\eta_{v_j,u_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(v_i,z),\\
+  H(n,n_0;z)_{ij}&=H_{ij}(z)-\tilde P^e_{\langle u_j-v_j\rangle}(n,z)\left[\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z)\right].
+\end{align}
+In numerical implementations, we solve the equivalent linear system for stability (by Cramer equivalence).
+The linear-algebra form reads
+\begin{align}
+  b_j(n,z)&=\tilde P^e_{u_j}(n,z)-\tilde P^e_{v_j}(n,z),\\
+  a_i(n_0,z)&=\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z),\\
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,b_j(u_i,z)-\eta_{v_j,u_j}\,b_j(v_i,z),
+\end{align}
+so that
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-\mathbf{b}(n,z)^\top H(z)^{-1}\mathbf{a}(n_0,z).
+\end{equation}
+
+\paragraph{Defect mapping}
+\begin{itemize}
+  \item local bias: reduce the self-loop and add probability to the arrow direction, equivalent to $(u\to v)$ with $\eta_{u,v}=+\Delta$, plus a compensation term for $(u\to u)$ to keep column sums at 1.
+  \item door/permeable barrier: crossing the door multiplies by $p_{\text{pass}}$; both $(u\to v)$ and $(v\to u)$ have $\eta_{u,v}=(p_{\text{pass}}-1)P_{u\to v}^{\text{base}}$.
+  \item sticky: multiply all outgoing edges by $\alpha$; each outgoing edge $(u\to n)$ has $\eta_{u,n}=(\alpha-1)P_{u\to n}^{\text{base}}$, with a compensation term added to $(u\to u)$ to keep column sums at 1.
+\end{itemize}
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    feature & rule (example $u\to v$) & corresponding $\lambda_{u,v}$\\
+    \midrule
+    local bias & $p_{u\to v}=p_{u\to v}^0+\Delta$ & $-\Delta/p_{u\to v}^0$\\
+    sticky & $p_{u\to v}=\alpha p_{u\to v}^0$ & $1-\alpha$\\
+    barrier & $p_{u\to v}=0$ & $1$\\
+    door & $p_{u\to v}=p_{\text{pass}}p_{u\to v}^0$ & $1-p_{\text{pass}}$\\
+    \bottomrule
+  \end{tabular}
+  \caption{Mapping from features to $\lambda$ ($\eta_{u,v}=-\lambda_{u,v}p_{u\to v}^0$).}
+  \label{tab:lambda-map}
+\end{table}
+
+\subsection{FPT generating function and AW inversion}
+Consider the master equation with an absorbing state:
+\begin{equation}
+  \mathbf{p}_{t+1}=P\,\mathbf{p}_t,\qquad \mathbf{p}_0=\mathbf{e}_{n_0},
+\end{equation}
+with $z$-transform $\tilde{\mathbf{p}}(z)=\sum_{t\ge 0}\mathbf{p}_t z^t$ giving
+\begin{equation}
+  \tilde{\mathbf{p}}(z)=(I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+Let the cumulative arrival probability be $F(t)=\mathbf{e}_{n_t}^\top \mathbf{p}_t$, then
+\begin{equation}
+  \tilde F(z)=\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+With $f(t)=F(t)-F(t-1)$ (take $F(-1)=0$), the PMF generating function is
+\begin{equation}
+  \tilde f(z)=(1-z)\tilde F(z)=(1-z)\,\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+We keep both notations: $\tilde F$ for the CDF generating function and $\tilde f$ for the PMF generating function (used in AW inversion). The exact recursion in time domain is
+\begin{equation}
+  f(t)=r^\top Q^{t-1} p_0,\quad t\ge 1,
+  \label{eq:exact-recursion}
+\end{equation}
+so the generating function is
+\begin{equation}
+  \tilde f(z)=\sum_{t\ge 1} f(t) z^t
+  = z\,r^\top (I-zQ)^{-1} p_0.
+\end{equation}
+By the renewal relation,
+\begin{equation}
+  \tilde f_{n_0\to n_t}(z)=\frac{\tilde P_{n_0}(n_t,z)}{\tilde P_{n_t}(n_t,z)},
+  \label{eq:Fz}
+\end{equation}
+which is equivalent to the transient-matrix formulation above. The Abate--Whitt (AW) inversion is
+\begin{equation}
+  f(t)\approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)\,e^{-2\pi i k t/m},
+  \qquad z_k=r\,e^{2\pi i k/m},\quad t=1,\dots,t_{\max}^{\mathrm{AW}}.
+  \label{eq:AW}
+\end{equation}
+We set $m=\mathrm{pow2}(\text{oversample}\cdot(t_{\max}^{\mathrm{AW}}+1))$ and $r^m=10^{-\text{r\_pow10}}$ as in the repository.
+
+\begin{quote}
+\textbf{Implementation (Algorithm box)}
+\begin{enumerate}[leftmargin=*, itemsep=0pt]
+  \item Build the spectral decomposition of $A$ (reflecting boundaries) to obtain $\tilde P^e(n,z)$.
+  \item Construct $H(z)$ and vectors $\mathbf{a},\mathbf{b}$ from the defect list, solve the linear system for $\tilde P(n,z)$.
+  \item Compute $\tilde f(z)=\tilde P_{n_0}(n_t,z)/\tilde P_{n_t}(n_t,z)$ via the renewal formula.
+  \item Sample $z_k=r e^{2\pi i k/m}$ and perform AW inversion to obtain $f(t)$.
+  \item Compare with exact recursion/MC and record metrics in JSON.
+\end{enumerate}
+\end{quote}
+
+\subsection{AW vs exact recursion: principles and speed}
+\paragraph{Principles (with formulas)}
+Let $Q$ be the transient submatrix, $r$ the absorption vector, and $p_0$ the initial distribution. Exact recursion uses the time-domain update
+\[
+  p_{t+1}=Qp_t,\qquad f(t)=r^\top p_t,\quad t\ge 1,
+\]
+equivalently
+\[
+  f(t)=r^\top Q^{t-1}p_0,\qquad F(t)=1-\mathbf{1}^\top Q^t p_0.
+\]
+For a given $t_{\max}$, this is deterministic and exact up to floating-point roundoff. AW works in the $z$ domain: first form
+\[
+  \tilde f(z)=z\,r^\top (I-zQ)^{-1}p_0
+  =\frac{\tilde P_{n_0}(n_t,z)}{\tilde P_{n_t}(n_t,z)},
+\]
+then extract coefficients via Cauchy inversion:
+\[
+  f(t)=\frac{1}{2\pi i}\oint_{|z|=r}\frac{\tilde f(z)}{z^{t+1}}\,dz
+  \approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)e^{-2\pi i k t/m}.
+\]
+
+\paragraph{Complexity and suitability}
+Exact recursion costs $O(T|E|)$ time ($T=t_{\max}$, $|E|$ nonzero transitions) and $O(|E|)$ memory, and is robust for medium-size parameter scans. AW solves an $M\times M$ system for each $z$ (with $M$ defects), giving $O(m M^3)$ overall; the FFT part $O(m\log m)$ is typically negligible, and AW becomes attractive only when $M$ is small. AW is trivially parallel across $z_k$, while exact recursion is sequential but simple and numerically stable.
+
+\paragraph{Accuracy notes}
+Exact recursion is deterministic for the chosen $t_{\max}$ (errors are only floating-point roundoff), so we treat it as the baseline. AW is a numerical inversion; errors come from finite $m$, the choice of $r$, and conditioning of the linear solve for $\tilde f(z)$. Increasing $m$ or tuning $r$ improves accuracy. In this report, AW vs exact $L^1$ errors are $\sim 10^{-14}$ (Table~\ref{tab:aw-errors}), so both are numerically accurate for our cases.
+
+\paragraph{Benchmark setup}
+We benchmark R1/R7/C3/R6/NB4/NB5 with their native $t_{\max}$. AW uses oversample=4 and r\_pow10=12, giving $m=8192/16384/65536/131072$. To avoid the full AW runtime, we time $n_z=32$ samples and estimate
+\[
+  t_{\mathrm{AW}}\approx t_{\mathrm{setup}} + (m/n_z)\,t_{\mathrm{eval}} + t_{\mathrm{FFT}}.
+\]
+We also include a low-defect control S0 (full grid, one sticky + one door; $M=9$), where the full AW runtime is feasible. Parameters are $N=30$, start=(1,15), target=(30,15), $g_x=-0.4$, with sticky$(15,15,\alpha=0.1)$ and door$(20,15)\leftrightarrow(21,15)$ at $p_{\text{pass}}=0.05$.
+The script is \texttt{code/benchmark\_aw\_exact.py} (single-thread), and the results are in Table~\ref{tab:aw-speed}.
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lrrrrr}
+    \toprule
+    case & $t_{\max}$ & $M$ & Exact (s) & AW-inv (ms) & AW-total (s) \\
+    \midrule
+    R1  & 1500  & 973 & 0.057 & 4.71 & 633 (10.6 min) \\
+    R7  & 2000  & 754 & 0.080 & 0.23 & 314 (5.2 min) \\
+    C3  & 3000  & 1004 & 0.106 & 0.45 & 1483 (24.7 min) \\
+    R6  & 12000 & 988 & 0.421 & 2.02 & 4862 (81.0 min) \\
+    NB4 & 20000 & 936 & 0.692 & 3.91 & 16786 (279.8 min) \\
+    NB5 & 20000 & 936 & 0.698 & 4.76 & 15946 (265.8 min) \\
+    S0  & 5000  & 9   & 0.056 & 0.97 & 1.44 (full AW) \\
+    \bottomrule
+  \end{tabular}
+  \caption{Runtime comparison between AW and exact recursion ($M$ is the defect count; R1/R7/C3/R6/NB4/NB5 use estimated AW totals, S0 uses full AW runtime).}
+  \label{tab:aw-speed}
+\end{table}
+
+\paragraph{Takeaways (speed-first)}
+For corridor/door constructions ($M\approx 7.5\times 10^2$--$10^3$), exact recursion finishes in $0.06$--$0.70$ s for $t_{\max}\le 2\times 10^4$, while AW totals are 5--280 min, dominated by the per-$z$ linear solves. Even small corridors like R7 ($M=754$) and C3 ($M=1004$) still yield 5.2 min and 24.7 min estimated AW totals, although AW inversion itself remains $0.23$--$4.76$ ms. In S0 ($M=9$), the full AW runtime is 1.44 s, but exact is still faster (0.056 s); AW would need fewer defects or accelerated linear solves to win. For scans or moderate $t_{\max}$, exact recursion is the practical choice; AW is preferable only when defects are few and long tails are needed.
+
+\section{Numerical Baseline: Exact/flux recursion and MC}
+Exact recursion on the transient space computes $f(t)=r^\top Q^{t-1} p_0$ (Eq.~\ref{eq:exact-recursion}), and is used as a deterministic baseline. We overlay AW inversion and MC histograms in the multiscale FPT plots (Fig.~\ref{fig:R1-fpt}, \ref{fig:R7-fpt}, \ref{fig:C3-fpt}, \ref{fig:R6-fpt}, \ref{fig:NB4-fpt}, \ref{fig:NB5-fpt}, \ref{fig:S1-fpt}, \ref{fig:S2-fpt}). MC trajectories are also classified into ``fast/slow channels'' to interpret bimodality.
+
+\paragraph{Peak--valley metrics}
+On the smoothed $f(t)$, identify two main peaks at $t_{p1},t_{p2}$ and the minimum between them at $t_v$. Define
+\begin{equation}
+  h_1=f(t_{p1}),\quad h_2=f(t_{p2}),\quad
+  \text{peak ratio}=\frac{\min(h_1,h_2)}{\max(h_1,h_2)},\quad
+  \text{valley ratio}=\frac{f(t_v)}{\min(h_1,h_2)}.
+\end{equation}
+We use a smoothing window of 9; metrics and channel weights are generated by the same script and saved in metrics JSON.
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+    case & $L^1$ error & $L^\infty$ error \\
+    \midrule
+    R1 & $2.55\times 10^{-15}$ & $2.88\times 10^{-17}$ \\
+    R7 & $1.59\times 10^{-14}$ & $1.10\times 10^{-16}$ \\
+    C3 & $4.93\times 10^{-15}$ & $2.31\times 10^{-17}$ \\
+    R6 & $6.77\times 10^{-15}$ & $1.32\times 10^{-17}$ \\
+    NB4 & $3.11\times 10^{-15}$ & $3.12\times 10^{-18}$ \\
+    NB5 & $2.53\times 10^{-15}$ & $2.53\times 10^{-18}$ \\
+    S1 & $3.08\times 10^{-14}$ & $9.22\times 10^{-17}$ \\
+    S2 & $2.21\times 10^{-14}$ & $6.32\times 10^{-17}$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{AW inversion vs exact recursion errors for $t\le t_{\max}^{\mathrm{AW}}$ ($L^1$ and $L^\infty$).}
+  \label{tab:aw-errors}
+\end{table}
+\noindent These errors confirm that AW accurately reproduces exact recursion over the inversion window and aligns with the MC overlays.
+
+\section{Selected Reflecting-Boundary Constructions}
+We highlight eight representative constructions (R1, R7, C3, R6, NB4, NB5, S1, S2) in the main text.
+
+\subsection{R1: short corridor vs top U-shaped detour}
+This is the simplest geometric two-channel construction: the bottom corridor is fast, the U-shaped detour is slow.
+
+\paragraph{Configuration Card}
+$N=60,\;q=0.8,\;g=(-0.20,0)$ with reflecting boundaries; start=(10,30), target=(50,30). The reachable set is the main corridor $y=30,\;x=10..50$ plus a U-shaped detour (left column $x=10,\;y=1..30$, top edge $y=1,\;x=10..50$, right column $x=50,\;y=1..30$), with reflecting walls elsewhere. Local bias is rightward on the main corridor ($\delta=0.95$), $\delta=0.6$ at the junction $(10,30)$, and follows the detour’s up/right/down directions with $\delta=0.95$. The channel rule treats any visit to the detour (upper segments of $x=10$ or $x=50$, or the top edge $y=1$) as slow; otherwise the path stays on $y=30$ and is fast. Metrics: $t_{p1}=136,\;t_v=269,\;t_{p2}=424$; peak ratio$=0.451$; valley ratio$=0.035$; $P_{\text{fast}}=0.321$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_R1_env.pdf}
+  \caption{R1: environment schematic. Symbols follow Fig.~\ref{fig:symbol-legend}.}
+  \label{fig:R1-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_R1_fig3_panel.pdf}
+  \caption{R1: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:R1-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R1_paths_fast.pdf}
+  \caption{R1: fast-channel path density + representative paths (full + ROI).}
+  \label{fig:R1-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R1_paths_slow.pdf}
+  \caption{R1: slow-channel path density + representative paths (full + ROI).}
+  \label{fig:R1-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_R1_fpt.pdf}
+  \caption{R1: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:R1-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R1_proof.pdf}
+  \caption{R1: peak--valley zoom.}
+  \label{fig:R1-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R1_diagnostic.pdf}
+  \caption{R1: bimodality diagnostic (smoothing and peak detection).}
+  \label{fig:R1-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_R1_channel_decomp.pdf}
+  \caption{R1: channel decomposition and mixture.}
+  \label{fig:R1-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{R7: semipermeable pore shortcut vs long detour}
+R7 inserts a single semipermeable door on the main corridor and a U-shaped detour, mimicking a pore shortcut competing with a longer bypass.
+
+\paragraph{Configuration Card}
+$N=60,\;q=0.8,\;g=(-0.20,0)$ with reflecting boundaries; start=(10,30), target=(50,30). The reachable set is the main corridor $y=30,\;x=10..50$ plus a short U-shaped detour (left column $x=29,\;y=1..30$, top edge $y=1,\;x=29..31$, right column $x=31,\;y=1..30$), with reflecting walls elsewhere. A semipermeable door sits at $(30,30)\leftrightarrow(31,30)$ with $p_{\text{pass}}=0.8$, and local bias is applied only along the corridor/branch (main corridor right, left column up, top edge right, right column down) with $\delta=0.95$. The channel rule marks any visit to the detour (upper segments of $x=29$ or $x=31$, or the top edge $y=1$) as slow; otherwise the path stays on $y=30$ and is fast. Metrics: $t_{p1}=140,\;t_v=280,\;t_{p2}=428$; peak ratio$=0.294$; valley ratio$=0.066$; $P_{\text{fast}}=0.248$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_R7_env.pdf}
+  \caption{R7: environment schematic.}
+  \label{fig:R7-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_R7_fig3_panel.pdf}
+  \caption{R7: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:R7-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R7_paths_fast.pdf}
+  \caption{R7: fast-channel path density with representative paths (full + ROI).}
+  \label{fig:R7-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R7_paths_slow.pdf}
+  \caption{R7: slow-channel path density with representative paths (full + ROI).}
+  \label{fig:R7-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_R7_fpt.pdf}
+  \caption{R7: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:R7-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R7_proof.pdf}
+  \caption{R7: peak--valley zoom.}
+  \label{fig:R7-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R7_diagnostic.pdf}
+  \caption{R7: bimodality diagnostics.}
+  \label{fig:R7-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_R7_channel_decomp.pdf}
+  \caption{R7: channel decomposition and mixture.}
+  \label{fig:R7-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{C3: local active track vs long detour loop}
+C3 introduces a strong local-bias transport track (fast channel) and a long detour loop (slow channel), mimicking an internal active-transport lane with a bypass.
+
+\paragraph{Configuration Card}
+$N=60,\;q=0.8,\;g=(-0.15,0)$ with reflecting boundaries; start=(10,30), target=(50,30). The reachable set is a fast track $y=29,\;x=10..50$ plus a slow loop (left column $x=10,\;y=30..60$, bottom edge $y=60,\;x=10..50$, right column $x=50,\;y=30..60$), connected to start/target via $(10,30)\leftrightarrow(10,29)$ and $(50,29)\leftrightarrow(50,30)$. Local bias drives the track rightward with $\delta=0.95$; the detour follows down/right/up with $\delta=0.55$; and the entry point $(10,30)$ adds a weak downward arrow $\delta=0.35$. The channel rule marks any visit to the detour set ($x=10,y\ge 30$ or $x=50,y\ge 30$ or $y=60$) as slow; otherwise the path reaches the target along $y=29$ and is fast. Metrics: $t_{p1}=160,\;t_v=388,\;t_{p2}=702$; peak ratio$=0.231$; valley ratio$=0.022$; $P_{\text{fast}}=0.293$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_C3_env.pdf}
+  \caption{C3: environment schematic.}
+  \label{fig:C3-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_C3_fig3_panel.pdf}
+  \caption{C3: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:C3-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_C3_paths_fast.pdf}
+  \caption{C3: fast-channel path density with representative paths (full + ROI).}
+  \label{fig:C3-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_C3_paths_slow.pdf}
+  \caption{C3: slow-channel path density with representative paths (full + ROI).}
+  \label{fig:C3-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_C3_fpt.pdf}
+  \caption{C3: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:C3-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_C3_proof.pdf}
+  \caption{C3: peak--valley zoom.}
+  \label{fig:C3-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_C3_diagnostic.pdf}
+  \caption{C3: bimodality diagnostics.}
+  \label{fig:C3-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_C3_channel_decomp.pdf}
+  \caption{C3: channel decomposition and mixture.}
+  \label{fig:C3-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{R6: parallel lanes with a door array slowdown}
+R6 uses two nearly equal-length lanes; the slow channel arises from the door array.
+
+\paragraph{Configuration Card}
+$N=60,\;q=0.8,\;g=(0,0)$ with reflecting boundaries; start=(10,30), target=(50,30). The reachable set is a rectangular loop with horizontal lanes $y=20$ and $y=40$ for $x=10..50$, connected by vertical sides $x=10,50$ for $y=20..40$, and start/target at the midpoints of the left/right sides. Each horizontal edge on the slow lane $(x,40)\leftrightarrow(x+1,40)$ is a door with $p_{\text{pass}}=0.1$, and local bias follows the lanes (right, $\delta=0.95$) with softer turning bias on the vertical sides ($\delta=0.6$). The channel rule marks any visit to the $y=40$ lane as slow; otherwise the path reaches the target via the $y=20$ lane and is fast. Metrics: $t_{p1}=347,\;t_v=1021,\;t_{p2}=2160$; peak ratio$=0.141$; valley ratio$=0.063$; $P_{\text{fast}}=0.498$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_R6_env.pdf}
+  \caption{R6: environment schematic.}
+  \label{fig:R6-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_R6_fig3_panel.pdf}
+  \caption{R6: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:R6-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R6_paths_fast.pdf}
+  \caption{R6: fast-channel path density + representative paths (full + ROI).}
+  \label{fig:R6-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R6_paths_slow.pdf}
+  \caption{R6: slow-channel path density + representative paths (full + ROI).}
+  \label{fig:R6-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_R6_fpt.pdf}
+  \caption{R6: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:R6-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R6_proof.pdf}
+  \caption{R6: peak--valley zoom.}
+  \label{fig:R6-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R6_diagnostic.pdf}
+  \caption{R6: bimodality diagnostic.}
+  \label{fig:R6-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_R6_channel_decomp.pdf}
+  \caption{R6: channel decomposition and mixture.}
+  \label{fig:R6-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{NB4: perimeter clockwise belt (no internal barrier/door)}
+NB4 modifies only the outer boundary: sticky sites plus a clockwise local bias. The target is two steps counterflow from the start, yielding a short counterflow path vs a long clockwise loop.
+
+\paragraph{Configuration Card}
+$N=60,\\;q=0.8,\\;g=(0.00,0.00)$ with reflecting boundaries; start=(12,60), target=(10,60). The full domain is accessible and there are no internal barriers/doors; only the perimeter is sticky with factor 0.2 (all $y=1,60$ and all $x=1,60$). A clockwise local bias runs along the boundary (bottom R, right U, top L, left D) with $\delta=0.63$, including corners. The channel rule marks any hit of the top edge $y=1$ before absorption as slow; otherwise the short counterclockwise hop along the bottom edge is fast. Metrics: $t_{p1}=6,\\;t_v=389,\\;t_{p2}=642$; peak ratio$=0.932$; valley ratio$=0.062$; $P_{\\text{fast}}=0.104$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_NB4_env.pdf}
+  \caption{NB4: environment schematic.}
+  \label{fig:NB4-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_NB4_fig3_panel.pdf}
+  \caption{NB4: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:NB4-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB4_paths_fast.pdf}
+  \caption{NB4: fast-channel path density + representative paths (full + ROI).}
+  \label{fig:NB4-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB4_paths_slow.pdf}
+  \caption{NB4: slow-channel path density + representative paths (full + ROI).}
+  \label{fig:NB4-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_NB4_fpt.pdf}
+  \caption{NB4: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:NB4-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB4_proof.pdf}
+  \caption{NB4: peak--valley zoom.}
+  \label{fig:NB4-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB4_diagnostic.pdf}
+  \caption{NB4: bimodality diagnostic.}
+  \label{fig:NB4-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_NB4_channel_decomp.pdf}
+  \caption{NB4: channel decomposition and mixture.}
+  \label{fig:NB4-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{NB5: perimeter belt + global bias}
+NB5 adds a global rightward drift ($g_x<0$) on top of the NB4 boundary conveyor, strengthening the clockwise preference; fast paths still correspond to the short counterflow hop, while slow paths loop clockwise.
+
+\paragraph{Configuration Card}
+$N=60,\\;q=0.8,\\;g=(-0.10,0.00)$ with reflecting boundaries; start=(12,60), target=(10,60). The full domain is accessible and there are no internal barriers/doors; only the perimeter is sticky with factor 0.2 (all $y=1,60$ and all $x=1,60$). A clockwise local bias runs along the boundary (bottom R, right U, top L, left D) with $\delta=0.63$, and we add a global right bias $g_x=-0.10$. The channel rule marks any hit of the top edge $y=1$ before absorption as slow; otherwise the short counterclockwise hop is fast. Metrics: $t_{p1}=6,\\;t_v=379,\\;t_{p2}=621$; peak ratio$=0.930$; valley ratio$=0.009$; $P_{\\text{fast}}=0.024$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_NB5_env.pdf}
+  \caption{NB5: environment schematic.}
+  \label{fig:NB5-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_NB5_fig3_panel.pdf}
+  \caption{NB5: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:NB5-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB5_paths_fast.pdf}
+  \caption{NB5: fast-channel path density + representative paths (full + ROI).}
+  \label{fig:NB5-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB5_paths_slow.pdf}
+  \caption{NB5: slow-channel path density + representative paths (full + ROI).}
+  \label{fig:NB5-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_NB5_fpt.pdf}
+  \caption{NB5: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:NB5-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB5_proof.pdf}
+  \caption{NB5: peak--valley zoom.}
+  \label{fig:NB5-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB5_diagnostic.pdf}
+  \caption{NB5: bimodality diagnostic.}
+  \label{fig:NB5-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_NB5_channel_decomp.pdf}
+  \caption{NB5: channel decomposition and mixture.}
+  \label{fig:NB5-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{S1: soft two-track construction (turn at $y=1$)}
+S1 removes all internal barriers/doors and uses sticky plus local arrows to create two ``soft corridors'': a short fast lane and a long detour along the top edge.
+
+\paragraph{Configuration Card}
+$N=60,\;q=0.8,\;g=(0,0)$ with reflecting boundaries; start=(10,30), target=(50,30). The full domain is accessible and there are no internal barriers/doors. The fast lane is $y=30,\;x=11..49$ with sticky factor 0.05 and rightward bias $\delta=0.95$. The slow lane follows the left column $x=10,\;y=2..30$ (up), the top edge $y=1,\;x=10..49$ (right), and the right column $x=50,\;y=1..29$ (down), with the same sticky factor 0.05 and weaker bias $\delta=0.30$. The channel rule marks any hit of the top edge segment $y=1$ before absorption as slow; otherwise it is fast. Metrics: $t_{p1}=47,\;t_v=240,\;t_{p2}=363$; peak ratio$=0.641$; valley ratio$=0.037$; $P_{\text{fast}}=0.127$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_S1_env.pdf}
+  \caption{S1: environment schematic.}
+  \label{fig:S1-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_S1_fig3_panel.pdf}
+  \caption{S1: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:S1-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S1_paths_fast.pdf}
+  \caption{S1: fast-channel path density + representative paths (full + ROI).}
+  \label{fig:S1-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S1_paths_slow.pdf}
+  \caption{S1: slow-channel path density + representative paths (full + ROI).}
+  \label{fig:S1-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_S1_fpt.pdf}
+  \caption{S1: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:S1-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S1_proof.pdf}
+  \caption{S1: peak--valley zoom.}
+  \label{fig:S1-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S1_diagnostic.pdf}
+  \caption{S1: bimodality diagnostic.}
+  \label{fig:S1-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_S1_channel_decomp.pdf}
+  \caption{S1: channel decomposition and mixture.}
+  \label{fig:S1-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{S2: soft two-track construction (turn at $y=10$)}
+S2 moves the detour turn to $y=10$ to create a more interior soft corridor while keeping zero internal barriers/doors.
+
+\paragraph{Configuration Card}
+$N=60,\;q=0.8,\;g=(0,0)$ with reflecting boundaries; start=(10,30), target=(50,30). The fast lane is $y=30,\;x=11..49$ with sticky factor 0.05 and rightward bias $\delta=0.95$. The slow lane follows the left column $x=10,\;y=11..30$ (up), the middle edge $y=10,\;x=10..49$ (right), and the right column $x=50,\;y=10..29$ (down), again with sticky factor 0.05 and weaker bias $\delta=0.20$. The channel rule marks any hit of the $y=10$ segment before absorption as slow; otherwise it is fast. Metrics: $t_{p1}=48,\;t_v=274,\;t_{p2}=462$; peak ratio$=0.647$; valley ratio$=0.061$; $P_{\text{fast}}=0.171$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_S2_env.pdf}
+  \caption{S2: environment schematic.}
+  \label{fig:S2-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_S2_fig3_panel.pdf}
+  \caption{S2: environment and $P(n,t)$ slices at $t_{p1},t_v,t_{p2}$.}
+  \label{fig:S2-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S2_paths_fast.pdf}
+  \caption{S2: fast-channel path density + representative paths (full + ROI).}
+  \label{fig:S2-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S2_paths_slow.pdf}
+  \caption{S2: slow-channel path density + representative paths (full + ROI).}
+  \label{fig:S2-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_S2_fpt.pdf}
+  \caption{S2: multiscale FPT plot (Exact/AW/MC overlay).}
+  \label{fig:S2-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S2_proof.pdf}
+  \caption{S2: peak--valley zoom.}
+  \label{fig:S2-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S2_diagnostic.pdf}
+  \caption{S2: bimodality diagnostic.}
+  \label{fig:S2-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_S2_channel_decomp.pdf}
+  \caption{S2: channel decomposition and mixture.}
+  \label{fig:S2-channel}
+\end{figure}
+\FloatBarrier
+
+\section{Intuitive mechanism: two-channel mixture + time-scale separation}
+Classifying trajectories by channel event $C\in\{\text{fast},\text{slow}\}$ gives
+\begin{equation}
+  f(t)=\mathbb{P}(C=\text{fast})\,f(t\,|\,C=\text{fast})
+  +\mathbb{P}(C=\text{slow})\,f(t\,|\,C=\text{slow}).
+\end{equation}
+When $t_{\text{fast}}\ll t_{\text{slow}}$ and $\mathbb{P}(C=\text{fast})$ is not too small, a clear valley appears between the two peaks.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.65\textwidth]{\FigDir/fig3_panels/channel_cartoon.pdf}
+  \caption{Conceptual sketch: bimodality as a mixture of fast/slow channels with separated time scales.}
+  \label{fig:channel-cartoon}
+\end{figure}
+
+\paragraph{Channel criteria (fast/slow classification)}
+\begin{itemize}
+  \item R1: remaining on the main corridor ($y=30$) is fast; entering the U-shaped detour is slow.
+  \item R7: remaining on the main corridor ($y=30$) is fast; entering the detour branch is slow.
+  \item C3: staying on the $y=29$ active track is fast; entering the detour loop is slow.
+  \item R6: trajectories dominated by the $y=20$ lane are fast; those using the $y=40$ door lane are slow.
+  \item NB4: no visit to the top boundary $y=1$ before absorption is fast; any visit is slow.
+  \item NB5: same criterion as NB4; the global bias shifts the fast/slow weights and peak locations.
+  \item S1: no visit to the top edge $y=1$ segment is fast; any visit is slow (soft detour).
+  \item S2: no visit to the $y=10$ segment is fast; any visit is slow (interior soft detour).
+\end{itemize}
+
+\paragraph{Geometric vs dynamical explanations}
+\begin{itemize}
+  \item R1: reflecting walls squeeze the space into quasi-1D corridors; short corridors are fast and long detours are slow.
+  \item R7: a single semipermeable door provides a shortcut while the U-shaped branch creates a longer geometric detour.
+  \item C3: a strong local-bias transport track creates the fast channel, while a long loop yields the slow channel.
+  \item R6: the door array reduces effective throughput on the slow lane, creating a dynamical bottleneck.
+  \item NB4: a clockwise boundary belt produces a short counterflow route and a long clockwise loop, yielding a deep valley.
+  \item NB5: adding global drift to the boundary belt further biases the clockwise loop, deepening the valley.
+  \item S1/S2: sticky suppresses lateral escape while local bias redirects stay probability, yielding quasi-1D soft corridors and clean fast/slow separation without internal walls.
+\end{itemize}
+
+\paragraph{Rough peak prediction}
+Approximate drift along the corridor as $v\approx p_{\text{forward}}-p_{\text{backward}}$, giving $t_{\text{pred}}\approx L/v$ (order-of-magnitude intuition). Table~\ref{tab:peak-predict} compares this estimate with the numerical peaks for the corridor/door cases; NB4/NB5 are boundary-ring drifts and are not included in this corridor approximation.
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \begin{tabular}{lcccc}
+    \toprule
+    case & channel & $L_{\text{geom}}$ & $t_{\text{pred}}$ & $t_{\text{peak}}$ \\
+    \midrule
+    R1 & fast & 40 & 148 & 136 \\
+    R1 & slow & 98 & 453 & 424 \\
+    R7 & fast & 40 & 148 & 140 \\
+    R7 & slow & 98 & 453 & 428 \\
+    C3 & fast & 40 & 160 & 160 \\
+    C3 & slow & 100 & 746 & 702 \\
+    R6 & fast & 60 & 377 & 347 \\
+    R6 & slow & 60 + door & 2272 & 2160 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Rough peak prediction (1D drift approximation) vs numerical peak times.}
+  \label{tab:peak-predict}
+\end{table}
+
+\noindent R1/R7/C3 match the geometric estimate in scale; deviations for R6 come from door-induced waiting times.
+
+
+\section{Boundary condition note}
+\paragraph{reflecting} corresponds to diffusion/search in a confined domain: probability is conserved and does not leak out. This report focuses on reflecting boundaries to show that bimodality does not require periodic topology.
+
+\section{Links to references}
+\begin{itemize}
+  \item PhysRevE 102, 062124: bimodality via channel mixing (explicitly in 1D), motivating the reflecting-corridor constructions.
+  \item arXiv:2311.00464v2 (Giuggioli et al., 2024, Fig.3): construction rules for permeable barriers and sticky sites used in R6/R7/NB4/NB5.
+\end{itemize}
+
+\section{Data and code availability}
+All scripts and data are organized in \url{reports/grid2d_reflecting_bimodality/}. Figures are under \url{figures/}, and numerical metrics/intermediate outputs are stored in \url{data/} and \url{outputs/}. The PDF is produced via \LaTeX{}. To reproduce, run the main script and follow the directory structure above.
+
+\begin{thebibliography}{9}
+  \bibitem{PRE102} S. Sarvaharman and L. Giuggioli, \emph{Phys. Rev. E} \textbf{102}, 062124 (2020). DOI: 10.1103/PhysRevE.102.062124.
+  \bibitem{arxiv2311} L. Giuggioli, S. Sarvaharman, D. Das, D. Marris, and T. Kay, \emph{Multi-target search in bounded and heterogeneous environments: a lattice random walk perspective}, arXiv:2311.00464v2 [cond-mat.stat-mech] (11 Sep 2024).
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,993 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{fvextra}
+\usepackage{microtype}
+\usepackage{placeins}
+\Urlmuskip=0mu plus 1mu
+
+\title{二维 $N\times N$ 晶格上\textbf{全反射边界}的首达时间双峰构造}
+\author{}
+\date{}
+
+\newcommand{\FigDir}{figures}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{结论与关键图示}
+\begin{itemize}
+\item \textbf{全反射边界下仍可稳定形成双峰}：正文保留八类代表构造 R1（几何绕行）、R7（半透膜孔道 + 绕行）、C3（主动运输轨道）、R6（door 阵列）、NB4（外边界“传送带”模板）、NB5（传送带 + 全局偏置）、S1/S2（无内部 barrier/door 的软通道双轨），均在全反射外边界下产生清晰双峰。
+\item \textbf{几何慢通道 vs 动力学慢通道}：R1/R7/C3 通过 ``短直走廊 + 长绕行'' 与局部孔道/轨道形成时间尺度分离；R6 由 door 阵列降低有效通行率；NB4/NB5 由边界顺时针带 + 逆向短路形成深双峰；S1/S2 则以 sticky + 局部箭头构造软通道，实现 ``无墙'' 的 fast/slow 分离。
+\item \textbf{少结构仍可形成深谷}：NB4/NB5 仅改外边界一圈（sticky + 顺时针 bias），S1/S2 在内部不设 barrier/door，仅通过软通道仍可达到 valley ratio $\le 0.07$。
+  \item \textbf{双峰量化}：峰谷指标与 MC 快通道权重见表~\ref{tab:metrics}；AW 误差达到 $10^{-14}$ 量级（表~\ref{tab:aw-errors}）。
+  \item \textbf{AW vs exact 验证}：在 $t\le t_{\max}^{\mathrm{AW}}$ 内，AW 反演与 exact recursion 一致，且与 MC 叠加吻合。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_R1_proof.pdf}
+    \caption*{(a) R1 峰谷放大}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_R6_proof.pdf}
+    \caption*{(b) R6 峰谷放大}
+  \end{minipage}
+  \caption{全反射边界双峰示例（R1 与 R6）。}
+  \label{fig:summary-proof}
+\end{figure}
+
+\section*{参数表}
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $N$ & $q$ & $g_x$ & $g_y$ & boundary & (start, target) \\
+    \midrule
+    R1 & 60 & 0.8 & -0.20 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    R7 & 60 & 0.8 & -0.20 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    C3 & 60 & 0.8 & -0.15 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    R6 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    NB4 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (12,60)$\to$(10,60) \\
+    NB5 & 60 & 0.8 & -0.10 & 0.00 & reflecting & (12,60)$\to$(10,60) \\
+    S1 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    S2 & 60 & 0.8 & 0.00 & 0.00 & reflecting & (10,30)$\to$(50,30) \\
+    \bottomrule
+  \end{tabular}
+  \caption{代表性构造的核心参数。所有外边界均为反射边界。}
+  \label{tab:params}
+\end{table}
+
+\section*{双峰指标汇总}
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $t_{p1}$ & $t_v$ & $t_{p2}$ & peak ratio & valley ratio & $P_{\text{fast}}$ (MC) \\
+    \midrule
+    R1 & 136 & 269 & 424 & 0.451 & 0.035 & 0.321 \\
+    R7 & 140 & 280 & 428 & 0.294 & 0.066 & 0.248 \\
+    C3 & 160 & 388 & 702 & 0.231 & 0.022 & 0.293 \\
+    R6 & 347 & 1021 & 2160 & 0.141 & 0.063 & 0.498 \\
+    NB4 & 6 & 389 & 642 & 0.932 & 0.062 & 0.104 \\
+    NB5 & 6 & 379 & 621 & 0.930 & 0.009 & 0.024 \\
+    S1 & 47 & 240 & 363 & 0.641 & 0.037 & 0.127 \\
+    S2 & 48 & 274 & 462 & 0.647 & 0.061 & 0.171 \\
+    \bottomrule
+  \end{tabular}
+  \caption{代表性构造的双峰指标与 MC 快通道权重（吸收概率在截断时间内均接近 1）。}
+  \label{tab:metrics}
+\end{table}
+
+\section{模型定义与坐标约定}
+状态空间为 $\{1,\dots,N\}\times\{1,\dots,N\}$。记当前位置为 $(x,y)$，目标点 $(x_t,y_t)$ 为吸收态。每步更新为
+\begin{align}
+  p_{\text{left}} &= \frac{q}{4}(1+g_x),\quad p_{\text{right}} = \frac{q}{4}(1-g_x),\\
+  p_{\text{down}} &= \frac{q}{4}(1+g_y),\quad p_{\text{up}} = \frac{q}{4}(1-g_y),\\
+  p_{\text{stay}} &= 1-q.
+\end{align}
+本文采用 ``$y$ 轴向下为正'' 的坐标约定，因此 $g_y>0$ 表示向下偏置。本文仅使用\textbf{全反射边界}：越界概率全部加回 $p_{\text{stay}}$。
+\noindent 由式(1)可见 $g_x>0$ 会增大 $p_{\text{left}}$ 并减小 $p_{\text{right}}$，因此本文约定 $g_x>0$ 表示\textbf{向左}全局偏置（$g_x<0$ 表示向右偏置）。
+
+\paragraph{局部异质性（组合）}
+\begin{itemize}
+  \item local bias（箭头）：将 $p_{\text{stay}}$ 乘 $(1-\delta)$，并把 $\Delta=\delta p_{\text{stay}}$ 加到箭头方向；其余方向不变。
+  \item sticky site：将该格点的移动概率缩放为 $q_{\text{site}}=\text{factor}\cdot q$，$p_{\text{stay}}$ 相应上升。
+  \item barrier：反射墙将该方向概率加回 stay；半透门以 $p_{\text{pass}}$ 通过、$1-p_{\text{pass}}$ 反射。
+\end{itemize}
+
+\section{图形阅读指南}
+图~\ref{fig:symbol-legend} 给出统一符号语法：红色方块为起点、蓝色菱形为目标；粗实线为反射墙、虚线为门（标注 $p_{\text{pass}}$）、半透明阴影为 sticky 区；红色小箭头为 local bias；图外大箭头给出全局偏置方向与 $(g_x,g_y)$ 数值。为便于阅读，将环境示意、$P(n,t)$ 切片、FPT 多尺度图、峰谷放大图、诊断图与通道分解分别独立成图，避免子图拥挤。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\FigDir/env/symbol_legend.pdf}
+  \caption{图形符号图例。}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\section{FPT 基础：定义、直观与三种计算方法}
+\paragraph{定义与直观}
+设首达时间（first-passage time）为
+\[
+  \tau=\inf\{t\ge 1:\,X_t=(x_t,y_t)\},
+\]
+其 PMF 为 $f(t)=\Pr(\tau=t)$，CDF 为 $F(t)=\Pr(\tau\le t)$，生存概率为
+\[
+  S(t)=\Pr(\tau>t)=1-F(t).
+\]
+直观上，$f(t)$ 描述“恰好在第 $t$ 步首次抵达目标”的概率，因此图中的双峰就是 $f(t)$ 在早期与晚期各有一个显著局部极大值。对于吸收边界模型，$F(t)$ 也可以理解为“累计吸收概率”，而 $S(t)$ 则是“尚未吸收的剩余概率质量”。
+
+\paragraph{三种计算方法（直观版）}
+本文的 $f(t)$ 由三种方法得到，并在图中叠加对比：
+\begin{itemize}
+  \item \textbf{Exact recursion（确定性递推）}：把所有非吸收态组成 transient 子矩阵 $Q$，一步一步推进概率分布：
+  \[
+    p_{t+1}=Qp_t,\qquad f(t)=r^\top p_t,\quad t\ge 1,
+  \]
+  其中 $r$ 是从 transient 进入吸收态的“流出概率”。这是“逐步推演”的确定性算法，数值误差仅来自浮点与截断。
+  \item \textbf{AW 反演（生成函数数值反演）}：先构造生成函数 $\tilde f(z)$（本报告用 propagator + 缺陷公式得到），再用 Abate--Whitt 反演
+  \[
+    f(t)\approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)e^{-2\pi i k t/m},
+  \]
+  得到整段时间序列。直观上是“先到 $z$ 域算，再回到时间域”。
+  \item \textbf{MC（蒙特卡洛）}：随机模拟大量轨迹，统计首达时间直方图得到 $f(t)$ 近似。它最灵活，但尾部噪声大，需要更多样本。
+\end{itemize}
+
+\paragraph{AW 与 Exact 的对比（给新手）}
+\begin{itemize}
+  \item \textbf{准确性}：Exact 是确定性的基准；AW 是高精度数值反演，参数选得合适时可与 Exact 几乎重合；MC 为统计估计，误差随样本数 $\propto 1/\sqrt{N}$ 衰减。
+  \item \textbf{速度与适用场景}：Exact 适合中等规模、需要高精度的 $t_{\max}$；AW 在“已知生成函数”的前提下可同时得到大量 $t$ 值，但每个 $z_k$ 需要求解线性系统，缺陷数大时会变慢；MC 适合快速验证与复杂几何，但需要更多样本才能看清尾部与双峰细节。
+  \item \textbf{本报告用法}：Exact 作为基准，AW 用于与 Exact 对齐验证，MC 用来展示通道分类与统计直观。
+\end{itemize}
+
+\section{解析推导：从无缺陷 propagator 到时域 FPT}
+本节给出统一推导链条：\emph{无缺陷 propagator $\to$ 有缺陷 propagator $\to$ FPT 生成函数 $\to$ AW 反演}。本文构造均可落在同一框架内。
+
+\subsection{矩阵形式与生成函数}
+设无吸收系统的转移矩阵为 $A$，约定 $A_{v,u}=\Pr(u\to v)$，因此列和为 1，且 $\mathbf{p}_{t+1}=A\mathbf{p}_t$。传播子满足
+\begin{equation}
+  P_{n_0}(n,t)=\mathbf{e}_n^\top A^t \mathbf{e}_{n_0},
+  \qquad
+  \tilde{\mathbf{P}}(z)=\sum_{t\ge 0} A^t z^t=(I-zA)^{-1},
+\end{equation}
+从而
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\mathbf{e}_n^\top (I-zA)^{-1}\mathbf{e}_{n_0}.
+\end{equation}
+下面给出 $A$ 的谱分解形式与缺陷更新公式，以便对任意构造得到 $\tilde P$。
+
+\subsection{无缺陷 propagator 的谱分解（反射边界）}
+将二维转移写成两个一维算子叠加（沿 $x$ 与 $y$ 方向）。设一维步进矩阵的特征对为 $\{\lambda_k^{(\text{ref})},h_k^{(\text{ref})}\}$。定义
+\begin{equation}
+  s_k^{(\text{ref})} = q\,\bigl(\lambda_k^{(\text{ref})}-1\bigr),\qquad
+  \Lambda_{k_1,k_2}=1+\frac{s_{k_1}^{(\text{ref})}+s_{k_2}^{(\text{ref})}}{2}.
+\end{equation}
+则二维无缺陷 propagator（PRE 102, 062124 的 Eq.(33) 形式）为
+\begin{equation}
+  P^{(\text{ref})}_{n_0}(n,t)=\sum_{k_1}\sum_{k_2} h_{k_1}^{(\text{ref})}(x,x_0)\,h_{k_2}^{(\text{ref})}(y,y_0)\,\Lambda_{k_1,k_2}^t.
+  \label{eq:P_time}
+\end{equation}
+对时间做 $z$ 变换得到
+\begin{equation}
+  \tilde P^{(\text{ref})}_{n_0}(n,z)=\sum_{k_1}\sum_{k_2}
+  \frac{h_{k_1}^{(\text{ref})}(x,x_0)\,h_{k_2}^{(\text{ref})}(y,y_0)}{1-z\Lambda_{k_1,k_2}}.
+  \label{eq:P_z}
+\end{equation}
+
+\paragraph{反射边界（reflecting）} \;\;
+设 $p_\ell=(1+g)/2,\;p_r=(1-g)/2,\;\rho=p_r/p_\ell$。可通过相似变换将一维算子对称化，得到
+\begin{equation}
+  \lambda_0^{(\text{ref})}=1,\quad
+  \lambda_k^{(\text{ref})}=2\sqrt{p_\ell p_r}\cos\frac{k\pi}{N}\ (k\ge 1),\quad
+  h_k^{(\text{ref})}(x,x_0)=u_k(x)u_k(x_0)\sqrt{\frac{\pi_x}{\pi_{x_0}}},
+\end{equation}
+其中 $\pi_x\propto \rho^x$ 为平衡分布，$u_k$ 为正交余弦模（与 PRE Eq.(22)-(23) 一致）。
+
+\subsection{有缺陷 propagator 的 determinant 公式}
+将缺陷写为矩阵扰动 $\underline{X}=\underline{B}-\underline{A}$。对每条有向边 $(u_i\to v_i)$ 定义
+\begin{equation}
+  \eta_{u_i,v_i}=X_{v_i,u_i}=B_{v_i,u_i}-A_{v_i,u_i}.
+\end{equation}
+并定义差分 propagator
+\begin{equation}
+  \tilde P^e_{\langle u-v\rangle}(n,z)=\tilde P^e_{u}(n,z)-\tilde P^e_{v}(n,z).
+\end{equation}
+则 2311.00464v2 的 inert-heterogeneity 公式给出
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-1+\frac{\det[H(n,n_0;z)]}{\det[H(z)]},
+\end{equation}
+其中
+\begin{align}
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(u_i,z)-\eta_{v_j,u_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(v_i,z),\\
+  H(n,n_0;z)_{ij}&=H_{ij}(z)-\tilde P^e_{\langle u_j-v_j\rangle}(n,z)\left[\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z)\right].
+\end{align}
+数值实现中，我们等价地求解线性系统得到 $\tilde P$（由 Cramer 规则与上式等价），以获得更好的数值稳定性。
+亦可将其写成线性代数形式：
+\begin{align}
+  b_j(n,z)&=\tilde P^e_{u_j}(n,z)-\tilde P^e_{v_j}(n,z),\\
+  a_i(n_0,z)&=\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z),\\
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,b_j(u_i,z)-\eta_{v_j,u_j}\,b_j(v_i,z),
+\end{align}
+从而
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-\mathbf{b}(n,z)^\top H(z)^{-1}\mathbf{a}(n_0,z).
+\end{equation}
+
+\paragraph{缺陷映射}
+\begin{itemize}
+  \item local bias：减少 self-loop 并把概率加到箭头方向，等价于 $(u\to v)$ 的 $\eta_{u,v}=+\Delta$，并对 $(u\to u)$ 添加补偿项以保持列和为 1。
+  \item door/permeable barrier：跨门通过概率乘 $p_{\text{pass}}$，对应边 $(u\to v)$ 与 $(v\to u)$ 具有 $\eta_{u,v}=(p_{\text{pass}}-1)P_{u\to v}^{\text{base}}$。
+  \item sticky：所有出边概率乘 $\alpha$，每条出边 $(u\to n)$ 的 $\eta_{u,n}=(\alpha-1)P_{u\to n}^{\text{base}}$，并对 $(u\to u)$ 添加补偿项以保持列和为 1。
+\end{itemize}
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    feature & 规则（以 $u\to v$ 为例） & 对应 $\lambda_{u,v}$\\
+    \midrule
+    local bias & $p_{u\to v}=p_{u\to v}^0+\Delta$ & $-\Delta/p_{u\to v}^0$\\
+    sticky & $p_{u\to v}=\alpha p_{u\to v}^0$ & $1-\alpha$\\
+    barrier & $p_{u\to v}=0$ & $1$\\
+    door & $p_{u\to v}=p_{\text{pass}}p_{u\to v}^0$ & $1-p_{\text{pass}}$\\
+    \bottomrule
+  \end{tabular}
+  \caption{特征到 $\lambda$ 的映射（$\eta_{u,v}=-\lambda_{u,v}p_{u\to v}^0$）。}
+  \label{tab:lambda-map}
+\end{table}
+
+\subsection{FPT 生成函数与 AW 反演}
+考虑包含吸收态的主方程
+\begin{equation}
+  \mathbf{p}_{t+1}=P\,\mathbf{p}_t,\qquad \mathbf{p}_0=\mathbf{e}_{n_0},
+\end{equation}
+对时间做 $z$ 变换 $\tilde{\mathbf{p}}(z)=\sum_{t\ge 0}\mathbf{p}_t z^t$ 得
+\begin{equation}
+  \tilde{\mathbf{p}}(z)=(I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+记累积到达概率 $F(t)=\mathbf{e}_{n_t}^\top \mathbf{p}_t$，则
+\begin{equation}
+  \tilde F(z)=\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+由 $f(t)=F(t)-F(t-1)$（取 $F(-1)=0$）得到 PMF 的生成函数
+\begin{equation}
+  \tilde f(z)=(1-z)\tilde F(z)=(1-z)\,\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+本文保留两者记号：$\tilde F$ 为 CDF 的生成函数，$\tilde f$ 为 PMF 的生成函数（AW 反演使用 $\tilde f$）。
+Exact recursion 的时域表达为
+\begin{equation}
+  f(t)=r^\top Q^{t-1} p_0,\quad t\ge 1,
+  \label{eq:exact-recursion}
+\end{equation}
+因此生成函数可写为
+\begin{equation}
+  \tilde f(z)=\sum_{t\ge 1} f(t) z^t
+  = z\,r^\top (I-zQ)^{-1} p_0.
+\end{equation}
+另一方面，由 renewal 关系亦有
+\begin{equation}
+  \tilde f_{n_0\to n_t}(z)=\frac{\tilde P_{n_0}(n_t,z)}{\tilde P_{n_t}(n_t,z)},
+  \label{eq:Fz}
+\end{equation}
+两者等价：前者以 transient 子矩阵 $Q$ 表达，后者以无吸收 propagator 表达。
+随后采用 Abate--Whitt (AW) 数值反演将 $z$ 域系数化：
+\begin{equation}
+  f(t)\approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)\,e^{-2\pi i k t/m},
+  \qquad z_k=r\,e^{2\pi i k/m},\quad t=1,\dots,t_{\max}^{\mathrm{AW}}.
+  \label{eq:AW}
+\end{equation}
+本文选取 $m=\mathrm{pow2}(\text{oversample}\cdot(t_{\max}^{\mathrm{AW}}+1))$，并设 $r^m=10^{-\text{r\_pow10}}$，与仓库内 AW 设置保持一致。
+其中 $r$ 越接近 1，截断误差越小但数值更敏感；$r$ 过小则会放大截断误差，本文沿用自动选参策略以平衡稳定性与精度。
+
+\begin{quote}
+\textbf{实现流程（Algorithm box）}
+\begin{enumerate}[leftmargin=*, itemsep=0pt]
+  \item 构建无缺陷 $A$ 的谱分解（反射边界），得到 $\tilde P^e(n,z)$ 的显式模态和。
+  \item 由缺陷列表构造 $H(z)$ 与向量 $\mathbf{a},\mathbf{b}$，解线性系统得到 $\tilde P(n,z)$。
+  \item 用 renewal 公式 $\tilde f(z)=\tilde P_{n_0}(n_t,z)/\tilde P_{n_t}(n_t,z)$ 得到生成函数。
+  \item 对 $z_k=r e^{2\pi i k/m}$ 采样并用 AW 反演得到 $f(t)$。
+  \item 与 exact recursion/MC 对比误差，并记录为指标 JSON。
+\end{enumerate}
+\end{quote}
+
+\subsection{AW vs exact recursion：原理与速度对比}
+\paragraph{方法原理（含公式）}
+设 $Q$ 为 transient 子矩阵，$r$ 为从 transient 进入吸收态的概率向量，$p_0$ 为起点分布。
+Exact recursion 通过时域递推
+\[
+  p_{t+1}=Qp_t,\qquad f(t)=r^\top p_t,\quad t\ge 1,
+\]
+并可写为闭式
+\[
+  f(t)=r^\top Q^{t-1}p_0,\qquad F(t)=1-\mathbf{1}^\top Q^t p_0.
+\]
+因此在给定 $t_{\max}$ 时得到确定性 PMF（数值误差仅来自浮点运算与截断）。AW 则先在 $z$ 域构造生成函数
+\[
+  \tilde f(z)=z\,r^\top (I-zQ)^{-1}p_0
+  =\frac{\tilde P_{n_0}(n_t,z)}{\tilde P_{n_t}(n_t,z)},
+\]
+再由 Cauchy 积分提取系数：
+\[
+  f(t)=\frac{1}{2\pi i}\oint_{|z|=r}\frac{\tilde f(z)}{z^{t+1}}\,dz
+  \approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)e^{-2\pi i k t/m}.
+\]
+
+\paragraph{复杂度与适用性}
+Exact recursion 的时间复杂度为 $O(T|E|)$（$T=t_{\max}$，$|E|$ 为非零转移数），内存 $O(|E|)$，对大多数中等尺度参数扫描更稳健。AW 每个 $z$ 需解 $M\times M$ 线性系统（$M$ 为 defect 数），总体 $O(m M^3)$，FFT 的 $O(m\log m)$ 通常不占主导；当 $M$ 很小时，AW 在长时间窗口上更具优势。AW 的 $z_k$ 采样天然可并行，而 Exact recursion 迭代性强但实现简单、数值稳定。
+
+\paragraph{准确性说明}
+Exact recursion 在给定 $t_{\max}$ 内是“确定性精确”的（仅有浮点舍入误差），本报告以其作为基准。AW 属于数值反演，误差来自有限 $m$ 的离散化、$r$ 的选择以及 $\tilde f(z)$ 线性求解的数值条件；增大 $m$ 或调整 $r$ 可系统降低误差。本报告中 AW 与 exact 的 $L^1$ 误差约 $10^{-14}$（表~\ref{tab:aw-errors}），因此两者在数值精度意义下“同等准确”。
+
+\paragraph{速度对比设置}
+选取本报告双峰构造 R1、R7、C3、R6、NB4、NB5 作为速度基准，使用各自 $t_{\max}$；AW 取 oversample=4、r\_pow10=12，对应 $m=8192/16384/65536/131072$。为避免完整 AW 过慢，先在 $n_z=32$ 个 $z_k$ 上计时得到单点耗时，再估计
+\[
+  t_{\mathrm{AW}}\approx t_{\mathrm{setup}} + (m/n_z)\,t_{\mathrm{eval}} + t_{\mathrm{FFT}}.
+\]
+同时加入低缺陷对照 S0（全网格无内墙，仅 1 个 sticky 与 1 个 door，$M=9$），可完整测量 AW 全流程，用于展示 AW 的可行区间。其参数如下：
+S0 的参数为 $N=30$、start=(1,15)、target=(30,15)、$g_x=-0.4$，并设置 sticky$(15,15,\alpha=0.1)$ 与 door$(20,15)\leftrightarrow(21,15)$、$p_{\text{pass}}=0.05$。
+计时脚本为 \texttt{code/benchmark\_aw\_exact.py}（单线程），结果见表~\ref{tab:aw-speed}。
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lrrrrr}
+    \toprule
+    case & $t_{\max}$ & $M$ & Exact (s) & AW-inv (ms) & AW-total (s) \\
+    \midrule
+    R1  & 1500  & 973 & 0.057 & 4.71 & 633 (10.6 min) \\
+    R7  & 2000  & 754 & 0.080 & 0.23 & 314 (5.2 min) \\
+    C3  & 3000  & 1004 & 0.106 & 0.45 & 1483 (24.7 min) \\
+    R6  & 12000 & 988 & 0.421 & 2.02 & 4862 (81.0 min) \\
+    NB4 & 20000 & 936 & 0.692 & 3.91 & 16786 (279.8 min) \\
+    NB5 & 20000 & 936 & 0.698 & 4.76 & 15946 (265.8 min) \\
+    S0  & 5000  & 9   & 0.056 & 0.97 & 1.44 (full AW) \\
+    \bottomrule
+  \end{tabular}
+  \caption{AW 与 exact recursion 的速度对比（$M$ 为 defect 数；R1/R7/C3/R6/NB4/NB5 为 AW 估计总耗时，S0 为完整 AW 实测）。}
+  \label{tab:aw-speed}
+\end{table}
+
+\paragraph{结论（速度优先）}
+对走廊/门构造（$M\approx 7.5\times 10^2$--$10^3$），Exact recursion 在 $t_{\max}\le 2\times 10^4$ 内用时 $0.06$--$0.70$ s；AW 估计总耗时为 5--280 min，瓶颈来自每个 $z$ 的线性求解。即便 R7（$M=754$）和 C3（$M=1004$）这样的 ``小走廊''，AW 估计总耗时仍达 5.2 min 与 24.7 min，但 AW 反演本身仅 $0.23$--$4.76$ ms。S0（$M=9$）可完整测量 AW 全流程并进入秒级（1.44 s），但仍慢于 Exact（0.056 s）；若缺陷更少或可并行/加速线性求解，AW 才可能占优。总体上，若需参数扫描或中等 $t_{\max}$，Exact recursion 更稳健；若缺陷极少且需要长尾，AW 更具优势。
+
+\section{数值基线：Exact/flux 递推与 MC}
+Exact 递推在 transient 空间计算 $f(t)=r^\top Q^{t-1} p_0$（式~\ref{eq:exact-recursion}），作为确定性基准，并与 AW 反演及 MC 直方图叠加对比（图~\ref{fig:R1-fpt}、\ref{fig:R7-fpt}、\ref{fig:C3-fpt}、\ref{fig:R6-fpt}、\ref{fig:NB4-fpt}、\ref{fig:NB5-fpt}、\ref{fig:S1-fpt}、\ref{fig:S2-fpt}）。MC 轨迹同时按 ``快/慢通道'' 分类，以解释双峰来源。
+
+\paragraph{峰谷指标定义}
+对平滑后的 $f(t)$，取两个局部主峰位置 $t_{p1},t_{p2}$ 及其间最小值 $t_v$，并定义
+\begin{equation}
+  h_1=f(t_{p1}),\quad h_2=f(t_{p2}),\quad
+  \text{peak ratio}=\frac{\min(h_1,h_2)}{\max(h_1,h_2)},\quad
+  \text{valley ratio}=\frac{f(t_v)}{\min(h_1,h_2)}.
+\end{equation}
+平滑窗口采用 9，峰谷指标与通道权重均由统一脚本输出并写入 metrics JSON，保证一致性。
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+    case & $L^1$ error & $L^\infty$ error \\
+    \midrule
+    R1 & $2.55\times 10^{-15}$ & $2.88\times 10^{-17}$ \\
+    R7 & $1.59\times 10^{-14}$ & $1.10\times 10^{-16}$ \\
+    C3 & $4.93\times 10^{-15}$ & $2.31\times 10^{-17}$ \\
+    R6 & $6.77\times 10^{-15}$ & $1.32\times 10^{-17}$ \\
+    NB4 & $3.11\times 10^{-15}$ & $3.12\times 10^{-18}$ \\
+    NB5 & $2.53\times 10^{-15}$ & $2.53\times 10^{-18}$ \\
+    S1 & $3.08\times 10^{-14}$ & $9.22\times 10^{-17}$ \\
+    S2 & $2.21\times 10^{-14}$ & $6.32\times 10^{-17}$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{AW 反演与 exact recursion 在 $t\le t_{\max}^{\mathrm{AW}}$ 内的误差（$L^1$ 与 $L^\infty$）。}
+  \label{tab:aw-errors}
+\end{table}
+\noindent 上述误差表明，AW 在截断窗口内可视为 exact recursion 的数值验证，并与 MC 叠加曲线一致。
+
+\section{经典构造与机制}
+下文保留八类代表构造（R1、R7、C3、R6、NB4、NB5、S1、S2）作为正文展示。
+
+\subsection{R1：短直走廊 vs 顶部 U 形绕行}
+机制对应 ``双通道几何绕行'' 的最简构造：底部短直走廊为 fast，上方 U 形绕行为 slow。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(-0.20,0)$，边界全反射，start=(10,30)，target=(50,30)。走廊几何为主走廊 $y=30,\;x=10..50$，绕行支路由 $x=10,\;y=1..30$、$y=1,\;x=10..50$、$x=50,\;y=1..30$ 组成。局部 bias 在主走廊取 $\delta=0.95$，分叉点 $(10,30)$ 取 $\delta=0.6$，绕行段按 U/R/D 方向取 $\delta=0.95$。通道判据为：命中前未进入绕行支路（未到达 $y=1$ 或 $x=10,50$ 的上侧段）记为 fast，进入绕行支路记为 slow。峰谷指标为 $t_{p1}=136,\;t_v=269,\;t_{p2}=424$，peak ratio$=0.451$，valley ratio$=0.035$，$P_{\text{fast}}=0.321$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_R1_env.pdf}
+  \caption{R1：环境示意图。符号语法与图~\ref{fig:symbol-legend} 一致。}
+  \label{fig:R1-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_R1_fig3_panel.pdf}
+  \caption{R1：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:R1-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R1_paths_fast.pdf}
+  \caption{R1：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:R1-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R1_paths_slow.pdf}
+  \caption{R1：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:R1-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_R1_fpt.pdf}
+  \caption{R1：FPT 多尺度图（全局 log + fast/slow 局部，Exact/AW/MC 叠加）。}
+  \label{fig:R1-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R1_proof.pdf}
+  \caption{R1：峰谷放大图（双峰判据）。}
+  \label{fig:R1-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R1_diagnostic.pdf}
+  \caption{R1：双峰诊断图（平滑与主峰检测）。}
+  \label{fig:R1-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_R1_channel_decomp.pdf}
+  \caption{R1：通道分解与混合。}
+  \label{fig:R1-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{R7：半透膜孔道 vs 绕行慢通道}
+R7 在主走廊中设置单个半透门作为快速孔道，同时提供 U 形绕行作为慢通道，模拟 ``孔道 + 绕行'' 的物理结构。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(-0.20,0)$，边界全反射，start=(10,30)，target=(50,30)。仅允许在主走廊 $y=30,\;x=10..50$ 与绕行支路（左竖 $x=29,\;y=1..30$、顶边 $y=1,\;x=29..31$、右竖 $x=31,\;y=1..30$）上运动，其余由反射墙封闭。半透门位于 $(30,30)\leftrightarrow(31,30)$，$p_{\text{pass}}=0.8$；局部 bias 仅沿走廊/支路设置（主走廊向右，左竖向上，顶边向右，右竖向下），$\delta=0.95$。通道判据为：命中前到达绕行支路任一格点（$x=29$ 或 $x=31$ 的上段，或 $y=1$ 的顶边段）即为 slow，否则仅沿 $y=30$ 主走廊到达为 fast。峰谷指标为 $t_{p1}=140,\;t_v=280,\;t_{p2}=428$，peak ratio$=0.294$，valley ratio$=0.066$，$P_{\text{fast}}=0.248$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_R7_env.pdf}
+  \caption{R7：环境示意图。}
+  \label{fig:R7-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_R7_fig3_panel.pdf}
+  \caption{R7：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:R7-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R7_paths_fast.pdf}
+  \caption{R7：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:R7-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R7_paths_slow.pdf}
+  \caption{R7：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:R7-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_R7_fpt.pdf}
+  \caption{R7：FPT 多尺度图（Exact/AW/MC 叠加）。}
+  \label{fig:R7-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R7_proof.pdf}
+  \caption{R7：峰谷放大图。}
+  \label{fig:R7-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R7_diagnostic.pdf}
+  \caption{R7：双峰诊断图。}
+  \label{fig:R7-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_R7_channel_decomp.pdf}
+  \caption{R7：通道分解与混合。}
+  \label{fig:R7-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{C3：局部主动运输轨道 vs 长 detour 回路}
+C3 在内部构造一条强 local bias 轨道（快通道），并引导错过入口的轨迹进入长 detour 回路（慢通道），模拟 ``主动运输轨道 + 旁路回流'' 的情形。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(-0.15,0)$，边界全反射，start=(10,30)，target=(50,30)。仅允许在快轨道 $y=29,\;x=10..50$ 与慢回路（左竖 $x=10,\;y=30..60$、底边 $y=60,\;x=10..50$、右竖 $x=50,\;y=30..60$）内运动，并通过 $(10,30)\leftrightarrow(10,29)$ 与 $(50,29)\leftrightarrow(50,30)$ 连接到 start/target。局部 bias 在快轨道向右取 $\delta=0.95$，慢回路按下/右/上方向取 $\delta=0.55$，入口点 $(10,30)$ 额外设置向下弱箭头 $\delta=0.35$。通道判据为：命中前到达慢回路任一格点（$x=10,y\ge 30$ 或 $x=50,y\ge 30$ 或 $y=60$）即为 slow，否则仅沿快轨道 $y=29$ 到达为 fast。峰谷指标为 $t_{p1}=160,\;t_v=388,\;t_{p2}=702$，peak ratio$=0.231$，valley ratio$=0.022$，$P_{\text{fast}}=0.293$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_C3_env.pdf}
+  \caption{C3：环境示意图。}
+  \label{fig:C3-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_C3_fig3_panel.pdf}
+  \caption{C3：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:C3-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_C3_paths_fast.pdf}
+  \caption{C3：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:C3-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_C3_paths_slow.pdf}
+  \caption{C3：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:C3-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_C3_fpt.pdf}
+  \caption{C3：FPT 多尺度图（Exact/AW/MC 叠加）。}
+  \label{fig:C3-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_C3_proof.pdf}
+  \caption{C3：峰谷放大图。}
+  \label{fig:C3-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_C3_diagnostic.pdf}
+  \caption{C3：双峰诊断图。}
+  \label{fig:C3-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_C3_channel_decomp.pdf}
+  \caption{C3：通道分解与混合。}
+  \label{fig:C3-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{R6：并行车道 + door 阵列减速}
+R6 采用两条几何长度近似相等的车道，慢通道由 door 阵列提供动力学延迟。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(0,0)$，边界全反射，start=(10,30)，target=(50,30)。仅允许在矩形回路内运动：水平车道 $y=20$ 与 $y=40$（$x=10..50$）通过左右竖边 $x=10,50$（$y=20..40$）连接，start/target 位于左右竖边中点。慢车道 $y=40$ 的每一条水平边 $(x,40)\leftrightarrow(x+1,40)$ 设置 door，$p_{\text{pass}}=0.1$；同时在车道与竖边沿行进方向施加局部 bias（水平向右 $\delta=0.95$，竖边转向处 $\delta=0.6$）。通道判据为：命中前到达 $y=40$ 车道任一点即为 slow，未进入 $y=40$ 而沿 $y=20$ 车道到达为 fast。峰谷指标为 $t_{p1}=347,\;t_v=1021,\;t_{p2}=2160$，peak ratio$=0.141$，valley ratio$=0.063$，$P_{\text{fast}}=0.498$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_R6_env.pdf}
+  \caption{R6：环境示意图。}
+  \label{fig:R6-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_R6_fig3_panel.pdf}
+  \caption{R6：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:R6-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R6_paths_fast.pdf}
+  \caption{R6：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:R6-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_R6_paths_slow.pdf}
+  \caption{R6：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:R6-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_R6_fpt.pdf}
+  \caption{R6：FPT 多尺度图（Exact/AW/MC 叠加）。}
+  \label{fig:R6-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R6_proof.pdf}
+  \caption{R6：峰谷放大图。}
+  \label{fig:R6-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_R6_diagnostic.pdf}
+  \caption{R6：双峰诊断图。}
+  \label{fig:R6-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_R6_channel_decomp.pdf}
+  \caption{R6：通道分解与混合。}
+  \label{fig:R6-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{NB4：外边界顺时针“传送带”（无内部 barrier/door）}
+NB4 仅在外边界一圈施加 sticky 与顺时针 local bias，无内部墙/门；起点与目标沿边界逆向相邻，形成“逆向短路 vs 顺时针绕行”的深双峰。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(0.00,0.00)$，边界全反射，start=(12,60)，target=(10,60)，全域可达且无内部 barrier/door。仅在外边界一圈设置 sticky（$x=1..60$ 的 $y=1,60$ 以及 $y=1..60$ 的 $x=1,60$），factor=0.2，并在边界施加顺时针 local bias（底边 R、右边 U、顶边 L、左边 D），$\delta=0.63$，角点按边界方向统一。通道判据为：命中前到达顶边 $y=1$ 的任意格点即为 slow（对应顺时针绕行到顶边），未触顶则在底边附近逆向短路到达为 fast。峰谷指标为 $t_{p1}=6,\;t_v=389,\;t_{p2}=642$，peak ratio$=0.932$，valley ratio$=0.062$，$P_{\text{fast}}=0.104$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_NB4_env.pdf}
+  \caption{NB4：环境示意图。}
+  \label{fig:NB4-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_NB4_fig3_panel.pdf}
+  \caption{NB4：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:NB4-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB4_paths_fast.pdf}
+  \caption{NB4：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:NB4-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB4_paths_slow.pdf}
+  \caption{NB4：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:NB4-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_NB4_fpt.pdf}
+  \caption{NB4：FPT 多尺度图（Exact/AW/MC 叠加）。}
+  \label{fig:NB4-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB4_proof.pdf}
+  \caption{NB4：峰谷放大图。}
+  \label{fig:NB4-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB4_diagnostic.pdf}
+  \caption{NB4：双峰诊断图。}
+  \label{fig:NB4-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_NB4_channel_decomp.pdf}
+  \caption{NB4：通道分解与混合。}
+  \label{fig:NB4-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{NB5：外边界“传送带” + 全局偏置}
+NB5 在 NB4 的边界传送带基础上叠加全局右偏置（$g_x<0$），形成更强的顺时针趋势；快通道为逆向短路，慢通道为顺时针绕行。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(-0.10,0.00)$，边界全反射，start=(12,60)，target=(10,60)，全域可达且无内部 barrier/door。外边界一圈设置 sticky（$x=1..60$ 的 $y=1,60$ 以及 $y=1..60$ 的 $x=1,60$），factor=0.2；边界 local bias 取顺时针方向（底边 R、右边 U、顶边 L、左边 D），$\delta=0.63$，并叠加全局右偏置 $g_x=-0.10$。通道判据为：命中前到达顶边 $y=1$ 的任意格点即为 slow，未触顶则在底边附近逆向短路到达为 fast。峰谷指标为 $t_{p1}=6,\;t_v=379,\;t_{p2}=621$，peak ratio$=0.930$，valley ratio$=0.009$，$P_{\text{fast}}=0.024$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_NB5_env.pdf}
+  \caption{NB5：环境示意图。}
+  \label{fig:NB5-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_NB5_fig3_panel.pdf}
+  \caption{NB5：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:NB5-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB5_paths_fast.pdf}
+  \caption{NB5：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:NB5-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_NB5_paths_slow.pdf}
+  \caption{NB5：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:NB5-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_NB5_fpt.pdf}
+  \caption{NB5：FPT 多尺度图（Exact/AW/MC 叠加）。}
+  \label{fig:NB5-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB5_proof.pdf}
+  \caption{NB5：峰谷放大图。}
+  \label{fig:NB5-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_NB5_diagnostic.pdf}
+  \caption{NB5：双峰诊断图。}
+  \label{fig:NB5-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_NB5_channel_decomp.pdf}
+  \caption{NB5：通道分解与混合。}
+  \label{fig:NB5-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{S1：无内墙软通道双轨（转折在 $y=1$）}
+S1 不设置任何内部 barrier/door，仅通过 sticky 与局部箭头在全域内塑造两条 ``软通道''：短直 fast 轨道与沿顶边绕行的 slow 轨道。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(0,0)$，边界全反射，start=(10,30)，target=(50,30)，全域可达且无内部 barrier/door。fast 轨道为 $y=30,\;x=11..49$，sticky factor=0.05，向右 bias $\delta=0.95$；slow 轨道为左竖 $x=10,\;y=2..30$（向上）、顶边 $y=1,\;x=10..49$（向右）、右竖 $x=50,\;y=1..29$（向下），同样设置 sticky factor=0.05，局部 bias 取 $\delta=0.30$。通道判据为：命中前到达顶边 $y=1$ 段即为 slow，否则为 fast。峰谷指标为 $t_{p1}=47,\;t_v=240,\;t_{p2}=363$，peak ratio$=0.641$，valley ratio$=0.037$，$P_{\text{fast}}=0.127$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_S1_env.pdf}
+  \caption{S1：环境示意图。}
+  \label{fig:S1-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_S1_fig3_panel.pdf}
+  \caption{S1：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:S1-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S1_paths_fast.pdf}
+  \caption{S1：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:S1-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S1_paths_slow.pdf}
+  \caption{S1：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:S1-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_S1_fpt.pdf}
+  \caption{S1：FPT 多尺度图（Exact/AW/MC 叠加）。}
+  \label{fig:S1-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S1_proof.pdf}
+  \caption{S1：峰谷放大图。}
+  \label{fig:S1-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S1_diagnostic.pdf}
+  \caption{S1：双峰诊断图。}
+  \label{fig:S1-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_S1_channel_decomp.pdf}
+  \caption{S1：通道分解与混合。}
+  \label{fig:S1-channel}
+\end{figure}
+\FloatBarrier
+
+\subsection{S2：无内墙软通道双轨（转折在 $y=10$）}
+S2 将 slow 轨道的转折高度上移至 $y=10$，在保持 ``零内墙'' 的前提下进一步减少靠边依赖。
+
+\paragraph{Configuration Card}
+参数为 $N=60,\;q=0.8,\;g=(0,0)$，边界全反射，start=(10,30)，target=(50,30)，全域可达且无内部 barrier/door。fast 轨道为 $y=30,\;x=11..49$，sticky factor=0.05，向右 bias $\delta=0.95$；slow 轨道为左竖 $x=10,\;y=11..30$（向上）、中层 $y=10,\;x=10..49$（向右）、右竖 $x=50,\;y=10..29$（向下），同样设置 sticky factor=0.05，局部 bias 取 $\delta=0.20$。通道判据为：命中前到达 $y=10$ 段即为 slow，否则为 fast。峰谷指标为 $t_{p1}=48,\;t_v=274,\;t_{p2}=462$，peak ratio$=0.647$，valley ratio$=0.061$，$P_{\text{fast}}=0.171$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/case_S2_env.pdf}
+  \caption{S2：环境示意图。}
+  \label{fig:S2-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/case_S2_fig3_panel.pdf}
+  \caption{S2：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:S2-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S2_paths_fast.pdf}
+  \caption{S2：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:S2-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/case_S2_paths_slow.pdf}
+  \caption{S2：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:S2-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/case_S2_fpt.pdf}
+  \caption{S2：FPT 多尺度图（Exact/AW/MC 叠加）。}
+  \label{fig:S2-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S2_proof.pdf}
+  \caption{S2：峰谷放大图。}
+  \label{fig:S2-proof}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/fpt/case_S2_diagnostic.pdf}
+  \caption{S2：双峰诊断图。}
+  \label{fig:S2-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/case_S2_channel_decomp.pdf}
+  \caption{S2：通道分解与混合。}
+  \label{fig:S2-channel}
+\end{figure}
+\FloatBarrier
+
+\section{直观机制图解：两通道混合 + 时间尺度分离}
+将轨迹按通道事件 $C\in\{\text{fast},\text{slow}\}$ 分类，则
+\begin{equation}
+  f(t)=\mathbb{P}(C=\text{fast})\,f(t\,|\,C=\text{fast})
+  +\mathbb{P}(C=\text{slow})\,f(t\,|\,C=\text{slow}).
+\end{equation}
+当两类条件分布的典型时间满足 $t_{\text{fast}}\ll t_{\text{slow}}$，且 $\mathbb{P}(C=\text{fast})$ 不过小，则整体 $f(t)$ 在两峰之间形成明显 valley。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.65\textwidth]{\FigDir/fig3_panels/channel_cartoon.pdf}
+  \caption{双峰的概念示意图：fast/slow 两通道混合 + 时间尺度分离。}
+  \label{fig:channel-cartoon}
+\end{figure}
+
+\paragraph{通道判据（用于 fast/slow 分类）}
+\begin{itemize}
+  \item R1：命中前始终在主走廊（$y=30$）为 fast；进入 U 形绕行为 slow。
+  \item R7：命中前始终在主走廊（$y=30$）为 fast；进入上方绕行支路为 slow。
+  \item C3：命中前始终在主动轨道（$y=29$）为 fast；进入 detour 回路为 slow。
+  \item R6：主要沿 $y=20$ 车道为 fast；主要沿 $y=40$ door 车道为 slow。
+  \item NB4：命中前未到达顶边 $y=1$ 为 fast；到达过顶边则为 slow（对应顺时针绕行）。
+  \item NB5：判据与 NB4 相同；全局偏置仅改变 fast/slow 权重与峰位。
+  \item S1：命中前未到达顶边 $y=1$ 段为 fast；到达顶边段则为 slow（软通道绕行）。
+  \item S2：命中前未到达 $y=10$ 段为 fast；到达 $y=10$ 段则为 slow（内层软绕行）。
+\end{itemize}
+
+\paragraph{构造的几何/动力学解释}
+\begin{itemize}
+  \item R1：反射墙将空间压缩为准 1D 走廊；短直走廊为 fast，长绕行为 slow。
+  \item R7：主走廊内的半透门提供快捷通道；绕行支路形成更长的几何路程，实现孔道 vs 绕行的时间尺度分离。
+  \item C3：强 local bias 轨道提供“主动运输”快通道；错过入口后进入长回路形成慢通道。
+  \item R6：两车道几何长度相近，但 door 阵列显著降低有效通行率，形成动力学慢通道。
+  \item NB4：外边界顺时针 bias 形成“传送带”，逆向短路与顺时针绕行形成深双峰。
+  \item NB5：在 NB4 传送带上叠加全局偏置，进一步倾向顺时针路径，使谷更深。
+  \item S1/S2：通过 sticky 将通道内的横向逃逸压到很小，再用 local bias 将 stay 质量定向释放，从而在无内部墙的情况下形成准 1D 软通道与清晰的 fast/slow 分离。
+\end{itemize}
+
+\paragraph{粗略峰位预测}
+以局部 bias 方向上的有效漂移速度 $v\approx p_{\text{forward}}-p_{\text{backward}}$ 近似通道内运动，得到 $t_{\text{pred}}\approx L/v$ 的粗略估计（仅用于量级直观解释）。表~\ref{tab:peak-predict} 给出走廊/门构造的估计与数值峰位对照；NB4/NB5 为边界环形漂移，未纳入该直线走廊近似。
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \begin{tabular}{lcccc}
+    \toprule
+    case & channel & $L_{\text{geom}}$ & $t_{\text{pred}}$ & $t_{\text{peak}}$ \\
+    \midrule
+    R1 & fast & 40 & 148 & 136 \\
+    R1 & slow & 98 & 453 & 424 \\
+    R7 & fast & 40 & 148 & 140 \\
+    R7 & slow & 98 & 453 & 428 \\
+    C3 & fast & 40 & 160 & 160 \\
+    C3 & slow & 100 & 746 & 702 \\
+    R6 & fast & 60 & 377 & 347 \\
+    R6 & slow & 60 + door & 2272 & 2160 \\
+    \bottomrule
+  \end{tabular}
+  \caption{粗略峰位预测（基于局部 bias 的一维漂移近似）与数值峰位对比。}
+  \label{tab:peak-predict}
+\end{table}
+
+\noindent 表中可见，R1/R7/C3 的几何预测与数值峰位同量级；R6 的偏差主要来自 door 引入的有效等待时间修正。
+
+
+\section{边界条件的物理含义与保留价值}
+\paragraph{reflecting} 对应有限容器或围墙区域的扩散/搜索问题：概率守恒且不会漏出系统。本文全部采用反射边界，强调双峰无需周期拓扑即可产生。
+
+\section{与参考文献的对应}
+\begin{itemize}
+  \item PhysRevE 102, 062124：双峰与通道混合机制（1D 明确论述），为本文反射走廊构造提供理论动机。
+  \item 参见 arXiv:2311.00464v2（Giuggioli 等，2024，Fig.3）对 permeable barrier 与 sticky 的构造说明；本文 R6/R7/NB4/NB5 采用该思路。
+\end{itemize}
+
+\section{数据与代码可得性}
+本文所用脚本与数据已整理在仓库 \url{reports/grid2d_reflecting_bimodality/}。图形输出位于 \url{figures/}，数值指标与中间结果保存在 \url{data/} 与 \url{outputs/}。本文 PDF 由 \LaTeX{} 编译生成。需要复现时，可运行主脚本并按上述目录结构获取对应图表与指标。
+
+\begin{thebibliography}{9}
+  \bibitem{PRE102} S. Sarvaharman and L. Giuggioli, \emph{Phys. Rev. E} \textbf{102}, 062124 (2020). DOI: 10.1103/PhysRevE.102.062124.
+  \bibitem{arxiv2311} L. Giuggioli, S. Sarvaharman, D. Das, D. Marris, and T. Kay, \emph{Multi-target search in bounded and heterogeneous environments: a lattice random walk perspective}, arXiv:2311.00464v2 [cond-mat.stat-mech] (11 Sep 2024).
+\end{thebibliography}
+
+\end{document}

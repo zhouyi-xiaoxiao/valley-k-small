@@ -1,0 +1,831 @@
+
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsfonts,bm}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{physics}
+\setlength{\emergencystretch}{4em}
+
+% Chebyshev
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+
+\title{Exact propagators and first-passage generating functions on a 1D ring\\
+with one directed long-range link: \\
+\large (A) lazy-reservoir shortcut \quad vs \quad (B) nearest-neighbour rewiring shortcut\\
+\large Giuggioli--Bristol notation: $\underline{B}$ (ring), $\underline{A}$ (defect), $\underline{X}=\underline{B}-\underline{A}$, defect parameters $\eta$}
+\author{}
+\date{}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{Overview}
+We derive, in full detail:
+\begin{itemize}
+\item the defect-free generating function (Green's function) $\tilde Q_{n_0}(n,z)$ for a \emph{lazy} nearest-neighbour random walk on a finite ring of size $N$;
+\item the exact defective generating function $\tilde S_{n_0}(n,z)$ after introducing a \emph{single directed} long-range link using two constructions:
+\begin{enumerate}
+\item[(A)] \textbf{Lazy-reservoir shortcut}: the shortcut probability is taken from the self-loop at the source node;
+\item[(B)] \textbf{Nearest-neighbour rewiring}: the shortcut probability is taken from an existing nearest-neighbour jump at the source node.
+\end{enumerate}
+\item two complementary derivations for $\tilde S$: (i) a low-rank (Sherman--Morrison) resolvent update; (ii) the Giuggioli defect-technique determinant formula (scalar for (A), explicit $2\times2$ for (B));
+\item the first-passage generating function $\tilde F_{n_0\to n}(z)=\tilde S_{n_0}(n,z)/\tilde S_n(n,z)$, including a fully explicit Chebyshev closed form for construction (A);
+\item a detailed comparison of the two constructions and their relation to Watts--Strogatz small-world rewiring.
+\item numerical validation against direct matrix inversion (double precision).
+\end{itemize}
+
+Throughout we use the Giuggioli--Bristol defect-technique notation ($\underline{B},\underline{A},\underline{X},\eta$), and we keep \emph{all} intermediate steps, including the explicit $k=0$ cancellation in the Chebyshev identity step.
+
+\section{Notation and model}
+
+\subsection{Ring, indexing, and transition matrices}
+
+We consider a discrete-time random walk on a 1D ring (cycle) of size $N$ with periodic boundary conditions (PBC).
+Sites are labeled $n\in\{0,1,\dots,N-1\}$ and all indices are understood modulo $N$.
+
+We use the column-stochastic convention
+\[
+\begin{aligned}
+\Pr(X_{t+1}=n\mid X_t=n') &= B_{n,n'} &&\text{(defect-free ring)},\\
+\Pr(X_{t+1}=n\mid X_t=n') &= A_{n,n'} &&\text{(with defect)}.
+\end{aligned}
+\]
+Thus $P(t+1)=\underline{B}\,P(t)$ for the defect-free process, and $\sum_n B_{n,n'}=\sum_n A_{n,n'}=1$ for each column $n'$.
+
+The defect matrix is
+\[
+\underline{X}\equiv \underline{B}-\underline{A}.
+\]
+In the Supplement notation, each defect \emph{pair} $(u_i,v_i)$ carries two parameters $\eta_{u_i,v_i}$ and $\eta_{v_i,u_i}$, which correspond to the off-diagonal entries of $\underline{X}$:
+\[
+\eta_{u,v}\equiv X_{v,u}=B_{v,u}-A_{v,u},\qquad \eta_{v,u}\equiv X_{u,v}=B_{u,v}-A_{u,v}.
+\]
+
+\subsection{Baseline (defect-free) lazy nearest-neighbour ring}
+Let $q\in(0,1)$ be the \emph{total} nearest-neighbour jump probability (nearest-neighbour range $k=1$).
+Then the defect-free transition matrix $\underline{B}$ is
+\[
+B_{n,n}=1-q,\qquad B_{n\pm 1,n}=\frac{q}{2},\qquad B_{m,n}=0\ \text{otherwise}.
+\]
+In words: at each step, with probability $q$ the walker moves to one of the two neighbours (left/right with probability $q/2$ each),
+and with probability $1-q$ the walker stays in place (self-loop / sojourn).
+
+\subsection{Propagators and generating functions (Green's functions)}
+\begin{itemize}
+\item Defect-free propagator: $Q_{n_0}(n,t)=\Pr(X_t=n\mid X_0=n_0)$ under $\underline{B}$.
+\item Defective propagator: $S_{n_0}(n,t)=\Pr(X_t=n\mid X_0=n_0)$ under $\underline{A}$.
+\item Generating function (discrete-time $z$-transform): $\tilde f(z)=\sum_{t=0}^{\infty} f(t)\,z^t$.
+\end{itemize}
+We write $\tilde Q_{n_0}(n,z)=\sum_{t\ge 0} Q_{n_0}(n,t)\,z^t$ and $\tilde S_{n_0}(n,z)$ similarly.
+
+Matrix-wise,
+\[
+\underline{G}_B(z)\equiv (\underline{I}-z\underline{B})^{-1}=\sum_{t=0}^\infty z^t \underline{B}^t,
+\qquad
+\underline{G}_A(z)\equiv (\underline{I}-z\underline{A})^{-1}=\sum_{t=0}^\infty z^t \underline{A}^t,
+\]
+and therefore
+\[
+\tilde Q_{n_0}(n,z)=[\underline{G}_B(z)]_{n,n_0},\qquad
+\tilde S_{n_0}(n,z)=[\underline{G}_A(z)]_{n,n_0}.
+\]
+
+\subsection{Ring distance and Chebyshev polynomials}
+For any two sites $a,b$ define the minimal ring distance
+\[
+d(a,b)\equiv \min\bigl(|a-b|,\;N-|a-b|\bigr)\in\Bigl\{0,1,\dots,\Bigl\lfloor \frac N2\Bigr\rfloor\Bigr\}.
+\]
+Chebyshev polynomials of the first and second kind are
+\[
+\T_n(x)=\cos(n\arccos x),\qquad
+\U_n(x)=\frac{\sin((n+1)\arccos x)}{\sin(\arccos x)}.
+\]
+
+\section{Part I --- Defect-free propagator $\tilde Q_{n_0}(n,z)$ in Chebyshev form}
+
+\subsection{Step 1: $z$-transform of the master equation (fully explicit)}
+
+The defect-free master equation is
+\begin{equation}
+Q_{n_0}(n,t+1)=\frac q2\,Q_{n_0}(n-1,t)+\frac q2\,Q_{n_0}(n+1,t)+(1-q)\,Q_{n_0}(n,t),
+\label{eq:master_ring}
+\end{equation}
+with initial condition $Q_{n_0}(n,0)=\delta_{n,n_0}$ and PBC.
+
+Multiply both sides of \eqref{eq:master_ring} by $z^t$ and sum $t=0$ to $\infty$:
+\begin{align*}
+\sum_{t=0}^{\infty} Q_{n_0}(n,t+1) z^t
+&=\frac q2\sum_{t=0}^{\infty} Q_{n_0}(n-1,t) z^t
+ +\frac q2\sum_{t=0}^{\infty} Q_{n_0}(n+1,t) z^t
+ +(1-q)\sum_{t=0}^{\infty} Q_{n_0}(n,t) z^t.
+\end{align*}
+The sums on the right are the generating functions:
+\[
+\sum_{t=0}^{\infty} Q_{n_0}(n\pm 1,t) z^t=\tilde Q_{n_0}(n\pm 1,z),
+\qquad
+\sum_{t=0}^{\infty} Q_{n_0}(n,t) z^t=\tilde Q_{n_0}(n,z).
+\]
+For the left-hand side we use the time-shift identity:
+\begin{align*}
+\sum_{t=0}^{\infty} Q_{n_0}(n,t+1) z^t
+&=\frac{1}{z}\sum_{t=0}^{\infty} Q_{n_0}(n,t+1) z^{t+1}
+=\frac{1}{z}\sum_{s=1}^{\infty} Q_{n_0}(n,s) z^{s}\\
+&=\frac{1}{z}\left(\sum_{s=0}^{\infty} Q_{n_0}(n,s) z^{s}-Q_{n_0}(n,0)\right)
+=\frac{1}{z}\left(\tilde Q_{n_0}(n,z)-\delta_{n,n_0}\right).
+\end{align*}
+Substituting into the summed master equation yields
+\[
+\frac{1}{z}\left(\tilde Q_{n_0}(n,z)-\delta_{n,n_0}\right)
+=
+\frac q2\,\tilde Q_{n_0}(n-1,z)+\frac q2\,\tilde Q_{n_0}(n+1,z)
++(1-q)\,\tilde Q_{n_0}(n,z).
+\]
+Multiplying by $z$ and rearranging gives the Helmholtz-type equation
+\begin{equation}
+\bigl[1-z(1-q)\bigr]\tilde Q_{n_0}(n,z)-\frac{qz}{2}\Bigl(\tilde Q_{n_0}(n-1,z)+\tilde Q_{n_0}(n+1,z)\Bigr)
+=\delta_{n,n_0}.
+\label{eq:helmholtz_ring}
+\end{equation}
+
+\subsection{Step 2: discrete Fourier representation on the ring}
+
+Let
+\[
+\theta_k\equiv \frac{2\pi k}{N},\qquad k=0,1,\dots,N-1.
+\]
+The eigenvalues of the ring transition matrix $\underline{B}$ are
+\[
+\lambda_k=1-q+q\cos\theta_k.
+\]
+Therefore the generating function (Green's function) is
+\begin{equation}
+\tilde Q_{n_0}(n,z)
+=\frac{1}{N}\sum_{k=0}^{N-1}\frac{e^{i\theta_k(n-n_0)}}{1-z\lambda_k}
+=
+\frac{1}{N}\sum_{k=0}^{N-1}\frac{e^{i\theta_k(n-n_0)}}{1-z\,[1-q+q\cos\theta_k]}.
+\label{eq:Q_fourier}
+\end{equation}
+By translational invariance, $\tilde Q_{n_0}(n,z)$ depends only on $d=d(n,n_0)$.
+
+\subsection{Step 3: rewrite the sum in the form required by Identity E3}
+
+Introduce the spectral parameter
+\begin{equation}
+\sigma(z)\equiv \frac{1-z(1-q)}{qz}.
+\label{eq:sigma_def}
+\end{equation}
+Then
+\[
+1-z[1-q+q\cos\theta_k]=qz\bigl(\sigma(z)-\cos\theta_k\bigr).
+\]
+Insert this into \eqref{eq:Q_fourier} and use the ring symmetry (pair $k$ with $N-k$) to write the numerator as a cosine:
+\begin{equation}
+\tilde Q_{n_0}(n,z)
+=
+\frac{1}{qz}\,\frac{1}{N}\sum_{k=0}^{N-1}\frac{\cos\!\bigl(d\,\theta_k\bigr)}{\sigma(z)-\cos\theta_k},
+\qquad d=d(n,n_0).
+\label{eq:Q_cos_sum}
+\end{equation}
+
+\subsection{Step 4: apply Identity E3 and show the $k=0$ cancellation explicitly}
+
+Identity E3 (periodic case, Appendix~E in the 2020 reference) states that for $m\in\{0,1,\dots,N\}$,
+\begin{equation}
+\sum_{k=1}^{N-1}\frac{\cos\!\left(\frac{2\pi m k}{N}\right)}{\sigma-\cos\!\left(\frac{2\pi k}{N}\right)}
+=
+\frac{1}{1-\sigma}
++
+N\,\frac{\T_{N-m}(\sigma)+\T_m(\sigma)}{(\sigma^2-1)\,\U_{N-1}(\sigma)}.
+\label{eq:E3_identity}
+\end{equation}
+
+\paragraph{Align the cosine.}
+Using $\theta_k=\frac{2\pi k}{N}$, we write
+\[
+\cos(d\theta_k)=\cos\!\left(d\frac{2\pi k}{N}\right)=\cos\!\left(\frac{2\pi(m=d)\,k}{N}\right).
+\]
+Thus we apply \eqref{eq:E3_identity} with
+\[
+m=d,\qquad \sigma=\sigma(z),
+\]
+which yields for the partial sum $k=1,\dots,N-1$:
+\begin{equation}
+\sum_{k=1}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+=
+\frac{1}{1-\sigma(z)}
++
+N\,\frac{\T_{N-d}(\sigma(z))+\T_{d}(\sigma(z))}{(\sigma(z)^2-1)\,\U_{N-1}(\sigma(z))}.
+\label{eq:partial_sum}
+\end{equation}
+
+\paragraph{Restore the $k=0$ term.}
+We now write the full sum from \eqref{eq:Q_cos_sum} as
+\[
+\sum_{k=0}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+=
+\underbrace{\frac{\cos(0)}{\sigma(z)-\cos(0)}}_{\text{$k=0$ term}}
++
+\sum_{k=1}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}.
+\]
+Since $\cos(0)=1$, the missing $k=0$ term equals $1/(\sigma(z)-1)$. Using \eqref{eq:partial_sum},
+\begin{align}
+\sum_{k=0}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+&=
+\frac{1}{\sigma(z)-1}
++
+\frac{1}{1-\sigma(z)}
++
+N\,\frac{\T_{N-d}(\sigma(z))+\T_{d}(\sigma(z))}{(\sigma(z)^2-1)\,\U_{N-1}(\sigma(z))}.
+\label{eq:full_sum_with_cancel}
+\end{align}
+The first two terms cancel explicitly:
+\[
+\frac{1}{\sigma(z)-1}+\frac{1}{1-\sigma(z)}
+=
+\frac{1}{\sigma(z)-1}-\frac{1}{\sigma(z)-1}=0.
+\]
+Therefore the full sum becomes
+\begin{equation}
+\sum_{k=0}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+=
+N\,\frac{\T_{N-d}(\sigma(z))+\T_{d}(\sigma(z))}{(\sigma(z)^2-1)\,\U_{N-1}(\sigma(z))}.
+\label{eq:full_sum_final}
+\end{equation}
+
+Substitute \eqref{eq:full_sum_final} back into \eqref{eq:Q_cos_sum} to obtain the closed form:
+\begin{equation}
+\boxed{
+\tilde Q_{n_0}(n,z)=
+\frac{\T_{d}(\sigma(z))+\T_{N-d}(\sigma(z))}
+{qz\,\bigl(\sigma(z)^2-1\bigr)\,\U_{N-1}(\sigma(z))},
+\qquad d=d(n,n_0).
+}
+\label{eq:Q_chebyshev}
+\end{equation}
+
+\subsection{Odd vs even $N$ (explicit)}
+Let $d=d(n,n_0)\in\{0,1,\dots,\lfloor N/2\rfloor\}$.
+\begin{itemize}
+\item If $N$ is odd, \eqref{eq:Q_chebyshev} holds as written for all $d$.
+\item If $N$ is even and $d=N/2$ (antipodes), then $N-d=d$ and the numerator becomes $2\T_{N/2}(\sigma(z))$:
+\[
+\tilde Q_{n_0}(n,z)\big|_{d=N/2}
+=
+\frac{2\,\T_{N/2}(\sigma(z))}
+{qz\,\bigl(\sigma(z)^2-1\bigr)\,\U_{N-1}(\sigma(z))}.
+\]
+\end{itemize}
+
+\section{Part II --- One directed shortcut: two constructions and their exact $\tilde S$}
+
+\subsection{A unifying algebraic view: ``probability-mass transfer'' in one column}
+
+Both constructions we consider are \emph{local} modifications of a single column of $\underline{B}$:
+we pick a \emph{source} node $u$, and move probability mass $p$ from some \emph{old destination} $b$ to a \emph{new destination} $a$.
+At the level of transition matrices this is
+\begin{equation}
+\boxed{
+\underline{A}=\underline{B}+p\,(\ket{a}-\ket{b})\bra{u}.
+}
+\label{eq:A_rank1}
+\end{equation}
+Here $\ket{a}$ denotes the basis vector at site $a$.
+
+\paragraph{Validity constraints.}
+The only constraint is that the modified transition probabilities remain nonnegative.
+If $b$ is the self-loop ($b=u$), then $p\le B_{u,u}=1-q$.
+If $b$ is a nearest neighbour ($b=u\pm1$), then $p\le B_{u\pm1,u}=q/2$.
+
+\subsection{Sherman--Morrison derivation of the resolvent update (all steps)}
+
+Define the defect-free and defective resolvents
+\[
+\underline{G}_B(z)=(\underline{I}-z\underline{B})^{-1},\qquad \underline{G}_A(z)=(\underline{I}-z\underline{A})^{-1}.
+\]
+Using \eqref{eq:A_rank1}, we write
+\[
+\underline{I}-z\underline{A}=\underline{I}-z\underline{B}-z p(\ket a-\ket b)\bra u
+\equiv \underline{M}-\bm{u}\bm{v}^\top,
+\]
+with
+\[
+\underline{M}\equiv \underline{I}-z\underline{B},
+\qquad
+\bm{u}\equiv z p(\ket a-\ket b),
+\qquad
+\bm{v}^\top \equiv \bra u.
+\]
+We now invert $\underline{M}-\bm{u}\bm{v}^\top$ exactly.
+
+\paragraph{Claim (Sherman--Morrison for a rank-1 update).}
+If $\underline{M}$ is invertible and $1-\bm{v}^\top \underline{M}^{-1}\bm{u}\neq 0$, then
+\begin{equation}
+(\underline{M}-\bm{u}\bm{v}^\top)^{-1}
+=
+\underline{M}^{-1}
++
+\frac{\underline{M}^{-1}\bm{u}\bm{v}^\top \underline{M}^{-1}}{1-\bm{v}^\top \underline{M}^{-1}\bm{u}}.
+\label{eq:SM}
+\end{equation}
+
+\paragraph{Verification.}
+Let $\underline{R}$ denote the right-hand side of \eqref{eq:SM}.
+Compute $(\underline{M}-\bm{u}\bm{v}^\top)\underline{R}$:
+\begin{align*}
+(\underline{M}-\bm{u}\bm{v}^\top)\underline{R}
+&=(\underline{M}-\bm{u}\bm{v}^\top)\underline{M}^{-1}
++(\underline{M}-\bm{u}\bm{v}^\top)\frac{\underline{M}^{-1}\bm{u}\bm{v}^\top \underline{M}^{-1}}{1-\bm{v}^\top \underline{M}^{-1}\bm{u}}\\
+&=\underline{I}-\bm{u}\bm{v}^\top \underline{M}^{-1}
++\frac{\bm{u}\bm{v}^\top \underline{M}^{-1}}{1-\bm{v}^\top \underline{M}^{-1}\bm{u}}
+-\frac{\bm{u}\bm{v}^\top \underline{M}^{-1}\bm{u}\bm{v}^\top \underline{M}^{-1}}{1-\bm{v}^\top \underline{M}^{-1}\bm{u}}.
+\end{align*}
+Factor $\bm{u}\bm{v}^\top \underline{M}^{-1}$ in the last two terms:
+\[
+\frac{\bm{u}\bm{v}^\top \underline{M}^{-1}}{1-\bm{v}^\top \underline{M}^{-1}\bm{u}}
+\left[1-(\bm{v}^\top \underline{M}^{-1}\bm{u})\right]
+=
+\bm{u}\bm{v}^\top \underline{M}^{-1}.
+\]
+Thus the last two terms together equal $+\bm{u}\bm{v}^\top \underline{M}^{-1}$, which cancels the $-\bm{u}\bm{v}^\top \underline{M}^{-1}$ term.
+Therefore $(\underline{M}-\bm{u}\bm{v}^\top)\underline{R}=\underline{I}$, proving \eqref{eq:SM}.
+
+\paragraph{Apply to the random walk.}
+Since $\underline{M}^{-1}=(\underline{I}-z\underline{B})^{-1}=\underline{G}_B(z)$, \eqref{eq:SM} gives
+\begin{equation}
+\underline{G}_A(z)
+=
+\underline{G}_B(z)
++
+\frac{z p\,\underline{G}_B(z)\,(\ket a-\ket b)\bra u\,\underline{G}_B(z)}
+{1-z p\,\bra u\,\underline{G}_B(z)\,(\ket a-\ket b)}.
+\label{eq:GA_update}
+\end{equation}
+Take the matrix element $(n,n_0)$ to obtain the defective propagator generating function:
+\begin{equation}
+\boxed{
+\tilde S_{n_0}(n,z)
+=
+\tilde Q_{n_0}(n,z)
++
+\frac{z p\,[\tilde Q_a(n,z)-\tilde Q_b(n,z)]\,\tilde Q_{n_0}(u,z)}
+{1-z p\,[\tilde Q_a(u,z)-\tilde Q_b(u,z)]}.
+}
+\label{eq:S_general_ab}
+\end{equation}
+This formula is \emph{exact} and will be specialised to the two constructions below.
+
+\subsection{Construction (A): shortcut probability taken from the self-loop (lazy reservoir)}
+
+\paragraph{Definition of the defect.}
+We add a directed shortcut $u\to v$ of probability $p$ by taking $p$ from the self-loop at $u$:
+\[
+A_{v,u}=B_{v,u}+p=p,\qquad
+A_{u,u}=B_{u,u}-p=(1-q)-p,
+\qquad
+A_{u\pm1,u}=B_{u\pm1,u}=\frac q2.
+\]
+This is \eqref{eq:A_rank1} with
+\[
+a=v,\qquad b=u,
+\qquad 0\le p\le 1-q.
+\]
+
+\paragraph{Exact propagator (rank-1 form).}
+Specialising \eqref{eq:S_general_ab} to $(a=v,b=u)$ gives
+\begin{equation}
+\boxed{
+\tilde S^{\text{(A)}}_{n_0}(n,z)
+=
+\tilde Q_{n_0}(n,z)
++
+\frac{z p\,[\tilde Q_v(n,z)-\tilde Q_u(n,z)]\,\tilde Q_{n_0}(u,z)}
+{1-z p\,[\tilde Q_v(u,z)-\tilde Q_u(u,z)]}.
+}
+\label{eq:S_A_uv}
+\end{equation}
+Using translational invariance on the ring, $\tilde Q_x(y,z)=\tilde Q(d(x,y),z)$, this can be written entirely in terms of distances:
+\begin{equation}
+\boxed{
+\tilde S^{\text{(A)}}_{n_0}(n,z)
+=
+\tilde Q(d(n,n_0),z)
+-
+\frac{z p\,[\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z)]\,\tilde Q(d(u,n_0),z)}
+{1+z p\,[\tilde Q(0,z)-\tilde Q(d(u,v),z)]}.
+}
+\label{eq:S_A_dist}
+\end{equation}
+
+\paragraph{Defect-technique encoding (one defect pair).}
+In terms of $\underline{X}=\underline{B}-\underline{A}$, the only nonzero off-diagonal entry is
+\[
+X_{v,u}=-p,
+\]
+so the Supplement defect parameter is
+\[
+\eta_{u,v}=X_{v,u}=-p,\qquad \eta_{v,u}=0,
+\]
+and the diagonal change $X_{u,u}=+p$ is implied by column-stochasticity.
+
+\paragraph{Recovering (A) from the defect-technique determinant formula ($M=1$).}
+Although (A) is already solved by the rank-1 update \eqref{eq:S_A_uv}--\eqref{eq:S_A_dist}, it is useful to connect to the
+Giuggioli defect-technique formula (especially since (B) will naturally appear as ``multiple defects'').
+For $M$ defect pairs $(u_i,v_i)$, the defect-technique result is
+\begin{equation}
+\tilde S_{n_0}(n,z)
+=
+\tilde Q_{n_0}(n,z)-1+\frac{\det\!\bigl[\underline{H}(n,n_0;z)\bigr]}{\det\!\bigl[\underline{H}(z)\bigr]}.
+\label{eq:defect_formula}
+\end{equation}
+For a single defect pair $(u,v)$ we have $M=1$ and the determinants reduce to scalars.
+With the standard definitions
+\begin{align}
+\det[\underline{H}(z)]
+&=
+H(z)
+=
+\eta_{u,v}\,\tilde Q_{(u-v)}(u,z)-\eta_{v,u}\,\tilde Q_{(u-v)}(v,z)-\frac{1}{z},
+\label{eq:H_scalar}\\[1mm]
+\det[\underline{H}(n,n_0;z)]
+&=
+H(n,n_0;z)
+=
+H(z)-\tilde Q_{(u-v)}(n,z)\Bigl[\eta_{u,v}\,\tilde Q_{n_0}(u,z)-\eta_{v,u}\,\tilde Q_{n_0}(v,z)\Bigr],
+\label{eq:Hn_scalar}
+\end{align}
+where $\tilde Q_{(u-v)}(x,z)\equiv \tilde Q_u(x,z)-\tilde Q_v(x,z)$,
+and inserting $\eta_{u,v}=-p$, $\eta_{v,u}=0$ gives
+\begin{align}
+\det[\underline{H}(z)]
+&=
+-\frac{1}{z}
+-p\Bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\Bigr),
+\label{eq:H_A}\\[2mm]
+\det[\underline{H}(n,n_0;z)]
+&=
+\det[\underline{H}(z)]
++p\Bigl(\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z)\Bigr)\,\tilde Q(d(u,n_0),z).
+\label{eq:Hn_A}
+\end{align}
+Substituting \eqref{eq:H_A}--\eqref{eq:Hn_A} into \eqref{eq:defect_formula} reproduces exactly \eqref{eq:S_A_dist}.
+
+\subsection{Construction (B): rewiring probability from a nearest-neighbour jump to the shortcut}
+
+\paragraph{Definition of the defect.}
+Choose one nearest neighbour of $u$ as the \emph{old destination} $w$; for definiteness on the ring we can take $w=u+1$
+(the ``clockwise'' neighbour). We create a directed shortcut $u\to v$ of probability $p$ by \emph{reducing} the probability of the jump $u\to w$ by $p$:
+\[
+\begin{aligned}
+A_{v,u} &= B_{v,u}+p=p,\\
+A_{w,u} &= B_{w,u}-p=\frac q2-p,\\
+A_{u,u} &= B_{u,u}=1-q,\\
+A_{u-1,u} &= B_{u-1,u}=\frac q2.
+\end{aligned}
+\]
+This is \eqref{eq:A_rank1} with
+\[
+a=v,\qquad b=w=u+1,\qquad 0\le p\le \frac q2.
+\]
+(The case $p=q/2$ corresponds to a \emph{full} rewiring of the entire clockwise edge probability onto the shortcut.)
+
+\paragraph{Exact propagator (rank-1 form).}
+Specialising \eqref{eq:S_general_ab} to $(a=v,b=w)$ gives
+\begin{equation}
+\boxed{
+\tilde S^{\text{(B)}}_{n_0}(n,z)
+=
+\tilde Q_{n_0}(n,z)
++
+\frac{z p\,[\tilde Q_v(n,z)-\tilde Q_w(n,z)]\,\tilde Q_{n_0}(u,z)}
+{1-z p\,[\tilde Q_v(u,z)-\tilde Q_w(u,z)]}.
+}
+\label{eq:S_B_uvw}
+\end{equation}
+In distance form (using $d(u,w)=1$ on the ring):
+\begin{equation}
+\boxed{
+\tilde S^{\text{(B)}}_{n_0}(n,z)
+=
+\tilde Q(d(n,n_0),z)
++
+\frac{z p\,[\tilde Q(d(n,v),z)-\tilde Q(d(n,w),z)]\,\tilde Q(d(u,n_0),z)}
+{1-z p\,[\tilde Q(d(u,v),z)-\tilde Q(1,z)]}.
+}
+\label{eq:S_B_dist}
+\end{equation}
+
+\subsection{How construction (B) appears as ``multiple defects'' in the $\eta$-pair formalism (explicit $2\times2$ determinant)}
+
+Although \eqref{eq:S_B_uvw} is rank-1 at the matrix level, in the Supplement pair notation it is convenient to represent (B) as the superposition of \emph{two} defect pairs, because the self-loop at $u$ is \emph{unchanged} and must emerge as a cancellation.
+
+\paragraph{Two defect pairs.}
+Write (B) as ``add $p$ to $u\to v$ and subtract $p$ from the self-loop'' (pair 1) \emph{plus}
+``subtract $p$ from $u\to w$ and add $p$ to the self-loop'' (pair 2).
+This corresponds to two pairs:
+\[
+(u_1,v_1)=(u,v),\qquad (u_2,v_2)=(u,w),
+\]
+with defect parameters
+\[
+\eta_{u_1,v_1}=\eta_{u,v}=-p,\qquad \eta_{u_2,v_2}=\eta_{u,w}=+p,
+\qquad
+\eta_{v_1,u_1}=\eta_{v,u}=0,\qquad \eta_{v_2,u_2}=\eta_{w,u}=0.
+\]
+Indeed, this yields off-diagonal changes
+\[
+X_{v,u}=\eta_{u,v}=-p,\qquad X_{w,u}=\eta_{u,w}=+p,
+\]
+and diagonal change $X_{u,u}=-(\eta_{u,v}+\eta_{u,w})=0$ (so $A_{u,u}=B_{u,u}$), as required.
+
+\paragraph{Build $\underline{H}(z)$ explicitly.}
+For $M=2$ defect pairs, the Supplement defines $\underline{H}(z)$ by
+\[
+\begin{aligned}
+H(z)_{i,j}
+&=
+\eta_{u_i,v_i}\,\tilde Q_{(u_j-v_j)}(u_i,z)
+-\eta_{v_i,u_i}\,\tilde Q_{(u_j-v_j)}(v_i,z)
+-\frac{\delta_{i,j}}{z},\\
+\tilde Q_{(u_j-v_j)}(x,z)
+&=\tilde Q_{u_j}(x,z)-\tilde Q_{v_j}(x,z).
+\end{aligned}
+\]
+Here $\eta_{v_i,u_i}=0$, and $u_1=u_2=u$, so
+\[
+\tilde Q_{(u-v)}(u,z)=\tilde Q_u(u,z)-\tilde Q_v(u,z)=\tilde Q(0,z)-\tilde Q(d(u,v),z),
+\]
+\[
+\tilde Q_{(u-w)}(u,z)=\tilde Q_u(u,z)-\tilde Q_w(u,z)=\tilde Q(0,z)-\tilde Q(d(u,w),z)=\tilde Q(0,z)-\tilde Q(1,z).
+\]
+Therefore
+\[
+\underline{H}(z)=
+\begin{pmatrix}
+-\dfrac{1}{z}-p\bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\bigr)
+&
+-p\bigl(\tilde Q(0,z)-\tilde Q(1,z)\bigr)
+\\[2mm]
++p\bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\bigr)
+&
+-\dfrac{1}{z}+p\bigl(\tilde Q(0,z)-\tilde Q(1,z)\bigr)
+\end{pmatrix}.
+\]
+Its determinant is computed step-by-step:
+\begin{align*}
+\det[\underline{H}(z)]
+&=\frac{1}{z^2}
++\frac{p}{z}\Bigl[(\tilde Q(0)-\tilde Q_{uv})-(\tilde Q(0)-\tilde Q_{1})\Bigr]\\
+&=\frac{1}{z^2}
++\frac{p}{z}\bigl(\tilde Q_{1}-\tilde Q_{uv}\bigr).
+\end{align*}
+where $\tilde Q_{uv}\equiv \tilde Q(d(u,v),z)$ and $\tilde Q_{1}\equiv \tilde Q(1,z)$.
+The $p^2$ terms cancel exactly.
+Thus
+\begin{equation}
+\boxed{
+\det[\underline{H}(z)]
+=
+\frac{1}{z^2}\Bigl[1+z p\bigl(\tilde Q(1,z)-\tilde Q(d(u,v),z)\bigr)\Bigr]
+=
+\frac{1}{z^2}\Bigl[1-z p\bigl(\tilde Q_{uv}-\tilde Q_{1}\bigr)\Bigr].
+}
+\label{eq:detH_B}
+\end{equation}
+
+\paragraph{Build $\underline{H}(n,n_0;z)$ and its determinant.}
+The Supplement defines
+\[
+H(n,n_0;z)_{i,j}
+=
+H(z)_{i,j}
+-\tilde Q_{(u_j-v_j)}(n,z)\Bigl[\eta_{u_i,v_i}\tilde Q_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde Q_{n_0}(v_i,z)\Bigr].
+\]
+Since $\eta_{v_i,u_i}=0$ and $u_i=u$ for both $i$, the bracket reduces to $\eta_{u_i,v_i}\tilde Q_{n_0}(u,z)$.
+Define
+\[
+\begin{aligned}
+Q_{u n_0}(z) &\equiv \tilde Q_{n_0}(u,z),\\
+\Delta_v(n) &\equiv \tilde Q_{(u-v)}(n,z)=\tilde Q_u(n,z)-\tilde Q_v(n,z),\\
+\Delta_w(n) &\equiv \tilde Q_{(u-w)}(n,z)=\tilde Q_u(n,z)-\tilde Q_w(n,z).
+\end{aligned}
+\]
+Then
+\[
+\underline{H}(n,n_0;z)=
+\begin{pmatrix}
+H_{11}+p\,\Delta_v(n)\,Q_{u n_0}(z) & H_{12}+p\,\Delta_w(n)\,Q_{u n_0}(z)\\
+H_{21}-p\,\Delta_v(n)\,Q_{u n_0}(z) & H_{22}-p\,\Delta_w(n)\,Q_{u n_0}(z)
+\end{pmatrix},
+\]
+and a direct expansion gives (keeping every term)
+\begin{align*}
+\det[\underline{H}(n,n_0;z)]
+&=\det[\underline{H}(z)]
++\frac{p}{z}\,Q_{u n_0}(z)\,\bigl(\Delta_w(n)-\Delta_v(n)\bigr).
+\end{align*}
+Finally note that $\Delta_w(n)-\Delta_v(n)=\tilde Q_v(n,z)-\tilde Q_w(n,z)$, so
+\begin{equation}
+\boxed{
+\det[\underline{H}(n,n_0;z)]
+=
+\frac{1}{z^2}\Bigl[1-z p\bigl(\tilde Q_{uv}-\tilde Q_{1}\bigr)\Bigr]
++\frac{p}{z}\,\tilde Q_{n_0}(u,z)\,\bigl(\tilde Q_v(n,z)-\tilde Q_w(n,z)\bigr).
+}
+\label{eq:detHn_B}
+\end{equation}
+
+\paragraph{Recover $\tilde S^{\mathrm{(B)}}$ from the determinant formula.}
+The defect technique gives
+\[
+\tilde S_{n_0}(n,z)=\tilde Q_{n_0}(n,z)-1+\frac{\det[\underline{H}(n,n_0;z)]}{\det[\underline{H}(z)]}.
+\]
+Substituting \eqref{eq:detH_B}--\eqref{eq:detHn_B} yields
+\[
+-1+\frac{\det[\underline{H}(n,n_0;z)]}{\det[\underline{H}(z)]}
+=
+\frac{z p\,\tilde Q_{n_0}(u,z)\,(\tilde Q_v(n,z)-\tilde Q_w(n,z))}{1-z p(\tilde Q_{uv}-\tilde Q_{1})},
+\]
+which reproduces exactly \eqref{eq:S_B_uvw}.
+
+\section{Chebyshev packaging for the defective propagators}
+
+Define
+\[
+\sigma=\sigma(z),\qquad
+\mathcal{C}(z)\equiv qz\bigl(\sigma^2-1\bigr)\U_{N-1}(\sigma),\qquad
+\mathcal{N}_d(\sigma)\equiv \T_d(\sigma)+\T_{N-d}(\sigma),
+\]
+so that \eqref{eq:Q_chebyshev} is
+\[
+\tilde Q(d,z)=\frac{\mathcal{N}_d(\sigma)}{\mathcal{C}(z)}.
+\]
+Then every term in \eqref{eq:S_A_dist} and \eqref{eq:S_B_dist} is explicit in $\T_n,\U_{N-1}$.
+
+For example, in construction (B) the denominator becomes
+\[
+1-z p\bigl(\tilde Q(d(u,v),z)-\tilde Q(1,z)\bigr)
+=
+1-\frac{z p}{\mathcal{C}(z)}\Bigl(\mathcal{N}_{d(u,v)}(\sigma)-\mathcal{N}_{1}(\sigma)\Bigr),
+\]
+and similarly for the numerator differences.
+
+\section{Part III --- First-passage generating function}
+
+For either construction, the first-passage generating function to site $n$ starting from $n_0$ is
+\begin{equation}
+\boxed{
+\tilde F_{n_0\to n}(z)=\frac{\tilde S_{n_0}(n,z)}{\tilde S_{n}(n,z)}.
+}
+\label{eq:F_def}
+\end{equation}
+
+\subsection{Construction (A): explicit form}
+Insert \eqref{eq:S_A_dist} for the numerator and the same formula with $n_0=n$ for the denominator:
+\[
+\tilde F^{\text{(A)}}_{n_0\to n}(z)=\frac{\tilde S^{\text{(A)}}_{n_0}(n,z)}{\tilde S^{\text{(A)}}_{n}(n,z)}.
+\]
+All occurrences of $\tilde Q$ are given explicitly by \eqref{eq:Q_chebyshev}.
+
+\paragraph{Chebyshev closed form (construction (A)).}
+Starting from \eqref{eq:F_def} with \eqref{eq:S_A_dist}, define the two recurring blocks
+\begin{equation}
+D_Q(z)\equiv 1+z p\bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\bigr),
+\qquad
+\Delta_n(z)\equiv \tilde Q(d(n,u),z)-\tilde Q(d(n,v),z).
+\label{eq:DQ_Delta_def}
+\end{equation}
+Multiplying numerator and denominator by $D_Q(z)$ yields the equivalent form without nested fractions:
+\begin{equation}
+\boxed{
+\tilde F^{\text{(A)}}_{n_0\to n}(z)=
+\frac{
+\tilde Q(d(n,n_0),z)\,D_Q(z)-z p\,\Delta_n(z)\,\tilde Q(d(u,n_0),z)
+}{
+\tilde Q(0,z)\,D_Q(z)-z p\,\Delta_n(z)\,\tilde Q(d(u,n),z)
+}.
+}
+\label{eq:F_A_no_nested}
+\end{equation}
+Now substitute the Chebyshev packaging from \eqref{eq:Q_chebyshev}:
+\[
+\tilde Q(d,z)=\frac{\mathcal{N}_d(\sigma(z))}{\mathcal{C}(z)},
+\qquad
+\mathcal{C}(z)\equiv qz\bigl(\sigma(z)^2-1\bigr)\U_{N-1}(\sigma(z)),
+\qquad
+\mathcal{N}_d(\sigma)\equiv \T_d(\sigma)+\T_{N-d}(\sigma),
+\]
+and introduce the compact factor
+\begin{equation}
+\boxed{
+D(z)\equiv \mathcal{C}(z)+z p\bigl(\mathcal{N}_0(\sigma(z))-\mathcal{N}_{d(u,v)}(\sigma(z))\bigr),
+}
+\label{eq:D_def}
+\end{equation}
+so that $D_Q(z)=D(z)/\mathcal{C}(z)$. Cancelling the common $\mathcal{C}(z)^{-2}$ factor gives the fully explicit closed form
+\begin{equation}
+\boxed{
+\tilde F^{\text{(A)}}_{n_0\to n}(z)=
+\frac{
+\mathcal{N}_{d(n,n_0)}(\sigma(z))\,D(z)
+-z p\,\Bigl(\mathcal{N}_{d(n,u)}(\sigma(z))-\mathcal{N}_{d(n,v)}(\sigma(z))\Bigr)\,\mathcal{N}_{d(u,n_0)}(\sigma(z))
+}{
+\mathcal{N}_{0}(\sigma(z))\,D(z)
+-z p\,\Bigl(\mathcal{N}_{d(n,u)}(\sigma(z))-\mathcal{N}_{d(n,v)}(\sigma(z))\Bigr)\,\mathcal{N}_{d(u,n)}(\sigma(z))
+}.
+}
+\label{eq:F_A_cheb_closed}
+\end{equation}
+Here $\mathcal{N}_0(\sigma)=\T_0(\sigma)+\T_N(\sigma)=1+\T_N(\sigma)$.
+
+\subsection{Construction (B): explicit form}
+Insert \eqref{eq:S_B_dist} for the numerator and the same formula with $n_0=n$ for the denominator:
+\[
+\tilde F^{\text{(B)}}_{n_0\to n}(z)=\frac{\tilde S^{\text{(B)}}_{n_0}(n,z)}{\tilde S^{\text{(B)}}_{n}(n,z)}.
+\]
+Again, all terms reduce to Chebyshev polynomials via \eqref{eq:Q_chebyshev}.
+
+\section{Part IV --- Detailed comparison and relation to Watts--Strogatz SWN rewiring}
+
+\subsection{Mechanistic comparison: where does the shortcut probability come from?}
+
+\paragraph{(A) Lazy-reservoir shortcut (self-loop transfer).}
+\begin{itemize}
+\item Probability mass is taken from the self-loop at the source: $u\to u$ decreases, $u\to v$ increases.
+\item Constraint: $0\le p\le 1-q$.
+\item Nearest-neighbour probabilities $u\to u\pm1$ remain exactly $q/2$, so the local diffusive step statistics are unchanged.
+\item In the $\eta$-pair formalism this is one defect pair: $M=1$.
+\end{itemize}
+
+\paragraph{(B) Nearest-neighbour rewiring shortcut (edge-to-edge transfer).}
+\begin{itemize}
+\item Probability mass is taken from an existing jump $u\to w$ (with $w=u+1$ or $u-1$) and moved to $u\to v$.
+\item Constraint: $0\le p\le q/2$ for partial rewiring of a single neighbour edge; the full rewiring limit is $p=q/2$.
+\item The self-loop probability at $u$ remains $1-q$, but the local jump kernel at $u$ becomes biased if only one neighbour is rewired.
+\item In the $\eta$-pair formalism it is naturally represented by \emph{two} defect pairs $(u,v)$ and $(u,w)$ with opposite signs, so $M=2$,
+even though the net matrix update is still rank-1.
+\end{itemize}
+
+\subsection{Relation to Watts--Strogatz SWN}
+
+In a classical Watts--Strogatz small-world network (SWN), one rewires edges of an underlying ring lattice.
+If the random walk chooses uniformly among neighbours, then the transition probabilities are proportional to $1/\chi_n$ (node degree).
+A single rewiring event changes the degree of (at least) the target node and the removed node, hence \emph{all} outgoing transition probabilities
+from those nodes must be renormalised, producing \emph{multiple} nonzero entries in $X=B-A$ and thus multiple defects in the determinant formalism.
+In contrast, constructions (A) and (B) above operate at the level of \emph{transition probabilities} directly:
+they move a prescribed probability mass $p$ within one column, so they remain low-rank and analytically tractable.
+
+\subsection{Consistency checks}
+
+\begin{itemize}
+\item $p=0$ in either construction gives $\underline{A}=\underline{B}$ and $\tilde S=\tilde Q$.
+\item In (A), the maximal shortcut is $p=1-q$ (all sojourn probability at $u$ is converted into shortcut jumps).
+\item In (B), the full rewiring of the clockwise edge corresponds to $p=q/2$ (the entire $u\to w$ probability is redirected to $u\to v$).
+\end{itemize}
+
+\section*{Numerical validation (double precision)}
+
+We validated \eqref{eq:Q_chebyshev}, \eqref{eq:S_A_dist}, and \eqref{eq:F_A_cheb_closed} against direct matrix computation of the resolvent
+for construction (A) (lazy-reservoir shortcut).
+For each parameter set $(N,q,p,u,v,z)$ we built the column-stochastic transition matrices $\underline{B}$ (ring) and $\underline{A}$ (directed shortcut),
+and computed
+\[
+G_B(z)=(\underline{I}-z\underline{B})^{-1},\qquad
+G_A(z)=(\underline{I}-z\underline{A})^{-1}.
+\]
+The ground-truth generating functions are $\tilde Q_{n_0}(n,z)=[G_B(z)]_{n,n_0}$ and $\tilde S_{n_0}(n,z)=[G_A(z)]_{n,n_0}$.
+For first passage we used $\tilde F_{n_0\to n}(z)=[G_A(z)]_{n,n_0}/[G_A(z)]_{n,n}$ for $n_0\neq n$.
+We report the maximum absolute error over all indices:
+\[
+\max_{n,n_0}\bigl|\Delta\tilde Q\bigr|,\qquad
+\max_{n,n_0}\bigl|\Delta\tilde S\bigr|,\qquad
+\max_{n_0\neq n}\bigl|\Delta\tilde F\bigr|.
+\]
+
+\begin{center}
+\small
+\begin{tabular}{r r r r r r l l l}
+\hline
+$N$ & $q$ & $p$ & $u$ & $v$ & $z$ & $\max|\Delta\tilde Q|$ & $\max|\Delta\tilde S|$ & $\max|\Delta\tilde F|$ \\
+\hline
+9 & 0.6 & 0.2 & 1 & 4 & 0.3 & 2.22e-16 & 4.44e-16 & 5.55e-17 \\
+10 & 0.7 & 0.1 & 2 & 7 & 0.5 & 4.44e-16 & 2.22e-16 & 5.55e-17 \\
+12 & 0.5 & 0.3 & 0 & 6 & 0.6 & 4.44e-16 & 4.44e-16 & 8.33e-17 \\
+15 & 0.8 & 0.05 & 3 & 4 & 0.4 & 2.22e-16 & 4.44e-16 & 1.11e-16 \\
+20 & 0.4 & 0.2 & 5 & 13 & 0.75 & 1.33e-15 & 1.33e-15 & 1.67e-16 \\
+\hline
+\end{tabular}
+\end{center}
+
+In a sweep of 200 random cases ($N\le 40$, seed $=0$, $q\in[0.2,0.9]$, $z\in[0.2,0.85]$, $p\in[0,1-q]$), we found
+\[
+\max|\Delta\tilde Q|=3.11\times 10^{-15},\qquad
+\max|\Delta\tilde S|=3.11\times 10^{-15},\qquad
+\max|\Delta\tilde F|=4.44\times 10^{-16}.
+\]
+These residuals are consistent with floating-point round-off and the conditioning of matrix inversion as $z\to 1^{-}$.
+
+\end{document}

@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valley-k-small.dev/schemas/web_report.schema.json",
+  "title": "Web Report Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_id",
+    "lang",
+    "title",
+    "summary",
+    "key_findings",
+    "narrative",
+    "section_cards",
+    "math_blocks",
+    "math_story",
+    "reproducibility_commands",
+    "source_documents",
+    "datasets",
+    "assets",
+    "updated_at"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lang": {
+      "type": "string",
+      "enum": ["en", "cn"]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "key_findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "narrative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_overview", "method_overview", "result_overview"],
+      "properties": {
+        "model_overview": { "type": "string", "minLength": 1 },
+        "method_overview": { "type": "string", "minLength": 1 },
+        "result_overview": { "type": "string", "minLength": 1 }
+      }
+    },
+    "section_cards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "summary", "source_path"],
+        "properties": {
+          "heading": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 1 },
+          "source_path": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "math_blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["latex", "context", "source_path", "lang"],
+        "properties": {
+          "latex": { "type": "string", "minLength": 1 },
+          "context": { "type": "string", "minLength": 1 },
+          "source_path": { "type": "string", "minLength": 1 },
+          "lang": { "type": "string", "enum": ["en", "cn"] }
+        }
+      }
+    },
+    "math_story": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage", "description", "latex", "context"],
+        "properties": {
+          "stage": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "latex": { "type": "string", "minLength": 1 },
+          "context": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "reproducibility_commands": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "source_documents": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "datasets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "series_id",
+          "title",
+          "x_label",
+          "y_label",
+          "series_path",
+          "provenance"
+        ],
+        "properties": {
+          "series_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x_label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "y_label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "series_path": {
+            "type": "string",
+            "pattern": "^/data/v1/reports/[^/]+/series/[^/]+\\.json$"
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "source"],
+            "properties": {
+              "type": { "type": "string", "minLength": 1 },
+              "source": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "label",
+          "web_path",
+          "source_path",
+          "size",
+          "sha256"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["pdf", "tex", "figure", "data", "other"]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "web_path": {
+            "type": "string",
+            "pattern": "^/artifacts/"
+          },
+          "source_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

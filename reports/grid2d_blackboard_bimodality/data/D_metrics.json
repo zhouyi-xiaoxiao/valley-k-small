@@ -1,0 +1,65 @@
+{
+  "absorption_prob": 0.36830385915645336,
+  "aw": {
+    "errors": {
+      "l1": 2.5084546933132674e-15,
+      "linf": 6.130824472226626e-18,
+      "rel_l1": 6.810829240449773e-15
+    },
+    "params": {
+      "m": 32768,
+      "oversample": 4,
+      "r": 0.9991571235744863,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "D",
+  "mc": {
+    "fast_fraction": 0.014499999999999957,
+    "n_walkers": 6000,
+    "slow_fraction": 0.9855,
+    "truncated_fraction": 0.6383333333333333
+  },
+  "metrics": {
+    "bimodal": false,
+    "early_window": [
+      1,
+      1200
+    ],
+    "gap": 2848,
+    "h1": 0.0019334534714408097,
+    "h2": 1.555059611764077e-05,
+    "h2_over_h1": 0.008042911995214688,
+    "hv": 1.555059611764077e-05,
+    "late_window": [
+      3000,
+      6000
+    ],
+    "method": "windowed",
+    "min_gap": 20,
+    "min_sep": 0,
+    "passes": false,
+    "peak_ratio": 0.008042911995214688,
+    "smooth_window": 9,
+    "t_p1": 152,
+    "t_p2": 3000,
+    "t_v": 3000,
+    "valley_depth": 0.0,
+    "valley_ratio": 1.0
+  },
+  "name": "screenshot + sticky perimeter belt",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": -0.2,
+    "q": 0.8,
+    "start": [
+      30,
+      50
+    ],
+    "target": [
+      30,
+      10
+    ]
+  }
+}

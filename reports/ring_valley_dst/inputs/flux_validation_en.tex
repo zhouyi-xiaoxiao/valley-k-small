@@ -1,0 +1,116 @@
+% Deterministic bimodality validation via flux/master equation (no randomness).
+% Outputs live under figures/data/bimodality_flux_scan/.../latest/.
+
+% Stable "latest" outputs under each prefix (flux scan)
+\newcommand{\FluxCaseAFigDir}{figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/latest}
+\newcommand{\FluxCaseADataDir}{data/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/latest}
+\newcommand{\FluxCaseBFigDir}{figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_1/latest}
+\newcommand{\FluxCaseBDataDir}{data/bimodality_flux_scan/N100K6_n0_1_target_50_src_1/latest}
+
+\subsection{Method (time-domain flux / master equation)}
+Treat $\mathrm{target}$ as absorbing, propagate the transient mass $p_t(i)$ deterministically, and read off the FPT pmf as the flux into the target:
+\[
+  f(t+1)=p_{t+1}(\mathrm{target}),\qquad
+  p_{t+1}(j)=\sum_i p_t(i)P(i\to j),\; j\ne\mathrm{target}.
+\]
+Implementation uses a directed edge list $(\mathrm{src},\mathrm{dst},w)$ with $w=1/\deg(\mathrm{src})$ for a sparse $O(E)$ update per step (no dense $(N\times N)$ matrix).
+This provides a deterministic check that bimodality is not a Monte Carlo artifact and that the AW inversion agrees with a time-domain baseline.
+
+\subsection{Bimodality criteria (Fig.~3 + separation)}
+\begin{itemize}
+  \item Fig.~3-caption style: strict local maxima with $f(t)>10^{-7}$; the second peak must be at least $1\%$ of the global maximum peak height.
+  \item Separation/robust filter: additionally require the two peaks to be separated by at least $2K=12$ to exclude early ``micro-peak clusters''.
+  \item Valley-depth diagnostic: with $h_{\min}=\min\{f(t_1),f(t_2)\}$,
+  \[
+    V=\frac{\min_{t_1<t<t_2} f(t)}{h_{\min}}.
+  \]
+  $V\approx 1$ means the valley between the two peaks is shallow.
+\end{itemize}
+
+\subsection{Scan results (Case A: $\mathrm{src}=6$)}
+With $(N,K,n_0,\mathrm{target})=(100,6,1,50)$ fixed and scanning $\mathrm{dst}$:
+\begin{itemize}
+  \item Fig.~3 criterion finds 15 bimodal destinations $\mathrm{dst}\in\{43,\dots,57\}$ (including the special $\mathrm{dst}=\mathrm{target}=50$).
+  \item The separation/robust filter keeps 14: $\mathrm{dst}\in\{43,\dots,49,51,\dots,57\}$.
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseAFigDir/bimodality_scan.pdf}
+  \caption{Case A: flux/master-equation scan over $\mathrm{dst}$ and the late-peak height $A(t_2)=f(t_2)$ (dashed line: $\mathrm{dst}=\mathrm{target}=50$).}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseAFigDir/peak_times.pdf}
+  \caption{Case A: peak times $t_1,t_2$ among robust bimodal destinations.}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseAFigDir/example_curves.pdf}
+  \caption{Case A: representative robust bimodal pmfs $f(t)$ (flux), with $t_1,t_2$ marked.}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseAFigDir/aw_vs_flux.pdf}
+  \caption{Case A: AW inversion vs.\ flux $f(t)$ overlays (max error $\sim 10^{-13}$).}
+\end{figure}
+\FloatBarrier
+
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.90}
+\input{\FluxCaseADataDir/bimodal_table.tex}
+\par}
+\FloatBarrier
+
+\subsection{Scan results (Case B: $\mathrm{src}=1$)}
+\begin{itemize}
+  \item Fig.~3 criterion finds 18 bimodal destinations, but many are early-time peak clusters (separation $<2K$).
+  \item After the separation/robust filter, 7 remain as typical ``late second peak'' cases: $\mathrm{dst}\in\{36,37,38,39,62,63,64\}$.
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseBFigDir/bimodality_scan.pdf}
+  \caption{Case B: flux scan over $\mathrm{dst}$ and the late-peak height $A(t_2)=f(t_2)$ (robust cases highlighted).}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseBFigDir/peak_times.pdf}
+  \caption{Case B: peak times $t_1,t_2$ among robust bimodal destinations.}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseBFigDir/example_curves.pdf}
+  \caption{Case B: representative robust bimodal pmfs $f(t)$ (flux), with $t_1,t_2$ marked.}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseBFigDir/aw_vs_flux.pdf}
+  \caption{Case B: AW inversion vs.\ flux $f(t)$ overlays (max error $\sim 10^{-13}$).}
+\end{figure}
+\FloatBarrier
+
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.90}
+\input{\FluxCaseBDataDir/bimodal_table.tex}
+\par}
+\FloatBarrier
+
+\subsection{Reproducibility (flux scan)}
+\begin{itemize}
+  \item Case A: \texttt{python3 code/bimodality\_flux\_scan.py --sc-src 6 --aw-check}
+  \item Case B: \texttt{python3 code/bimodality\_flux\_scan.py --sc-src 1 --aw-check}
+\end{itemize}
+

@@ -1,0 +1,258 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{booktabs,longtable}
+\usepackage{pdfpages}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{verbatim}
+\setlength{\emergencystretch}{8em}
+
+\title{$k=1$（最近邻，$K=2$）lazy 环 + 单向 shortcut：\\非捷径节点等概率（原地/左右各 $1/3$）基准下的双峰最小示例\\（Chebyshev 解析生成函数 + AW 反演；flux 交叉验证）}
+\author{}
+\date{}
+
+\setlist[itemize]{itemsep=0pt,topsep=4pt,parsep=0pt,partopsep=0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section{模型（最简单情形：$k=1$ / $K=2$）}
+节点为 $0,1,\dots,N-1$ 的环。设 $0<q<1$，lazy 最近邻随机游走的转移为
+\[
+P(i\to i)=1-q,\qquad P(i\to i\pm1)=\frac{q}{2}\quad(\mathrm{mod}\ N).
+\]
+若希望 ``原地/左右等概率''，取
+\[
+1-q=\frac{q}{2}=\frac{1}{3}\quad\Longleftrightarrow\quad q=\frac{2}{3}.
+\]
+加入单条有向 shortcut $u\to v$，采用 ``从 self-loop 拿走概率'' 的模型：
+\[
+P(u\to u)=1-q-p,\qquad P(u\to v)=p,\qquad 0\le p\le 1-q.
+\]
+因此在等概率基准下，$p$ 可以理解为：在特殊点 $u$ 处，以概率 $p$ 执行一次额外的有向跳转 $u\to v$（并相应减少 ``原地'' 的概率）。
+注意：这里的 ``等概率'' 指的是\textbf{非捷径节点}的三选一（原地/左右各 $1/3$，即 $q=2/3$），并不意味着在加入 shortcut 后源点 $u$ 的四个动作等概率；
+若采用 ``原地/左右/捷径'' 四个动作在 $u$ 处各 $1/4$ 的规则，见第 \ref{sec:equal4} 节（equal4）。
+目标点 $\mathrm{target}$ 为吸收态，研究从起点 $n_0$ 到 $\mathrm{target}$ 的首达时间 $T$ 的 pmf
+\[
+f(t)=\Pr(T=t),\qquad t=1,2,\dots
+\]
+是否出现双峰。
+
+\section{数值方法（flux）与解析方法（AW 反演）}
+\paragraph{解析生成函数（lazy 情况是否变化？）}
+lazy 情况的解析公式\textbf{不会另起一套推导}，而是通过 $q\in(0,1)$ 直接进入谱结构：
+缺陷自由的特征值为 $\lambda_k=1-q+q\cos(2\pi k/N)$。
+完整的解析生成函数（含 directed shortcut，且 $p$ 从 self-loop 挪出）已经在
+\texttt{deriv\_k2/note\_k2.pdf} 中给出（对应 \texttt{.tex} 里的
+$\tilde Q(d,z)$、$\tilde S_{n_0}(n,z)$ 与 $\tilde F_{n_0\to n}(z)$ 的 Chebyshev 闭式）。
+
+\paragraph{AW 反演（从 $\tilde F(z)$ 得到 $f(t)$）}
+给定 $\tilde F(z)=\sum_{t\ge0} f(t)z^t$，用离散圆周采样做 Cauchy 系数反演：
+取 $z_k=r e^{2\pi i k/m}$，则
+\[
+f(t)\approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde F(z_k)\,e^{-2\pi i k t/m},
+\qquad t=1,2,\dots
+\]
+实现上用 FFT 得到整段系数。本报告对应实现为 \texttt{lazy\_ring\_aw\_chebyshev.py}。
+
+\paragraph{flux（时域推进）用于交叉验证}
+将 $\mathrm{target}$ 设为吸收态并推进未吸收分布 $p_t(i)$。
+每步后强制 $p_t(\mathrm{target})=0$；每步首达概率是流入吸收态的 flux：
+\[
+f(t+1)=\sum_{i\neq \mathrm{target}} p_t(i)\,P(i\to \mathrm{target}).
+\]
+本报告对应实现为 \texttt{lazy\_ring\_flux\_bimodality.py}（不建 $(N\times N)$ 矩阵，逐步推进并记录 flux）。
+
+\section{双峰判据（paper 风格 + 宏观分离）}\label{sec:criterion}
+对离散 pmf，曲线在小 $t$ 处常出现 ``锯齿/起伏''（尤其是最近邻模型），因此本报告使用严格局部峰并加阈值：
+\begin{itemize}
+  \item \textbf{严格局部峰：}若 $f(t)>f(t-1)$ 且 $f(t)>f(t+1)$ 且 $f(t)\ge h_{\min}$，则称 $t$ 为峰。
+  \item \textbf{双峰（paper）：}存在至少两个峰，并要求第二高峰高度 $\ge 1\%$ 的最高峰高度。
+  \item \textbf{宏观双峰（可选）：}在 paper 双峰基础上，再要求两最高峰满足 $t_2/t_1\ge 10$（强调时间尺度分离）。
+\end{itemize}
+
+\section{主要结论}
+在本文设定的 $k=1$（$K=2$）lazy 环 + 单向 shortcut 模型下，得到如下可复现结论（AW 解析反演，并用 flux 交叉验证）：
+\begin{itemize}
+  \item \textbf{selfloop（从自环挪出 $p$）在小 $p$ 下可出现双峰：}最小示例 $N=10,q=2/3,u=n_0=1\to v=\mathrm{target}=5,p=0.006666\ldots$ 在 $h_{\min}=10^{-7}$ 下有两处严格局部峰（见第 \ref{sec:min-selfloop} 节与图 \autoref{fig:n10-example-cn}），且 $N=11$（奇数）下同样成立（图 \autoref{fig:n11-example-cn}）。
+  \item \textbf{小 $N$ 全扫描显示宏观双峰从 $N=10$ 起出现：}在等概率基准 $q=2/3$、$\beta=0.02$ 且 $u=n_0\to v=\mathrm{target}$ 的设定下，对 $N=3..60$ 扫描所有终点，宏观双峰主要出现在距离较大的终点（见热图与附录全表）。
+  \item \textbf{equal4（源点四动作各 $1/4$）在 paper-like 几何下无双峰：}对 $N=10..200$ 扫描（paper-like：$u=n_0+5, v=\mathrm{target}+1$），paper/macro 双峰计数均为 0（见第 \ref{sec:equal4} 节）。
+  \item \textbf{shortcut 强度增大将抑制双峰：}在 paper-like 几何 $N=100,u=6\to v=51$ 下，$\beta$ 扫描显示当 $\beta\gtrsim 0.07$（$p=\beta(1-q)$）时双峰判据不再成立（见表 \autoref{tab:selfloop-beta-scan-cn} 与图 \autoref{fig:selfloop-beta-sens-cn}）。
+\end{itemize}
+
+\section{最小示例：$N=10$（selfloop 模型；非 equal4）}\label{sec:min-selfloop}
+为尽量 ``从小 $N$ 开始''，这里选取一个 $N=10$ 的最小示例；并刻意挑选一个 \textbf{严格局部峰数目就是 2} 的案例来避免 ``多峰起伏'' 的误读。
+
+参数为：
+\begin{itemize}
+  \item $N=10$，$q=2/3$（原地/左右各 $1/3$）；
+  \item $n_0=1$，$\mathrm{target}=5$；
+  \item shortcut（selfloop 规则，\textbf{非等概率 1/4}）：$u=n_0=1\to v=\mathrm{target}=5$，$p=0.006666\ldots$（例如取 $\beta=0.02$ 使 $p=\beta(1-q)=0.02/3$）；
+  \item 计算：推进到生存概率小于 $10^{-14}$（尾部剩余质量上界）。
+\end{itemize}
+
+该例在阈值 $h_{\min}=10^{-7}$ 下只有两处严格局部峰，峰时间为 $t_1=1,t_2=10$，并满足 $t_2/t_1=10$ 的宏观分离要求。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_equalprob_N10_aw_vs_flux.pdf}
+  \caption{$k=1$（$K=2$）lazy 环 + 单向 shortcut 的首达 pmf：$N=10,q=2/3,p=0.006666\ldots,u=1\to v=5$。
+  AW 反演（解析 $\tilde F$）与 flux（时域推进）叠加对比，二者一致；标注两峰时间 $t_1=1,t_2=10$。}
+  \label{fig:n10-example-cn}
+\end{figure}
+
+\section{奇偶 $N$ 示例：$N=11$（奇数）同样双峰}
+为考察奇偶性，这里再给出一个 $N=11$（奇数）示例，在同样的等概率基准 $q=2/3$ 与同样的 shortcut 设定
+（$u=n_0=1\to v=\mathrm{target}=5$，$p=0.006666\ldots$）下，
+在阈值 $h_{\min}=10^{-7}$ 时同样只有两处严格局部峰，峰时间为 $t_1=1,t_2=10$。
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_equalprob_N11_target5_aw_vs_flux.pdf}
+  \caption{$N=11$（奇数）下的首达 pmf（其余参数同上）。AW 与 flux 完全重合；标注两峰时间 $t_1=1,t_2=10$。}
+  \label{fig:n11-example-cn}
+\end{figure}
+
+\section{小 $N$ 扫描（AW 解析）：哪些终点会出现宏观双峰？}
+固定等概率基准 $q=2/3$、$n_0=1$，并取最简单的 shortcut：$u=n_0\to v=\mathrm{target}$，
+并固定 $\beta=0.02$（即 $p=\beta(1-q)=0.006666\ldots$），对 $N=3..60$ 扫描所有终点（除 $n_0$ 以外）。
+
+\paragraph{扫描方法}
+对每个 $N$ 与每个 $\mathrm{target}\neq n_0$：
+\begin{itemize}
+  \item 用 \texttt{lazy\_ring\_aw\_chebyshev.py} 中的 Chebyshev 闭式生成函数 $\tilde F(z)$；
+  \item 用离散 Cauchy/AW 反演得到 $f(t)$，取 $t_{\max}=\lceil 4N^2\rceil$；
+  \item AW 参数取 $m=\mathrm{pow2}(\mathrm{oversample}\cdot(t_{\max}+1))$（默认 \texttt{oversample=4}），并选 $r$ 使 $r^m=10^{-18}$；
+  \item 对 $f(t)$ 做严格局部峰检测（阈值 $h_{\min}=10^{-7}$），并计算 paper/macro 判据与两主峰时间 $(t_1,t_2)$。
+\end{itemize}
+扫描结果的完整数据表（包含每个 $N$ 的每个终点）放在附录表 \ref{tab:fullscan-cn}。
+
+\paragraph{扫描可视化（热图）}
+使用第 \ref{sec:criterion} 节的 ``宏观双峰'' 判据（$h_{\min}=10^{-7}$，第二峰 $\ge 1\%$，且 $t_2/t_1\ge 10$），
+将满足宏观双峰的点以后峰时间 $t_2$ 着色：
+横轴为环距离 $d=\mathrm{dist}(n_0,\mathrm{target})$，纵轴为 $N$（空白表示未满足宏观双峰）。
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_equalprob_macro_scan_N3_60.pdf}
+  \caption{全扫描热图（AW 解析反演）：$N=3..60$、距离 $d$ 与宏观双峰的对应关系。图中颜色为后峰时间 $t_2$。}
+\end{figure}
+\noindent
+该扫描显示：在本设定下，宏观双峰从 $N=10$ 开始出现，且主要出现在距离较大的终点（例如接近对径点）。
+当 $N$ 继续增大时，pmf 往往会出现额外的 ``微结构'' 局部峰（这是离散时间首达分布的真实起伏），
+因此报告中区分了 ``paper 双峰''（至少两峰）与 ``宏观双峰''（两主峰时间尺度分离）。
+
+\section{“等概率走捷径”规则：在 $u$ 处四个动作各 $1/4$（equal4）}\label{sec:equal4}
+前面的解析推导（\texttt{deriv\_k2/note\_k2.pdf}）对应的是 ``从 $u$ 的 self-loop 挪出概率 $p$ 到 $u\to v$''：
+$P(u\to u)=1-q-p$、$P(u\to u\pm1)=q/2$ 不变。
+
+若采用 ``走捷径的概率与其他动作等概率'' 的规则，则在 shortcut 源点 $u$ 处应改成四个动作均匀：
+\[
+P(u\to u)=P(u\to u\pm1)=P(u\to v)=\frac14.
+\]
+这会同时改变 $u\to u\pm1$ 的概率（不再保持 $q/2$），因此 \textbf{解析生成函数形式会随之改变}。
+不过该缺陷仍然只修改了转移矩阵的 \textbf{一列（从 $u$ 出发的出边）}，可以用 Sherman--Morrison 的 rank-1 更新得到
+$\tilde S(z)=(I-zA)^{-1}$ 并由
+$\tilde F_{n_0\to n}(z)=\tilde S_{n_0}(n,z)/\tilde S_{n}(n,z)$ 得到首达生成函数。
+本报告的实现为 \texttt{lazy\_ring\_aw\_chebyshev.py} 中的 \texttt{fpt\_pmf\_aw\_equal4}，并用 flux 交叉验证。
+
+\paragraph{结论（paper-like 几何下无双峰）}
+在本文采用的 paper-like 几何（$n_0=1$，$\mathrm{target}=\lfloor N/2\rfloor$，$u=n_0+5$，$v=\mathrm{target}+1$）下，
+对 $N=10..200$ 扫描，\textbf{equal4 规则下 paper/macro 双峰均为 0}（阈值 $h_{\min}=10^{-7}$，第二峰 $\ge 1\%$，宏观分离 $t_2/t_1\ge 10$）。
+代表性结果见表 \autoref{tab:equal4-paper-geom-cn}，$N=100$ 的曲线对比如图 \autoref{fig:paper-geom-equal4-compare}：
+同一几何下，selfloop 小 $p$ 模型出现两主峰，而 equal4 规则变为单峰。
+\input{tables/lazy_K2_equal4_paper_geometry_summary_cn.tex}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_paper_geometry_selfloop_vs_equal4_N100.pdf}
+  \caption{paper-like 几何（$N=100$，$u=6\to v=51$）下，两种概率规则对比：左为 selfloop（$p=\beta(1-q),\beta=0.02$）出现两主峰；右为 equal4（在 $u$ 处四个动作各 $1/4$）为单峰。AW 反演与 flux 叠加一致。}
+  \label{fig:paper-geom-equal4-compare}
+\end{figure}
+
+\subsection{为什么 $p$ 大时更不容易双峰？（selfloop 的 $\beta$ 扫描）}
+直观机制是：selfloop 模型下 $p$ 越大，越容易在到达 $\mathrm{target}$ 之前先走上 shortcut，从而把到达时间集中到一个更早的时间尺度；
+这会使得 ``慢尺度'' 的扩散到达峰被压低甚至消失（从而不再满足双峰判据）。
+下面以 paper-like 几何（$N=100,u=6\to v=51$）为例，扫描 $\beta$（$p=\beta(1-q)$）得到：
+当 $\beta\gtrsim 0.07$（即 $p\gtrsim 0.023$）时，paper/macro 双峰不再成立（见表 \autoref{tab:selfloop-beta-scan-cn}），并且曲线形状也从双峰变为单峰（见图 \autoref{fig:selfloop-beta-sens-cn}）。
+
+\input{tables/lazy_K2_selfloop_beta_scan_N100_cn.tex}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_selfloop_beta_sensitivity_N100.pdf}
+  \caption{selfloop 模型在 paper-like 几何（$N=100,u=6\to v=51$）下的 $\beta$ 敏感性：$p=\beta(1-q)$。
+  随着 $p$ 增大，双峰逐步消失。每个子图均为 AW 反演（解析）与 flux 叠加。}
+  \label{fig:selfloop-beta-sens-cn}
+\end{figure}
+
+\section{对比：\texttt{ring\_valley.tex}（非 lazy + 加边重归一）里 $K=2$ 为何“无双峰”？}
+\texttt{ring\_valley.tex} 与 \texttt{valley\_study.py} 使用的是另一套（更接近原论文 Fig.~3 的）网络/概率构造：
+\begin{itemize}
+  \item \textbf{非 lazy：}从每个点以均匀概率跳向 $K$ 个近邻（无自环）。
+  \item \textbf{shortcut 的概率分配：}在源点 $\mathrm{src}$ 处\emph{新增}一条有向边（例如 $6\to (N/2+1)$），并将源点所有出边重归一为 $1/(K+1)$（即原来的每条近邻边从 $1/K$ 降为 $1/(K+1)$）。
+  \item \textbf{$K=2$ 的 parity 处理：}为了去掉周期 2 的“锯齿微峰”，先做 2 步 coarse-grain 再按 Fig.~3 规则找峰。
+\end{itemize}
+在这套构造下，扫描得到 $K=2$ 在相当大的 $N$ 范围内都不满足双峰判据（\texttt{ring\_valley.tex} 中也明确写出）。
+我们用精确主方程推进（直到尾部剩余质量 $<10^{-14}$）复现这一点，示例如 \autoref{tab:valley-report-k2-cn}：每个 $N$ 在 coarse-grain 后都只剩 1 个主峰，因此不存在双峰。
+\input{tables/valley_report_k2_summary_cn.tex}
+
+下面给出一个更直观的对比图：\textbf{左}为 \texttt{ring\_valley.tex} 的 $K=2$ 模型（coarse-grain 后仅 1 峰），\textbf{右}为本文报告采用的 lazy selfloop 概率模型（在相同几何 shortcut：$u=6\to v=51$ 下出现两主峰）。
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/lazy_ring_flux_bimodality/k2_valley_report_vs_lazy_contrast.pdf}
+  \caption{$K=2$ 对比：相同几何 shortcut，不同概率分配规则会导致“无双峰/有双峰”的差异。}
+\end{figure}
+
+\section{下一步建议（不在本文中实做）}
+为系统性定位 ``从什么时候开始出现双峰''，一种直接做法是做参数平面扫描并记录 $(t_1,t_2)$：
+\begin{itemize}
+  \item \textbf{扫 $(q,p)$ 或 $(q,\beta)$：}固定几何（例如 paper-like 的 $u=n_0+5, v=\mathrm{target}+1$），对 $q\in(0,1)$ 与 $p\in[0,1-q]$（或 $p=\beta(1-q)$）网格扫描；对每个点用 AW 输出 $f(1..t_{\max})$，计算 paper/macro 与 $(t_1,t_2)$，画热图（例如 ``是否双峰''、或 ``$t_2$''）。
+  \item \textbf{扫几何：}固定 $q,p$，对终点（距离 $d$）以及 $(u,v)$ 的相对位置做扫描，比较 ``固定 $u,v$'' 与 ``允许换 $u,v$'' 两种口径下双峰是否更常见。
+  \item \textbf{稳健性：}为避免小 $t$ 处锯齿造成误判，可加入 valley 深度/coarse-grain（参考 \texttt{ring\_valley.tex} 的 2 步 coarse-grain）作为补充判据，并用 flux 做少量交叉验证。
+\end{itemize}
+
+\section{复现命令}
+\begin{itemize}
+  \item 生成该图（会写入 \texttt{figures/...}）：\path{python3 code/plot_lazy_k2_example.py}
+  \item 生成奇数 $N=11$ 的对照图：\path{python3 code/plot_lazy_k2_example.py --N 11 --target 5 --v 5 --tplot 60}
+  \item 生成全扫描热图（AW 解析）：\path{python3 code/plot_lazy_k2_aw_distance_scan.py --N-min 3 --N-max 60}
+  \item 生成全扫描数据表（CSV + 附录 longtable）：\path{python3 code/scan_lazy_k2_aw_fulltable.py --N-min 3 --N-max 60}
+  \item 生成对径终点多图（AW 解析，even\_small）：\path{python3 code/plot_lazy_k2_aw_antipodal_panels.py --group even_small}
+  \item 生成对径终点多图（AW 解析，odd\_small）：\path{python3 code/plot_lazy_k2_aw_antipodal_panels.py --group odd_small}
+  \item 生成对径终点多图（AW 解析，even\_medium）：\path{python3 code/plot_lazy_k2_aw_antipodal_panels.py --group even_medium}
+  \item equal4（paper-like 几何）扫描：\path{python3 code/scan_lazy_k2_equal4_paper_geometry.py --N-min 10 --N-max 200}
+  \item paper-like 几何 selfloop vs equal4 对比图：\path{python3 code/plot_lazy_k2_paper_geometry_equal4_compare.py --N 100}
+  \item small-$p$ 双峰曲线集合（compact 多子图）：\path{python3 code/plot_lazy_k2_selfloop_smallp_gallery_compact.py --q 0.6666666667 --beta 0.02 --tplot 5000}
+  \item 单次运行输出（含 \texttt{top2}）：\path{python3 code/lazy_ring_flux_bimodality.py --N 10 --q 0.6666667 --start 1 --target 5 --model selfloop --u 1 --v 5 --p 0.0066667 --Tmax 200000 --eps-surv 1e-14}
+\end{itemize}
+
+\appendix
+\section{small-$p$ 双峰曲线集合（selfloop；paper-like 几何）}
+本附录将 selfloop 模型在 paper-like 几何、$\beta=0.02$（$p=0.006666\ldots$）下的一组双峰曲线整理为 compact 多子图（每页包含多个 $N$ 的子图）。
+\includepdf[pages=-]{figures/lazy_ring_flux_bimodality/lazy_K2_selfloop_smallp_gallery_compact_beta0.02.pdf}
+
+\section{补充图：对径终点 AW 曲线（多图）}
+下面给出一些 ``对径终点'' 的 AW 曲线（每个子图取 $\mathrm{target}=n_0+\lfloor N/2\rfloor$），用于直观看到从小 $N$ 到较大 $N$ 的形状变化：
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_aw_antipodal_even_small.pdf}
+  \caption{对径终点示例（偶数小 $N$：$N=4,6,\dots,20$）。每个子图标题标注 paper/macro 与 $(t_1,t_2)$。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_aw_antipodal_odd_small.pdf}
+  \caption{对径终点示例（奇数小 $N$：$N=5,7,\dots,21$）。}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/lazy_ring_flux_bimodality/lazy_K2_aw_antipodal_even_medium.pdf}
+  \caption{对径终点示例（偶数较大 $N$：$N=24,28,\dots,60$）。}
+\end{figure}
+
+\section{全扫描数据表}
+\scriptsize
+\input{tables/lazy_K2_equalprob_full_scan_table_cn.tex}
+
+\end{document}

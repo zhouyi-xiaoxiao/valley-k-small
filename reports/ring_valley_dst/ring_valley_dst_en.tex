@@ -1,0 +1,269 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{placeins}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\setlength{\emergencystretch}{8em}
+
+\title{Modulating the Second Peak of a First-Passage-Time Distribution by Scanning the Destination of a Directed Shortcut\\(Fixed N=100, K=6; Analytic inversion, flux validation, and Monte Carlo)}
+\author{}
+\date{}
+
+\setlist[itemize]{itemsep=0pt,topsep=4pt,parsep=0pt,partopsep=0pt}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+% Stable "latest" outputs under each prefix
+\newcommand{\CaseAFigDir}{figures/second_peak_dst_shortcut_usage/N100K6_n0_1_target_50_src_6/latest}
+\newcommand{\CaseBFigDir}{figures/second_peak_dst_shortcut_usage/N100K6_n0_1_target_50_src_1/latest}
+\newcommand{\CaseAInDir}{inputs/caseA}
+\newcommand{\CaseBInDir}{inputs/caseB}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section{Introduction and objective}
+Under the start/target configuration used in the main manuscript, I fix $(N,K)=(100,6)$ and vary only the shortcut destination $\mathrm{dst}$.
+I aim to:
+\begin{itemize}
+  \item quantify how the peak timings and the relative second-peak prominence (e.g., $R=A(t_2)/A(t_1)$) change with $\mathrm{dst}$;
+  \item estimate, among trajectories whose absorption times fall near the second peak, the conditional shortcut-crossing probabilities.
+\end{itemize}
+
+\section{Setup}
+\subsection{Model and fixed parameters}
+\begin{itemize}
+  \item Nodes are labeled $1,\dots,N$ with $N=100$.
+  \item Initial node: $n_0=1$.
+  \item Absorbing target: $\mathrm{target}=N/2=50$ (strict first passage; $\rho=1$).
+  \item Ring connectivity: $K=6$ neighbors ($\pm1,\pm2,\pm3$).
+  \item A single directed shortcut from $\mathrm{src}$ to $\mathrm{dst}$, where $\mathrm{dst}$ is scanned.
+  \item I compare two choices of shortcut source:
+  \begin{itemize}
+    \item Case A: $\mathrm{src}=n_0+5=6$.
+    \item Case B: $\mathrm{src}=n_0=1$.
+  \end{itemize}
+\end{itemize}
+
+\section{Main conclusions}
+\begin{itemize}
+  \item Scanning only $\mathrm{dst}$ (with $N=100$, $K=6$, $n_0=1$, $\mathrm{target}=50$ fixed) strongly modulates the peak timings and the \emph{relative} prominence of the second peak (captured by the ratio $R=A(t_2)/A(t_1)$). In the late-second-peak family, the absolute second-peak height $A(t_2)$ varies only weakly across $\mathrm{dst}$, except for special near-target cases.
+  \item A deterministic flux/master-equation scan reproduces the bimodal $\mathrm{dst}$ sets and matches the AW inversion over $t\le 2000$ (max absolute error $\sim 10^{-13}$ on representative cases), indicating the bimodality is not a numerical artifact.
+  \item For late-second-peak cases, the conditional shortcut-usage probability is more cleanly organized by the peak ratio $R$ (excluding the special $\mathrm{dst}=\mathrm{target}$ point): empirically $P(C\ge1\mid T\in W)$ tends to decrease as $R$ increases. $A(t_2)$ shows a positive association with $P(C\ge1\mid T\in W)$, but its dynamic range is comparatively small in the late family.
+  \item Case B (src = 1) additionally exhibits an early-$t_2$ family when $\mathrm{dst}$ is close to the target, due to a two-step absorbing path; in these cases, conditional on $T\in W$ shortcut usage is typically near-deterministic ($P(C\ge1\mid T\in W)\approx 1$).
+  \item If I focus on Case A, the first/second peaks are typically smoother late-time features (as opposed to the near-delta early peaks in Case B), and the conditional crossing fractions are correspondingly more informative and stable across $\mathrm{dst}$ (with visibly nontrivial mass at $C=0$, $C=1$, and sometimes $C\ge2$).
+\end{itemize}
+
+\section{Methods}
+\subsection{Second-peak identification and MC conditioning}
+\begin{itemize}
+  \item I use the peak-selection rule from the caption of Fig.~3 in the manuscript: local maxima with $A(t)>10^{-7}$; the second peak must reach at least $1\%$ of the global maximum.
+  \item $A(t)$ is a discrete-time first-passage-time probability mass function, so the plotted polyline is not expected to be smooth.
+  \item Denote the first two peaks as $(t_1,t_2)$. I define a symmetric window around the second peak via
+  \[
+    \Delta=\max\{1,\lfloor 0.05\,(t_2-t_1)\rfloor\},\qquad W=[t_2-\Delta,\;t_2+\Delta].
+  \]
+  In MC I retain only trajectories with absorption time $T\in W$ and record their shortcut crossing count $C$ (0, 1, or $\ge 2$).
+\end{itemize}
+
+\subsection{Estimands and Monte Carlo estimators}
+Each trajectory yields a pair $(T,C)$:
+\begin{itemize}
+  \item $T$: first-passage absorption time (the number of steps until first hitting $\mathrm{target}$).
+  \item $C$: the shortcut traversal count, i.e., the number of times the edge $\mathrm{src}\to\mathrm{dst}$ is used.
+\end{itemize}
+The main conditional quantities of interest are
+\[
+  P(C=0\mid T\in W),\qquad P(C\ge 1\mid T\in W)=1-P(C=0\mid T\in W),
+\]
+and additionally $P(C=1\mid T\in W)$ and $P(C\ge 2\mid T\in W)$.
+If $n=|\{i:T_i\in W\}|$ and $k_0=|\{i:T_i\in W,\;C_i=0\}|$, then
+\[
+  \widehat{P}(C=0\mid T\in W)=k_0/n,\qquad \widehat{P}(C\ge1\mid T\in W)=1-k_0/n.
+\]
+For uncertainty visualization I use Wilson 95\% confidence intervals for the Bernoulli event $\{C\ge 1\}$ (computed by the plotting script). I also report the window hit rate $n/N_{\mathrm{walkers}}$; if $n$ is too small (e.g., $<10^3$), the estimated fractions have substantial sampling error.
+
+\section{Deterministic validation (flux/master equation)}
+\input{inputs/flux_validation_en.tex}
+
+\section{Results: Case A (src = 6)}
+\subsection{MC scan scope}
+\input{\CaseAInDir/scope_summary.tex}
+
+\subsection{Analytic second-peak height vs.\ dst}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseAFigDir/peak2_vs_dst.pdf}
+  \caption{Analytic (Abate--Whitt inversion) second-peak height $A(t_2)$ as a function of shortcut destination $\mathrm{dst}$.}
+\end{figure}
+
+\subsection{Peak times (t1, t2) among bimodal cases}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseAFigDir/peak_times_vs_dst.pdf}
+  \caption{Peak locations $t_1$ and $t_2$ as functions of $\mathrm{dst}$, restricted to cases satisfying the bimodality criterion.}
+\end{figure}
+
+\subsection{Mechanism: late second peak in Case A}
+\begin{itemize}
+  \item In Case A, $\mathrm{src}\neq n_0$: a trajectory must first reach $\mathrm{src}=6$ before it can use the shortcut, so shortcut-induced effects typically manifest on later time scales.
+  \item Bimodality can be interpreted as a mixture of two trajectory classes: those that reach $\mathrm{src}$ and utilize the shortcut relatively early (contributing to the earlier peak at $t_1$), and those that do not effectively utilize the shortcut until much later (contributing to the later peak at $t_2\sim O(N)$).
+  \item The special point $\mathrm{dst}=\mathrm{target}$ connects directly to the absorbing state and produces an atypically early peak structure; it should be considered separately from typical late-second-peak behavior.
+\end{itemize}
+
+\FloatBarrier
+
+\subsection{Representative FPT curves and second-peak windows}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.80\textheight,keepaspectratio]{\CaseAFigDir/exact_selected_cases.pdf}
+  \caption{Analytic $A(t)$ (Abate--Whitt inversion) for all $\mathrm{dst}$ satisfying the bimodality criterion. Orange shading indicates the second-peak window $W=[t_2-\Delta,t_2+\Delta]$.}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{MC shortcut-crossing fractions within the second-peak window}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\CaseAFigDir/second_peak_crossing_fractions.pdf}
+  \caption{For each $\mathrm{dst}$, conditional on $T\in W$, I estimate the fractions of trajectories with $C=0$, $C=1$, and $C\ge2$ (stacked bars). The label atop each bar reports the window sample size $n$.}
+\end{figure}
+\FloatBarrier
+
+\subsection{Relationship between second-peak prominence and shortcut usage}
+Define the peak-height ratio $R=A(t_2)/A(t_1)$.
+I examine how $P(C\ge 1\mid T\in W)$ varies with $R$ and with the absolute height $A(t_2)$.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.72\textheight,keepaspectratio]{\CaseAFigDir/pcross_relationships.pdf}
+  \caption{Left: $P(C\ge 1\mid T\in W)$ vs.\ $R$; right: $P(C\ge 1\mid T\in W)$ vs.\ $A(t_2)$. Error bars are Wilson 95\% confidence intervals. Colors indicate early/late (early defined by $t_2\le 2K$; Case A is almost entirely late). The red star denotes the special case $\mathrm{dst}=\mathrm{target}$.}
+\end{figure}
+\FloatBarrier
+
+\subsubsection{Correlation summary (computed by script)}
+\input{\CaseAInDir/analysis_summary.tex}
+
+\subsubsection{Key takeaways (Case A)}
+\begin{itemize}
+  \item \textbf{Predominantly late bimodality:} aside from $\mathrm{dst}=\mathrm{target}$, bimodal cases in Case A are mainly late-second-peak instances (large $t_2$).
+  \item \textbf{Nontrivial zero-crossing mass:} even conditional on $T\in W$, a substantial fraction of trajectories have $C=0$, indicating the second peak reflects a slower subpopulation rather than paths that almost surely traverse the shortcut.
+  \item \textbf{Monotone trend with $A(t_2)$:} larger $A(t_2)$ is associated with larger $P(C\ge 1\mid T\in W)$ (equivalently, smaller $P(C=0\mid T\in W)$).
+  \item \textbf{Special case $\mathrm{dst}=\mathrm{target}$:} the second peak occurs very early and $P(C\ge 1\mid T\in W)\approx 1$, so this point should be discussed separately.
+\end{itemize}
+
+\subsection{Summary table}
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.85}
+\input{\CaseAInDir/selected_table.tex}
+\par}
+
+\FloatBarrier
+
+\section{Results: Case B (src = 1)}
+\subsection{MC scan scope}
+\input{\CaseBInDir/scope_summary.tex}
+
+\subsection{Analytic second-peak height vs.\ dst}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseBFigDir/peak2_vs_dst.pdf}
+  \caption{Analytic (Abate--Whitt inversion) second-peak height $A(t_2)$ as a function of shortcut destination $\mathrm{dst}$.}
+\end{figure}
+
+\subsection{Peak times (t1, t2) among bimodal cases}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseBFigDir/peak_times_vs_dst.pdf}
+  \caption{Peak locations $t_1$ and $t_2$ as functions of $\mathrm{dst}$, restricted to cases satisfying the bimodality criterion.}
+\end{figure}
+
+\subsection{Why can ``second peaks'' occur at very early times in Case B?}
+\begin{itemize}
+  \item When $\mathrm{src}=n_0$, the shortcut is available immediately: at step 1 the walker uses the shortcut $n_0\to \mathrm{dst}$ with probability $1/(K+1)=1/7$.
+  \item If $\mathrm{dst}$ is within one ring step of the target (i.e., $\mathrm{dst}\in\{\mathrm{target}\pm1,\pm2,\pm3\}$ for $K=6$), there exist extremely short absorbing paths
+  \[
+    n_0 \xrightarrow{\text{shortcut}} \mathrm{dst} \xrightarrow{\text{ring}} \mathrm{target},
+  \]
+  which create a large absorption probability already at $t=2$ and hence produce an early peak structure (and these early peaks are almost entirely composed of trajectories that traverse the shortcut).
+  \item These early peaks are not numerical artifacts: for representative early-$t_2$ cases (e.g., $\mathrm{dst}=47$), comparison to exact master-equation propagation shows that Abate--Whitt inversion matches the exact values over the first 200 steps with maximum error $\sim 10^{-14}$ and agrees in both peak locations and heights.
+\end{itemize}
+
+\subsection{Mechanism: late second peak in Case B}
+\begin{itemize}
+  \item Case B also exhibits late-second-peak instances: when the shortcut sends the walker far from the target, early shortcut usage can delay absorption.
+  \item This separates trajectories into two classes: those that do not use the shortcut early (or are not substantially displaced by it), contributing to the earlier peak at $t_1$, and those that use the shortcut early and are pushed away from the target, contributing to the later peak at $t_2$.
+  \item In these late-$t_2$ cases, conditional on $T\in W$ I typically observe $P(C\ge1\mid T\in W)\approx 0.63$--$0.72$, leaving a visible zero-crossing fraction.
+\end{itemize}
+
+\FloatBarrier
+
+\subsection{Representative FPT curves and second-peak windows}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.80\textheight,keepaspectratio]{\CaseBFigDir/exact_selected_cases.pdf}
+  \caption{Analytic $A(t)$ (Abate--Whitt inversion) for all $\mathrm{dst}$ satisfying the bimodality criterion. Orange shading indicates the second-peak window $W=[t_2-\Delta,t_2+\Delta]$.}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{MC shortcut-crossing fractions within the second-peak window}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\CaseBFigDir/second_peak_crossing_fractions.pdf}
+  \caption{For each $\mathrm{dst}$, conditional on $T\in W$, I estimate the fractions of trajectories with $C=0$, $C=1$, and $C\ge2$ (stacked bars). The label atop each bar reports the window sample size $n$.}
+\end{figure}
+\FloatBarrier
+
+\subsection{Relationship between second-peak prominence and shortcut usage}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.72\textheight,keepaspectratio]{\CaseBFigDir/pcross_relationships.pdf}
+  \caption{Left: $P(C\ge 1\mid T\in W)$ vs.\ $R$; right: $P(C\ge 1\mid T\in W)$ vs.\ $A(t_2)$. Error bars are Wilson 95\% confidence intervals. Colors indicate early/late (early defined by $t_2\le 2K$). The red star denotes the special case $\mathrm{dst}=\mathrm{target}$.}
+\end{figure}
+\FloatBarrier
+
+\subsubsection{Correlation summary (computed by script)}
+\input{\CaseBInDir/analysis_summary.tex}
+
+\subsubsection{Key takeaways (Case B)}
+\begin{itemize}
+  \item \textbf{Two mechanisms:} with $\mathrm{src}=n_0$, bimodal cases typically split into an early-$t_2$ class (e.g., $t_2\le 8$) and a late-$t_2$ class (e.g., $t_2\approx 90$--$110$).
+  \item \textbf{Early-$t_2$ cases:} conditional on $T\in W$, trajectories almost surely traverse the shortcut, so $P(C\ge 1\mid T\in W)\approx 1$ (and typically $C=1$).
+  \item \textbf{Late-$t_2$ cases:} conditional on $T\in W$, a substantial zero-crossing fraction remains (roughly $0.28$--$0.37$ in this scan).
+  \item \textbf{Trend with $A(t_2)$:} overall, smaller $A(t_2)$ is associated with smaller $P(C\ge 1\mid T\in W)$ (equivalently, larger $P(C=0\mid T\in W)$). Thus the statement ``a lower second peak implies a higher shortcut-usage fraction'' is not supported here; the observed trend is the opposite.
+  \item \textbf{Special case $\mathrm{dst}=\mathrm{target}$:} the shortcut points directly to the absorber, producing an early window and $P(C\ge 1\mid T\in W)\approx 1$, and should be separated from the late-second-peak mechanism.
+\end{itemize}
+
+\subsection{Summary table}
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.85}
+\input{\CaseBInDir/selected_table.tex}
+\par}
+
+{\footnotesize
+\noindent\textbf{Reproducibility:}
+flux scan (deterministic):\\
+Case A: \verb|python3 code/bimodality_flux_scan.py --sc-src 6 --aw-check|\\
+Case B: \verb|python3 code/bimodality_flux_scan.py --sc-src 1 --aw-check|\\
+dst scan + MC:\\
+Case A: \verb|python3 code/dst_shortcut_usage_mc.py --sc-src 6 --mc-all-bimodal|\\
+Case B: \verb|python3 code/dst_shortcut_usage_mc.py --sc-src 1 --mc-all-bimodal|\\
+Build: \texttt{latexmk -pdf -interaction=nonstopmode -halt-on-error}\\
+\phantom{Build: }\texttt{-auxdir=build -emulate-aux-dir valley\_dst\_report\_en.tex}\\
+(MC defaults to \verb|--seed 0| unless specified).
+}
+
+\end{document}

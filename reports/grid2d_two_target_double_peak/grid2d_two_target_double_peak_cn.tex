@@ -1,0 +1,459 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+
+\title{二维双 Target 首达双峰条件报告\\\large 从马尔可夫链推导到反射边界热图验证}
+\author{}
+\date{}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.10}
+
+\definecolor{fastcorr}{HTML}{CDE8F3}
+\definecolor{slowcorr}{HTML}{E8E2AD}
+\definecolor{overlapcorr}{HTML}{CDBFE2}
+\definecolor{arrowred}{HTML}{FF5B4F}
+\definecolor{startred}{HTML}{E53935}
+\definecolor{targetmone}{HTML}{1565C0}
+\definecolor{targetmtwo}{HTML}{0D2A8A}
+\definecolor{lineblue}{HTML}{1F77B4}
+\definecolor{lineorange}{HTML}{FF7F0E}
+\definecolor{heatlow}{HTML}{2A0A8B}
+\definecolor{heatmid}{HTML}{B5367A}
+\definecolor{heathigh}{HTML}{FCD225}
+\definecolor{phase0}{HTML}{E8E8E8}
+\definecolor{phase1}{HTML}{9ECAE1}
+\definecolor{phase2}{HTML}{FB9A99}
+
+\newcommand{\legendbox}[1]{\fcolorbox{black}{#1}{\makebox[1.2em]{\rule{0pt}{0.9em}}}}
+\newcommand{\legendline}[1]{\textcolor{#1}{\rule{2.0em}{0.8pt}}}
+
+\begin{document}
+\maketitle
+
+\section*{结论先行}
+本报告回答的问题是：\textbf{在二维、两个吸收 target 的配置下，什么时候总首达分布会出现 double peak}。
+
+采用全反射边界 + 局部 bias 双走廊模型，四个案例 C1--C4 均出现双峰。机制可归结为两点：
+\begin{enumerate}
+  \item 总首达分布严格分解为两条 splitting 分布之和；
+  \item 两条 splitting 的主峰时刻分离，且权重不极端时，总曲线出现两个局部极大。
+\end{enumerate}
+
+\section{数学机理推导（从最开始定义）}
+\subsection{单步随机游走定义}
+考虑有限晶格 $\Omega=\{0,\dots,N-1\}^2$，$N=31$。每一步若无局部异质性时，内部格点的转移概率为
+\begin{align}
+P((x,y)\to(x\pm1,y))&=\frac{q}{4},\\
+P((x,y)\to(x,y\pm1))&=\frac{q}{4},\\
+P((x,y)\to(x,y))&=1-q,
+\end{align}
+其中本报告取 $q=0.2$，故四方向各 $0.05$，停留概率为 $0.8$。
+
+反射边界的定义是：若某方向越界，则该方向概率质量加回停留概率。因此每行转移概率仍归一。
+
+\paragraph{局部 bias 规则}
+在带箭头的格点，将停留概率的 $\delta=0.2$ 比例转移到箭头方向：
+\begin{equation}
+\Delta=\delta\,p_{\mathrm{stay}},\qquad
+p_{\mathrm{stay}}\leftarrow p_{\mathrm{stay}}-\Delta,\qquad
+p_{\mathrm{arrow}}\leftarrow p_{\mathrm{arrow}}+\Delta.
+\end{equation}
+在本模型中，偏置点的箭头方向概率从 $0.05$ 提高到 $0.21$，对应净漂移近似
+\begin{equation}
+v_{\mathrm{eff}}\approx p_{\mathrm{forward}}-p_{\mathrm{backward}}=0.21-0.05=0.16\ \text{(格/步)}.
+\end{equation}
+
+\subsection{双吸收 target 的马尔可夫链分块}
+设两个吸收点为 $m_1,m_2$，其余状态组成 transient 集合 $\mathcal T$。按行随机约定（行向量右乘），全转移矩阵可写成
+\begin{equation}
+P=
+\begin{bmatrix}
+Q & R\\
+0 & I_2
+\end{bmatrix},\qquad
+R=[r_1\ r_2],
+\end{equation}
+其中 $Q\in\mathbb R^{|\mathcal T|\times|\mathcal T|}$，$r_1,r_2\in\mathbb R^{|\mathcal T|}$。
+初始分布记为 $\alpha$（起点 $n_0$ 对应 one-hot 行向量）。
+
+令 $u_t$ 为第 $t$ 步后仍在 transient 子空间的分布，则
+\begin{equation}
+u_0=\alpha,\qquad u_t=u_{t-1}Q=\alpha Q^t.
+\end{equation}
+
+\subsection{splitting 与总首达分布的严格推导}
+第 $t$ 步第一次命中 $m_1$（此前未命中任一 target）的概率质量为
+\begin{equation}
+f_1(t):=F_{n_0\to(m_1|m_2)}(t)=u_{t-1}r_1=\alpha Q^{t-1}r_1,\quad t\ge1.
+\end{equation}
+同理
+\begin{equation}
+f_2(t):=F_{n_0\to(m_2|m_1)}(t)=\alpha Q^{t-1}r_2.
+\end{equation}
+因此总首达分布
+\begin{equation}
+F_{n_0\to(m_1;m_2)}(t)=f_1(t)+f_2(t)=\alpha Q^{t-1}(r_1+r_2).
+\label{eq:split-sum}
+\end{equation}
+式 \eqref{eq:split-sum} 是互斥事件分解的严格恒等式，不是近似。
+
+生存概率
+\begin{equation}
+S(t)=\Pr(T>t)=u_t\mathbf 1=\alpha Q^t\mathbf 1,
+\end{equation}
+故离散 hazard 为
+\begin{equation}
+h(t)=\frac{F_{n_0\to(m_1;m_2)}(t)}{S(t-1)}=\frac{f_1(t)}{S(t-1)}+\frac{f_2(t)}{S(t-1)}.
+\end{equation}
+当两通道在某时间窗都远离 target 时，两个分量同时变小，便出现谷底。
+
+\subsection{生成函数形式与两 target 解析结构}
+定义 $z$-变换 $\tilde f(z)=\sum_{t\ge1}f(t)z^t$，则
+\begin{equation}
+\tilde f_i(z)=z\,\alpha(I-zQ)^{-1}r_i,\qquad
+\tilde F_{\mathrm{any}}(z)=\tilde f_1(z)+\tilde f_2(z).
+\end{equation}
+在有限吸收链中 $\rho(Q)<1$，故在 $z=1$ 处可得 splitting 概率
+\begin{equation}
+p_i=\sum_{t\ge1}f_i(t)=\tilde f_i(1)=\alpha(I-Q)^{-1}r_i,
+\quad p_1+p_2=1.
+\end{equation}
+
+与 2311.00464v2 的多 target determinant 公式对应到 $M=2$ 时，可写成
+\begin{equation}
+\tilde F_{n_0\to(m_1|m_2)}(z)=\frac{G_1(z)B(z)-C(z)G_2(z)}{A(z)B(z)-C(z)D(z)},\quad
+\tilde F_{n_0\to(m_2|m_1)}(z)=\frac{A(z)G_2(z)-G_1(z)D(z)}{A(z)B(z)-C(z)D(z)},
+\end{equation}
+其中 $A,B$ 含 target return 项，$C,D$ 为 target 间首达项，$G_1,G_2$ 为起点到各 target 的首达项。
+分母极点结构决定时间域中的主导时间尺度与是否出现振荡/多峰。
+
+\subsection{双峰条件的可检验形式}
+将两条 splitting 归一化为条件分布
+\begin{equation}
+g_i(t)=\frac{f_i(t)}{p_i},\qquad
+F_{\mathrm{any}}(t)=p_1g_1(t)+p_2g_2(t).
+\end{equation}
+因此总分布是两分量混合。对双峰可见性，关键是：
+\begin{itemize}
+  \item \textbf{峰位分离}：$|t_1^*-t_2^*|$ 要超过两分量宽度尺度；
+  \item \textbf{权重非极端}：$p_1,p_2$ 不能过小（否则弱峰被强峰尾部覆盖）。
+\end{itemize}
+若近似为同方差高斯混合且 $p_1\approx p_2$，经典结果给出双峰需要 $|\mu_2-\mu_1|\gtrsim2\sigma$。
+本报告的数值筛选实际上在离散情形实现了这两个条件。
+
+\subsection{数学符号与图件映射总表}
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \begin{tabular}{p{0.19\linewidth}p{0.30\linewidth}p{0.43\linewidth}}
+    \toprule
+    符号 & 数学定义 & 图中对应含义 \\
+    \midrule
+    $X_t$ & 第 $t$ 步 walker 位置随机变量 & 热图面板的空间分布对象。 \\
+    $T$ & 首次命中 $\{m_1,m_2\}$ 的时间 & FPT 曲线横轴对应离散时间。 \\
+    $f_1(t)$ & $F_{n_0\to(m_1|m_2)}(t)=\alpha Q^{t-1}r_1$ & 橙/蓝分解中的一条 splitting（图中蓝线）。 \\
+    $f_2(t)$ & $F_{n_0\to(m_2|m_1)}(t)=\alpha Q^{t-1}r_2$ & 另一条 splitting（图中橙线）。 \\
+    $F_{\mathrm{any}}(t)$ & $f_1(t)+f_2(t)$ & 总首达分布（图中黑线）。 \\
+    $S(t)$ & $\Pr(T>t)=\alpha Q^t\mathbf 1$ & “未吸收质量”；用于归一化 hazard 与条件热图。 \\
+    $h(t)$ & $F_{\mathrm{any}}(t)/S(t-1)$ & 每步吸收危险率（新增 hazard 图黑线）。 \\
+    $h_1,h_2$ & $f_1(t)/S(t-1),\,f_2(t)/S(t-1)$ & 两条通道对 hazard 的贡献（新增 hazard 图蓝/橙线）。 \\
+    $p_1,p_2$ & $\sum_t f_1(t),\sum_t f_2(t)$ & 两目标 splitting 权重；表中 $P(m_1),P(m_2)$。 \\
+    $\frac{|\Delta t^*|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}}$ & 两通道主峰分离度（峰距/半高宽和） & 分离度表与相图分区的关键判据。 \\
+    \bottomrule
+  \end{tabular}
+  \caption{数学定义、计算公式与图件对象的一一对应。}
+  \label{tab:math-map}
+\end{table}
+
+\subsection{为何走廊参数会系统改变双峰}
+快慢通道长度分别约为 $L_1=7$ 与 $L_2=48$（格），由 $t\sim L/v_{\mathrm{eff}}$ 估算
+\begin{equation}
+t_1\sim\frac{7}{0.16}\approx44,\qquad t_2\sim\frac{48}{0.16}\approx300.
+\end{equation}
+这与实测峰位量级一致（例如 C1 为 $35$ 与 $284$）。
+
+参数作用：
+\begin{itemize}
+  \item 增大 $w_2$：慢通道漏出减少，晚峰更集中且更靠前；
+  \item 减小 \texttt{skip2}：慢通道更早抓取概率质量，$p_2$ 增大，晚峰权重上升。
+\end{itemize}
+
+\section{实验配置与真实热图（非示意）}
+固定（1-based）$n_0=(15,15)$，$m_1=(22,15)$，$m_2=(7,7)$。
+快通道中心线：$(15,15)\to(22,15)$；慢通道中心线：
+$(15,15)\to(15,27)\to(3,27)\to(3,7)\to(7,7)$。
+慢通道覆盖单元（米黄色/淡紫重叠区）都施加局部 bias；本节总览图中红箭头为防拥挤只沿中心线抽样绘制，不代表“只有箭头画到的格点”有偏置。文末附录给出“每个偏置格点都画箭头”的全分布大图。
+慢通道的三个拐点（1-based）为 $(15,27)$、$(3,27)$、$(3,7)$，在配置图中用黑色圆点显式标出。
+
+四个案例只调 $(w_2,\texttt{skip2})$：
+C1$(3,2)$、C2$(2,1)$、C3$(2,0)$、C4$(1,1)$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/geometry_grid.pdf}
+  \caption{四个案例的配置示意总览（改进后的工程图风格）：底色网格为反射边界晶格，蓝/黄分别为快/慢通道区域，红色箭头为通道主导输运方向。}
+  \label{fig:geometry-grid}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/symbol_legend_panel.pdf}
+  \caption{统一符号图例面板（由同一绘图脚本直接输出）：用于校准颜色、标记、曲线与相图分类符号的一致性。}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\subsection*{图示元素逐项说明}
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \begin{tabular}{p{0.25\linewidth}p{0.16\linewidth}p{0.50\linewidth}}
+    \toprule
+    图中元素 & 图中示意 & 物理含义（统一约定） \\
+    \midrule
+    米白网格背景 & \legendbox{white} & 反射边界二维晶格，越界概率质量回收到停留概率。 \\
+    快通道区域 & \legendbox{fastcorr} & 快通道（fast corridor）覆盖单元，主要引导到 $m_1$。 \\
+    慢通道区域 & \legendbox{slowcorr} & 慢通道（slow corridor）覆盖单元，主要引导到 $m_2$。 \\
+    重叠区域 & \legendbox{overlapcorr} & 快慢通道重叠区（两种通道影响叠加）。 \\
+    局部 bias 方向 & {\Large \textcolor{arrowred}{$\rightarrow$}} & 该点停留概率的 $20\%$ 被转移到箭头方向。 \\
+    慢通道拐点 & {\Large \textcolor{black}{$\bullet$}} & 慢通道中心线转弯位置（仅用于几何可视化标识）。 \\
+    起点（start） & {\Large \textcolor{startred}{$\blacksquare$}} & 初始位置 $n_0$。 \\
+    target $m_1$ 标记 & {\Large \textcolor{targetmone}{$\blacklozenge$}} & 吸收点 $m_1$，在所有图中固定为蓝色菱形。 \\
+    target $m_2$ 标记 & {\Large \textcolor{targetmtwo}{$\bullet$}} & 吸收点 $m_2$，在所有图中固定为深蓝圆形。 \\
+    热图色标 & \legendbox{heatlow}\legendbox{heatmid}\legendbox{heathigh} & 条件占据概率大小：深色低、亮色高，对应 $P(X_t=n\mid T>t)$。 \\
+    热图中的 target 标记 & {\Large \textcolor{targetmone}{$\blacklozenge$}} / {\Large \textcolor{targetmtwo}{$\bullet$}} & 与配置图保持同一组 $(m_1,m_2)$ 符号，不再使用另一套符号。 \\
+    时间标注 & \textit{$t=200$} & 当前热图对应离散时间步。 \\
+    总首达曲线 & \legendline{black} & $F_{n_0\to(m_1;m_2)}(t)=f_1(t)+f_2(t)$。 \\
+    splitting 曲线（1） & \legendline{lineblue} & $f_1(t)=F_{n_0\to(m_1|m_2)}(t)$。 \\
+    splitting 曲线（2） & \legendline{lineorange} & $f_2(t)=F_{n_0\to(m_2|m_1)}(t)$。 \\
+    主峰标记 & {\Large \textcolor{black}{$\bullet$}} & 总首达曲线自动检测到的两个主峰位置。 \\
+    相图类别 0/1/2 & \shortstack[l]{\legendbox{phase0}\,0\\\legendbox{phase1}\,1\\\legendbox{phase2}\,2} & 0=single；1=weak double；2=clear double。 \\
+    \bottomrule
+  \end{tabular}
+  \caption{本报告全部图件的符号、颜色与曲线含义对照。}
+  \label{tab:visual-legend}
+\end{table}
+
+\paragraph{热图说明}
+下图热图不是模板图，而是由同一转移矩阵做精确递推得到的
+\(P(X_t=n\mid T>t)\) 条件占据概率热图。
+具体计算为
+\[
+\pi_t(n):=P(X_t=n\mid T>t)=\frac{u_t(n)}{S(t)},
+\]
+其中 $u_t=\alpha Q^t$ 是第 $t$ 步仍在 transient 子空间的概率分布。
+图中时刻分别选在“早期扩散/谷附近/晚峰附近”。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/case_C1_env_heatmap.pdf}
+  \caption{C1 的环境+热图四联图（真实计算）：$t=50,143,284$。}
+  \label{fig:c1-heat}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/case_C4_env_heatmap.pdf}
+  \caption{C4 的环境+热图四联图（真实计算）：$t=49,200,426$。}
+  \label{fig:c4-heat}
+\end{figure}
+
+\section{总首达与 splitting 结果}
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/fpt_grid.pdf}
+  \caption{四个案例的总首达曲线与 splitting 分解。黑线：$F_{n_0\to(m_1;m_2)}$；蓝/橙：两条 splitting。}
+  \label{fig:fpt-grid}
+\end{figure}
+
+\clearpage
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/hazard_grid.pdf}
+  \caption{hazard 分解：$h=h_1+h_2$。黑线为总 hazard，蓝/橙为两通道贡献，虚线为谷底时刻 $t_v$。}
+  \label{fig:hazard-grid}
+\end{figure}
+\clearpage
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/case_metrics.tex}
+  \caption{双峰峰位、峰高与 splitting 权重（截断时间 $t_{\max}=6000$）。}
+  \label{tab:case-metrics}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/case_mechanism.tex}
+  \caption{两条 splitting 主峰、谷深与截断吸收质量。}
+  \label{tab:case-mechanism}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/case_separation.tex}
+  \caption{主峰半高宽分离度量化。分离度 $|\Delta t^*|/(w_{1/2}^{(1)}+w_{1/2}^{(2)})>1$ 表示两通道峰位分离超过峰宽叠加，通常有利于总曲线出现可见双峰。}
+  \label{tab:case-separation}
+\end{table}
+
+读表可见：
+\begin{itemize}
+  \item C1 权重较平衡，双峰高度接近；
+  \item C2/C3 随 \texttt{skip2} 下降，$P(m_2)$ 升高，晚峰变主导；
+  \item C4 因慢通道更窄而出现最大峰距（晚峰右移最明显）；
+  \item 四个案例的分离度均大于 1（表~\ref{tab:case-separation}），与双峰可见性一致。
+  \item hazard 图（图~\ref{fig:hazard-grid}）显示谷底附近 $h_1,h_2$ 同时降低，直接支持“中间低吸收窗口”机理。
+\end{itemize}
+
+\section{参数相图：从案例到区域}
+除四个代表案例外，对 $(w_2,\texttt{skip2})$ 做网格扫描（$w_2=1\ldots5$，\texttt{skip2}$=0\ldots6$，每组迭代到 $t_{\max}=2500$），并按以下判据分类：
+\begin{equation}
+\text{clear-double} \iff
+\begin{cases}
+\text{检测到两个主峰},\\
+\frac{|\Delta t^*|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}}\ge 1,\\
+\min(p_1,p_2)\ge 0.15,\\
+\frac{h_{\mathrm{valley}}}{\max(h_1,h_2)}\le 0.35.
+\end{cases}
+\end{equation}
+其中不满足 clear-double 但仍检测到双峰者标记为 weak-double。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.68\linewidth]{figures/phase_w2_skip2.pdf}
+  \caption{$(w_2,\texttt{skip2})$ 分类相图。颜色和数字对应：0=single，1=weak double，2=clear double。}
+  \label{fig:phase-category}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.68\linewidth]{figures/phase_sep_w2_skip2.pdf}
+  \caption{分离度热图：$|\Delta t^*|/(w_{1/2}^{(1)}+w_{1/2}^{(2)})$。颜色越亮代表两通道峰位相对峰宽越分离。}
+  \label{fig:phase-sep}
+\end{figure}
+
+\section{外部 Sparse Testset 配置补充}
+基于你提供的 \texttt{external/sparse\_double\_peak\_testset.json}，新增 11 组稀疏配置（无偏置、细通道、稀疏箭头、barrier、sticky、long-range shortcut、global bias、混合无序）。
+同一组 $(n_0,m_1,m_2)$ 与基础 LRW 参数下，全部配置都用精确马尔可夫迭代跑到 $t_{\max}=6000$，然后\textbf{仅保留检测到双峰（phase>0）的配置}进入下述图表。
+
+\begin{table}[!htbp]
+  \centering
+  \scriptsize
+  \input{tables/sparse_testset_configs.tex}
+  \caption{外部 testset 配置统计：每个案例的异质性元素计数（local-bias / sticky / barrier / shortcut）。}
+  \label{tab:sparse-configs}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering
+  \scriptsize
+  \input{tables/sparse_testset_metrics.tex}
+  \caption{外部 testset 双峰判据结果。phase: 0=single, 1=weak double, 2=clear double。}
+  \label{tab:sparse-metrics}
+\end{table}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/sparse_testset_fpt_grid.pdf}
+  \caption{外部 sparse testset 中“检测到双峰”的配置总览（当前为 S02, S03）。}
+  \label{fig:sparse-fpt-grid}
+\end{figure}
+
+从这批稀疏配置可见：在该 testset 中，\textbf{S02（细慢通道 + 无 skip）达到 clear double}；S03（仅中心线箭头）呈 weak double；其余配置均为 single，故不在本节展示。
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/sparse_S02_config_detailed.pdf}
+  \caption{S02 详细配置图：显示全部局部偏置箭头与通道单元。}
+  \label{fig:sparse-s02-config}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/sparse_S02_env_heatmap.pdf}
+  \caption{S02 配置+热图：左上为同一详细配置，右上/左下/右下分别为早峰、谷底、晚峰附近的条件占据概率热图。}
+  \label{fig:sparse-s02-heat}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/sparse_S03_config_detailed.pdf}
+  \caption{S03 详细配置图：仅中心线偏置时的箭头全分布。}
+  \label{fig:sparse-s03-config}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/sparse_S03_env_heatmap.pdf}
+  \caption{S03 配置+热图：显示该弱双峰配置在三阶段时刻的条件占据概率演化。}
+  \label{fig:sparse-s03-heat}
+\end{figure}
+
+\section{复现}
+\begin{verbatim}
+cd reports/grid2d_two_target_double_peak
+.venv/bin/python code/two_target_2d_report.py
+latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build \
+  -emulate-aux-dir grid2d_two_target_double_peak_cn.tex
+\end{verbatim}
+
+主要产物：
+\begin{itemize}
+  \item 数据汇总：\texttt{data/case\_summary.json}
+  \item 参数扫描：\texttt{data/scan\_w2\_skip2.csv}, \texttt{data/scan\_w2\_skip2.json}
+  \item 曲线数据：\texttt{outputs/C1\_fpt.csv} -- \texttt{outputs/C4\_fpt.csv}
+  \item 热图：\texttt{figures/case\_C1\_env\_heatmap.pdf} 等
+  \item 机理图：\texttt{figures/hazard\_grid.pdf}, \texttt{figures/phase\_w2\_skip2.pdf}
+\end{itemize}
+
+\clearpage
+\section*{附录：红箭头全分布大图（每个偏置格点）}
+本附录中的红箭头不是抽样，而是对该案例中每一个有偏置的格点 $(x,y)$ 都按其箭头方向绘制一支矢量。可直接看到“在哪些格点向东/西/南/北偏置”，因此拐弯是通过相邻区域箭头方向切换形成的，而不是一条单独曲线。
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/case_C1_arrowfield.pdf}
+  \caption{C1 全箭头分布大图（$w_2=3,\ \texttt{skip2}=2$）：每个偏置格点均绘制红箭头。}
+  \label{fig:c1-arrowfield}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/case_C2_arrowfield.pdf}
+  \caption{C2 全箭头分布大图（$w_2=2,\ \texttt{skip2}=1$）：可见慢通道在起点附近更早接管偏置方向。}
+  \label{fig:c2-arrowfield}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/case_C3_arrowfield.pdf}
+  \caption{C3 全箭头分布大图（$w_2=2,\ \texttt{skip2}=0$）：慢通道自起点即施加偏置。}
+  \label{fig:c3-arrowfield}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/case_C4_arrowfield.pdf}
+  \caption{C4 全箭头分布大图（$w_2=1,\ \texttt{skip2}=1$）：慢通道更窄，箭头带更细。}
+  \label{fig:c4-arrowfield}
+\end{figure}
+
+\end{document}

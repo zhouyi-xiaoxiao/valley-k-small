@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9999997657005114,
+  "aw": {
+    "errors": {
+      "l1": 1.5940752437750014e-14,
+      "linf": 1.1037453153456109e-16,
+      "rel_l1": 1.5940756172661034e-14
+    },
+    "params": {
+      "m": 8192,
+      "oversample": 4,
+      "r": 0.9966327545472072,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "R7",
+  "mc": {
+    "fast_fraction": 0.24781666666666669,
+    "n_walkers": 60000,
+    "slow_fraction": 0.7521833333333333,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "gap": 288,
+    "h1": 0.0073388468080390346,
+    "h2": 0.00215548523725272,
+    "h2_over_h1": 0.29370898366369813,
+    "hv": 0.00014295326644894895,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.29370898366369813,
+    "smooth_window": 9,
+    "t_p1": 140,
+    "t_p2": 428,
+    "t_v": 280,
+    "valley_depth": 0.9336793108213766,
+    "valley_ratio": 0.0663206891786234
+  },
+  "name": "semipermeable pore shortcut vs long detour",
+  "params": {
+    "N": 60,
+    "g_x": -0.2,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      10,
+      30
+    ],
+    "target": [
+      50,
+      30
+    ]
+  }
+}

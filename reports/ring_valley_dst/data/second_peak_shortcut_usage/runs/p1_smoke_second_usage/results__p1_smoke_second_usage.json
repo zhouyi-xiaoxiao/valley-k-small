@@ -1,0 +1,74 @@
+{
+  "run": {
+    "id": "p1_smoke_second_usage",
+    "created_at_utc": "2026-02-17T00:13:30+00:00",
+    "platform": "macOS-15.7.3-arm64-arm-64bit",
+    "python": "3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.6.3.2)]",
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "git_commit": null
+  },
+  "params": {
+    "cases": [
+      "N100K6"
+    ],
+    "n0_paper": 1,
+    "shortcut_offset": 5,
+    "directed_shortcut": true,
+    "rho": 1.0,
+    "max_steps": 1200,
+    "delta_frac": 0.05,
+    "min_height": 1e-07,
+    "second_rel_height": 0.01,
+    "n_walkers": 120,
+    "seed": 1
+  },
+  "exact_summary": {
+    "N100K6": {
+      "case": {
+        "N": 100,
+        "K": 6
+      },
+      "paper": {
+        "n0": 1,
+        "target": 50,
+        "shortcut_src": 6,
+        "shortcut_dst": 51
+      },
+      "peaks": [
+        [
+          14,
+          0.003454833605892491
+        ],
+        [
+          101,
+          0.0023412049220434285
+        ]
+      ],
+      "delta": 4,
+      "second_window": [
+        97,
+        105
+      ]
+    }
+  },
+  "mc_second_peak_window": {
+    "N100K6": {
+      "t2": 101,
+      "delta": 4,
+      "window": [
+        97,
+        105
+      ],
+      "n_in_window": 2,
+      "frac_in_window": 0.016666666666666666,
+      "frac_no": 0.5,
+      "frac_one": 0.5,
+      "frac_multi": 0.0
+    }
+  },
+  "files": {
+    "exact_cases_fig": "reports/ring_valley_dst/figures/second_peak_shortcut_usage/runs/p1_smoke_second_usage/exact_cases__p1_smoke_second_usage.pdf",
+    "crossing_fractions_fig": "reports/ring_valley_dst/figures/second_peak_shortcut_usage/runs/p1_smoke_second_usage/second_peak_crossing_fractions__p1_smoke_second_usage.pdf"
+  }
+}

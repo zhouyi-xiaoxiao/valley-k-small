@@ -1,0 +1,322 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\title{Lazy ring + one directed shortcut:\\Bimodality at $K=2$ vs.\ $K=4$ and the jump-over mechanism\\(Exact FPT via AW inversion + trajectory decomposition)}
+\author{}
+\date{}
+
+\setlist[itemize]{itemsep=0pt,topsep=4pt,parsep=0pt,partopsep=0pt}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\newcommand{\FigDir}{figures}
+\newcommand{\CaseDir}{figures/cases}
+
+\begin{document}
+\maketitle
+
+\section{Problem restatement and objective}
+In the lazy ring with one directed shortcut (selfloop rule) we previously observed (for $K=2$, i.e.\ only $\pm 1$ moves) that a double peak in the first-passage/first-absorption pmf $f(t)$ only appears for sufficiently small shortcut strength $\beta$.
+As $\beta$ increases, the shortcut is taken more often, mass concentrates on a faster time scale, and the slow peak is suppressed, so bimodality disappears.
+
+Here we fix the start node to $n_0$ and set the absorbing target to the ``farthest'' (approximately antipodal) node, then scan the $K=4$ case (allowed ring moves $\pm 1,\pm 2$).
+The key new feature at $K=4$ is that a single ring move can \emph{jump over} the absorbing target without landing on it (e.g.\ from $\mathrm{target}-1$ to $\mathrm{target}+1$), which may alter the bimodal mechanism.
+
+The goal is two-layered:
+\begin{itemize}
+  \item \textbf{Layer A (where bimodality occurs):} use an exact/high-precision method to scan parameters and apply one fixed bimodality criterion to flag true double peaks.
+  \item \textbf{Layer B (why bimodality occurs):} for representative bimodal cases, decompose trajectories into \emph{mutually exclusive} classes based on shortcut usage and jump-over events, and quantify how those classes populate the first peak / valley / second peak.
+\end{itemize}
+
+\section{Model definition (fixed convention)}
+\subsection{State space and ring moves}
+We use paper-style indexing $1,\dots,N$ with all additions taken modulo $N$.
+Let $K=2k$ be the ring degree. At each step, with probability $q$ the walker makes a ring move and with probability $1-q$ it stays (lazy self-loop).
+Given that a ring move occurs, the displacement is chosen uniformly from $\{\pm 1,\dots,\pm k\}$; hence each ring edge has probability $q/K$.
+
+\subsection{One directed shortcut (selfloop rule)}
+We add a single directed shortcut $\mathrm{src}\to \mathrm{dst}$.
+Under the \emph{selfloop rule}, at the source we take probability mass from the self-loop and reassign it to the shortcut:
+\[
+p=\beta(1-q),\qquad 0\le p\le 1-q\quad(\Leftrightarrow\ 0\le \beta\le 1).
+\]
+Explicit one-step probabilities:
+\begin{itemize}
+  \item for $i\neq \mathrm{src}$:
+  \[
+  P(i\to i)=1-q,\qquad P(i\to i\pm r)=\frac{q}{K},\quad r=1,\dots,k;
+  \]
+  \item for $i=\mathrm{src}$:
+  \[
+  P(\mathrm{src}\to\mathrm{src})=1-q-p,\quad
+  P(\mathrm{src}\to\mathrm{dst})=p,\quad
+  P(\mathrm{src}\to\mathrm{src}\pm r)=\frac{q}{K}.
+  \]
+\end{itemize}
+
+\subsection{Absorption and first-absorption time}
+When a step ends at $\mathrm{target}$, absorption occurs with probability $\rho$; otherwise the walker survives and continues from $\mathrm{target}$.
+In this report we take $\rho=1$ (strict first passage), so the first-absorption time $T$ equals the first hitting time of $\mathrm{target}$.
+
+\subsection{Geometry (paper-like, with antipodal target)}
+We fix
+\[
+n_0=1,\qquad
+\mathrm{target}=n_0+\left\lfloor\frac{N}{2}\right\rfloor,\qquad
+\mathrm{src}=n_0+5,\qquad
+\mathrm{dst}=\mathrm{target}+1,
+\]
+with modular arithmetic on the ring.
+The choice $\mathrm{dst}=\mathrm{target}+1$ avoids the special ``shortcut points directly to the absorber'' mechanism ($\mathrm{dst}=\mathrm{target}$), which is discussed separately in \texttt{valley\_dst\_report}.
+
+\subsection{Relation to other reports in this repo}
+Other reports (e.g.\ \texttt{valley\_report} / \texttt{valley\_dst\_report}) also use a ``add an outgoing edge at $\mathrm{src}$ and renormalize'' construction, often in a non-lazy setting.
+That convention differs from the present selfloop rule (which preserves the ring-move probability $q$).
+Accordingly, in this report all scans and statistics refer to the \textbf{lazy + selfloop} convention unless explicitly stated.
+
+\section{Bimodality criteria (fixed, paper-style)}
+We use the same criterion as in existing reports:
+\begin{itemize}
+  \item \textbf{Strict local peak:} $f(t)>f(t-1)$, $f(t)>f(t+1)$, and $f(t)\ge h_{\min}$, with boundary convention $f(0)=f(T+1)=0$.
+  \item \textbf{Paper bimodality:} at least two peaks, and the 2nd-highest peak height $\ge 1\%$ of the highest.
+  \item \textbf{Macro bimodality (optional):} additionally require $t_2/t_1\ge 10$ for the two dominant peaks.
+\end{itemize}
+Defaults: $h_{\min}=10^{-7}$, relative-height threshold $1\%$, macro ratio threshold $10$.
+
+\section{Two path events and mutually-exclusive classes}
+\subsection{Shortcut traversal count $C$}
+Let $C$ be the number of times a trajectory traverses the directed edge $\mathrm{src}\to\mathrm{dst}$.
+We use the coarse indicator $C\ge 1$ (and also record the $0/1/\ge 2$ breakdown for robustness).
+
+\subsection{Jump-over count $J$ (new at $K=4$)}
+For $K=4$ (allowed $\pm 2$ ring moves), a ring step can cross the target without landing.
+We count jump-over events \textbf{only on ring moves} (not on self-loops or shortcut steps).
+A step from $x$ to $x\pm r$ ($r\ge 2$) is a jump-over if the target lies strictly between departure and arrival along that direction:
+\[
+\mathrm{target}\in\{x\pm 1,\dots,x\pm(r-1)\}.
+\]
+Equivalently, for a $+r$ move define the directed ring distance $d_+(x,\mathrm{target})=(\mathrm{target}-x)\bmod N$; jump-over occurs iff $1\le d_+\le r-1$ (and similarly for $-r$ using $d_-(x,\mathrm{target})=(x-\mathrm{target})\bmod N$).
+For $K=2$ we always have $J\equiv 0$.
+
+\subsection{Four mutually-exclusive classes (A/B/C/D)}
+Using the indicators $(C\ge 1)$ and $(J\ge 1)$ we define:
+\[
+\text{A: }(C=0,J=0),\quad
+\text{B: }(C\ge 1,J=0),\quad
+\text{C: }(C=0,J\ge 1),\quad
+\text{D: }(C\ge 1,J\ge 1),
+\]
+which are mutually exclusive and exhaustive.
+For $K=2$, the classification degenerates to shortcut vs.\ nonshortcut.
+
+\section{Peak--valley--peak windows and conditional statistics}
+Given an exact $f(t)$, we locate the first two peaks in time order ($t_1<t_2$) under the paper criterion, and define the valley bottom
+\[
+t_v=\arg\min_{t_1<t<t_2} f(t).
+\]
+We set a symmetric window half-width
+\[
+\Delta=\max\left(1,\left\lfloor 0.05\,(t_2-t_1)\right\rfloor\right),
+\]
+and label each Monte Carlo trajectory by the nearest center among $\{t_1,t_v,t_2\}$ if it lies within distance $\Delta$ (ties are assigned to ``other'').
+For each window $W$ we report:
+\begin{itemize}
+  \item window mass $\Pr(T\in W)$;
+  \item $\Pr(C\ge 1\mid T\in W)$ and $\Pr(J\ge 1\mid T\in W)$ (Wilson 95\% intervals recorded in \texttt{*.summary.json});
+  \item class fractions for A/B/C/D.
+\end{itemize}
+
+\section{Exact $f(t)$ computation: AW inversion vs.\ time-domain iteration}
+\subsection{AW inversion for the main model}
+For the main model (point absorption at $\mathrm{target}$, no ``jumpover absorbs'' modification), we compute the generating function and invert it via Abate--Whitt (AW).
+
+\paragraph{Defect-free lazy ring (spectral form)}
+The defect-free eigenvalues are
+\[
+\lambda_\ell=(1-q)+\frac{2q}{K}\sum_{r=1}^{k}\cos\!\left(\frac{2\pi r\ell}{N}\right),\qquad \ell=0,\dots,N-1.
+\]
+Define the translation-invariant resolvent
+\[
+Q(d,z)=\frac{1}{N}\sum_{\ell=0}^{N-1}\frac{\cos(2\pi \ell d/N)}{1-z\lambda_\ell},\qquad |z|<1,
+\]
+where $d$ is the ring displacement.
+
+\paragraph{Rank-one defect (selfloop shortcut) and point absorption}
+The selfloop shortcut modifies only the outgoing probabilities at $\mathrm{src}$, i.e.\ a single-column rank-one defect relative to the defect-free ring.
+We evaluate the corresponding resolvent entries $S_{i,j}(z)$ using a Sherman--Morrison update expressed in terms of $Q(\cdot,z)$.
+For imperfect absorption $\rho\in(0,1]$, the first-absorption generating function is
+\[
+\tilde f(z)=\sum_{t\ge 1} f(t)z^t=\frac{\rho\,S_{\mathrm{target},n_0}(z)}{(1-\rho)+\rho\,S_{\mathrm{target},\mathrm{target}}(z)}.
+\]
+For $\rho=1$, $\tilde f(z)=S_{\mathrm{target},n_0}(z)/S_{\mathrm{target},\mathrm{target}}(z)$.
+
+\paragraph{AW (FFT) coefficient recovery}
+We sample $z_m=re^{2\pi i m/L}$ and approximate
+\[
+f(t)\approx r^{-t}\frac{1}{L}\sum_{m=0}^{L-1}\tilde f(z_m)\,e^{-2\pi i mt/L},\qquad t=1,\dots,T_{\max},
+\]
+implemented via FFT. We use $r=10^{-4/T_{\max}}$ and $L$ the next power of two exceeding $T_{\max}$ by a small pad, consistent with other AW scripts in this repo.
+For the representative plots we take $T_{\max}=4000$ to cover both dominant peaks and the valley.
+
+\subsection{Time-domain master-equation iteration (scans and nonlocal control)}
+Layer A scans require suppressing tail mass (e.g.\ survival $\lesssim 10^{-14}$), so we use time-domain master-equation iteration (absorbing flux recursion) to obtain numerically exact $f(t)$ for the fixed bimodality criterion.
+The counterfactual control ``jumpover $\to$ absorb'' makes absorption a nonlocal event (crossing without landing), so it is also computed in the time domain rather than by the point-absorption AW formula.
+
+\section{Layer A: where bimodality truly occurs (parameter scans)}
+\subsection{$N$ scan at fixed $\beta=0.02$}
+Fix $q=2/3$, $\beta=0.02$ (so $p=\beta(1-q)$), and the geometry above. Scan even $N=10..200$:
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_N_beta002_bimodality.pdf}
+  \caption{Bimodality flags for $\beta=0.02$ at $K=2$ vs.\ $K=4$ (hollow = paper, filled = macro).}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_N_beta002_peak_times.pdf}
+  \caption{Peak times $t_1,t_2$ (log scale), restricted to paper-bimodal cases.}
+\end{figure}
+
+\subsection{$\beta$ scan at fixed $N=100$}
+Fix $N=100$, $q=2/3$ and scan $\beta$:
+\input{tables/beta_scan_N100_K2_en.tex}
+\input{tables/beta_scan_N100_K4_en.tex}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_beta_N100_bimodality.pdf}
+  \caption{Bimodality flags vs.\ $\beta$ at $N=100$ for $K=2$ and $K=4$.}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FigDir/scan_beta_N100_peak_times.pdf}
+  \caption{Peak times $t_1,t_2$ vs.\ $\beta$ at $N=100$ (paper-bimodal cases only).}
+\end{figure}
+
+\section{Layer B: mechanism via trajectory decomposition}
+\subsection{Representative point: $N=100,\beta=0.02$ ($K=2$ vs.\ $K=4$)}
+We first show the exact $f(t)$ (log scale) with peak/valley/peak markers:
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K2_beta002.f_t.pdf}
+  \caption{$K=2$: exact $f(t)$ via AW inversion ($q=2/3,\beta=0.02$).}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta002.f_t.pdf}
+  \caption{$K=4$: exact $f(t)$ via AW inversion ($q=2/3,\beta=0.02$).}
+\end{figure}
+
+Using the same window definition, we show window-conditional class fractions:
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{\CaseDir/N100_K2_beta002.classes.pdf}
+  \caption{$K=2$: A/B/C/D class fractions within peak1/valley/peak2. Here $J\equiv 0$ so it reduces to shortcut vs.\ nonshortcut.}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{\CaseDir/N100_K4_beta002.classes.pdf}
+  \caption{$K=4$: A/B/C/D class fractions within peak1/valley/peak2.}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta002.counts.pdf}
+  \caption{$K=4$: $0/1/\ge 2$ breakdown for $C$ and $J$ within the three windows (to test whether repeated overshoots accumulate near the slow peak).}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{\CaseDir/N100_K2_beta002.cond_by_t.pdf}
+  \caption{$K=2$: time-conditional curves $\Pr(C\ge 1\mid T=t)$ and class weights vs.\ $t$ (MC).}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{\CaseDir/N100_K4_beta002.cond_by_t.pdf}
+  \caption{$K=4$: time-conditional curves $\Pr(C\ge 1\mid T=t)$, $\Pr(J\ge 1\mid T=t)$ and class weights vs.\ $t$ (MC).}
+\end{figure}
+
+\subsubsection{Quantitative window summaries}
+To make the mechanism claims auditable, we tabulate the window-conditional statistics (generated from \texttt{*.summary.json}):
+\input{tables/case_window_stats_N100_K2_beta002_en.tex}
+\input{tables/case_window_stats_N100_K4_beta002_en.tex}
+
+\subsubsection{Mechanism takeaways}
+\begin{itemize}
+  \item \textbf{Peak 1 is shortcut-dominated:} in both $K=2$ and $K=4$, within the peak1 window we have $\Pr(C\ge 1\mid W)\approx 1$, corresponding to trajectories that reach $\mathrm{src}$ early and use the shortcut. This produces the early peak (here $t_1=51$ for $K=2$ and $t_1=31$ for $K=4$).
+  \item \textbf{The valley is a class-weight transition:} in the valley window, the $C=0$ fraction rises; for $K=4$ the jump-over probability also increases, indicating that ``near-target but overshot'' trajectories become common.
+  \item \textbf{Peak 2 is dominated by nonshortcut trajectories:} in the peak2 window, $C=0$ becomes the majority class; for $K=4$ this remains true (A+C dominates B+D), identifying peak2 as a slow subpopulation not effectively using the shortcut.
+  \item \textbf{The key $K=4$ difference is the jump-over subfamily:} in $K=4$ peak2, the nonshortcut family splits into A ($C=0,J=0$) and C ($C=0,J\ge 1$), with C carrying a substantial fraction of the slow-peak window mass. This directly shows jump-over is a real delay mechanism inside the slow component, not a rare artifact.
+\end{itemize}
+In mixture form,
+\[
+f(t)=\sum_{(c,j)\in\{0,1\}^2}\Pr(C\ge 1=c,\;J\ge 1=j)\,f(t\mid C\ge 1=c,\;J\ge 1=j),
+\]
+which reduces to a two-class mixture for $K=2$ ($J\equiv 0$), but requires the $(C,J)$ refinement for $K=4$.
+
+\paragraph{Why jump-over changes the slow time scale}
+For $K=2$, any attempt to ``cross'' the target necessarily lands on it (step length is 1), so once a trajectory enters the target neighborhood absorption is essentially determined by whether it lands on the target.
+For $K=4$, when the walker sits at $\mathrm{target}\pm 1$, a $\mp 2$ ring move sends it to the opposite side without absorption; this inserts an additional return cost into near-absorbing local paths (possibly repeatedly), delaying a subset of trajectories and reshaping the slow component.
+
+\subsection{Counterfactual control: treat jump-over as absorption}
+To separate ``step-length distribution changes'' from the nonlocal ``missed absorption by overshoot'' mechanism, we compare the baseline $K=4$ model to a counterfactual where any jump-over event triggers absorption.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta002_jumpover_control.compare_f_t.pdf}
+  \caption{$K=4$ at $N=100,q=2/3,\beta=0.02$: exact $f(t)$ overlay (time-domain master equation): baseline (allow jump-over) vs.\ control (jump-over $\to$ absorb).}
+\end{figure}
+
+\subsection{Larger shortcut strength: $K=4, N=100, \beta=0.15$}
+To align with the intuition that larger $\beta$ suppresses the slow peak, we also show a representative larger-$\beta$ $K=4$ case:
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta015.f_t.pdf}
+  \caption{$K=4$: exact $f(t)$ via AW inversion ($N=100,q=2/3,\beta=0.15$).}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{\CaseDir/N100_K4_beta015.classes.pdf}
+  \caption{$K=4$: window-conditional A/B/C/D fractions ($N=100,q=2/3,\beta=0.15$).}
+\end{figure}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{\CaseDir/N100_K4_beta015.cond_by_t.pdf}
+  \caption{$K=4$ ($\beta=0.15$): time-conditional curves (compare to $\beta=0.02$).}
+\end{figure}
+
+\section{Reproducibility: scripts and commands}
+All results are generated in this report directory using:
+\begin{itemize}
+  \item exact distributions + scans + MC: \texttt{code/jumpover\_bimodality\_pipeline.py}
+  \item scan plots: \texttt{code/plot\_scan\_summaries.py}
+  \item beta-scan tables: \texttt{code/make\_beta\_scan\_table.py}
+  \item window-stat tables: \texttt{code/make\_case\_window\_table.py}
+\end{itemize}
+
+\begin{verbatim}
+# representative case (exact + MC), AW inversion
+python3 code/jumpover_bimodality_pipeline.py analyze \
+  --N 100 --K 4 --beta 0.02 --q 0.6666667 \
+  --exact-method aw --max-t-plot 4000 \
+  --target auto --sc-src auto+5 --sc-dst auto_target+1 \
+  --n-walkers 200000 --seed 0 \
+  --out-prefix data/cases/N100_K4_beta002/N100_K4_beta002
+
+# window-stat table from summary.json
+python3 code/make_case_window_table.py \
+  --summary data/cases/N100_K4_beta002/N100_K4_beta002.summary.json \
+  --out tables/case_window_stats_N100_K4_beta002_en.tex \
+  --caption "N=100, K=4 (\pm1,\pm2), q=2/3,beta=0.02: \
+  window-conditional statistics (MC)" \
+  --label tab:case-window-N100-K4-beta002-en
+\end{verbatim}
+
+\end{document}

@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.999998983324684,
+  "aw": {
+    "errors": {
+      "l1": 1.2844921118988869e-14,
+      "linf": 1.3283334791475468e-16,
+      "rel_l1": 1.2844934178116385e-14
+    },
+    "params": {
+      "m": 8192,
+      "oversample": 4,
+      "r": 0.9966327545472072,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "R3",
+  "mc": {
+    "fast_fraction": 0.3235,
+    "n_walkers": 30000,
+    "slow_fraction": 0.6765,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "gap": 412,
+    "h1": 0.006426593343028221,
+    "h2": 0.0017051151429044746,
+    "h2_over_h1": 0.2653217734329245,
+    "hv": 1.7373760953846933e-05,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.2653217734329245,
+    "smooth_window": 9,
+    "t_p1": 136,
+    "t_p2": 548,
+    "t_v": 304,
+    "valley_depth": 0.989810798979679,
+    "valley_ratio": 0.010189201020320926
+  },
+  "name": "sticky segment on slow branch",
+  "params": {
+    "N": 60,
+    "g_x": -0.2,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      10,
+      30
+    ],
+    "target": [
+      50,
+      30
+    ]
+  }
+}

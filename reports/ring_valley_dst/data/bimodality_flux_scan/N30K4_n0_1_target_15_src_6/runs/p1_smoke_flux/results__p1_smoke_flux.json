@@ -1,0 +1,44 @@
+{
+  "run": {
+    "id": "p1_smoke_flux",
+    "created_at_utc": "2026-02-17T00:12:24+00:00",
+    "platform": "macOS-15.7.3-arm64-arm-64bit",
+    "python": "3.12.12",
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "git_commit": null
+  },
+  "params": {
+    "N": 30,
+    "K": 4,
+    "n0_paper": 1,
+    "target_paper": 15,
+    "sc_src_paper": 6,
+    "rho": 1.0,
+    "max_steps": 300,
+    "eps_stop": 1e-14,
+    "min_height": 1e-07,
+    "second_rel_height": 0.01,
+    "second_frac": 0.01,
+    "min_separation": 8,
+    "require_valley": false,
+    "valley_frac": 0.8
+  },
+  "summary": {
+    "n_dst_total": 2,
+    "n_valid": 2,
+    "n_fig3_bimodal": 0,
+    "n_robust_bimodal": 0,
+    "fig3_bimodal_dsts": [],
+    "robust_bimodal_dsts": [],
+    "example_dsts": []
+  },
+  "aw_check": {},
+  "files": {
+    "scan_csv": "reports/ring_valley_dst/data/bimodality_flux_scan/N30K4_n0_1_target_15_src_6/runs/p1_smoke_flux/scan__p1_smoke_flux.csv",
+    "bimodal_table_tex": "reports/ring_valley_dst/data/bimodality_flux_scan/N30K4_n0_1_target_15_src_6/runs/p1_smoke_flux/bimodal_table__p1_smoke_flux.tex",
+    "fig_bimodality_scan": "reports/ring_valley_dst/figures/bimodality_flux_scan/N30K4_n0_1_target_15_src_6/runs/p1_smoke_flux/bimodality_scan__p1_smoke_flux.pdf",
+    "fig_peak_times": "reports/ring_valley_dst/figures/bimodality_flux_scan/N30K4_n0_1_target_15_src_6/runs/p1_smoke_flux/peak_times__p1_smoke_flux.pdf",
+    "fig_examples": "reports/ring_valley_dst/figures/bimodality_flux_scan/N30K4_n0_1_target_15_src_6/runs/p1_smoke_flux/example_curves__p1_smoke_flux.pdf"
+  }
+}

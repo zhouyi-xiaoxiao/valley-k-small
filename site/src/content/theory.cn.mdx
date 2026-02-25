@@ -1,0 +1,17 @@
+# 统一理论说明
+
+本项目在环网络首达时间问题中，主要比较三种 shortcut 构造：
+
+- **selfloop transfer**：从停留概率中切出一部分给 shortcut。
+- **renormalize**：在源点新增一条出边并整体重归一。
+- **equal4**：在源点强制 stay/left/right/shortcut 四动作等概率。
+
+核心量包括：
+
+$$f(t)=\Pr[T=t], \quad S(t)=\Pr[T>t], \quad h(t)=\frac{f(t)}{S(t-1)}.$$
+
+实践中的双峰判据通常要求：两个分离的严格局部峰 $t_1<t_2$，并结合谷底深度与峰高比阈值：
+
+$$R=\frac{f(t_2)}{f(t_1)}, \quad V=\frac{f(t_v)}{\max\{f(t_1),f(t_2)\}}.$$
+
+本网站把每份报告都绑定到交互面板，便于直接查看这些量在数据中的行为。

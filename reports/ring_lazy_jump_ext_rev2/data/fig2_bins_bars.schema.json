@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fig2 bins+bars schema",
+  "type": "object",
+  "required": [
+    "windows",
+    "bin_colors",
+    "classes",
+    "class_colors",
+    "bin_intervals",
+    "proportions"
+  ],
+  "properties": {
+    "windows": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 3
+    },
+    "bin_colors": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "classes": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 4
+    },
+    "class_colors": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "bin_intervals": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {"type": "number"},
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "proportions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        }
+      }
+    },
+    "n_windows": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {"type": "number"}
+      }
+    },
+    "meta": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

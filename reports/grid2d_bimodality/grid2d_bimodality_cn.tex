@@ -1,0 +1,618 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{fvextra}
+\usepackage{microtype}
+\usepackage{placeins}
+\Urlmuskip=0mu plus 1mu
+
+\title{二维 $N\times N$ 晶格上偏置/惰性随机游走的首达时间双峰构造}
+\author{}
+\date{}
+
+\newcommand{\FigDir}{figures}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{结论与关键图示}
+\begin{itemize}
+  \item \textbf{候选 A}（周期边界 + 全局偏置）：FPT 在统一双峰判据下呈现双峰；快/慢通道由 ``逆漂移短路'' 与 ``顺漂移绕行'' 叠加产生；AW 反演与 exact recursion 在 $t\le t_{\max}^{\mathrm{AW}}$ 内一致，MC 叠加吻合（图~\ref{fig:A-fpt}、\ref{fig:A-unwrapped}）。
+  \item \textbf{候选 B}（贴边走廊 + 混合边界）：自动调参得到 $(g_x,g_y,\delta)=(-0.25,0.40,0.70)$，并采用 $x$ 周期边界引入绕行慢通道，使 fast 权重进入可视化可辨区间；峰谷放大图中双峰清晰可见（图~\ref{fig:B-proof}）。
+  \item \textbf{候选 C}（door + sticky + wrap-around）：在 $n_{\text{bias}}=0$ 时已出现双峰，最少 local bias sites 为 0（图~\ref{fig:scan-C}）。
+  \item 数值对比：AW 反演（解析）与 exact recursion（时域）在前 $t_{\max}^{\mathrm{AW}}$ 步的 $L^1$ 误差达到 $10^{-12}$ 量级（见表~\ref{tab:aw-errors} 与误差指标）。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/candidate_B_scan.pdf}
+    \caption*{(a) 候选 B 扫描}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/candidate_C_scan.pdf}
+    \caption*{(b) 候选 C 扫描}
+  \end{minipage}
+  \caption{最短走廊长度与最少 local bias sites 扫描结果（B 与 C）。}
+  \label{fig:scan-summary}
+\end{figure}
+
+\section*{参数表}
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $N$ & $q$ & $g_x$ & $g_y$ & boundary & (start, target) \\
+    \midrule
+    A & 60 & 0.8 & +0.6 & 0 & $x$ 周期, $y$ 反射 & (10,30)$\to$(12,30) \\
+    B & 60 & 0.8 & -0.25 & +0.40 & $x$ 周期, $y$ 反射 & (50,60)$\to$(42,60) \\
+    C & 60 & 0.8 & +0.5 & 0 & $x$ 周期, $y$ 反射 & (10,30)$\to$(50,30) \\
+    \bottomrule
+  \end{tabular}
+  \caption{三类候选的核心参数。候选 B 采用贴边走廊与自动调参（此表给出最终采用的 $g_x,g_y$）；候选 C 采用 door + sticky，并保留 wrap-around 通道。}
+  \label{tab:params}
+\end{table}
+
+\section{模型定义与坐标约定}
+状态空间为 $\{1,\dots,N\}\times\{1,\dots,N\}$。记当前位置为 $(x,y)$，目标点 $(x_t,y_t)$ 为吸收态。每步更新为
+\begin{align}
+  p_{\text{left}} &= \frac{q}{4}(1+g_x),\quad p_{\text{right}} = \frac{q}{4}(1-g_x),\\
+  p_{\text{down}} &= \frac{q}{4}(1+g_y),\quad p_{\text{up}} = \frac{q}{4}(1-g_y),\\
+  p_{\text{stay}} &= 1-q.
+\end{align}
+本文采用 ``$y$ 轴向下为正'' 的坐标约定，因此 $g_y>0$ 表示向下偏置。边界条件支持反射、周期或混合（$x$ 周期、$y$ 反射）。
+\noindent 由式(1)可见 \(g_x>0\) 会增大 \(p_{\text{left}}=\frac{q}{4}(1+g_x)\) 并减小 \(p_{\text{right}}=\frac{q}{4}(1-g_x)\)，因此本文约定 \(g_x>0\) 表示\textbf{向左}全局偏置（\(g_x<0\) 表示向右偏置）。
+
+\paragraph{局部异质性（组合）}
+\begin{itemize}
+  \item local bias（箭头）：将 $p_{\text{stay}}$ 乘 $(1-\delta)$，并把 $\Delta=\delta p_{\text{stay}}$ 加到箭头方向；其余方向不变。
+  \item sticky site：将该格点的移动概率缩放为 $q_{\text{site}}=\text{factor}\cdot q$（本文默认 0.2），$p_{\text{stay}}$ 相应上升。
+  \item barrier：反射边将该方向概率加回 stay；半透门以 $p_{\text{pass}}$ 通过、$1-p_{\text{pass}}$ 反射。
+\end{itemize}
+
+\section{图形阅读指南}
+图~\ref{fig:symbol-legend} 给出统一符号语法：红色方块为起点、蓝色菱形为目标；粗实线为反射墙、虚线为门（标注 $p_{\text{pass}}$）、半透明阴影为 sticky 区；红色小箭头为 local bias；图外大箭头给出全局偏置方向与 $(g_x,g_y)$ 数值。为便于阅读，将环境示意、$P(n,t)$ 切片、FPT 多尺度图与通道分解分别独立成图，避免子图拥挤；候选 B 另给出峰谷放大图以强调早峰与 valley。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\FigDir/env/symbol_legend.pdf}
+  \caption{图形符号图例。}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\section{解析推导：从无缺陷 propagator 到时域 FPT}
+本节给出统一推导链条：\emph{无缺陷 propagator $\to$ 有缺陷 propagator $\to$ FPT 生成函数 $\to$ AW 反演}。三类候选均可落在同一框架内。
+
+\subsection{矩阵形式与生成函数}
+设无吸收系统的转移矩阵为 $A$，约定 $A_{v,u}=\Pr(u\to v)$，因此列和为 1，且 $\mathbf{p}_{t+1}=A\mathbf{p}_t$。传播子满足
+\begin{equation}
+  P_{n_0}(n,t)=\mathbf{e}_n^\top A^t \mathbf{e}_{n_0},
+  \qquad
+  \tilde{\mathbf{P}}(z)=\sum_{t\ge 0} A^t z^t=(I-zA)^{-1},
+\end{equation}
+从而
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\mathbf{e}_n^\top (I-zA)^{-1}\mathbf{e}_{n_0}.
+\end{equation}
+下面给出 $A$ 的谱分解形式与缺陷更新公式，以便对任意候选构造得到 $\tilde P$。
+
+\subsection{无缺陷 propagator 的谱分解}
+将二维转移写成两个一维算子叠加（沿 $x$ 与 $y$ 方向）。设一维步进矩阵的特征对为 $\{\lambda_k^{(\gamma)},h_k^{(\gamma)}\}$，其中 $\gamma\in\{\text{periodic},\text{reflecting}\}$ 表示边界类型。定义
+\begin{equation}
+  s_k^{(\gamma)} = q\,\bigl(\lambda_k^{(\gamma)}-1\bigr),\qquad
+  \Lambda_{k_1,k_2}=1+\frac{s_{k_1}^{(\gamma_x)}+s_{k_2}^{(\gamma_y)}}{2}.
+\end{equation}
+则二维无缺陷 propagator（PRE 102, 062124 的 Eq.(33) 形式）为
+\begin{equation}
+  P^{(\gamma)}_{n_0}(n,t)=\sum_{k_1}\sum_{k_2} h_{k_1}^{(\gamma_x)}(x,x_0)\,h_{k_2}^{(\gamma_y)}(y,y_0)\,\Lambda_{k_1,k_2}^t.
+  \label{eq:P_time}
+\end{equation}
+对时间做 $z$ 变换得到
+\begin{equation}
+  \tilde P^{(\gamma)}_{n_0}(n,z)=\sum_{k_1}\sum_{k_2}
+  \frac{h_{k_1}^{(\gamma_x)}(x,x_0)\,h_{k_2}^{(\gamma_y)}(y,y_0)}{1-z\Lambda_{k_1,k_2}}.
+  \label{eq:P_z}
+\end{equation}
+
+\paragraph{周期边界（periodic）} \;\;
+\begin{equation}
+  \theta_k=\frac{2\pi k}{N},\quad
+  \lambda_k^{(\text{per})}=\frac{1+g}{2}e^{-i\theta_k}+\frac{1-g}{2}e^{i\theta_k},\quad
+  h_k^{(\text{per})}(x,x_0)=\frac{1}{N}e^{i\theta_k(x-x_0)}.
+\end{equation}
+
+\paragraph{反射边界（reflecting）} \;\;
+设 $p_\ell=(1+g)/2,\;p_r=(1-g)/2,\;\rho=p_r/p_\ell$。可通过相似变换将一维算子对称化，得到
+\begin{equation}
+  \lambda_0^{(\text{ref})}=1,\quad
+  \lambda_k^{(\text{ref})}=2\sqrt{p_\ell p_r}\cos\frac{k\pi}{N}\ (k\ge 1),\quad
+  h_k^{(\text{ref})}(x,x_0)=u_k(x)u_k(x_0)\sqrt{\frac{\pi_x}{\pi_{x_0}}},
+\end{equation}
+其中 $\pi_x\propto \rho^x$ 为平衡分布，$u_k$ 为正交余弦模（与 PRE Eq.(22)-(23) 一致）。
+
+\subsection{有缺陷 propagator 的 determinant 公式}
+将缺陷写为矩阵扰动 $\underline{X}=\underline{B}-\underline{A}$。对每条有向边 $(u_i\to v_i)$ 定义
+\begin{equation}
+  \eta_{u_i,v_i}=X_{v_i,u_i}=B_{v_i,u_i}-A_{v_i,u_i}.
+\end{equation}
+并定义差分 propagator
+\begin{equation}
+  \tilde P^e_{\langle u-v\rangle}(n,z)=\tilde P^e_{u}(n,z)-\tilde P^e_{v}(n,z).
+\end{equation}
+则 2311.00464v2 的 inert-heterogeneity 公式给出
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-1+\frac{\det[H(n,n_0;z)]}{\det[H(z)]},
+\end{equation}
+其中
+\begin{align}
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(u_i,z)-\eta_{v_j,u_j}\,\tilde P^e_{\langle u_j-v_j\rangle}(v_i,z),\\
+  H(n,n_0;z)_{ij}&=H_{ij}(z)-\tilde P^e_{\langle u_j-v_j\rangle}(n,z)\left[\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z)\right].
+\end{align}
+数值实现中，我们等价地求解线性系统得到 $\tilde P$（由 Cramer 规则与上式等价），以获得更好的数值稳定性。
+亦可将其写成线性代数形式：
+\begin{align}
+  b_j(n,z)&=\tilde P^e_{u_j}(n,z)-\tilde P^e_{v_j}(n,z),\\
+  a_i(n_0,z)&=\eta_{u_i,v_i}\tilde P^e_{n_0}(u_i,z)-\eta_{v_i,u_i}\tilde P^e_{n_0}(v_i,z),\\
+  H_{ij}(z)&=-\frac{\delta_{ij}}{z}+\eta_{u_j,v_j}\,b_j(u_i,z)-\eta_{v_j,u_j}\,b_j(v_i,z),
+\end{align}
+从而
+\begin{equation}
+  \tilde P_{n_0}(n,z)=\tilde P^e_{n_0}(n,z)-\mathbf{b}(n,z)^\top H(z)^{-1}\mathbf{a}(n_0,z).
+\end{equation}
+本文数值实现使用该线性系统形式避免逐点求行列式。
+
+\paragraph{缺陷映射（B/C 使用）}
+\begin{itemize}
+  \item local bias：减少 self-loop 并把概率加到箭头方向，等价于 $(u\to v)$ 的 $\eta_{u,v}=+\Delta$，并对 $(u\to u)$ 添加补偿项以保持列和为 1。
+  \item door/permeable barrier：跨门通过概率乘 $p_{\text{pass}}$，对应边 $(u\to v)$ 与 $(v\to u)$ 具有 $\eta_{u,v}=(p_{\text{pass}}-1)P_{u\to v}^{\text{base}}$。
+  \item sticky：所有出边概率乘 $\alpha$，每条出边 $(u\to n)$ 的 $\eta_{u,n}=(\alpha-1)P_{u\to n}^{\text{base}}$，并对 $(u\to u)$ 添加补偿项以保持列和为 1。
+\end{itemize}
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    feature & 规则（以 $u\to v$ 为例） & 对应 $\lambda_{u,v}$\\
+    \midrule
+    local bias & $p_{u\to v}=p_{u\to v}^0+\Delta$ & $-\Delta/p_{u\to v}^0$\\
+    sticky & $p_{u\to v}=\alpha p_{u\to v}^0$ & $1-\alpha$\\
+    barrier & $p_{u\to v}=0$ & $1$\\
+    door & $p_{u\to v}=p_{\text{pass}}p_{u\to v}^0$ & $1-p_{\text{pass}}$\\
+    \bottomrule
+  \end{tabular}
+  \caption{特征到 $\lambda$ 的映射（$\eta_{u,v}=-\lambda_{u,v}p_{u\to v}^0$）。}
+  \label{tab:lambda-map}
+\end{table}
+
+\subsection{FPT 生成函数与 AW 反演}
+考虑包含吸收态的主方程
+\begin{equation}
+  \mathbf{p}_{t+1}=P\,\mathbf{p}_t,\qquad \mathbf{p}_0=\mathbf{e}_{n_0},
+\end{equation}
+对时间做 $z$ 变换 $\tilde{\mathbf{p}}(z)=\sum_{t\ge 0}\mathbf{p}_t z^t$ 得
+\begin{equation}
+  \tilde{\mathbf{p}}(z)=(I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+记累积到达概率 $F(t)=\mathbf{e}_{n_t}^\top \mathbf{p}_t$，则
+\begin{equation}
+  \tilde F(z)=\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+由 $f(t)=F(t)-F(t-1)$（取 $F(-1)=0$）得到 PMF 的生成函数
+\begin{equation}
+  \tilde f(z)=(1-z)\tilde F(z)=(1-z)\,\mathbf{e}_{n_t}^\top (I-zP)^{-1}\mathbf{p}_0.
+\end{equation}
+本文保留两者记号：$\tilde F$ 为 CDF 的生成函数，$\tilde f$ 为 PMF 的生成函数（AW 反演使用 $\tilde f$）。
+Exact recursion 的时域表达为
+\begin{equation}
+  f(t)=r^\top Q^{t-1} p_0,\quad t\ge 1,
+  \label{eq:exact-recursion}
+\end{equation}
+因此生成函数可写为
+\begin{equation}
+  \tilde f(z)=\sum_{t\ge 1} f(t) z^t
+  = z\,r^\top (I-zQ)^{-1} p_0.
+\end{equation}
+另一方面，由 renewal 关系亦有
+\begin{equation}
+  \tilde f_{n_0\to n_t}(z)=\frac{\tilde P_{n_0}(n_t,z)}{\tilde P_{n_t}(n_t,z)},
+  \label{eq:Fz}
+\end{equation}
+两者等价：前者以 transient 子矩阵 $Q$ 表达，后者以无吸收 propagator 表达。
+随后采用 Abate--Whitt (AW) 数值反演将 $z$ 域系数化：
+\begin{equation}
+  f(t)\approx r^{-t}\frac{1}{m}\sum_{k=0}^{m-1}\tilde f(z_k)\,e^{-2\pi i k t/m},
+  \qquad z_k=r\,e^{2\pi i k/m},\quad t=1,\dots,t_{\max}^{\mathrm{AW}}.
+  \label{eq:AW}
+\end{equation}
+本文选取 $m=\mathrm{pow2}(\text{oversample}\cdot(t_{\max}^{\mathrm{AW}}+1))$，并设 $r^m=10^{-\text{r\_pow10}}$，与仓库内 AW 设置保持一致。
+其中 $r$ 越接近 1，截断误差越小但数值更敏感；$r$ 过小则会放大截断误差，本文沿用自动选参策略以平衡稳定性与精度。
+
+\begin{quote}
+\textbf{实现流程（Algorithm box）}
+\begin{enumerate}[leftmargin=*, itemsep=0pt]
+  \item 构建无缺陷 $A$ 的谱分解（周期/反射边界），得到 $\tilde P^e(n,z)$ 的显式模态和。
+  \item 由缺陷列表构造 $H(z)$ 与向量 $\mathbf{a},\mathbf{b}$，解线性系统得到 $\tilde P(n,z)$。
+  \item 用 renewal 公式 $\tilde f(z)=\tilde P_{n_0}(n_t,z)/\tilde P_{n_t}(n_t,z)$ 得到生成函数。
+  \item 对 $z_k=r e^{2\pi i k/m}$ 采样并用 AW 反演得到 $f(t)$。
+  \item 与 exact recursion/MC 对比误差，并记录为指标 JSON。
+\end{enumerate}
+\end{quote}
+
+\section{数值基线：Exact/flux 递推与 MC}
+Exact 递推在 transient 空间计算 $f(t)=r^\top Q^{t-1} p_0$（式~\ref{eq:exact-recursion}），作为确定性基准，并与 AW 反演及 MC 直方图叠加对比（图~\ref{fig:A-fpt}--\ref{fig:C-fpt}）。MC 轨迹同时按 ``快/慢通道'' 分类，以解释双峰来源。
+
+\paragraph{峰谷指标定义}
+对平滑后的 $f(t)$，取两个局部主峰位置 $t_{p1},t_{p2}$ 及其间最小值 $t_v$，并定义
+\begin{equation}
+  h_1=f(t_{p1}),\quad h_2=f(t_{p2}),\quad
+  \text{peak ratio}=\frac{\min(h_1,h_2)}{\max(h_1,h_2)},\quad
+  \text{valley ratio}=\frac{f(t_v)}{\min(h_1,h_2)}.
+\end{equation}
+% --- clarification: v_max vs v_min (Fig.1b) ---
+\noindent\textbf{注：}候选扫描图（Fig.~1(b)）中为便于筛选使用
+\[
+  v_{\max}=\frac{h_v}{\max(h_1,h_2)},
+\]
+而本文的 \emph{valley ratio} 定义为
+\[
+  v_{\min}=\frac{h_v}{\min(h_1,h_2)}.
+\]
+二者关系为
+\[
+  v_{\max}=v_{\min}\,\frac{\min(h_1,h_2)}{\max(h_1,h_2)}
+  =v_{\min}\times \text{peak ratio}.
+\]
+所有图内标注与配置卡数值均由同一套指标计算函数输出并写入 metrics JSON，保证一致性。
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+    case & $L^1$ error & $L^\infty$ error \\
+    \midrule
+    A & $1.56\times 10^{-13}$ & $2.97\times 10^{-16}$ \\
+    B & $5.04\times 10^{-13}$ & $9.57\times 10^{-16}$ \\
+    C & $1.10\times 10^{-13}$ & $1.89\times 10^{-16}$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{AW 反演与 exact recursion 在 $t\le t_{\max}^{\mathrm{AW}}$ 内的误差（$L^1$ 与 $L^\infty$）。}
+  \label{tab:aw-errors}
+\end{table}
+
+\section{三类构造与机制}
+下文分别给出三类候选配置的构造、机制解释与数值验证结果（将环境示意、FPT 多尺度与通道分解等分开成图，避免子图拥挤）。
+
+\subsection{候选 A：周期边界 + 全局偏置}
+机制对应 PhysRevE 102, 062124 中 ``periodic + bias'' 的双峰讨论。快通道为逆漂移短路，慢通道为顺漂移绕行。
+
+\paragraph{Configuration Card}
+\begin{itemize}
+  \item $N=60,\;q=0.8,\;g=(+0.6,0)$，边界：$x$ 周期、$y$ 反射；start=(10,30)，target=(12,30)。
+  \item 局部结构：无 local defects；双峰由 wrap-around 通道纯拓扑产生。
+  \item 通道判据：无 $x$-wrap 为 fast，至少一次 $x$-wrap 为 slow（与 MC 分类一致）。
+  \item 峰谷指标：$t_{p1}=6,\;t_v=110,\;t_{p2}=232$；$h_2/h_1=0.374$；valley ratio$=2.60\times 10^{-5}$。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/candidate_A_env.pdf}
+  \caption{候选 A：环境示意图。符号语法与图~\ref{fig:symbol-legend} 一致。}
+  \label{fig:A-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/candidate_A_fig3_panel.pdf}
+  \caption{候选 A：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:A-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_A_paths_fast.pdf}
+  \caption{候选 A：fast 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:A-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_A_paths_slow.pdf}
+  \caption{候选 A：slow 通道轨迹密度 + 代表轨迹（full + ROI）。}
+  \label{fig:A-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/candidate_A_fpt.pdf}
+  \caption{候选 A：FPT 多尺度图（全局 log + fast/slow 局部，Exact/AW/MC 叠加）。}
+  \label{fig:A-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/candidate_A_channel_decomp.pdf}
+  \caption{候选 A：通道分解与混合。}
+  \label{fig:A-channel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/unwrapped/candidate_A_unwrapped.pdf}
+  \caption{候选 A：periodic 展开图（两 tile），标注 $Dx_{\text{short}}$ 与 $Dx_{\text{wrap}}$。}
+  \label{fig:A-unwrapped}
+\end{figure}
+\FloatBarrier
+
+\subsection{候选 B：贴边走廊 + mixed 边界}
+本文将走廊贴在反射边界（$y=N$），并启用自动调参选择 $(g_x,g_y,\delta)$ 以满足双峰可视化阈值；当纯反射边界下无法满足阈值时，调参器允许 $x$ 方向采用周期边界以形成 ``绕行慢通道''。相比内部走廊构造，贴边走廊减少向外逃逸，从而显著提升 fast 权重。
+\paragraph{失败对照（内部走廊）} 纯反射的内部走廊在我们的判据下给出过小的 fast 权重（早峰接近肩部噪声），因此作为失败对照保留，用以说明“贴边走廊 + 混合边界”对双峰可视化的重要性。
+
+\paragraph{为何内部走廊早峰极小？为何贴边走廊能修复？}
+内部走廊构造可视为一个 ``失败案例''：走廊处于内部带，沿 $y$ 方向的逃逸概率约为 $p_\uparrow+p_\downarrow\approx q/2$，因此 ``连续 $L$ 步留在 band'' 的概率近似为 $(1-q/2)^L$。取 $q=0.8,L=9$ 得 $(0.6)^9\approx 1\%$，与该构造的 $P_{\text{fast}}\approx 0.01$ 一致，导致早峰几乎不可见。贴边走廊方案将走廊贴在反射边界，向外逃逸被反射，仅剩单侧逃逸 $p_\uparrow\approx q(1-g_y)/4$，留在 band 的概率提升为 $(1-p_\uparrow)^L$，可达 $10\%\sim 30\%$，因此早峰从几乎不可见提升为满足可视化阈值；同时 $x$ 周期边界为慢通道提供清晰的绕行时间尺度。
+
+\paragraph{Configuration Card}
+\begin{itemize}
+  \item $N=60,\;q=0.8,\;g=(-0.25,+0.40)$，边界：$x$ 周期、$y$ 反射；start=(50,60)，target=(42,60)。
+  \item 走廊：$y=60$，$x\in[43,50]$，方向 left，$\delta=0.70$，长度 $L=8$；corridor band 为 $y\in\{59,60\}$。
+  \item 通道判据：命中前若未离开 corridor band 则 fast，否则 slow（与 MC 分类一致）。
+  \item 峰谷指标：$t_{p1}=33,\;t_v=220,\;t_{p2}=473$；$h_2/h_1=0.989$；valley ratio$=6.04\times 10^{-2}$。
+\end{itemize}
+
+\paragraph{可视化提示} 候选 B 的双峰高度差异仍较大，需使用 semilogy + 局部窗口才能清晰看到早峰与 valley（见图~\ref{fig:B-proof}）。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/candidate_B_env.pdf}
+  \caption{候选 B：环境示意图（贴边走廊与局部 bias 清晰标注）。}
+  \label{fig:B-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/candidate_B_fig3_panel.pdf}
+  \caption{候选 B：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:B-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_B_paths_fast.pdf}
+  \caption{候选 B：fast 通道密度（贴边走廊内直达，允许 $y$ 方向小幅波动）。}
+  \label{fig:B-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_B_paths_slow.pdf}
+  \caption{候选 B：slow 通道密度（离开 corridor band 后绕行）。}
+  \label{fig:B-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/candidate_B_fpt.pdf}
+  \caption{候选 B：FPT 多尺度图（Exact/AW/MC）。}
+  \label{fig:B-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/bimodality_proof_B.png}
+  \caption{候选 B：峰谷放大图（semilogy + linear，标注 $t_{p1},t_v,t_{p2}$ 与 valley ratio）。}
+  \label{fig:B-proof}
+\end{figure}
+
+\paragraph{双峰判别与显著性}
+图~\ref{fig:B-diagnostic} 对平滑曲线执行峰检测（prominence+distance），标出 $t_{p1},t_{p2}$ 与 $t_v$，并展示 valley ratio 的数值；用于排除噪声肩峰并给出统一的双峰判据。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{\FigDir/fpt/bimodality_diagnostic_B.pdf}
+  \caption{候选 B：双峰判别诊断图（raw vs smoothed + peak finding + valley 指标）。}
+  \label{fig:B-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/candidate_B_channel_decomp.pdf}
+  \caption{候选 B：通道分解与混合。}
+  \label{fig:B-channel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/unwrapped/candidate_B_unwrapped.pdf}
+  \caption{候选 B：periodic 展开图（两 tile），显示绕行慢通道的几何距离。}
+  \label{fig:B-unwrapped}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{\FigDir/channel_decomp/candidate_B_scan.pdf}
+  \caption{候选 B：扫描 $L$ 的峰高比与 valley 深度，$L_{\min}=6$。}
+  \label{fig:scan-B}
+\end{figure}
+\FloatBarrier
+
+\paragraph{失败案例（内部走廊）}
+在内部走廊参数下，候选 B 的早峰权重过小（$P_{\text{fast}}\approx 1\%$），平滑后主峰与次峰不再满足本文的双峰判据，属于 ``局部走廊过弱'' 的失败构造。该失败案例用于强调：corridor 贴近反射边界、并提高留在 band 的概率，是使双峰在视觉与统计判据上均达标的关键。
+
+\subsection{候选 C：door + sticky + wrap-around 通道}
+在竖直 barrier 上设置半透门（$p_{\text{pass}}=0.2$），并在门左侧设置 $3\times 3$ sticky 区（factor=0.2）。采用 $x$ 周期边界与左向全局偏置（$g_x=+0.5$），以首次穿门时间划分通道：早穿门为 fast，晚穿门（含 wrap-around 与 sticky/door 延迟）为 slow；双峰在 $n_{\text{bias}}=0$ 时已出现。
+
+\paragraph{Configuration Card}
+\begin{itemize}
+  \item $N=60,\;q=0.8,\;g=(+0.5,0)$，边界：$x$ 周期、$y$ 反射；start=(10,30)，target=(50,30)。
+  \item barrier/door：竖直壁 $x=30$ 全长反射，仅在 $(30,30)\leftrightarrow(31,30)$ 开门，$p_{\text{pass}}=0.2$。
+  \item sticky：$x\in[27,29],\;y\in[29,31]$，factor=0.2；local bias sites 数量为 0。
+  \item 通道判据：首次穿门时间 $\le t_v$ 为 fast，否则 slow。
+  \item 峰谷指标：$t_{p1}=88,\;t_v=279,\;t_{p2}=500$；$h_2/h_1=0.0326$；valley ratio$=2.19\times 10^{-2}$。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/env/candidate_C_env.pdf}
+  \caption{候选 C：环境示意图（door/sticky 清晰标注）。}
+  \label{fig:C-env}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fig3_panels/candidate_C_fig3_panel.pdf}
+  \caption{候选 C：环境示意与 $t_{p1},t_v,t_{p2}$ 的 $P(n,t)$ 切片。}
+  \label{fig:C-panel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_C_paths_fast.pdf}
+  \caption{候选 C：fast 通道密度（door 早通过）。}
+  \label{fig:C-paths-fast}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/paths/candidate_C_paths_slow.pdf}
+  \caption{候选 C：slow 通道密度（wrap-around 绕行或 sticky/door 延迟）。}
+  \label{fig:C-paths-slow}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/fpt/candidate_C_fpt.pdf}
+  \caption{候选 C：FPT 多尺度图（Exact/AW/MC，slow window 自适应 y 轴）。}
+  \label{fig:C-fpt}
+\end{figure}
+
+\paragraph{双峰判别诊断}
+图~\ref{fig:C-diagnostic} 采用窗口化两峰判别（early:[1,200], late:[200,1200]），在平滑曲线上给出 $t_{p1}=88,t_v=279,t_{p2}=500$，并满足统一判据 valley ratio$\le 0.07$。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{\FigDir/fpt/bimodality_diagnostic_C.pdf}
+  \caption{候选 C：双峰判别诊断图（windowed two-peak；raw vs smoothed + peak finding + valley 指标）。}
+  \label{fig:C-diagnostic}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\FigDir/channel_decomp/candidate_C_channel_decomp.pdf}
+  \caption{候选 C：通道分解与混合。}
+  \label{fig:C-channel}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{\FigDir/unwrapped/candidate_C_unwrapped.pdf}
+  \caption{候选 C：periodic 展开图（两 tile）。}
+  \label{fig:C-unwrapped}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{\FigDir/channel_decomp/candidate_C_scan.pdf}
+  \caption{候选 C：扫描 local bias sites 数量，$n_{\min}=0$。}
+  \label{fig:scan-C}
+\end{figure}
+\FloatBarrier
+
+\section{直观机制图解：两通道混合 + 时间尺度分离}
+将轨迹按通道事件 $C\in\{\text{fast},\text{slow}\}$ 分类，则
+\begin{equation}
+  f(t)=\mathbb{P}(C=\text{fast})\,f(t\,|\,C=\text{fast})
+  +\mathbb{P}(C=\text{slow})\,f(t\,|\,C=\text{slow}).
+\end{equation}
+当两类条件分布的典型时间满足 $t_{\text{fast}}\ll t_{\text{slow}}$，且 $\mathbb{P}(C=\text{fast})$ 不过小，则整体 $f(t)$ 在两峰之间形成明显 valley。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.65\textwidth]{\FigDir/fig3_panels/channel_cartoon.pdf}
+  \caption{双峰的概念示意图：fast/slow 两通道混合 + 时间尺度分离。}
+  \label{fig:channel-cartoon}
+\end{figure}
+
+\paragraph{通道判据（用于 fast/slow 分类）}
+\begin{itemize}
+  \item A：是否发生 $x$ 方向 wrap-around（跨越周期边界）；无 wrap 为 fast，发生 wrap 为 slow。
+  \item B：是否在命中前离开 corridor band（$y\in\{59,60\}$）；保持在 band 内直到命中为 fast，离开为 slow。
+  \item C：门穿越首次发生时间是否晚于 $t_v$；早穿门为 fast，晚穿门为 slow。
+\end{itemize}
+
+\paragraph{三类候选的几何解释}
+\begin{itemize}
+  \item A：fast 为逆漂移短路，slow 为顺漂移绕行；周期拓扑将 ``绕圈'' 变成天然慢通道。
+  \item B：贴边走廊提供快通道；$x$ 周期边界 + 全局偏置提供绕行慢通道；对照扫描得到 $L_{\min}=6$。
+  \item C：door + sticky 抬高穿门代价；早穿门/短路为 fast，晚穿门/绕行与 sticky 滞留为 slow；最少 local bias sites 为 $n_{\min}=0$。
+\end{itemize}
+
+\paragraph{periodic unwrapped 直观图}
+候选 A、B 与 C 的 periodic 机制通过展开图展示（图~\ref{fig:A-unwrapped}、图~\ref{fig:B-unwrapped} 与图~\ref{fig:C-unwrapped}），
+在两个 tile 中同时标注 target 的 image，并给出短路距离 $Dx_{\text{short}}$ 与绕行距离 $Dx_{\text{wrap}}$。
+
+\paragraph{粗略峰位预测}
+一维漂移速度的近似为 $v_x \approx q|g_x|/2$，从而给出 $t_{\text{peak}}\approx \Delta x / v_x$ 的粗略估计。表~\ref{tab:peak-predict} 给出估计与数值峰位的对照（仅用于直观解释）。
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccc}
+    \toprule
+    case & channel & $\Delta x$ & $t_{\text{pred}}$ & $t_{\text{peak}}$ \\
+    \midrule
+    A & fast (short) & 2 & 8.3 & 6 \\
+    A & slow (wrap) & 58 & 241.7 & 232 \\
+    B & fast (corridor) & 8 & 80.0 & 33 \\
+    B & slow (wrap) & 52 & 520.0 & 473 \\
+    C & fast (short) & 20 & 100.0 & 88 \\
+    C & slow (wrap) & 40 & 200.0 & 500 \\
+    \bottomrule
+  \end{tabular}
+  \caption{粗略峰位预测（基于 $v_x \approx q|g_x|/2$）与数值峰位对比。}
+  \label{tab:peak-predict}
+\end{table}
+
+表中可见，候选 B/C 的预测偏差更大，主要由于走廊局部 bias、周期绕行以及 door/sticky 引入的有效漂移/等待时间修正；该表仅用于量级直观解释。
+
+三类候选的机制共性可总结为：
+\begin{itemize}
+  \item A：周期拓扑提供 wrap-around 慢通道；逆偏置短路为快通道。
+  \item B：贴边走廊提供快通道，$x$ 周期边界与全局偏置提供绕行慢通道。
+  \item C：door + sticky 抬高穿门代价；早穿门为 fast，晚穿门（含 wrap-around 或 sticky/door 延迟）为 slow。
+\end{itemize}
+
+\section{边界条件的物理含义与保留价值}
+\paragraph{reflecting} 更贴近有限容器或围墙区域的扩散/搜索问题：概率守恒且不会“漏出系统”。
+\paragraph{periodic} 对应拓扑上环/环面或均匀介质的平铺近似，现实中并不常见，但可自然引入绕行慢通道，便于产生时间尺度分离（候选 A）。
+\paragraph{mixed} 仅在一个方向保留 wrap-around（如圆柱表面/条带结构），兼顾可控性与理论可解析性（候选 B 与 C）。
+\paragraph{选择建议} 若强调现实边界，可采用纯反射走廊基线；若强调双峰可视性，可采用贴边走廊并在 $x$ 方向引入周期边界。若强调最少 local bias，候选 A 最简但较理想化；若希望在有限墙域中仍保留可控绕行机制，候选 C 更合适。
+
+\section{与参考文献的对应}
+\begin{itemize}
+  \item PhysRevE 102, 062124：周期边界 + bias 会出现双峰（1D 明确论述），对应候选 A 与候选 C 的 wrap-around 通道。
+  \item arXiv:2311.00464v2 Fig.3：局部 bias、permeable barrier 与 sticky 的构造规则（20\% stay, 80/20 door, sticky factor 0.2）作为候选 B/C 的实现参考。
+\end{itemize}
+
+\section{数据与代码可得性}
+本文所用脚本与数据已整理在仓库 \url{reports/grid2d_bimodality/}。图形输出位于 \url{figures/}，数值指标与中间结果保存在 \url{data/} 与 \url{outputs/}。本文 PDF 由 \LaTeX{} 编译生成。需要复现时，可运行主脚本并按上述目录结构获取对应图表与指标。
+
+\begin{thebibliography}{9}
+  \bibitem{PRE102} S. Condamin et al., \emph{Phys. Rev. E} \textbf{102}, 062124 (2020).
+  \bibitem{arxiv2311} M. Abad et al., \emph{arXiv:2311.00464v2} (2023).
+\end{thebibliography}
+
+\end{document}

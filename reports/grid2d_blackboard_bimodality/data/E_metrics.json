@@ -1,0 +1,56 @@
+{
+  "absorption_prob": 0.3078475390964852,
+  "aw": {
+    "errors": {
+      "l1": 1.2136284911850758e-15,
+      "linf": 4.9060148304969076e-18,
+      "rel_l1": 3.942303696001616e-15
+    },
+    "params": {
+      "m": 32768,
+      "oversample": 4,
+      "r": 0.9991571235744863,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "E",
+  "mc": {
+    "fast_fraction": 0.016249999999999987,
+    "n_walkers": 4000,
+    "slow_fraction": 0.98375,
+    "truncated_fraction": 0.7045
+  },
+  "metrics": {
+    "bimodal": true,
+    "gap": 3739,
+    "h1": 0.0019334531731152896,
+    "h2": 6.558266903257729e-06,
+    "h2_over_h1": 0.003391996762295865,
+    "hv": 4.349638907115206e-06,
+    "min_gap": 20,
+    "min_sep": 5,
+    "passes": false,
+    "peak_ratio": 0.003391996762295865,
+    "smooth_window": 9,
+    "t_p1": 152,
+    "t_p2": 3891,
+    "t_v": 1639,
+    "valley_depth": 0.3367700687883588,
+    "valley_ratio": 0.6632299312116412
+  },
+  "name": "screenshot + sticky belt + clockwise bias",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": -0.2,
+    "q": 0.8,
+    "start": [
+      30,
+      50
+    ],
+    "target": [
+      30,
+      10
+    ]
+  }
+}

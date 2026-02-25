@@ -1,0 +1,91 @@
+\section{Theory: generating functions, AW inversion, and tail decay}
+
+This section provides the theoretical backbone for our exact pmf computation and tail diagnostics.
+We consider a lazy random walk on an $N$-node ring with $K=2k$ neighbors: with probability $q$ the walker moves on the ring, choosing uniformly from steps $\pm 1,\dots,\pm k$, and with probability $1-q$ it stays put. A directed shortcut from $\mathrm{src}$ to $\mathrm{dst}$ is added.
+
+\subsection{Spectral decomposition and the resolvent without a defect}
+Let $P_0$ denote the defect-free transition matrix. For non-source nodes, the one-step transition is
+\[
+P_0(i\to i)=1-q,\qquad
+P_0(i\to i\pm r)=\frac{q}{K},\quad r=1,\dots,k.
+\]
+Because $P_0$ is translation-invariant (a circulant matrix), its eigenvectors are Fourier modes
+\[
+\phi_\ell(x)=\exp\Big(\frac{2\pi i\ell x}{N}\Big),\qquad \ell=0,\dots,N-1,
+\]
+with eigenvalues
+\begin{equation}
+\lambda_\ell
+=(1-q)+\frac{q}{K}\sum_{r=1}^{k}\Big(e^{2\pi i\ell r/N}+e^{-2\pi i\ell r/N}\Big)
+=(1-q)+\frac{2q}{K}\sum_{r=1}^{k}\cos\Big(\frac{2\pi \ell r}{N}\Big).
+\end{equation}
+
+Define the resolvent (matrix generating function)
+\[
+S^{(0)}(z)=(I-zP_0)^{-1},\qquad |z|<1.
+\]
+By spectral decomposition,
+\begin{equation}
+S^{(0)}(z)_{x,y}
+=\frac{1}{N}\sum_{\ell=0}^{N-1}
+\frac{\exp\Big(\frac{2\pi i\ell(x-y)}{N}\Big)}{1-z\lambda_\ell}.
+\end{equation}
+One may further define a displacement form $Q(d,z):=S^{(0)}(z)_{y+d,y}$ to efficiently assemble defect quantities.
+
+\subsection{Directed shortcut under the self-loop rule: a rank-one update}
+In the \texttt{lazy\_selfloop} mode, the shortcut probability is
+\[
+p=\beta(1-q),
+\]
+and the same amount is removed from the self-loop probability at the source: $P(\mathrm{src}\to\mathrm{src})=(1-q)-p$ and $P(\mathrm{src}\to\mathrm{dst})=p$.
+Hence the transition matrix is a rank-one perturbation of $P_0$:
+\begin{equation}
+P = P_0 + p\, e_{\mathrm{src}}(e_{\mathrm{dst}}-e_{\mathrm{src}})^\top,
+\end{equation}
+where $e_i$ is the standard basis vector. Therefore
+\[
+I-zP = (I-zP_0) - z p\, e_{\mathrm{src}}(e_{\mathrm{dst}}-e_{\mathrm{src}})^\top.
+\]
+Applying the Sherman--Morrison formula
+\[
+(A+uv^\top)^{-1}=A^{-1}-\frac{A^{-1}uv^\top A^{-1}}{1+v^\top A^{-1}u},
+\]
+one can obtain the required entries of the defect resolvent $S(z)$ from $S^{(0)}(z)$ with $O(1)$ additional scalar operations (as implemented in the repository pipeline).
+
+\subsection{First absorption generating function under geometric absorption (\texorpdfstring{$\rho$}{rho})}
+Let $\mathrm{tar}$ be the target. Upon each visit to $\mathrm{tar}$, absorption occurs with probability $\rho$, otherwise the process continues with probability $1-\rho$.
+Let
+\[
+S_{i,j}(z)=\sum_{t\ge 0}\mathbb{P}(X_t=i\mid X_0=j)z^t
+\]
+be the visit generating function of the non-absorbed walk. Then the generating function of the first absorption pmf $f(t)=\mathbb{P}(T=t)$ for $t\ge 1$ is
+\begin{equation}
+\tilde f(z)=\sum_{t\ge 1}f(t)z^t
+=\frac{\rho\,S_{\mathrm{tar},n_0}(z)}{(1-\rho)+\rho\,S_{\mathrm{tar},\mathrm{tar}}(z)}.
+\end{equation}
+For $\rho=1$, this reduces to
+\[
+\tilde f(z)=\frac{S_{\mathrm{tar},n_0}(z)}{S_{\mathrm{tar},\mathrm{tar}}(z)}.
+\]
+
+\subsection{Abate--Whitt (AW) inversion via FFT}
+Coefficient extraction can be discretized on a circle. With $z_m=re^{2\pi i m/L}$ ($r<1$),
+\begin{equation}
+f(t)\approx r^{-t}\frac{1}{L}\sum_{m=0}^{L-1}\tilde f(z_m)e^{-2\pi i mt/L}.
+\end{equation}
+The right-hand side is an inverse DFT, thus FFT yields all $f(t)$ for $t=1,\dots,T_{\max}$ in $O(L\log L)$ time. We follow the repository's AW parameter selection and numerical stabilization.
+
+\subsection{Exponential tail decay and the spectral-radius rate \texorpdfstring{$\gamma$}{gamma}}
+Let $Q$ be the transient submatrix of the absorption chain. The survival function is
+\[
+S(t)=\mathbb{P}(T>t)=\mathbf{1}^\top Q^t e_{n_0}.
+\]
+By Perron--Frobenius theory for nonnegative matrices, there exists $\lambda_{\max}\in(0,1)$ such that
+\[
+S(t)\sim c\,\lambda_{\max}^t\quad (t\to\infty).
+\]
+We define the asymptotic exponential tail decay rate
+\begin{equation}
+\gamma=-\log(\lambda_{\max}),
+\end{equation}
+which provides a stable and comparable tail metric across $\beta$, $N$, and $K$. Numerically, we construct $Q$ and compute its spectral radius; for $\rho=1$ we remove the target state, and for $\rho<1$ we multiply the target row by $(1-\rho)$ to represent absorption leakage.

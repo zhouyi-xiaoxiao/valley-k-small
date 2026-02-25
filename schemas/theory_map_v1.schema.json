@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valley-k-small.dev/schemas/theory_map_v1.schema.json",
+  "title": "Theory Map V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "generated_at", "cards", "consistency_checks"],
+  "properties": {
+    "version": { "type": "string", "const": "v1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label_en",
+          "label_cn",
+          "description_en",
+          "description_cn",
+          "report_ids",
+          "report_count"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "label_en": { "type": "string", "minLength": 1 },
+          "label_cn": { "type": "string", "minLength": 1 },
+          "description_en": { "type": "string", "minLength": 1 },
+          "description_cn": { "type": "string", "minLength": 1 },
+          "report_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "report_count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "consistency_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check", "pass", "details"],
+        "properties": {
+          "check": { "type": "string", "minLength": 1 },
+          "pass": { "type": "boolean" },
+          "details": {}
+        }
+      }
+    }
+  }
+}

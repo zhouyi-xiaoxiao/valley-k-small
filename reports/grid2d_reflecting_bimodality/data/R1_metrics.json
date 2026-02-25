@@ -1,0 +1,65 @@
+{
+  "absorption_prob": 0.9024800536875623,
+  "aw": {
+    "errors": {
+      "l1": 2.7568173009857162e-15,
+      "linf": 4.382209655914848e-17,
+      "rel_l1": 3.0547127215956437e-15
+    },
+    "params": {
+      "m": 4096,
+      "oversample": 2,
+      "r": 0.9955128609158502,
+      "r_pow10": 8.0
+    }
+  },
+  "case_id": "R1",
+  "mc": {
+    "fast_fraction": 0.3196,
+    "n_walkers": 60000,
+    "slow_fraction": 0.6804,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "bimodal": false,
+    "early_window": [
+      1,
+      300
+    ],
+    "gap": 450,
+    "h1": 0.0013704226534350323,
+    "h2": 0.0006261380658881292,
+    "h2_over_h1": 0.4568941299377116,
+    "hv": 0.0006261380658881292,
+    "late_window": [
+      750,
+      1500
+    ],
+    "method": "windowed",
+    "min_gap": 20,
+    "min_sep": 0,
+    "passes": false,
+    "peak_ratio": 0.4568941299377116,
+    "smooth_window": 7,
+    "t_p1": 300,
+    "t_p2": 750,
+    "t_v": 750,
+    "valley_depth": 0.0,
+    "valley_ratio": 1.0
+  },
+  "name": "dual corridor with top U-shaped detour",
+  "params": {
+    "N": 60,
+    "g_x": -0.2,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      10,
+      30
+    ],
+    "target": [
+      50,
+      30
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "absorption_prob": 0.9999999999990085,
+  "aw": {
+    "errors": {
+      "l1": 7.058407380339138e-15,
+      "linf": 4.104232194983586e-17,
+      "rel_l1": 7.058407380346137e-15
+    },
+    "params": {
+      "m": 16384,
+      "oversample": 4,
+      "r": 0.9983149575896413,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "B",
+  "mc": {
+    "fast_fraction": 0.3719,
+    "n_walkers": 30000,
+    "slow_fraction": 0.6281,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "bimodal": true,
+    "gap": 524,
+    "h1": 0.008649671579208781,
+    "h2": 0.0006922804818847525,
+    "h2_over_h1": 0.08003546441564179,
+    "hv": 3.128181779078819e-05,
+    "min_gap": 20,
+    "min_sep": 5,
+    "passes": true,
+    "peak_ratio": 0.08003546441564179,
+    "smooth_window": 9,
+    "t_p1": 149,
+    "t_p2": 673,
+    "t_v": 356,
+    "valley_depth": 0.9548133760674249,
+    "valley_ratio": 0.04518662393257511
+  },
+  "name": "parallel lanes with door array slowdown",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": -0.2,
+    "q": 0.8,
+    "start": [
+      30,
+      50
+    ],
+    "target": [
+      30,
+      10
+    ]
+  }
+}

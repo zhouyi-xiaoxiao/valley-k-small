@@ -1,0 +1,38 @@
+\section{MC 扫描：四分类随 \texorpdfstring{$\beta$}{beta} 变化（\texorpdfstring{$N=100$}{N=100}）}
+使用 MC 统计窗口内的四类轨迹比例，重点关注 $J$-相关类别在 valley/第二峰窗口的集中程度。
+窗口由 $(t_1,t_v,t_2)$ 与 $\Delta=\lfloor\delta_{\mathrm{frac}}(t_2-t_1)\rfloor$ 定义。
+四类为：
+$\texttt{class\_C0J0}$（不走 shortcut、无 jump-over）、
+$\texttt{class\_C1pJ0}$（有 shortcut、无 jump-over）、
+$\texttt{class\_C0J1p}$（无 shortcut、有 jump-over）、
+$\texttt{class\_C1pJ1p}$（有 shortcut、有 jump-over）。
+其中 $K=2$ 情况下恒有 $J\equiv0$，因此 $J$ 相关类别应为 0 或接近 0。
+图~\ref{fig:mc-beta-classes-cn} 展示四类轨迹在不同窗口内的条件概率随 $\beta$ 的变化。
+
+\paragraph{解释要点}
+K=2 的 $J$ 类别几乎为 0，表明 jump-over 机制仅在 $K=4$ 下起作用；
+在 $K=4$ 的 valley 与第二峰窗口中，$J$-相关类别（$\texttt{C0J1p}$ 与 $\texttt{C1pJ1p}$）占比明显上升，
+对应了 ``跨过吸收点但未吸收'' 的时间延迟路径。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/aux_peak1_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/aux_valley_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/aux_peak2_vs_beta.png}
+  \end{minipage}
+  \caption{$\mathbb{P}(C\ge1\mid\text{window})$ 与 $\mathbb{P}(J\ge1\mid\text{window})$ 的随 $\beta$ 变化。}
+  \label{fig:mc-beta-aux-cn}
+\end{figure}
+
+有了 $\beta$ 方向的轨迹结构对比，下一节固定 $\beta_\ast$ 扫 $N$，观察慢尺度随系统规模的变化。

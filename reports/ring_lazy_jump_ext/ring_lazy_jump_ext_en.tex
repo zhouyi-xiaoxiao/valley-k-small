@@ -1,0 +1,206 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\title{Lazy ring + one directed shortcut: $\beta$ sweep, tail mechanism, and jump-over extension report}
+\author{}
+\date{}
+
+\setlist[itemize]{itemsep=0pt,topsep=4pt,parsep=0pt,partopsep=0pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\maketitle
+
+\section*{Key conclusions and key figures}
+With $N=100,q=2/3,\rho=1$ and only $\beta$ varied, both peaks move to earlier times and the tail rate $\gamma$ increases with $\beta$;
+at the same time, $K=4$ sustains a wider bimodal window and a deeper valley.
+Figure~\ref{fig:beta-sweep-key-en} summarizes the peak and tail trends.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) Peak heights}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/peak_heights_vs_beta_N100.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) Peak times}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/peak_times_vs_beta_N100.png}
+  \end{minipage}
+  \vspace{4pt}
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(c) Tail $\gamma$}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/tail_gamma_vs_beta_N100.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(d) AW overlay for all $\beta$}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/aw_all_betas_N100.png}
+  \end{minipage}
+  \caption{Exact AW results under a $\beta$-only sweep: peak heights, peak times, tail-decay rate $\gamma$, and the full-$\beta$ overlay of $f(t)$; $\beta=0$ is the no-shortcut baseline and is shown as a standalone marker.}
+  \label{fig:beta-sweep-key-en}
+\end{figure}
+
+At $\beta=0.01$, the representative $f(t)$ highlights the valley contrast:
+$\texttt{hv\_over\_max}\approx0.34$ for $K=2$ versus about $0.15$ for $K=4$, indicating a deeper valley and clearer separation for $K=4$;
+at the same $\beta$, $K=4$ has earlier $(t_1,t_2)$ and larger $\gamma$, consistent with faster time scales and lighter tails.
+Figure~\ref{fig:beta-example-ft-en} shows the peak--valley window directly.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) $K=2$}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.01/N100_K2_beta0.f_t.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) $K=4$}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.01/N100_K4_beta0.f_t.pdf}
+  \end{minipage}
+  \caption{Representative exact $f(t)$ (AW), zoomed to the peak/valley window.}
+  \label{fig:beta-example-ft-en}
+\end{figure}
+
+The tail mechanism is governed by the transient spectral radius, $\gamma=-\log(\lambda_{\max})$,
+and $\log S(t)$ is close to linear in the tail (Fig.~\ref{fig:tail-logS-en}).
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) $K=2$}\par
+    \includegraphics[width=\linewidth]{outputs/tail_diag/log_survival_N100_K2_beta0.01.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) $K=4$}\par
+    \includegraphics[width=\linewidth]{outputs/tail_diag/log_survival_N100_K4_beta0.01.png}
+  \end{minipage}
+  \caption{Log survival $\log S(t)$ at $\beta=0.01$, consistent with the spectral-radius tail rate $\gamma$.}
+  \label{fig:tail-logS-en}
+\end{figure}
+
+MC classification confirms that jump-over appears only for $K=4$.
+We sort trajectories by whether the shortcut is used at least once ($C0$ vs $C1p$) and whether a jump-over occurs ($J0$ vs $J1p$),
+giving the four classes $\texttt{C0J0}$, $\texttt{C1pJ0}$, $\texttt{C0J1p}$, and $\texttt{C1pJ1p}$.
+Under this lens, $K=2$ keeps $J$-related classes at zero across windows:
+peak1 is essentially all $\texttt{C1pJ0}$, the valley is mostly $\texttt{C1pJ0}$ with a small $\texttt{C0J0}$ tail,
+and peak2 is dominated by $\texttt{C0J0}$ with a smaller $\texttt{C1pJ0}$ share.
+For $K=4$, peak1 splits into roughly two-thirds $\texttt{C1pJ0}$ and one-third $\texttt{C1pJ1p}$;
+the valley shows a similar one-third $J1p$ share, while peak2 flips to $\texttt{C0}$-dominated with about a quarter $\texttt{C0J1p}$.
+These $J1p$ paths correspond to delayed crossings without immediate absorption, and the curves vary only mildly with $\beta$ (Fig.~\ref{fig:mc-beta-classes-en}).
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/classes_peak1_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/classes_valley_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/classes_peak2_vs_beta.png}
+  \end{minipage}
+  \caption{Conditional class probabilities vs $\beta$ for each window ($N=100$).}
+  \label{fig:mc-beta-classes-en}
+\end{figure}
+
+To choose a representative bimodal setting, we apply $t_2/t_1\ge10$, $\texttt{hv\_over\_max}\le0.6$,
+and $\texttt{h2\_over\_h1}\ge0.05$, selecting the smallest $\beta$ that satisfies both $K=2$ and $K=4$; the scan yields $\beta_\ast=0.01$.
+
+Fixing $\beta_\ast=0.01$ and sweeping $N$ shows $t_2$ shifting right, $h_2$ decreasing, and $\gamma$ decreasing (heavier tails),
+while $t_1$ stays roughly stable; see Figures~\ref{fig:n-sweep-peaks-en} and~\ref{fig:n-sweep-gamma-en}.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) $t_1$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/t1_vs_N_beta0.01.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) $t_2$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/t2_vs_N_beta0.01.png}
+  \end{minipage}
+  \vspace{4pt}
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(c) $h_1$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/h1_vs_N_beta0.01.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(d) $h_2$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/h2_vs_N_beta0.01.png}
+  \end{minipage}
+  \caption{Peak locations and heights vs $N$ at $\beta=0.01$.}
+  \label{fig:n-sweep-peaks-en}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{outputs/N_sweep_beta_selected/tail_gamma_vs_N_beta0.01.png}
+  \caption{Tail decay rate $\gamma$ vs $N$ at $\beta=0.01$.}
+  \label{fig:n-sweep-gamma-en}
+\end{figure}
+
+The MC sweep over $N$ sharpens the same contrast.
+For $K=2$, everything remains in $J0$: peak1 is locked to $\texttt{C1pJ0}$, the valley is mostly $\texttt{C1pJ0}$,
+and peak2 mixes $\texttt{C0J0}$ with $\texttt{C1pJ0}$ as $N$ changes.
+For $K=4$, once the valley/second peak are well formed, peak1 and the valley hold a stable $\sim$one-third $J1p$ share
+(largely $\texttt{C1pJ1p}$), while peak2 stays $\texttt{C0}$-dominated with about a quarter $\texttt{C0J1p}$,
+showing that jump-over contributions persist across $N$ (Fig.~\ref{fig:mc-n-classes-en}).
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/classes_peak1_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/classes_valley_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/classes_peak2_vs_N.png}
+  \end{minipage}
+  \caption{Class proportions vs $N$ at fixed $\beta=0.01$.}
+  \label{fig:mc-n-classes-en}
+\end{figure}
+
+This extension builds on the main jump-over report (lazy\_jump) and uses the same model and notation.
+The remainder gives the theory and valley definition, then the $\beta$ sweep, MC classes, $N$ sweep, MC-$N$, and reproducibility.
+
+\input{sections/theory_en.tex}
+\input{sections/valley_en.tex}
+\input{sections/beta_sweep_en.tex}
+\input{sections/mc_beta_en.tex}
+\input{sections/n_sweep_en.tex}
+\input{sections/mc_n_en.tex}
+\input{sections/repro_en.tex}
+
+\end{document}

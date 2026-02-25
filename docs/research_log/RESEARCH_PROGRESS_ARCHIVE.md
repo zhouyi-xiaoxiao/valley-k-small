@@ -1,0 +1,97 @@
+# RESEARCH Progress Archive
+
+## Archived on 2026-02-16
+- 2026-02-16: 再次核查并修正 `reports/grid2d_rect_bimodality/`：图9/10改为更有区分度的 two-target 代表热图（A=`TT_W05_X10`，B=`TT_W06_X12`）；图12首峰/峰点与平滑曲线对齐并复核为无锯齿假峰；图20/21确认对应 one-target 代表案例（A=`OT_W16_bxm0p080`，B=`OT_W28_bxm0p080`）。新增 one-target “先选位置后扫宽度”的锚点预扫描（选得 `x_s=7, x_t=58`），在此锚点下 `b_x=-0.08` 于 `W_y=8..16` 出现 phase=2；同时修复环境热图标注越界/色条遮挡与中英文 LaTeX overfull，PDF 已重编译通过。
+- 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 做了整体验证与修正：two-target 双峰判据改为“平滑包络 + 峰平衡 + 谷降幅”鲁棒检测（抑制早时刻锯齿假峰），图6示例统一为 clear-double 直线 stream 案例，图11固定分支改为显式展示 `phase=2 -> phase=0` 跃迁（`x_0=10` 上 `W_y=5,8` clear，`W_y>=9` 不再通过鲁棒双峰）；临界表最终为 `x_0=8:5-9(10失稳), x_0=10:5-8(9失稳), x_0=12:5-6(7失稳)`。同步清理绘图布局 warning 与中英文 LaTeX 日志（含 overfull/hyperref 书签警告）并重编译 PDF。
+- 2026-02-16: 进一步按“结论支撑度”重选 `reports/grid2d_rect_bimodality/` 双-target示范案例：图6（代表案例）改为 `TT_W05_X06/TT_W05_X10/TT_W05_X12/TT_W08_X10/TT_W09_X10/TT_W14_X10`，同时保留直线单股 local bias；图11（固定分支宽度演化）改为 `x_0=10` 下 `W_y={5,8,9,10,14,24}`，显式覆盖 `8→9→10` 的峰时窗突变区间。对应图表、指标表与中英文 PDF 已重生成。
+- 2026-02-16: 修复 `reports/grid2d_rect_bimodality/` 中英文报告的 LaTeX overfull：图示说明表改为去两侧间距并重配列宽（`@{}...@{}`），复现命令块中的超长行改为续行写法；重编译后 `build/2d_rect_bimodality_{cn,en}.log` 中已无 `Overfull \hbox` 警告。
+- 2026-02-16: 按图20可视化反馈优化 `reports/grid2d_rect_bimodality/` 的单-target 环境热图排版：`ot_repA_env_heatmap` 与 `ot_repB_env_heatmap` 改为紧凑横向布局（环境 + 三时刻热图 + 独立 colorbar 轴），去除大面积留白并统一子图尺度；同时保留目标/边界标记与时刻标注，重编译中英文 PDF。
+- 2026-02-16: 按图号反馈细化 `reports/grid2d_rect_bimodality/` 的单-target展示：图17（`ot_representative_geometry_grid`）新增每个子图的 `b_x` 数值与方向箭头，并打上 `double-peak/single-peak` 标签；图18（`ot_representative_fpt_grid`）在所有双峰子图上显式标注两峰位置 `p1/p2`（竖虚线+峰点），谷底时刻用灰色点线补充。中英文报告的对应图注与正文解释同步更新。
+- 2026-02-16: （历史记录，后续已被“鲁棒双峰判据”结果覆盖）再次更新 `reports/grid2d_rect_bimodality/` 的 two-target 展示与临界分析。(i) 代表双 target 图组改为\textbf{强双峰样例优先}（`TT_W05_X06`, `TT_W05_X10`, `TT_W05_X12`, `TT_W06_X10`, `TT_W07_X10`, `TT_W08_X10`），全部保持\textbf{直线 stream、无拐弯、一格厚 local bias}；FPT 面板统一为归一化 + 峰谷标注 + 第二峰 inset，hazard 分解同步扩展到 6 图并覆盖第二峰时间尺度。(ii) 为避免扫描截断造成的假性失稳，将 two-target splitting 权重改为按已吸收质量归一化；并对关键分支 `x0=8,10,12` 扩展宽度到 `Wy=60` 做临界估计，更新为：`x0=8` clear 到 `Wy=36`（`37` 首次失稳）、`x0=10` clear 到 `Wy=52`（`53` 首次失稳）、`x0=12` 在 `Wy<=60` 未见 clear 失稳（区间 `5-6,14-60`）。(iii) 宽度对比图改为固定分支 `x0=10` 的演化组（`Wy={5,8,10,14,20,24}`），用于展示“晚时窗第二峰 -> 早时窗弱分离”的连续变化；中英文 PDF 与相关图表已重编译。
+- 2026-02-11: 新增 `reports/cross_luca_regime_map/` 跨报告速度分区研究并完成全量实跑（固定 full-FPT 时间窗公平口径）：`160` 个 workload（two-target `120` + reflecting `40`）在统一线程与 `warmup+3次取中位` 协议下比较 `sparse_exact_fullfpt` 与 `luca_defect_fullfpt_or_est`；主结论为 `median(R=sparse/luca)=4.665e-4`、`P(R>1)=0`，即在本次公平口径下无 Luca 赢家区域；估算模式验证锚点 `8` 组中位相对误差 `12.65%`（通过 `<=25%` 门槛）。同步产出中英文报告、6 张图、2 张表及 `manifest/runtime_raw/runtime_summary` 数据契约。
+- 2026-02-10: 按用户要求在 `reports/grid2d_two_target_double_peak/method_comparison_{cn,en}.tex` 将 Method C 显式替换为 Luca/Giuggioli 路线，并补上可读数学流程：`Q=Q0+UΔV^T` 缺陷分解、Woodbury 选定传播子恢复、两目标 `2x2` renewal 闭合、Cauchy-FFT 反演；Full AW 改为 Method C0 对照基线并重编译中英文 PDF。
+- 2026-02-10: 在 `reports/grid2d_two_target_double_peak/code/compare_numeric_methods.py` 实装并实跑 Giuggioli defect-reduced AW（Woodbury + 两目标 renewal + FFT 反演），C1 实测：`AW=47.2622s`、`AW defect-reduced=78.0223s`、同窗分布误差与 AW 一致（`L1≈9.912e-10`）；本实现采用 pair 维度 `M=632`（`n_T=959`），求解核估算降幅约 `3.2x~3.5x`，但被基底 Green 求值与装配开销抵消。
+- 2026-02-10: 同步重写并重编译 `reports/grid2d_two_target_double_peak/method_comparison_en.{md,tex,pdf}` 与 `method_comparison_cn.{md,tex,pdf}`：统一为五方法口径（含 Giuggioli defect-reduced AW）、更新运行时间/误差/缺陷规模表，并把“未实测 defect 方法”改为“已实现且已基准”。
+- 2026-02-10: 为 `reports/grid2d_two_target_double_peak/` 新增英文主报告 `grid2d_two_target_double_peak_en.tex` 并编译 `grid2d_two_target_double_peak_en.pdf`；英文版覆盖当前中文报告的核心推导、主结果、外部 sparse testset 双峰配置（S02/S03）及全箭头附录图。
+- 2026-02-10: 为 `reports/grid2d_two_target_double_peak/` 新增英文方法比较报告 `method_comparison_en.{md,tex,pdf}`，与中文版同场景（C1）对齐，完整覆盖 sparse exact / dense recursion / AW inversion / linear MFPT 的公式、复杂度与实测对比。
+- 2026-02-10: 按用户要求在 `reports/grid2d_two_target_double_peak/` 的外部 sparse testset 结果中仅保留双峰配置（S02 clear double, S03 weak double），并新增两组“详细配置图 + 配置/热图四联图”产物：`figures/sparse_S02_{config_detailed,env_heatmap}.pdf` 与 `figures/sparse_S03_{config_detailed,env_heatmap}.pdf`；中文报告同步重排外部配置章节。
+- 2026-02-10: `reports/grid2d_two_target_double_peak/` 接入外部配置集 `/Users/ae23069/Desktop/sparse_double_peak_testset.json`，新增 11 组 sparse 配置自动批跑（支持 local bias / sticky / barrier / long-range / global bias），并在中文报告中加入“外部 Sparse Testset 配置补充”章节、配置统计表、指标表和总览曲线图。
+- 2026-02-10: `reports/grid2d_two_target_double_peak/` 文末新增“红箭头全分布大图”附录（C1--C4 四张大图），每个偏置格点均绘制红箭头，直接展示局部 bias 的空间分布；同时修复图例色块命令，去除“色块中间黑块”误导。
+- 2026-02-07: 进一步澄清慢通道可视化：在配置图中新增慢通道拐点黑色圆点标记，并在正文明确“米黄色区域整体有偏置、红箭头仅为中心线抽样显示”；重编译 `grid2d_two_target_double_peak_cn.pdf`。
+- 2026-02-07: 修复 `reports/grid2d_two_target_double_peak/` 第 8 页图5/图6显示不完整问题：将两图拆分为单独浮动页并放大版面宽度，同时调整 `fpt_grid/hazard_grid` 导出画布比例与图例布局以提升可读性；重编译中文 PDF（页数由 10 页变为 12 页）。
+- 2026-02-07: 在 `reports/grid2d_two_target_double_peak/` 新增数值方法对比研究：实现 `code/compare_numeric_methods.py`，同场景比较 sparse exact、dense recursion、AW/Cauchy-FFT 反演与线性方程 MFPT；输出 `method_comparison_cn.md`、`data/method_comparison_c1.json`、`data/method_comparison_c1_truncation.csv` 与两张对比图。
+- 2026-02-07: 为 `reports/grid2d_two_target_double_peak/` 新增可直接阅读的 PDF 版方法比较报告 `method_comparison_cn.pdf`（源文件 `method_comparison_cn.tex`）；补充各方法详细数学原理、统一复杂度推导与 C1 场景量级代入。
+- 2026-02-07: 修复 `reports/grid2d_two_target_double_peak/` 图符不一致：统一所有图中 `m1/m2` 标记（`m1` 蓝菱形、`m2` 深蓝圆形），并新增脚本直接生成的 `figures/symbol_legend_panel.pdf` 作为“符号基准图”；同步更新图例表与正文说明。
+- 2026-02-07: 继续优化 `reports/grid2d_two_target_double_peak/`：将“图示元素逐项说明”升级为带实际颜色块/线型/标记的可视化图例表；新增“数学符号-图件映射总表”和 hazard 分解图（`h=h_1+h_2`），并补充 `(w2, skip2)` 参数相图判据说明。
+- 2026-02-07: 继续优化 `reports/grid2d_two_target_double_peak/`：重写“数学机理推导”章节（从马尔可夫链定义到 splitting 分解、生成函数与可检验双峰判据），并将配置图升级为工程化示意 + 真实条件占据概率热图四联图（按各案例峰/谷时刻自动选时）。
+- 2026-02-07: 新增 `reports/grid2d_two_target_double_peak/`，系统分析“2D 双 target 在何种配置下出现 double peak”；采用反射边界 + 局部 bias 双走廊模型，给出 C1--C4 四组可复现实验（含总首达 + splitting 曲线、峰位/分流概率表、中文 PDF）。
+- 2026-02-02: `reports/grid2d_blackboard_bimodality/` 追加小 $N$ 竖向矩形案例 S（$18\times30$，起止点在墙端点），结果仍为单峰 + 长尾；中英文 PDF 已更新。
+- 2026-02-02: `reports/grid2d_blackboard_bimodality/` 仅保留起止点位于内墙端点的案例 Z；新增 `code/z_scan.py` 与 `data/Z_scan.json` 记录参数扫描（Z0--Z4 仍单峰 + 长尾，仅在外圈 sticky + 顺时针偏置时出现迟滞峰）；中英文 PDF 已更新。
+- 2026-02-02: 再次调整 `reports/ring_two_target/` Case C/D 标签位置（t1/dst 改为相对偏移 + 引导线），避免重叠。
+- 2026-02-02: 重排 `reports/ring_two_target/`：每个 case 几何与 FPT 合并展示，并改为线性坐标 + 峰标注以增强双峰可读性。
+- 2026-02-02: 为 `reports/ring_two_target/` 增加参数定义段落，并在每个 case 图旁加入配置卡便于对照。
+- 2026-02-02: 优化 `reports/ring_two_target/` 配置卡样式（灰底卡片）与 FPT 线型风格；英文正文将 “we” 改为 “I”。
+- 2026-02-02: 在 `reports/ring_two_target/` 各 case FPT 图中标注峰位置 $t_1,t_2$（三峰例追加 $t_3$）。
+- 2026-02-02: 在 `reports/ring_two_target/` 图中直接标注峰值数值（如 $t_1=2,t_2=20$ 等）。
+- 2026-02-02: `reports/grid2d_blackboard_bimodality/` 暂时只保留截图失败案例 X/D/E，补齐英文版 `grid2d_blackboard_bimodality_en.pdf`，并在正文明确矩形域可行。
+- 2026-02-02: 在截图失败系列中新增小 $N$ 竖向矩形域案例 R（$20\\times30$）并输出图组；结果仍为单峰 + 长尾。
+- 2026-02-02: 报告 `2d_blackboard_bimodality` 现在仅保留“起止点位于内墙端点”的案例 Z；结果仍为单峰 + 长尾。
+- 2026-02-02: 扩展 `reports/grid2d_blackboard_bimodality/`，加入截图直译失败案例 X 及外边界 sticky 通道 D/E，补充热图/路径/FPT/诊断全套图与失败机理分析；新增截图参数扫描脚本与结果。
+- 2026-02-02: 更新 `reports/ring_two_target/` 双目标 lazy ring 报告（无 shortcut/有 shortcut、多峰机制、N-β 相图与三峰示例），英文版完善；重做图1示意与双峰图风格，并扩展两目标吸收机理说明。
+- 2026-02-02: 新增 `reports/grid2d_blackboard_bimodality/`，基于黑板图 A/B/C 三套配置输出全套图组（环境/热图/路径/FPT/峰谷/通道分解）与中文报告 `grid2d_blackboard_bimodality_cn.pdf`。
+- 2026-01-21: 图说明 PDF 增补四类轨迹标签释义（C0J0/C1pJ0/C0J1p/C1pJ1p）。
+- 2026-01-21: 将图说明 PDF 改为单段英文说明文本：`reports/ring_lazy_jump_ext_rev2/fig2_overlap_binbars_beta0.01_x1350_description_en.pdf`。
+- 2026-01-21: 新增英文图说明 PDF：`reports/ring_lazy_jump_ext_rev2/fig2_overlap_binbars_beta0.01_x1350_description_en.pdf`。
+- 2026-01-21: 调整窗口范围文字为两行并在相邻窗口间交错，避免 K=4 前两窗文字重叠；已重输出图1 PDF。
+- 2026-01-21: 进一步改进峰谷标注防重叠算法（基于标签宽度估计与二次纵向错开），并重输出图1 PDF。
+- 2026-01-21: 进一步调整峰/谷标注位置（加入横向错开与对齐）以避免 K=4 标签重叠，并重输出图1 PDF。
+- 2026-01-21: 调整图1标注避免 K=4 峰/谷标签重叠，并重生成各版本图1 PDF。
+- 2026-01-21: 生成更短横轴版本图1（xlim=1..1350）并清理旧版本，仅保留 `reports/ring_lazy_jump_ext_rev2/fig2_overlap_binbars_beta0.01_x1350.pdf`。
+- 2026-01-20: 图1窗口改为按 $K$ 分别检测峰谷并重绘，对齐 $K=2$ 的峰/谷；更新图1数据、PDF 与英文说明 docx。
+- 2026-01-20: 新增图1英文说明 Word 文件 `reports/ring_lazy_jump_ext_rev2/fig1_explanation_en.docx`。
+- 2026-01-20: 重编译 `reports/ring_lazy_jump_ext_rev2/` 中英文 PDF，并输出单独图文件到报告目录。
+- 2026-01-20: `reports/ring_lazy_jump_ext_rev2/` 的图1改为上下两幅（K=2/K=4），更新绘图脚本与中英文说明。
+- 2026-01-20: 细化 2d_reflecting_bimodality 各代表案例配置卡（走廊几何与通道判据更明确），同步更新中英文 PDF。
+- 2026-01-20: 更新 2d_reflecting_bimodality 表~4 的 AW vs exact 速度基准（新增 R7/C3 并刷新数值），重跑基准脚本与中英文 PDF。
+- 2026-01-20: 将 2d_reflecting_bimodality 的 AW/Exact 说明与配置卡改写为更叙述性的段落表述，减少分点并重编 PDF。
+- 2026-01-20: 新增 S1/S2（无内部 barrier/door 的软通道双轨）并纳入参数/指标/误差表、正文图组与通道判据说明，更新中英文 PDF 与配置汇总。
+- 2026-01-20: 新增 NB4 外边界顺时针“传送带”构造（无内部 barrier/door，valley_ratio≈0.062），替换正文代表案例并更新中英文 PDF；加入 NB5（全反射 + global bias + 边界传送带）并纳入正文与配置汇总；同时引入分段 bin + tail smoothing 的 MC 直方图，使 R1/R6/NB4 的 MC 与 Exact/AW 对齐且更平滑；补充 FPT 入门段落与 AW/Exact/MC 的直观对比说明。
+- 2026-01-20: 更新 AW vs exact 速度基准（加入 NB5、n_z=32），刷新 CN/EN 速度表与结论措辞；S0 参数拆分为列表以缓解排版警告；英文 PDF 已重编译（中文 PDF 在当前环境缺少 fandol 字体导致编译失败）。
+- 2026-01-20: 新增 R7（半透门孔道 + 长绕行）作为“更接近真实”的反射边界示例，补齐 R1/R6/NB4/NB5 的代表案例体系，并更新中英文 PDF、参数/指标表与通道解释。
+- 2026-01-20: 修正 2d_reflecting_bimodality 的参考文献作者与年份（PRE 102, 062124 与 arXiv:2311.00464v2），补充 DOI 与 v2 日期。
+- 2026-01-20: 在 2d_reflecting_bimodality 中恢复 AW vs exact recursion 的验证说明（摘要与误差表后说明），并重新编译中英文 PDF。
+- 2026-01-20: 新增 C3（主动运输轨道 vs 长 detour 回路）构造，加入配置汇总与中英文正文（含参数/指标/通道解释与图组），并更新 PDF。
+- 2026-01-19: 在 `reports/grid2d_reflecting_bimodality/` 增补 AW vs exact recursion 速度对比小节，加入低缺陷对照 S0（full AW 实测）；更新基准脚本 `reports/grid2d_reflecting_bimodality/code/benchmark_aw_exact.py` 与结果 `reports/grid2d_reflecting_bimodality/data/aw_exact_speed.json`。
+- 2026-01-19: 精简 `reports/grid2d_reflecting_bimodality/` 正文，只保留代表性案例 R1/R6/NB4（其余案例从正文移除），并同步中英文 PDF；新增无内部 barrier/door 的 NB1--NB3 构造与输出。
+- 2026-01-18: 扩展 `reports/grid2d_reflecting_bimodality/` 为对标 2d_bimodality 的完整流程（Exact/AW/MC + 环境/热图/路径/通道分解/峰谷诊断），更新中英文报告与图表。
+- 2026-01-18: 提升反射边界热图的层次感：掩蔽走廊外区域、限定热图区视野、并用分位数/下限比例调节 LogNorm 颜色范围。
+- 2026-01-18: 新增 MB1--MB3 极简双车道构造（local bias=0），分别用 sticky 全段、door 阵列、短 sticky 段实现双峰。
+- 2026-01-04: 新增 `reports/ring_lazy_jump_ext_rev2/`，加入同轴叠加与阈值/窗口/不确定性敏感性分析管线，并补充英文版。
+- 2026-01-06: 更新 `reports/grid2d_bimodality/` 至 v8，新增 Fig.3 风格图形与 bimodality proof 图，输出 `build/2d_bimodality_cn_v8.pdf` 与 `figures_v8/`。
+- 2026-01-06: 更新 `reports/grid2d_bimodality/` 至 v9，新增 B_v2 自动调参与 mixed 边界版本，输出 `build/2d_bimodality_cn_v9.pdf`、`figures/v9/` 与 `outputs/v9/`。
+- 2026-01-07: 更新 `reports/grid2d_bimodality/` 至 v10，新增 B_v10 自动调参与 Fig.3 风格图形修订，输出 `2d_bimodality_cn_v10.pdf`、`figures/v10/` 与 `outputs/v10/`。
+- 2026-01-07: 更新 `reports/grid2d_bimodality/` 至 v11，新增 fig3v4 风格与 B_v11 调参版，输出 `2d_bimodality_cn_v11.pdf`、`figures/v11/` 与 `outputs/v11/`。
+- 2026-01-07: 更新 `reports/grid2d_bimodality/`，新增 fig3v5 风格、C 诊断图与代表性路径标注，输出 `grid2d_bimodality_cn.pdf`、`figures/` 与 `outputs/`。
+- 2026-01-08: 继续优化 v12 图形：候选 B strip view 视野收紧、Fig.3 panel 重排（减少留白），路径密度图去除线团并改为代表轨迹+ROI，unwrapped 图 Dx_short/Dx_wrap 标签避让重叠；清理旧版输出与数据，仅保留 v12。
+- 2026-01-08: 修复 v12 图10/11/12/27：候选 B strip/heatmap 视野重设、路径密度代表轨迹进一步简化、unwrapped 标签避让重叠；复现命令段落与 schema 说明重排，避免行溢出。
+- 2026-01-12: 补全 `reports/grid2d_bimodality/grid2d_bimodality_en.tex` 英文版，与中文版内容对齐。
+- 2026-01-12: 重新编译 `reports/grid2d_bimodality/grid2d_bimodality_en.pdf`，页数与中文一致（20 页）。
+- 2026-01-12: 统一 `reports/grid2d_bimodality/` 中候选 C 表述（door + sticky + wrap-around，fast/slow 通道说明对齐）。
+- 2026-01-12: 修正 `reports/grid2d_bimodality/` 候选 C 通道描述，统一为“早穿门为 fast，晚穿门（含 wrap-around 与 sticky/door 延迟）为 slow”。
+- 2026-01-12: 校正文档一致性：明确列随机约定、修正 defect $\eta$ 号、区分 $\tilde F/\tilde f$ 记号、标注候选 C 严格阈值诊断为失败示例，并去除重复 exact recursion 公式。
+- 2026-01-12: 修复 v12 诊断一致性：B/C 统一 valley ratio 阈值 0.07，C 使用窗口化两峰判别输出 $(t_{p1},t_v,t_{p2})=(88,279,500)$ 并更新 PDF。
+- 2026-01-12: 清理 `2d_bimodality_en` 排版 underfull hbox 警告，调整文本换行与 metrics 路径显示并更新英文 PDF。
+- 2026-01-12: 增加收口说明：解释 Fig.1(b) 的 $v_{\max}$ 与正文 valley ratio 关系，并明确 $g_x>0$ 为向左偏置；更新中英文 PDF。
+- 2026-01-12: 移除 2d_bimodality 报告内版本标识与 fig3 风格表述，调整为更正式的报告语气并简化“数据与代码可得性”段落，更新中英文 PDF。
+- 2026-01-12: 精简表~\ref{tab:aw-errors} 误差指标，移除与 $L^\infty$ 重复的 max abs error 列并同步中英文 PDF。
+- 2026-01-12: 2d_bimodality 输出统一为无版本命名（cases.json、figures/、outputs/、candidate_*_metrics.json、2d_bimodality_{cn,en}.pdf），并同步更新复现命令。
+- 2026-01-12: 调整 MC 直方图为分段 bin 宽度 + tail smoothing（从 $t_v+30$ 起），改善大 $t$ 噪声与候选 C MC 一致性，并更新图与 PDF。
+
+## Archived on 2026-02-17
+- 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 再做一次全量代码/文案/逻辑审计并修正显示层风险点：`phase` 相图色条标签改短（`single/weak/clear`，避免窄版导出时裁切）；one-target 的 FPT 与 hazard 图统一为“淡色原始曲线 + 平滑主曲线”并使峰标记对齐平滑曲线，减少离散锯齿造成的误读。补充扫描诊断字段 `absorbed_mass/survival_tail`，并在 `tt_scan_width_xstart.json`、`ot_scan_width_globalbias.json`、`case_summary.json` 的 `meta` 中写入 `scan_t_max/scan_surv_tol/t_max/surv_tol`；同时将默认时间窗上调为 `scan_t_max=5000`、`t_max=20000`。关键相图结论不变，扫描尾部截断风险显著下降（TT `max tail` 约 `0.404→0.141`，OT `0.257→0.111`）。脚本全量重跑、CSV/表格一致性复核、CN/EN PDF 重新编译通过且无 LaTeX warning。
+
+## Archived on 2026-02-25
+- 2026-02-16: 再次做 `reports/grid2d_rect_bimodality/` 全量回归审计并修复一个显示层隐患：one-target 的 FPT/ hazard 图在“未检测到第二峰”时原先会把横轴拉到整段长尾（可到上万步），导致首峰被压扁；现已加入自适应时间窗函数 `suggest_ot_fpt_xmax(...)`，在保留足够尾部信息的前提下避免主峰失真。已同步应用到 `plot_ot_fpt`、`plot_ot_hazard`、`plot_ot_rep_fpt_grid`、`plot_ot_rep_hazard_grid` 并全量重跑/重编译；中英文图注也补充了“子图横轴为自适应窗口”的解释。关键结论保持不变：TT 分支临界宽度仍为 `x0=8:5-9, x0=10:5-8, x0=12:5-6`；OT 在锚点 `x_s=7,x_t=58` 下 `b_x=-0.08` 的 clear 区间仍为 `W_y=8..16`；CN/EN LaTeX 日志无 warning/overfull。
+
+## Archived on 2026-02-25
+- 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 做“代码-数据-图表-中英文 LaTeX”全链路复核后，修复一个会影响代表案例排序的隐藏逻辑点：此前若 `valley_over_max=0.0`，排序键里使用 `r.get(... ) or 9.0` 会把 `0.0` 误判为缺失值并错误惩罚最强双峰；现改为显式 `None` 判定（新增 `_opt_float(...)`），并统一用于 two-target/one-target 代表案例排序键。修复后全量重跑脚本与 CN/EN PDF，日志无 warning/overfull，phase 相图与关键结论保持不变（TT clear 分支阈值仍为 `x0=8:5-9, x0=10:5-8, x0=12:5-6`；OT 在锚点 `x_s=7,x_t=58` 下 `b_x=-0.08` 仍为 `W_y=8..16` 的 phase=2）。

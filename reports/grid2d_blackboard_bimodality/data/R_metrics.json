@@ -1,0 +1,65 @@
+{
+  "absorption_prob": 0.9970324969010477,
+  "aw": {
+    "errors": {
+      "l1": 3.4740940076132032e-15,
+      "linf": 1.5291485796781884e-17,
+      "rel_l1": 3.4844340765334113e-15
+    },
+    "params": {
+      "m": 16384,
+      "oversample": 4,
+      "r": 0.9983149575896413,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "R",
+  "mc": {
+    "fast_fraction": 0.03313333333333335,
+    "n_walkers": 30000,
+    "slow_fraction": 0.9668666666666667,
+    "truncated_fraction": 0.002766666666666667
+  },
+  "metrics": {
+    "bimodal": false,
+    "early_window": [
+      1,
+      600
+    ],
+    "gap": 1412,
+    "h1": 0.00316822212767194,
+    "h2": 0.00011354236139257452,
+    "h2_over_h1": 0.03583787904290892,
+    "hv": 0.00011354236139257452,
+    "late_window": [
+      1500,
+      3000
+    ],
+    "method": "windowed",
+    "min_gap": 20,
+    "min_sep": 0,
+    "passes": false,
+    "peak_ratio": 0.03583787904290892,
+    "smooth_window": 9,
+    "t_p1": 88,
+    "t_p2": 1500,
+    "t_v": 1500,
+    "valley_depth": 0.0,
+    "valley_ratio": 1.0
+  },
+  "name": "small rectangle baseline (two walls + corridor bias)",
+  "params": {
+    "N": 30,
+    "g_x": 0.0,
+    "g_y": -0.2,
+    "q": 0.8,
+    "start": [
+      10,
+      28
+    ],
+    "target": [
+      10,
+      4
+    ]
+  }
+}

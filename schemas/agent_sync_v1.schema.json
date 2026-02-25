@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valley-k-small.dev/schemas/agent_sync_v1.schema.json",
+  "title": "Agent Sync V1",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "generated_at", "report_count", "files", "hashes"],
+      "properties": {
+        "version": { "type": "string", "const": "v1" },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "report_count": { "type": "integer", "minimum": 0 },
+        "files": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reports_jsonl", "events_jsonl", "theory_map", "guide_json"],
+          "properties": {
+            "reports_jsonl": { "type": "string", "pattern": "^/data/v1/agent/reports\\.jsonl$" },
+            "events_jsonl": { "type": "string", "pattern": "^/data/v1/agent/events\\.jsonl$" },
+            "theory_map": { "type": "string", "pattern": "^/data/v1/theory_map\\.json$" },
+            "guide_json": { "type": "string", "pattern": "^/data/v1/agent/guide\\.json$" }
+          }
+        },
+        "hashes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reports_jsonl_sha256", "events_jsonl_sha256"],
+          "properties": {
+            "reports_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "events_jsonl_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        }
+      }
+    },
+    "report_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_id",
+        "group",
+        "path",
+        "languages",
+        "updated_at",
+        "title",
+        "summary",
+        "key_findings",
+        "narrative",
+        "formula_count",
+        "section_count",
+        "repro_command_count",
+        "dataset_count",
+        "asset_count",
+        "dataset_series_ids"
+      ],
+      "properties": {
+        "report_id": { "type": "string", "minLength": 1 },
+        "group": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "languages": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string" },
+        "key_findings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "narrative": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["model_overview", "method_overview", "result_overview"],
+          "properties": {
+            "model_overview": { "type": "string" },
+            "method_overview": { "type": "string" },
+            "result_overview": { "type": "string" }
+          }
+        },
+        "formula_count": { "type": "integer", "minimum": 0 },
+        "section_count": { "type": "integer", "minimum": 0 },
+        "repro_command_count": { "type": "integer", "minimum": 0 },
+        "dataset_count": { "type": "integer", "minimum": 0 },
+        "asset_count": { "type": "integer", "minimum": 0 },
+        "dataset_series_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "event_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event", "report_id", "timestamp", "dataset_count", "asset_count", "formula_count"],
+      "properties": {
+        "event": { "type": "string", "const": "report_synced" },
+        "report_id": { "type": "string", "minLength": 1 },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "dataset_count": { "type": "integer", "minimum": 0 },
+        "asset_count": { "type": "integer", "minimum": 0 },
+        "formula_count": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

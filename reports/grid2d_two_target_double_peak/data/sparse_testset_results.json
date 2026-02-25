@@ -1,0 +1,253 @@
+{
+  "source_json": "external/sparse_double_peak_testset.json",
+  "n_cases": 11,
+  "n_double_cases": 2,
+  "double_case_ids": [
+    "S02",
+    "S03"
+  ],
+  "cases": [
+    {
+      "case_id": "S01",
+      "name": "baseline_unbiased_reflecting",
+      "type": "unbiased",
+      "expected": "single (likely)",
+      "note": "Reference for how much bimodality comes purely from geometry/target positions.",
+      "local_bias_count": 0,
+      "sticky_count": 0,
+      "barrier_count": 0,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.38509934885754443,
+      "p_m2": 0.2812393044628673,
+      "sep_mode_width": 0.2532724505327245,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S02",
+      "name": "corridor_thin_w2_1_skip2_0",
+      "type": "corridor_model",
+      "expected": "2",
+      "note": "From your phase map: clear double. Uses fewer biased sites than wide corridors.",
+      "local_bias_count": 160,
+      "sticky_count": 0,
+      "barrier_count": 0,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 2,
+      "t_peak1": 38,
+      "t_peak2": 436,
+      "p_m1": 0.233246439027613,
+      "p_m2": 0.7402759670842656,
+      "sep_mode_width": 1.1657142857142857,
+      "valley_over_max": 0.2345893758599293
+    },
+    {
+      "case_id": "S03",
+      "name": "centerline_only_bias_fast_and_slow",
+      "type": "explicit_bias_list",
+      "expected": "candidate_double",
+      "note": "Reduces number of biased sites drastically vs area corridors; should still separate typical times.",
+      "local_bias_count": 54,
+      "sticky_count": 0,
+      "barrier_count": 0,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 1,
+      "t_peak1": 38,
+      "t_peak2": 925,
+      "p_m1": 0.410731190479497,
+      "p_m2": 0.510575276462224,
+      "sep_mode_width": 0.922874671340929,
+      "valley_over_max": 0.21717455518524498
+    },
+    {
+      "case_id": "S04",
+      "name": "sparse_slow_centerline_bias_stride_3",
+      "type": "explicit_bias_list",
+      "expected": "unknown",
+      "note": "Bias budget reduced; may need additional barriers/sticky to keep timescale separation.",
+      "local_bias_count": 22,
+      "sticky_count": 0,
+      "barrier_count": 0,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.6004533468004951,
+      "p_m2": 0.22190162722212367,
+      "sep_mode_width": 0.36741973840665876,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S05",
+      "name": "geometry_only_reflecting_wall_with_gate",
+      "type": "barrier_geometry",
+      "expected": "possible",
+      "note": "No local bias; can create two timescales via rare gate crossing.",
+      "local_bias_count": 0,
+      "sticky_count": 0,
+      "barrier_count": 28,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.42535328781967296,
+      "p_m2": 0.23048025702660624,
+      "sep_mode_width": 0.2698633955952049,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S06",
+      "name": "geometry_perm_gate_pass_0p2_like_giuggioli",
+      "type": "barrier_geometry",
+      "expected": "possible",
+      "note": "Inspired by Fig.3: permeable barrier reflects 80% and passes 20%.",
+      "local_bias_count": 0,
+      "sticky_count": 0,
+      "barrier_count": 30,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.5314089003196183,
+      "p_m2": 0.13332979018474617,
+      "sep_mode_width": 0.25703125,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S07",
+      "name": "no_bias_sticky_patch_near_m2",
+      "type": "sticky_region",
+      "expected": "possible_if_m1_is_not_too_dominant",
+      "note": "Creates delayed absorption to m2 without directional arrows.",
+      "local_bias_count": 0,
+      "sticky_count": 100,
+      "barrier_count": 0,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.3747577831862548,
+      "p_m2": 0.2406257211141898,
+      "sep_mode_width": 0.2500488376636062,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S08",
+      "name": "long_range_shortcut_to_m1_plus_sticky_m2",
+      "type": "long_range_and_sticky",
+      "expected": "candidate_double",
+      "note": "Fast channel via shortcut, slow channel via sticky + diffusion.",
+      "local_bias_count": 0,
+      "sticky_count": 100,
+      "barrier_count": 0,
+      "shortcut_count": 1,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.6678417463812207,
+      "p_m2": 0.12207849792212189,
+      "sep_mode_width": 0.34154154154154154,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S09",
+      "name": "tiny_bias_budget_router_to_fast",
+      "type": "explicit_bias_list",
+      "expected": "unknown",
+      "note": "Only a few arrows; may need barriers to keep the walker on the intended channel.",
+      "local_bias_count": 5,
+      "sticky_count": 0,
+      "barrier_count": 0,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.6085201729988078,
+      "p_m2": 0.17073307941773566,
+      "sep_mode_width": 0.3628058727569331,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S10",
+      "name": "global_bias_only",
+      "type": "global_bias",
+      "expected": "depends_on_target_placement",
+      "note": "No local defects; can still bias splitting to one target.",
+      "local_bias_count": 0,
+      "sticky_count": 0,
+      "barrier_count": 0,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.06,
+        -0.02
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.21025856687620564,
+      "p_m2": 1.4651693606114246e-06,
+      "sep_mode_width": 0.5919282511210763,
+      "valley_over_max": null
+    },
+    {
+      "case_id": "S11",
+      "name": "sparse_mixed_disorder_like_fig3",
+      "type": "mixed_disorder",
+      "expected": "unknown",
+      "note": "Mimics Fig.3 ingredients (local biases, permeable barriers, sticky sites) but with sparse counts.",
+      "local_bias_count": 12,
+      "sticky_count": 8,
+      "barrier_count": 12,
+      "shortcut_count": 0,
+      "global_bias": [
+        0.0,
+        0.0
+      ],
+      "phase": 0,
+      "t_peak1": null,
+      "t_peak2": null,
+      "p_m1": 0.37973687942870893,
+      "p_m2": 0.252468888673803,
+      "sep_mode_width": 0.25411635565312846,
+      "valley_over_max": null
+    }
+  ]
+}

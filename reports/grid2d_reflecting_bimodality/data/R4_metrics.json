@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9999999999990036,
+  "aw": {
+    "errors": {
+      "l1": 1.5532656389515293e-14,
+      "linf": 1.5173277285928e-16,
+      "rel_l1": 1.553265638953077e-14
+    },
+    "params": {
+      "m": 8192,
+      "oversample": 4,
+      "r": 0.9966327545472072,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "R4",
+  "mc": {
+    "fast_fraction": 0.3399,
+    "n_walkers": 30000,
+    "slow_fraction": 0.6601,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "gap": 296,
+    "h1": 0.0073281156376171835,
+    "h2": 0.0027900098872574615,
+    "h2_over_h1": 0.38072678233072527,
+    "hv": 5.562322198787924e-05,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.38072678233072527,
+    "smooth_window": 9,
+    "t_p1": 130,
+    "t_p2": 426,
+    "t_v": 265,
+    "valley_depth": 0.9800634319462731,
+    "valley_ratio": 0.019936568053726882
+  },
+  "name": "mid-route branching with boundary loop",
+  "params": {
+    "N": 60,
+    "g_x": -0.25,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      10,
+      30
+    ],
+    "target": [
+      50,
+      30
+    ]
+  }
+}

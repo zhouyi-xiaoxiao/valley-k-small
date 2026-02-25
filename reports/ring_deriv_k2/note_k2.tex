@@ -1,0 +1,607 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsfonts,bm}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{mathtools}
+\usepackage{hyperref}
+
+% Chebyshev
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+
+\title{Exact Generating Functions and First-Passage Statistics on a 1D Ring\\
+with One \emph{Directed} Shortcut (defect technique; nearest-neighbour $k=1$; $K=2$ defect sites)\\
+\large Notation: ($\underline{B},\underline{A},\underline{X},\eta$)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Notation and model}
+
+\paragraph{Ring lattice.}
+We consider a discrete-time random walk on a 1D ring (cycle) of size $N$ with periodic boundary conditions (PBC).
+Sites are labeled $n\in\{0,1,\dots,N-1\}$ and all indices are understood modulo $N$.
+
+\paragraph{Transition matrices and convention.}
+We use the convention
+\[
+\begin{aligned}
+\Pr(X_{t+1}=n\mid X_t=n') &= B_{n,n'} \qquad \text{(defect-free ring)},\\
+\Pr(X_{t+1}=n\mid X_t=n') &= A_{n,n'} \qquad \text{(with defect)}.
+\end{aligned}
+\]
+Thus, the master equation is $P(n,t+1)=\sum_{n'} B_{n,n'} P(n',t)$ for the defect-free process.
+Both $\underline{B}$ and $\underline{A}$ are column-stochastic: $\sum_n B_{n,n'}=\sum_n A_{n,n'}=1$.
+
+\paragraph{Baseline (defect-free) lazy random walk.}
+Let $q\in(0,1)$ be the \emph{total} nearest-neighbour ($k=1$) jump probability. Then
+\[
+B_{n,n}=1-q,\qquad B_{n\pm 1,n}=\frac{q}{2},\qquad B_{m,n}=0\text{ otherwise}.
+\]
+
+\paragraph{Remark on the notation $k$ vs $K$.}
+This document considers the nearest-neighbour ring (jumps only to $n\pm 1$, i.e.\ $k=1$).
+The symbol $K=2$ is used here \emph{only} to count the two defect sites at the shortcut endpoints $(u,v)$;
+it should not be confused with the connectivity parameter $K=2k$ used in other ring-lattice/small-world models.
+
+\paragraph{Single directed shortcut.}
+We add \emph{one directed} (unidirectional) shortcut from a site $u$ to a site $v$.
+Its probability is denoted $p$ and is \emph{taken from the lazy weight at $u$}. Concretely, only the
+outgoing probabilities from $u$ are changed:
+\[
+A_{u,u}=1-q-p,\qquad A_{u\pm 1,u}=\frac q2,\qquad A_{v,u}=B_{v,u}+p,\qquad
+A_{n,u}=B_{n,u}\ \text{otherwise},
+\]
+and for all $n'\neq u$ we keep $A_{n,n'}=B_{n,n'}$.
+The constraint is
+\[
+0\le p\le 1-q
+\]
+so that $A_{u,u}\ge 0$.
+
+\paragraph{Defect matrix and defect parameters.}
+We encode the modifications by the (sparse) defect matrix
+\[
+\underline{X}\equiv \underline{B}-\underline{A}.
+\]
+In the defect-technique formulas of the Supplement, the defect parameters associated with a pair $(u_i,v_i)$ are
+written $\eta_{u_i,v_i}$ and $\eta_{v_i,u_i}$ and correspond to the off-diagonal entries of $\underline{X}$:
+\[
+\eta_{u,v}\equiv X_{v,u}=B_{v,u}-A_{v,u},\qquad \eta_{v,u}\equiv X_{u,v}=B_{u,v}-A_{u,v}.
+\]
+For a \emph{single directed} shortcut $u\to v$ of probability $p$ (built from the lazy weight at $u$) we have
+\[
+\boxed{\eta_{u,v}=-p,\qquad \eta_{v,u}=0,}
+\]
+while the corresponding diagonal change at $u$ is implied by probability conservation:
+$X_{u,u}=B_{u,u}-A_{u,u}=p=-\eta_{u,v}$.
+
+\paragraph{Propagators and generating functions.}
+\begin{itemize}
+\item Defect-free (ring) propagator: $Q_{n_0}(n,t)=\Pr(X_t=n\mid X_0=n_0)$ under $\underline{B}$.
+\item Defective (network) propagator: $S_{n_0}(n,t)=\Pr(X_t=n\mid X_0=n_0)$ under $\underline{A}$.
+\item $z$-transform: $\tilde f(z)=\sum_{t=0}^\infty f(t)\,z^t$.
+\end{itemize}
+We denote $\tilde Q_{n_0}(n,z)=\sum_{t\ge 0} Q_{n_0}(n,t)z^t$ and similarly $\tilde S_{n_0}(n,z)$.
+
+\paragraph{Ring distance.}
+For any two sites $a,b$ define
+\[
+d(a,b)\equiv \min\bigl(|a-b|,\;N-|a-b|\bigr)\in\Bigl\{0,1,\dots,\Bigl\lfloor \frac N2\Bigr\rfloor\Bigr\}.
+\]
+
+\paragraph{Chebyshev polynomials.}
+We use
+\[
+\T_n(x)=\cos\!\bigl(n\arccos x\bigr),\qquad
+\U_n(x)=\frac{\sin\!\bigl((n+1)\arccos x\bigr)}{\sin(\arccos x)}.
+\]
+
+\section{Part 1 --- Homogeneous (defect-free) propagator $\tilde Q_{n_0}(n,z)$ on the ring}
+
+\subsection{Generating function on a finite ring}
+
+The defect-free master equation is
+\begin{equation}
+Q_{n_0}(n,t+1)=\frac q2\,Q_{n_0}(n-1,t)+\frac q2\,Q_{n_0}(n+1,t)+(1-q)\,Q_{n_0}(n,t),
+\label{eq:master_ring}
+\end{equation}
+with $Q_{n_0}(n,0)=\delta_{n,n_0}$ and PBC.
+
+Taking the $z$-transform of \eqref{eq:master_ring} proceeds as follows.
+Multiply both sides of \eqref{eq:master_ring} by $z^t$ and sum from $t=0$ to $\infty$:
+\begin{align*}
+\sum_{t=0}^{\infty} Q_{n_0}(n,t+1) z^t
+&=\frac q2\sum_{t=0}^{\infty} Q_{n_0}(n-1,t) z^t
+ +\frac q2\sum_{t=0}^{\infty} Q_{n_0}(n+1,t) z^t
+ +(1-q)\sum_{t=0}^{\infty} Q_{n_0}(n,t) z^t.
+\end{align*}
+The three sums on the right are just the generating functions:
+\[
+\sum_{t=0}^{\infty} Q_{n_0}(n\pm 1,t) z^t=\tilde Q_{n_0}(n\pm 1,z),
+\qquad
+\sum_{t=0}^{\infty} Q_{n_0}(n,t) z^t=\tilde Q_{n_0}(n,z).
+\]
+For the time-shifted left-hand side we use the identity
+\begin{align*}
+\sum_{t=0}^{\infty} Q_{n_0}(n,t+1) z^t
+&=\frac{1}{z}\sum_{t=0}^{\infty} Q_{n_0}(n,t+1) z^{t+1}
+=\frac{1}{z}\sum_{s=1}^{\infty} Q_{n_0}(n,s) z^{s}\\
+&=\frac{1}{z}\left(\sum_{s=0}^{\infty} Q_{n_0}(n,s) z^{s}-Q_{n_0}(n,0)\right)
+=\frac{1}{z}\left(\tilde Q_{n_0}(n,z)-\delta_{n,n_0}\right),
+\end{align*}
+where we used $Q_{n_0}(n,0)=\delta_{n,n_0}$.
+Substituting these into the summed master equation yields
+\begin{align*}
+\frac{1}{z}\left(\tilde Q_{n_0}(n,z)-\delta_{n,n_0}\right)
+&=\frac q2\,\tilde Q_{n_0}(n-1,z)+\frac q2\,\tilde Q_{n_0}(n+1,z)\\
+&\quad +(1-q)\,\tilde Q_{n_0}(n,z),\\
+\tilde Q_{n_0}(n,z)-\delta_{n,n_0}
+&=\frac{qz}{2}\Bigl(\tilde Q_{n_0}(n-1,z)+\tilde Q_{n_0}(n+1,z)\Bigr)+z(1-q)\,\tilde Q_{n_0}(n,z),\\
+\bigl[1-z(1-q)\bigr]\tilde Q_{n_0}(n,z)
+&-\frac{qz}{2}\Bigl(\tilde Q_{n_0}(n-1,z)+\tilde Q_{n_0}(n+1,z)\Bigr)\\
+&=\delta_{n,n_0}.
+\end{align*}
+Thus we obtain the Helmholtz-type equation
+\begin{equation}
+\bigl[1-z(1-q)\bigr]\tilde Q_{n_0}(n,z)-\frac{qz}{2}\Bigl(\tilde Q_{n_0}(n-1,z)+\tilde Q_{n_0}(n+1,z)\Bigr)
+=\delta_{n,n_0}.
+\label{eq:helmholtz_ring}
+\end{equation}
+
+Diagonalize on the ring by discrete Fourier modes. Let
+\[
+\theta_k\equiv \frac{2\pi k}{N},\qquad k=0,1,\dots,N-1.
+\]
+The eigenvalues of $\underline{B}$ are
+\[
+\lambda_k=1-q+q\cos\theta_k.
+\]
+Hence the Green's function (generating function of the propagator) is
+\begin{equation}
+\tilde Q_{n_0}(n,z)
+=\frac{1}{N}\sum_{k=0}^{N-1}\frac{e^{i\theta_k(n-n_0)}}{1-z\lambda_k}
+=\frac{1}{N}\sum_{k=0}^{N-1}\frac{e^{i\theta_k(n-n_0)}}{1-z\,[1-q+q\cos\theta_k]}.
+\label{eq:Q_fourier}
+\end{equation}
+By translational invariance, $\tilde Q_{n_0}(n,z)$ depends only on $d=d(n,n_0)$.
+
+\subsection{Preparing the sum for the Chebyshev identity}
+
+Introduce the spectral parameter
+\begin{equation}
+\sigma(z)\equiv \frac{1-z(1-q)}{qz}.
+\label{eq:sigma_def}
+\end{equation}
+Then
+\[
+1-z[1-q+q\cos\theta_k]=qz\bigl(\sigma(z)-\cos\theta_k\bigr).
+\]
+Insert this into \eqref{eq:Q_fourier} and use symmetry of the ring to write the numerator as a cosine:
+\begin{equation}
+\tilde Q_{n_0}(n,z)
+=\frac{1}{qz}\,\frac{1}{N}\sum_{k=0}^{N-1}\frac{\cos\!\bigl(d\,\theta_k\bigr)}{\sigma(z)-\cos\theta_k},
+\qquad d=d(n,n_0).
+\label{eq:Q_cos_sum}
+\end{equation}
+
+\subsection{Applying Identity E3 (Appendix E, 2020 paper) with the $k=0$ term shown explicitly}
+
+Identity E3 for the periodic case reads (for $m\in\{0,1,\dots,N\}$)
+\begin{equation}
+\sum_{k=1}^{N-1}\frac{\cos\!\left(\frac{2\pi m k}{N}\right)}{\sigma-\cos\!\left(\frac{2\pi k}{N}\right)}
+=
+\frac{1}{1-\sigma}
++
+N\,\frac{\T_{N-m}(\sigma)+\T_{m}(\sigma)}{(\sigma^2-1)\,\U_{N-1}(\sigma)}.
+\label{eq:E3_identity}
+\end{equation}
+
+We now apply \eqref{eq:E3_identity} to the sum in \eqref{eq:Q_cos_sum}.
+First, we use $\theta_k=\frac{2\pi k}{N}$ to \emph{align} the cosine:
+\[
+\cos\!\bigl(d\,\theta_k\bigr)
+=\cos\!\left(d\frac{2\pi k}{N}\right)
+=\cos\!\left(\frac{2\pi (m=d)\,k}{N}\right).
+\]
+Thus we set
+\[
+m=d,\qquad \sigma=\sigma(z)
+\]
+in \eqref{eq:E3_identity}, which gives an expression for the \emph{partial} sum $k=1,\dots,N-1$:
+\begin{equation}
+\sum_{k=1}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+=
+\frac{1}{1-\sigma(z)}
++
+N\,\frac{\T_{N-d}(\sigma(z))+\T_{d}(\sigma(z))}{(\sigma(z)^2-1)\,\U_{N-1}(\sigma(z))}.
+\label{eq:partial_sum}
+\end{equation}
+
+Next, we restore the missing $k=0$ term in the full sum of \eqref{eq:Q_cos_sum}:
+\[
+\sum_{k=0}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+=
+\underbrace{\frac{\cos(0)}{\sigma(z)-\cos(0)}}_{\text{$k=0$ term}}
++
+\sum_{k=1}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}.
+\]
+Since $\cos(0)=1$, the $k=0$ term is
+\[
+\frac{\cos(0)}{\sigma(z)-\cos(0)}=\frac{1}{\sigma(z)-1}.
+\]
+Using \eqref{eq:partial_sum}, we obtain
+\begin{align}
+\sum_{k=0}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+&=
+\frac{1}{\sigma(z)-1}
++
+\frac{1}{1-\sigma(z)}
++
+N\,\frac{\T_{N-d}(\sigma(z))+\T_{d}(\sigma(z))}{(\sigma(z)^2-1)\,\U_{N-1}(\sigma(z))}.
+\label{eq:full_sum_with_cancel}
+\end{align}
+The first two terms cancel \emph{exactly}:
+\[
+\frac{1}{\sigma(z)-1}+\frac{1}{1-\sigma(z)}
+=
+\frac{1}{\sigma(z)-1}-\frac{1}{\sigma(z)-1}=0.
+\]
+Therefore the full sum becomes
+\begin{equation}
+\sum_{k=0}^{N-1}\frac{\cos(d\theta_k)}{\sigma(z)-\cos\theta_k}
+=
+N\,\frac{\T_{N-d}(\sigma(z))+\T_{d}(\sigma(z))}{(\sigma(z)^2-1)\,\U_{N-1}(\sigma(z))}.
+\label{eq:full_sum_final}
+\end{equation}
+
+Finally, substitute \eqref{eq:full_sum_final} back into \eqref{eq:Q_cos_sum} to obtain
+\begin{equation}
+\boxed{
+\tilde Q_{n_0}(n,z)
+=
+\frac{\T_{d}(\sigma(z))+\T_{N-d}(\sigma(z))}
+{qz\,\bigl(\sigma(z)^2-1\bigr)\,\U_{N-1}(\sigma(z))},
+\qquad d=d(n,n_0).
+}
+\label{eq:Q_chebyshev}
+\end{equation}
+
+\subsection{Odd vs even $N$ (explicit)}
+
+Let $d=d(n,n_0)\in\{0,1,\dots,\lfloor N/2\rfloor\}$.
+
+\paragraph{$N$ odd: $N=2M+1$.}
+Then $d\in\{0,1,\dots,M\}$ and $N-d\neq d$ unless $d=0$. Equation \eqref{eq:Q_chebyshev} holds as written.
+
+\paragraph{$N$ even: $N=2M$.}
+Then $d\in\{0,1,\dots,M\}$.
+For $d<M$, \eqref{eq:Q_chebyshev} holds as written.
+For the antipodal case $d=M=N/2$, the two Chebyshev terms coincide. Indeed, the numerator in \eqref{eq:Q_chebyshev} is
+$\T_d(\sigma(z))+\T_{N-d}(\sigma(z))$, and for even $N$ with $d=N/2$ we have $N-d=d$, hence
+\[
+N-d=d
+\quad\Rightarrow\quad
+\T_d(\sigma(z))+\T_{N-d}(\sigma(z))
+=\T_{N/2}(\sigma(z))+\T_{N/2}(\sigma(z))
+=2\,\T_{N/2}(\sigma(z)).
+\]
+Therefore,
+\[
+\tilde Q_{n_0}(n,z)\big|_{d=N/2}
+=
+\frac{2\,\T_{N/2}(\sigma(z))}
+{qz\,\bigl(\sigma(z)^2-1\bigr)\,\U_{N-1}(\sigma(z))}.
+\]
+
+\section{Part 2 --- Heterogeneous propagator $\tilde S_{n_0}(n,z)$ (one directed shortcut)}
+
+\subsection{Defect-technique formula (matrix form)}
+
+For $M$ (inert, probability-preserving) defect pairs $(u_i,v_i)$ with defect parameters $\eta_{u_i,v_i}$ and $\eta_{v_i,u_i}$,
+the generating function of the heterogeneous propagator is
+\begin{equation}
+\tilde S_{n_0}(n,z)
+=
+\tilde Q_{n_0}(n,z)-1+\frac{\det\!\bigl[\underline{H}(n,n_0;z)\bigr]}{\det\!\bigl[\underline{H}(z)\bigr]}.
+\label{eq:defect_formula}
+\end{equation}
+The $M\times M$ matrices $\underline{H}(z)$ and $\underline{H}(n,n_0;z)$ are defined componentwise by
+\begin{align}
+H(z)_{i,j}
+&=
+\eta_{u_i,v_i}\,\tilde Q_{(u_j-v_j)}(u_i,z)
+-\eta_{v_i,u_i}\,\tilde Q_{(u_j-v_j)}(v_i,z)
+-\frac{\delta_{i,j}}{z},
+\label{eq:H_def}\\[2mm]
+H(n,n_0;z)_{i,j}
+&=
+H(z)_{i,j}
+-\tilde Q_{(u_j-v_j)}(n,z)\Bigl[
+\eta_{u_i,v_i}\,\tilde Q_{n_0}(u_i,z)
+-\eta_{v_i,u_i}\,\tilde Q_{n_0}(v_i,z)
+\Bigr],
+\label{eq:Hn_def}
+\end{align}
+with the difference notation
+\[
+\tilde Q_{(u_j-v_j)}(x,z)\equiv \tilde Q_{u_j}(x,z)-\tilde Q_{v_j}(x,z).
+\]
+
+\subsection{Single directed shortcut (nearest-neighbour $k=1$; $K=2$ defect sites; $M=1$ defect pair)}
+
+A single directed shortcut involves exactly two special sites, $u$ and $v$ (hence $K=2$ defect sites; this $K$ counts only the endpoints),
+but it corresponds to one defect \emph{pair} in the formalism: $M=1$ with $(u_1,v_1)=(u,v)$.
+
+For a directed shortcut $u\to v$ of probability $p$ taken from the lazy weight at $u$, the only nonzero off-diagonal defect
+parameter is
+\[
+\eta_{u,v}=X_{v,u}=B_{v,u}-A_{v,u}=-p,\qquad \eta_{v,u}=0.
+\]
+Since $M=1$, determinants reduce to scalars: $\det[\underline{H}]=H$.
+
+\subsection{Explicit scalar determinants}
+
+Using \eqref{eq:H_def}--\eqref{eq:Hn_def} with $M=1$ gives
+\begin{align}
+\det[\underline{H}(z)]
+&=
+H(z)
+=
+\eta_{u,v}\,\tilde Q_{(u-v)}(u,z)-\eta_{v,u}\,\tilde Q_{(u-v)}(v,z)-\frac{1}{z},
+\label{eq:H_scalar}\\[1mm]
+\det[\underline{H}(n,n_0;z)]
+&=
+H(n,n_0;z)
+=
+H(z)-\tilde Q_{(u-v)}(n,z)\Bigl[\eta_{u,v}\,\tilde Q_{n_0}(u,z)-\eta_{v,u}\,\tilde Q_{n_0}(v,z)\Bigr].
+\label{eq:Hn_scalar}
+\end{align}
+
+On the homogeneous ring, $\tilde Q_{a}(b,z)$ depends only on $d(a,b)$. In particular, letting $d_{uv}=d(u,v)$:
+\[
+\tilde Q_{(u-v)}(u,z)=\tilde Q_u(u,z)-\tilde Q_v(u,z)=\tilde Q(0,z)-\tilde Q(d_{uv},z),
+\]
+and
+\[
+\tilde Q_{(u-v)}(n,z)=\tilde Q_u(n,z)-\tilde Q_v(n,z)=\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z).
+\]
+Also $\tilde Q_{n_0}(u,z)=\tilde Q(d(u,n_0),z)$.
+
+With $\eta_{u,v}=-p$ and $\eta_{v,u}=0$, \eqref{eq:H_scalar}--\eqref{eq:Hn_scalar} become
+\begin{align}
+\boxed{
+\det[\underline{H}(z)]
+=
+-\frac{1}{z}
+-p\Bigl(\tilde Q(0,z)-\tilde Q(d_{uv},z)\Bigr),
+}
+\label{eq:H_final}\\[2mm]
+\boxed{
+\det[\underline{H}(n,n_0;z)]
+=
+\det[\underline{H}(z)]
++p\Bigl(\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z)\Bigr)\,\tilde Q(d(u,n_0),z).
+}
+\label{eq:Hn_final}
+\end{align}
+
+\subsection{Closed form for $\tilde S_{n_0}(n,z)$}
+
+Insert \eqref{eq:H_final}--\eqref{eq:Hn_final} into \eqref{eq:defect_formula}:
+\begin{align*}
+\tilde S_{n_0}(n,z)
+&=
+\tilde Q_{n_0}(n,z)-1+\frac{\det[\underline{H}(n,n_0;z)]}{\det[\underline{H}(z)]}\\
+&=
+\tilde Q_{n_0}(n,z)
+ +
+\frac{
+p\Bigl(\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z)\Bigr)\,\tilde Q(d(u,n_0),z)
+}{
+\det[\underline{H}(z)]
+}.
+\end{align*}
+Since $\det[\underline{H}(z)]=-(1/z)\bigl[1+zp(\tilde Q(0,z)-\tilde Q(d_{uv},z))\bigr]$, we obtain the explicit rational form
+\begin{equation}
+\boxed{
+\begin{aligned}
+\tilde S_{n_0}(n,z)
+&=
+\tilde Q(d(n,n_0),z)\\
+&\quad
+- \frac{z\,p}{1+z\,p\Bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\Bigr)}\\
+&\qquad\qquad \times \Bigl(\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z)\Bigr)\,\tilde Q(d(u,n_0),z).
+\end{aligned}
+}
+\label{eq:S_closed}
+\end{equation}
+
+\subsection{Determinants in Chebyshev form}
+
+Define, for compactness,
+\[
+\sigma=\sigma(z),\qquad
+\mathcal{C}(z)\equiv qz\bigl(\sigma^2-1\bigr)\U_{N-1}(\sigma),\qquad
+\mathcal{N}_d(\sigma)\equiv \T_d(\sigma)+\T_{N-d}(\sigma).
+\]
+Then \eqref{eq:Q_chebyshev} reads
+\[
+\tilde Q(d,z)=\frac{\mathcal{N}_d(\sigma)}{\mathcal{C}(z)}.
+\]
+Let $d_{ab}=d(a,b)$. Using \eqref{eq:H_final}--\eqref{eq:Hn_final} we obtain
+\begin{equation}
+\boxed{
+\begin{aligned}
+\det[\underline{H}(z)]
+&=
+-\frac{1}{z}
+-\frac{p}{\mathcal{C}(z)}\Bigl(\mathcal{N}_0(\sigma)-\mathcal{N}_{d_{uv}}(\sigma)\Bigr)\\
+&=
+-\frac{1}{z}
+-\frac{p}{\mathcal{C}(z)}\Bigl(1+\T_N(\sigma)-\T_{d_{uv}}(\sigma)-\T_{N-d_{uv}}(\sigma)\Bigr).
+\end{aligned}
+}
+\label{eq:H_cheb}
+\end{equation}
+and
+\begin{equation}
+\boxed{
+\det[\underline{H}(n,n_0;z)]
+=
+\det[\underline{H}(z)]
++\frac{p}{\mathcal{C}(z)^2}
+\Bigl(\mathcal{N}_{d_{nu}}(\sigma)-\mathcal{N}_{d_{nv}}(\sigma)\Bigr)\,
+\mathcal{N}_{d_{un_0}}(\sigma).
+}
+\label{eq:Hn_cheb}
+\end{equation}
+
+\section{Part 3 --- First-passage time (FPT) generating function}
+
+The FPT generating function from $n_0$ to $n$ is
+\begin{equation}
+\tilde F_{n_0\to n}(z)=\frac{\tilde S_{n_0}(n,z)}{\tilde S_{n}(n,z)}.
+\label{eq:F_def}
+\end{equation}
+Using \eqref{eq:S_closed} both in the numerator and with $n_0=n$ in the denominator yields
+\begin{equation}
+\boxed{
+\begin{aligned}
+\tilde F_{n_0\to n}(z)
+&=
+\frac{
+\tilde Q(d(n,n_0),z)
+-
+\dfrac{
+z\,p\Bigl(\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z)\Bigr)\,\tilde Q(d(u,n_0),z)
+}{
+1+z\,p\Bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\Bigr)
+}
+}{
+\tilde Q(0,z)
+-
+\dfrac{
+z\,p\Bigl(\tilde Q(d(n,u),z)-\tilde Q(d(n,v),z)\Bigr)\,\tilde Q(d(u,n),z)
+}{
+1+z\,p\Bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\Bigr)
+}
+}.
+\end{aligned}
+}
+\label{eq:F_final}
+\end{equation}
+
+\subsection{Algebraic simplification and Chebyshev closed form}
+
+Starting from the nested-fraction form \eqref{eq:F_final}, define the two recurring algebraic blocks
+\begin{equation}
+D_Q(z)\equiv 1+z p\bigl(\tilde Q(0,z)-\tilde Q(d(u,v),z)\bigr),
+\qquad
+\Delta_n(z)\equiv \tilde Q(d(n,u),z)-\tilde Q(d(n,v),z).
+\label{eq:DQ_Delta_def}
+\end{equation}
+
+\paragraph{Step 1: remove nested fractions.}
+Multiply the numerator and denominator of \eqref{eq:F_final} by $D_Q(z)$ to obtain the equivalent form without nested fractions:
+\begin{equation}
+\boxed{
+\tilde F_{n_0\to n}(z)=
+\frac{
+\tilde Q(d(n,n_0),z)\,D_Q(z)-z p\,\Delta_n(z)\,\tilde Q(d(u,n_0),z)
+}{
+\tilde Q(0,z)\,D_Q(z)-z p\,\Delta_n(z)\,\tilde Q(d(u,n),z)
+}.
+}
+\label{eq:F_no_nested}
+\end{equation}
+
+\paragraph{Step 2: substitute the Chebyshev packaging for $\tilde Q(d,z)$.}
+Using $\sigma(z)$ from \eqref{eq:sigma_def} and the Chebyshev form \eqref{eq:Q_chebyshev}, define
+\[
+\tilde Q(d,z)=\frac{\mathcal{N}_d(\sigma(z))}{\mathcal{C}(z)},
+\qquad
+\mathcal{C}(z)\equiv qz\bigl(\sigma(z)^2-1\bigr)\U_{N-1}(\sigma(z)),
+\qquad
+\mathcal{N}_d(\sigma)\equiv \T_d(\sigma)+\T_{N-d}(\sigma).
+\]
+Then
+\[
+\Delta_n(z)=\frac{\mathcal{N}_{d(n,u)}(\sigma(z))-\mathcal{N}_{d(n,v)}(\sigma(z))}{\mathcal{C}(z)},
+\qquad
+D_Q(z)=\frac{\mathcal{C}(z)+z p\bigl(\mathcal{N}_0(\sigma(z))-\mathcal{N}_{d(u,v)}(\sigma(z))\bigr)}{\mathcal{C}(z)}.
+\]
+It is convenient to introduce the $u$--$v$ dependent factor
+\begin{equation}
+\boxed{
+D(z)\equiv \mathcal{C}(z)+z p\bigl(\mathcal{N}_0(\sigma(z))-\mathcal{N}_{d(u,v)}(\sigma(z))\bigr),
+}
+\label{eq:D_def}
+\end{equation}
+so that $D_Q(z)=D(z)/\mathcal{C}(z)$.
+
+\paragraph{Step 3: cancel common factors and obtain the closed form.}
+Substituting the above expressions into \eqref{eq:F_no_nested} shows that both the numerator and denominator carry the same factor $\mathcal{C}(z)^{-2}$, which cancels.
+The result is the fully explicit closed form
+\begin{equation}
+\boxed{
+\tilde F_{n_0\to n}(z)=
+\frac{
+\mathcal{N}_{d(n,n_0)}(\sigma(z))\,D(z)
+-z p\,\Bigl(\mathcal{N}_{d(n,u)}(\sigma(z))-\mathcal{N}_{d(n,v)}(\sigma(z))\Bigr)\,\mathcal{N}_{d(u,n_0)}(\sigma(z))
+}{
+\mathcal{N}_{0}(\sigma(z))\,D(z)
+-z p\,\Bigl(\mathcal{N}_{d(n,u)}(\sigma(z))-\mathcal{N}_{d(n,v)}(\sigma(z))\Bigr)\,\mathcal{N}_{d(u,n)}(\sigma(z))
+}.
+}
+\label{eq:F_cheb_closed}
+\end{equation}
+Here $\mathcal{N}_0(\sigma)=\T_0(\sigma)+\T_N(\sigma)=1+\T_N(\sigma)$.
+
+\paragraph{Remark (antipodal distance for even $N$).}
+If $N$ is even and some distance equals $d=N/2$, then $\mathcal{N}_{N/2}(\sigma)=2\,\T_{N/2}(\sigma)$, and the above formulas simplify accordingly.
+
+\section*{Numerical validation (double precision)}
+
+We validated \eqref{eq:Q_chebyshev}, \eqref{eq:S_closed}, and \eqref{eq:F_cheb_closed} against direct matrix computation of the resolvent.
+For each parameter set $(N,q,p,u,v,z)$ we built the column-stochastic transition matrices $\underline{B}$ (ring) and $\underline{A}$ (directed shortcut),
+and computed
+\[
+G_B(z)=(\underline{I}-z\underline{B})^{-1},\qquad
+G_A(z)=(\underline{I}-z\underline{A})^{-1}.
+\]
+The ground-truth generating functions are $\tilde Q_{n_0}(n,z)=[G_B(z)]_{n,n_0}$ and $\tilde S_{n_0}(n,z)=[G_A(z)]_{n,n_0}$.
+For first passage we used $\tilde F_{n_0\to n}(z)=[G_A(z)]_{n,n_0}/[G_A(z)]_{n,n}$ for $n_0\neq n$.
+We report the maximum absolute error over all indices:
+\[
+\max_{n,n_0}\bigl|\Delta\tilde Q\bigr|,\qquad
+\max_{n,n_0}\bigl|\Delta\tilde S\bigr|,\qquad
+\max_{n_0\neq n}\bigl|\Delta\tilde F\bigr|.
+\]
+
+\begin{center}
+\small
+\begin{tabular}{r r r r r r l l l}
+\hline
+$N$ & $q$ & $p$ & $u$ & $v$ & $z$ & $\max|\Delta\tilde Q|$ & $\max|\Delta\tilde S|$ & $\max|\Delta\tilde F|$ \\
+\hline
+9 & 0.6 & 0.2 & 1 & 4 & 0.3 & 2.22e-16 & 4.44e-16 & 5.55e-17 \\
+10 & 0.7 & 0.1 & 2 & 7 & 0.5 & 4.44e-16 & 2.22e-16 & 5.55e-17 \\
+12 & 0.5 & 0.3 & 0 & 6 & 0.6 & 4.44e-16 & 4.44e-16 & 8.33e-17 \\
+15 & 0.8 & 0.05 & 3 & 4 & 0.4 & 2.22e-16 & 4.44e-16 & 1.11e-16 \\
+20 & 0.4 & 0.2 & 5 & 13 & 0.75 & 1.33e-15 & 1.33e-15 & 1.67e-16 \\
+\hline
+\end{tabular}
+\end{center}
+
+In a sweep of 200 random cases ($N\le 40$, seed $=0$, $q\in[0.2,0.9]$, $z\in[0.2,0.85]$, $p\in[0,1-q]$), we found
+\[
+\max|\Delta\tilde Q|=3.11\times 10^{-15},\qquad
+\max|\Delta\tilde S|=3.11\times 10^{-15},\qquad
+\max|\Delta\tilde F|=4.44\times 10^{-16}.
+\]
+These residuals are consistent with floating-point round-off and the conditioning of matrix inversion as $z\to 1^{-}$.
+
+\end{document}

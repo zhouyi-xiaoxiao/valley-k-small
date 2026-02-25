@@ -1,0 +1,25 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{microtype}
+
+\begin{document}
+\noindent
+Figure~1 shows two stacked panels (top $K=2$, bottom $K=4$). In each panel the
+first-passage-time distribution $f(t)$ is plotted (dark blue/black for $K=2$,
+red for $K=4$), and three full-height stacked bars mark the peak1/valley/peak2
+windows. The x-axis is discrete time $t=1..1350$ (cropped for readability while
+still covering the second peak). For each $K$, the window centers
+$(t_1,t_v,t_2)$ are detected from that panel's exact $f(t)$ and the half-width
+is $\Delta=\max\{1,\lfloor 0.05(t_2-t_1)\rfloor\}$, so the bars align with each
+panel's own peak/valley structure. Each bar spans $[t_L,t_R]$ and its colors
+encode the four trajectory classes with heights equal to
+$P(\text{class}\mid T\in\text{window})$ for that $K$:
+\texttt{C0J0} = no shortcut and no jump-over,
+\texttt{C1pJ0} = shortcut used at least once and no jump-over,
+\texttt{C0J1p} = no shortcut and jump-over at least once,
+\texttt{C1pJ1p} = shortcut used at least once and jump-over at least once.
+Data come from \texttt{data/ft\_beta0.01.csv} and
+\texttt{data/fig2\_bins\_bars\_beta0.01.json} with
+$N=100$, $q=2/3$, $\beta=0.01$, $\rho=1.0$, lazy\_selfloop.
+\end{document}

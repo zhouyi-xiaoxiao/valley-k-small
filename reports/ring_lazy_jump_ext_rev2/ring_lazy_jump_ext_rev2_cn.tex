@@ -1,0 +1,184 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\title{Lazy 环 + 单向 shortcut：图1同轴叠加与敏感性分析}
+\author{}
+\date{}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+\maketitle
+
+\section*{摘要}
+本报告聚焦“图1同轴叠加”与“敏感性分析”，不重复原扩展报告的完整内容。
+默认示例参数为 $N=100$，$K\in\{2,4\}$，$q=2/3$，$\beta=0.01$，$\rho=1.0$，模式为 lazy\_selfloop。
+图1改为上下两幅（上 $K=2$、下 $K=4$），每幅将 $f(t)$ 与三段窗口（peak1/valley/peak2）中的四类轨迹组成以同一主轴显示；
+并给出阈值、窗口位置/宽度、MC（Monte Carlo）不确定性的敏感性结论。
+
+\section*{模型与符号速查}
+\begin{itemize}
+  \item $N$：环上节点数；$K=2/4$ 表示每步可向 $\pm r$ 移动，$r=\lfloor K/2 \rfloor$，并带 lazy 停留与单向 shortcut。
+  \item jump-over：轨迹跨过吸收点（target）但未吸收的事件；与 shortcut 使用独立统计。
+  \item 四类：$\texttt{C0J0}$、$\texttt{C1pJ0}$、$\texttt{C0J1p}$、$\texttt{C1pJ1p}$，分别表示
+        “无 shortcut/无 jump-over”、“有 shortcut/无 jump-over”、“无 shortcut/有 jump-over”、“有 shortcut/有 jump-over”。
+  \item $C1p/J1p$ 表示 “至少一次 shortcut/jump-over”，$C0/J0$ 表示 “从未发生”。
+\end{itemize}
+
+\section*{参数与窗口定义}
+默认示例参数：$N=100$，$K\in\{2,4\}$，$q=2/3$，$\beta=0.01$，$\rho=1.0$，模式为 lazy\_selfloop。
+其中 $q$ 为 lazy 留停概率，$\beta$ 控制 shortcut 强度，$\rho$ 为首达吸收率；$t$ 为离散时间步。
+
+窗口宽度采用既有流程中的统一规则：给定前两峰 $t_1,t_2$ 与谷底 $t_v$，
+\[
+\Delta=\max\{1,\lfloor \delta_{\text{frac}}(t_2-t_1)\rfloor\},\quad \delta_{\text{frac}}=0.05,
+\]
+windows 定义为
+$[t_1-\Delta,t_1+\Delta]$、$[t_v-\Delta,t_v+\Delta]$、$[t_2-\Delta,t_2+\Delta]$。
+窗口中心 $(t_1,t_v,t_2)$ 由精确 $f(t)$ 的峰谷检测规则自动给出，因此不是随机选取，
+实现细节记录在分析代码中。
+本报告对 $K=2$ 与 $K=4$ 分别从各自的精确 $f(t)$ 检测得到 $(t_1,t_v,t_2)$，并用同一固定规则计算 $\Delta$；
+上下两幅各用自身窗口，使栈叠条与该 $K$ 的峰谷结构对齐。
+窗口选择理由分为定性与定量两部分：定性上，双峰分布对应快/慢通道，
+peak1/peak2 抽取两端的“快/慢”动力学，valley 抽取两通道分离最强的时段，
+对 MC 轨迹比例 $P(\text{class}\mid T\in\text{window})$ 最具解释力。
+定量上，窗口中心来自峰谷检测、宽度与峰间距成比例，且在 $\Delta=\pm 1,2,5$ 的扰动下比例变化仍为 $10^{-3}$ 量级，
+说明结论不依赖精确边界。
+此外，表~\ref{tab:window-params} 给出三段窗口的中心、区间、宽度与窗口内样本量，
+用于量化说明窗口位置与样本规模并非随意设定。
+
+\input{tables/window_params_beta0.01.tex}
+
+\section*{复现说明（最短命令链）}
+在本报告目录内运行：
+\begin{verbatim}
+make fig2
+make sensitivity
+make pdf
+\end{verbatim}
+输出路径：图1在 \texttt{figures/}，敏感性结果在 \texttt{outputs/sensitivity/}，LaTeX 构建在 \texttt{build/}。
+
+\section*{数据来源表}
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.18\linewidth} L{0.25\linewidth} L{0.25\linewidth} L{0.24\linewidth}@{}}
+\toprule
+图/表 & 生成程序 & 输入 & 输出/命令 \\
+\midrule
+图1（上下两幅） & \path{code/plot_fig2_overlap_binbars.py} & \path{data/fig2_bins_bars_beta0.01.json}, \path{data/ft_beta0.01.csv} & \path{figures/fig2_overlap_binbars_beta0.01_x1350.pdf}；\texttt{make fig2} \\
+阈值敏感性 & \path{code/sensitivity_thresholds.py} & \path{data/ft_beta0.01.csv} & \path{outputs/sensitivity/threshold_sweep_heatmap.pdf} \\
+窗口/宽度敏感性 & \path{code/sensitivity_bin_intervals.py} & \path{data/fig2_bins_bars_beta0.01.json} + \path{cond_by_t.csv} & \path{outputs/sensitivity/bin_shift_plot.pdf} \\
+MC 不确定性 & \path{code/sensitivity_mc_uncertainty.py} & \path{data/fig2_bins_bars_beta0.01.json} + \path{cond_by_t.csv} & \path{outputs/sensitivity/mc_uncertainty_plot.pdf} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{同轴叠加 + 窗口栈叠条}
+图~\ref{fig:fig1-overlap-cn} 改为上下两幅：上图为 $K=2$，下图为 $K=4$。
+每幅将首达时间分布 $f(t)$ 与窗口内轨迹组成同轴显示；
+其中 $K=2$ 曲线为深蓝/黑、$K=4$ 曲线为红色（颜色一致），用于直观对比双峰/谷差异；
+横轴 $t$ 为离散时间步（取值由 \path{data/ft_beta0.01.csv} 给定，本图为 $t=1\ldots 1350$ 以增强可读性）。
+三段栈叠条对应 peak1/valley/peak2 三个窗口，它们的位置并非随机，
+而是由各自 $f(t)$ 的两峰一谷检测得到的 $(t_1,t_v,t_2)$ 与固定规则宽度 $\Delta$ 构成的区间 $[t_L,t_R]$。
+选择这三段窗口是为了直接对比“早峰/谷底/晚峰”内的轨迹组成：
+peak1/peak2 对应快/慢通道的贡献，valley 反映两通道分离程度，
+用窗口内的 MC 比例 $P(\text{class}\mid T\in\text{window})$ 能将三种动力学阶段分开观察。
+窗口选择的合理性通过“窗口位置与宽度敏感性”定量检验：$\Delta=\pm 1,2,5$ 的扰动下，
+比例变化仍在 $10^{-3}$ 量级，说明结论不依赖精确边界。具体窗口中心与区间见图~\ref{fig:fig1-overlap-cn} 标注。
+与原报告的“橙/绿/蓝窗口底色”不同，此处用三段全高栈叠条替代 bin：
+每个窗口对应一条栈叠 bar（宽度覆盖 $[t_L,t_R]$），内部用四种颜色表示
+$P(\text{class}\mid T\in\text{window})$；上下两幅分别对应各自的 $K$ 与各自窗口。
+若某类比例为 0，对应颜色不会出现。若某些时刻的条件概率被遮罩，
+脚本将回退到窗口级汇总比例，并在 JSON meta 中记录来源。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/fig2_overlap_binbars_beta0.01_x1350.pdf}
+  \caption{$f(t)$ 与窗口内四类比例的同轴叠加（栈叠 bar 替代窗口底色），上下两幅分别为 $K=2$（深蓝/黑）与 $K=4$（红色）。
+  $t$ 为离散时间步（横轴展示 $t=1\ldots 1350$ 以增强可读性）；标注的 $t_1,t_v,t_2$ 为各自 $K$ 的两峰一谷中心位置；
+  三段栈叠条对应 peak1/valley/peak2 窗口，区间由各自 $(t_1,t_v,t_2)$ 检测并按固定规则宽度 $\Delta$ 构造，
+  条内颜色为 $P(\text{class}\mid T\in\text{window})$（对应各自 $K$）。}
+  \label{fig:fig1-overlap-cn}
+\end{figure}
+
+\section{敏感性分析（正文）}
+\subsection{阈值敏感性}
+阈值网格扫描覆盖 $h_{\min}\in\{10^{-8},10^{-7},10^{-6}\}$、
+second\_frac$\in\{0.005,0.01,0.02\}$。
+$t_2/t_1\in\{8,10,12\}$。\\
+hv\_over\_max$\in\{0.10,0.20,0.30\}$。
+图~\ref{fig:threshold-heatmap-cn} 用两类热图汇总通过率：
+左侧为 hv\_over\_max 与 second\_frac 的二维热图（平均 $h_{\min},t_2/t_1$），\\
+右侧为 $t_2/t_1$ 与 $h_{\min}$ 的二维热图（平均 hv\_over\_max 与 second\_frac）。
+本图聚合 $N=100$ 且 $\beta$ 在 0.001--0.03 的 5 个取值：
+$K=2$ 的平均通过率约 $0.33$，$K=4$ 约 $0.60$；
+hv\_over\_max 越大通过率越高（$K=2$: 0.20/0.40/0.40；$K=4$: 0.40/0.60/0.80），
+而 $h_{\min}$、second\_frac 与 $t_2/t_1$ 的影响较弱。
+因此“$K=4$ 比 $K=2$ 更易双峰”的结论对阈值选择稳健，但对 hv\_over\_max 最敏感。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{outputs/sensitivity/threshold_sweep_heatmap.pdf}
+  \caption{阈值敏感性热图（通过率）。}
+  \label{fig:threshold-heatmap-cn}
+\end{figure}
+
+\subsection{窗口位置与宽度敏感性}
+对每个窗口 $[t_L,t_R]$，分别进行整体平移与宽度变化：
+$\Delta\in\{-5,-2,-1,0,1,2,5\}$（单位为离散时间步），
+shift 模式为 $[t_L+\Delta, t_R+\Delta]$，width 模式为 $[t_L-\Delta, t_R+\Delta]$。
+图~\ref{fig:bin-shift-cn} 同时展示两种模式。
+当 cond\_by\_t 中存在缺失的时间点分类概率时，脚本使用对应窗口的基线组成进行插补，
+以便评估边界扰动的影响。若窗口附近类别概率随 $t$ 近似单调，$\Delta$prop 会呈近似线性变化，
+因此部分子图会出现“尖三角/折线”形态，这是窗口滑动的正常结果而非数值异常。
+结果显示：$K=2$ 的最大比例变化 $\max|\Delta p|\le 4.49\times 10^{-3}$（平移）
+与 $\le 4.26\times 10^{-3}$（宽度），
+$K=4$ 的最大比例变化 $\max|\Delta p|\le 5.78\times 10^{-3}$（平移）
+与 $\le 5.13\times 10^{-3}$（宽度）。
+整体变化幅度仍小于 $1\%$ 量级，peak1/valley 中 $J1p$ 的稳定占比、peak2 由 $C0$ 类主导的结论保持不变。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{outputs/sensitivity/bin_shift_plot.pdf}
+  \caption{窗口位置与宽度敏感性（shift/width 两种模式）。}
+  \label{fig:bin-shift-cn}
+\end{figure}
+
+\subsection{MC 不确定性}
+基于窗口内样本量，采用正态近似给出 95\% CI。
+当 cond\_by\_t 无法覆盖窗口时，使用窗口级计数（summary/JSON）作为替代。
+结果见图~\ref{fig:mc-uncertainty-cn}：$K=2$ 的 CI 平均宽度约 $0.011$，最大约 $0.036$，
+$K=4$ 的 CI 平均宽度约 $0.029$，最大约 $0.063$。
+这些区间仍显著小于类间差异，
+不影响“$J1p$ 在 peak1/valley 中稳定存在”的判断。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{outputs/sensitivity/mc_uncertainty_plot.pdf}
+  \caption{MC 不确定性（误差条/CI）。}
+  \label{fig:mc-uncertainty-cn}
+\end{figure}
+
+\section*{小结}
+本报告提供了图1的同轴叠加实现（栈叠条替代窗口底色）与三类敏感性分析。
+结论在阈值、窗口位置与宽度扰动下保持一致，
+并通过 MC 置信区间验证了 jump-over 相关比例的稳定性。
+原模型推导与更完整的扫描结果请参阅 \texttt{reports/lazy\_jump\_ext/}。
+
+\end{document}

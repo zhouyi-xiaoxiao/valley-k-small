@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9993401559097637,
+  "aw": {
+    "errors": {
+      "l1": 1.9055572862031105e-15,
+      "linf": 1.4691257074533805e-18,
+      "rel_l1": 1.9068154871334665e-15
+    },
+    "params": {
+      "m": 131072,
+      "oversample": 4,
+      "r": 0.9997892142570423,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "NB2",
+  "mc": {
+    "fast_fraction": 0.0030999999999999917,
+    "n_walkers": 30000,
+    "slow_fraction": 0.9969,
+    "truncated_fraction": 0.0006333333333333333
+  },
+  "metrics": {
+    "gap": 906,
+    "h1": 0.00012362907579731603,
+    "h2": 0.00027720429922111406,
+    "h2_over_h1": 2.2422257663365315,
+    "hv": 6.204444784057141e-05,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.44598541994005075,
+    "smooth_window": 9,
+    "t_p1": 21,
+    "t_p2": 927,
+    "t_v": 51,
+    "valley_depth": 0.49814032467337765,
+    "valley_ratio": 0.5018596753266223
+  },
+  "name": "boundary-layer slowdown with longer sticky strip",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": 0.4,
+    "q": 0.8,
+    "start": [
+      50,
+      60
+    ],
+    "target": [
+      42,
+      60
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+\section{MC 扫描：四分类随 \texorpdfstring{$N$}{N} 变化（固定 \texorpdfstring{$\beta=0.01$}{beta=0.01}）}
+保持 $\beta=0.01$，对偶数 $N$ 做 MC 扫描并统计四类轨迹在不同窗口的比例。
+回顾四类定义：$C$ 表示是否至少使用一次 shortcut（$C0$ 为未用、$C1p$ 为至少一次），
+$J$ 表示是否出现 jump-over（$J0$ 为无、$J1p$ 为至少一次），
+因此 $\texttt{C0J0}$、$\texttt{C1pJ0}$、$\texttt{C0J1p}$、$\texttt{C1pJ1p}$ 对应四类轨迹。
+图~\ref{fig:mc-n-classes-cn} 汇总了四类轨迹比例随 $N$ 的变化。
+
+\paragraph{对比要点}
+$K=2$ 中 $J$-相关类别几乎为 0；
+$K=4$ 在 valley 与第二峰窗口中更容易出现 $J$-相关类别，体现 jump-over 对延迟吸收路径的贡献。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/aux_peak1_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/aux_valley_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/aux_peak2_vs_N.png}
+  \end{minipage}
+  \caption{$\mathbb{P}(C\ge1\mid\text{window})$ 与 $\mathbb{P}(J\ge1\mid\text{window})$ 随 $N$ 的变化。}
+  \label{fig:mc-n-aux-cn}
+\end{figure}
+
+复现与参数细节见复现指南一节。

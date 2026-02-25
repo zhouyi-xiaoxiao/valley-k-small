@@ -1,0 +1,31 @@
+.venv/
+.venv312/
+.venv_py314_broken/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.png
+.DS_Store
+**/.mplcache/
+**/.pycache/
+**/.pytest_cache/
+
+# Local agent/runtime outputs
+.openclaw/
+artifacts/loop/
+artifacts/checks/*.json
+
+# Generated web payloads (rebuilt in CI)
+site/public/data/v1/
+site/public/artifacts/
+
+# LaTeX build outputs
+build/
+*.aux
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz

@@ -1,0 +1,457 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+
+\title{二维长方形域首达时间双峰研究\\\large 双 Target 宽度-起点扫描与单 Target 走廊双峰条件}
+\author{}
+\date{}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.10}
+
+\definecolor{fastcorr}{HTML}{CDE8F3}
+\definecolor{slowcorr}{HTML}{E8E2AD}
+\definecolor{overlapcorr}{HTML}{CDBFE2}
+\definecolor{arrowred}{HTML}{FF5B4F}
+\definecolor{startred}{HTML}{E53935}
+\definecolor{targetmone}{HTML}{1565C0}
+\definecolor{targetmtwo}{HTML}{0D2A8A}
+\definecolor{lineblue}{HTML}{1F77B4}
+\definecolor{lineorange}{HTML}{FF7F0E}
+\definecolor{heatlow}{HTML}{2A0A8B}
+\definecolor{heatmid}{HTML}{B5367A}
+\definecolor{heathigh}{HTML}{FCD225}
+\definecolor{phase0}{HTML}{E8E8E8}
+\definecolor{phase1}{HTML}{9ECAE1}
+\definecolor{phase2}{HTML}{FB9A99}
+
+\newcommand{\legendbox}[1]{\fcolorbox{black}{#1}{\makebox[1.2em]{\rule{0pt}{0.9em}}}}
+\newcommand{\legendline}[1]{\textcolor{#1}{\rule{2.0em}{0.8pt}}}
+\newcommand{\legendwall}{\textcolor{black}{\rule{2.0em}{1.6pt}}}
+
+\begin{document}
+\maketitle
+
+\section*{结论先行}
+本报告研究的问题是：\textbf{当二维空间不是 $N\times N$，而是一个“躺着的长方形”时，在什么条件下首达时间分布会出现双峰}。
+
+我们给出两类可复现实验：
+\begin{enumerate}
+  \item \textbf{双 Target（两端吸收）}：把两个 target 放在长方形左右端点附近，起点偏向左端；设计一条短路径（快通道）和一条长路径（慢通道），扫描\textbf{短边宽度 $W_y$}与\textbf{起点位置 $x_0$}，得到双峰相图（图~\ref{fig:tt-phase}）。
+  \item \textbf{单 Target（走廊反射墙）}：起点与 target 放在左右端点附近，中间用反射墙制造走廊，并在走廊内加入 local bias；对比\textbf{是否叠加全局 bias}，扫描 $W_y$，得到双峰相图（图~\ref{fig:ot-phase}）。
+\end{enumerate}
+
+数学机理上，两类构造都可归结为同一模式：\textbf{总首达分布是两条“通道首达分量”的和}，当两分量的主峰时刻分离且权重不过于极端时，总曲线出现两个局部极大。
+
+\section{模型定义与坐标约定}
+\paragraph{长方形域}
+状态空间为
+\[
+\Omega=\{0,\dots,L_x-1\}\times\{0,\dots,W_y-1\},
+\]
+其中 $L_x$ 为长边长度，$W_y$ 为短边宽度（本报告扫描的主变量）。
+
+\paragraph{基本惰性随机游走}
+在内部格点，无偏置基线转移为
+\begin{align}
+P((x,y)\to(x\pm1,y))&=\frac{q}{4},\\
+P((x,y)\to(x,y\pm1))&=\frac{q}{4},\\
+P((x,y)\to(x,y))&=1-q.
+\end{align}
+反射边界：越界尝试的概率质量加回停留概率，故每行仍归一。
+
+\paragraph{local bias 规则}
+在带箭头的格点，将停留概率的 $\delta$ 比例转移到箭头方向：
+\[
+\Delta=\delta\,p_{\mathrm{stay}},\qquad
+p_{\mathrm{stay}}\leftarrow p_{\mathrm{stay}}-\Delta,\qquad
+p_{\mathrm{arrow}}\leftarrow p_{\mathrm{arrow}}+\Delta.
+\]
+
+\paragraph{global bias（可选）}
+用 $(b_x,b_y)$ 改变四方向概率，并重新归一保证总移动质量为 $q$（见脚本实现）。
+
+\section{图形阅读指南}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/symbol_legend_panel.pdf}
+  \caption{统一符号图例面板（由同一绘图脚本输出）：用于校准颜色、标记、曲线与相图分类的一致性。}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \begin{tabular}{@{}p{0.31\linewidth}p{0.18\linewidth}p{0.43\linewidth}@{}}
+    \toprule
+    图中元素 & 图中示意 & 含义（全报告统一） \\
+    \midrule
+    米白背景 & \legendbox{white} & 长方形反射边界晶格。\\
+    快通道区域 & \legendbox{fastcorr} & 快通道（fast corridor）覆盖单元。\\
+    慢通道/外域 & \legendbox{slowcorr} & 慢通道或外域（outer detour）覆盖单元。\\
+    重叠区域 & \legendbox{overlapcorr} & 多通道叠加覆盖。\\
+    反射墙 & \legendwall & 内部反射 barrier（走廊墙）。\\
+    local bias 箭头 & \textcolor{arrowred}{$\rightarrow$} & 将停留概率的一部分转移到箭头方向。\\
+    热图色标 & \legendbox{heatlow}\legendbox{heatmid}\legendbox{heathigh} & 条件占据概率 $P(X_t=n\mid T>t)$。\\
+    总首达曲线 & \legendline{black} & 总首达 PMF（two-target 为 $F_{\mathrm{any}}$；one-target 为 $F$）。\\
+    通道/分量曲线 & \legendline{lineblue}\ \legendline{lineorange} & splitting 或通道分解的分量。\\
+    相图类别 0/1/2 & \shortstack[l]{\legendbox{phase0}\,0\\\legendbox{phase1}\,1\\\legendbox{phase2}\,2} & 0=single；1=weak double；2=clear double。\\
+    \bottomrule
+  \end{tabular}
+  \caption{图示元素逐项说明。}
+  \label{tab:visual-legend}
+\end{table}
+
+\section{研究 I：双 Target（两端吸收）}
+\subsection{构造与扫描变量}
+将两个吸收点放在长方形左右端点附近（同一中线 $y=y_{\mathrm{mid}}$），起点在中线且偏向左端：
+\[
+m_1\approx(1,y_{\mathrm{mid}}),\quad m_2\approx(L_x-2,y_{\mathrm{mid}}),\quad n_0=(x_0,y_{\mathrm{mid}}).
+\]
+设计两条路径：
+\begin{itemize}
+  \item 快通道：$n_0\to m_1$ 的短直线路径；
+  \item 慢通道：$n_0\to m_2$ 的长直线路径（沿 $x$ 方向距离更长）。
+\end{itemize}
+本节默认将 local bias 仅放在上述两条直线“stream”（一格厚度）上，因此\textbf{箭头方向不出现拐弯}，同时 biased 格点数显著减少。
+扫描 $(W_y,x_0)$ 并用统一判据将结果分成 0/1/2 三类。
+
+\subsection{扫描相图与概览表}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/tt_phase_width_xstart.pdf}
+  \caption{双 Target：$(W_y,x_0)$ 分类相图。}
+  \label{fig:tt-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/tt_sep_width_xstart.pdf}
+  \caption{双 Target：分离度热图 $|\Delta t^*|/(w_{1/2}^{(1)}+w_{1/2}^{(2)})$。}
+  \label{fig:tt-sep}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/tt_valley_width_xstart.pdf}
+  \caption{双 Target：谷深热图 $p_v/\max(p_1,p_2)$。}
+  \label{fig:tt-valley}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/tt_scan_overview.tex}
+  \caption{双 Target：按宽度 $W_y$ 汇总的相图计数与最佳权重平衡度。}
+  \label{tab:tt-scan-overview}
+\end{table}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.72\linewidth]{figures/tt_critical_vs_xstart.pdf}
+  \caption{双 Target：关键起点分支（$x_0=8,10,12$）在扩展宽度扫描（到 $W_y=60$）下的双峰宽度上限（phase=2 与 phase$\ge$1）。}
+  \label{fig:tt-critical}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/tt_critical_width_by_xstart.tex}
+  \caption{双 Target：主分支（$x_0=8,10,12$）在扩展宽度扫描下的 clear-double 区间与“随宽度增大后的首个失稳宽度”。}
+  \label{tab:tt-critical}
+\end{table}
+
+\subsection{代表性案例：配置图与双峰图}
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/tt_representative_geometry_grid.pdf}
+  \caption{双 Target：代表性 clear-double 配置总览（环境示意）。图中叠加逐格晶格线，并每 5 格加深一条参考线，便于直接读出格点尺度与通道长度。}
+  \label{fig:tt-rep-geo}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/tt_representative_fpt_grid.pdf}
+  \caption{双 Target：代表性 clear-double 案例的总首达曲线与 splitting 分解（统一归一化、峰谷标注，并附第二峰局部放大），对应本次筛选得到的 clear 分支。}
+  \label{fig:tt-rep-fpt}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/tt_hazard_grid.pdf}
+  \caption{双 Target：hazard 分解（对照 $h=h_1+h_2$，横轴自适应覆盖第二峰时标）。虚线为谷底附近时刻。}
+  \label{fig:tt-rep-hazard}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/tt_repA_env_heatmap.pdf}
+  \caption{双 Target：代表案例 A 的环境 + 条件占据热图三帧（保持几何等比例，不做拉伸）。}
+  \label{fig:tt-rep-heat-a}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/tt_repB_env_heatmap.pdf}
+  \caption{双 Target：代表案例 B 的环境 + 条件占据热图三帧（保持几何等比例，不做拉伸）。}
+  \label{fig:tt-rep-heat-b}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/tt_representative_metrics.tex}
+  \caption{双 Target：代表案例关键指标（splitting 权重、分离度、分类 phase）。}
+  \label{tab:tt-rep-metrics}
+\end{table}
+
+\subsection{\texorpdfstring{宽度扫描的分支演化对比（固定 $x_0=10$）}{宽度扫描的分支演化对比（固定 x0=10）}}
+为了直接回答“不同长方形宽度下双峰如何变化”，我们固定 straight-stream 构造，并在同一分支 $x_0=10$ 上按宽度抽取关键跃迁案例（$W_y\in\{5,6,7,8,14,24\}$）：前两例是 clear-double，第 3 例是 weak-double（phase=1），后 3 例用于展示失稳后的单峰形态。
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/tt_width_sweep_geometry_grid.pdf}
+  \caption{双 Target：固定 $x_0=10$ 分支下，不同 $W_y$ 的环境配置对比。}
+  \label{fig:tt-width-geo}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/tt_width_sweep_fpt_grid.pdf}
+  \caption{双 Target：固定 $x_0=10$ 分支下，不同宽度的首达曲线对比（归一化显示；仅在检测到第二峰时附局部放大）。}
+  \label{fig:tt-width-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/tt_width_sweep_trend.pdf}
+  \caption{双 Target：宽度变化下的双峰形状指标与峰时刻漂移。}
+  \label{fig:tt-width-trend}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/tt_width_sweep_metrics.tex}
+  \caption{双 Target：固定分支宽度扫描指标（含 phase、$t_{p1},t_{p2},p_{\min}/p_{\max},\mathrm{valley/max}$）。}
+  \label{tab:tt-width-metrics}
+\end{table}
+
+从图~\ref{fig:tt-width-fpt} 与图~\ref{fig:tt-width-trend} 可见：在固定分支 $x_0=10$ 上，$W_y=5,6$ 保持 clear-double；到 $W_y=7$ 先退化为 weak-double（phase=1）；从 $W_y=8$ 起不再通过鲁棒双峰判据（phase=0），且在更宽区间（如 $W_y=14,24$）保持单峰。
+这里的 splitSep（分离度）来自 splitting 分量模态时刻，不等同于“总曲线一定双峰”；phase 仍以总首达曲线的双峰检测 + 谷深/权重门槛联合判定。
+结合图~\ref{fig:tt-critical} 与表~\ref{tab:tt-critical}，临界点仍是分支依赖：$x_0=8$ 在当前判据下无 clear 区间；$x_0=10$ 的 clear 区间为 $W_y=5\text{--}6$（$W_y=7$ 首次失稳，phase=1）；$x_0=12$ 的 clear 区间为 $W_y=5$（$W_y=6$ 首次失稳，phase=1）。因此不存在统一的全局临界宽度。
+这里“临界”指的是\textbf{宽度临界}，不是单一时间临界；峰时刻量级已在表~\ref{tab:tt-width-metrics} 给出（例如固定分支 $x_0=10$ 上，$W_y=6$ 约为 $(t_{p1},t_{p2})=(72,851)$，$W_y=7$ 约为 $(78,881)$）。
+
+\subsection{数学机理：splitting 分解与双峰判据}
+将两个 target 视为吸收态，其余为 transient。按行随机约定，转移矩阵分块为
+\[
+P=\begin{bmatrix}Q & R\\0&I_2\end{bmatrix},\qquad R=[r_1\ r_2].
+\]
+初始分布为 $\alpha$（起点 one-hot）。第 $t$ 步第一次命中 $m_1$（此前未命中任一 target）的 splitting 分布为
+\[
+f_1(t)=\alpha Q^{t-1}r_1,\qquad
+f_2(t)=\alpha Q^{t-1}r_2.
+\]
+因此总首达严格分解为
+\[
+F_{\mathrm{any}}(t)=f_1(t)+f_2(t).
+\]
+当 $f_1,f_2$ 的主峰时刻分离，且权重 $p_i=\sum_t f_i(t)$ 不极端时，总曲线出现两个局部极大。
+本报告使用的“clear double”判据同时约束：
+(i) 检测到两个主峰；(ii) 条件主峰时刻分离度足够大；(iii) $\min(p_1,p_2)$ 不过小；(iv) 谷底足够深。
+
+\section{研究 II：单 Target（走廊反射墙 + local bias）}
+\subsection{构造与扫描变量}
+起点与 target 放在长方形左右端点附近（同一中线）。中间 $x\in[x_0,x_1]$ 放置两条反射墙，使得中线附近形成走廊；走廊内部加入向右的 local bias。
+对比三种情形：无全局漂移 $b_x=0$、顺向漂移 $b_x>0$（朝向 target）、以及逆向漂移 $b_x<0$（背离 target），并扫描 $W_y$。
+为避免“起点/终点摆放”本身掩盖宽度效应，我们先在候选 $(x_s,x_t)$ 与一组代表性 $b_x$ 上做预扫描，再固定锚点后扫描宽度。
+本次运行自动选出的锚点与对应 clear 区间见表~\ref{tab:ot-anchor}（由脚本生成，避免人工抄写漂移）。
+
+\subsection{扫描相图与概览表}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.74\linewidth]{figures/ot_phase_width_bx.pdf}
+  \caption{单 Target：$(W_y,b_x)$ 分类相图。}
+  \label{fig:ot-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.74\linewidth]{figures/ot_sep_width_bx.pdf}
+  \caption{单 Target：峰分离度热图。}
+  \label{fig:ot-sep}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.78\linewidth]{figures/ot_valley_vs_width.pdf}
+  \caption{单 Target：谷深随 $W_y$ 的变化（不同 $b_x$ 叠加对比）。}
+  \label{fig:ot-valley-width}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/ot_scan_overview.tex}
+  \caption{单 Target：每个 $W_y$ 在不同 $b_x$ 下的 phase 分类。}
+  \label{tab:ot-scan-overview}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/ot_anchor_selection.tex}
+  \caption{单 Target：锚点预扫描结果摘要（固定锚点后再做宽度扫描）。}
+  \label{tab:ot-anchor}
+\end{table}
+
+由表~\ref{tab:ot-scan-overview} 与表~\ref{tab:ot-anchor} 可直接读出：在本次选定锚点 $(x_s,x_t)=(7,58)$ 下，\textbf{clear-double}（phase 2）只在 $b_x=-0.08$ 且 $W_y=8,10,12,14,16$ 出现；从 $W_y=18$ 起退化为 weak-double（phase 1）。
+当 $b_x=-0.12$ 时，全宽度范围均为 weak-double（phase 1）；当 $b_x\in\{-0.04,0,0.08\}$ 时，全宽度范围均为 single-peak（phase 0）。
+因此在该单 target 走廊构造中，要得到稳定 clear-double，需要\textbf{中等强度且逆向（背离 target）的全局偏置}。
+同样地，此处“临界”也是宽度意义（该锚点下 $b_x=-0.08$ 的首个失稳宽度为 $W_y=18$）；对应峰时刻量级可在扫描输出表/CSV 中读取。
+
+这里需要区分：图~\ref{fig:ot-valley-width} 是“指标曲线图”，不是配置图。配置差异在图~\ref{fig:ot-rep-geo} 里展示。除部分面板的 $W_y$ 不同外，更关键差异是全局偏置 $b_x$（标题与小箭头给出方向），它会改变“走廊通道/外域通道”的权重分配，从而影响图~\ref{fig:ot-rep-fpt} 中的双峰强度与峰时刻分离。
+
+\subsection{代表性案例：配置图与双峰图}
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/ot_representative_geometry_grid.pdf}
+  \caption{单 Target：代表性配置总览（走廊 + 反射墙）。每个子图额外标注 $b_x$ 及其方向，并标记 clear-double / weak-double / single-peak 分类；右下角配置卡给出尺寸、$(x_s,x_t)$、走廊半宽、墙边距与 $(\delta_{\mathrm{core}},\delta_{\mathrm{open}})$。}
+  \label{fig:ot-rep-geo}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/ot_representative_fpt_grid.pdf}
+  \caption{单 Target：代表性案例的首达曲线与“走廊/外域”通道分解。双峰子图均显式标注 $p_1,p_2$ 两个峰位（竖虚线 + 黑点）；若存在谷底则以灰色点线标出。各子图横轴采用自适应窗口（在保证主峰可读的同时覆盖第二峰时标）。}
+  \label{fig:ot-rep-fpt}
+\end{figure}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/ot_representative_hazard_grid.pdf}
+  \caption{单 Target：hazard 分解（走廊/外域分量）。横轴与对应 FPT 子图一致地采用自适应窗口，避免长尾压缩早时峰结构。}
+  \label{fig:ot-rep-hazard}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/ot_repA_env_heatmap.pdf}
+  \caption{单 Target：代表案例 A 的环境 + 条件占据热图三帧。}
+  \label{fig:ot-rep-heat-a}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/ot_repB_env_heatmap.pdf}
+  \caption{单 Target：代表案例 B 的环境 + 条件占据热图三帧。}
+  \label{fig:ot-rep-heat-b}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/ot_representative_metrics.tex}
+  \caption{单 Target：代表案例关键指标（谷深、峰分离度与分类 phase）。}
+  \label{tab:ot-rep-metrics}
+\end{table}
+
+\subsection{新增：走廊厚度敏感性（固定锚点）}
+为直接回答“1 格宽通道是否可形成 clear-double”，我们在固定锚点 $(x_s,x_t)=(7,58)$ 下额外扫描走廊半宽 $h\in\{0,1,2,3\}$（对应实际通道宽度 $2h+1=\{1,3,5,7\}$ 格），其余参数沿用单 target 主扫描。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/ot_corridor_phase_vs_width.pdf}
+  \caption{单 Target：固定焦点偏置下，phase 随“长方形宽度 $W_y$ 与通道宽度（格点数）”的变化。}
+  \label{fig:ot-corridor-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/ot_corridor_sep_vs_width.pdf}
+  \caption{单 Target：固定焦点偏置下，不同通道宽度的分离度随 $W_y$ 变化（虚线为 $\mathrm{sep}=1$ 参考线）。}
+  \label{fig:ot-corridor-sep}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/ot_corridor_width_summary.tex}
+  \caption{单 Target：走廊厚度敏感性汇总（固定锚点；按不同偏置给出 clear/weak 区间与首失稳宽度）。}
+  \label{tab:ot-corridor-summary}
+\end{table}
+
+从图~\ref{fig:ot-corridor-phase}--\ref{fig:ot-corridor-sep} 与表~\ref{tab:ot-corridor-summary} 可见：当通道仅 1 格宽（$h=0$）时，焦点偏置下通常只能到 weak-double；将通道加厚到 3/5/7 格后，clear-double 区间显著扩展。该结果说明“通道过窄”会削弱两时间尺度分离，而适度加厚可提升双峰稳健性。
+
+\subsection{新增：全局偏置向量扫描（$b_x,b_y$）}
+在固定锚点与参考宽度（由脚本自动选取最接近设定值的 $W_y$）下，我们进一步扫描全局偏置向量 $(b_x,b_y)$，用于回答“除 $x$ 向偏置外，$y$ 向偏置是否也会改变双峰相位”。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/ot_bias2d_phase_bx_by.pdf}
+  \caption{单 Target：固定几何下 $(b_x,b_y)$ 的 phase 相图。}
+  \label{fig:ot-bias2d-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/ot_bias2d_sep_bx_by.pdf}
+  \caption{单 Target：固定几何下 $(b_x,b_y)$ 的峰分离度热图。}
+  \label{fig:ot-bias2d-sep}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/ot_bias2d_phase_overview.tex}
+  \caption{单 Target：$(b_x,b_y)$ 扫描的 phase 数值表（与图~\ref{fig:ot-bias2d-phase} 对应）。}
+  \label{tab:ot-bias2d}
+\end{table}
+
+图~\ref{fig:ot-bias2d-phase}--\ref{fig:ot-bias2d-sep} 与表~\ref{tab:ot-bias2d} 可直接用来判断：在相同通道构造下，$y$ 向偏置会改变“走廊-外域”通道权重竞争，从而使同一 $b_x$ 下的双峰稳健性发生偏移。
+
+\subsection{数学机理：吸收 flux 的两通道分解}
+对单 target，首达 PMF 可写为一步进入吸收态的总流量（flux）。令 $p_{t-1}(u)$ 为第 $t-1$ 步仍在 transient 的分布，则
+\[
+f(t)=\sum_{u\in\mathcal T} p_{t-1}(u)\,P(u\to m).
+\]
+将 transient 集合按“走廊带内/走廊带外”划分为两部分 $\mathcal T=\mathcal C\cup\mathcal O$（互不交），得到严格恒等式
+\[
+f(t)=f_{\mathcal C}(t)+f_{\mathcal O}(t),\qquad
+f_{\mathcal C}(t)=\sum_{u\in\mathcal C} p_{t-1}(u)\,P(u\to m).
+\]
+因此如果“走廊吸收分量”与“外域吸收分量”的主峰时刻分离且权重合适，就会在总曲线上形成双峰；图~\ref{fig:ot-rep-fpt} 直接展示了该分解曲线。
+
+\section*{复现命令}
+\begin{verbatim}
+# 在仓库根目录先安装依赖（一次即可）
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+cd reports/grid2d_rect_bimodality
+python3 code/rect_bimodality_report.py --quick
+python3 code/rect_bimodality_report.py
+
+latexmk -xelatex -interaction=nonstopmode -halt-on-error \
+  -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_cn.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_en.tex
+\end{verbatim}
+
+\end{document}

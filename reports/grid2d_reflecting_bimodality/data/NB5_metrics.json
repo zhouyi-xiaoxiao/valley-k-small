@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9995431155985322,
+  "aw": {
+    "errors": {
+      "l1": 2.5314117044465604e-15,
+      "linf": 2.5269110398963915e-18,
+      "rel_l1": 2.5325687956249256e-15
+    },
+    "params": {
+      "m": 131072,
+      "oversample": 4,
+      "r": 0.9997892142570423,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "NB5",
+  "mc": {
+    "fast_fraction": 0.023916666666666697,
+    "n_walkers": 60000,
+    "slow_fraction": 0.9760833333333333,
+    "truncated_fraction": 0.0004333333333333333
+  },
+  "metrics": {
+    "gap": 615,
+    "h1": 0.0007101440399151221,
+    "h2": 0.0006601142006180614,
+    "h2_over_h1": 0.9295497300758303,
+    "hv": 5.862403091225907e-06,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.9295497300758303,
+    "smooth_window": 9,
+    "t_p1": 6,
+    "t_p2": 621,
+    "t_v": 379,
+    "valley_depth": 0.9911191077456947,
+    "valley_ratio": 0.008880892254305347
+  },
+  "name": "perimeter belt with global bias (boundary-only sticky + bias)",
+  "params": {
+    "N": 60,
+    "g_x": -0.1,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      12,
+      60
+    ],
+    "target": [
+      10,
+      60
+    ]
+  }
+}

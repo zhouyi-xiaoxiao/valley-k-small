@@ -1,0 +1,32 @@
+\section{MC sweep: four classes vs \texorpdfstring{$N$}{N} (fixed \texorpdfstring{$\beta=0.01$}{beta=0.01})}
+With $\beta=0.01$ fixed, we scan even $N$ and estimate class proportions within each window.
+Recall: $C$ records whether the shortcut is used at least once ($C0$ vs $C1p$) and $J$ records whether a jump-over occurs ($J0$ vs $J1p$),
+so the four classes are $\texttt{C0J0}$, $\texttt{C1pJ0}$, $\texttt{C0J1p}$, and $\texttt{C1pJ1p}$.
+Figure~\ref{fig:mc-n-classes-en} summarizes the class proportions vs $N$.
+
+\paragraph{Comparison highlights}
+For $K=2$, $J$-related classes are essentially zero;
+for $K=4$, $J$-related classes appear prominently in the valley and second-peak windows, reflecting jump-over contributions to delayed absorption.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/aux_peak1_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/aux_valley_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/aux_peak2_vs_N.png}
+  \end{minipage}
+  \caption{$\mathbb{P}(C\ge1\mid\text{window})$ and $\mathbb{P}(J\ge1\mid\text{window})$ vs $N$.}
+  \label{fig:mc-n-aux-en}
+\end{figure}
+
+See the reproducibility section for the exact commands and parameters.

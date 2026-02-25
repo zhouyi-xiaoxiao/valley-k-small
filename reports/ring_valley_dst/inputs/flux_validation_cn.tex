@@ -1,0 +1,116 @@
+% Deterministic bimodality validation via flux/master equation (no randomness).
+% Outputs live under figures/data/bimodality_flux_scan/.../latest/.
+
+% Stable "latest" outputs under each prefix (flux scan)
+\newcommand{\FluxCaseAFigDir}{figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/latest}
+\newcommand{\FluxCaseADataDir}{data/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/latest}
+\newcommand{\FluxCaseBFigDir}{figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_1/latest}
+\newcommand{\FluxCaseBDataDir}{data/bimodality_flux_scan/N100K6_n0_1_target_50_src_1/latest}
+
+\subsection{方法概述（flux/master equation）}
+把 $\mathrm{target}$ 视为吸收态，维护未吸收概率质量 $p_t(i)$ 并做确定性的时域推进：
+\[
+  f(t+1)=p_{t+1}(\mathrm{target}),\qquad
+  p_{t+1}(j)=\sum_i p_t(i)P(i\to j),\; j\ne\mathrm{target}.
+\]
+实现上用有向边列表 $(\mathrm{src},\mathrm{dst},w)$（$w=1/\deg(\mathrm{src})$）做一次稀疏推进，避免构造稠密 $(N\times N)$ 矩阵。
+该方法无随机性，主要用于验证 ``双峰'' 不是 MC 噪声或 AW 反演伪影。
+
+\subsection{双峰判据（Fig.~3 + separation）}
+\begin{itemize}
+  \item Fig.~3 caption 风格：严格局部极大、$f(t)>10^{-7}$；第二峰高度需 $\ge 1\%$ 的最高峰。
+  \item separation/robust：在上述基础上，要求两峰至少相隔 $2K=12$，以排除 ``很早的近邻峰簇''。
+  \item 谷深度指标（诊断量）：设 $h_{\min}=\min\{f(t_1),f(t_2)\}$，定义
+  \[
+    V=\frac{\min_{t_1<t<t_2} f(t)}{h_{\min}}.
+  \]
+  $V\approx 1$ 表示两峰间谷很浅。
+\end{itemize}
+
+\subsection{扫描结果（Case A：$\mathrm{src}=6$）}
+固定 $(N,K,n_0,\mathrm{target})=(100,6,1,50)$ 扫描 $\mathrm{dst}$：
+\begin{itemize}
+  \item Fig.~3 规则找到 15 个双峰 $\mathrm{dst}$（$43$--$57$，含特殊点 $\mathrm{dst}=\mathrm{target}=50$）。
+  \item separation/robust 过滤后保留 14 个：$\mathrm{dst}\in\{43,\dots,49,51,\dots,57\}$。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseAFigDir/bimodality_scan.pdf}
+  \caption{Case A：flux/master equation 扫描 $\mathrm{dst}$ 的双峰结果与 $A(t_2)=f(t_2)$。虚线为 $\mathrm{dst}=\mathrm{target}=50$。}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseAFigDir/peak_times.pdf}
+  \caption{Case A：robust 双峰样本的峰出现时间 $t_1,t_2$ 随 $\mathrm{dst}$ 的变化。}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseAFigDir/example_curves.pdf}
+  \caption{Case A：若干 robust 双峰样本的 $f(t)$（flux），并标注 $t_1,t_2$。}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseAFigDir/aw_vs_flux.pdf}
+  \caption{Case A：AW 反演与 flux 的 $f(t)$ 叠加对比（代表 $\mathrm{dst}$）。最大误差量级约 $10^{-13}$。}
+\end{figure}
+\FloatBarrier
+
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.90}
+\input{\FluxCaseADataDir/bimodal_table.tex}
+\par}
+\FloatBarrier
+
+\subsection{扫描结果（Case B：$\mathrm{src}=1$）}
+\begin{itemize}
+  \item Fig.~3 规则找到 18 个双峰 $\mathrm{dst}$；其中相当一部分是早期峰簇（峰间距小于 $2K$）。
+  \item 经过 separation 与 robust 两步筛选后，保留 7 个更典型的晚到第二峰样本。
+  \item 对应 $\mathrm{dst}\in\{36,37,38,39,62,63,64\}$。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseBFigDir/bimodality_scan.pdf}
+  \caption{Case B：flux 扫描 $\mathrm{dst}$ 的 $A(t_2)=f(t_2)$，并标出 robust 双峰点。}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\FluxCaseBFigDir/peak_times.pdf}
+  \caption{Case B：robust 双峰样本的峰出现时间 $t_1,t_2$ 随 $\mathrm{dst}$ 的变化。}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseBFigDir/example_curves.pdf}
+  \caption{Case B：若干 robust 双峰样本的 $f(t)$（flux），并标注 $t_1,t_2$。}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.78\textheight,keepaspectratio]{\FluxCaseBFigDir/aw_vs_flux.pdf}
+  \caption{Case B：AW 反演与 flux 的 $f(t)$ 叠加对比（代表 $\mathrm{dst}$）。最大误差量级约 $10^{-13}$。}
+\end{figure}
+\FloatBarrier
+
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.90}
+\input{\FluxCaseBDataDir/bimodal_table.tex}
+\par}
+\FloatBarrier
+
+\subsection{复现命令（flux 扫描）}
+\begin{itemize}
+  \item Case A：\texttt{python3 code/bimodality\_flux\_scan.py --sc-src 6 --aw-check}
+  \item Case B：\texttt{python3 code/bimodality\_flux\_scan.py --sc-src 1 --aw-check}
+\end{itemize}

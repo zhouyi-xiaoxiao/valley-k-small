@@ -1,0 +1,17 @@
+# Unified Theory Notes
+
+The project compares three shortcut constructions on ring-like first-passage systems:
+
+- **selfloop transfer**: move mass from stay probability to shortcut.
+- **renormalize**: add one outgoing edge and renormalize source-node transitions.
+- **equal4**: enforce equal probabilities among stay/left/right/shortcut at source.
+
+Core quantities include:
+
+$$f(t) = \Pr[T=t], \quad S(t)=\Pr[T>t], \quad h(t)=\frac{f(t)}{S(t-1)}.$$
+
+A practical bimodality criterion uses two separated strict local peaks $t_1<t_2$, plus valley depth and peak-ratio thresholds.
+
+$$R = \frac{f(t_2)}{f(t_1)}, \quad V = \frac{f(t_v)}{\max\{f(t_1), f(t_2)\}}.$$
+
+This website links each report to an interactive evidence panel where these quantities can be inspected directly.

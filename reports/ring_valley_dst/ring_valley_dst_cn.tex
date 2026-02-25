@@ -1,0 +1,276 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{placeins}
+\usepackage[hidelinks]{hyperref}
+\setlength{\emergencystretch}{8em}
+
+\title{固定 $N=100,K=6$：扫描 $\mathrm{dst}$ 调节第二峰（对比 $\mathrm{src}=n_0+5$ 与 $\mathrm{src}=n_0$；解析 + flux 验证 + Monte Carlo）}
+\author{}
+\date{}
+
+\setlist[itemize]{itemsep=0pt,topsep=4pt,parsep=0pt,partopsep=0pt}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section{目标}
+在论文的起点/终点设定下固定 $(N,K)=(100,6)$，只改变有向 shortcut 的\textbf{指向终点} $\mathrm{dst}$，
+观察解析 second peak 的\textbf{出现时间与相对显著性（峰高比）}随 $\mathrm{dst}$ 的变化，并用 Monte Carlo 统计：\textbf{吸收时间落在第二峰附近}的轨迹中，shortcut 穿越次数的比例趋势。
+
+\section{固定设定（公共参数 + 两种 $\mathrm{src}$）}
+\begin{itemize}
+  \item 节点编号：$1,\dots,N$。
+  \item 起点：$n_0=1$。
+  \item 吸收点：$\mathrm{target}=N/2=50$（$\rho=1$，严格 first-passage）。
+  \item ring：$K=6$ 邻居（$\pm1,\pm2,\pm3$）。
+  \item 有向 shortcut：从 $\mathrm{src}$（source，shortcut 源点）指向 $\mathrm{dst}$（destination，shortcut 指向终点），$\mathrm{dst}$ 作为扫描变量。
+  \item 本报告对比两种 $\mathrm{src}$：
+  \begin{itemize}
+    \item Case A（论文原始设定）：$\mathrm{src}=n_0+5=6$。
+    \item Case B（替代设定）：$\mathrm{src}=n_0=1$。
+  \end{itemize}
+  \item 备注：部分代码/图中使用 ``scr'' 表示 $\mathrm{src}$（source）。
+\end{itemize}
+
+% Paths for the two cases (stable "latest" outputs under each prefix)
+\newcommand{\CaseAFigDir}{figures/second_peak_dst_shortcut_usage/N100K6_n0_1_target_50_src_6/latest}
+\newcommand{\CaseADataDir}{data/second_peak_dst_shortcut_usage/N100K6_n0_1_target_50_src_6/latest}
+\newcommand{\CaseBFigDir}{figures/second_peak_dst_shortcut_usage/N100K6_n0_1_target_50_src_1/latest}
+\newcommand{\CaseBDataDir}{data/second_peak_dst_shortcut_usage/N100K6_n0_1_target_50_src_1/latest}
+
+\section{主要结论}
+\begin{itemize}
+  \item 固定 $N=100,K=6,n_0=1,\mathrm{target}=50$，只扫描 $\mathrm{dst}$ 会显著改变双峰的\textbf{峰位置}（$t_1,t_2$）以及第二峰的\textbf{相对显著性}（峰高比 $R=A(t_2)/A(t_1)$）。
+  \item 用 flux/master equation 做确定性扫描可复现 ``存在双峰'' 的 $\mathrm{dst}$ 区间，并与 AW 反演在 $t\le2000$ 内一致（代表点最大误差量级约 $10^{-13}$），说明双峰不是数值噪声伪影。
+  \item 对典型的 late-second-peak 族（$t_2$ 在较晚时间尺度出现），除特殊点（如 $\mathrm{dst}=\mathrm{target}$）外，$A(t_2)$ 的\textbf{绝对高度随 $\mathrm{dst}$ 的变化幅度很小}；更重要、变化更显著的是 $R$。
+  \item 在 late-second-peak 族中，第二峰窗口内的穿越概率 $P(C\ge1\mid T\in W)$ 与 $A(t_2)$ 呈正相关，但由于 $A(t_2)$ 的动态范围较小，更清晰的组织变量是峰高比 $R$（排除 $\mathrm{dst}=\mathrm{target}$ 后，经验上 $R$ 越大，$P(C\ge1\mid T\in W)$ 越小）。
+  \item Case B（$\mathrm{src}=n_0$）会额外出现 early-$t_2$：当 $\mathrm{dst}$ 接近 target 时存在两步吸收路径，使窗口内几乎必经 shortcut（$P(C\ge1\mid T\in W)\approx 1$），需要与 late-second-peak 分开理解。
+  \item Case A（$\mathrm{src}=n_0+5$）的第一/第二峰通常是更平滑的 late-time 结构（相对不受 early-peak 的“近 delta”结构干扰），因此在第二峰窗口条件下估计的穿越比例更稳定、也更有信息量（$C=0,1,\ge2$ 的质量分布更可区分）。
+\end{itemize}
+
+\section{第二峰判据与 MC 条件}
+\begin{itemize}
+  \item 峰值判据沿用 Fig.~3 caption 规则：局部极大、$A(t)>10^{-7}$；第二峰需至少达到最高峰的 $1\%$。
+  \item $A(t)$ 是离散时间 first-passage 的概率质量函数（PMF），因此图上连线看起来 ``尖'' 是正常现象（不是连续曲线）。
+  \item 记前两个峰为 $(t_1,t_2)$。定义第二峰窗口半宽
+  \[
+    \Delta=\max\{1,\lfloor 0.05\,(t_2-t_1)\rfloor\},
+  \]
+  并在 MC 中筛选吸收时间 $T\in[t_2-\Delta,\;t_2+\Delta]$ 的轨迹，统计 shortcut 穿越次数 $C$（0 次、1 次、$\ge2$ 次）。
+\end{itemize}
+
+\section{统计量与比例定义}
+\subsection{核心随机变量（轨迹级 $(T,C)$）}
+\begin{itemize}
+  \item $T$：first-passage 吸收时间（首次到达 target 的时间步数；$\rho=1$）。
+  \item $C$：shortcut 穿越次数（本模型里等价于走过边 $\mathrm{src}\to\mathrm{dst}$ 的次数）。
+\end{itemize}
+
+\subsection{第二峰窗口条件与“穿过/没穿过”的比例}
+\begin{itemize}
+  \item 用解析 $A(t)$ 定位双峰的第二峰时间 $t_2$，并定义窗口 $W=[t_2-\Delta,\;t_2+\Delta]$。
+  \item 在 MC 中只保留满足 $T\in W$ 的轨迹集合 $\mathcal{S}$（也就是“第二峰附近被吸收”的那一群）。
+  \item “未穿越/已穿越”的比例可定义为
+  \[
+    P(C=0\mid T\in W),\qquad P(C\ge 1\mid T\in W)=1-P(C=0\mid T\in W).
+  \]
+  另外也统计 $P(C=1\mid T\in W)$ 与 $P(C\ge2\mid T\in W)$。
+\end{itemize}
+
+\subsection{MC 估计与误差}
+\begin{itemize}
+  \item 设窗口内样本数为 $n=|\mathcal{S}|$，其中 $k_0$ 条满足 $C=0$，则
+  \[
+    \widehat{P}(C=0\mid T\in W)=k_0/n,\quad \widehat{P}(C\ge1\mid T\in W)=1-k_0/n.
+  \]
+  \item 误差条：把“是否穿过”（$C\ge1$）视为二项分布，对 $\widehat{P}(C\ge1\mid T\in W)$ 画 Wilson 95\% 置信区间（脚本已自动画在图里）。
+  \item 质量检查：同时记录窗口内比例 $n/N_{\mathrm{walkers}}$，若 $n$ 太小（比如 $<10^3$）应增大 walker 数或调整窗口定义，否则误差会很大。
+\end{itemize}
+
+\section{确定性验证：flux/master equation 扫描 + AW 交叉核对}
+\input{inputs/flux_validation_cn.tex}
+
+\section{结果：Case A（论文原始设定 $\mathrm{src}=n_0+5=6$）}
+
+\subsection{MC 覆盖范围}
+\input{\CaseADataDir/scope_summary.tex}
+
+\subsection{解析：第二峰高度随 $\mathrm{dst}$ 变化}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseAFigDir/peak2_vs_dst.pdf}
+  \caption{解析（AW 反演）得到的第二峰高度 $A(t_2)$ 随 shortcut 终点 $\mathrm{dst}$ 的变化。}
+\end{figure}
+
+\subsection{双峰配置的峰出现时间（$t_1$ 与 $t_2$）}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseAFigDir/peak_times_vs_dst.pdf}
+  \caption{仅对满足双峰判据（Fig.~3 规则）的 $\mathrm{dst}$，给出第一峰时间 $t_1$ 与第二峰时间 $t_2$ 随 $\mathrm{dst}$ 的变化。}
+\end{figure}
+
+\subsection{晚双峰（late second peak）机制解释（Case A）}
+\begin{itemize}
+  \item Case A 中 $\mathrm{src}\ne n_0$：轨迹必须先到达 $\mathrm{src}=6$ 才能使用 shortcut，因此 shortcut 影响通常出现在更晚的时间尺度上。
+  \item 双峰可理解为两类轨迹的混合：一类较早经过 $\mathrm{src}$ 并使用 shortcut（更快到达 target，贡献第一峰 $t_1$）；另一类在较长时间内未有效利用 shortcut（或很晚才利用），在 $t_2\sim O(N)$ 的尺度上形成第二峰。
+  \item 极端点 $\mathrm{dst}=\mathrm{target}$ 会把 shortcut 直接连到吸收点，导致非常早的峰结构，需要与典型 late-second-peak 分开理解。
+\end{itemize}
+
+\FloatBarrier
+
+\subsection{解析基准：选取案例的 $A(t)$ 与第二峰窗口}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.80\textheight,keepaspectratio]{\CaseAFigDir/exact_selected_cases.pdf}
+  \caption{所有满足双峰判据的 $\mathrm{dst}$：解析 $A(t)$ 曲线（AW 反演），橙色阴影为第二峰窗口 $[t_2-\Delta,t_2+\Delta]$。}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{MC：第二峰窗口内的 shortcut 穿越比例}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\CaseAFigDir/second_peak_crossing_fractions.pdf}
+  \caption{对每个 $\mathrm{dst}$，在 $T\in[t_2-\Delta,t_2+\Delta]$ 条件下统计穿越次数 $C$：0 次、1 次、$\ge2$ 次的比例（堆叠柱）。柱顶标注窗口内样本数 $n$。}
+\end{figure}
+\FloatBarrier
+
+\subsection{分析：第二峰/第一峰相对高度 vs 穿越比例}
+定义峰高比 $R=A(t_2)/A(t_1)$，关心
+$P(C\ge1\mid T\in[t_2-\Delta,t_2+\Delta])$ 随 $R$ 的变化（同时也画出随 $A(t_2)$ 的变化）。
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.72\textheight,keepaspectratio]{\CaseAFigDir/pcross_relationships.pdf}
+  \caption{左：穿越概率随峰高比 $R$ 的变化；右：随第二峰绝对高度 $A(t_2)$ 的变化。误差条为 Wilson 95\% 置信区间；颜色区分 early/late（以 $t_2\le2K$ 为 early；Case A 基本都为 late）；红色星号为 $\mathrm{dst}=\mathrm{target}$ 的特殊情形。}
+\end{figure}
+\FloatBarrier
+
+\subsubsection{相关性（脚本自动统计）}
+\input{\CaseADataDir/analysis_summary.tex}
+
+\subsubsection{结论要点（Case A，$\mathrm{src}=6$）}
+\begin{itemize}
+  \item \textbf{典型双峰：}除 $\mathrm{dst}=\mathrm{target}$ 外，Case A 的双峰主要是 late-second-peak（$t_2$ 在较晚时间出现）。
+  \item \textbf{穿越比例：}在第二峰窗口条件下，仍有可观 ``0 crossing'' 的比例（并非几乎必经 shortcut），反映 second peak 对应的是一类更慢的混合轨迹群体。
+  \item \textbf{随第二峰高度与峰高比：}$A(t_2)$ 与 $P(C\ge1\mid T\in W)$ 统计上呈正相关（见 $r(A(t_2),P(C\ge1))>0$），但除特殊点外 $A(t_2)$ 的变化幅度很小；排除 $\mathrm{dst}=\mathrm{target}$ 后，更清晰的趋势是 $R$ 与 $P(C\ge1\mid T\in W)$ 呈负相关。
+  \item \textbf{特殊点：}$\mathrm{dst}=\mathrm{target}$ 会使 $t_2$ 很早且 $P(C\ge1)$ 接近 1，需要与典型 late-second-peak 分开讨论。
+\end{itemize}
+
+\subsection{汇总表}
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.85}
+\input{\CaseADataDir/selected_table.tex}
+\par}
+
+\FloatBarrier
+
+\section{结果：Case B（$\mathrm{src}=n_0=1$）}
+
+\subsection{MC 覆盖范围}
+\input{\CaseBDataDir/scope_summary.tex}
+
+\subsection{解析：第二峰高度随 $\mathrm{dst}$ 变化}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseBFigDir/peak2_vs_dst.pdf}
+  \caption{解析（AW 反演）得到的第二峰高度 $A(t_2)$ 随 shortcut 终点 $\mathrm{dst}$ 的变化。}
+\end{figure}
+
+\subsection{双峰配置的峰出现时间（$t_1$ 与 $t_2$）}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{\CaseBFigDir/peak_times_vs_dst.pdf}
+  \caption{仅对满足双峰判据（Fig.~3 规则）的 $\mathrm{dst}$，给出第一峰时间 $t_1$ 与第二峰时间 $t_2$ 随 $\mathrm{dst}$ 的变化。}
+\end{figure}
+
+\subsection{为什么部分 ``第二峰'' 出现在很早的时间？（Case B 的直接后果）}
+\begin{itemize}
+  \item 当 $\mathrm{src}=n_0$ 时，粒子从第 1 步起就有概率 $1/(K+1)=1/7$ 直接走 shortcut：$n_0\to \mathrm{dst}$。
+  \item 若 $\mathrm{dst}$ 恰好离吸收点很近（在 $K=6$ ring 上一步可达，即 $\mathrm{dst}\in\{\mathrm{target}\pm1,\pm2,\pm3\}$），那么存在极短路径
+  \[
+    n_0 \xrightarrow{\text{shortcut}} \mathrm{dst} \xrightarrow{\text{ring}} \mathrm{target},
+  \]
+  从而在 $t=2$ 就出现很大的吸收概率，形成非常早的主峰/次峰结构（并且这些早峰对应的轨迹几乎必经 shortcut）。
+  \item 这些早峰不是 ``噪声''：对典型 early-$t_2$ 案例（例如 $\mathrm{dst}=47$）用 master equation 精确传播核对，AW 反演与数值精确结果在前 200 步的最大误差约为 $10^{-14}$，峰的位置与高度一致。
+\end{itemize}
+
+\subsection{晚双峰（late second peak）机制解释（Case B）}
+\begin{itemize}
+  \item Case B 中也会出现 late-second-peak：当 shortcut 把粒子送往远离 target 的区域（例如 $\mathrm{dst}$ 在 ring 上离 target 很远）时，早期使用 shortcut 反而更可能延迟到达 target。
+  \item 这会把轨迹分成两类：一类未早用 shortcut 或未被其显著 ``拉远''（形成较早的 $t_1$）；另一类早用 shortcut 后被 ``甩开''（形成较晚的 $t_2$），从而出现双峰。
+  \item 在这些 late-$t_2$ 案例中，第二峰窗口条件下通常 $P(C\ge1\mid T\in W)\approx 0.63$--$0.72$，仍存在明显的 ``0 crossing''（说明第二峰并非全由必经 shortcut 的轨迹构成）。
+\end{itemize}
+
+\FloatBarrier
+
+\subsection{解析基准：选取案例的 $A(t)$ 与第二峰窗口}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.80\textheight,keepaspectratio]{\CaseBFigDir/exact_selected_cases.pdf}
+  \caption{所有满足双峰判据的 $\mathrm{dst}$：解析 $A(t)$ 曲线（AW 反演），橙色阴影为第二峰窗口 $[t_2-\Delta,t_2+\Delta]$。}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{MC：第二峰窗口内的 shortcut 穿越比例}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{\CaseBFigDir/second_peak_crossing_fractions.pdf}
+  \caption{对每个 $\mathrm{dst}$，在 $T\in[t_2-\Delta,t_2+\Delta]$ 条件下统计穿越次数 $C$：0 次、1 次、$\ge2$ 次的比例（堆叠柱）。柱顶标注窗口内样本数 $n$。}
+\end{figure}
+\FloatBarrier
+
+\subsection{分析：第二峰/第一峰相对高度 vs 穿越比例}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.72\textheight,keepaspectratio]{\CaseBFigDir/pcross_relationships.pdf}
+  \caption{左：穿越概率随峰高比 $R$ 的变化；右：随第二峰绝对高度 $A(t_2)$ 的变化。误差条为 Wilson 95\% 置信区间；颜色区分 early/late（以 $t_2\le2K$ 为 early）；红色星号为 $\mathrm{dst}=\mathrm{target}$ 的特殊情形。}
+\end{figure}
+\FloatBarrier
+
+\subsubsection{相关性（脚本自动统计）}
+\input{\CaseBDataDir/analysis_summary.tex}
+
+\subsubsection{结论要点（Case B，$\mathrm{src}=1$）}
+\begin{itemize}
+  \item \textbf{两类机制：}当 $\mathrm{src}=n_0$ 时，双峰里通常出现 ``early-$t_2$'' 与 ``late-$t_2$'' 两类：前者第二峰在很早的步数出现（如 $t_2\le 8$），后者第二峰出现在较晚的时间（如 $t_2\approx 90$--$110$）。
+  \item \textbf{early-$t_2$：}在这些案例中，条件在第二峰窗口内被吸收时几乎必经 shortcut，因而 $P(C\ge1\mid T\in W)\approx 1$（并且基本都是 $C=1$）。
+  \item \textbf{late-$t_2$：}在这些案例中，窗口内仍有可观比例 ``0 crossing''（大约 $0.28$--$0.37$）。
+  \item \textbf{随第二峰高度与峰高比：}总体上 $A(t_2)$ 越小，$P(C\ge1\mid T\in W)$ 越小（等价地 $P(C=0\mid T\in W)$ 越大）；因此 ``第二峰越低 $\Rightarrow$ 通过 shortcut 的比例越高'' \textbf{不成立}，数据呈现的是相反趋势。对 late-second-peak 子集而言，$A(t_2)$ 的变化幅度本身也很小，更推荐用峰高比 $R$ 来组织穿越比例（排除 $\mathrm{dst}=\mathrm{target}$）。
+  \item \textbf{特殊点 $\mathrm{dst}=\mathrm{target}$：}shortcut 直接指向吸收点，会导致窗口很早且 $P(C\ge1)$ 接近 1，需要与 late-second-peak 机制区分开讨论。
+\end{itemize}
+
+\subsection{汇总表}
+{\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.85}
+\input{\CaseBDataDir/selected_table.tex}
+\par}
+
+{\footnotesize
+\noindent\textbf{如何复现：}
+\begin{itemize}[leftmargin=1.6em]
+  \item \path{cd reports/ring_valley_dst}
+  \item flux 扫描（确定性，\path{sc-src=6}）：\path{python3 code/bimodality_flux_scan.py --sc-src 6 --aw-check}
+  \item flux 扫描（确定性，\path{sc-src=1}）：\path{python3 code/bimodality_flux_scan.py --sc-src 1 --aw-check}
+  \item dst 扫描 + MC（\path{sc-src=6}）：\path{python3 code/dst_shortcut_usage_mc.py --sc-src 6 --mc-all-bimodal}
+  \item dst 扫描 + MC（\path{sc-src=1}）：\path{python3 code/dst_shortcut_usage_mc.py --sc-src 1 --mc-all-bimodal}
+  \item 编译：\path{latexmk -xelatex -auxdir=build -emulate-aux-dir ring_valley_dst_cn.tex}
+\end{itemize}
+（MC 默认 \texttt{--seed 0}，也可手动指定）。}
+
+\end{document}

@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.9999976243883318,
+  "aw": {
+    "errors": {
+      "l1": 3.108349201146273e-15,
+      "linf": 3.121725037854698e-18,
+      "rel_l1": 3.1083565853944463e-15
+    },
+    "params": {
+      "m": 131072,
+      "oversample": 4,
+      "r": 0.9997892142570423,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "NB4",
+  "mc": {
+    "fast_fraction": 0.10391666666666666,
+    "n_walkers": 60000,
+    "slow_fraction": 0.8960833333333333,
+    "truncated_fraction": 1.6666666666666667e-05
+  },
+  "metrics": {
+    "gap": 636,
+    "h1": 0.0008959495790115,
+    "h2": 0.0008349676418482749,
+    "h2_over_h1": 0.9319359720772384,
+    "hv": 5.1754315301901083e-05,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.9319359720772384,
+    "smooth_window": 9,
+    "t_p1": 6,
+    "t_p2": 642,
+    "t_v": 389,
+    "valley_depth": 0.9380163820632159,
+    "valley_ratio": 0.061983617936784134
+  },
+  "name": "perimeter clockwise belt (boundary-only sticky + bias)",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      12,
+      60
+    ],
+    "target": [
+      10,
+      60
+    ]
+  }
+}

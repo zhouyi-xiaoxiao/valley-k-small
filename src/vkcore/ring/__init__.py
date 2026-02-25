@@ -1,0 +1,1 @@
+"""Ring-model shared modules."""

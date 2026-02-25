@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "timestamp": "2026-02-10 23:45:54",
+    "python": "3.14.2",
+    "numpy": "2.4.2",
+    "platform": "macOS-15.7.3-arm64-arm-64bit-Mach-O",
+    "manifest": "reports/cross_luca_regime_map/data/manifest.csv",
+    "runtime_raw": "reports/cross_luca_regime_map/data/runtime_raw_smoke.csv",
+    "thread_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "policy": {
+    "fairness": "fixed_t_full_fpt",
+    "winner_metric": "argmin(sparse_seconds, luca_seconds)",
+    "speedup_ratio": "R=sparse_seconds/luca_seconds",
+    "no_mixed_absolute_seconds_for_cross_family_claims": true,
+    "luca_mode_threshold_defect_pairs": 120
+  },
+  "counts": {
+    "workloads": 6,
+    "families": {
+      "two_target": 0,
+      "reflecting": 6
+    },
+    "luca_mode": {
+      "full": 0,
+      "estimate": 6
+    }
+  },
+  "pooled": {
+    "median_R": 0.00038604831503907865,
+    "mean_R": 0.0004081006423012102,
+    "p_luca_faster": 0.0,
+    "n_luca_faster": 0,
+    "has_luca_win_region": false,
+    "no_win_statement": "No Luca winning region under fixed-T full-FPT fairness."
+  },
+  "aggregates": {
+    "by_family": [
+      {
+        "key": [
+          "reflecting"
+        ],
+        "count": 6,
+        "median_R": 0.00038604831503907865,
+        "mean_R": 0.0004081006423012102,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      }
+    ],
+    "by_family_t": [
+      {
+        "key": [
+          "reflecting",
+          300
+        ],
+        "count": 3,
+        "median_R": 0.0006467516515652066,
+        "mean_R": 0.0005170686738031426,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      },
+      {
+        "key": [
+          "reflecting",
+          1200
+        ],
+        "count": 3,
+        "median_R": 0.0003299920328731972,
+        "mean_R": 0.0002991326107992779,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      }
+    ],
+    "by_family_bin_t": [
+      {
+        "key": [
+          "reflecting",
+          "[301,700]",
+          300
+        ],
+        "count": 1,
+        "median_R": 0.0006467516515652066,
+        "mean_R": 0.0006467516515652066,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      },
+      {
+        "key": [
+          "reflecting",
+          "[301,700]",
+          1200
+        ],
+        "count": 1,
+        "median_R": 0.00044210459720496004,
+        "mean_R": 0.00044210459720496004,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      },
+      {
+        "key": [
+          "reflecting",
+          "[701,+inf)",
+          300
+        ],
+        "count": 2,
+        "median_R": 0.00045222718492211053,
+        "mean_R": 0.00045222718492211053,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      },
+      {
+        "key": [
+          "reflecting",
+          "[701,+inf)",
+          1200
+        ],
+        "count": 2,
+        "median_R": 0.00022764661759643677,
+        "mean_R": 0.00022764661759643677,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      }
+    ],
+    "pooled_bin_t": [
+      {
+        "key": [
+          "pooled",
+          "[301,700]",
+          300
+        ],
+        "count": 1,
+        "median_R": 0.0006467516515652066,
+        "mean_R": 0.0006467516515652066,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      },
+      {
+        "key": [
+          "pooled",
+          "[301,700]",
+          1200
+        ],
+        "count": 1,
+        "median_R": 0.00044210459720496004,
+        "mean_R": 0.00044210459720496004,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      },
+      {
+        "key": [
+          "pooled",
+          "[701,+inf)",
+          300
+        ],
+        "count": 2,
+        "median_R": 0.00045222718492211053,
+        "mean_R": 0.00045222718492211053,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      },
+      {
+        "key": [
+          "pooled",
+          "[701,+inf)",
+          1200
+        ],
+        "count": 2,
+        "median_R": 0.00022764661759643677,
+        "mean_R": 0.00022764661759643677,
+        "p_luca_faster": 0.0,
+        "n_luca_faster": 0
+      }
+    ]
+  },
+  "estimation_validation": {
+    "n_anchors": 0,
+    "target_anchors": 2,
+    "median_relative_error": 0.0,
+    "pass_threshold_25pct": true,
+    "checks": []
+  },
+  "consistency_checks": {
+    "n_checks": 0,
+    "checks": []
+  },
+  "anchor_baselines": []
+}

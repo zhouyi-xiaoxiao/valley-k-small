@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "Lx": 60,
+    "q": 0.8,
+    "scan_t_max": 5000,
+    "scan_surv_tol": 1e-10,
+    "t_max": 20000,
+    "surv_tol": 1e-13
+  },
+  "two_target_scan": {
+    "widths": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ],
+    "x_starts": [
+      6,
+      8,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22
+    ],
+    "max_survival_tail_scan": 0.1414898719710122,
+    "phase_map": "figures/tt_phase_width_xstart.pdf",
+    "sep_map": "figures/tt_sep_width_xstart.pdf",
+    "valley_map": "figures/tt_valley_width_xstart.pdf",
+    "overview_table": "tables/tt_scan_overview.tex",
+    "critical_table": "tables/tt_critical_width_by_xstart.tex",
+    "critical_curve": "figures/tt_critical_vs_xstart.pdf",
+    "representatives": [
+      "TT_W05_X10",
+      "TT_W05_X12",
+      "TT_W06_X10"
+    ],
+    "rep_series_csv": [
+      "outputs/TT_W05_X10_fpt.csv",
+      "outputs/TT_W05_X12_fpt.csv",
+      "outputs/TT_W06_X10_fpt.csv"
+    ],
+    "rep_geometry_grid": "figures/tt_representative_geometry_grid.pdf",
+    "rep_fpt_grid": "figures/tt_representative_fpt_grid.pdf",
+    "rep_hazard_grid": "figures/tt_hazard_grid.pdf",
+    "rep_env_heatmap_A": "figures/tt_repA_env_heatmap.pdf",
+    "rep_env_heatmap_B": "figures/tt_repB_env_heatmap.pdf",
+    "width_sweep_representatives": [
+      "TT_W05_X10",
+      "TT_W06_X10",
+      "TT_W07_X10",
+      "TT_W08_X10",
+      "TT_W14_X10",
+      "TT_W24_X10"
+    ],
+    "width_sweep_table": "tables/tt_width_sweep_metrics.tex",
+    "width_sweep_geometry_grid": "figures/tt_width_sweep_geometry_grid.pdf",
+    "width_sweep_fpt_grid": "figures/tt_width_sweep_fpt_grid.pdf",
+    "width_sweep_trend": "figures/tt_width_sweep_trend.pdf"
+  },
+  "one_target_scan": {
+    "widths": [
+      8,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28
+    ],
+    "bx_values": [
+      -0.12,
+      -0.08,
+      -0.04,
+      0.0,
+      0.08
+    ],
+    "start_x": 7,
+    "target_x": 58,
+    "max_survival_tail_scan": 0.1105221218853161,
+    "placement_ref": {
+      "Wy": 12,
+      "bx": -0.08,
+      "phase": 2,
+      "sep_peaks": 1.2103849597135183,
+      "valley_over_max": 0.08778272310254148,
+      "peak_balance": null,
+      "t_peak1": 415,
+      "t_peak2": 1767,
+      "phase2_count": 5,
+      "phase1plus_count": 11,
+      "placement_widths": [
+        8,
+        12,
+        16
+      ]
+    },
+    "phase_map": "figures/ot_phase_width_bx.pdf",
+    "sep_map": "figures/ot_sep_width_bx.pdf",
+    "valley_vs_width": "figures/ot_valley_vs_width.pdf",
+    "overview_table": "tables/ot_scan_overview.tex",
+    "anchor_table": "tables/ot_anchor_selection.tex",
+    "representatives": [
+      "OT_W16_bxm0p080",
+      "OT_W28_bxm0p080",
+      "OT_W28_bxm0p120",
+      "OT_W08_bx0p000"
+    ],
+    "rep_series_csv": [
+      "outputs/OT_W16_bxm0p080_fpt.csv",
+      "outputs/OT_W28_bxm0p080_fpt.csv",
+      "outputs/OT_W28_bxm0p120_fpt.csv",
+      "outputs/OT_W08_bx0p000_fpt.csv"
+    ],
+    "rep_geometry_grid": "figures/ot_representative_geometry_grid.pdf",
+    "rep_fpt_grid": "figures/ot_representative_fpt_grid.pdf",
+    "rep_hazard_grid": "figures/ot_representative_hazard_grid.pdf",
+    "rep_env_heatmap_A": "figures/ot_repA_env_heatmap.pdf",
+    "rep_env_heatmap_B": "figures/ot_repB_env_heatmap.pdf",
+    "corridor_halfwidth_values": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "corridor_scan_csv": "data/ot_scan_corridor_halfwidth.csv",
+    "corridor_scan_json": "data/ot_scan_corridor_halfwidth.json",
+    "corridor_phase_vs_width": "figures/ot_corridor_phase_vs_width.pdf",
+    "corridor_sep_vs_width": "figures/ot_corridor_sep_vs_width.pdf",
+    "corridor_summary_table": "tables/ot_corridor_width_summary.tex",
+    "corridor_focus_bx": -0.08,
+    "bias2d_scan_width": 12,
+    "bias2d_by_values": [
+      -0.08,
+      -0.04,
+      0.0,
+      0.04,
+      0.08
+    ],
+    "bias2d_scan_csv": "data/ot_scan_bias2d.csv",
+    "bias2d_scan_json": "data/ot_scan_bias2d.json",
+    "bias2d_phase_map": "figures/ot_bias2d_phase_bx_by.pdf",
+    "bias2d_sep_map": "figures/ot_bias2d_sep_bx_by.pdf",
+    "bias2d_table": "tables/ot_bias2d_phase_overview.tex"
+  }
+}

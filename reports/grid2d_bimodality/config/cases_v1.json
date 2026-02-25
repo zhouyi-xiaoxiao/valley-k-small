@@ -1,0 +1,104 @@
+{
+  "coordinate_system": "1-based (x,y), y points downward",
+  "seed": 0,
+  "cases": [
+    {
+      "id": "A",
+      "name": "periodic+bias wrap-around",
+      "N": 60,
+      "q": 0.8,
+      "boundary": {
+        "x": "periodic",
+        "y": "reflecting"
+      },
+      "global_bias": {
+        "gx": 0.6,
+        "gy": 0.0
+      },
+      "start": [10, 30],
+      "target": [12, 30],
+      "local_features": [],
+      "classification_rule": {
+        "name": "wrap-around",
+        "fast": "no wrap in x",
+        "slow": "at least one x wrap before hit"
+      }
+    },
+    {
+      "id": "B",
+      "name": "reflecting + biased corridor",
+      "N": 60,
+      "q": 0.8,
+      "boundary": {
+        "x": "reflecting",
+        "y": "reflecting"
+      },
+      "global_bias": {
+        "gx": 0.35,
+        "gy": 0.35
+      },
+      "start": [50, 55],
+      "target": [40, 55],
+      "local_features": [
+        {
+          "type": "corridor_bias",
+          "y": 55,
+          "x_start": 42,
+          "x_end": 50,
+          "direction": "left",
+          "delta": 0.6
+        }
+      ],
+      "classification_rule": {
+        "name": "corridor-used",
+        "fast": "stay on corridor until hit target",
+        "slow": "leave corridor before hit"
+      }
+    },
+    {
+      "id": "C",
+      "name": "mixed boundary + barrier/door + sticky",
+      "N": 60,
+      "q": 0.8,
+      "boundary": {
+        "x": "periodic",
+        "y": "reflecting"
+      },
+      "global_bias": {
+        "gx": 0.5,
+        "gy": 0.0
+      },
+      "start": [10, 30],
+      "target": [50, 30],
+      "local_features": [
+        {
+          "type": "barrier",
+          "edge": [[30, 1], [31, 1]],
+          "description": "all y except y=30"
+        },
+        {
+          "type": "door",
+          "edge": [[30, 30], [31, 30]],
+          "p_pass": 0.2
+        },
+        {
+          "type": "sticky",
+          "cells": [[27, 29], [27, 30], [27, 31], [28, 29], [28, 30], [28, 31], [29, 29], [29, 30], [29, 31]],
+          "factor": 0.2
+        },
+        {
+          "type": "local_bias_optional",
+          "cells": [[25, 30], [26, 30], [27, 30]],
+          "direction": "right",
+          "delta": 0.2,
+          "note": "scan n_bias in {0,1,2,3}"
+        }
+      ],
+      "classification_rule": {
+        "name": "door-cross-time",
+        "fast": "first door crossing <= t_valley",
+        "slow": "first door crossing > t_valley"
+      }
+    }
+  ]
+}

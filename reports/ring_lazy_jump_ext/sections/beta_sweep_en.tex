@@ -1,0 +1,24 @@
+\section{Beta-only sweep at fixed \texorpdfstring{$N$}{N} (\texorpdfstring{$N=100$}{N=100})}
+We fix $N=100$, $q=2/3$, $\rho=1$, and the \texttt{lazy\_selfloop} convention, and vary only $\beta$.
+Figure~\ref{fig:beta-sweep-key-en} summarizes exact AW peak heights/locations and the tail-decay metric, together with an all-$\beta$ overlay of $f(t)$.
+
+\paragraph{Peak--valley quantification}
+We record the valley depth $\texttt{hv\_over\_max}=h_v/\max(h_1,h_2)$ and $\texttt{h2\_over\_h1}$ (see CSV).
+Comparing $K=2$ and $K=4$ highlights the depth difference in the valley.
+At $\beta=0.01$, $K=2$ has $\texttt{hv\_over\_max}\approx0.34$, while $K=4$ yields $\approx0.15$, indicating a deeper valley and clearer separation for $K=4$.
+At the same $\beta$, $K=4$ shows earlier $t_1,t_2$ and larger $\gamma$, consistent with faster time scales and lighter tails.
+Note that $K=2$ has $J\equiv0$ (no jump-over), while $K=4$ allows $J>0$, which will reshape class compositions in the MC sweep below.
+
+\paragraph{Representative \texorpdfstring{$f(t)$}{f(t)} with improved readability}
+Figure~\ref{fig:beta-example-ft-en} shows $\beta=0.01$ with the time axis focused on the peak--valley interval (avoiding the long vertical stretch near $t\approx0$), making the peak/valley contrast visually clear.
+
+\paragraph{Tail decay diagnostics}
+The asymptotic tail is controlled by $\gamma=-\log(\lambda_{\max})$.
+Figure~\ref{fig:tail-logS-en} confirms the near-linear decay of $\log S(t)$.
+At $\beta=0.01$, $K=2$ has $\gamma\approx3.89\times10^{-4}$ while $K=4$ has $\gamma\approx8.52\times10^{-4}$, matching the $\gamma$--vs--$\beta$ curves.
+
+\subsection{Automatic choice of \texorpdfstring{$\beta$}{beta}}
+We apply the same thresholds ($t_2/t_1\ge10$, $\texttt{hv\_over\_max}\le0.6$, $\texttt{h2\_over\_h1}\ge0.05$) and choose the smallest $\beta$ that satisfies them for both $K=2$ and $K=4$.
+The scan yields $\beta_\ast=0.01$ (see \texttt{outputs/selected\_beta.txt}).
+
+These exact AW results set the stage for the MC class analysis in the next section.

@@ -1,0 +1,207 @@
+\documentclass[11pt]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\title{Lazy 环 + 单向 shortcut：$\beta$ 扫描、尾部机制与 jump-over 扩展报告}
+\author{}
+\date{}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\maketitle
+
+\section*{结论与关键图示}
+固定 $N=100,q=2/3,\rho=1$ 且仅改变 $\beta$ 时，
+两峰整体向更早时间移动，尾部衰减率 $\gamma$ 随 $\beta$ 增大而上升；
+同时 $K=4$ 的双峰区间更宽、valley 更深。图~\ref{fig:beta-sweep-key-cn} 汇总了峰高、峰位与尾部指标的变化。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) 峰高}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/peak_heights_vs_beta_N100.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) 峰位}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/peak_times_vs_beta_N100.png}
+  \end{minipage}
+  \vspace{4pt}
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(c) 尾部 $\gamma$}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/tail_gamma_vs_beta_N100.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(d) 全 $\beta$ AW 叠加}\par
+    \includegraphics[width=\linewidth]{outputs/beta_sweep_N100/aw_all_betas_N100.png}
+  \end{minipage}
+  \caption{仅改变 $\beta$ 的精确 AW 结果：峰高、峰位、tail 衰减率 $\gamma$ 与全 $\beta$ 叠加的 $f(t)$；$\beta=0$ 为无 shortcut 的基准点，单独标记。}
+  \label{fig:beta-sweep-key-cn}
+\end{figure}
+
+以 $\beta=0.01$ 为例，代表性 $f(t)$ 更直观地展示 valley 深度差异：$K=2$ 的
+$\texttt{hv\_over\_max}\approx0.34$，而 $K=4$ 约 $0.15$，说明 $K=4$ 两峰分离更明显；
+同一 $\beta$ 下 $K=4$ 的 $(t_1,t_2)$ 更早且 $\gamma$ 更大，时间尺度更快、尾更轻。
+图~\ref{fig:beta-example-ft-cn} 给出对应的峰谷窗口。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) $K=2$}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/cases/N100_K2_beta0.01/N100_K2_beta0.f_t.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) $K=4$}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/cases/N100_K4_beta0.01/N100_K4_beta0.f_t.pdf}
+  \end{minipage}
+  \caption{代表性 $f(t)$（AW 精确，已聚焦峰谷时间窗）。}
+  \label{fig:beta-example-ft-cn}
+\end{figure}
+
+尾部机制由 transient 谱半径控制，$\gamma=-\log(\lambda_{\max})$；
+$\log S(t)$ 在尾部近线性衰减，与谱半径指标一致（图~\ref{fig:tail-logS-cn}）。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) $K=2$}\par
+    \includegraphics[width=\linewidth]{outputs/tail_diag/log_survival_N100_K2_beta0.01.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) $K=4$}\par
+    \includegraphics[width=\linewidth]{outputs/tail_diag/log_survival_N100_K4_beta0.01.png}
+  \end{minipage}
+  \caption{生存函数 $S(t)$ 的对数衰减（$\beta=0.01$），与谱半径指标 $\gamma$ 对应。}
+  \label{fig:tail-logS-cn}
+\end{figure}
+
+MC 轨迹分类进一步揭示 jump-over 只在 $K=4$ 出现：
+$K=2$ 的 $J$ 类几乎为 0，peak1 基本全是 $\texttt{C1pJ0}$，
+valley 以 $\texttt{C1pJ0}$ 为主并夹少量 $\texttt{C0J0}$，peak2 则更多落在 $\texttt{C0J0}/\texttt{C1pJ0}$ 上。
+$K=4$ 的结构更清晰：peak1 主要由 $\texttt{C1pJ0}$ 与 $\texttt{C1pJ1p}$ 构成，$\texttt{C1pJ1p}$ 约占三分之一；
+valley 中 $\texttt{C1pJ1p}$ 也在三分之一左右，显示 jump-over 对 valley 延迟路径的稳定贡献；
+peak2 则被 $\texttt{C0}$ 类主导，$\texttt{C0J0}$ 为主并伴随约四分之一的 $\texttt{C0J1p}$，
+这些 $J1p$ 轨迹对应“跨过吸收点但未吸收”的延迟路径。
+从图中可以看出这类比例随 $\beta$ 仅小幅起伏（图~\ref{fig:mc-beta-classes-cn}）。
+这里回顾四类分类的含义：$C$ 表示是否至少使用一次 shortcut（$C0$ 为未用、$C1p$ 为至少一次），
+$J$ 表示是否出现 jump-over（$J0$ 为无、$J1p$ 为至少一次），
+因此 $\texttt{C0J0}$、$\texttt{C1pJ0}$、$\texttt{C0J1p}$、$\texttt{C1pJ1p}$ 分别对应“无 shortcut/无 jump-over”、
+“有 shortcut/无 jump-over”、“无 shortcut/有 jump-over”、“有 shortcut/有 jump-over”的轨迹类型。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/classes_peak1_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/classes_valley_vs_beta.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_beta_sweep_N100/classes_peak2_vs_beta.png}
+  \end{minipage}
+  \caption{四类轨迹在不同窗口内的条件概率随 $\beta$ 的变化（$N=100$）。}
+  \label{fig:mc-beta-classes-cn}
+\end{figure}
+
+为选取代表性双峰参数，采用统一阈值 $t_2/t_1\ge10$、$\texttt{hv\_over\_max}\le0.6$、
+$\texttt{h2\_over\_h1}\ge0.05$，取同时满足 $K=2$ 与 $K=4$ 的最小 $\beta$，得到 $\beta_\ast=0.01$。
+
+固定 $\beta_\ast=0.01$ 扫 $N$ 时，$t_2$ 随 $N$ 增大显著右移、$h_2$ 下降、$\gamma$ 下降（尾部更厚），
+而 $t_1$ 基本稳定；图~\ref{fig:n-sweep-peaks-cn} 与图~\ref{fig:n-sweep-gamma-cn} 给出定量结果。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(a) $t_1$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/t1_vs_N_beta0.01.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(b) $t_2$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/t2_vs_N_beta0.01.png}
+  \end{minipage}
+  \vspace{4pt}
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(c) $h_1$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/h1_vs_N_beta0.01.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \textbf{(d) $h_2$}\par
+    \includegraphics[width=\linewidth]{outputs/N_sweep_beta_selected/h2_vs_N_beta0.01.png}
+  \end{minipage}
+  \caption{固定 $\beta=0.01$ 的峰位/峰高随 $N$ 的变化。}
+  \label{fig:n-sweep-peaks-cn}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{outputs/N_sweep_beta_selected/tail_gamma_vs_N_beta0.01.png}
+  \caption{固定 $\beta=0.01$ 时 tail 衰减率 $\gamma$ 随 $N$ 的变化。}
+  \label{fig:n-sweep-gamma-cn}
+\end{figure}
+
+对应的 MC 扫 $N$ 进一步把结构拉直：$K=2$ 仍完全是 $J0$ 类，peak1 始终为 $\texttt{C1pJ0}$，
+valley 以 $\texttt{C1pJ0}$ 为主，peak2 在 $\texttt{C0J0}$ 与 $\texttt{C1pJ0}$ 之间摆动；
+$K=4$ 在 $N$ 较大、valley/第二峰清晰后，peak1 与 valley 的 $J1p$ 份额稳定在约三分之一，
+peak2 主要为 $\texttt{C0J0}$ 并保留约四分之一的 $\texttt{C0J1p}$，显示 jump-over 的贡献随 $N$ 变化不大但持续存在（图~\ref{fig:mc-n-classes-cn}）。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(a) peak1}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/classes_peak1_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(b) valley}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/classes_valley_vs_N.png}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \centering
+    \textbf{(c) peak2}\par
+    \includegraphics[width=\linewidth]{outputs/mc_N_sweep_beta_selected/classes_peak2_vs_N.png}
+  \end{minipage}
+  \caption{四类轨迹比例随 $N$ 变化（固定 $\beta=0.01$）。}
+  \label{fig:mc-n-classes-cn}
+\end{figure}
+
+下文依次给出理论推导与 valley 定义，再展开 $\beta$ 扫描、MC 分类、$N$ 扫描、MC $N$ 与复现步骤。
+
+\input{sections/theory_cn.tex}
+\input{sections/valley_cn.tex}
+\input{sections/beta_sweep_cn.tex}
+\input{sections/mc_beta_cn.tex}
+\input{sections/n_sweep_cn.tex}
+\input{sections/mc_n_cn.tex}
+\input{sections/repro_cn.tex}
+
+\end{document}

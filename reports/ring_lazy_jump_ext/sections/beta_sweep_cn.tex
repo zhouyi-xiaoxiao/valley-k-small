@@ -1,0 +1,22 @@
+\section{只改变 \texorpdfstring{$\beta$}{beta} 的控制变量扫描（\texorpdfstring{$N=100$}{N=100}）}
+固定 $N=100,q=2/3,\rho=1$，口径为 \texttt{lazy\_selfloop}，仅改变 $\beta$。
+图~\ref{fig:beta-sweep-key-cn} 汇总 AW 精确峰高/峰位与 tail 指标，并给出全 $\beta$ 的精确 $f(t)$ 叠加图。
+
+\paragraph{峰-谷量化与 \texorpdfstring{$K=2$}{K=2} vs \texorpdfstring{$K=4$}{K=4}}
+我们记录 valley 深度指标 $\texttt{hv\_over\_max}=h_v/\max(h_1,h_2)$ 与 $\texttt{h2\_over\_h1}$（见 CSV）。
+以 $\beta=0.01$ 为例，$K=2$ 的 $\texttt{hv\_over\_max}\approx0.34$，而 $K=4$ 仅约 $0.15$，说明 $K=4$ 的 valley 更深且两峰分离更明显。
+同一 $\beta$ 下 $K=4$ 的 $t_1,t_2$ 更早、$\gamma$ 更大，体现时间尺度更快、尾部更轻。
+同时 $K=2$ 不存在 jump-over（$J\equiv0$），而 $K=4$ 允许 $J>0$，这会在后续 MC 轨迹分类中体现为额外的 $J$-相关类别。
+
+\paragraph{代表性 \texorpdfstring{$f(t)$}{f(t)}（峰谷可读性增强）}
+图~\ref{fig:beta-example-ft-cn} 给出 $\beta=0.01$ 的代表性 $f(t)$，时间轴聚焦在峰谷区间（避免 $t\approx0$ 的长纵轴拉伸），以突出 peak/valley 对比。
+
+\paragraph{Tail decay 机制与诊断}
+尾部渐近由 $\gamma=-\log(\lambda_{\max})$ 控制，图~\ref{fig:tail-logS-cn} 展示 $\log S(t)$ 的近线性衰减。
+以 $\beta=0.01$ 为例，$K=2$ 的 $\gamma\approx3.89\times10^{-4}$，$K=4$ 为 $8.52\times10^{-4}$，与 $\gamma$-vs-$\beta$ 曲线一致。
+
+\subsection{自动选择 \texorpdfstring{$\beta$}{beta}}
+我们用统一阈值筛选（$t_2/t_1\ge10$、$\texttt{hv\_over\_max}\le0.6$、$\texttt{h2\_over\_h1}\ge0.05$），并取同时满足 $K=2$ 与 $K=4$ 的最小 $\beta$。
+本次扫描得到 $\beta_\ast=0.01$（见 \texttt{outputs/selected\_beta.txt}）。
+
+以上为精确 AW 的结果与机制解释。下一节将用 MC 轨迹分类检验 jump-over 在不同窗口的分布。

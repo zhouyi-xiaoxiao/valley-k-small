@@ -1,0 +1,88 @@
+{
+  "run": {
+    "id": "20251215_001248",
+    "created_at_utc": "2025-12-15T00:12:50+00:00",
+    "platform": "macOS-15.7.2-arm64-arm-64bit",
+    "python": "3.9.6",
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "git_commit": null
+  },
+  "params": {
+    "N": 100,
+    "K": 6,
+    "n0_paper": 1,
+    "target_paper": 50,
+    "sc_src_paper": 6,
+    "rho": 1.0,
+    "max_steps": 2000,
+    "eps_stop": 1e-14,
+    "min_height": 1e-07,
+    "second_rel_height": 0.01,
+    "second_frac": 0.01,
+    "min_separation": 12,
+    "require_valley": false,
+    "valley_frac": 0.8
+  },
+  "summary": {
+    "n_dst_total": 100,
+    "n_valid": 93,
+    "n_fig3_bimodal": 15,
+    "n_robust_bimodal": 14,
+    "fig3_bimodal_dsts": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57
+    ],
+    "robust_bimodal_dsts": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57
+    ],
+    "example_dsts": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      51,
+      52,
+      53,
+      54,
+      55,
+      57
+    ]
+  },
+  "aw_check": {},
+  "files": {
+    "scan_csv": "data/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251215_001248/scan__20251215_001248.csv",
+    "bimodal_table_tex": "data/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251215_001248/bimodal_table__20251215_001248.tex",
+    "fig_bimodality_scan": "figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251215_001248/bimodality_scan__20251215_001248.pdf",
+    "fig_peak_times": "figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251215_001248/peak_times__20251215_001248.pdf",
+    "fig_examples": "figures/bimodality_flux_scan/N100K6_n0_1_target_50_src_6/runs/20251215_001248/example_curves__20251215_001248.pdf"
+  }
+}

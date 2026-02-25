@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\title{Lazy Ring + Directed Shortcut: Co-located Fig. 1 and Sensitivity Analysis}
+\author{}
+\date{}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+\maketitle
+
+\section*{Abstract}
+This report is written for a broad audience and focuses on a single co-located figure (now in stacked panels) and the associated sensitivity analyses.
+The default example uses $N=100$, $K\in\{2,4\}$, $q=2/3$, $\beta=0.01$, $\rho=1.0$, and the lazy\_selfloop mode.
+Figure~\ref{fig:fig1-overlap-en} stacks two panels (top $K=2$, bottom $K=4$); each panel co-locates the first-passage-time
+distribution $f(t)$ with three time windows (peak1/valley/peak2) and the four trajectory classes on the same axis.
+We summarize sensitivity to detection thresholds, window placement/width, and Monte Carlo (MC) uncertainty.
+
+\section*{Quick Symbols}
+\begin{itemize}
+  \item $N$: number of nodes on the ring; $K=2/4$ means steps to $\pm r$ with $r=\lfloor K/2 \rfloor$, plus lazy waiting and a directed shortcut.
+  \item jump-over: the trajectory passes the target but does not absorb; counted independently from shortcut usage.
+  \item Four classes: $\texttt{C0J0}$, $\texttt{C1pJ0}$, $\texttt{C0J1p}$, $\texttt{C1pJ1p}$, meaning
+        no shortcut/no jump-over, shortcut/no jump-over, no shortcut/jump-over, shortcut/jump-over.
+  \item $C1p/J1p$ means ``at least once shortcut/jump-over,'' $C0/J0$ means ``never.''
+\end{itemize}
+
+\section*{Parameters and Window Definition}
+Default parameters: $N=100$, $K\in\{2,4\}$, $q=2/3$, $\beta=0.01$, $\rho=1.0$, lazy\_selfloop.
+Here $q$ is the lazy waiting probability, $\beta$ controls shortcut strength, $\rho$ is the absorption rate,
+and $t$ is the discrete time step.
+
+Window width follows the same fixed rule as the existing workflow: given two early peaks $t_1,t_2$ and the valley $t_v$,
+\[
+\Delta=\max\{1,\lfloor \delta_{\text{frac}}(t_2-t_1)\rfloor\},\quad \delta_{\text{frac}}=0.05,
+\]
+windows are defined as
+$[t_1-\Delta,t_1+\Delta]$, $[t_v-\Delta,t_v+\Delta]$, $[t_2-\Delta,t_2+\Delta]$.
+The centers $(t_1,t_v,t_2)$ are detected from exact $f(t)$ via a peak/valley rule,
+so they are not random; implementation details are recorded in the analysis code.
+We detect $(t_1,t_v,t_2)$ separately for each $K$ from its exact $f(t)$, and compute $\Delta$ by the same fixed rule.
+Each panel uses its own windows so the bars align with that panel's peak/valley structure.
+
+The window choice is justified both qualitatively and quantitatively: qualitatively, a bimodal distribution corresponds to
+fast and slow channels; peak1/peak2 probe the two channels and the valley captures their separation,
+so $P(\text{class}\mid T\in\text{window})$ is most interpretable there.
+Quantitatively, the centers come from peak/valley detection, the width scales with peak separation,
+and the window-shift/width sensitivity shows only $10^{-3}$-level changes for $\Delta=\pm 1,2,5$,
+so conclusions do not depend on precise boundaries. Table~\ref{tab:window-params-en} lists window centers, ranges,
+widths, and sample counts.
+
+\input{tables/window_params_beta0.01_en.tex}
+
+\section*{Reproducibility (Shortest Commands)}
+Run the following in this report directory:
+\begin{verbatim}
+make fig2
+make sensitivity
+make pdf
+\end{verbatim}
+Outputs: Figure~1 in \texttt{figures/}, sensitivity results in \texttt{outputs/sensitivity/},
+LaTeX build files in \texttt{build/}.
+
+\section*{Data Provenance}
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.18\linewidth} L{0.25\linewidth} L{0.25\linewidth} L{0.24\linewidth}@{}}
+\toprule
+Figure/Table & Script & Inputs & Output/Command \\
+\midrule
+Fig.~1 (stacked panels) & \path{code/plot_fig2_overlap_binbars.py} & \path{data/fig2_bins_bars_beta0.01.json}, \path{data/ft_beta0.01.csv} & \path{figures/fig2_overlap_binbars_beta0.01_x1350.pdf}; \texttt{make fig2} \\
+Threshold sensitivity & \path{code/sensitivity_thresholds.py} & \path{data/ft_beta0.01.csv} & \path{outputs/sensitivity/threshold_sweep_heatmap.pdf} \\
+Window shift/width & \path{code/sensitivity_bin_intervals.py} & \path{data/fig2_bins_bars_beta0.01.json} + \path{cond_by_t.csv} & \path{outputs/sensitivity/bin_shift_plot.pdf} \\
+MC uncertainty & \path{code/sensitivity_mc_uncertainty.py} & \path{data/fig2_bins_bars_beta0.01.json} + \path{cond_by_t.csv} & \path{outputs/sensitivity/mc_uncertainty_plot.pdf} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Co-located Curves and Stacked Window Bars}
+Figure~\ref{fig:fig1-overlap-en} stacks two panels: the top shows $K=2$ and the bottom shows $K=4$.
+Each panel co-locates the first-passage-time distribution $f(t)$ and the windowed class proportions on one axis.
+The $K=2$ curve is dark blue/black and the $K=4$ curve is red, making the peak/valley contrast explicit.
+The horizontal axis is discrete time $t$ (from \path{data/ft_beta0.01.csv}; here $t=1\ldots 1350$ for readability).
+Three stacked bars correspond to peak1/valley/peak2 windows, which are determined from that panel's $(t_1,t_v,t_2)$
+and the same fixed $\Delta$ rule.
+Each stacked bar spans $[t_L,t_R]$ and encodes $P(\text{class}\mid T\in\text{window})$ for the four trajectory classes
+within the panel's $K$.
+If a class proportion is zero, its color does not appear. If time-by-time class probabilities are missing,
+the plot falls back to window-level aggregates and records this in the JSON meta.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/fig2_overlap_binbars_beta0.01_x1350.pdf}
+\caption{Two-panel view of co-located $f(t)$ and windowed class proportions.
+  Top: $K=2$ (dark blue/black). Bottom: $K=4$ (red).
+  $t$ is discrete time (x-axis shown as $t=1\ldots 1350$ for readability); the labels show each panel's $t_1,t_v,t_2$ and window ranges.
+  Colors inside each bar represent $P(\text{class}\mid T\in\text{window})$ for that $K$.}
+  \label{fig:fig1-overlap-en}
+\end{figure}
+
+\section{Sensitivity Analyses}
+\subsection{Threshold Sensitivity}
+We scan $h_{\min}\in\{10^{-8},10^{-7},10^{-6}\}$, second\_frac$\in\{0.005,0.01,0.02\}$,
+$t_2/t_1\in\{8,10,12\}$, and hv\_over\_max$\in\{0.10,0.20,0.30\}$.
+Figure~\ref{fig:threshold-heatmap-en} summarizes the pass rates by two heatmaps:
+left for hv\_over\_max vs second\_frac (averaged over $h_{\min},t_2/t_1$),
+right for $t_2/t_1$ vs $h_{\min}$ (averaged over hv\_over\_max and second\_frac).
+Aggregating $N=100$ and $\beta\in[0.001,0.03]$ (five values),
+$K=2$ passes about $0.33$ and $K=4$ about $0.60$;
+hv\_over\_max has the strongest effect ($K=2$: 0.20/0.40/0.40; $K=4$: 0.40/0.60/0.80),
+while $h_{\min}$, second\_frac, and $t_2/t_1$ are weaker.
+Thus the ``$K=4$ is more likely bimodal than $K=2$'' conclusion is robust, with highest sensitivity to hv\_over\_max.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{outputs/sensitivity/threshold_sweep_heatmap.pdf}
+  \caption{Threshold sensitivity heatmaps (pass rate).}
+  \label{fig:threshold-heatmap-en}
+\end{figure}
+
+\subsection{Window Position and Width}
+For each window $[t_L,t_R]$, we test shifts and width changes
+with $\Delta\in\{-5,-2,-1,0,1,2,5\}$ time steps.
+Shift uses $[t_L+\Delta, t_R+\Delta]$ and width uses $[t_L-\Delta, t_R+\Delta]$.
+Figure~\ref{fig:bin-shift-en} shows both modes.
+If per-time class probabilities are missing, we impute from window-level baselines.
+When class probabilities are approximately monotone in $t$ near a window,
+$\Delta$prop can look like triangular or piecewise-linear shapes; this is an expected effect of window sliding.
+Results: $K=2$ has max change $\max|\Delta p|\le 4.49\times 10^{-3}$ (shift)
+and $\le 4.26\times 10^{-3}$ (width); $K=4$ has $\le 5.78\times 10^{-3}$ (shift)
+and $\le 5.13\times 10^{-3}$ (width).
+Changes remain below $1\%$, and the main composition conclusions stay the same.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{outputs/sensitivity/bin_shift_plot.pdf}
+  \caption{Window position and width sensitivity (shift/width).}
+  \label{fig:bin-shift-en}
+\end{figure}
+
+\subsection{MC Uncertainty}
+We report 95\% confidence intervals using a normal approximation based on window sample counts.
+If cond\_by\_t does not cover a window, we use window-level counts (summary/JSON) as a fallback.
+Figure~\ref{fig:mc-uncertainty-en} shows that $K=2$ has mean CI width $\approx 0.011$ (max $\approx 0.036$),
+and $K=4$ has mean CI width $\approx 0.029$ (max $\approx 0.063$).
+These intervals are still smaller than class differences and do not change the main interpretation.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{outputs/sensitivity/mc_uncertainty_plot.pdf}
+  \caption{MC uncertainty (error bars/CI).}
+  \label{fig:mc-uncertainty-en}
+\end{figure}
+
+\section*{Conclusion}
+This report presents a co-located Fig.~1 (stacked bars replacing colored window bands) and three sensitivity analyses.
+The conclusions are stable under threshold and window perturbations, and MC confidence intervals support the robustness
+of jump-over-related proportions. For model derivations and full sweeps, see \texttt{reports/lazy\_jump\_ext/}.
+
+\end{document}

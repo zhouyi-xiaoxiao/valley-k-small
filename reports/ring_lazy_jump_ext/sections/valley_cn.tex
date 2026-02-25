@@ -1,0 +1,31 @@
+\section{Valley 的可比较定义与窗口划分}
+
+令首吸收时间的概率质量函数为 $f(t)=\mathbb{P}(T=t)$（$t\in\mathbb{N}^+$）。
+我们采用严格局部极大作为峰的候选：
+\begin{equation}
+f(t)>f(t-1),\qquad f(t)>f(t+1),\qquad f(t)\ge h_{\min}.
+\end{equation}
+再用相对高度阈值过滤次峰：只保留 $f(t)\ge \texttt{second\_rel\_height}\cdot \max_{u} f(u)$ 的峰。
+
+\subsection{V0：默认 Valley（两峰区间最小值）}
+若检测到时间顺序上的前两个峰 $t_1<t_2$，定义
+\begin{equation}
+t_v=\arg\min_{t_1<t<t_2} f(t).
+\end{equation}
+该定义参数极少，且天然保证 $t_v$ 位于两峰之间，便于跨 $\beta$ 与跨 $K$ 的比较。
+
+\subsection{V1：基于峰间相对距离的窗口尺度（用于轨迹分类对比）}
+记峰间距 $\Delta T=t_2-t_1$，定义窗口半宽
+\begin{equation}
+\Delta=\max\left(1,\left\lfloor \delta_{\mathrm{frac}}\Delta T\right\rfloor\right).
+\end{equation}
+将每条轨迹按其吸收时间 $T$ 分配到最近的中心 $\{t_1,t_v,t_2\}$：
+若 $\min_{c\in\{t_1,t_v,t_2\}} |T-c|\le \Delta$，则归入对应窗口，否则归为 other。
+由于 $\Delta$ 随 $\Delta T$ 成比例缩放，该划分在不同 $\beta$ 下保持可比性。
+
+\subsection{V2：鲁棒 Valley（排除靠近峰的区域）}
+为了避免 $t_v$ 贴近某个峰（在两峰接近时可能发生），可定义
+\begin{equation}
+t_v=\arg\min_{t_1+\alpha\Delta T\le t\le t_2-\alpha\Delta T} f(t),
+\end{equation}
+其中 $\alpha\in(0,1/2)$，例如 $\alpha=0.1$。V2 作为敏感性分析口径。

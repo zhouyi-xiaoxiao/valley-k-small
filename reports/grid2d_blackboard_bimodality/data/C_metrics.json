@@ -1,0 +1,56 @@
+{
+  "absorption_prob": 0.9999999999990117,
+  "aw": {
+    "errors": {
+      "l1": 3.3218853581535883e-15,
+      "linf": 1.9229070908084105e-17,
+      "rel_l1": 3.3218853581568715e-15
+    },
+    "params": {
+      "m": 16384,
+      "oversample": 4,
+      "r": 0.9983149575896413,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "C",
+  "mc": {
+    "fast_fraction": 0.8358,
+    "n_walkers": 30000,
+    "slow_fraction": 0.1642,
+    "truncated_fraction": 0.0
+  },
+  "metrics": {
+    "bimodal": true,
+    "gap": 725,
+    "h1": 0.0074770717723736824,
+    "h2": 0.00017760123274641033,
+    "h2_over_h1": 0.023752778915753107,
+    "hv": 1.9217293335270016e-06,
+    "min_gap": 20,
+    "min_sep": 5,
+    "passes": true,
+    "peak_ratio": 0.023752778915753107,
+    "smooth_window": 9,
+    "t_p1": 182,
+    "t_p2": 907,
+    "t_v": 549,
+    "valley_depth": 0.9891795270572757,
+    "valley_ratio": 0.010820472942724231
+  },
+  "name": "wall loop conveyor vs central fast corridor",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": 0.0,
+    "q": 0.8,
+    "start": [
+      30,
+      50
+    ],
+    "target": [
+      30,
+      10
+    ]
+  }
+}

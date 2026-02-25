@@ -1,0 +1,308 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{fvextra}
+\usepackage{microtype}
+\usepackage{placeins}
+\setlength{\emergencystretch}{4em}
+\Urlmuskip=0mu plus 1mu
+
+\title{二维格点 ``黑板图风格''：走廊端点起止配置（反射边界）}
+\author{}
+\date{}
+
+\newcommand{\FigDir}{figures}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{结论与关键图示}
+\begin{itemize}
+  \item \textbf{起止点位于内墙段上下端点}：$S=(30,45)$，$T=(30,15)$，其余结构与 ``两墙 + 走廊箭头'' 基线一致。
+  \item \textbf{未出现双峰}：$t_{p1}\approx102$，valley ratio $=1$，仅见单峰 + 长尾；$t_{\max}=3000$ 时吸收概率 $\approx0.604$。
+  \item \textbf{小 $N$ 竖向矩形域同样失败}：$18\times30$ 矩形、起止点仍在墙端点，$t_{p1}\approx40$、valley ratio $=1$，$t_{\max}=2000$ 时吸收概率 $\approx0.664$。
+  \item \textbf{参数扫描结论}：仅改变 $g_y$、开口箭头强度或外圈 sticky 不会出现第二峰；只有在 \emph{外圈 sticky + 环形定向}（人为加入慢通道）时才出现迟滞峰。
+  \item \textbf{全套图组齐备}：环境示意、$P(n,t)$ 热图三帧、快/慢路径密度、FPT 曲线与峰谷放大、诊断图与通道分解。
+\end{itemize}
+
+\section*{参数表}
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{lcccccc}
+    \toprule
+    case & $N$ & $q$ & $g_x$ & $g_y$ & $t_{\max}$ & (start, target) \\
+    \midrule
+    Z & 60 & 0.8 & 0.00 & -0.20 & 3000 & (30,45)$\to$(30,15) \\
+    S & 30 & 0.8 & 0.00 & -0.20 & 2000 & (9,22)$\to$(9,9) \\
+    \bottomrule
+  \end{tabular}
+  \caption{走廊端点起止配置的全局参数。}
+  \label{tab:params}
+\end{table}
+
+\section*{统计指标}
+\begin{table}[!htbp]
+  \centering
+  \scriptsize
+  \begin{tabular}{lccccccc}
+    \toprule
+    case & method & $t_{p1}$ & $t_{p2}$ & valley ratio & absorption & truncated (MC) & $P_{\text{fast}}$ (MC) \\
+    \midrule
+    Z & windowed & 102 & 1500 & 1.000 & 0.604 & 0.395 & 0.540 \\
+    S & windowed & 40 & 1000 & 1.000 & 0.664 & 0.333 & 0.543 \\
+    \bottomrule
+  \end{tabular}
+  \caption{走廊端点起止配置的统计结果。$t_{p2}$ 为 late-window 最大值（非真实第二峰）。}
+  \label{tab:metrics}
+\end{table}
+
+\section*{数值扫描与尝试（基于配置 Z）}
+\begin{table}[!htbp]
+  \centering
+  \scriptsize
+  \begin{tabular}{l l c c c c c}
+    \toprule
+    variant & 改动 & absorption & $t_{p1}$ & $t_{p2}$ & valley ratio & bimodal \\
+    \midrule
+    Z0 & base ($g_y=-0.2,\ \delta_{\text{open}}=0.6$) & 0.604 & 102 & 1500 & 1.000 & no \\
+    Z1 & $g_y=0$ & 0.696 & 137 & 1500 & 1.000 & no \\
+    Z2 & $g_y=-0.4$ & 0.573 & 81 & 1500 & 1.000 & no \\
+    Z3 & $\delta_{\text{open}}=0.2$ & 0.611 & 102 & 1500 & 1.000 & no \\
+    Z4 & 外圈 sticky ($\alpha=0.2$) & 0.603 & 102 & 1500 & 1.000 & no \\
+    Z5 & sticky ($\alpha=0.2$) + 外圈顺时针 bias ($\delta=0.1$) & 0.603 & 102 & 2996 & 0.300 & yes \\
+    Z6 & 更强 sticky ($\alpha=0.05$) + 外圈顺时针 bias ($\delta=0.1$) & 0.623 & 102 & 1990 & 0.014 & yes \\
+    \bottomrule
+  \end{tabular}
+  \caption{同一几何下的参数扫描结果（$t_{\max}=3000$）。Z0--Z4 的 $t_{p2}$ 为 late-window 最大值（非真实第二峰）。}
+  \label{tab:scan}
+\end{table}
+
+\paragraph{扫描结论要点}
+Z0--Z4 仅出现单峰 + 长尾，晚窗峰值基本贴近窗口边界，属于 ``无第二峰'' 的窗口化伪峰。加入外圈 sticky \emph{本身}仍不产生双峰；只有再叠加外圈定向偏置（Z5/Z6）才形成额外的慢通道，从而出现明显第二峰。
+
+\section{模型定义与坐标约定}
+状态空间为 $\Omega\subseteq\{1,\dots,N_x\}\times\{1,\dots,N_y\}$（可为矩形或任意形状），目标点 $(x_t,y_t)$ 为吸收态。每一步更新为
+\begin{align}
+  p_{\text{left}} &= \frac{q}{4}(1+g_x),\quad p_{\text{right}} = \frac{q}{4}(1-g_x),\\
+  p_{\text{down}} &= \frac{q}{4}(1+g_y),\quad p_{\text{up}} = \frac{q}{4}(1-g_y),\\
+  p_{\text{stay}} &= 1-q.
+\end{align}
+本文采用 ``$y$ 轴向下为正'' 的坐标约定，因此 $g_y>0$ 表示向下偏置；$g_x>0$ 表示向左偏置。外边界与内部墙均为\textbf{全反射}：越界或穿墙尝试的概率质量加回 $p_{\text{stay}}$。
+
+\paragraph{局部异质性（组合规则）}
+\begin{itemize}
+  \item local bias（箭头）：将 $p_{\text{stay}}$ 乘 $(1-\delta)$，并把 $\Delta=\delta p_{\text{stay}}$ 加到箭头方向；其余方向不变。
+  \item sticky：在点 $u$ 上设 $q_u=\alpha(u)q$，使 $p_{\text{stay}}(u)=1-q_u$ 增大，再叠加 local bias。
+  \item barrier：封死边 $u\leftrightarrow v$，将该方向概率全部加回 $p_{\text{stay}}(u)$。
+  \item door：半透门按 $p_{\text{pass}}$ 通过，其余部分反射回 $p_{\text{stay}}(u)$。
+\end{itemize}
+
+\section{FPT 定义与精确递推}
+首达时间为
+\[
+  \tau=\inf\{t\ge 1:\,X_t=(x_t,y_t)\},\qquad f(t)=\Pr(\tau=t).
+\]
+将目标点视为吸收态，其余为 transient，令 $Q$ 为 transient 子矩阵，$r$ 为一步进入吸收态的流出向量，则
+\[
+  f(t)=r^\top Q^{t-1}p_0,\qquad t\ge 1,
+\]
+等价递推为 $p_{t+1}=Qp_t,\ f(t)=r^\top p_t$。本文以 exact recursion 为基准，AW 反演与 MC 作为对照与通道统计。
+
+\section{图形阅读指南}
+图~\ref{fig:symbol-legend} 给出统一符号语法：红色方块为起点、蓝色菱形为目标；粗实线为反射墙、虚线为 door、半透明阴影为 sticky 区；红色小箭头为 local bias；图外大箭头给出全局偏置方向与 $(g_x,g_y)$。通道示意图见图~\ref{fig:channel-cartoon}。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{\FigDir/env/symbol_legend.pdf}
+  \caption{图形符号图例。}
+  \label{fig:symbol-legend}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{\FigDir/fig3_panels/channel_cartoon.pdf}
+  \caption{通道示意（快通道/慢通道的混合分解）。}
+  \label{fig:channel-cartoon}
+\end{figure}
+
+\section{配置 Z：走廊端点起止（墙段内端点）}
+\paragraph{几何与参数}
+\begin{itemize}
+  \item 内墙：$x=28\leftrightarrow29$ 与 $x=31\leftrightarrow32$，$y=15..45$。
+  \item 走廊 bias：$x=29..31$ 上向上箭头；核心段 $y=15..45$ 取 $\delta_{\text{core}}=0.95$，开口段 $y=10..14,46..50$ 取 $\delta_{\text{open}}=0.6$。
+  \item 起点/目标：$S=(30,45),\ T=(30,15)$；$g=(0,-0.2)$，$t_{\max}=3000$。
+\end{itemize}
+
+\paragraph{结果摘要}
+早峰在 $t\approx102$，valley ratio=1；$t_{\max}=3000$ 时吸收概率约 $0.604$，仍无稳定晚峰。
+
+\paragraph{为什么没有双峰（机制分析）}
+该构型的起止点均位于走廊内端点，且走廊内上行箭头较强，导致主通道的漂移时间尺度占主导。穿出走廊进入外域的轨迹并没有进入一个\emph{准封闭慢通道}，而是在外域宽泛扩散后再回到走廊，因而形成的是 \emph{长尾} 而不是一个集中在某个晚时刻的第二峰。换句话说，混合分解里 ``慢通道'' 的条件分布过于宽散，无法在 $f(t)$ 上形成谷底与第二峰。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/env/case_Z_env.pdf}
+    \caption*{(Z1) 环境示意}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fig3_panels/case_Z_fig3_panel.pdf}
+    \caption*{(Z2) 热图三帧}
+  \end{minipage}
+  \caption{配置 Z 的环境与 $P(n,t)$ 热图。}
+  \label{fig:caseZ-env-heat}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_Z_paths_fast.pdf}
+    \caption*{(Z3) 快通道路径密度}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_Z_paths_slow.pdf}
+    \caption*{(Z4) 慢通道路径密度}
+  \end{minipage}
+  \caption{配置 Z 的快/慢路径密度。}
+  \label{fig:caseZ-paths}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_Z_fpt.pdf}
+    \caption*{(Z5) FPT 多尺度曲线}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_Z_proof.pdf}
+    \caption*{(Z6) 峰谷放大}
+  \end{minipage}
+  \caption{配置 Z 的 FPT 曲线与峰谷放大。}
+  \label{fig:caseZ-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_Z_diagnostic.pdf}
+    \caption*{(Z7) 峰谷诊断}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/case_Z_channel_decomp.pdf}
+    \caption*{(Z8) 通道分解}
+  \end{minipage}
+  \caption{配置 Z 的峰谷诊断与通道分解。}
+  \label{fig:caseZ-diagnose}
+\end{figure}
+
+\section{配置 S：小 $N$ 竖向矩形（墙端点起止）}
+\paragraph{几何与参数}
+\begin{itemize}
+  \item 域：$18\times30$ 矩形（内部坐标 $x=1..18,\ y=1..30$；嵌入在 $N=30$ 的格点上）。
+  \item 内墙：$x=7\leftrightarrow8$ 与 $x=10\leftrightarrow11$，$y=9..22$。
+  \item 走廊 bias：$x=8..10$ 上向上箭头；核心段 $y=9..22$ 取 $\delta_{\text{core}}=0.95$，开口段 $y=4..8,23..27$ 取 $\delta_{\text{open}}=0.6$。
+  \item 起点/目标：$S=(9,22),\ T=(9,9)$；$g=(0,-0.2)$，$t_{\max}=2000$。
+\end{itemize}
+
+\paragraph{结果摘要}
+早峰在 $t\approx40$，valley ratio=1；$t_{\max}=2000$ 时吸收概率约 $0.664$，仍无稳定晚峰。
+
+\paragraph{机制说明}
+缩小到竖向矩形并未制造新的慢通道：外域仍是宽松可回的扩散区，进入外域后的条件分布过宽，无法形成一个集中迟滞峰。
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/env/case_S_env.pdf}
+    \caption*{(S1) 环境示意}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fig3_panels/case_S_fig3_panel.pdf}
+    \caption*{(S2) 热图三帧}
+  \end{minipage}
+  \caption{配置 S 的环境与 $P(n,t)$ 热图。}
+  \label{fig:caseS-env-heat}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_S_paths_fast.pdf}
+    \caption*{(S3) 快通道路径密度}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/paths/case_S_paths_slow.pdf}
+    \caption*{(S4) 慢通道路径密度}
+  \end{minipage}
+  \caption{配置 S 的快/慢路径密度。}
+  \label{fig:caseS-paths}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_S_fpt.pdf}
+    \caption*{(S5) FPT 多尺度曲线}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_S_proof.pdf}
+    \caption*{(S6) 峰谷放大}
+  \end{minipage}
+  \caption{配置 S 的 FPT 曲线与峰谷放大。}
+  \label{fig:caseS-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/fpt/case_S_diagnostic.pdf}
+    \caption*{(S7) 峰谷诊断}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{\FigDir/channel_decomp/case_S_channel_decomp.pdf}
+    \caption*{(S8) 通道分解}
+  \end{minipage}
+  \caption{配置 S 的峰谷诊断与通道分解。}
+  \label{fig:caseS-diagnose}
+\end{figure}
+
+\section*{数据与复现}
+\begin{Verbatim}[breaklines=true,breakanywhere=true]
+cd reports/grid2d_blackboard_bimodality
+python3 code/blackboard_bimodality_pipeline.py --cases Z,S
+python3 code/z_scan.py
+latexmk -xelatex -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_cn.tex
+latexmk -pdf -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_en.tex
+\end{Verbatim}
+
+\end{document}

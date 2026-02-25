@@ -1,0 +1,65 @@
+{
+  "absorption_prob": 0.6778585808183346,
+  "aw": {
+    "errors": {
+      "l1": 1.0121435655730637e-13,
+      "linf": 1.1015494072452725e-15,
+      "rel_l1": 1.4931485625676797e-13
+    },
+    "params": {
+      "m": 4096,
+      "oversample": 2,
+      "r": 0.9955128609158502,
+      "r_pow10": 8.0
+    }
+  },
+  "case_id": "S",
+  "mc": {
+    "fast_fraction": 0.525,
+    "n_walkers": 120,
+    "slow_fraction": 0.475,
+    "truncated_fraction": 0.3333333333333333
+  },
+  "metrics": {
+    "bimodal": false,
+    "early_window": [
+      1,
+      400
+    ],
+    "gap": 909,
+    "h1": 0.0036927070952604063,
+    "h2": 8.73557968736381e-05,
+    "h2_over_h1": 0.023656302712381214,
+    "hv": 8.73557968736381e-05,
+    "late_window": [
+      1000,
+      2000
+    ],
+    "method": "windowed",
+    "min_gap": 20,
+    "min_sep": 0,
+    "passes": false,
+    "peak_ratio": 0.023656302712381214,
+    "smooth_window": 7,
+    "t_p1": 91,
+    "t_p2": 1000,
+    "t_v": 1000,
+    "valley_depth": 0.0,
+    "valley_ratio": 1.0
+  },
+  "name": "small rectangle (start/target at wall endpoints)",
+  "params": {
+    "N": 30,
+    "g_x": 0.0,
+    "g_y": -0.2,
+    "q": 0.8,
+    "start": [
+      9,
+      22
+    ],
+    "target": [
+      9,
+      9
+    ]
+  }
+}

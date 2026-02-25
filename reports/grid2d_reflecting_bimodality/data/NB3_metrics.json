@@ -1,0 +1,54 @@
+{
+  "absorption_prob": 0.999954094720986,
+  "aw": {
+    "errors": {
+      "l1": 3.671806040980325e-15,
+      "linf": 2.5155588131697137e-18,
+      "rel_l1": 3.671974603999054e-15
+    },
+    "params": {
+      "m": 131072,
+      "oversample": 4,
+      "r": 0.9997892142570423,
+      "r_pow10": 12.0
+    }
+  },
+  "case_id": "NB3",
+  "mc": {
+    "fast_fraction": 0.02623333333333333,
+    "n_walkers": 30000,
+    "slow_fraction": 0.9737666666666667,
+    "truncated_fraction": 3.3333333333333335e-05
+  },
+  "metrics": {
+    "gap": 387,
+    "h1": 0.0016098100195535846,
+    "h2": 0.0006569241985865617,
+    "h2_over_h1": 0.4080756055728445,
+    "hv": 0.0004505670841168499,
+    "min_gap": 20,
+    "min_sep": 5,
+    "peak_ratio": 0.4080756055728445,
+    "smooth_window": 9,
+    "t_p1": 16,
+    "t_p2": 403,
+    "t_v": 54,
+    "valley_depth": 0.3141262186926739,
+    "valley_ratio": 0.6858737813073261
+  },
+  "name": "boundary-layer sticky strip with mild local bias",
+  "params": {
+    "N": 60,
+    "g_x": 0.0,
+    "g_y": 0.4,
+    "q": 0.8,
+    "start": [
+      50,
+      60
+    ],
+    "target": [
+      42,
+      60
+    ]
+  }
+}

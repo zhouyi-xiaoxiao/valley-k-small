@@ -1636,6 +1636,12 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                       <li key={`${check.check}-${index}`}>{line}</li>
                     ))}
                   </ul>
+                  <details style={{ marginTop: '0.45rem' }}>
+                    <summary>{localizedText(lang, 'Open raw check payload', '展开原始检查载荷')}</summary>
+                    <pre style={{ whiteSpace: 'pre-wrap', marginTop: '0.45rem' }}>
+                      {JSON.stringify(check.details, null, 2)}
+                    </pre>
+                  </details>
                   <p className="muted" style={{ margin: '0.45rem 0 0' }}>
                     {localizedText(lang, 'Raw payload is available in', '原始数据可在此查看')}{' '}
                     <a href={withBasePath('/data/v1/theory_map.json')} target="_blank" rel="noreferrer">

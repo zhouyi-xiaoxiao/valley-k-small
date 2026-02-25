@@ -22,7 +22,7 @@ type SeriesSemantic = {
   min: number;
   max: number;
   positive_ratio: number;
-  source?: 'declared' | 'inferred';
+  source?: 'declared' | 'inferred' | 'manual';
 };
 
 function uniqueStrings(values: string[]): string[] {
@@ -68,6 +68,22 @@ function inferSeriesType(name: string, values: number[]): SeriesType {
   return 'unknown';
 }
 
+function unitForSeriesType(seriesType: SeriesType): string {
+  if (seriesType === 'probability') {
+    return 'probability';
+  }
+  if (seriesType === 'binary') {
+    return 'state';
+  }
+  if (seriesType === 'parameter') {
+    return 'parameter';
+  }
+  if (seriesType === 'metric') {
+    return 'value';
+  }
+  return 'unknown';
+}
+
 export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [selectedId, setSelectedId] = useState<string>(datasets[0]?.series_id ?? '');
   const [payload, setPayload] = useState<SeriesPayload | null>(null);
@@ -79,6 +95,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [visibleSeries, setVisibleSeries] = useState<string[]>([]);
   const [autoScaleNotice, setAutoScaleNotice] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [semanticOverrides, setSemanticOverrides] = useState<Record<string, SeriesType>>({});
 
   const selected = useMemo(
     () => datasets.find((item) => item.series_id === selectedId) ?? datasets[0],
@@ -164,7 +181,46 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     }
     return { map: out, missing, conflicts };
   }, [payload]);
-  const semanticsByName = semanticAudit.map;
+  const semanticsByName = useMemo(() => {
+    const out = new Map<string, SeriesSemantic>();
+    for (const [name, semantic] of semanticAudit.map.entries()) {
+      out.set(name, { ...semantic });
+    }
+    if (!payload || !selected?.series_id) {
+      return out;
+    }
+    for (const series of payload.series) {
+      const overrideKey = `${selected.series_id}::${series.name}`;
+      const overrideType = semanticOverrides[overrideKey];
+      if (!overrideType || overrideType === 'unknown') {
+        continue;
+      }
+      const current = out.get(series.name);
+      if (current) {
+        out.set(series.name, {
+          ...current,
+          series_type: overrideType,
+          unit: unitForSeriesType(overrideType),
+          source: 'manual',
+        });
+        continue;
+      }
+      const finite = series.y.filter((v) => Number.isFinite(v));
+      const min = finite.length > 0 ? Math.min(...finite) : 0;
+      const max = finite.length > 0 ? Math.max(...finite) : 0;
+      const positiveRatio = finite.length > 0 ? finite.filter((v) => v > 0).length / finite.length : 0;
+      out.set(series.name, {
+        name: series.name,
+        series_type: overrideType,
+        unit: unitForSeriesType(overrideType),
+        min,
+        max,
+        positive_ratio: positiveRatio,
+        source: 'manual',
+      });
+    }
+    return out;
+  }, [payload, selected?.series_id, semanticAudit.map, semanticOverrides]);
 
   useEffect(() => {
     if (!payload || payload.series.length === 0) {
@@ -279,6 +335,10 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const transformSuppressed = useMemo(
     () => transformed.filter((series) => !series.canTransform).map((series) => series.name),
     [transformed],
+  );
+  const manualOverrideSeries = useMemo(
+    () => transformed.filter((series) => semanticsByName.get(series.name)?.source === 'manual').map((series) => series.name),
+    [semanticsByName, transformed],
   );
 
   const transformAppliedSeries = useMemo(
@@ -395,15 +455,44 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
               const transformable = semantic
                 ? semantic.series_type === 'metric' || semantic.series_type === 'probability'
                 : false;
+              const overrideKey = `${selected?.series_id ?? 'unknown'}::${series.name}`;
+              const override = semanticOverrides[overrideKey] ?? '';
               return (
-                <label key={series.name}>
-                  <input type="checkbox" checked={checked} onChange={(event) => toggleSeries(series.name, event.target.checked)} />{' '}
-                  {series.name}{' '}
+                <div key={series.name} style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <label>
+                    <input type="checkbox" checked={checked} onChange={(event) => toggleSeries(series.name, event.target.checked)} />{' '}
+                    {series.name}
+                  </label>
+                  <select
+                    value={override}
+                    onChange={(event) => {
+                      const next = event.target.value as SeriesType | '';
+                      setSemanticOverrides((prev) => {
+                        const cloned = { ...prev };
+                        if (!next) {
+                          delete cloned[overrideKey];
+                        } else {
+                          cloned[overrideKey] = next;
+                        }
+                        return cloned;
+                      });
+                    }}
+                    aria-label={lang === 'cn' ? `${series.name} 语义覆盖` : `${series.name} semantic override`}
+                  >
+                    <option value="">{lang === 'cn' ? 'auto' : 'auto'}</option>
+                    <option value="metric">{lang === 'cn' ? 'metric 指标' : 'metric'}</option>
+                    <option value="probability">{lang === 'cn' ? 'probability 概率' : 'probability'}</option>
+                    <option value="binary">{lang === 'cn' ? 'binary 二值' : 'binary'}</option>
+                    <option value="parameter">{lang === 'cn' ? 'parameter 参数' : 'parameter'}</option>
+                  </select>
                   <span className="badge">
                     {(semantic?.series_type ?? 'unknown')}/{semantic?.unit ?? 'unknown'}
                   </span>
                   <span className="badge">{transformable ? (lang === 'cn' ? '可变换' : 'transformable') : lang === 'cn' ? '原始' : 'raw'}</span>
-                </label>
+                  {semantic?.source === 'manual' ? (
+                    <span className="badge">{lang === 'cn' ? '手动覆盖' : 'manual override'}</span>
+                  ) : null}
+                </div>
               );
             })}
           </div>
@@ -488,6 +577,12 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         <p style={{ marginBottom: '0.2rem' }}>
           {lang === 'cn' ? '以下序列按原始值展示（不做平滑/归一化）: ' : 'These series stay raw (no smoothing/normalization): '}
           {transformSuppressed.join(', ')}
+        </p>
+      ) : null}
+      {manualOverrideSeries.length > 0 ? (
+        <p style={{ marginBottom: '0.2rem' }}>
+          {lang === 'cn' ? '审计提示：以下序列使用手动语义覆盖: ' : 'Audit note: manual semantic override applied to: '}
+          {manualOverrideSeries.join(', ')}
         </p>
       ) : null}
       {droppedForLog > 0 ? (

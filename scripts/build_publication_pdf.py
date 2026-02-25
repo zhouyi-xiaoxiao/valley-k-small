@@ -126,7 +126,7 @@ def normalize_formula_for_publication(latex: str, *, max_chars: int | None = Non
         return ""
     value = value.replace(r"\textbackslash{}", "\\")
     value = value.replace(r"\textbackslash\{\}", "\\")
-    value = value.replace(r"\{", "{").replace(r"\}", "}")
+    # Keep escaped braces so delimiters like \left\{...\right\} remain valid LaTeX.
     value = value.replace(r"\_", "_")
     value = value.replace(r"\%", "%")
     value = value.replace(r"\$", "$")

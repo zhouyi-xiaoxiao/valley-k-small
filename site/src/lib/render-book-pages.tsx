@@ -451,10 +451,21 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
             const meta = loadReportMeta(panel.report_id, lang);
             const datasets = (meta?.datasets || []).filter((ds) => ds.series_id === panel.dataset_series_id);
             const selectedDatasets = datasets.length > 0 ? datasets : (meta?.datasets || []).slice(0, 1);
+            const fallbackDatasetId =
+              datasets.length === 0 && selectedDatasets.length > 0 ? selectedDatasets[0].series_id : null;
             return (
               <article key={panel.panel_id} className="card">
                 <h3>{lang === 'cn' ? panel.title_cn : panel.title_en}</h3>
                 <p>{lang === 'cn' ? panel.parameter_hint_cn : panel.parameter_hint_en}</p>
+                {fallbackDatasetId ? (
+                  <p className="muted">
+                    {localizedText(
+                      lang,
+                      `Audit notice: configured dataset ${panel.dataset_series_id} is missing; fallback to ${fallbackDatasetId}.`,
+                      `审计提示：配置数据集 ${panel.dataset_series_id} 缺失，已回退到 ${fallbackDatasetId}。`,
+                    )}
+                  </p>
+                ) : null}
                 {selectedDatasets.length > 0 ? (
                   <ReportPlotPanel reportId={panel.report_id} datasets={selectedDatasets} lang={lang} />
                 ) : (
@@ -581,7 +592,9 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
           const panelMeta = loadReportMeta(panel.report_id, lang);
           const panelDatasets = (panelMeta?.datasets || []).filter((ds) => ds.series_id === panel.dataset_series_id);
           const selectedDatasets = panelDatasets.length > 0 ? panelDatasets : (panelMeta?.datasets || []).slice(0, 1);
-          return { panel, selectedDatasets };
+          const fallbackDatasetId =
+            panelDatasets.length === 0 && selectedDatasets.length > 0 ? selectedDatasets[0].series_id : null;
+          return { panel, selectedDatasets, fallbackDatasetId };
         });
         const prevChapter = idx > 0 ? chapters[idx - 1] : null;
         const nextChapter = idx + 1 < chapters.length ? chapters[idx + 1] : null;
@@ -642,10 +655,19 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
               </summary>
               {chapterPanels.length > 0 ? (
                 <div style={{ display: 'grid', gap: '0.8rem' }}>
-                  {chapterPanels.map(({ panel, selectedDatasets }) => (
+                  {chapterPanels.map(({ panel, selectedDatasets, fallbackDatasetId }) => (
                     <article key={`panel-${chapter.chapter_id}-${panel.panel_id}`} className="card">
                       <h4>{lang === 'cn' ? panel.title_cn : panel.title_en}</h4>
                       <p>{lang === 'cn' ? panel.parameter_hint_cn : panel.parameter_hint_en}</p>
+                      {fallbackDatasetId ? (
+                        <p className="muted">
+                          {localizedText(
+                            lang,
+                            `Audit notice: configured dataset ${panel.dataset_series_id} is missing; fallback to ${fallbackDatasetId}.`,
+                            `审计提示：配置数据集 ${panel.dataset_series_id} 缺失，已回退到 ${fallbackDatasetId}。`,
+                          )}
+                        </p>
+                      ) : null}
                       {selectedDatasets.length > 0 ? (
                         <ReportPlotPanel reportId={panel.report_id} datasets={selectedDatasets} lang={lang} />
                       ) : (

@@ -910,7 +910,27 @@ def build_claim_ledger(
         reverse=True,
     )
 
-    target = max(chapter_limit, len(output))
+    target = max(chapter_limit, len(output), len(report_ids))
+
+    # Ensure each linked report contributes at least one claim when available.
+    for report_id in report_ids:
+        if len(output) >= target:
+            break
+        if any(str(row.get("report_id", "")) == report_id for row in output):
+            continue
+        for _, _, _, claim_id, row, text_key in scored:
+            if str(row.get("report_id", "")) != report_id:
+                continue
+            if claim_id in output_ids:
+                continue
+            if text_key and text_key in output_text:
+                continue
+            output.append(row)
+            output_ids.add(claim_id)
+            if text_key:
+                output_text.add(text_key)
+            break
+
     for score, novelty_id, novelty_text, claim_id, row, text_key in scored:
         if len(output) >= target:
             break

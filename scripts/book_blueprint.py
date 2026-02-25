@@ -48,7 +48,7 @@ CHAPTER_BLUEPRINT: list[dict[str, Any]] = [
             "双峰不靠主观图像判断，而是依赖可回链证据的诊断标准，并在后续章节保持一致。",
             "同一诊断语言同时用于网格和环模型，使跨模型结论可比较。",
         ],
-        "report_ids": ["grid2d_bimodality", "grid2d_two_target_double_peak", "ring_two_target", "ring_valley"],
+        "report_ids": ["grid2d_bimodality", "grid2d_two_target_double_peak", "ring_lazy_flux", "ring_two_target"],
         "concept_keywords": ["first-passage", "hazard", "survival", "bimodality"],
     },
     {
@@ -100,7 +100,7 @@ CHAPTER_BLUEPRINT: list[dict[str, Any]] = [
             "本章先固定保守基线，再讨论 shortcut 扰动，避免机制归因混淆。",
             "后续章节都会把这里的结果作为对照组。",
         ],
-        "report_ids": ["ring_deriv_k2", "ring_lazy_flux", "ring_lazy_jump"],
+        "report_ids": ["ring_deriv_k2", "ring_lazy_flux", "ring_lazy_jump", "ring_valley"],
         "concept_keywords": ["ring", "spectral", "lazy", "baseline", "inversion"],
     },
     {

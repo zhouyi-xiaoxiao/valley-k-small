@@ -408,17 +408,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--workspace", type=Path, default=REPO_ROOT)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--history", type=Path, default=DEFAULT_HISTORY)
+    parser.add_argument(
+        "--model",
+        default="",
+        help="Force a specific OpenClaw model id (e.g. openai/gpt-5.2-pro).",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     model_candidates = [
-        "openai-codex/gpt-5.3-codex",
         "openai/gpt-5.2-pro-extended-thinking",
+        "openai-codex/gpt-5.3-codex",
         "openai/gpt-5.2-pro",
         "openai-codex/gpt-5.2",
     ]
+    if str(args.model).strip():
+        model_candidates = [str(args.model).strip()] + [m for m in model_candidates if m != str(args.model).strip()]
     selected_models = select_models(model_candidates)
     local_snapshot = build_local_snapshot(args.workspace)
     prompt = build_prompt(args.workspace, local_snapshot)

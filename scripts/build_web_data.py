@@ -99,6 +99,42 @@ def normalize_space(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def repair_common_math_noise(text: str) -> str:
+    value = str(text or "")
+    if not value:
+        return ""
+    value = value.replace("…", " ")
+    value = re.sub(r"\.{3,}", " ", value)
+    value = re.sub(r"\bshortcu\b", "shortcut", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b1\s*,\s*,\s*N\b", "1..N", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b0\s*,\s*,\s*N\s*-\s*1\s*\^\s*2\b", "[0, N-1]^2", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b0\s*,\s*,\s*N\s*-\s*1\b", "0..N-1", value, flags=re.IGNORECASE)
+    value = re.sub(
+        r"\b([A-Za-z])\s+p(\d+)\b",
+        lambda m: f"{m.group(1)}_p{m.group(2)}",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(r"\b([xy])\s+t\b", lambda m: f"{m.group(1)}_t", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bn\s+0\b", "n0", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bt\s+(\d+)\b", lambda m: f"t{m.group(1)}", value, flags=re.IGNORECASE)
+    value = re.sub(
+        r"\bK\s+(\d(?:\s*,\s*\d)+)\b",
+        lambda m: "K=" + "".join(m.group(1).split()),
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(r"\bP\s*:\s*([0-9]+(?:\.[0-9]+)?)\b", r"P=\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\^\s*-\s*(\d+)", r"e-\1", value)
+    value = re.sub(r"\bwe use,\s*hence\b", "With fixed parameters,", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bup to\.\s*$", "", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s*,\s*all\s*$", ".", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bDefine\s*=\s*t1\b[^.;。；]*", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s*&=\s*", " = ", value)
+    value = re.sub(r"\s{2,}", " ", value)
+    return normalize_space(value)
+
+
 def dedupe_preserve(items: list[str], *, max_items: int) -> list[str]:
     out: list[str] = []
     seen: set[str] = set()
@@ -137,8 +173,12 @@ def is_placeholder_finding(text: str, report_id: str) -> bool:
 
 
 def clean_findings(findings: list[str], report_id: str, max_items: int = 8) -> list[str]:
-    normalized = dedupe_preserve(findings, max_items=max(12, max_items * 2))
-    kept = [item for item in normalized if not is_placeholder_finding(item, report_id)]
+    normalized = dedupe_preserve([repair_common_math_noise(x) for x in findings], max_items=max(12, max_items * 2))
+    kept = [
+        item
+        for item in normalized
+        if not is_placeholder_finding(item, report_id) and summary_penalty(item) <= 22
+    ]
     if not kept:
         kept = [
             f"Core derivation and reproducible evidence are available for {report_id}; "
@@ -166,7 +206,7 @@ def polish_extracted_text(text: str) -> str:
     value = re.sub(r"\s+([,.;:)\]])", r"\1", value)
     value = re.sub(r"([(\[])\s+", r"\1", value)
     value = normalize_space(value)
-    return value
+    return repair_common_math_noise(value)
 
 
 def latex_to_plain(text: str) -> str:
@@ -238,25 +278,27 @@ def canonical_summary(text: str, *, max_chars: int = 1200) -> str:
 
 
 def summary_quality_cleanup(text: str) -> str:
-    value = normalize_space(str(text or ""))
+    value = repair_common_math_noise(str(text or ""))
     if not value:
         return ""
-    value = value.replace("…", " ")
-    value = re.sub(r"\.{3,}", " ", value)
-    value = re.sub(r"\s*&=\s*", " = ", value)
     value = re.sub(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b[a-z]\s*=\s*t\d+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b[a-z]\s*=\s*[a-z]\s*[0-9]+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b[txyzkn]\s*_[a-z0-9]{0,2}\s*[,;:]\s*$", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\s{2,}", " ", value)
-    return normalize_space(value)
+    return repair_common_math_noise(value)
 
 
 def strip_mathish_fragments(text: str) -> str:
-    value = str(text or "")
+    value = repair_common_math_noise(str(text or ""))
     value = re.sub(r"\[[^\]]{0,240}[=<>/\\^_][^\]]{0,240}\]", " ", value)
     value = re.sub(r"\[[^\]]{0,240}[=<>/\\^_][^\]]{0,240}$", " ", value)
     value = re.sub(r"\(([^()]|\\\(|\\\)){0,240}[=<>/\\^_](?:[^()]|\\\(|\\\)){0,240}\)", " ", value)
     value = re.sub(r"\b(?:t|p|q|h|s)\s*[=^]\s*[-+0-9a-zA-Z./()]+\b", " ", value)
     value = re.sub(r"\b[a-z]\s+p\d+\s+\d+\b", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bfor\s+z\d+--z\d+\s*,\s*t_p\d+\b[^.;。；]{0,240}", " ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bdefine\s*=\s*t\d+\b[^.;。；]{0,240}", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", " ", value, flags=re.IGNORECASE)
     value = re.sub(r"\s*&=\s*", " ", value)
@@ -267,18 +309,26 @@ def strip_mathish_fragments(text: str) -> str:
     value = re.sub(r"\(\s*\)", " ", value)
     value = re.sub(r"\b(?:at|to|from|with|under)\s+\.", ".", value, flags=re.IGNORECASE)
     value = re.sub(r"\s{2,}", " ", value)
-    return normalize_space(value)
+    return repair_common_math_noise(value)
 
 
 def looks_like_math_fragment(sentence: str) -> bool:
-    value = normalize_space(sentence)
+    value = repair_common_math_noise(normalize_space(sentence))
     if not value:
         return True
     if re.search(r"(\\begin|\\end|\\\\|&=)", value):
         return True
+    if re.search(r"\bdefine\s*=\s*t\d+\b", value, flags=re.IGNORECASE):
+        return True
+    if re.search(r"\b[a-z]\s+p\d+\b", value, flags=re.IGNORECASE):
+        return True
+    if re.search(r"\b1\.\.N\b", value, flags=re.IGNORECASE):
+        return True
     if re.search(r"\bt\s*t\s*\^\s*[a-z0-9_]+\b", value, flags=re.IGNORECASE):
         return True
     if re.search(r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b", value, flags=re.IGNORECASE):
+        return True
+    if re.search(r"\bK=\d+(?:,\d+)+\b", value):
         return True
     symbol_ratio = len(re.findall(r"[=<>/\\^_\[\]\{\}]", value)) / max(1, len(value))
     if symbol_ratio > 0.09:
@@ -337,9 +387,27 @@ def summary_penalty(text: str) -> int:
         penalty += 6
     if re.search(r"\b[a-z]\s+p\d+\s+\d+\b", value, flags=re.IGNORECASE):
         penalty += 8
+    if re.search(r"\b[a-z]\s+p\d+\b", value, flags=re.IGNORECASE):
+        penalty += 10
     if re.search(r"\b[a-z]\s+\d+\b", value, flags=re.IGNORECASE):
         penalty += 5
+    if re.search(r"\bdefine\s*=\s*t\d+\b", value, flags=re.IGNORECASE):
+        penalty += 10
+    if re.search(r"\b1\.\.N\b", value, flags=re.IGNORECASE):
+        penalty += 8
+    if re.search(r"\bK=\d+(?:,\d+)+\b", value):
+        penalty += 7
+    if re.search(r"\bP=\d+(?:\.\d+)?\b", value) and len(value) < 80:
+        penalty += 3
+    if re.search(r"(?:,\s*all$|,\s*all\.)", value, flags=re.IGNORECASE):
+        penalty += 9
     if re.search(r"\bsec:[a-z0-9_\-]+\b", value, flags=re.IGNORECASE):
+        penalty += 6
+    if re.search(r"\b\d+\s*,\s*,\s*[a-z0-9]+\b", value, flags=re.IGNORECASE):
+        penalty += 10
+    if re.search(r"\bup to\.\s*$", value, flags=re.IGNORECASE):
+        penalty += 7
+    if re.search(r"\bwe use,\s*hence\b", value, flags=re.IGNORECASE):
         penalty += 6
     if re.search(r",\s*,", value):
         penalty += 6
@@ -366,6 +434,8 @@ def choose_best_summary(candidates: list[str], *, max_chars: int = 1000) -> str:
         if not cleaned:
             continue
         penalty = summary_penalty(cleaned)
+        if penalty >= 28 and len(cleaned) < 220:
+            continue
         scored.append((penalty, -min(len(cleaned), max_chars), cleaned))
     if not scored:
         return ""
@@ -375,7 +445,7 @@ def choose_best_summary(candidates: list[str], *, max_chars: int = 1000) -> str:
 
 def improve_summary_if_needed(summary: str, fallback_candidates: list[str], *, max_chars: int = 1000) -> str:
     cleaned = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(summary or ""))), max_chars=max_chars)
-    if cleaned and summary_penalty(cleaned) <= 11:
+    if cleaned and summary_penalty(cleaned) <= 9:
         return cleaned
     fallback = choose_best_summary(fallback_candidates, max_chars=max_chars)
     if fallback:
@@ -383,21 +453,21 @@ def improve_summary_if_needed(summary: str, fallback_candidates: list[str], *, m
     return cleaned
 
 
-def sanitize_claim_text_for_map(text: str, *, lang: str, max_chars: int) -> str:
-    value = summary_quality_cleanup(strip_mathish_fragments(normalize_space(text)))
+def sanitize_claim_text_for_map(text: str, *, lang: str, max_chars: int, report_id: str = "") -> str:
+    value = summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(normalize_space(text))))
     if not value:
         return ""
-    value = re.sub(r"\bshortcu\b", "shortcut", value, flags=re.IGNORECASE)
-    value = re.sub(r"\bt\s*p(\d+)\b", r"peak-\1", value, flags=re.IGNORECASE)
-    value = re.sub(r"\bP\s*:\s*([0-9.]+)\b", r"P=\1", value, flags=re.IGNORECASE)
-    value = re.sub(r"\bK\s+(\d)\s*,\s*(\d)\b", r"K=\1,\2", value)
+    value = re.sub(r"\bt_p(\d+)\b", r"peak-\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bP=\s*([0-9.]+)\b", r"P=\1", value, flags=re.IGNORECASE)
     value = re.sub(r"\[\(\s*[A-Z]\s*\)\]", " ", value)
-    value = normalize_space(value)
+    value = repair_common_math_noise(value)
     value = readable_summary(value, max_chars=max_chars, max_sentences=2) or canonical_summary(value, max_chars=max_chars)
-    value = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(value)), max_chars=max_chars)
+    value = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(value))), max_chars=max_chars)
     if not value:
         return ""
     if lang == "cn":
+        if not contains_cjk(value):
+            return ensure_cn_text(value, report_id or "cross_model", role="claim", max_chars=max_chars)
         if value[-1] not in "。！？；":
             value = value.rstrip(" ,;") + "。"
     else:
@@ -429,6 +499,41 @@ def humanize_report_id(report_id: str) -> str:
         else:
             rendered.append(part.capitalize())
     return " ".join(rendered) or str(report_id)
+
+
+def cn_topic_from_report_id(report_id: str) -> str:
+    if report_id.startswith("grid2d_"):
+        return "Grid2D 体系"
+    if report_id.startswith("ring_"):
+        return "Ring 体系"
+    if report_id.startswith("cross_"):
+        return "跨模型综合"
+    return "该研究报告"
+
+
+def ensure_cn_text(text: str, report_id: str, *, role: str, max_chars: int, hint: str = "") -> str:
+    cleaned = canonical_summary(
+        summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(str(text or "")))),
+        max_chars=max_chars,
+    )
+    if cleaned and contains_cjk(cleaned):
+        return cleaned
+
+    topic = cn_topic_from_report_id(report_id)
+    default_by_role = {
+        "title": f"{topic}：{report_id} 研究报告",
+        "summary": f"{topic}：本报告围绕模型设定、首达时间分布、峰谷判据与可复现实验给出可核对证据链。",
+        "finding": f"{topic}：关键结论见本页公式链、交互图与原始资产。",
+        "model": f"{topic}：本节说明状态空间、参数约束与边界条件设定。",
+        "method": f"{topic}：本节给出解析/数值流程、反演方法与验证协议。",
+        "result": f"{topic}：本节总结峰谷结构、通道机制与跨报告对比结论。",
+        "section": f"{topic}：本节整理关键证据、图表说明与复现路径。",
+        "claim": f"{topic}：该 claim 的证据可在本页公式链与数据面板中核验。",
+    }
+    fallback = default_by_role.get(role, default_by_role["summary"])
+    if role == "title" and hint and contains_cjk(hint):
+        fallback = hint
+    return canonical_summary(fallback, max_chars=max_chars)
 
 
 def title_penalty(text: str, report_id: str) -> int:
@@ -499,14 +604,14 @@ def parse_tex_title(tex_text: str) -> str:
     if not m:
         return ""
     raw = strip_mathish_fragments(latex_to_plain(m.group(1)))
-    return canonical_summary(summary_quality_cleanup(raw), max_chars=220)
+    return canonical_summary(summary_quality_cleanup(repair_common_math_noise(raw)), max_chars=220)
 
 
 def parse_tex_abstract(tex_text: str) -> str:
     m = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex_text, flags=re.DOTALL)
     if not m:
         return ""
-    return canonical_summary(summary_quality_cleanup(latex_to_plain(m.group(1))), max_chars=1200)
+    return canonical_summary(summary_quality_cleanup(repair_common_math_noise(latex_to_plain(m.group(1)))), max_chars=1200)
 
 
 def pick_main_tex_path(item: dict[str, Any], report_dir: Path, lang: str) -> Path | None:
@@ -805,11 +910,14 @@ def pick_narrative_summary(sections: list[dict[str, Any]], hints: tuple[str, ...
 
 def build_narrative_fields(sections: list[dict[str, Any]], fallback: str) -> dict[str, str]:
     def clean_narrative_text(text: str) -> str:
-        cleaned = summary_quality_cleanup(strip_mathish_fragments(text))
+        cleaned = summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(text)))
         if not cleaned:
             cleaned = summary_quality_cleanup(text)
         out = readable_summary(cleaned, max_chars=320, max_sentences=2) or canonical_summary(cleaned, max_chars=320)
-        return canonical_summary(summary_quality_cleanup(out), max_chars=320)
+        out = canonical_summary(summary_quality_cleanup(repair_common_math_noise(out)), max_chars=320)
+        if summary_penalty(out) > 20:
+            out = canonical_summary(summary_quality_cleanup(repair_common_math_noise(fallback)), max_chars=320)
+        return out
 
     model = clean_narrative_text(pick_narrative_summary(sections, MODEL_HINTS, fallback))
     method = clean_narrative_text(pick_narrative_summary(sections, METHOD_HINTS, fallback))
@@ -877,6 +985,7 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
     summary_seed = abstract or (sections[0]["summary"] if sections else f"Research report {report_id}.")
     summary_fallback = readable_summary(summary_seed, max_chars=1000, max_sentences=4) or canonical_summary(summary_seed, max_chars=1000)
     section_cards: list[dict[str, str]] = []
+    seen_section_summary_keys: set[str] = set()
     for section in sections[:10]:
         heading = str(section["title"])
         summary = normalize_space(str(section.get("summary", "")))
@@ -887,6 +996,43 @@ def extract_tex_story(item: dict[str, Any], report_dir: Path, report_id: str, la
             summary = readable_summary(summary_fallback, max_chars=280, max_sentences=2)
         summary = readable_summary(strip_mathish_fragments(summary_quality_cleanup(summary)), max_chars=320, max_sentences=2) or summary
         summary = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(summary)), max_chars=320)
+        summary_key = normalize_finding_key(summary)
+        if not summary or summary_penalty(summary) > 14:
+            summary = readable_summary(
+                strip_mathish_fragments(summary_quality_cleanup(latex_to_plain(str(section.get("body", ""))))),
+                max_chars=320,
+                max_sentences=2,
+            ) or summary
+            summary = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(summary)), max_chars=320)
+            summary_key = normalize_finding_key(summary)
+        if not summary or summary_penalty(summary) > 14:
+            if lang == "cn":
+                summary = f"{heading}：本节整理与 {report_id} 相关的关键证据与核验说明。"
+            else:
+                summary = f"{heading}: this section consolidates key evidence and verification notes for {report_id}."
+            summary_key = normalize_finding_key(summary)
+        if summary_key and summary_key in seen_section_summary_keys:
+            body_alternative = readable_summary(
+                strip_mathish_fragments(summary_quality_cleanup(latex_to_plain(str(section.get("body", ""))))),
+                max_chars=320,
+                max_sentences=3,
+            )
+            candidate = canonical_summary(
+                summary_quality_cleanup(strip_mathish_fragments(body_alternative or "")),
+                max_chars=320,
+            )
+            candidate_key = normalize_finding_key(candidate)
+            if candidate and candidate_key and candidate_key not in seen_section_summary_keys:
+                summary = candidate
+                summary_key = candidate_key
+            else:
+                if lang == "cn":
+                    summary = f"{heading}：该部分提供与 {report_id} 相关的补充证据与核验路径。"
+                else:
+                    summary = f"{heading}: this section provides supplementary evidence and verification paths for {report_id}."
+                summary_key = normalize_finding_key(summary)
+        if summary_key:
+            seen_section_summary_keys.add(summary_key)
         section_cards.append(
             {
                 "heading": heading,
@@ -1970,6 +2116,7 @@ def build_report_payload(
     section_summary_cn = [str(row.get("summary", "")) for row in list(tex_cn.get("section_cards", []))[:3]]
     findings_en = clean_findings(readme_findings + list(tex_en["findings"]), report_id, max_items=8)
     findings_cn = clean_findings(readme_findings + list(tex_cn["findings"]), report_id, max_items=8)
+    findings_cn = [ensure_cn_text(row, report_id, role="finding", max_chars=220) for row in findings_cn]
     summary_en = choose_best_summary(
         [
             str(tex_en.get("summary", "")),
@@ -1997,7 +2144,7 @@ def build_report_payload(
     if not summary_cn:
         summary_cn = canonical_summary(str(tex_cn.get("summary", "") or summary_en), max_chars=1000)
     title_en = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(title_en))), max_chars=220) or report_id
-    title_cn = canonical_summary(summary_quality_cleanup(strip_mathish_fragments(str(title_cn))), max_chars=220) or title_en
+    title_cn = ensure_cn_text(title_cn, report_id, role="title", max_chars=220, hint=str(tex_cn.get("title", "")))
     summary_en = improve_summary_if_needed(
         summary_en,
         [
@@ -2019,6 +2166,7 @@ def build_report_payload(
         ],
         max_chars=1000,
     )
+    summary_cn = ensure_cn_text(summary_cn, report_id, role="summary", max_chars=1000, hint=str(tex_cn.get("summary", "")))
     inferred_languages = ["en"]
     if contains_cjk(title_cn) or contains_cjk(summary_cn) or any(contains_cjk(item) for item in findings_cn):
         inferred_languages.append("cn")
@@ -2708,8 +2856,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
         staged_claims: list[tuple[str, str, str]] = []
         seen_claim_signatures: set[str] = set()
         for stage, text_en, text_cn in staged_candidates:
-            cleaned_en = sanitize_claim_text_for_map(text_en, lang="en", max_chars=460)
-            cleaned_cn = sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320)
+            cleaned_en = sanitize_claim_text_for_map(text_en, lang="en", max_chars=460, report_id=rid)
+            cleaned_cn = sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320, report_id=rid)
             if not cleaned_en:
                 continue
             signature = normalize_finding_key(cleaned_en)
@@ -2826,8 +2974,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                     "claim_id": claim_id,
                     "report_id": rid,
                     "stage": stage,
-                    "text_en": sanitize_claim_text_for_map(text_en, lang="en", max_chars=460),
-                    "text_cn": sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320),
+                    "text_en": sanitize_claim_text_for_map(text_en, lang="en", max_chars=460, report_id=rid),
+                    "text_cn": sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320, report_id=rid),
                     "evidence": deduped_evidence[:6],
                     "linked_claim_ids": [],
                     "linked_report_ids": [],

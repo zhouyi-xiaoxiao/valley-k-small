@@ -68,6 +68,11 @@ def assert_text_quality(meta_payload: dict[str, Any], label: str) -> None:
         ("math_alignment_fragment", r"&="),
         ("broken_aw_token", r"\bt\s*t\s*\^\s*[a-z0-9_]+\b"),
         ("range_fragment", r"\b\d+\s*,\s*\.\.\.\s*,\s*[a-z0-9]+\b"),
+        ("malformed_peak_token", r"\b[a-z]\s+p\d+\b"),
+        ("double_comma_token", r"\b\d+\s*,\s*,\s*[a-z0-9]+\b"),
+        ("malformed_k_pair", r"\bK\s+\d+\s*,\s*\d+\b"),
+        ("malformed_probability_token", r"\bP\s*:\s*[0-9]+\b"),
+        ("truncated_tail_all", r",\s*all\s*$"),
     ]
     fields = [str(meta_payload.get("summary", ""))]
     narrative = meta_payload.get("narrative", {})

@@ -40,7 +40,30 @@ def sha256_file(path: Path) -> str:
 
 
 def clean_text(text: str) -> str:
-    return re.sub(r"\s+", " ", str(text or "")).strip()
+    value = re.sub(r"\s+", " ", str(text or "")).strip()
+    if not value:
+        return ""
+    value = value.replace("…", " ")
+    value = re.sub(r"\.{3,}", " ", value)
+    value = re.sub(r"\bshortcu\b", "shortcut", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b1\s*,\s*,\s*N\b", "1..N", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b0\s*,\s*,\s*N\s*-\s*1\s*\^\s*2\b", "[0, N-1]^2", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b0\s*,\s*,\s*N\s*-\s*1\b", "0..N-1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b([A-Za-z])\s+p(\d+)\b", lambda m: f"{m.group(1)}_p{m.group(2)}", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b([xy])\s+t\b", lambda m: f"{m.group(1)}_t", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bn\s+0\b", "n0", value, flags=re.IGNORECASE)
+    value = re.sub(
+        r"\bK\s+(\d(?:\s*,\s*\d)+)\b",
+        lambda m: "K=" + "".join(m.group(1).split()),
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(r"\bP\s*:\s*([0-9]+(?:\.[0-9]+)?)\b", r"P=\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bwe use,\s*hence\b", "With fixed parameters,", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bup to\.\s*$", "", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s*,\s*all\s*$", ".", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s{2,}", " ", value)
+    return value.strip()
 
 
 def tex_escape(text: str) -> str:

@@ -93,8 +93,35 @@ def write_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def clean_text(text: str, *, max_chars: int = 320, ellipsis: bool = True) -> str:
+def repair_common_math_noise(text: str) -> str:
     value = re.sub(r"\s+", " ", str(text or "")).strip()
+    if not value:
+        return ""
+    value = value.replace("…", " ")
+    value = re.sub(r"\.{3,}", " ", value)
+    value = re.sub(r"\bshortcu\b", "shortcut", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b1\s*,\s*,\s*N\b", "1..N", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b0\s*,\s*,\s*N\s*-\s*1\s*\^\s*2\b", "[0, N-1]^2", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b0\s*,\s*,\s*N\s*-\s*1\b", "0..N-1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b([A-Za-z])\s+p(\d+)\b", lambda m: f"{m.group(1)}_p{m.group(2)}", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b([xy])\s+t\b", lambda m: f"{m.group(1)}_t", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bn\s+0\b", "n0", value, flags=re.IGNORECASE)
+    value = re.sub(
+        r"\bK\s+(\d(?:\s*,\s*\d)+)\b",
+        lambda m: "K=" + "".join(m.group(1).split()),
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(r"\bP\s*:\s*([0-9]+(?:\.[0-9]+)?)\b", r"P=\1", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bwe use,\s*hence\b", "With fixed parameters,", value, flags=re.IGNORECASE)
+    value = re.sub(r"\bup to\.\s*$", "", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s*,\s*all\s*$", ".", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s{2,}", " ", value)
+    return value.strip()
+
+
+def clean_text(text: str, *, max_chars: int = 320, ellipsis: bool = True) -> str:
+    value = repair_common_math_noise(text)
     if len(value) <= max_chars:
         return value
     clipped = value[: max_chars + 1]
@@ -129,8 +156,7 @@ def normalize_text_key(value: str) -> str:
 
 
 def clean_claim_text(text: str, *, lang: str, max_chars: int = 520) -> str:
-    value = re.sub(r"\s+", " ", str(text or "")).strip()
-    value = value.replace("…", "").replace("...", "")
+    value = repair_common_math_noise(text).replace("…", "").replace("...", "")
     if len(value) <= max_chars:
         return value
     clipped = value[: max_chars + 1]

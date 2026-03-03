@@ -1,6 +1,6 @@
 # 研究汇总（供 ChatGPT Pro）
 
-最后更新: 2026-02-25
+最后更新: 2026-03-03
 
 ## 使用说明（只给这一份文件即可）
 这份文件设计为**自包含**的项目总览：包含研究目标、模型定义、主要结论、报告入口、复现命令与维护规则。
@@ -18,6 +18,8 @@
 
 ## 最新进展（手动追加）
 （请在这里用日期追加最新结果/想法，便于对方快速理解“当前进度”）
+- 2026-03-03: 完成本地-远端-网站同步增强：`scripts/build_web_data.py` 新增 `repo_sync.json` 生成（仓库分区、文件索引、SHA256、更新时间、GitHub 链接与预览摘要）；`site/src/lib/render-pages.tsx` 新增 `/repo-sync` 双语页面与导航入口；`scripts/reportctl.py` 新增 `sync-local-remote` 子命令（支持 `--no-site-build/--no-fetch`）用于统一执行数据同步并显示本地与 `origin` ahead/behind 状态。已验证 `python3 scripts/reportctl.py sync-local-remote --mode full` 全链路通过（含 `npm ci` 与 `next build`）。
+- 2026-03-03: 新增项目延续 skill：`skills/valley-k-small-continuation/SKILL.md`（含 `references/core-checklist.md`、`references/report-map.md`、`references/research-conventions.md`），用于后续 agent 在本仓库统一执行“报告复现→文档维护→校验回归→交付交接”的标准流程。
 - 2026-02-25: 完成 Web 数据文本质量第二轮收敛：`scripts/build_web_data.py` 新增 `repair_common_math_noise(...)` 并贯通 summary/claim/narrative/section-card 清洗链路，补强 `summary_penalty` 与候选过滤（高噪声短句直接淘汰），并在章节卡片生成中加入去重与 body 级回退文案；`scripts/validate_web_data.py` 新增 malformed token 规则（如 `a p3`、`K 2,3`、`P:0.2`、`, all`）；`scripts/build_book_content.py` 与 `scripts/build_publication_pdf.py` 同步统一清洗规则；`scripts/run_openclaw_review.py` 增加 `--model` 强制模型入口。已回归通过：`python3 scripts/build_web_data.py`、`python3 scripts/validate_web_data.py`、`python3 scripts/build_book_content.py`、`python3 scripts/build_publication_pdf.py`。
 - 2026-02-25: 继续推进 Web 端可解释性修复：`site/src/lib/render-pages.tsx` 将 KaTeX 渲染切换为严格模式（`throwOnError:true` + `strict:'error'`），并在公式卡片/逻辑链中显示可折叠的渲染告警（含 source/context 与 parse error 原因）；`site/src/components/ReportPlotPanel.tsx` 新增 log 坐标门控（数据含非正值时禁用 log）、自动回退线性坐标的持久提示文案，避免坐标自动切换造成解释歧义。回归通过：`python3 scripts/validate_web_data.py` 与 `cd site && npm run build`。
 - 2026-02-24: 完成仓库级 Web 上线工程化主链路：新增 `site/`（Next.js 静态导出 + 双语路由 `/`,`/en`,`/cn` + 报告详情交互图 + theory MDX/KaTeX + agent-sync 页面），新增 `scripts/build_web_data.py`（14 报告预计算数据与资产映射到 `site/public/data/v1` + `site/public/artifacts`）、`scripts/build_agent_sync.py`（`manifest.json`/`reports.jsonl`/`events.jsonl` + `artifacts/checks/*.json` + `crosscheck_report.json`）、`scripts/validate_web_data.py`（schema 校验）；新增 schema `schemas/web_report.schema.json` 与 `schemas/agent_sync_v1.schema.json`，扩展 `scripts/reportctl.py` 子命令 `web-data`/`agent-sync`/`web-build`/`web-preview`，并新增 GitHub Pages 工作流 `.github/workflows/site-pages.yml`。已完成 `web-data -> agent-sync -> validate -> next build` 全链路验证与 `pytest` 回归通过。
@@ -48,6 +50,7 @@
 - 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 再做深度一致性回归并补上 summary 级防护：`case_summary.json` 现在额外记录并校验代表案例的 `outputs/*_fpt.csv`（`rep_series_csv`），且改为“先校验路径再写 summary”以避免异常时落盘不可信 summary。并验证了扩展分支在 `t_max=5000` 与 `t_max=20000` 下 phase 一致（`x0=8/10/12` 无不一致），排除时间窗截断导致的假失稳。
 - 2026-02-16: 对 `reports/grid2d_rect_bimodality/` 再次做“代码+语言+逻辑”全链路复核并修复一项流程性隐患：`validate_representative_phase_consistency(...)` 与 `validate_summary_artifact_paths(...)` 之前定义但未接入主流程，现已在 `main()` 中启用；同时将启动清理从 case 级升级为 `purge_generated_artifacts(...)` 全量清理，避免旧扫描表/旧图残留造成的静默污染。已全量重跑脚本与中英文 `latexmk`，相图/代表案例/表格一致，LaTeX 无 overfull/undefined 引用。
 - 2026-02-16: 在 `reports/grid2d_rect_bimodality/code/rect_bimodality_report.py` 新增 `purge_case_level_artifacts(...)`，并在 `main()` 开始阶段启用。修复的问题是：历史运行遗留的按 case 命名文件（`outputs/TT_*_fpt.csv`、`outputs/OT_*_fpt.csv` 与对应 `figures/*`）会与当前扫描口径混在一起，造成“同名 case 看起来与当前 phase 相冲突”的假象。现在每次重跑都会先清理旧 case 级产物，再写入当前代表案例，避免报告资产歧义。
+
 ## 仓库速览（结构 + 入口）
 ```
 valley-k-small/
@@ -325,6 +328,7 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-
 - 扩展章节: `reports/ring_lazy_jump_ext/sections/`.
 - 说明文档: `docs/README.md`, `docs/agentreport.md`.
 - 维护脚本: `scripts/update_research_summary.py`, `scripts/cleanup_local.py`.
+- 项目延续 skill: `skills/valley-k-small-continuation/SKILL.md`.
 
 ## 给 ChatGPT Pro 的建议使用方式
 - 若要对比模型差异，请优先说明使用的是 selfloop 规则还是 renormalize/equal4 规则，以及是否为 lazy（q<1）或 non-lazy（q=1）。

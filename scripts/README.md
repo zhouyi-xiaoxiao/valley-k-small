@@ -10,6 +10,7 @@ Unified repository CLI:
 - `archive [--dry-run|--report <id>|--verify]`: archive timestamp runs / verify archive metadata
 - `doctor [--full|--skip-pytest]`: one-command health check (metadata + docs paths + py_compile + pytest + audit)
 - `prune-legacy-artifacts [--dry-run|--report <id>]`: archive legacy-named top-level PDFs from active report folders
+- `sync-local-remote [--mode full|changed] [--no-site-build]`: sync local web payloads and print local vs origin git status
 
 Usage:
 ```
@@ -20,6 +21,7 @@ python3 scripts/reportctl.py build --report ring_valley_dst --lang cn
 python3 scripts/reportctl.py audit --fast
 python3 scripts/reportctl.py doctor
 python3 scripts/reportctl.py prune-legacy-artifacts --dry-run
+python3 scripts/reportctl.py sync-local-remote --mode full --no-site-build
 ```
 
 ## validate_registry.py
@@ -157,6 +159,8 @@ python3 scripts/check_legacy_usage.py
 
 ## build_web_data.py
 Builds website payloads from report assets into `site/public/data/v1` and copies web-preview artifacts to `site/public/artifacts`.
+Also builds repository mirror payload:
+- `site/public/data/v1/repo_sync.json` (repo sections + file index + hash + optional preview text)
 
 Usage:
 ```
@@ -197,6 +201,7 @@ Unified wrappers for web workflows:
 python3 scripts/reportctl.py web-data --mode changed
 python3 scripts/reportctl.py agent-sync
 python3 scripts/reportctl.py web-build --mode full
+python3 scripts/reportctl.py sync-local-remote --mode full --no-site-build
 python3 scripts/reportctl.py web-preview --port 4173
 ```
 

@@ -11,6 +11,7 @@ import {
   loadFigures,
   loadGlossary,
   loadIndex,
+  loadRepoSync,
   loadReportNetwork,
   loadReportMeta,
   loadTheoryMap,
@@ -326,6 +327,20 @@ function formatTimestamp(lang: Lang, iso: string): string {
     timeStyle: 'medium',
     timeZone: 'UTC',
   }).format(new Date(iso))} UTC`;
+}
+
+function formatBytes(size: number): string {
+  if (!Number.isFinite(size) || size <= 0) {
+    return '0 B';
+  }
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let value = size;
+  let idx = 0;
+  while (value >= 1024 && idx < units.length - 1) {
+    value /= 1024;
+    idx += 1;
+  }
+  return `${value.toFixed(value >= 100 || idx === 0 ? 0 : 1)} ${units[idx]}`;
 }
 
 function summarizeCheckDetails(details: unknown, lang: Lang): string[] {
@@ -1925,6 +1940,124 @@ export function renderAgentSyncPage(lang: Lang, prefix: string) {
         <p>
           {localizedText(lang, 'Current report count', '当前报告数')}: <strong>{index.reports.length}</strong>
         </p>
+      </section>
+    </AppShell>
+  );
+}
+
+export function renderRepoSyncPage(lang: Lang, prefix: string) {
+  const payload = loadRepoSync();
+  const sectionLabel = new Map(
+    payload.sections.map((row) => [row.key, lang === 'cn' ? row.label_cn : row.label_en]),
+  );
+  const previewRows = payload.files.slice(0, 800);
+
+  return (
+    <AppShell lang={lang} prefix={prefix}>
+      <section className="card section-enter">
+        <div className="kicker">Repository Mirror</div>
+        <h1>{localizedText(lang, 'Repository Sync', '仓库同步视图')}</h1>
+        <p>
+          {localizedText(
+            lang,
+            'This view mirrors local repository documents/code indexes into the web payload so website users can trace what is present outside report cards.',
+            '该页面把本地仓库中的文档/代码索引同步到网站数据层，方便在报告卡片之外追踪仓库全貌。',
+          )}
+        </p>
+        <ul>
+          <li>
+            {localizedText(lang, 'Generated at', '生成时间')}: {formatTimestamp(lang, payload.generated_at)}
+          </li>
+          <li>
+            {localizedText(lang, 'Synced files', '同步文件数')}: <strong>{payload.stats.file_count}</strong>
+          </li>
+          <li>
+            {localizedText(lang, 'Total indexed size', '索引总大小')}: <strong>{formatBytes(payload.stats.total_size_bytes)}</strong>
+          </li>
+          <li>
+            {localizedText(lang, 'Raw JSON endpoint', '原始 JSON 地址')}:{' '}
+            <a href={withBasePath('/data/v1/repo_sync.json')} target="_blank" rel="noreferrer">
+              /data/v1/repo_sync.json
+            </a>
+          </li>
+          {payload.repo.origin_url ? (
+            <li>
+              {localizedText(lang, 'GitHub repository', 'GitHub 仓库')}:{' '}
+              <a href={payload.repo.origin_url} target="_blank" rel="noreferrer">
+                {payload.repo.origin_url}
+              </a>
+            </li>
+          ) : null}
+        </ul>
+      </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Synced Sections', '同步分区')}</h2>
+        <div className="grid grid-3">
+          {payload.sections.map((row) => (
+            <article key={`repo-section-${row.key}`} className="card">
+              <h3>{lang === 'cn' ? row.label_cn : row.label_en}</h3>
+              <p>
+                <span className="badge">
+                  {localizedText(lang, 'Files', '文件')}: {row.file_count}
+                </span>{' '}
+                <span className="badge">
+                  {localizedText(lang, 'Size', '大小')}: {formatBytes(row.total_size_bytes)}
+                </span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Synced File Index', '同步文件索引')}</h2>
+        <p className="lead">
+          {localizedText(
+            lang,
+            `Showing ${previewRows.length} entries on page (full index is in repo_sync.json).`,
+            `页面展示 ${previewRows.length} 条（完整索引见 repo_sync.json）。`,
+          )}
+        </p>
+        <div style={{ overflowX: 'auto' }}>
+          <table className="theory-table">
+            <thead>
+              <tr>
+                <th>{localizedText(lang, 'Path', '路径')}</th>
+                <th>{localizedText(lang, 'Category', '分类')}</th>
+                <th>{localizedText(lang, 'Size', '大小')}</th>
+                <th>{localizedText(lang, 'Updated', '更新时间')}</th>
+                <th>SHA256</th>
+              </tr>
+            </thead>
+            <tbody>
+              {previewRows.map((row) => (
+                <tr key={`repo-file-${row.path}`}>
+                  <td>
+                    {row.github_url ? (
+                      <a href={row.github_url} target="_blank" rel="noreferrer">
+                        <code>{row.path}</code>
+                      </a>
+                    ) : (
+                      <code>{row.path}</code>
+                    )}
+                    {row.preview ? (
+                      <p style={{ margin: '0.35rem 0 0' }}>
+                        {compactText(row.preview, 140)}
+                      </p>
+                    ) : null}
+                  </td>
+                  <td>{sectionLabel.get(row.category) ?? row.category}</td>
+                  <td>{formatBytes(row.size)}</td>
+                  <td>{formatTimestamp(lang, row.updated_at)}</td>
+                  <td>
+                    <code>{row.sha256.slice(0, 12)}...</code>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
     </AppShell>
   );

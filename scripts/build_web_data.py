@@ -24,6 +24,38 @@ DEFAULT_ARTIFACTS_DIR = REPO_ROOT / "site" / "public" / "artifacts"
 TEXT_EXT = {".md", ".tex", ".txt"}
 FIGURE_EXT = {".pdf", ".png", ".svg", ".jpg", ".jpeg", ".webp"}
 DATA_EXT = {".json", ".csv", ".npz"}
+REPO_SYNC_PREVIEW_EXT = {".md", ".txt", ".tex"}
+REPO_SYNC_MAX_FILES = 6000
+REPO_SYNC_INCLUDE_GLOBS = [
+    "*.md",
+    "README.md",
+    "AGENTS.md",
+    "requirements.txt",
+    "pyproject.toml",
+    "docs/**/*.md",
+    "docs/**/*.tex",
+    "reports/**/*.tex",
+    "reports/**/README.md",
+    "reports/**/notes/*.md",
+    "reports/**/code/*.py",
+    "scripts/README.md",
+    "scripts/**/*.py",
+    "src/**/*.py",
+    "tests/**/*.py",
+    "schemas/**/*.json",
+    "site/README.md",
+]
+REPO_SYNC_CATEGORY_LABELS: dict[str, dict[str, str]] = {
+    "root": {"en": "Root Documents", "cn": "根目录文档"},
+    "docs": {"en": "Repository Docs", "cn": "仓库文档"},
+    "report_docs": {"en": "Report Notes", "cn": "报告说明"},
+    "report_code": {"en": "Report Code", "cn": "报告代码"},
+    "tooling": {"en": "Tooling Scripts", "cn": "工具脚本"},
+    "core_code": {"en": "Core Library", "cn": "核心库代码"},
+    "tests": {"en": "Tests", "cn": "测试代码"},
+    "schemas": {"en": "Schemas", "cn": "数据契约"},
+    "other": {"en": "Other", "cn": "其他"},
+}
 MODEL_HINTS = ("model", "problem", "definition", "setup", "convention", "模型", "定义", "设定")
 METHOD_HINTS = ("method", "analytic", "inversion", "algorithm", "scan", "protocol", "derivation", "方法", "推导", "验证")
 RESULT_HINTS = ("finding", "result", "conclusion", "summary", "结论", "结果", "总结")
@@ -2564,6 +2596,181 @@ def parse_readme(report_dir: Path, report_id: str) -> tuple[str, str, list[str]]
 
 def rel_repo_path(path: Path) -> str:
     return path.relative_to(REPO_ROOT).as_posix()
+
+
+def normalize_origin_url(origin_url: str) -> str:
+    value = normalize_space(origin_url)
+    if not value:
+        return ""
+    if value.startswith("git@github.com:"):
+        value = value.replace("git@github.com:", "https://github.com/", 1)
+    if value.startswith("ssh://git@github.com/"):
+        value = value.replace("ssh://git@github.com/", "https://github.com/", 1)
+    if value.endswith(".git"):
+        value = value[:-4]
+    return value
+
+
+def detect_git_origin_info() -> dict[str, str]:
+    origin_url = ""
+    default_branch = "main"
+
+    origin_proc = subprocess.run(
+        ["git", "config", "--get", "remote.origin.url"],
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    if origin_proc.returncode == 0:
+        origin_url = normalize_origin_url(origin_proc.stdout.strip())
+
+    head_proc = subprocess.run(
+        ["git", "symbolic-ref", "--short", "refs/remotes/origin/HEAD"],
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    if head_proc.returncode == 0:
+        token = head_proc.stdout.strip()
+        if token.startswith("origin/") and len(token.split("/", 1)) == 2:
+            default_branch = token.split("/", 1)[1] or default_branch
+
+    return {"origin_url": origin_url, "default_branch": default_branch}
+
+
+def should_skip_repo_sync_path(path: Path) -> bool:
+    parts = set(path.parts)
+    if ".git" in parts or "__pycache__" in parts:
+        return True
+    if "build" in parts:
+        return True
+    if ".venv" in parts or "venv" in parts:
+        return True
+    return False
+
+
+def classify_repo_sync_category(rel_path: str) -> str:
+    parts = rel_path.split("/")
+    if not parts:
+        return "other"
+    head = parts[0]
+    if len(parts) == 1 and head.endswith(".md"):
+        return "root"
+    if head in {"README.md", "AGENTS.md", "requirements.txt", "pyproject.toml"}:
+        return "root"
+    if head == "docs":
+        return "docs"
+    if head == "reports":
+        if len(parts) >= 4 and parts[2] == "code" and parts[-1].endswith(".py"):
+            return "report_code"
+        return "report_docs"
+    if head == "scripts":
+        return "tooling"
+    if head == "src":
+        return "core_code"
+    if head == "tests":
+        return "tests"
+    if head == "schemas":
+        return "schemas"
+    return "other"
+
+
+def preview_text_for_repo_sync(path: Path) -> str:
+    if path.suffix.lower() not in REPO_SYNC_PREVIEW_EXT:
+        return ""
+    try:
+        raw = path.read_text(encoding="utf-8", errors="ignore")
+    except OSError:
+        return ""
+    plain = normalize_space(raw[:6000])
+    if not plain:
+        return ""
+    return canonical_summary(plain, max_chars=220)
+
+
+def build_repo_sync_payload(output_dir: Path, generated_at: str) -> None:
+    git_info = detect_git_origin_info()
+    origin_url = git_info.get("origin_url", "")
+    default_branch = git_info.get("default_branch", "main")
+
+    files_set: set[Path] = set()
+    for pattern in REPO_SYNC_INCLUDE_GLOBS:
+        for candidate in REPO_ROOT.glob(pattern):
+            if not candidate.is_file():
+                continue
+            if should_skip_repo_sync_path(candidate):
+                continue
+            files_set.add(candidate)
+
+    files = sorted(files_set, key=lambda p: p.as_posix())[:REPO_SYNC_MAX_FILES]
+    file_rows: list[dict[str, Any]] = []
+    totals_by_category: dict[str, dict[str, int]] = defaultdict(lambda: {"file_count": 0, "total_size_bytes": 0})
+
+    for path in files:
+        rel_path = rel_repo_path(path)
+        category = classify_repo_sync_category(rel_path)
+        try:
+            stat = path.stat()
+            size = int(stat.st_size)
+            updated_at = iso_from_timestamp(float(stat.st_mtime))
+        except OSError:
+            size = 0
+            updated_at = generated_at
+        github_url = ""
+        if origin_url:
+            github_url = f"{origin_url}/blob/{default_branch}/{rel_path}"
+        row = {
+            "path": rel_path,
+            "category": category,
+            "size": size,
+            "sha256": sha256_file(path),
+            "updated_at": updated_at,
+            "github_url": github_url,
+        }
+        preview = preview_text_for_repo_sync(path)
+        if preview:
+            row["preview"] = preview
+        file_rows.append(row)
+        totals_by_category[category]["file_count"] += 1
+        totals_by_category[category]["total_size_bytes"] += size
+
+    section_rows: list[dict[str, Any]] = []
+    for category, stats in sorted(totals_by_category.items(), key=lambda kv: (-int(kv[1]["file_count"]), kv[0])):
+        labels = REPO_SYNC_CATEGORY_LABELS.get(category, REPO_SYNC_CATEGORY_LABELS["other"])
+        section_rows.append(
+            {
+                "key": category,
+                "label_en": labels["en"],
+                "label_cn": labels["cn"],
+                "file_count": int(stats["file_count"]),
+                "total_size_bytes": int(stats["total_size_bytes"]),
+            }
+        )
+
+    payload = {
+        "version": "v1",
+        "generated_at": generated_at,
+        "repo": {
+            "origin_url": origin_url,
+            "default_branch": default_branch,
+            "pages_url": "https://zhouyi-xiaoxiao.github.io/valley-k-small/",
+        },
+        "stats": {
+            "file_count": len(file_rows),
+            "total_size_bytes": int(sum(int(row.get("size", 0)) for row in file_rows)),
+            "category_count": len(section_rows),
+        },
+        "sections": section_rows,
+        "files": file_rows,
+    }
+    (output_dir / "repo_sync.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False),
+        encoding="utf-8",
+    )
 
 
 def clean_output_dir(path: Path) -> None:
@@ -5539,6 +5746,7 @@ def main() -> int:
     build_theory_map(output_dir, reports, generated_at)
     build_report_network(output_dir, reports, generated_at)
     build_content_map(output_dir, reports, generated_at)
+    build_repo_sync_payload(output_dir, generated_at)
 
     print(
         json.dumps(

@@ -27,6 +27,7 @@ export function AppShell({
               {localizedText(lang, 'Theory', '理论')}
             </Link>
             <Link href={prefixPath(prefix, '/agent-sync')}>Agent Sync</Link>
+            <Link href={prefixPath(prefix, '/repo-sync')}>{localizedText(lang, 'Repo Sync', '仓库同步')}</Link>
             <Link href={prefixPath(prefix, '/about')}>{localizedText(lang, 'About', '关于')}</Link>
             <LocaleToggle lang={lang} />
           </nav>

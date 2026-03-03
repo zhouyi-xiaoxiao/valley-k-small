@@ -233,6 +233,73 @@ def cmd_web_build(*, mode: str, skip_npm_ci: bool) -> int:
     return subprocess.run(["npm", "run", "build"], cwd=SITE_DIR).returncode
 
 
+def _git_capture(cmd: list[str]) -> tuple[int, str]:
+    proc = subprocess.run(
+        cmd,
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    return int(proc.returncode), proc.stdout.strip()
+
+
+def git_sync_status(*, fetch_remote: bool) -> dict[str, object]:
+    if fetch_remote:
+        subprocess.run(["git", "fetch", "origin"], cwd=REPO_ROOT, check=False)
+
+    _, branch = _git_capture(["git", "rev-parse", "--abbrev-ref", "HEAD"])
+    branch = branch or "HEAD"
+
+    _, dirty_raw = _git_capture(["git", "status", "--porcelain"])
+    dirty_count = len([line for line in dirty_raw.splitlines() if line.strip()])
+
+    ahead = 0
+    behind = 0
+    compare_cmd = ["git", "rev-list", "--left-right", "--count", f"HEAD...origin/{branch}"]
+    rc, diff_raw = _git_capture(compare_cmd)
+    if rc == 0 and diff_raw:
+        parts = diff_raw.split()
+        if len(parts) >= 2:
+            ahead = int(parts[0])
+            behind = int(parts[1])
+
+    _, origin_url = _git_capture(["git", "config", "--get", "remote.origin.url"])
+    return {
+        "branch": branch,
+        "origin": origin_url,
+        "ahead": ahead,
+        "behind": behind,
+        "dirty_count": dirty_count,
+    }
+
+
+def cmd_sync_local_remote(*, mode: str, skip_npm_ci: bool, no_site_build: bool, fetch_remote: bool) -> int:
+    status_before = git_sync_status(fetch_remote=fetch_remote)
+    print(f"[sync-local-remote] git status before: {status_before}", flush=True)
+
+    if no_site_build:
+        steps = [
+            ("web-data", [PYTHON, "scripts/build_web_data.py", "--mode", mode]),
+            ("agent-sync", [PYTHON, "scripts/build_agent_sync.py"]),
+            ("validate-web-data", [PYTHON, "scripts/validate_web_data.py"]),
+        ]
+        for name, cmd in steps:
+            rc = _run_cmd(name, cmd, scope="sync-local-remote")
+            if rc != 0:
+                return rc
+        rc = 0
+    else:
+        rc = cmd_web_build(mode=mode, skip_npm_ci=skip_npm_ci)
+        if rc != 0:
+            return rc
+
+    status_after = git_sync_status(fetch_remote=False)
+    print(f"[sync-local-remote] git status after: {status_after}", flush=True)
+    return rc
+
+
 def cmd_web_preview(*, port: int) -> int:
     out_dir = SITE_DIR / "out"
     if not out_dir.exists():
@@ -351,6 +418,12 @@ def parse_args() -> argparse.Namespace:
     p_web_build.add_argument("--mode", choices=["full", "changed"], default="changed")
     p_web_build.add_argument("--skip-npm-ci", action="store_true")
 
+    p_sync = sub.add_parser("sync-local-remote", help="Sync web payloads from local repo and report local/origin git status")
+    p_sync.add_argument("--mode", choices=["full", "changed"], default="full")
+    p_sync.add_argument("--skip-npm-ci", action="store_true")
+    p_sync.add_argument("--no-site-build", action="store_true", help="Only sync JSON payloads and validation, skip Next.js build")
+    p_sync.add_argument("--no-fetch", action="store_true", help="Skip git fetch before computing ahead/behind status")
+
     p_web_preview = sub.add_parser("web-preview", help="Serve built static site locally")
     p_web_preview.add_argument("--port", type=int, default=4173)
 
@@ -411,6 +484,13 @@ def main() -> int:
         return cmd_translation_qc(high_max=int(args.high_max), warning_max=int(args.warning_max))
     if args.subcmd == "web-build":
         return cmd_web_build(mode=str(args.mode), skip_npm_ci=bool(args.skip_npm_ci))
+    if args.subcmd == "sync-local-remote":
+        return cmd_sync_local_remote(
+            mode=str(args.mode),
+            skip_npm_ci=bool(args.skip_npm_ci),
+            no_site_build=bool(args.no_site_build),
+            fetch_remote=not bool(args.no_fetch),
+        )
     if args.subcmd == "web-preview":
         return cmd_web_preview(port=int(args.port))
     if args.subcmd == "book-preview":

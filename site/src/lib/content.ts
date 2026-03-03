@@ -10,6 +10,7 @@ import type {
   FigureRecord,
   GlossaryPayload,
   Lang,
+  RepoSyncPayload,
   ReportMeta,
   ReportNetwork,
   TheoryMap,
@@ -92,6 +93,27 @@ export function loadContentMap(): ContentMap {
       claims: [],
       report_guides: [],
       consistency_checks: [],
+    }
+  );
+}
+
+export function loadRepoSync(): RepoSyncPayload {
+  return (
+    readJson<RepoSyncPayload>(path.join(DATA_ROOT, 'repo_sync.json')) ?? {
+      version: 'v1',
+      generated_at: new Date(0).toISOString(),
+      repo: {
+        origin_url: '',
+        default_branch: 'main',
+        pages_url: '',
+      },
+      stats: {
+        file_count: 0,
+        total_size_bytes: 0,
+        category_count: 0,
+      },
+      sections: [],
+      files: [],
     }
   );
 }

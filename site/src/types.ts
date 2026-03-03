@@ -268,6 +268,37 @@ export type ContentMap = {
   }>;
 };
 
+export type RepoSyncPayload = {
+  version: string;
+  generated_at: string;
+  repo: {
+    origin_url: string;
+    default_branch: string;
+    pages_url: string;
+  };
+  stats: {
+    file_count: number;
+    total_size_bytes: number;
+    category_count: number;
+  };
+  sections: Array<{
+    key: string;
+    label_en: string;
+    label_cn: string;
+    file_count: number;
+    total_size_bytes: number;
+  }>;
+  files: Array<{
+    path: string;
+    category: string;
+    size: number;
+    sha256: string;
+    updated_at: string;
+    github_url: string;
+    preview?: string;
+  }>;
+};
+
 export type BookManifest = {
   version: string;
   generated_at: string;

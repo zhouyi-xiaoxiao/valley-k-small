@@ -23,6 +23,11 @@ DEFAULT_FILES = (
     "scripts/README.md",
 )
 
+GENERATED_PATH_PREFIXES = (
+    "platform/web/public/data/v1/",
+    "platform/web/public/artifacts/",
+)
+
 
 def repo_root() -> Path:
     return Path(__file__).resolve().parents[3]
@@ -45,6 +50,8 @@ def _scan_file(path: Path, *, root: Path) -> dict[str, Any]:
     for match in REL_PATH_RE.finditer(text):
         token = _normalize_token(match.group(1))
         if _is_placeholder(token):
+            continue
+        if token.startswith(GENERATED_PATH_PREFIXES):
             continue
         if not (root / token).exists():
             broken_paths.append(token)

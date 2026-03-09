@@ -1,7 +1,7 @@
 # lazy_jump_ext_rev2 (v2 revision)
 
 ## Quick start
-Run commands from `reports/ring_lazy_jump_ext_rev2/`.
+Run commands from `research/reports/ring_lazy_jump_ext_rev2/`.
 
 ```
 make fig2

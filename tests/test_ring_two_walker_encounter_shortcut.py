@@ -11,7 +11,7 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REPORT = ROOT / "reports" / "ring_two_walker_encounter_shortcut"
+REPORT = ROOT / "research" / "reports" / "ring_two_walker_encounter_shortcut"
 DATA = REPORT / "artifacts" / "data"
 FIGURES = REPORT / "artifacts" / "figures"
 TABLES = REPORT / "artifacts" / "tables"

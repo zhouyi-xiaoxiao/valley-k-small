@@ -13,8 +13,8 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PYTHON = sys.executable or "python3"
-SITE_DIR = REPO_ROOT / "site"
-OUT_DIR = REPO_ROOT / "artifacts" / "deliverables"
+SITE_DIR = REPO_ROOT / "platform" / "web"
+OUT_DIR = REPO_ROOT / ".local" / "deliverables"
 
 
 def utc_now_iso() -> str:
@@ -37,13 +37,13 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     steps: list[dict[str, Any]] = []
 
-    steps.append(run_step("Agent-A-WebData", [PYTHON, "scripts/build_web_data.py", "--mode", mode]))
-    steps.append(run_step("Agent-B-BookData-Glossary", [PYTHON, "scripts/build_glossary.py"]))
-    steps.append(run_step("Agent-C-BookData-Chapters", [PYTHON, "scripts/build_book_content.py"]))
-    steps.append(run_step("Agent-C2-BookBackbone", [PYTHON, "scripts/build_book_backbone.py"]))
-    steps.append(run_step("Agent-D-TranslationQC", [PYTHON, "scripts/validate_bilingual_quality.py"]))
-    steps.append(run_step("Agent-E-AgentSync", [PYTHON, "scripts/build_agent_sync.py"]))
-    steps.append(run_step("Agent-F-Validate", [PYTHON, "scripts/validate_web_data.py"]))
+    steps.append(run_step("Agent-A-WebData", [PYTHON, "platform/tools/web/build_web_data.py", "--mode", mode]))
+    steps.append(run_step("Agent-B-BookData-Glossary", [PYTHON, "platform/tools/web/build_glossary.py"]))
+    steps.append(run_step("Agent-C-BookData-Chapters", [PYTHON, "platform/tools/web/build_book_content.py"]))
+    steps.append(run_step("Agent-C2-BookBackbone", [PYTHON, "platform/tools/web/build_book_backbone.py"]))
+    steps.append(run_step("Agent-D-TranslationQC", [PYTHON, "platform/tools/web/validate_bilingual_quality.py"]))
+    steps.append(run_step("Agent-E-AgentSync", [PYTHON, "platform/tools/web/build_agent_sync.py"]))
+    steps.append(run_step("Agent-F-Validate", [PYTHON, "platform/tools/web/validate_web_data.py"]))
 
     if not skip_site_build:
         steps.append(
@@ -70,13 +70,13 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
             }
         )
 
-    steps.append(run_step("Agent-H-PublicationEN", [PYTHON, "scripts/build_publication_pdf.py", "--lang", "en"]))
-    steps.append(run_step("Agent-I-PublicationCN", [PYTHON, "scripts/build_publication_pdf.py", "--lang", "cn"]))
-    steps.append(run_step("Agent-J-AgentPack", [PYTHON, "scripts/build_agent_pack.py"]))
+    steps.append(run_step("Agent-H-PublicationEN", [PYTHON, "platform/tools/web/build_publication_pdf.py", "--lang", "en"]))
+    steps.append(run_step("Agent-I-PublicationCN", [PYTHON, "platform/tools/web/build_publication_pdf.py", "--lang", "cn"]))
+    steps.append(run_step("Agent-J-AgentPack", [PYTHON, "platform/tools/web/build_agent_pack.py"]))
 
     content_cmd = [
         PYTHON,
-        "scripts/run_content_iteration.py",
+        "platform/tools/automation/run_content_iteration.py",
         "--rounds",
         str(max(1, int(content_rounds))),
         "--mode",
@@ -97,10 +97,10 @@ def build_all(*, mode: str, skip_site_build: bool, skip_openclaw: bool, content_
         "steps": steps,
         "deliverables": {
             "website": "https://zhouyi-xiaoxiao.github.io/valley-k-small/",
-            "publication_en": "artifacts/deliverables/publication/valley_k_small_compendium_en.pdf",
-            "publication_cn": "artifacts/deliverables/publication/valley_k_small_compendium_cn.pdf",
-            "agent_pack": "artifacts/deliverables/agent_pack/v1",
-            "content_iteration": "artifacts/checks/content_iteration/summary.json",
+            "publication_en": ".local/deliverables/publication/valley_k_small_compendium_en.pdf",
+            "publication_cn": ".local/deliverables/publication/valley_k_small_compendium_cn.pdf",
+            "agent_pack": ".local/deliverables/agent_pack/v1",
+            "content_iteration": ".local/checks/content_iteration/summary.json",
         },
     }
     out_path = OUT_DIR / "delivery_manifest.json"

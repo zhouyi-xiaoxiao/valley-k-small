@@ -111,7 +111,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     root = repo_root()
-    archive_root = root / "archives" / "reports" / "_legacy_named_artifacts"
+    archive_root = root / "research" / "archives" / "reports" / "_legacy_named_artifacts"
     manifest_path = archive_root / "manifest.jsonl"
 
     try:

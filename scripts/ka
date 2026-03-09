@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-KEEPALIVE="$ROOT/scripts/keepalive"
+KEEPALIVE_CTL="$ROOT/platform/tools/automation/keepalive_ctl.py"
 
 usage() {
   cat <<'EOF'
@@ -27,9 +27,9 @@ case "$cmd" in
     shift 2
     task="${*:-}"
     if [[ -n "$task" ]]; then
-      exec "$KEEPALIVE" up-codex --name "$name" --task "$task"
+      exec python3 "$KEEPALIVE_CTL" up-codex --name "$name" --task "$task"
     fi
-    exec "$KEEPALIVE" up-codex --name "$name" --task-type optimize
+    exec python3 "$KEEPALIVE_CTL" up-codex --name "$name" --task-type optimize
     ;;
   start-local)
     name="${2:-}"
@@ -37,9 +37,9 @@ case "$cmd" in
     shift 2
     task="${*:-}"
     if [[ -n "$task" ]]; then
-      exec "$KEEPALIVE" up-codex-local --name "$name" --task "$task"
+      exec python3 "$KEEPALIVE_CTL" up-codex-local --name "$name" --task "$task"
     fi
-    exec "$KEEPALIVE" up-codex-local --name "$name" --task-type optimize
+    exec python3 "$KEEPALIVE_CTL" up-codex-local --name "$name" --task-type optimize
     ;;
   start-as)
     profile="${2:-}"
@@ -48,9 +48,9 @@ case "$cmd" in
     shift 3
     task="${*:-}"
     if [[ -n "$task" ]]; then
-      exec "$KEEPALIVE" up-codex --name "$name" --task-type "$profile" --task "$task"
+      exec python3 "$KEEPALIVE_CTL" up-codex --name "$name" --task-type "$profile" --task "$task"
     fi
-    exec "$KEEPALIVE" up-codex --name "$name" --task-type "$profile"
+    exec python3 "$KEEPALIVE_CTL" up-codex --name "$name" --task-type "$profile"
     ;;
   start-as-local)
     profile="${2:-}"
@@ -59,25 +59,25 @@ case "$cmd" in
     shift 3
     task="${*:-}"
     if [[ -n "$task" ]]; then
-      exec "$KEEPALIVE" up-codex-local --name "$name" --task-type "$profile" --task "$task"
+      exec python3 "$KEEPALIVE_CTL" up-codex-local --name "$name" --task-type "$profile" --task "$task"
     fi
-    exec "$KEEPALIVE" up-codex-local --name "$name" --task-type "$profile"
+    exec python3 "$KEEPALIVE_CTL" up-codex-local --name "$name" --task-type "$profile"
     ;;
   status)
     name="${2:-}"
     [[ -n "$name" ]] || { usage; exit 1; }
-    exec "$KEEPALIVE" status --name "$name"
+    exec python3 "$KEEPALIVE_CTL" status --name "$name"
     ;;
   stop)
     name="${2:-}"
     [[ -n "$name" ]] || { usage; exit 1; }
-    exec "$KEEPALIVE" down --name "$name"
+    exec python3 "$KEEPALIVE_CTL" down --name "$name"
     ;;
   logs)
     name="${2:-}"
     tail_n="${3:-120}"
     [[ -n "$name" ]] || { usage; exit 1; }
-    exec "$KEEPALIVE" logs --name "$name" --tail "$tail_n"
+    exec python3 "$KEEPALIVE_CTL" logs --name "$name" --tail "$tail_n"
     ;;
   *)
     usage

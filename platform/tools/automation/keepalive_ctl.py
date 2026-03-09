@@ -16,11 +16,11 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-KEEPALIVE_ROOT = REPO_ROOT / "artifacts" / "keepalive"
+KEEPALIVE_ROOT = REPO_ROOT / ".local" / "keepalive"
 JOB_DIR = KEEPALIVE_ROOT / "jobs"
 RUNS_DIR = KEEPALIVE_ROOT / "runs"
 LAUNCH_AGENTS_DIR = Path.home() / "Library" / "LaunchAgents"
-RUNNER_SCRIPT = REPO_ROOT / "scripts" / "keepalive_runner.py"
+RUNNER_SCRIPT = REPO_ROOT / "platform" / "tools" / "automation" / "keepalive_runner.py"
 PYTHON_BIN = "/usr/bin/python3"
 DEFAULT_INTERVAL_SECONDS = 900
 DEFAULT_TIMEOUT_SECONDS = 5400
@@ -607,7 +607,7 @@ def cmd_status(args: argparse.Namespace) -> int:
             print("hint_local:")
             print(
                 "Use local background mode to bypass launchd for this path: "
-                f"./scripts/keepalive up-codex-local --name {name} --task-type optimize --task '持续优化当前项目并自动修复失败，不要停'"
+                f"./scripts/ka start-local {name} 持续优化当前项目并自动修复失败，不要停"
             )
     return 0
 

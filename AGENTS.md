@@ -1,52 +1,53 @@
 # Repository Guidelines
 
-## Current Layout
-- `research/reports/<report_id>/` is the canonical home for each report.
-  - `code/`: report entry scripts
-  - `notes/`: report notes and reproduction guidance
-  - `manuscript/`: TeX/PDF sources, extras, aux build dir
-  - `artifacts/`: figures, tables, data, outputs
-- `research/docs/`: research brief, research logs, submission material.
-- `research/archives/`: archived timestamp runs and legacy artifacts.
-- `platform/web/`: Next.js site and generated public payloads.
-- `platform/tools/`: real script implementations split into `repo/`, `web/`, and `automation/`.
-- `platform/schemas/`: JSON schemas.
-- `platform/skills/`: Codex skill material.
-- `packages/vkcore/src/vkcore/`: shared Python core library.
-- `scripts/`: thin compatibility wrappers and shell entrypoints.
+## Repo Contract
+- The repository is agent-first: agents are the primary operators and maintainers.
+- Human involvement is mainly natural-language direction, debugging help, and directional feedback on PDF outputs.
+- Canonical research content lives under `research/`.
+- Canonical platform and automation code lives under `platform/`.
+- Shared Python code lives under `packages/vkcore/src/vkcore/`.
+- Public script surface is only:
+  - `python3 scripts/reportctl.py`
+  - `./scripts/ka`
 
-## Research Summary Upkeep
-- Maintain `research/docs/RESEARCH_SUMMARY.md` as the single ChatGPT-ready research brief.
-- On every Codex run in this repo, refresh the "最后更新" date and update any sections affected by your changes.
-- Use `python3 scripts/update_research_summary.py` to refresh the date and the auto index block.
-- When adding/removing reports or docs, update `research/reports/README.md` and `research/docs/README.md`.
+## Report Layout
+- Each report lives at `research/reports/<report_id>/`.
+- Required top-level subdirectories:
+  - `code/`
+  - `notes/`
+  - `manuscript/`
+  - `artifacts/`
+- Report roots should not keep loose `*.tex` or `*.pdf`.
+
+## Mandatory Upkeep
+- Keep `research/docs/RESEARCH_SUMMARY.md` current.
+- After edits that affect the repo brief or report inventory, run:
+  - `python3 scripts/reportctl.py summary`
+- When adding or removing reports/docs, update:
+  - `research/reports/README.md`
+  - `research/docs/README.md`
+
+## Validation
+- Registry: `python3 scripts/reportctl.py validate-registry`
+- Archives: `python3 scripts/reportctl.py validate-archives`
+- Docs paths: `python3 scripts/reportctl.py check-docs-paths`
+- Full repo health: `python3 scripts/reportctl.py doctor`
+- Fast audit: `python3 scripts/reportctl.py audit --fast`
 
 ## Cleanup
-- Use `python3 scripts/cleanup_local.py` to remove local artifacts (`.DS_Store`, `__pycache__`, `build/`, `*.pyc`).
-- Use `python3 scripts/cleanup_local.py --include-venv` only when you intend to remove local virtualenvs.
-- Use `python3 scripts/cleanup_local.py --include-runtime` to clean runtime noise under `platform/runtime/` and related local caches.
+- Safe cleanup: `python3 scripts/reportctl.py cleanup`
+- Include hidden runtime state: `python3 scripts/reportctl.py cleanup --include-runtime`
+- Include virtualenvs only intentionally: `python3 scripts/reportctl.py cleanup --include-venv`
 
 ## Keepalive
-- Prefer `./scripts/ka` for recurring autonomous Codex execution.
-- Natural-language intent mapping:
-  - "启动自动优化/持续跑": `./scripts/ka start <job> [task text...]`
-  - "自动审查/定时 review": `./scripts/ka start-as review <job> [task text...]`
-  - "自动构建/持续构建": `./scripts/ka start-as build <job> [task text...]`
-  - "巡检/监控": `./scripts/ka start-as monitor <job> [task text...]`
-- Default keepalive Codex runtime: `gpt-5.3-codex` with `xhigh` reasoning effort unless the user overrides it.
-
-## Build and Test
-- Install Python deps: `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
-- List or resolve reports: `python3 scripts/reportctl.py list`
-- Build a report: `python3 scripts/reportctl.py build --report <id> --lang <cn|en>`
-- Fast repo audit: `python3 scripts/reportctl.py audit --fast`
-- Health check: `python3 scripts/reportctl.py doctor`
+- Prefer `./scripts/ka` for recurring Codex execution.
+- Natural-language mapping:
+  - “启动自动优化/持续跑” -> `./scripts/ka start <job> [task text...]`
+  - “自动审查/定时 review” -> `./scripts/ka start-as review <job> [task text...]`
+  - “自动构建/持续构建” -> `./scripts/ka start-as build <job> [task text...]`
+  - “巡检/监控” -> `./scripts/ka start-as monitor <job> [task text...]`
 
 ## Conventions
 - Python: 4-space indentation, type hints preferred, `snake_case` for functions/variables, `CamelCase` for classes/dataclasses.
-- Keep outputs deterministic when practical.
-- Do not commit local environments, LaTeX aux files, `.next/`, `out/`, `node_modules/`, or runtime logs.
-
-## Compatibility
-- Root-level `reports/`, `docs/`, `archives/`, `site/`, `schemas/`, `skills/`, `src/`, and `artifacts/` may exist as symlinks for backward compatibility.
-- New edits should target `research/`, `platform/`, and `packages/` paths directly.
+- Keep generated outputs deterministic when practical.
+- Do not commit `.venv/`, `venv/`, `build/`, `.next/`, `out/`, `node_modules/`, `__pycache__/`, `*.pyc`, or `.local/`.

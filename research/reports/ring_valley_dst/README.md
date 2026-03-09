@@ -3,13 +3,13 @@
 This report studies DST-driven second-peak modulation on ring lattices (CN/EN).
 
 ## Entry scripts (thin wrappers)
-- `reports/ring_valley_dst/code/bimodality_flux_scan.py`
-- `reports/ring_valley_dst/code/dst_shortcut_usage_mc.py`
-- `reports/ring_valley_dst/code/second_peak_scan.py`
-- `reports/ring_valley_dst/code/second_peak_shortcut_usage_mc.py`
+- `research/reports/ring_valley_dst/code/bimodality_flux_scan.py`
+- `research/reports/ring_valley_dst/code/dst_shortcut_usage_mc.py`
+- `research/reports/ring_valley_dst/code/second_peak_scan.py`
+- `research/reports/ring_valley_dst/code/second_peak_shortcut_usage_mc.py`
 
 Core implementation now lives in:
-- `src/vkcore/ring/valley_dst/`
+- `packages/vkcore/src/vkcore/ring/valley_dst/`
 
 ## Quick run
 From repo root:

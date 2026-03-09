@@ -12,8 +12,8 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PYTHON = sys.executable or "python3"
-DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
-OUT_DIR = REPO_ROOT / "artifacts" / "checks" / "content_iteration"
+DATA_ROOT = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
+OUT_DIR = REPO_ROOT / ".local" / "checks" / "content_iteration"
 
 
 def utc_now_iso() -> str:
@@ -88,7 +88,7 @@ def collect_local_metrics() -> dict[str, Any]:
 
 
 def parse_openclaw_score() -> int | None:
-    path = REPO_ROOT / "artifacts" / "checks" / "openclaw_review.json"
+    path = REPO_ROOT / ".local" / "checks" / "openclaw_review.json"
     if not path.exists():
         return None
     try:
@@ -107,17 +107,17 @@ def parse_openclaw_score() -> int | None:
 
 def run_round(round_idx: int, *, mode: str, build_site: bool, with_openclaw: bool) -> dict[str, Any]:
     steps: list[dict[str, Any]] = []
-    steps.append(run([PYTHON, "scripts/build_web_data.py", "--mode", mode], timeout=2400))
-    steps.append(run([PYTHON, "scripts/build_glossary.py"], timeout=900))
-    steps.append(run([PYTHON, "scripts/build_book_content.py"], timeout=900))
-    steps.append(run([PYTHON, "scripts/build_book_backbone.py"], timeout=900))
-    steps.append(run([PYTHON, "scripts/validate_bilingual_quality.py"], timeout=900))
-    steps.append(run([PYTHON, "scripts/build_agent_sync.py"], timeout=900))
-    steps.append(run([PYTHON, "scripts/validate_web_data.py"], timeout=900))
+    steps.append(run([PYTHON, "platform/tools/web/build_web_data.py", "--mode", mode], timeout=2400))
+    steps.append(run([PYTHON, "platform/tools/web/build_glossary.py"], timeout=900))
+    steps.append(run([PYTHON, "platform/tools/web/build_book_content.py"], timeout=900))
+    steps.append(run([PYTHON, "platform/tools/web/build_book_backbone.py"], timeout=900))
+    steps.append(run([PYTHON, "platform/tools/web/validate_bilingual_quality.py"], timeout=900))
+    steps.append(run([PYTHON, "platform/tools/web/build_agent_sync.py"], timeout=900))
+    steps.append(run([PYTHON, "platform/tools/web/validate_web_data.py"], timeout=900))
     if build_site:
-        steps.append(run(["npm", "run", "build"], cwd=REPO_ROOT / "site", timeout=2400))
+        steps.append(run(["npm", "run", "build"], cwd=REPO_ROOT / "platform" / "web", timeout=2400))
     if with_openclaw:
-        steps.append(run([PYTHON, "scripts/run_openclaw_review.py"], timeout=2400))
+        steps.append(run([PYTHON, "platform/tools/automation/run_openclaw_review.py"], timeout=2400))
 
     ok = all(bool(step["ok"]) for step in steps)
     local_metrics = collect_local_metrics()

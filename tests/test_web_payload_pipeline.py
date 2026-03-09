@@ -14,7 +14,7 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
 
     cmd_web_data = [
         "python3",
-        "scripts/build_web_data.py",
+        "platform/tools/web/build_web_data.py",
         "--mode",
         "full",
         "--reports",
@@ -46,7 +46,7 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
 
     cmd_agent = [
         "python3",
-        "scripts/build_agent_sync.py",
+        "platform/tools/web/build_agent_sync.py",
         "--data-root",
         str(data_root),
         "--checks-dir",
@@ -54,7 +54,7 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
     ]
     cmd_book_glossary = [
         "python3",
-        "scripts/build_glossary.py",
+        "platform/tools/web/build_glossary.py",
         "--data-root",
         str(data_root),
     ]
@@ -70,7 +70,7 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
 
     cmd_book_content = [
         "python3",
-        "scripts/build_book_content.py",
+        "platform/tools/web/build_book_content.py",
         "--data-root",
         str(data_root),
     ]
@@ -86,7 +86,7 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
 
     cmd_translation_qc = [
         "python3",
-        "scripts/validate_bilingual_quality.py",
+        "platform/tools/web/validate_bilingual_quality.py",
         "--data-root",
         str(data_root),
     ]
@@ -112,7 +112,7 @@ def test_web_payload_pipeline_smoke(tmp_path: Path) -> None:
 
     cmd_validate = [
         "python3",
-        "scripts/validate_web_data.py",
+        "platform/tools/web/validate_web_data.py",
         "--data-root",
         str(data_root),
     ]

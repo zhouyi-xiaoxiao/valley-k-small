@@ -15,7 +15,7 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-KEEPALIVE_ROOT = REPO_ROOT / "artifacts" / "keepalive"
+KEEPALIVE_ROOT = REPO_ROOT / ".local" / "keepalive"
 
 
 def utc_now_iso() -> str:

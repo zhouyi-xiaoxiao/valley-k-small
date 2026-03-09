@@ -10,8 +10,8 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
-DEFAULT_CHECKS_DIR = REPO_ROOT / "artifacts" / "checks"
+DEFAULT_DATA_ROOT = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
+DEFAULT_CHECKS_DIR = REPO_ROOT / ".local" / "checks"
 
 
 def utc_now_iso() -> str:
@@ -275,7 +275,7 @@ def main() -> int:
         "backbone_spine_covered": len(list(book_backbone.get("chapter_spine", []))) == len(chapter_rows),
     }
 
-    publication_dir = REPO_ROOT / "artifacts" / "deliverables" / "publication"
+    publication_dir = REPO_ROOT / ".local" / "deliverables" / "publication"
     publication_ok = (publication_dir / "valley_k_small_compendium_en.pdf").exists() and (
         publication_dir / "valley_k_small_compendium_cn.pdf"
     ).exists()

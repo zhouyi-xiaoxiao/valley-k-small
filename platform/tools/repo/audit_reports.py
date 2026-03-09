@@ -18,8 +18,10 @@ from report_registry import load_registry
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REPORTS_ROOT = REPO_ROOT / "research" / "reports"
-TEX_JSON = REPORTS_ROOT / "_audit_all_tex_results.json"
-PY_JSON = REPORTS_ROOT / "_audit_python_results.json"
+AUDIT_ROOT = REPO_ROOT / "research" / "archives" / "meta" / "repo_audits"
+TEX_JSON = AUDIT_ROOT / "_audit_all_tex_results.json"
+PY_JSON = AUDIT_ROOT / "_audit_python_results.json"
+AUDIT_ROOT.mkdir(parents=True, exist_ok=True)
 
 LATEXMK_COMMON = [
     "latexmk",
@@ -53,8 +55,8 @@ def detect_engine(tex_path: Path) -> str:
 
 def run_metadata_validation() -> None:
     checks = (
-        ("registry", ["python3", "scripts/validate_registry.py"]),
-        ("archives", ["python3", "scripts/validate_archives.py"]),
+        ("registry", ["python3", "platform/tools/repo/validate_registry.py"]),
+        ("archives", ["python3", "platform/tools/repo/validate_archives.py"]),
     )
     for name, cmd in checks:
         proc = subprocess.run(cmd, cwd=REPO_ROOT, check=False)

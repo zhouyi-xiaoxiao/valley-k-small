@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_active_docs_paths_are_valid() -> None:
     proc = subprocess.run(
-        ["python3", "scripts/check_docs_paths.py"],
+        ["python3", "scripts/reportctl.py", "check-docs-paths"],
         cwd=ROOT,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,

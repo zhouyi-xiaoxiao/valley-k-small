@@ -31,7 +31,7 @@ Per round:
 - run `py_compile`,
 - run `code/check_encounter_consistency.py` (including table/snippet vs JSON/CSV consistency),
 - run `pytest -q tests/test_ring_two_walker_encounter_shortcut.py`,
-- refresh `docs/RESEARCH_SUMMARY.md` auto date/index via `scripts/update_research_summary.py`,
+- refresh `research/docs/RESEARCH_SUMMARY.md` via `python3 scripts/reportctl.py summary`,
 - if LaTeX fails, auto-clean (`latexmk -C`) and retry once.
 
 ## Outputs

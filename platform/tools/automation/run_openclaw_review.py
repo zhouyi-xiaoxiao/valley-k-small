@@ -13,8 +13,8 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_OUT = REPO_ROOT / "artifacts" / "checks" / "openclaw_review.json"
-DEFAULT_HISTORY = REPO_ROOT / "artifacts" / "checks" / "openclaw_review_history.jsonl"
+DEFAULT_OUT = REPO_ROOT / ".local" / "checks" / "openclaw_review.json"
+DEFAULT_HISTORY = REPO_ROOT / ".local" / "checks" / "openclaw_review_history.jsonl"
 
 
 def utc_now_iso() -> str:
@@ -334,7 +334,7 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
                 if rid and stage:
                     stage_by_report.setdefault(rid, set()).add(stage)
                 lowered = text_en.lower()
-                if re.search(r"(?:^|\s)(?:`|reports/|code/|scripts/|site/public/|\.github/)", lowered) or (
+                if re.search(r"(?:^|\s)(?:`|research/reports/|code/|scripts/|platform/web/public/|\.github/)", lowered) or (
                     "source_document" in lowered and ".json" in lowered
                 ):
                     operational_like_claim_ids.append(str(row.get("claim_id", "")))
@@ -418,12 +418,12 @@ def build_prompt(repo_root: Path, compact_snapshot: dict[str, Any]) -> str:
         f"Review repository: {repo_root.as_posix()}. "
         "Focus only on content coherence, mathematical continuity, interaction quality, and verifiability. "
         "Cross-check these files: "
-        "site/src/lib/render-pages.tsx, site/src/lib/render-book-pages.tsx, site/src/components/ReportPlotPanel.tsx, "
-        "site/public/data/v1/index.json, site/public/data/v1/theory_map.json, "
-        "site/public/data/v1/report_network.json, site/public/data/v1/content_map.json, "
-        "site/public/data/v1/book/book_manifest.json, site/public/data/v1/book/toc.json, "
-        "artifacts/deliverables/publication/valley_k_small_compendium_en.pdf. "
-        "Sample-check at least 5 report metadata files under site/public/data/v1/reports/*/meta.json. "
+        "platform/web/src/lib/render-pages.tsx, platform/web/src/lib/render-book-pages.tsx, platform/web/src/components/ReportPlotPanel.tsx, "
+        "platform/web/public/data/v1/index.json, platform/web/public/data/v1/theory_map.json, "
+        "platform/web/public/data/v1/report_network.json, platform/web/public/data/v1/content_map.json, "
+        "platform/web/public/data/v1/book/book_manifest.json, platform/web/public/data/v1/book/toc.json, "
+        ".local/deliverables/publication/valley_k_small_compendium_en.pdf. "
+        "Sample-check at least 5 report metadata files under platform/web/public/data/v1/reports/*/meta.json. "
         f"Deterministic local snapshot: {json.dumps(compact_snapshot, ensure_ascii=False)}. "
         "Respect snapshot unless you provide explicit conflicting file evidence. "
         "Return ONLY compact JSON with keys: "

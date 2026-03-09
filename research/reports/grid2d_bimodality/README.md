@@ -25,9 +25,9 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-
 ```
 
 ## Configs
-- `reports/grid2d_bimodality/config/cases.json` stores the tuned A/B/C parameters and classification rules.
-- `reports/grid2d_bimodality/config/cases_v1.json` stores the early A/B/C parameters.
-- `reports/grid2d_bimodality/config/cases_v3.json` stores explicit geometry lists (barriers/doors/sticky/bias arrows).
+- `research/reports/grid2d_bimodality/config/cases.json` stores the tuned A/B/C parameters and classification rules.
+- `research/reports/grid2d_bimodality/config/cases_v1.json` stores the early A/B/C parameters.
+- `research/reports/grid2d_bimodality/config/cases_v3.json` stores explicit geometry lists (barriers/doors/sticky/bias arrows).
 
 ## Legacy v1 reproduce (recorded)
 
@@ -36,7 +36,7 @@ MPLCONFIGDIR=reports/grid2d_bimodality/.mplcache python3 reports/grid2d_bimodali
 ```
 
 ## Outputs
-- Figures: `reports/grid2d_bimodality/figures/`
+- Figures: `research/reports/grid2d_bimodality/figures/`
   - Environment: `env/candidate_{A,B,C}_env.pdf`, `env/symbol_legend.pdf`
   - Fig3 panels: `fig3_panels/candidate_{A,B,C}_fig3_panel.pdf`, `fig3_panels/channel_cartoon.pdf`
   - Paths: `paths/candidate_{A,B,C}_paths_fast.pdf`, `paths/candidate_{A,B,C}_paths_slow.pdf`
@@ -44,9 +44,9 @@ MPLCONFIGDIR=reports/grid2d_bimodality/.mplcache python3 reports/grid2d_bimodali
   - Channel mix: `channel_decomp/candidate_{A,B,C}_channel_decomp.pdf`, `channel_decomp/candidate_B_scan.pdf`
   - Unwrapped: `unwrapped/candidate_{A,B,C}_unwrapped.pdf`
   - Gallery: `gallery.html`
-- Data: `reports/grid2d_bimodality/data/candidate_*_metrics.json`
+- Data: `research/reports/grid2d_bimodality/data/candidate_*_metrics.json`
 - Repro artifacts: `candidate_*_aw_input.npz`, `candidate_*_aw_output.npz`, `candidate_*_paths.npz`, `candidate_*_Pt_times.npz`
-- Report: `reports/grid2d_bimodality/grid2d_bimodality_cn.pdf` (Chinese), `reports/grid2d_bimodality/grid2d_bimodality_en.pdf` (English)
+- Report: `research/reports/grid2d_bimodality/grid2d_bimodality_cn.pdf` (Chinese), `research/reports/grid2d_bimodality/grid2d_bimodality_en.pdf` (English)
 
 ## Key results
 - Candidate A: periodic wrap-around produces bimodality with two time scales; AW/exact/MC overlap.

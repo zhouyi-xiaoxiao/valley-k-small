@@ -10,17 +10,22 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+REPO_TOOL_DIR = Path(__file__).resolve().parents[1] / "repo"
+if str(REPO_TOOL_DIR) not in sys.path:
+    sys.path.insert(0, str(REPO_TOOL_DIR))
+
 from report_registry import load_registry
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_OUTPUT_DIR = REPO_ROOT / "site" / "public" / "data" / "v1"
-DEFAULT_ARTIFACTS_DIR = REPO_ROOT / "site" / "public" / "artifacts"
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
+DEFAULT_ARTIFACTS_DIR = REPO_ROOT / "platform" / "web" / "public" / "artifacts"
 TEXT_EXT = {".md", ".tex", ".txt"}
 FIGURE_EXT = {".pdf", ".png", ".svg", ".jpg", ".jpeg", ".webp"}
 DATA_EXT = {".json", ".csv", ".npz"}
@@ -32,18 +37,21 @@ REPO_SYNC_INCLUDE_GLOBS = [
     "AGENTS.md",
     "requirements.txt",
     "pyproject.toml",
-    "docs/**/*.md",
-    "docs/**/*.tex",
-    "reports/**/*.tex",
-    "reports/**/README.md",
-    "reports/**/notes/*.md",
-    "reports/**/code/*.py",
+    "research/docs/**/*.md",
+    "research/docs/**/*.tex",
+    "research/reports/**/*.tex",
+    "research/reports/**/README.md",
+    "research/reports/**/notes/*.md",
+    "research/reports/**/code/*.py",
+    "platform/README.md",
+    "platform/tools/**/*.py",
+    "platform/skills/**/*.md",
+    "platform/agent/**/*.md",
     "scripts/README.md",
-    "scripts/**/*.py",
-    "src/**/*.py",
+    "scripts/reportctl.py",
+    "packages/vkcore/src/**/*.py",
     "tests/**/*.py",
-    "schemas/**/*.json",
-    "site/README.md",
+    "platform/schemas/**/*.json",
 ]
 REPO_SYNC_CATEGORY_LABELS: dict[str, dict[str, str]] = {
     "root": {"en": "Root Documents", "cn": "根目录文档"},
@@ -1042,7 +1050,7 @@ def looks_like_operational_note(text: str) -> bool:
     if re.search(r"\.(?:py|json|csv|tex|md)\b", lowered):
         if any(token in lowered for token in ("script", "config", "notes", "path", "workflow", "file")):
             return True
-    if lowered.startswith("`code/`") or lowered.startswith("`reports/`") or lowered.startswith("`outputs/`") or lowered.startswith("`tables/`"):
+    if lowered.startswith("`code/`") or lowered.startswith("`research/reports/`") or lowered.startswith("`outputs/`") or lowered.startswith("`tables/`"):
         return True
     if lowered in {"`code/`: data generation scripts.", "code/: data generation scripts."}:
         return True
@@ -1926,7 +1934,7 @@ def ensure_repro_commands(commands: list[str], report_id: str) -> list[str]:
         has_report_specific = any(
             report_id in cmd
             or f"--report {report_id}" in cmd
-            or f"reports/{report_id}" in cmd
+            or f"research/reports/{report_id}" in cmd
             or "reportctl.py build --report" in cmd
             for cmd in executable
         )
@@ -2540,7 +2548,7 @@ def parse_readme(report_dir: Path, report_id: str) -> tuple[str, str, list[str]]
             return True
         if "--" in stripped:
             return True
-        if "/" in stripped and any(token in lowered for token in ("reports/", "scripts/", ".py", ".json", ".tex")):
+        if "/" in stripped and any(token in lowered for token in ("research/reports/", "scripts/", ".py", ".json", ".tex")):
             return True
         return False
 
@@ -2803,7 +2811,7 @@ def detect_changed_reports(registry: list[dict[str, Any]]) -> set[str]:
     if not changed:
         return {item["id"] for item in registry}
 
-    if "reports/report_registry.yaml" in changed:
+    if "research/reports/report_registry.yaml" in changed:
         return {item["id"] for item in registry}
 
     matched: set[str] = set()
@@ -3119,6 +3127,28 @@ def sanitize_latex_for_katex(latex: str) -> str:
     value = normalize_space(strip_tex_comments(latex))
     if not value:
         return ""
+    if re.search(r"[，。；：（）【】［］｛｝％]", value):
+        if "\\" not in value:
+            return ""
+        value = value.translate(
+            str.maketrans(
+                {
+                    "，": ",",
+                    "。": ".",
+                    "；": ";",
+                    "：": ":",
+                    "（": "(",
+                    "）": ")",
+                    "【": "[",
+                    "】": "]",
+                    "［": "[",
+                    "］": "]",
+                    "｛": "{",
+                    "｝": "}",
+                    "％": "%",
+                }
+            )
+        )
     value = re.sub(r"\\(?:label|tag\*?)\{[^{}]*\}", " ", value)
     value = value.replace("\\nonumber", " ")
     value = value.replace("\\notag", " ")
@@ -5662,7 +5692,7 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build site/public/data/v1 web payloads from report assets.")
+    parser = argparse.ArgumentParser(description="Build platform/web/public/data/v1 web payloads from report assets.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--artifacts-dir", type=Path, default=DEFAULT_ARTIFACTS_DIR)
     parser.add_argument("--mode", choices=["full", "changed"], default="full")

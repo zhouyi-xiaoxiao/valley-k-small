@@ -1,9 +1,9 @@
 # 2D Reflecting-Boundary Bimodality Report
 
-This report mirrors `reports/grid2d_bimodality/` but replaces all periodic boundaries with reflecting boundaries and adds reflecting-boundary constructions (R1--R7 plus C3), minimal-lane variants (MB1--MB3), boundary-belt cases (NB1--NB5), and soft-track cases without internal barriers (S1/S2). The pipeline produces exact recursion, AW inversion, MC overlays, heatmaps, path densities, and channel decompositions. The main text highlights R1/R7/C3/R6/NB4/NB5/S1/S2 as representative cases.
+This report mirrors `research/reports/grid2d_bimodality/` but replaces all periodic boundaries with reflecting boundaries and adds reflecting-boundary constructions (R1--R7 plus C3), minimal-lane variants (MB1--MB3), boundary-belt cases (NB1--NB5), and soft-track cases without internal barriers (S1/S2). The pipeline produces exact recursion, AW inversion, MC overlays, heatmaps, path densities, and channel decompositions. The main text highlights R1/R7/C3/R6/NB4/NB5/S1/S2 as representative cases.
 
 The report-side script is a thin wrapper. Core pipeline code lives in:
-- `src/vkcore/grid2d/reflecting_blackboard/`
+- `packages/vkcore/src/vkcore/grid2d/reflecting_blackboard/`
 - `pipeline.py`: orchestration and case loop
 - `cases_reflecting.py`: case builders and case registry
 - `model.py` / `scans.py` / `plots.py` / `io.py`: shared implementation blocks

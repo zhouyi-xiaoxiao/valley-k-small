@@ -24,7 +24,7 @@ When asking analysis or reporting results, include:
 - Use report `README.md` / `notes/*.md` as the source of truth for command order.
 
 ## Canonical project context files
-- Global research brief: `docs/RESEARCH_SUMMARY.md`
-- Report index: `reports/README.md`
-- Docs index: `docs/README.md`
+- Global research brief: `research/docs/RESEARCH_SUMMARY.md`
+- Report index: `research/reports/README.md`
+- Docs index: `research/docs/README.md`
 - Script command index: `scripts/README.md`

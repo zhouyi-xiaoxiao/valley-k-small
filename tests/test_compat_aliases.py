@@ -3,20 +3,21 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "scripts"
-if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
+REPO_TOOLS = ROOT / "platform" / "tools" / "repo"
+if str(REPO_TOOLS) not in sys.path:
+    sys.path.insert(0, str(REPO_TOOLS))
 
 from report_registry import load_registry
 
 
-def test_no_compat_aliases_and_no_root_legacy_symlinks() -> None:
+def test_registry_has_no_compat_aliases() -> None:
     registry = load_registry()
     for item in registry:
-        canonical = ROOT / item["path"]
-        assert canonical.is_dir()
         assert item.get("aliases", []) == []
 
-    root_symlinks = [p for p in (ROOT / "reports").iterdir() if p.is_symlink()]
-    assert not root_symlinks, f"legacy symlinks should be removed: {root_symlinks}"
+
+def test_root_legacy_alias_targets_do_not_exist() -> None:
+    for name in ("reports", "docs", "archives", "site", "schemas", "skills", "src", "artifacts"):
+        assert not (ROOT / name).exists(), f"legacy root path still exists: {name}"

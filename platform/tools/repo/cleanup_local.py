@@ -13,12 +13,14 @@ VENV_DIRS = {".venv", "venv"}
 DEFAULT_FILE_SUFFIXES = {".pyc", ".pyo"}
 RUNTIME_RELATIVE_DIRS = {
     Path(".openclaw"),
-    Path("platform/runtime/loop"),
-    Path("platform/runtime/keepalive"),
-    Path("platform/runtime/checks/content_iteration"),
+    Path(".local/loop"),
+    Path(".local/keepalive"),
+    Path(".local/checks/content_iteration"),
+    Path(".local/deliverables"),
 }
 RUNTIME_RELATIVE_FILES = {
-    Path("platform/runtime/checks/openclaw_review_history.jsonl"),
+    Path(".local/checks/openclaw_review_history.jsonl"),
+    Path(".local/checks/openclaw_review.json"),
 }
 
 
@@ -43,7 +45,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--include-runtime",
         action="store_true",
-        help="Also remove runtime artifacts under platform/runtime/ and .openclaw/.",
+        help="Also remove hidden runtime artifacts under .local/ and .openclaw/.",
     )
     return parser.parse_args()
 

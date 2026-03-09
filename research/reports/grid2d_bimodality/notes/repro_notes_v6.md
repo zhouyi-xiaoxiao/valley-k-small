@@ -28,11 +28,11 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error \
 ```
 
 ## Current state (v5)
-1) Data + figures pipeline: `reports/grid2d_bimodality/code/bimodality_2d_pipeline.py`
-2) Plotting (v5): `reports/grid2d_bimodality/code/viz/fig3_style.py` and helpers in `reports/grid2d_bimodality/code/viz/`
-3) Case geometry: `reports/grid2d_bimodality/config/cases_v3.json`
-4) Report entry: `reports/grid2d_bimodality/2d_bimodality_cn_v5.tex` -> `reports/grid2d_bimodality/2d_bimodality_cn_v5.pdf`
-5) v5 figures: `reports/grid2d_bimodality/figures_v5/` (env/paths/heatmaps/FPT/channel_decomp/unwrapped)
+1) Data + figures pipeline: `research/reports/grid2d_bimodality/code/bimodality_2d_pipeline.py`
+2) Plotting (v5): `research/reports/grid2d_bimodality/code/viz/fig3_style.py` and helpers in `research/reports/grid2d_bimodality/code/viz/`
+3) Case geometry: `research/reports/grid2d_bimodality/config/cases_v3.json`
+4) Report entry: `research/reports/grid2d_bimodality/2d_bimodality_cn_v5.tex` -> `research/reports/grid2d_bimodality/2d_bimodality_cn_v5.pdf`
+5) v5 figures: `research/reports/grid2d_bimodality/figures_v5/` (env/paths/heatmaps/FPT/channel_decomp/unwrapped)
 
 ## v6 TODO (visual + mechanism fixes)
 - [ ] 多数轨迹图空白太大，需要 ROI 版式（主图全域 + 右侧 zoom / 或两栏 full+zoom）

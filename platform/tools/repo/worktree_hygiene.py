@@ -13,7 +13,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 GIT_GENERATED_PREFIXES = (
     "research/archives/",
-    "platform/runtime/",
+    ".local/",
     "platform/web/public/data/",
     "platform/web/public/artifacts/",
 )

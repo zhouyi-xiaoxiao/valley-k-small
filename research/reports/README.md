@@ -1,6 +1,6 @@
 # Research Reports
 
-每个报告目录都遵循同一骨架：
+所有报告统一遵循同一 v2 骨架：
 
 ```text
 research/reports/<report_id>/
@@ -21,34 +21,34 @@ research/reports/<report_id>/
     outputs/
 ```
 
-说明：
-- `code/` 放报告入口脚本与薄封装。
-- `notes/` 放说明、复现笔记、参考材料。
-- `manuscript/` 放主文稿与补充文稿。
-- `artifacts/` 放图、表、数据和派生产物。
-- 报告根目录不再放散落的 `*.tex` / `*.pdf`。
-- 根目录上的 `data/figures/tables/outputs` 若出现，属于兼容 symlink。
+## Rules
+- `code/` 存放报告入口脚本
+- `notes/` 存放说明、复现笔记与补充材料
+- `manuscript/` 存放主文稿、补充文稿与 LaTeX build 目录
+- `artifacts/` 存放 figures、tables、data、outputs
+- 报告根目录只允许 `README.md` 作为顶层常规文件
+- 报告根目录不再保留 loose `*.tex` or `*.pdf`
 
-## 报告索引
-- `research/reports/ring_lazy_jump/`
-- `research/reports/ring_lazy_jump_ext/`
-- `research/reports/ring_lazy_jump_ext_rev2/`
-- `research/reports/ring_lazy_flux/`
-- `research/reports/ring_valley/`
-- `research/reports/ring_valley_dst/`
-- `research/reports/ring_deriv_k2/`
-- `research/reports/ring_two_target/`
-- `research/reports/ring_two_walker_encounter_shortcut/`
-- `research/reports/grid2d_bimodality/`
-- `research/reports/grid2d_reflecting_bimodality/`
-- `research/reports/grid2d_blackboard_bimodality/`
-- `research/reports/grid2d_two_target_double_peak/`
-- `research/reports/grid2d_two_walker_encounter_shortcut/`
-- `research/reports/grid2d_rect_bimodality/`
-- `research/reports/grid2d_membrane_near_target/`
-- `research/reports/cross_luca_regime_map/`
+## Active Report IDs
+- `ring_lazy_jump`
+- `ring_lazy_jump_ext`
+- `ring_lazy_jump_ext_rev2`
+- `ring_lazy_flux`
+- `ring_valley`
+- `ring_valley_dst`
+- `ring_deriv_k2`
+- `ring_two_target`
+- `ring_two_walker_encounter_shortcut`
+- `grid2d_bimodality`
+- `grid2d_reflecting_bimodality`
+- `grid2d_blackboard_bimodality`
+- `grid2d_two_target_double_peak`
+- `grid2d_two_walker_encounter_shortcut`
+- `grid2d_rect_bimodality`
+- `grid2d_membrane_near_target`
+- `cross_luca_regime_map`
 
-## 常用命令
+## Common Commands
 - `python3 scripts/reportctl.py list`
 - `python3 scripts/reportctl.py resolve --report ring_valley_dst`
 - `python3 scripts/reportctl.py run --report ring_valley_dst -- python3 code/bimodality_flux_scan.py --help`

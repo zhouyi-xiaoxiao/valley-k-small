@@ -13,13 +13,14 @@ __pycache__/
 
 # Local agent/runtime outputs
 .openclaw/
-artifacts/loop/
-artifacts/checks/*.json
-artifacts/deliverables/
+.local/
 
 # Generated web payloads (rebuilt in CI)
-site/public/data/v1/
-site/public/artifacts/
+platform/web/.next/
+platform/web/out/
+platform/web/node_modules/
+platform/web/public/data/v1/
+platform/web/public/artifacts/
 
 # LaTeX build outputs
 build/

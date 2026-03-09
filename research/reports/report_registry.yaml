@@ -1,0 +1,172 @@
+version: 3
+reports:
+  - id: grid2d_bimodality
+    aliases: []
+    path: research/reports/grid2d_bimodality
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_bimodality_cn.tex, grid2d_bimodality_en.tex]
+    entry_scripts: [code/bimodality_2d_pipeline.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_blackboard_bimodality
+    aliases: []
+    path: research/reports/grid2d_blackboard_bimodality
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_blackboard_bimodality_cn.tex, grid2d_blackboard_bimodality_en.tex]
+    entry_scripts: [code/blackboard_bimodality_pipeline.py, code/z_scan.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_rect_bimodality
+    aliases: []
+    path: research/reports/grid2d_rect_bimodality
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_rect_bimodality_cn.tex, grid2d_rect_bimodality_en.tex]
+    entry_scripts: [code/rect_bimodality_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_membrane_near_target
+    aliases: []
+    path: research/reports/grid2d_membrane_near_target
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_membrane_near_target_cn.tex, grid2d_membrane_near_target_en.tex]
+    entry_scripts: [code/membrane_near_target_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_reflecting_bimodality
+    aliases: []
+    path: research/reports/grid2d_reflecting_bimodality
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_reflecting_bimodality_cn.tex, grid2d_reflecting_bimodality_en.tex]
+    entry_scripts: [code/reflecting_bimodality_pipeline.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_two_target_double_peak
+    aliases: []
+    path: research/reports/grid2d_two_target_double_peak
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_two_target_double_peak_cn.tex, grid2d_two_target_double_peak_en.tex]
+    entry_scripts: [code/two_target_2d_report.py, code/compare_numeric_methods.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_two_walker_encounter_shortcut
+    aliases: []
+    path: research/reports/grid2d_two_walker_encounter_shortcut
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_two_walker_encounter_shortcut_cn.tex, grid2d_two_walker_encounter_shortcut_en.tex]
+    entry_scripts: [code/two_walker_encounter_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_two_walker_encounter_shortcut
+    aliases: []
+    path: research/reports/ring_two_walker_encounter_shortcut
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_two_walker_encounter_shortcut_cn.tex, ring_two_walker_encounter_shortcut_en.tex]
+    entry_scripts: [code/two_walker_ring_encounter_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_deriv_k2
+    aliases: []
+    path: research/reports/ring_deriv_k2
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_deriv_k2.tex]
+    entry_scripts: []
+    languages: [en]
+    archive_policy: keep
+    status: active
+  - id: ring_lazy_flux
+    aliases: []
+    path: research/reports/ring_lazy_flux
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_lazy_flux_cn.tex, ring_lazy_flux_en.tex]
+    entry_scripts: [code/lazy_ring_flux_bimodality.py, code/valley_study.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_lazy_jump
+    aliases: []
+    path: research/reports/ring_lazy_jump
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_lazy_jump_cn.tex, ring_lazy_jump_en.tex]
+    entry_scripts: [code/jumpover_bimodality_pipeline.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_lazy_jump_ext
+    aliases: []
+    path: research/reports/ring_lazy_jump_ext
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_lazy_jump_ext_cn.tex, ring_lazy_jump_ext_en.tex]
+    entry_scripts: [code/jumpover_bimodality_pipeline.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_lazy_jump_ext_rev2
+    aliases: []
+    path: research/reports/ring_lazy_jump_ext_rev2
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_lazy_jump_ext_rev2_cn.tex, ring_lazy_jump_ext_rev2_en.tex]
+    entry_scripts: [code/jumpover_bimodality_pipeline.py, code/plot_fig2_overlap_binbars.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: cross_luca_regime_map
+    aliases: []
+    path: research/reports/cross_luca_regime_map
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [cross_luca_regime_map_cn.tex, cross_luca_regime_map_en.tex]
+    entry_scripts: [code/build_manifest.py, code/run_regime_scan.py, code/plot_regime_figures.py, code/write_regime_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_two_target
+    aliases: []
+    path: research/reports/ring_two_target
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_two_target_cn.tex, ring_two_target_en.tex]
+    entry_scripts: [code/two_target_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_valley
+    aliases: []
+    path: research/reports/ring_valley
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_valley.tex]
+    entry_scripts: [code/valley_study.py]
+    languages: [en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: ring_valley_dst
+    aliases: []
+    path: research/reports/ring_valley_dst
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [ring_valley_dst_cn.tex, ring_valley_dst_en.tex]
+    entry_scripts: [code/valley_study.py, code/bimodality_flux_scan.py, code/dst_shortcut_usage_mc.py, code/second_peak_scan.py, code/second_peak_shortcut_usage_mc.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active

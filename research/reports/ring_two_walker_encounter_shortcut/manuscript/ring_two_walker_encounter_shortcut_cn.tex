@@ -1,0 +1,582 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xeCJK}
+\setCJKmainfont{Songti SC}
+\setCJKmonofont{Songti SC}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\newcommand{\FigDir}{figures}
+\newcommand{\TabDir}{tables}
+
+\title{1D Ring 双 Walker Encounter + Shortcut 报告\\\large A1/A8 稳健验证与双峰实现}
+\author{valley-k-small 扩展}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本报告针对你指定的 1D ring encounter 任务完成两项实现：
+(1) appendix ``Product of two generating functions'' 中 Eq.~(A1) 与 Eq.~(A8) 的稳健数值等价验证；
+(2) 1D ring 双 walker encounter 在有向 shortcut 下的双峰构造与机理分解。
+所有图、表、CSV/JSON 数据均由单一脚本自动生成，支持持续自动优化迭代。
+\end{abstract}
+
+\section{任务与模型}
+两条独立 lazy biased walker 在同一 ring（周期边界）上运动，定义 encounter 首达时间
+\[
+T_{\mathrm{enc}}=\min\{t\ge1:X_t=Y_t\},\qquad
+f_{\mathrm{enc}}(t)=\mathbb P(T_{\mathrm{enc}}=t).
+\]
+walker-A 在结点 $\text{src}\to\text{dst}$ 有单向 shortcut（强度 $\beta$），walker-B 无 shortcut。
+
+默认代表配置：
+\[
+N=101,\ q=0.70,\ g_1=0.70,\ g_2=-0.40,\ n_0=5,\ m_0=55,\ \text{src}=5,\ \text{dst}=70.
+\]
+
+\subsection*{有向 Shortcut 注入公式（selfloop 模式）}
+walker-A 的 shortcut 使用与 ring shortcut 系列一致的注入口径：
+\[
+p_{\mathrm{sc}}=\beta(1-q),\qquad 0\le p_{\mathrm{sc}}\le 1-q.
+\]
+在 $\mathrm{src}$ 结点把这部分概率从自环转移到有向边：
+\[
+P_1(\mathrm{src},\mathrm{src})=(1-q)-p_{\mathrm{sc}},
+\]
+\[
+P_1(\mathrm{src},\mathrm{dst})=P_1^{(0)}(\mathrm{src},\mathrm{dst})+p_{\mathrm{sc}},
+\]
+其余转移保持基线 lazy-biased 核 $P_1^{(0)}$。这样可保证每行和为 1，并保持 $\beta$ 的“shortcut 强度”物理含义。
+
+\subsection*{符号与判据定义（统一口径）}
+为保证这是“首个 encounter 专题报告”时符号不歧义，本报告统一使用以下量：
+\begin{itemize}[leftmargin=1.4em]
+  \item 单步转移矩阵：$P_1,P_2$；联合非吸收分布 $J_t(i,j)=\Pr(X_t=i,Y_t=j,T_{\mathrm{enc}}>t)$。
+  \item 两类 encounter 时间：
+  \[
+  T_{\mathrm{any}}=\min\{t\ge1:X_t=Y_t\},\quad
+  T_{\delta}=\min\{t\ge1:X_t=Y_t=\delta\}.
+  \]
+  \item 首达分布与尾部生存：
+  \[
+  f(t)=\Pr(T=t),\quad S(t)=\Pr(T>t)=1-\sum_{\tau=1}^{t}f(\tau).
+  \]
+  \item 峰谷指标统一在检测轨迹上计算：
+  \[
+  \bar f(t)=\mathrm{MA}_{w}[f](t),
+  \]
+  其中 anywhere 扫描固定 $w=11$ 的奇窗平滑；
+  fixed-site 的 K=2 判据使用
+  \[
+  \bar{\widetilde f}(m)=\mathrm{MA}_{9}[\widetilde f](m).
+  \]
+  \item 双峰检测三时刻（在统一平滑/阈值/忽略窗下）：
+  \[
+  \text{anywhere：}t_1=\text{在 }[t_{\mathrm{ignore}},t_{\mathrm{end}}]\text{ 内的首个显著局部峰},\quad
+  t_2=\text{在 }(t_1,t_{\mathrm{end}}]\text{ 内选出的对比峰},\quad
+  t_v=\arg\min_{t_1<t<t_2} g_t.
+  \]
+  \[
+  \text{fixed-site K=2：在 }g_m=\bar{\widetilde f}(m)\text{ 的 parity 索引上运行同一选峰器，仅施加 }
+  \tau\ge t_{\mathrm{ignore,pair}},\ \tau-t_1\ge\mathrm{min\_sep\_pair}\text{，不额外施加 }t_{\mathrm{end}}\text{ 截断，}
+  \text{报告时间统一按 }t=2m\text{ 映射回原时钟。}
+  \]
+  \item 峰谷强度指标（统一写成检测轨迹 $g$；anywhere 取 $g=\bar f$，fixed-site K=2 取 $g=\bar{\widetilde f}$ 并按 $t=2m$ 回映）：
+  \[
+  R_{\mathrm{peak}}(\tau)=\frac{\min\{g_{t_1},g_{\tau}\}}{\max\{g_{t_1},g_{\tau}\}},\quad
+  R_{\mathrm{peak}}=R_{\mathrm{peak}}(t_2),\qquad
+  R_{\mathrm{dir}}=\frac{g_{t_2}}{g_{t_1}},\qquad
+  R_{\mathrm{valley}}=\frac{g_{t_v}}{\max\{g_{t_1},g_{t_2}\}}.
+  \]
+  在 phase/onset 与多峰 score 选峰时，只使用峰平衡比 $R_{\mathrm{peak}}$（min/max）和谷比 $R_{\mathrm{valley}}$；$R_{\mathrm{dir}}$ 仅作方向性诊断展示。
+  按定义 $R_{\mathrm{dir}}=g_{t_2}/g_{t_1}$ 可大于 1，该量不进入 phase 阈值判别。
+  候选评分阶段使用 $R_{\mathrm{peak}}(\tau),R_{\mathrm{valley}}(\tau)$，最终在 $\tau=t_2$ 处回写为 $R_{\mathrm{peak}},R_{\mathrm{valley}}$。
+  \item 相位标签：single / weak / clear（分别记作 0/1/2）；
+  onset $\beta$ 为首次进入 clear 的 shortcut 强度。
+  \item shortcut 通道占比（机理诊断）：
+  \[
+  h_{\mathrm{sc}}(t)=\frac{f_{\mathrm{sc}}(t)}{f_{\mathrm{sc}}(t)+f_{\mathrm{no}}(t)},\quad
+  H_{\mathrm{sc}}(T)=\frac{\sum_{t\le T} f_{\mathrm{sc}}(t)}{\sum_{t\le T} (f_{\mathrm{sc}}(t)+f_{\mathrm{no}}(t))}.
+  \]
+  \item 质量守恒误差（数值审计）：
+  \[
+  \varepsilon_{\mathrm{mass}}=\left|1-\sum_{t=1}^{t_{\max}} f(t)-S(t_{\max})\right|.
+  \]
+\end{itemize}
+
+\subsection*{Phase 0/1/2 的数学定义（完整口径）}
+令检测轨迹记为 $g$（anywhere 分支取 $g=\bar f$；fixed-site 的 K=2 分支取 $g=\bar{\widetilde f}$）。
+先定义显著局部峰候选集
+\[
+\mathcal P=\left\{\tau:\ g_{\tau-1}<g_{\tau},\ g_{\tau}\ge g_{\tau+1},\ g_{\tau}\ge 0.01\max g\right\},
+\]
+并施加检测窗约束：
+\[
+\tau\in[t_{\mathrm{ignore}},t_{\mathrm{end}}]\ \text{(anywhere)},\qquad
+\tau\ge t_{\mathrm{ignore,pair}},\ \tau-t_1\ge\mathrm{min\_sep\_pair}\ \text{(fixed-site K=2 粗粒化)}.
+\]
+若 $|\mathcal P|<2$，则没有可用峰对，记 `has\_two=False'。
+统一只保留满足 $\tau-t_1\ge2$ 的候选峰对，以保证
+$t_v(\tau)=\arg\min_{t_1<t<\tau}g_t$ 在开区间 $(t_1,\tau)$ 上有定义。
+若 $|\mathcal P|\ge2$，按本报告主检测器选择峰对：
+\[
+t_1=\min\mathcal P,\qquad
+ t_2=\arg\max_{\tau\in\mathcal P,\ \tau>t_1}
+\frac{(\tau-t_1)\,R_{\mathrm{peak}}(\tau)}{R_{\mathrm{valley}}(\tau)+10^{-12}},
+\]
+其中 fixed-site K=2 分支在 parity 索引上额外要求 $\tau-t_1\ge\mathrm{min\_sep\_pair}$，并在输出时按 $t=2m$ 回映到原时钟。
+若分数在数值容差内并列（$|\Delta\mathrm{score}|\le10^{-12}$），按“更晚 $\tau$ $\rightarrow$ 更小 $R_{\mathrm{valley}}$ $\rightarrow$ 更大 $R_{\mathrm{peak}}$”的顺序确定唯一 $t_2$。
+其中
+\[
+t_v(\tau)=\arg\min_{t_1<t<\tau}g_t,\quad
+R_{\mathrm{peak}}(\tau)=\frac{\min\{g_{t_1},g_{\tau}\}}{\max\{g_{t_1},g_{\tau}\}},\quad
+R_{\mathrm{valley}}(\tau)=\frac{g_{t_v(\tau)}}{\max\{g_{t_1},g_{\tau}\}}.
+\]
+选定 $t_2$ 后，记
+\[
+R_{\mathrm{peak}}=R_{\mathrm{peak}}(t_2),\qquad
+R_{\mathrm{valley}}=R_{\mathrm{valley}}(t_2).
+\]
+phase 编码定义为
+\[
+\mathrm{phase}=
+\begin{cases}
+0,& \neg\mathrm{has\_two},\\
+2,& \mathrm{has\_two}\ \land\ R_{\mathrm{peak}}\ge\eta_p\ \land\ R_{\mathrm{valley}}\le\eta_v,\\
+1,& \mathrm{has\_two}\ \land\ \neg\!\left(R_{\mathrm{peak}}\ge\eta_p\ \land\ R_{\mathrm{valley}}\le\eta_v\right).
+\end{cases}
+\]
+本报告参数取值：
+\[
+(\eta_p,\eta_v)=(0.20,0.90)\ \text{(anywhere)},\qquad
+(\eta_p,\eta_v)=(0.10,0.90)\ \text{(fixed-site K=2 粗粒化)}.
+\]
+anywhere 主检测器设置为 $(w,t_{\mathrm{ignore}},t_{\mathrm{end}})=(11,80,400)$；
+fixed-site 粗粒化设置为 $(w,t_{\mathrm{ignore,pair}},\mathrm{min\_sep\_pair})=(9,18,8)$（在 parity 粗粒化索引上）。
+
+\section{A1 \texorpdfstring{$\Rightarrow$}{=>} A8 推导路线（紧凑版）}
+令
+\[
+\alpha_k=1+s_k=1+q\bigl(\cos(2\pi k/N)-1\bigr),\qquad
+\widetilde P_{n_0}(n,u)=\sum_{k=0}^{N-1}\frac{h_k(n,n_0)}{1-u\alpha_k}.
+\]
+代入 A1：
+\[
+I(z)=\frac{1}{2\pi i}\oint_C\frac{du}{u}\widetilde P_{n_0}(n,u)\widetilde P_{m_0}\!\left(n,\frac{z}{u}\right)
+=\frac{1}{2\pi i}\oint_C\sum_{k_1,k_2}
+\frac{h_{k_1}h_{k_2}}{(1-u\alpha_{k_1})(u-z\alpha_{k_2})}\,du.
+\]
+每个 $(k_1,k_2)$ 的简单极点：
+\[
+u=\frac1{\alpha_{k_1}}\ \text{(外极点)},\qquad u=z\alpha_{k_2}\ \text{(内极点)}.
+\]
+若选半径 $|u|=r$ 满足
+\[
+\max_k|z\alpha_k|<r<\min_{k:\alpha_k\ne0}\left|\frac1{\alpha_k}\right|,
+\]
+则只包围内极点，留数求和得
+\[
+I(z)=\sum_{k_1,k_2}
+\frac{h_{k_1}(n,n_0)h_{k_2}(n,m_0)}{1-z\alpha_{k_1}\alpha_{k_2}},
+\]
+即 Eq.~(A8)。
+
+\subsection*{Encounter 对应关系（fixed-site 与 anywhere）}
+同一个 A1$\to$A8 内核同时覆盖两种 encounter 定义：
+\begin{itemize}[leftmargin=1.4em]
+  \item fixed-site（在 $\delta$ 相遇）：
+  \[
+  Q_{\delta}(t)=P_{n_0}(\delta,t)P_{m_0}(\delta,t),
+  \]
+  因此在 $n=\delta$ 处直接使用 A1/A8。
+  \item anywhere（任意点相遇）：
+  \[
+  Q_{\mathrm{any}}(t)=\sum_{n=0}^{N-1}P_{n_0}(n,t)P_{m_0}(n,t),
+  \]
+  因而
+  \[
+  \widetilde Q_{\mathrm{any}}(z)=\sum_{n=0}^{N-1}\frac{1}{2\pi i}\oint_C \frac{du}{u}\,
+  \widetilde P_{n_0}(n,u)\widetilde P_{m_0}\!\left(n,\frac{z}{u}\right).
+  \]
+\end{itemize}
+在 ring 上利用傅里叶正交性，双模态和可塌缩为单和：
+\[
+\widetilde Q_{\mathrm{any}}(z)=
+\sum_{k=0}^{N-1}
+\frac{\frac{1}{N}e^{i2\pi k(m_0-n_0)/N}}
+{1-z\,\lambda_k^{(1)}\lambda_{-k}^{(2)}},
+\]
+其中 $\lambda_k^{(1)},\lambda_k^{(2)}$ 分别是 walker A/B 的一步模态特征值。
+所以 A1$\to$A8 不仅用于 fixed-site，也直接包含 non-fixed encounter。
+
+\section{稳健数值算法（可直接实现）}
+令 $u=re^{i\theta}$，则
+\[
+I(z)=\frac1{2\pi}\int_0^{2\pi}
+\widetilde P_{n_0}(n,re^{i\theta})
+\widetilde P_{m_0}\!\left(n,\frac{z}{re^{i\theta}}\right)d\theta
+\approx \frac1M\sum_{j=0}^{M-1}F\!\left(re^{2\pi ij/M}\right).
+\]
+实现策略：
+\begin{enumerate}[leftmargin=1.4em]
+  \item 先计算 $r_{\mathrm{in}}=\max_k|z\alpha_k|$ 与 $r_{\mathrm{out}}=\min_{\alpha_k\ne0}|1/\alpha_k|$，强制检查 $r_{\mathrm{in}}<r<r_{\mathrm{out}}$；
+  \item 默认取 $r=\sqrt{r_{\mathrm{in}}r_{\mathrm{out}}}$；
+  \item 从 $M=16$ 起翻倍，直到 $|I_{2M}-I_M|<\varepsilon(1+|I_{2M}|)$；
+  \item 与 A8 右侧双和直接对照，输出绝对/相对误差。
+\end{enumerate}
+
+\textbf{本次验证结果：}4 组测试（实数/复数 $z$、$q=0$ 边界、小 $|z|$）全部通过，
+相对误差约 $10^{-16}\sim10^{-18}$，详见表~\ref{tab:a1a8}。
+
+\begin{table}[H]
+  \centering
+  \caption{A1/A8 数值验证结果。}
+  \label{tab:a1a8}
+  \input{\TabDir/a1a8_test_table.tex}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.76\linewidth]{\FigDir/a1a8_contour_convergence.pdf}
+  \caption{A1 轮廓离散误差随 $M$ 增大快速收敛。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.76\linewidth]{\FigDir/a1a8_radius_invariance.pdf}
+  \caption{合法环域内改动半径 $r$，结果保持不变。}
+\end{figure}
+
+\section{1D Ring Encounter 算法实现}
+联合分布写为
+\[
+J_t(i,j)=\mathbb P(X_t=i,Y_t=j, T_{\mathrm{enc}}>t).
+\]
+每步精确更新：
+\[
+J_{t+1}=P_1^\top J_t P_2,
+\qquad
+f_{\mathrm{enc}}(t+1)=\mathrm{tr}(J_{t+1}),
+\]
+随后将 $J_{t+1}$ 对角线置零实现吸收。该方法无 MC 采样噪声。
+
+并行实现了 shortcut 通道分解：
+\begin{itemize}[leftmargin=1.4em]
+  \item $f_{\text{shortcut-used}}(t)$：轨迹至少使用过一次 shortcut；
+  \item $f_{\text{no-shortcut}}(t)$：轨迹从未使用 shortcut。
+\end{itemize}
+两者之和给出总 encounter FPT，用于解释双峰来源。
+
+\subsection*{双峰数学机理（本报告主线）}
+这个 1D ring encounter 问题中的双峰不是“数值伪峰”，而是两类时间尺度通道的叠加：
+\[
+f_{\mathrm{enc}}(t)=f_{\mathrm{sc}}(t)+f_{\mathrm{no}}(t).
+\]
+\begin{enumerate}[leftmargin=1.4em]
+  \item \textbf{早峰机制：}shortcut-used 通道在首个峰窗占主导（$h_{\mathrm{sc}}(t)$ 高），对应更短等效路径。
+  \item \textbf{晚峰机制：}no-shortcut 通道在中后时段接管，形成第二个时间尺度。
+  \item \textbf{环拓扑放大：}在 ring 上，两 walker 的相对位移与绕行（winding）会把晚峰进一步推迟并加宽，使 $t_2-t_1$ 可观。
+\end{enumerate}
+代表案例中（表~\ref{tab:shortcut-rep}）满足 $t_1<t_v<t_2$ 且 $R_{\mathrm{peak}},R_{\mathrm{valley}}$ 通过阈值；$R_{\mathrm{dir}}$ 仅作为方向性诊断展示（不参与 phase 阈值判别）。
+再结合 shortcut 占比曲线验证“先 shortcut 后 no-shortcut”的通道接力，因此判定为 clear bimodal。
+
+\section{固定相遇点扩展（\texorpdfstring{$n=m=\delta$}{n=m=delta}）}
+本报告进一步补上你手稿里的 fixed-site encounter（含义 B）：
+\[
+T_\delta=\min\{t\ge1:X_t=Y_t=\delta\}.
+\]
+同时给出 two-walker encounter 的两种定义：
+\begin{itemize}[leftmargin=1.4em]
+  \item anywhere encounter: $T_{\mathrm{any}}=\min\{t\ge1:X_t=Y_t\}$；
+  \item fixed-site encounter: $T_\delta=\min\{t\ge1:X_t=Y_t=\delta\}$。
+\end{itemize}
+
+对 fixed-site，定义自由过程同时在 $\delta$ 的概率
+\[
+Q_{n_0,m_0}(t)=\Pr(X_t=\delta,Y_t=\delta\mid X_0=n_0,Y_0=m_0)
+=P_{n_0}^{(1)}(\delta,t)\,P_{m_0}^{(2)}(\delta,t).
+\]
+其生成函数就是 appendix 的 product-of-generating-functions 对象，可由 A1 轮廓积分或 A8 双模态和得到。
+再用 renewal 关系
+\[
+\widetilde f_\delta(z)=\frac{\widetilde Q_{n_0,m_0}(z)}{\widetilde Q_{\delta,\delta}(z)},
+\]
+即可得到 fixed-site 首遇分布。
+
+实现上，我们采用精确时域吸收迭代（只吸收单点 $(\delta,\delta)$）并配套 K=2 奇偶粗粒化判据：
+\[
+\widetilde f(0)=f(0),\qquad
+\widetilde f(m)=f(2m-1)+f(2m),\quad m\ge1.
+\]
+在首遇分布场景里 $f(0)=0$，因此判据实际从 $m\ge1$ 开始；输出时刻按右端点映射 $t=2m$ 回到原时间轴。
+
+在基准配置 $N=30,q=0.7,n_0=5,m_0=12,\delta=0$ 下，drift 扫描显示：
+\begin{itemize}[leftmargin=1.4em]
+  \item $(g_1,g_2)=(0,0)$ 为单峰；
+  \item $(0.9,0.9)$、$(0.7,0.7)$、$(0.9,-0.9)$ 均出现清晰双峰。
+\end{itemize}
+完整 $(g_1,g_2)$ 网格上 single/weak/clear 三类相位的占比已自动汇总到表~\ref{tab:fixedsite-phase-summary}，便于持续迭代时直接比较全局分布。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.78\linewidth]{\FigDir/encounter_fixedsite_examples.pdf}
+  \caption{fixed-site 代表案例（K=2 奇偶粗粒化后）的首遇分布。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_fixedsite_parity_compare.pdf}
+  \caption{K=2 场景下为何需要奇偶粗粒化：原始曲线的奇偶微振荡与粗粒化后用于判据的曲线对比。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.76\linewidth]{\FigDir/encounter_fixedsite_gphase.pdf}
+  \caption{$(g_1,g_2)$ 平面的 fixed-site phase 图（0: single, 1: weak, 2: clear）。}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{fixed-site 相图在 $(g_1,g_2)$ 网格上的占比汇总。}
+  \label{tab:fixedsite-phase-summary}
+  \input{\TabDir/fixedsite_phase_summary.tex}
+\end{table}
+
+\input{\TabDir/fixedsite_parity_note_cn.tex}
+
+\begin{table}[H]
+  \centering
+  \caption{fixed-site 代表案例峰谷指标。}
+  \input{\TabDir/fixedsite_example_table.tex}
+\end{table}
+表中 $t_1,t_2$ 为粗粒化时间索引按 $t=2m$ 映射回原时间轴后的值；
+峰平衡比与谷比均在平滑后的粗粒化曲线 $\bar{\widetilde f}(m)$ 上计算，因此 fixed-site 相位判别不会被奇偶微振荡直接驱动。
+若未检出第二峰（$t_1,t_2$ 为空），则峰平衡比与谷比在表中记为 ``--''，避免把未定义情形误读为 0 或 1。
+
+\section{双峰结果（1D ring + shortcut）}
+对 $\beta\in[0,0.30]$ 扫描，统一使用同一判据（平滑 + 峰谷阈值，忽略极早期微结构 $t<80$）；
+检测参数扰动网格固定为
+$\text{smooth}\in\{9,11,13\}$、
+$t_{\mathrm{ignore}}\in\{60,80,100\}$、
+$\text{min-ratio}\in\{0.18,0.20,0.22\}$、
+$\text{valley-cap}\in\{0.85,0.90,0.95\}$。
+除特别标注为 legacy 对照外，本报告的 onset/phase/代表案例指标均以如下 timescale 检测器作为主口径。
+\subsection*{多峰情况下的 \texorpdfstring{$t_2$}{t2} 选择规则（实现级）}
+当检测窗内出现三峰及以上时，使用确定性规则避免“选峰跳变”：
+记 $g$ 为检测轨迹（anywhere: $g=\bar f$；fixed-site K=2: $g=\bar{\widetilde f}$ 并按 $t=2m$ 回映）。
+\begin{enumerate}[leftmargin=1.4em]
+  \item anywhere 扫描：对原始首遇序列做固定奇窗平滑得到 $g$，并仅保留 $[t_{\mathrm{ignore}},t_{\mathrm{end}}]$ 内候选峰；
+  \item fixed-site K=2 粗粒化：在 parity 索引 $m$ 上运行同一 score 选峰器，候选峰用 $\tau\ge t_{\mathrm{ignore,pair}}$ 与 $\tau-t_1\ge\mathrm{min\_sep\_pair}$ 约束；该分支不额外施加 $t_{\mathrm{end}}$ 截断，最终再按 $t=2m$ 映射回原时钟。
+  \item 取首个通过幅值阈值的峰为 $t_1$；
+  \item 对每个后续候选峰 $\tau>t_1$，定义
+  （候选峰对统一要求 $\tau-t_1\ge2$，确保谷点定义在开区间内可计算）
+  \[
+  R_{\mathrm{peak}}(\tau)=\frac{\min\{g_{t_1},g_{\tau}\}}{\max\{g_{t_1},g_{\tau}\}},\quad
+  t_v(\tau)=\arg\min_{t_1<t<\tau}g_t,\quad
+  R_{\mathrm{valley}}(\tau)=\frac{g_{t_v(\tau)}}{\max\{g_{t_1},g_{\tau}\}},
+  \]
+  \[
+  \mathrm{score}(\tau)=
+  \frac{(\tau-t_1)\cdot R_{\mathrm{peak}}(\tau)}
+  {R_{\mathrm{valley}}(\tau)+10^{-12}}.
+  \]
+  \item 取 $t_2=\arg\max_{\tau>t_1}\mathrm{score}(\tau)$；若分数在数值容差内并列（$|\Delta\mathrm{score}|\le10^{-12}$），则取更晚的 $\tau$（优先晚时标峰）；若仍并列，则取谷比更小者；再并列则取峰平衡比更大者。
+\end{enumerate}
+该 timescale detector 会优先保留晚时标峰，避免 $\beta\approx0.24$ 附近出现非物理的 $t_2$ 跳变。
+关键数值结论由脚本直接写入：
+\input{\TabDir/encounter_consistency_summary_cn.tex}
+
+为保证持续迭代时“正文数字与数据文件不漂移”，关键指标改为由脚本自动汇总并直接入表：
+
+\begin{table}[H]
+  \centering
+  \caption{1D ring encounter 扫描关键指标（自动生成）。}
+  \label{tab:keymetrics}
+  \input{\TabDir/encounter_key_metrics.tex}
+\end{table}
+表中已新增 $\beta=0$ 的相对坐标降维校验项：N$^2$ 联合递推与 N 维相对链在机器精度内一致，用于锁定无 shortcut 基线的正确性。
+
+为满足“给出具体图和实例”的要求，下面把代表配置单独展开：参数、峰时刻和图示一并给出。
+其中自动检测到的前三个显著峰（平滑后）用于显示多峰结构，双峰判据仍以 $(t_1,t_2)$ 为主判别对。
+
+\begin{table}[H]
+  \centering
+  \caption{1D ring + shortcut 代表实例参数与峰信息。}
+  \label{tab:shortcut-rep}
+  \input{\TabDir/encounter_shortcut_rep_case.tex}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_shortcut_rep_case.pdf}
+  \caption{代表实例（$\beta=0.20$）的时域曲线与峰位标注：图中同时标出判据峰 $(t_1,t_2)$ 以及前三个显著峰 $P_1,P_2,P_3$。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.62\linewidth]{\FigDir/encounter_ring_geometry.pdf}
+  \caption{1D ring encounter 几何与 shortcut 布置；fixed-site 相遇点用 $\delta=0$（星号）标出。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_fpt_overlay.pdf}
+  \caption{不同 $\beta$ 下 encounter FPT：在中后时段窗口出现单峰到双峰过渡。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_shortcut_decomp.pdf}
+  \caption{代表点 $\beta=0.20$ 的通道分解：早峰主要由 shortcut-used 通道主导，晚峰由 no-shortcut 通道支撑。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_shortcut_share.pdf}
+  \caption{代表点 $\beta=0.20$ 的 shortcut-used 占比诊断：瞬时占比（平滑后）与累计占比随时间变化。}
+\end{figure}
+
+该占比诊断把“通道接力”从定性提升为定量：
+第一峰附近 shortcut-used 占主导，之后在第二峰前让位给 no-shortcut 通道，且累计 shortcut 占比始终未接近 1。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_mass_balance.pdf}
+  \caption{代表案例质量守恒审计：累计首遇质量、survival 尾部与残差 $|1-\sum_{\tau\le t} f(\tau)-S(t)|$。}
+\end{figure}
+
+残差曲线基本维持在机器精度量级，说明晚时段肩部是模型动力学效应而非截断泄漏。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_beta_phase.pdf}
+  \caption{$\beta$ 扫描下 peak-balance（min/max）/ valley-ratio 与 phase 标签（timescale 主检测器）。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_peakcount_vs_beta.pdf}
+  \caption{timescale 检测器视角下检测窗内显著峰个数随 $\beta$ 的变化：onset 附近由 2 峰过渡到 3 峰结构。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_t2_old_vs_new.pdf}
+  \caption{$t_2$ 选峰对比：legacy ``第二峰''规则在 $\beta\approx0.24$ 会从晚峰切到中峰；timescale 规则保持晚时标稳定。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_refine.pdf}
+  \caption{onset 局部窗口细扫：指标曲线与 phase 标签。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.76\linewidth]{\FigDir/encounter_onset_sensitivity.pdf}
+  \caption{检测参数变化下首次 clear-bimodal onset 分布；虚线为名义细扫 onset。}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.78\linewidth]{\FigDir/encounter_onset_agreement.pdf}
+  \caption{细扫 $\beta$ 网格上的 detector-agreement 曲线：25\%/50\%/75\% 交点共同刻画 onset 位置与过渡宽度。}
+\end{figure}
+
+ring-size 稳健性结论同样采用自动生成文本，避免手写统计与图表脱节：
+\input{\TabDir/encounter_nscan_summary_cn.tex}
+结果汇总见图~\ref{fig:onsetN} 与表~\ref{tab:nscan}。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_n_scan.pdf}
+  \caption{ring-size 稳健性扫描：不同 $N$ 下 onset 与 clear 覆盖率，以及 $\beta=0.20$ 代表比值的变化（星号点表示 $\beta>0.30$ 扩展区回收的 onset）。}
+  \label{fig:onsetN}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_scaling.pdf}
+  \caption{onset 随 ring 尺度变化：在 $(N,\log \beta_{\mathrm{onset}})$ 坐标下线性拟合，拟合斜率与 $R^2$ 见表~\ref{tab:keymetrics}。}
+\end{figure}
+
+为避免把“名义窗口 $[0,0.30]$ 内未检出 onset”误读成“物理上不存在 onset”，
+图~\ref{fig:onsetSource} 进一步显式给出每个 $N$ 的实际搜索上限 $\beta_{\max}(N)$，
+并区分名义窗口检出、扩展回收与仍未解析三类来源。
+表~\ref{tab:nscan} 也新增了逐行 onset 来源标签（`main/extended/none`）与对应 $\beta_{\max}$，
+便于不翻原始 CSV 时也能直接审计“扩展回收”是否发生。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_source_window.pdf}
+  \caption{ring-size onset 来源与搜索窗口诊断：上图给出 onset 与每个 $N$ 的搜索上限（含名义上限 $0.30$ 参考线）；下图标注 onset 来源（main/extended/none）。}
+  \label{fig:onsetSource}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{ring-size onset 稳健性汇总（显式列出 onset 来源与搜索上限；$\beta^\dagger$ 表示解析后的 onset；`$^*$` 表示扩展区 onset；`$>x$` 表示扫描到上限 $x$ 仍未出现 clear onset）。}
+  \label{tab:nscan}
+  \input{\TabDir/encounter_n_scan_table.tex}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{shortcut 扫描指标与 phase。}
+  \label{tab:scan}
+  \input{\TabDir/encounter_scan_table.tex}
+\end{table}
+
+\section{数值坑点与排错清单}
+\begin{enumerate}[leftmargin=1.4em]
+  \item \textbf{轮廓穿极点：}若 $r_{\mathrm{in}}\ge r_{\mathrm{out}}$，禁止继续积分；
+  \item \textbf{近奇异放大：}监控 $\min_{k_1,k_2}|1-z\alpha_{k_1}\alpha_{k_2}|$；
+  \item \textbf{双峰误判：}固定平滑窗口与 $t_{\mathrm{ignore}}$，避免把早期噪声当第二峰；
+  \item \textbf{尾部截断：}必须同时报告 $\sum_t f(t)$ 与尾部 survival。
+\end{enumerate}
+
+\section{与 Luca（Bristol）文献的对应}
+本报告把 encounter 放在 Giuggioli 学派常用的“有限域随机游走 + 目标集合首达”框架下：
+\begin{itemize}[leftmargin=1.4em]
+  \item fixed-site encounter 的 renewal 比值
+  \[
+  \widetilde f_\delta(z)=\frac{\widetilde Q_{n_0,m_0}(z)}{\widetilde Q_{\delta,\delta}(z)}
+  \]
+  与多目标/异质环境中的首达分解是一致的\cite{giuggioli2024multi}.
+  \item A1/A8 对应的生成函数乘积与缺陷/异质转移矩阵处理思路，与 Giuggioli 相关 first-passage 文献的解析路线兼容\cite{sarvaharman2020pre}.
+\end{itemize}
+因此，这份 encounter 报告在“定义、量化指标、解析-数值闭环”三个层面都与现有文献口径对齐，同时给出了本项目特有的 shortcut 通道分解证据链。
+
+\section{复现命令}
+\begin{verbatim}
+cd reports/ring_two_walker_encounter_shortcut
+python3 code/two_walker_ring_encounter_report.py
+
+latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build \
+  -emulate-aux-dir ring_two_walker_encounter_shortcut_cn.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build \
+  -emulate-aux-dir ring_two_walker_encounter_shortcut_en.tex
+\end{verbatim}
+
+\begin{thebibliography}{9}
+\bibitem{sarvaharman2020pre}
+S. Sarvaharman and L. Giuggioli,
+\emph{First-passage-time statistics of a random walker under biased quenched disorder},
+Phys. Rev. E \textbf{102}, 062124 (2020).
+DOI: 10.1103/PhysRevE.102.062124.
+
+\bibitem{giuggioli2024multi}
+L. Giuggioli, S. Sarvaharman, D. Das, D. Marris, and T. Kay,
+\emph{Multi-target search in bounded and heterogeneous environments: a lattice random walk perspective},
+arXiv:2311.00464v2 [cond-mat.stat-mech] (2024).
+\end{thebibliography}
+
+\end{document}

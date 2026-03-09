@@ -17,7 +17,9 @@ def test_registry_resolves_canonical_id() -> None:
     registry = load_registry()
     resolved = resolve_report("ring_valley_dst", registry)
     assert resolved["id"] == "ring_valley_dst"
-    assert resolved["path"] == "reports/ring_valley_dst"
+    assert resolved["path"] == "research/reports/ring_valley_dst"
+    assert resolved["manuscript_dir"] == "manuscript"
+    assert resolved["artifact_dir"] == "artifacts"
 
 
 def test_registry_contains_unique_ids() -> None:

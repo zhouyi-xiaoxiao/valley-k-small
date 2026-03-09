@@ -13,13 +13,16 @@ __pycache__/
 
 # Local agent/runtime outputs
 .openclaw/
-artifacts/loop/
-artifacts/checks/*.json
-artifacts/deliverables/
+platform/runtime/loop/
+platform/runtime/checks/
+platform/runtime/checks/content_iteration/
+platform/runtime/checks/openclaw_review_history.jsonl
+platform/runtime/deliverables/
+platform/runtime/keepalive/
 
 # Generated web payloads (rebuilt in CI)
-site/public/data/v1/
-site/public/artifacts/
+platform/web/public/data/v1/
+platform/web/public/artifacts/
 
 # LaTeX build outputs
 build/

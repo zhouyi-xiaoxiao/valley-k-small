@@ -1,0 +1,486 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+
+\title{二维 Corridor 半透膜与近起点双 Target 的双峰研究\\\large 新报告（接续 \texttt{grid2d\_rect\_bimodality}）}
+\author{}
+\date{}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.10}
+
+\begin{document}
+\maketitle
+
+\section*{结论先行}
+本报告在二维长方形域上新增两条研究线，并且与旧报告的 phase 判据、峰谷图式、分解解释保持一致。
+\begin{enumerate}
+  \item \textbf{有 corridor、单 target：}将原全反射走廊墙替换为半透膜，分别研究对称膜（$\kappa_\uparrow=\kappa_\downarrow$）与非对称膜（$\kappa_\uparrow\neq\kappa_\downarrow$）。
+  \item \textbf{无 corridor、双 target：}将一个 target 放在起点附近，另一个保持远端，研究“近目标快峰 + 远目标慢峰”是否稳定形成双峰。
+\end{enumerate}
+
+核心结果：
+\begin{itemize}
+  \item 对称半透膜扫描中，clear-double 在超低泄漏区形成连续带（见图~\ref{fig:sym-phase} 与表~\ref{tab:sym-w16}）；随后进入 weak-double 过渡带，再增大渗透率后转为单峰。
+  \item 非对称膜（如 $\kappa_\uparrow=0.002,\kappa_\downarrow=0$）可保持 clear-double，并在窗口分类中显著改变 valley/第二峰的组成权重。
+  \item 无 corridor 双 target（近目标放到起点附近）可稳定得到双峰：代表案例 $(b_x,d,\Delta y)=(0.07,2,3)$ 的 near/far 质量约为 $0.326/0.674$、峰位约 $(11,739)$；专用 clear-instance（showcase 最优）为 $(0.12,4,1)$，near/far 质量约 $0.350/0.650$，且 valley/max 约 $0.007$。
+\end{itemize}
+
+\section{模型与参数}
+\subsection{统一基线}
+沿用已有二维长方形框架：
+\[
+L_x=60,\quad q=0.8,\quad x_s=7,\quad x_t=58,
+\]
+一阶邻域随机游走 + 惰性停留；边界为反射边界。
+单 target corridor 配置使用本轮优化后的锚点：$h=2$、$m=5$、$\delta_{\rm core}=1.00$、$\delta_{\rm open}=0.55$、$b_x=-0.08$。
+
+\subsection{半透膜定义}
+原走廊墙是全反射（穿越概率 0）。本报告改为半透膜：
+\[
+P(\text{穿越膜边})=\kappa,\qquad P(\text{被反射})=1-\kappa.
+\]
+对称膜：$\kappa_\uparrow=\kappa_\downarrow=\kappa$；
+非对称膜：$\kappa_\uparrow\neq\kappa_\downarrow$。
+
+\subsection{分类框架}
+保持“峰-谷-峰”窗口分析，并加入新的 4 类标签：
+\begin{itemize}
+  \item $L$: 是否发生膜泄漏（是否穿过膜边）；
+  \item $R$: 是否发生 committor 承诺后回撤（recross）。
+\end{itemize}
+故有四类：\texttt{L0R0}, \texttt{L0R1}, \texttt{L1R0}, \texttt{L1R1}。
+
+\section{结果 A：corridor + 单 target + 半透膜}
+\subsection{对称膜扫描}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_symmetric_phase_map.pdf}
+  \caption{对称半透膜相图（纵轴 $W_y$，横轴 $\kappa$，颜色数字为 phase）。}
+  \label{fig:sym-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_symmetric_sep_map.pdf}
+  \caption{对称半透膜分离度热图（sep-score）。}
+  \label{fig:sym-sep}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/membrane_symmetric_w16.tex}
+  \caption{$W_y=16$ 截面的对称膜指标。}
+  \label{tab:sym-w16}
+\end{table}
+
+在本次参数下（以 $W_y=16$ 截面为例），$\kappa\in[0,0.0035]$ 保持 clear-double；约 $\kappa\in[0.0037,0.02]$ 处于 weak-double；$\kappa\ge 0.03$ 转为单峰，说明“膜泄漏”会持续削弱原走廊机制的时间尺度分离。
+
+\subsection{非对称膜扫描}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_asymmetric_phase_map.pdf}
+  \caption{非对称半透膜相图（$\kappa_\uparrow$ vs $\kappa_\downarrow$）。}
+  \label{fig:asym-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_asymmetric_sep_map.pdf}
+  \caption{非对称半透膜分离度热图。}
+  \label{fig:asym-sep}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/membrane_asymmetric_topcases.tex}
+  \caption{非对称膜 top cases（按 phase 与 sep 排序）。}
+  \label{tab:asym-top}
+\end{table}
+
+代表性对比（对称 $\kappa=0.002$ vs 非对称 $\kappa_\uparrow=0.002,\kappa_\downarrow=0$）如下：
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/membrane_rep_sym_geometry.pdf}
+  \caption{对称半透膜代表案例配置图（包含 corridor、膜位置、起点/终点与局部偏置方向）。}
+  \label{fig:rep-sym-geo}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_sym_fpt.pdf}
+  \caption{对称半透膜代表案例：总 FPT 与 corridor/outer 通量分解。}
+  \label{fig:rep-sym-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/membrane_rep_asym_geometry.pdf}
+  \caption{非对称半透膜代表案例配置图（上/下膜通透率不同）。}
+  \label{fig:rep-asym-geo}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_asym_fpt.pdf}
+  \caption{非对称半透膜代表案例：总 FPT 与 corridor/outer 通量分解。}
+  \label{fig:rep-asym-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/membrane_class_window_bars.pdf}
+  \caption{峰1/谷/峰2 三窗口中的四类占比（L×R）。}
+  \label{fig:membrane-class-bars}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/membrane_class_legend.pdf}
+  \caption{L×R 四类代表图例：左图为 2×2 分类定义，右图为代表性窗口主导类别转移示意。}
+  \label{fig:membrane-class-legend}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/membrane_window_classes.tex}
+  \caption{四类窗口占比数值表。}
+  \label{tab:membrane-window-classes}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/membrane_qstar_sensitivity.tex}
+  \caption{$q^*$ 鲁棒性检查（精确分解）：不同承诺阈值下各窗口主导类别与 $w_{\mathrm{L1R1}}$。}
+  \label{tab:membrane-qstar-sens}
+\end{table}
+
+基于“严格 recross（先达 $\Sigma_{q^*}$ 后回到 $A$）”的精确分解结果可见：peak1 由 \texttt{L0R0} 主导；valley 仍以 \texttt{L0R0} 为主但 \texttt{L1R0} 显著上升；peak2 由 \texttt{L0R1} 主导。说明慢峰主要来自“承诺后回撤”而不一定要求膜泄漏。
+
+\section{结果 B：无 corridor + 双 target（近起点目标）}
+本节移除 corridor，仅保留反射边界与全局 $b_x$，并把一个 target 放到起点附近。扫描流程先在候选网格上优化 clear 覆盖率，再从全部候选结果中自动选取 clear-instance（用于“最清晰双峰示例图”）。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/two_target_nearstart_phase_map.pdf}
+  \caption{无 corridor 双 target：phase map（横轴近目标距离 $d$，纵轴 $b_x$）。}
+  \label{fig:tt-near-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/two_target_nearstart_sep_map.pdf}
+  \caption{无 corridor 双 target：分离度热图。}
+  \label{fig:tt-near-sep}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/two_target_nearstart_summary.tex}
+  \caption{按 $b_x$ 汇总的 clear 区间与最优近目标距离。}
+  \label{tab:tt-near-summary}
+\end{table}
+
+代表案例（$W_y=16,b_x=0.07,d=2$）:
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/two_target_rep_geometry.pdf}
+  \caption{无 corridor 双 target 代表案例配置图（起点、近目标、远目标与全局漂移方向示意）。}
+  \label{fig:tt-near-rep-geo}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/two_target_rep_fpt.pdf}
+  \caption{无 corridor 双 target 代表案例：总 FPT 及 near/far splitting 分量。}
+  \label{fig:tt-near-rep-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/two_target_rep_doublepeak_example.pdf}
+  \caption{无 corridor clear-double 实例图：左图为线性坐标下的尾部增强视图（为突出 valley/peak2，对首峰做上截并以 \texttt{p1*} 标注真值），右图为对数坐标（$y\ge 10^{-6}$）下的双峰结构。}
+  \label{fig:tt-near-doublepeak-example}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \resizebox{\linewidth}{!}{\input{tables/two_target_no_corridor_clear_instance.tex}}
+  \caption{无 corridor clear-instance 质量指标（从全部候选扫描中自动选点）。表中同时给出 \texttt{peak-margin}、\texttt{min-margin} 与首道强 gate 审计（\texttt{gate-pass}/\texttt{gate-slack}），避免“刚过阈值但视觉不稳”的伪 clear 点；并附 \texttt{showcase} 用于图表可视化排序一致性。}
+  \label{tab:tt-near-clear-instance}
+\end{table}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/two_target_no_corridor_clear_instance.pdf}
+  \caption{无 corridor clear-instance 专用图（全候选扫描中 showcase-score 最大点）：线性尾部增强 + 对数视图并列，确保 valley 与第二峰可视化清晰。}
+  \label{fig:tt-near-clear-instance}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/two_target_rep_window_split.pdf}
+  \caption{代表案例在 peak1/valley/peak2 窗口的 near/far 质量占比。}
+  \label{fig:tt-near-window}
+\end{figure}
+
+本轮 clear-instance 的 near/far 总质量、sep-score、valley/max、peak/min 裕量、showcase 分数及 splitting committor 闭环误差 $\varepsilon_{\rm split}$ 见表~\ref{tab:tt-near-clear-instance}。本次在最终排序前加入“稳健门槛筛选”（优先要求 \texttt{peak-margin/min-margin} 正裕量并优先保留深谷约束），确保选出的 no-corridor 实例不仅满足 phase=2 判据，也能在阈值轻微扰动下保持可视化稳定。当前自动选出的 clear-instance 来自细化轮次（spec=\texttt{adaptive\_refine}），参数为 $(b_x,d,\Delta y)=(0.12,4,1)$。其 \texttt{peak-margin}=0.070、\texttt{min-margin}=0.070、\texttt{showcase}=1.92，并通过首道 gate：\texttt{peak>=0.07}、\texttt{min>=0.07}、\texttt{valley<=0.10}；对应审计量 \texttt{gate-pass=yes}、\texttt{gate-slack}=0.070（三条阈值净裕量的最小值），首道 gate 候选数为 168。
+
+\section{方法参考（committor + 2×2 分类）}
+\subsection*{phase/sep-score 的可复现定义}
+为保证相图可复现，本文直接采用代码中的判据（与 \path{src/vkcore/grid2d/rect_bimodality/cli.py} 一致）：
+\paragraph{(1) 双峰探测（\texttt{find\_two\_peaks}）}
+令 $\tilde f=\mathrm{smooth}_7(f)$（窗口 7 平滑）。候选峰点需满足局部极大且高于相对阈值
+\[
+\tilde f(t)>\tilde f(t-1),\quad \tilde f(t)\ge \tilde f(t+1),\quad \tilde f(t)\ge 0.06\,\max \tilde f.
+\]
+从候选集合中选两峰 $(t_{p1},t_{p2})$ 时，额外要求（代码默认值）：
+\[
+t_{p2}-t_{p1}\ge 20,\ \mathrm{peak\_balance}\ge 0.08,\ \mathrm{valley\_drop}\ge 0.08,\ \mathrm{minor\_drop}\ge 0.005,
+\]
+并满足左右主导性容差（\texttt{dominance\_tol}=0.02）。定义
+\[
+\mathrm{has\_double}:=\mathbf 1\{t_{p1},t_{p2}\ \text{均存在}\}.
+\]
+
+\paragraph{(2) one-target 的 phase 定义}
+先定义
+\[
+\mathrm{sep}_{\rm peaks}:=\frac{|t_{p2}-t_{p1}|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}},\quad
+\mathrm{valley}/\max:=\frac{h_v}{\max(h_{p1},h_{p2})},\quad
+\mathrm{peak\_balance}:=\frac{\min(h_{p1},h_{p2})}{\max(h_{p1},h_{p2})}.
+\]
+其中 $w_{1/2}^{(k)}$ 为第 $k$ 峰半高宽（由原始 $f$ 计算），$h_{p1},h_{p2},h_v$ 由平滑序列 $\tilde f$ 在峰/谷位置读取。
+分类为
+\[
+\mathrm{phase}_{\rm OT}=
+\begin{cases}
+2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm peaks}\ge 1.0,\ \mathrm{valley}/\max\le 0.35,\ \mathrm{peak\_balance}\ge 0.15,\\
+1,& \mathrm{has\_double}=1\ \text{但不满足上式},\\
+0,& \mathrm{has\_double}=0.
+\end{cases}
+\]
+
+\paragraph{(3) two-target 的 phase 定义}
+先定义分量模态时间与分离度
+\[
+t_{\rm mode}^{\rm near}:=\arg\max_t f_{\rm near}(t),\quad
+t_{\rm mode}^{\rm far}:=\arg\max_t f_{\rm far}(t),
+\]
+\[
+\mathrm{sep}_{\rm mode}:=\frac{|t_{\rm mode}^{\rm far}-t_{\rm mode}^{\rm near}|}{w_{1/2}^{\rm far}+w_{1/2}^{\rm near}}.
+\]
+质量占比由分量总质量归一化得到
+\[
+P_{\rm near}:=\frac{\sum_t f_{\rm near}(t)}{\sum_t f_{\rm any}(t)},\qquad
+P_{\rm far}:=\frac{\sum_t f_{\rm far}(t)}{\sum_t f_{\rm any}(t)}.
+\]
+并在总分布上定义
+\[
+\mathrm{peak\_ratio}:=\frac{\min(h_{p1},h_{p2})}{\max(h_{p1},h_{p2})},\qquad
+\mathrm{valley}/\max:=\frac{h_v}{\max(h_{p1},h_{p2})}.
+\]
+分类为
+\[
+\mathrm{phase}_{\rm TT}=
+\begin{cases}
+2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm mode}\ge 1.0,\ \min(P_{\rm near},P_{\rm far})\ge 0.15,\\
+& \mathrm{valley}/\max\le 0.35,\ \mathrm{peak\_ratio}\ge 0.10,\ (\mathrm{peak\_ratio}-\mathrm{valley}/\max)\ge 0.01,\\
+1,& \mathrm{has\_double}=1\ \text{但不满足上式},\\
+0,& \mathrm{has\_double}=0.
+\end{cases}
+\]
+因此：\textbf{phase=1} 的数学含义是“检测到双峰，但分离度/平衡度/谷深等条件至少有一项不达 clear-double 阈值”。
+
+\subsection*{committor 的数学机理（详细版）}
+记 hitting time 为 $\tau_C:=\inf\{t\ge 0:\,X_t\in C\}$。在离散马尔可夫链转移矩阵 $P$ 上，设 $A$ 为起点盆（本报告用起点附近 strip），$B$ 为目标吸收集合，定义
+\[
+q_i := \mathbb P_i(\tau_B < \tau_A).
+\]
+它满足离散 Dirichlet 边值问题
+\[
+q_i=0\ (i\in A),\qquad q_i=1\ (i\in B),\qquad
+q_i=\sum_j P_{ij} q_j\ (i\notin A\cup B).
+\]
+令 $U=\Omega\setminus(A\cup B)$，按 $(U,A,B)$ 重排后可写成线性系统
+\[
+(I-P_{UU})\,q_U=P_{UB}\,\mathbf 1.
+\]
+在本问题中（存在吸收且从 $U$ 终将离开）该系统解唯一，因此 $q$ 不是经验坐标，而是由动力学唯一确定的最优进度坐标。我们取 $q^*=0.5$ 定义承诺面
+\[
+\Sigma_{q^*}:=\{i:\ q_i\ge q^*\}.
+\]
+此外，在谱半径 $\rho(P_{UU})<1$ 时有 Neumann 展开
+\[
+q_U=(I-P_{UU})^{-1}P_{UB}\mathbf 1
+=\sum_{n\ge 0}P_{UU}^n P_{UB}\mathbf 1.
+\]
+这意味着 $q_U$ 可以解释为“在内部区反复游走 $n$ 步后吸收到目标”的总和，从线性系统角度直接对应到后文的 renewal 失败-重试图景：早峰偏向小 $n$，慢峰来自大 $n$ 的累计权重。
+
+\subsection*{L×R 事件定义与 recross 计数}
+对轨迹 $X_t$（直到 $\tau_B$）定义膜泄漏次数
+\[
+N_{\rm mem}:=\sum_{t=0}^{\tau_B-1}\mathbf 1\!\{(X_t,X_{t+1})\in\mathcal E_{\rm mem}\},
+\]
+以及承诺后回撤次数
+\[
+N_{\rm ret}:=\sum_{t=0}^{\tau_B-1}\mathbf 1\!\{X_t\in\Sigma_{q^*},\,X_{t+1}\in A\}.
+\]
+二值分类变量取
+\[
+L=\mathbf 1\{N_{\rm mem}\ge 1\},\qquad R=\mathbf 1\{N_{\rm ret}\ge 1\},
+\]
+从而得到四类
+\[
+(\!L,R\!)\in\{(0,0),(0,1),(1,0),(1,1)\},
+\]
+对应 \texttt{L0R0/L0R1/L1R0/L1R1}（图~\ref{fig:membrane-class-legend}）。
+
+\subsection*{与双峰/谷对应的 renewal 展开}
+将首达分布记为 $f(t)$。若把“一次尝试直接成功”记为核 $g(t)$，把“先失败并回到再生集合后继续”记为核 $h(t)$，则
+\[
+f(t)=g(t)+(h*f)(t)=\sum_{k\ge 0}(h^{*k}*g)(t).
+\]
+其中 $k$ 可解释为失败尝试次数。双峰出现的条件就是 $k=0$ 与 $k\ge1$ 分量在时间尺度和质量上都可分离。窗口占比
+\[
+w_{\ell r}(W)=\frac{\sum_{t\in W} f_{\ell r}(t)}{\sum_{t\in W} f(t)}
+\]
+给出可视化证据：peak1 主要由 \texttt{L0R0} 托起；valley 仍以 \texttt{L0R0} 为主、但 \texttt{L1R0} 明显上升；peak2 则以 \texttt{L0R1} 主导，\texttt{L1R1} 仅占次要比例（图~\ref{fig:membrane-class-bars}，表~\ref{tab:membrane-window-classes}）。
+
+\subsection*{从线性系统到首达核的闭环公式}
+在无 corridor 双 target 场景，把非吸收内部态记为 $U$，起点内部基向量记为 $e_s$，并记
+\[
+Q:=P_{UU},\qquad R_{\rm near}:=P_{U,\partial_{\rm near}},\qquad R_{\rm far}:=P_{U,\partial_{\rm far}}.
+\]
+则首达 near/far 的 pmf 可写为
+\[
+f_{\rm near}(t)=e_s^\top Q^{t-1}R_{\rm near}\mathbf 1,\qquad
+f_{\rm far}(t)=e_s^\top Q^{t-1}R_{\rm far}\mathbf 1,\qquad t\ge 1.
+\]
+相应总质量为
+\[
+P_{\rm far}=\sum_{t\ge 1}f_{\rm far}(t)=e_s^\top(I-Q)^{-1}R_{\rm far}\mathbf 1.
+\]
+这条公式把“时域首达曲线分解”与“线性系统解”直接连通，是后续 splitting committor 闭环的核心。
+
+\subsection*{条件化核（Doob 变换）与峰谷转移解释}
+在内部态且 $q_{\rm far}(i)>0$ 时，定义
+\[
+\widetilde P^{\rm far}_{ij}:=\frac{P_{ij}\,q_{\rm far}(j)}{q_{\rm far}(i)}.
+\]
+这就是以 $h=q_{\rm far}$ 对原转移核做的 Doob $h$-transform，对应“条件在最终先到 far 再到 near”下的精确动力学；near 分支则由互补的 $q_{\rm near}=1-q_{\rm far}$ 给出。于是 peak1 到 peak2 的窗口转移可解释为两类条件化轨道测度的再分配：早期质量主要来自短程成功轨道，而晚期质量来自多次离开并回到低-$q_{\rm far}$ 区域后的最终吸收。这一视角把观测到的 renewal 分解与可计算的条件化动力学直接对应起来。
+
+\subsection*{谱分解视角：快慢双时标从何而来}
+在内部态子核 $Q$ 上，若写成（广义）谱展开
+\[
+Q^{t-1}=\sum_{k}\lambda_k^{\,t-1} r_k\ell_k^\top,\qquad |\lambda_1|>|\lambda_2|\ge\cdots,
+\]
+则
+\[
+f_{\rm near}(t)=\sum_k c_k^{\rm near}\lambda_k^{\,t-1},\qquad
+f_{\rm far}(t)=\sum_k c_k^{\rm far}\lambda_k^{\,t-1}.
+\]
+较小模值模态在早期快速衰减，主模 $\lambda_1$ 控制慢尾和晚峰。当 near/far 两分量在模态投影 $c_k^{\rm near},c_k^{\rm far}$ 上权重不同，就会出现“早期 near 主导、晚期 far 主导”的窗口迁移。这与 renewal 分解一致：peak1 对应短停留（小循环）贡献，peak2 对应准稳态主模累积释放。等价地看条件风险率
+\[
+h_{\rm far}(t):=\frac{f_{\rm far}(t)}{S(t-1)},
+\]
+其随时间上升就意味着远端吸收通道在晚窗口逐步占优。
+
+\subsection*{双 target splitting committor 闭环}
+对同一系统，定义
+\[
+q_{\rm far}(i):=\mathbb P_i(\tau_{\rm far}<\tau_{\rm near}),\qquad q_{\rm near}(i)=1-q_{\rm far}(i).
+\]
+其边值问题为
+\[
+q_{\rm far}=0\ \text{on near},\qquad q_{\rm far}=1\ \text{on far},\qquad
+q_{\rm far}(i)=\sum_j P_{ij}\,q_{\rm far}(j)\ \text{on interior}.
+\]
+因此一级分解 $f=f_{\rm near}+f_{\rm far}$ 与 committor 可直接闭环：$q_{\rm far}(x_s)$ 应与 $P_{\rm far}$ 一致。定义
+\[
+\varepsilon_{\rm split}:=\left|q_{\rm far}(x_s)-\sum_{t\ge 1}f_{\rm far}(t)\right|
+=\left|q_{\rm far}(x_s)-P_{\rm far}\right|.
+\]
+进一步地，令 $\tau:=\tau_{\rm near}\wedge\tau_{\rm far}$，并定义
+\[
+M_t:=q_{\rm far}(X_{t\wedge\tau}).
+\]
+由于 $q_{\rm far}$ 在 interior 上满足调和关系、在 near/far 边界上取 $0/1$，$M_t$ 是有界鞅。由可选停时定理可得
+\[
+q_{\rm far}(x_s)=\mathbb E[M_\tau]
+=\mathbb P_{x_s}(\tau_{\rm far}<\tau_{\rm near})
+=P_{\rm far}.
+\]
+因此 $\varepsilon_{\rm split}$ 理论上应为 $0$；数值实现中它的量级应与 Bellman 残差处于同一误差层级，可直接作为机制闭环与数值稳定性的联合质检量。
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \resizebox{\linewidth}{!}{\input{tables/two_target_splitting_committor_qc.tex}}
+  \caption{no-corridor 双 target 的 splitting committor 闭环质检（代表案例 + 专用 clear-instance）：同时报告 $q_{\rm far}(x_s)$、$P_{\rm far}$、$\varepsilon_{\rm split}$ 与内点/边界残差。}
+  \label{tab:tt-splitting-qc}
+\end{table}
+
+表~\ref{tab:tt-splitting-qc} 显示，代表路径与 clear-instance 路径都满足 $q_{\rm far}(x_s)\approx P_{\rm far}$，且 $\varepsilon_{\rm split}$ 分别在 $10^{-8}$ 与 $10^{-9}$ 量级，内点 Bellman 残差保持在 $10^{-11}$ 量级。说明“快/慢峰由 near/far 吸收竞争产生”的解释在两条路径上都与精确分解一致。后续迭代中把 $\varepsilon_{\rm split}$ 与 committor 在内点的 Bellman 残差、near/far 边界残差一起作为自动质检量，可持续监控图表解释与数值分解是否漂移。
+
+\subsection*{本报告中的 committor 实现细节}
+\begin{enumerate}
+  \item 在代表案例上先构建精确转移矩阵（已包含懒惰项、偏置、膜穿透率和反射边界）。
+  \item 取 $A=\{x\le x_s+1,\ |y-y_{\rm mid}|\le 1\}$，$B=\{\text{target}\}$，并用固定点迭代求解 $q$（迭代终止阈值 $10^{-11}$）；同时输出内点 Bellman 残差与边界残差作为数值质检。
+  \item 对 L×R 采用扩展状态空间 $(x,\ell,s,r)$ 的\textbf{精确递推}而非 MC：其中 $\ell$ 记录是否发生膜泄漏，$s$ 记录是否访问过 $\Sigma_{q^*}$，$r$ 记录是否在访问 $\Sigma_{q^*}$ 后返回 $A$。
+  \item 默认报告 $q^*=0.5$，并额外输出 $q^*\in\{0.4,0.5,0.6\}$ 的鲁棒性表（表~\ref{tab:membrane-qstar-sens}）。
+  \item 在双 target 无 corridor 场景中，一级分解始终采用严格恒等式 $f=f_{\rm near}+f_{\rm far}$，保证“双峰来源”可直接追溯。
+\end{enumerate}
+
+\section{总结与后续优化方向（committor 导向）}
+\subsection*{实现总结（本轮优化后）}
+\begin{enumerate}
+  \item corridor 半透膜：对称/非对称代表案例均保持 clear-double；在严格 recross 定义下，peak1 主要是 \texttt{L0R0}，而慢峰由 \texttt{L0R1} 抬升，valley 中 \texttt{L1R0} 比例明显增加。
+  \item 无 corridor 双 target：新增“全候选扫描 $\rightarrow$ 自适应局部细化 $\rightarrow$ 稳健门槛筛选 $\rightarrow$ clear-instance 排序”流程，并落地专用图/表（图~\ref{fig:tt-near-clear-instance}，表~\ref{tab:tt-near-clear-instance}）；当前 clear-instance 为 $(b_x,d,\Delta y)=(0.12,4,1)$，在 five-constraint 下保持正裕量，并通过首道 gate（\texttt{peak>=0.07}、\texttt{min>=0.07}、\texttt{valley<=0.10}）；新增强 gate 审计字段（\texttt{gate-pass/gate-slack}）和候选数统计（首道 gate 候选 168 个），同时保留 clear-instance 图完整性硬校验（文件存在且大小 $>2$KB），并把图路径/大小写入 `summary.json` 供持续巡检。
+  \item 方法层面：committor 从“术语”落到了可计算、可复核流程；splitting committor 在代表点与 clear-instance 上都与吸收质量形成数值闭环，并把 $\varepsilon_{\rm split}$ 与 committor 残差共同纳入自动质检（当前代表点 $\varepsilon_{\rm split}$ 量级 $\sim10^{-8}$，clear-instance 量级 $\sim10^{-9}$）。
+  \item 工程执行层面：本轮本地完整回归（codegen + 中英文构建）单轮耗时约 $70\,$s（约 1.2 分钟），满足“本地 $<10$ 分钟优先”条件；后续仅在扫描规模扩大到预计单轮 $>20$ 分钟时切换 Isambard。
+\end{enumerate}
+
+\subsection*{后续方向（全部围绕 committor 落地）}
+\begin{enumerate}
+  \item 将当前“代表案例精确分解”扩展为“整张相图上的精确分解”，并同步输出 clear-instance 的阈值裕量热图（而不只给单点表格）。
+  \item 做 $q^*$ 鲁棒性扫描（如 $0.4/0.5/0.6$）并报告峰谷分类稳定性，避免阈值依赖质疑。
+  \item 在双 target 场景系统化输出 splitting committor 场与窗口统计
+  \[
+  q_{\rm far}(x)=\mathbb P_x(\tau_{\rm far}<\tau_{\rm near}),
+  \]
+  并把 $\varepsilon_{\rm split}=|q_{\rm far}(x_s)-P_{\rm far}|$（同时覆盖代表点与 clear-instance 选点）与两项阈值裕量指标（\texttt{min-margin} 与 \texttt{gate-slack}）共同作为自动质检项。
+  \item 在膜模型中比较“上下非对称”与“方向非对称（内外穿透率不同）”两类破缺，并统一投影到 committor 几何上对比。
+  \item 在 keepalive 循环中把“codegen + 中英文构建可通过”作为一等优化目标，并固定执行分流策略：本地小轮次（$<10$ 分钟）优先直跑；大规模扫描（预计单轮 $>20$ 分钟）走 isbard doctor/auth + submit/status/fetch；远端失败时先记录原因并回退最小本地 smoke。
+  \item 所有远端轮次统一输出运行元信息（\texttt{JOB\_ID}、\texttt{REMOTE\_DIR}、关键产物路径与下一步动作），保证总结可追溯。
+\end{enumerate}
+
+\section*{复现命令}
+\begin{verbatim}
+cd reports/grid2d_membrane_near_target
+../../.venv/bin/python code/membrane_near_target_report.py
+latexmk -xelatex -interaction=nonstopmode -halt-on-error \
+  -auxdir=build -emulate-aux-dir grid2d_membrane_near_target_cn.tex
+\end{verbatim}
+
+\end{document}

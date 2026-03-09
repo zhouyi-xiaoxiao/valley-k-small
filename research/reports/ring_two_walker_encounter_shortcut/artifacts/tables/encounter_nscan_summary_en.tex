@@ -1,0 +1,6 @@
+% Auto-generated from data/encounter_onset_n_scan.csv; do not edit by hand.
+To avoid over-reliance on the single baseline size $N=101$, we additionally scan $N\in\{81,101,121,141\}$ with geometry-scaled $(n_0,m_0,\mathrm{src},\mathrm{dst})$.
+For each $N$, we recompute coarse onset and clear-bimodal coverage on the nominal $\beta\in[0,0.30]$ grid using the same timescale selector as the main scan (first peak + score-selected $t_2$), then compare representative peak/valley ratios at $\beta=0.20$; if no clear onset appears, we extend once to $\beta\le0.50$ (step $0.02$).
+Current run summary: 4 size points total, 3 with nominal-window onset, 1 recovered by extension, 0 still unresolved.
+Extension details: $N=81$ is recovered only by extension at $\beta\approx0.38$.
+Nominal-window conclusion: $N\in\{101,121,141\}$ all show clear onset inside the nominal window.

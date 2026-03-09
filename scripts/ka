@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+KEEPALIVE="$ROOT/scripts/keepalive"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  ./scripts/ka start <name> [task text...]
+  ./scripts/ka start-local <name> [task text...]
+  ./scripts/ka start-as <profile> <name> [task text...]
+  ./scripts/ka start-as-local <profile> <name> [task text...]
+  ./scripts/ka status <name>
+  ./scripts/ka stop <name>
+  ./scripts/ka logs <name> [tail]
+
+Profiles: optimize, review, build, monitor
+EOF
+}
+
+cmd="${1:-}"
+case "$cmd" in
+  start)
+    name="${2:-}"
+    [[ -n "$name" ]] || { usage; exit 1; }
+    shift 2
+    task="${*:-}"
+    if [[ -n "$task" ]]; then
+      exec "$KEEPALIVE" up-codex --name "$name" --task "$task"
+    fi
+    exec "$KEEPALIVE" up-codex --name "$name" --task-type optimize
+    ;;
+  start-local)
+    name="${2:-}"
+    [[ -n "$name" ]] || { usage; exit 1; }
+    shift 2
+    task="${*:-}"
+    if [[ -n "$task" ]]; then
+      exec "$KEEPALIVE" up-codex-local --name "$name" --task "$task"
+    fi
+    exec "$KEEPALIVE" up-codex-local --name "$name" --task-type optimize
+    ;;
+  start-as)
+    profile="${2:-}"
+    name="${3:-}"
+    [[ -n "$profile" && -n "$name" ]] || { usage; exit 1; }
+    shift 3
+    task="${*:-}"
+    if [[ -n "$task" ]]; then
+      exec "$KEEPALIVE" up-codex --name "$name" --task-type "$profile" --task "$task"
+    fi
+    exec "$KEEPALIVE" up-codex --name "$name" --task-type "$profile"
+    ;;
+  start-as-local)
+    profile="${2:-}"
+    name="${3:-}"
+    [[ -n "$profile" && -n "$name" ]] || { usage; exit 1; }
+    shift 3
+    task="${*:-}"
+    if [[ -n "$task" ]]; then
+      exec "$KEEPALIVE" up-codex-local --name "$name" --task-type "$profile" --task "$task"
+    fi
+    exec "$KEEPALIVE" up-codex-local --name "$name" --task-type "$profile"
+    ;;
+  status)
+    name="${2:-}"
+    [[ -n "$name" ]] || { usage; exit 1; }
+    exec "$KEEPALIVE" status --name "$name"
+    ;;
+  stop)
+    name="${2:-}"
+    [[ -n "$name" ]] || { usage; exit 1; }
+    exec "$KEEPALIVE" down --name "$name"
+    ;;
+  logs)
+    name="${2:-}"
+    tail_n="${3:-120}"
+    [[ -n "$name" ]] || { usage; exit 1; }
+    exec "$KEEPALIVE" logs --name "$name" --tail "$tail_n"
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac

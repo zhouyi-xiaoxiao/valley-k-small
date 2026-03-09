@@ -1,43 +1,52 @@
 # Repository Guidelines
 
-## Recent Update
-- `reports/ring_lazy_jump_ext/` front-loads a condensed conclusion section, integrates key figures up front, and refreshes exact f(t) plots with clearer peak/valley emphasis and a tighter time window.
-- `reports/ring_lazy_jump_ext/` uses `sections/` for extension sections, `outputs/` for generated artifacts, `ring_lazy_jump_ext_{cn,en}.tex` for the bilingual sources, and `build/` for LaTeX aux files. See `reports/ring_lazy_jump_ext/notes/readme_ext.md` for commands.
+## Current Layout
+- `research/reports/<report_id>/` is the canonical home for each report.
+  - `code/`: report entry scripts
+  - `notes/`: report notes and reproduction guidance
+  - `manuscript/`: TeX/PDF sources, extras, aux build dir
+  - `artifacts/`: figures, tables, data, outputs
+- `research/docs/`: research brief, research logs, submission material.
+- `research/archives/`: archived timestamp runs and legacy artifacts.
+- `platform/web/`: Next.js site and generated public payloads.
+- `platform/tools/`: real script implementations split into `repo/`, `web/`, and `automation/`.
+- `platform/schemas/`: JSON schemas.
+- `platform/skills/`: Codex skill material.
+- `packages/vkcore/src/vkcore/`: shared Python core library.
+- `scripts/`: thin compatibility wrappers and shell entrypoints.
 
-## Project Structure & Module Organization
-- `reports/<report_name>/`: each report is self-contained.
-  - `*.tex` / `*.pdf`: report source + compiled PDF.
-  - `code/`: code used to generate figures/data/tables for that report.
-  - `figures/`, `data/`, `tables/`, `inputs/`: report assets (as needed).
-  - `build/`: LaTeX auxiliary build outputs (should stay out of version control).
-- `docs/`: misc notes and submission PDFs (not tied to a single report).
-
-## Research Summary Upkeep (must do)
-- Maintain `docs/RESEARCH_SUMMARY.md` as the single ChatGPT-ready research brief.
+## Research Summary Upkeep
+- Maintain `research/docs/RESEARCH_SUMMARY.md` as the single ChatGPT-ready research brief.
 - On every Codex run in this repo, refresh the "最后更新" date and update any sections affected by your changes.
 - Use `python3 scripts/update_research_summary.py` to refresh the date and the auto index block.
-- When adding/removing reports or docs, update `reports/README.md` and `docs/README.md` accordingly.
+- When adding/removing reports or docs, update `research/reports/README.md` and `research/docs/README.md`.
 
-## Local Cleanup
+## Cleanup
 - Use `python3 scripts/cleanup_local.py` to remove local artifacts (`.DS_Store`, `__pycache__`, `build/`, `*.pyc`).
 - Use `python3 scripts/cleanup_local.py --include-venv` only when you intend to remove local virtualenvs.
+- Use `python3 scripts/cleanup_local.py --include-runtime` to clean runtime noise under `platform/runtime/` and related local caches.
 
-## Build, Test, and Development Commands
-- Install Python deps (recommended in a venv): `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`.
-- Run a report pipeline (example: `valley`): `cd reports/ring_valley && python3 code/valley_study.py`.
-- Build a report PDF (run inside the report folder): `latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir <report>.tex`.
+## Keepalive
+- Prefer `./scripts/ka` for recurring autonomous Codex execution.
+- Natural-language intent mapping:
+  - "启动自动优化/持续跑": `./scripts/ka start <job> [task text...]`
+  - "自动审查/定时 review": `./scripts/ka start-as review <job> [task text...]`
+  - "自动构建/持续构建": `./scripts/ka start-as build <job> [task text...]`
+  - "巡检/监控": `./scripts/ka start-as monitor <job> [task text...]`
+- Default keepalive Codex runtime: `gpt-5.3-codex` with `xhigh` reasoning effort unless the user overrides it.
 
-## Coding Style & Naming Conventions
-- Python: 4-space indentation; prefer type hints; `snake_case` for functions/variables; `CamelCase` for dataclasses/classes.
-- Keep outputs deterministic when possible (fixed seeds are preferred for plots).
-- Don’t commit environments (`.venv/`, `venv/`) or LaTeX aux files (`build/`, `*.aux`, `*.log`, `*.fls`, `*.fdb_latexmk`).
+## Build and Test
+- Install Python deps: `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
+- List or resolve reports: `python3 scripts/reportctl.py list`
+- Build a report: `python3 scripts/reportctl.py build --report <id> --lang <cn|en>`
+- Fast repo audit: `python3 scripts/reportctl.py audit --fast`
+- Health check: `python3 scripts/reportctl.py doctor`
 
-## Testing Guidelines
-- No dedicated test framework is set up yet. Use lightweight sanity checks:
-  - `python3 -m py_compile reports/**/code/*.py` (or compile individual scripts you changed).
-  - Run a small/fast case and confirm expected files appear under that report’s `figures/` and `data/`.
-  - Ensure `latexmk` builds complete without errors (inside the report folder).
+## Conventions
+- Python: 4-space indentation, type hints preferred, `snake_case` for functions/variables, `CamelCase` for classes/dataclasses.
+- Keep outputs deterministic when practical.
+- Do not commit local environments, LaTeX aux files, `.next/`, `out/`, `node_modules/`, or runtime logs.
 
-## Commit & Pull Request Guidelines
-- This repo currently has no established git history/commit conventions. Use short, imperative commit messages or Conventional Commits (recommended), e.g. `docs: clarify notation`, `fix: correct Chebyshev reduction`, `feat: add scan flag`.
-- PRs should include: a short description, commands run, and (when outputs change) updated PDFs or clear regeneration steps.
+## Compatibility
+- Root-level `reports/`, `docs/`, `archives/`, `site/`, `schemas/`, `skills/`, `src/`, and `artifacts/` may exist as symlinks for backward compatibility.
+- New edits should target `research/`, `platform/`, and `packages/` paths directly.

@@ -1,0 +1,180 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xeCJK}
+\setCJKmainfont{Songti SC}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\newcommand{\FigDir}{figures}
+\newcommand{\TabDir}{tables}
+
+\title{2D 双 Walker Encounter + Shortcut 扩展报告\\\large A1/A8 稳健验证与双峰构造}
+\author{valley-k-small 扩展}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本扩展完成两件事：
+(1) 给出 appendix 中 Eq.~(A1) 与 Eq.~(A8) 的可落地数值验证流程（含轮廓选取、自适应离散与误差诊断）；
+(2) 在 2D 双 walker encounter 模型下加入有向 shortcut，构造并复现从单峰到双峰的转变。
+所有图、表、数据由同一脚本自动生成。
+\end{abstract}
+
+\section{任务目标}
+本次实现的核心是：
+\begin{enumerate}[leftmargin=1.4em]
+  \item 验证
+  \[
+  \frac{1}{2\pi i}\oint_C\frac{du}{u}\,\widetilde P_{n_0}(n,u)\widetilde P_{m_0}\!\left(n,\frac{z}{u}\right)
+  =
+  \sum_{k_1,k_2=0}^{N-1}\frac{h_{k_1}(n,n_0)h_{k_2}(n,m_0)}{1-z(1+s_{k_1})(1+s_{k_2})},
+  \]
+  即 Eq.~(A1)$\Leftrightarrow$(A8) 的数值一致性；
+  \item 在 2D 双 walker 相遇问题中，实现 shortcut 控制下的双峰 encounter 首达分布。
+\end{enumerate}
+
+\section{A1 到 A8 的推导路线（紧凑版）}
+记 $\alpha_k=1+s_k=1+q(\cos(2\pi k/N)-1)$，
+\[
+\widetilde P_{n_0}(n,u)=\sum_{k=0}^{N-1}\frac{h_k(n,n_0)}{1-u\alpha_k}.
+\]
+代入 A1 后，每个 $(k_1,k_2)$ 项的极点为
+\[
+u=\frac{1}{\alpha_{k_1}}\quad(\text{外极点}),\qquad
+u=z\alpha_{k_2}\quad(\text{内极点}).
+\]
+若选择圆轮廓 $|u|=r$ 满足
+\[
+\max_k|z\alpha_k|<r<\min_{k:\alpha_k\neq0}\left|\frac1{\alpha_k}\right|,
+\]
+则仅内极点被包围，留数求和得到
+\[
+\sum_{k_1,k_2}\frac{h_{k_1}(n,n_0)h_{k_2}(n,m_0)}{1-z\alpha_{k_1}\alpha_{k_2}},
+\]
+即 A8。
+
+\section{稳健数值算法}
+令 $u=re^{i\theta}$，则
+\[
+I(z)=\frac1{2\pi}\int_0^{2\pi}
+\widetilde P_{n_0}(n,re^{i\theta})
+\widetilde P_{m_0}\!\left(n,\frac{z}{re^{i\theta}}\right)
+\,d\theta
+\approx
+\frac1M\sum_{j=0}^{M-1}F\!\left(re^{2\pi ij/M}\right).
+\]
+实现中采用：
+\begin{enumerate}[leftmargin=1.4em]
+  \item 先检查可行环域 $r_{\mathrm{in}}<r<r_{\mathrm{out}}$；
+  \item 默认取 $r=\sqrt{r_{\mathrm{in}}r_{\mathrm{out}}}$；
+  \item 从 $M=16$ 开始翻倍，直到 $|I_{2M}-I_M|<\varepsilon(1+|I_{2M}|)$；
+  \item 与 A8 右侧直接双重和做交叉核对。
+\end{enumerate}
+
+\begin{table}[H]
+  \centering
+  \caption{A1/A8 数值验证结果。}
+  \label{tab:a1a8}
+  \input{\TabDir/a1a8_test_table.tex}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{\FigDir/a1a8_contour_convergence.pdf}
+  \caption{代表参数下，随轮廓离散点数 $M$ 增大时的误差收敛。}
+  \label{fig:a1a8-conv}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{\FigDir/a1a8_radius_invariance.pdf}
+  \caption{在合法环域内改变半径 $r$，结果保持稳定。}
+  \label{fig:a1a8-radius}
+\end{figure}
+
+\section{2D 双 Walker Encounter + Shortcut 模型}
+两条 walker 在反射边界 $N\times N$ 晶格独立运动（lazy + bias + shortcut）。
+定义相遇首达时间
+\[
+T_{\mathrm{enc}}=\min\{t\ge1:X_t=Y_t\},\qquad
+f_{\mathrm{enc}}(t)=\mathbb P(T_{\mathrm{enc}}=t).
+\]
+
+令
+$J_t(i,j)=\mathbb P(X_t=i,Y_t=j,\,T_{\mathrm{enc}}>t)$，
+则
+\[
+J_{t+1}=P_1^\top J_t P_2,
+\quad
+f_{\mathrm{enc}}(t+1)=\mathrm{tr}(J_{t+1}),
+\]
+并在每步将对角线质量清零（吸收）。
+
+此外，我们把 walker-A 轨迹分解为「已使用 shortcut」与「未使用 shortcut」两类，得到两条条件贡献曲线，用于解释双峰机制。
+
+\section{双峰结果与解释}
+代表配置：$N=11, q=0.72$，起点 $(2,2)$ 与 $(8,8)$，两 walker 施加相反漂移；A 的 shortcut 为 $(2,2)\to(7,7)$，B 的 shortcut 强度为 A 的 $0.1\beta$。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.62\linewidth]{\FigDir/encounter_geometry.pdf}
+  \caption{2D encounter 几何与 shortcut 布置。}
+  \label{fig:geo}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.78\linewidth]{\FigDir/encounter_fpt_overlay.pdf}
+  \caption{$\beta$ 扫描下的 encounter FPT。可见由单峰向双峰过渡（约从 $\beta\ge0.30$ 开始出现两峰）。}
+  \label{fig:fpt-overlay}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.78\linewidth]{\FigDir/encounter_shortcut_decomp.pdf}
+  \caption{代表 $\beta$ 的通道分解：早峰主要来自已使用 shortcut 的轨迹，晚峰主要来自未使用 shortcut 的轨迹。}
+  \label{fig:decomp}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.78\linewidth]{\FigDir/encounter_beta_phase.pdf}
+  \caption{$\beta$ 扫描的 peak ratio / valley ratio 及 phase 标签。}
+  \label{fig:phase}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{shortcut 扫描指标与 phase。}
+  \label{tab:scan}
+  \input{\TabDir/encounter_scan_table.tex}
+\end{table}
+
+\section{易错点与调试建议}
+\begin{enumerate}[leftmargin=1.4em]
+  \item \textbf{A1/A8 轮廓错误：}若 $r_{\mathrm{in}}\ge r_{\mathrm{out}}$，不要继续积分。
+  \item \textbf{近奇异分母：}监控 $\min_{k_1,k_2}|1-z\alpha_{k_1}\alpha_{k_2}|$。
+  \item \textbf{早期微峰误判：}双峰判定需设定 $t_{\mathrm{ignore}}$ 并统一平滑窗口。
+  \item \textbf{质量守恒检查：}持续记录 $\sum_t f(t)$ 与尾部 survival。
+\end{enumerate}
+
+\section{复现命令}
+\begin{verbatim}
+python3 reports/grid2d_two_walker_encounter_shortcut/code/two_walker_encounter_report.py
+
+cd reports/grid2d_two_walker_encounter_shortcut
+latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build \
+  -emulate-aux-dir grid2d_two_walker_encounter_shortcut_cn.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build \
+  -emulate-aux-dir grid2d_two_walker_encounter_shortcut_en.tex
+\end{verbatim}
+
+\end{document}

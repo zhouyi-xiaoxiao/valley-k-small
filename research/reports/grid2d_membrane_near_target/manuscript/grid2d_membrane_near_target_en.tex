@@ -38,7 +38,7 @@ Main outcomes:
 \begin{itemize}
   \item For symmetric membranes, clear-double forms a continuous ultra-low leakage band (see Figure~\ref{fig:sym-phase} and Table~\ref{tab:sym-w16}); it then enters a weak-double transition band and finally turns mostly single-peak at higher leakage.
   \item A clear asymmetric representative ($\kappa_\uparrow=0.002,\kappa_\downarrow=0$) keeps robust bimodality and changes valley/second-peak composition in the L$\times$R class decomposition.
-  \item In the no-corridor two-target setup, near-start placement yields stable clear-double: the representative case $(b_x,d,\Delta y)=(0.07,2,3)$ gives near/far mass $\approx0.326/0.674$ with peaks around $(11,739)$; the dedicated showcase clear-instance is $(0.12,4,1)$ with near/far mass $\approx0.350/0.650$ and a deeper valley (valley/max $\approx0.007$).
+  \item In the no-corridor two-target setup, the mechanism-first physics anchor $(b_x,d,\Delta y)=(0.12,2,2)$ gives near/far mass $\approx0.324/0.676$ with $(t_{p1},t_v,t_{p2})\approx(7,196,469)$, while the dedicated showcase clear-instance remains $(0.12,4,1)$ with near/far mass $\approx0.350/0.650$ and valley/max $\approx0.007$.
 \end{itemize}
 
 \section{Model and Shared Baseline}
@@ -69,7 +69,7 @@ Classes are \texttt{L0R0}, \texttt{L0R1}, \texttt{L1R0}, \texttt{L1R1}.
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.86\linewidth]{figures/membrane_symmetric_phase_map.pdf}
-  \caption{Symmetric membrane phase map (rows: $W_y$, columns: $\kappa$).}
+  \caption{Symmetric membrane phase map (rows: $W_y$, columns: $\kappa$). The colorbar is discrete: phase $\in\{0,1,2\}$ only.}
   \label{fig:sym-phase}
 \end{figure}
 
@@ -94,7 +94,7 @@ In this run (taking the $W_y=16$ slice as reference), strong bimodality graduall
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.86\linewidth]{figures/membrane_asymmetric_phase_map.pdf}
-  \caption{Asymmetric membrane phase map ($\kappa_\uparrow$ vs $\kappa_\downarrow$).}
+  \caption{Asymmetric membrane phase map ($\kappa_\uparrow$ vs $\kappa_\downarrow$). The colorbar is discrete: phase $\in\{0,1,2\}$ only.}
   \label{fig:asym-phase}
 \end{figure}
 
@@ -117,28 +117,62 @@ Representative overlays:
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.88\linewidth]{figures/membrane_rep_sym_geometry.pdf}
-  \caption{Symmetric membrane representative geometry (corridor band, membrane location, start/target, local-bias direction).}
+  \caption{Symmetric membrane representative geometry (corridor band, start/target, local-bias direction). The two dashed horizontal lines are the two semi-permeable membrane boundaries; in the symmetric case they are physically the same kind of membrane with the same permeability $\kappa_\uparrow=\kappa_\downarrow=0.002$.}
   \label{fig:rep-sym-geo}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_sym_fpt.pdf}
-  \caption{Symmetric representative ($\kappa=0.002$): total FPT and corridor/outer-source flux decomposition.}
-  \label{fig:rep-sym-fpt}
+  \includegraphics[width=0.84\linewidth]{figures/one_target_basin_schematic.pdf}
+  \caption{Exact one-target committor geometry used in the strict recross definition. The figure shows the start basin $A=\{x\le x_s+1,\ |y-y_s|\le 1\}$, the target set $B$, and the commitment surface built from $q=0.5$.}
+  \label{fig:one-target-basin}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_sym_fpt.pdf}
+  \caption{Symmetric representative ($\kappa=0.002$): total FPT and last-hop source decomposition. In this geometry the outer-source branch is identically zero, because every source state adjacent to the target lies inside the corridor.}
+  \label{fig:rep-sym-fpt}
+\end{figure}
+
+Figure~\ref{fig:one-target-basin} is now placed next to the representative geometry so the basin/committor picture is visible before the class-decomposition discussion starts. The green region is the strict-recross start basin, and the white contour is the $q=0.5$ commitment surface.
+
+To answer the concrete question ``when does bimodality disappear as the red start point moves up/down/left/right?'', we now scan $(x_s,y_s)$ over the full reflecting box. The black box marks the original start, and the dashed gray T cell marks the target location itself (excluded as an admissible start); any cell where phase drops from 2 to 1/0 is a loss of the clear double-peak regime.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/one_target_start_phase_map.pdf}
+  \caption{Global one-target phase map under moved start positions. The axes are the moved $x_s,y_s$; the black box marks the original start, T marks the target cell, and A/B/C mark three key phase0 exemplars. Phase only takes the discrete values $\{0,1,2\}$, so the plot is rendered with discrete color blocks rather than a continuous gradient.}
+  \label{fig:one-target-start-phase}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/one_target_start_phase0_atlas.pdf}
+  \caption{Geometry schematics for the three phase0 exemplars A/B/C from Figure~\ref{fig:one-target-start-phase}. A is the earliest centerline failure point $(46,7)$; B is an off-axis failure point near the target $(47,5)$; C is the target-adjacent collapse point $(57,7)$. Together they show that the one-target double peak does not die first near the original red point; phase0 appears only after the start is pushed into the right-side near-target band.}
+  \label{fig:one-target-start-phase0-atlas}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/one_target_start_sep_map.pdf}
+  \caption{Local-neighborhood separation score around the original red point. It complements the discrete phase map by showing how the peak-valley structure weakens before or after a phase drop.}
+  \label{fig:one-target-start-sep}
+\end{figure}
+
+The full scan shows that phase0 does not appear near the original start. Instead it is confined to a right-side band in front of the target: the nearest phase0 point is already $(46,7)$, and the full phase0 region occupies approximately $x_s\in[46,59]$ and $y_s\in[3,11]$. So the one-target double peak first degrades from clear-double to weak-double (phase 2 $\to$ 1); only when the start is pushed almost onto the target side does the second peak disappear completely.
+
+\begin{figure}[!htbp]
+  \centering
   \includegraphics[width=0.88\linewidth]{figures/membrane_rep_asym_geometry.pdf}
-  \caption{Asymmetric membrane representative geometry (different top/bottom membrane permeabilities).}
+  \caption{Asymmetric membrane representative geometry. The two dashed horizontal lines are still semi-permeable membranes; only their permeabilities differ between top and bottom.}
   \label{fig:rep-asym-geo}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.86\linewidth]{figures/membrane_rep_asym_fpt.pdf}
-  \caption{Asymmetric representative ($\kappa_\uparrow=0.002,\kappa_\downarrow=0$): total FPT and flux decomposition.}
+  \caption{Asymmetric representative ($\kappa_\uparrow=0.002,\kappa_\downarrow=0$): total FPT and last-hop source decomposition. Here again the outer-source branch is identically zero for geometric reasons, so the useful information is that the total curve coincides with the corridor-source branch.}
   \label{fig:rep-asym-fpt}
 \end{figure}
 
@@ -175,51 +209,116 @@ Representative overlays:
 With strict recross (visit $\Sigma_{q^*}$ then return to $A$), the exact decomposition shows: peak1 is \texttt{L0R0}-dominated, valley remains mostly \texttt{L0R0} with increased \texttt{L1R0}, and peak2 is \texttt{L0R1}-dominated. So the late peak is mainly a commitment-failure effect, not necessarily leak-driven.
 
 \section{Track B: No Corridor + Two Targets (Near-Start Target)}
-We remove corridor geometry and keep reflecting boundaries only. One target is placed near the start, and we optimize in two stages: first maximize clear coverage over candidate grids, then select a dedicated clear-instance from all candidate results for the sharpest double-peak visualization.
+We remove corridor geometry and keep reflecting boundaries only. One target is placed near the start, and Track B is now organized around two distinct anchors: a \emph{physics anchor} $(b_x,d,\Delta y)=(0.12,2,2)$ for mechanism analysis, and a \emph{showcase clear-instance} $(0.12,4,1)$ for the sharpest double-peak visualization. The old coarse $(d,b_x)$ scan is still kept as background, but the narrative below follows the order ``geometry $\rightarrow$ branch splitting $\rightarrow$ continuation $\rightarrow$ loss modes'' so we do not classify a disappearing second peak before checking what physically disappeared.
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.88\linewidth]{figures/two_target_nearstart_phase_map.pdf}
-  \caption{No-corridor two-target phase map (near-target distance $d$ vs $b_x$).}
-  \label{fig:tt-near-phase}
+  \includegraphics[width=0.96\linewidth]{figures/two_target_geometry_atlas.pdf}
+  \caption{General no-corridor geometry atlas. The four panels show the physics anchor clear-double, the showcase clear-instance, a near-overcapture loss, and a misaligned near-target loss. We only draw reflecting-box geometry, drift arrows, and target annotations, so the schematic no longer resembles a membrane barrier.}
+  \label{fig:tt-geometry-atlas}
 \end{figure}
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.88\linewidth]{figures/two_target_nearstart_sep_map.pdf}
-  \caption{No-corridor two-target separation map.}
-  \label{fig:tt-near-sep}
-\end{figure}
+The atlas in Figure~\ref{fig:tt-geometry-atlas} gives the qualitative vocabulary used in the rest of Track B. The physics anchor is the route we use to interpret where the second peak comes from; the showcase clear-instance is kept separately because it maximizes visual sharpness rather than explanatory simplicity.
 
-\begin{table}[!htbp]
-  \centering
-  \footnotesize
-  \input{tables/two_target_nearstart_summary.tex}
-  \caption{Per-$b_x$ summary: clear intervals and best near-target distance.}
-  \label{tab:tt-near-summary}
-\end{table}
+At the physics anchor $(b_x,d,\Delta y)=(0.12,2,2)$, the near/far splitting is already clean: $P_{\rm near}\approx0.324$, $P_{\rm far}\approx0.676$, and the three characteristic times are $(t_{p1},t_v,t_{p2})=(7,196,469)$. So the basic mechanism is not ``one peak plus a tail shoulder''; it is an honest competition between a fast near-hit branch and a slower far-hit branch with well-separated conditional time scales.
 
-Representative case ($W_y=16$, $b_x=0.07$, $d=2$):
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.88\linewidth]{figures/two_target_rep_geometry.pdf}
-  \caption{Representative no-corridor geometry (start, near target, far target, and global drift direction).}
+  \caption{Physics-anchor geometry (legacy ``representative'' file name): reflecting box, start, near target, far target, and global drift direction.}
   \label{fig:tt-near-rep-geo}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.86\linewidth]{figures/two_target_rep_fpt.pdf}
-  \caption{Representative no-corridor case: total FPT with near/far splitting components.}
+  \caption{Physics-anchor total FPT together with the exact near/far splitting. Peak1 is near-dominated and peak2 is far-dominated.}
   \label{fig:tt-near-rep-fpt}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.94\linewidth]{figures/two_target_rep_doublepeak_example.pdf}
-  \caption{No-corridor clear-double exemplar: left, a tail-emphasized linear view (peak1 is clipped and marked as \texttt{p1*} for readability of valley/peak2); right, a log view with $y\ge 10^{-6}$.}
+  \caption{Physics-anchor double-peak visualization: a tail-emphasized linear view and a log view. The second peak remains explicit in both views.}
   \label{fig:tt-near-doublepeak-example}
 \end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/two_target_rep_window_split.pdf}
+  \caption{Window-wise near/far mass fractions in the physics-anchor case. Peak1 stays near-dominated, the valley is mixed, and peak2 is far-dominated.}
+  \label{fig:tt-near-window}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/two_target_committor_surface.pdf}
+  \caption{Physics-anchor splitting committor field. The heatmap value is $q_{\rm far}(x)=\mathbb P_x(\tau_{\rm far}<\tau_{\rm near})$, and the single black contour is the commitment surface $\Sigma_{0.5}=\{q_{\rm far}=0.5\}$. It separates near-dominant and far-dominant regions and gives a geometric picture for the branch split.}
+  \label{fig:tt-committor-surface}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/two_target_physics_env_heatmap.pdf}
+  \caption{Physics-anchor conditional occupancy and environment heatmaps. They show the fast near-hit and slow far-hit families as two distinct dynamical routes rather than two plotting artifacts of the same family.}
+  \label{fig:tt-physics-env}
+\end{figure}
+
+The splitting committor in Figure~\ref{fig:tt-committor-surface} closes the mechanism loop: $q_{\rm far}(x_s)=0.676009$ agrees with the exact far-hit mass $P_{\rm far}=0.676009$ to numerical precision, and the $q_{\rm far}=0.5$ contour gives a literal dividing surface between near-dominant and far-dominant regions. This is why we now describe the second peak as a far-branch phenomenon before talking about any phase label.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/two_target_start_peak_branch.pdf}
+  \caption{Peak-branch continuation under start motion. We compare \texttt{source\_only\_x} against the control family \texttt{source\_plus\_near\_x}, where the near target is translated together with the source.}
+  \label{fig:tt-start-branches}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/two_target_start_mass_budget.pdf}
+  \caption{Start-scan mass budget. We track $P_{\rm near}$, $P_{\rm far}$, the peak-window masses $M_1/M_2$, and the ordered loss-mode strip.}
+  \label{fig:tt-start-mass}
+\end{figure}
+
+Figures~\ref{fig:tt-start-branches} and \ref{fig:tt-start-mass} answer the first continuation question. When only the source is moved in $x$ while the near target is fixed, only $4/11$ positions remain \texttt{clear}; the remaining rows are mostly \texttt{near\_mass\_loss} ($5$ cases) plus a smaller \texttt{far\_broadening} sector ($2$ cases). In contrast, the comoving control \texttt{source\_plus\_near\_x} stays \texttt{clear} for all $11$ positions. So the second peak is not primarily lost by moving the source per se; it is lost when source motion changes the global source-near-boundary geometry and suppresses the early near branch.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/two_target_near_lossmode_bx012.pdf}
+  \caption{Near-target loss-mode map at $b_x=0.12$ over $(d,\Delta y)$. The phase-2 boundary is overlaid on top of the ordered loss-mode classification. The colorbar follows the full six-label classifier, but only \texttt{clear}, \texttt{near\_mass\_loss}, and \texttt{far\_broadening} are populated in this scan window; the numbers in parentheses give the per-label counts for this panel.}
+  \label{fig:tt-loss-bx012}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/two_target_near_lossmode_bx014.pdf}
+  \caption{Near-target loss-mode map at $b_x=0.14$. Increasing the forward bias shrinks the robust region mainly through the same near-branch failure mode; although the colorbar keeps all six labels for consistency, only three are activated in this panel as well.}
+  \label{fig:tt-loss-bx014}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/two_target_failure_env_heatmap.pdf}
+  \caption{Failure exemplar at $(b_x,d,\Delta y)=(0.12,2,6)$, classified as \texttt{near\_mass\_loss}. The slow far branch remains, but the fast near branch loses enough weight that the clear-double case disappears.}
+  \label{fig:tt-loss-env}
+\end{figure}
+
+The near-target position scan addresses the second question directly. Over the full $(d,\Delta y)$ map, $67/77$ cases remain phase 2 at $b_x=0.12$, while $59/77$ remain phase 2 at $b_x=0.14$. Across both slices the dominant failure mode is \texttt{near\_mass\_loss} (22 cases in total), with only six \texttt{far\_broadening} cases and no \texttt{tail\_truncation\_risk} after the adaptive-horizon guard. The failure exemplar in Figure~\ref{fig:tt-loss-env} makes the interpretation concrete: moving the near target too far off alignment destroys the fast branch before it destroys the slow branch.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/two_target_nearstart_phase_map.pdf}
+  \caption{Coarse no-corridor phase map (near-target distance $d$ vs $b_x$) retained as a global reference. The colorbar is discrete: phase $\in\{0,1,2\}$ only.}
+  \label{fig:tt-near-phase}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \input{tables/two_target_nearstart_summary.tex}
+  \caption{Background summary of the original $(d,b_x)$ scan: clear intervals and best near-target distance per $b_x$.}
+  \label{tab:tt-near-summary}
+\end{table}
 
 \begin{table}[!htbp]
   \centering
@@ -232,22 +331,15 @@ Representative case ($W_y=16$, $b_x=0.07$, $d=2$):
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.94\linewidth]{figures/two_target_no_corridor_clear_instance.pdf}
-  \caption{Dedicated no-corridor clear-instance figure (maximum showcase-score over all candidate scans): tail-emphasized linear panel plus log panel to keep valley/peak2 structure explicit.}
+  \caption{Dedicated no-corridor showcase clear-instance (maximum showcase score over all candidate scans): tail-emphasized linear panel plus log panel to keep valley/peak2 structure explicit.}
   \label{fig:tt-near-clear-instance}
 \end{figure}
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.82\linewidth]{figures/two_target_rep_window_split.pdf}
-  \caption{Window-wise near/far mass fractions in the representative case.}
-  \label{fig:tt-near-window}
-\end{figure}
-
-The clear-instance metrics (near/far masses, sep-score, valley/max, peak/min margins, showcase score, and splitting-committor closure error $\varepsilon_{\rm split}$) are listed in Table~\ref{tab:tt-near-clear-instance}. In this round we apply a robustness gate before final ranking (prioritizing positive \texttt{peak-margin/min-margin} with deep-valley preference), so the selected no-corridor case is not only phase=2-valid but also visually stable under threshold perturbations. The current auto-selected clear-instance comes from the adaptive-refinement round, $(b_x,d,\Delta y)=(0.12,4,1)$, with \texttt{peak-margin}=0.070, \texttt{min-margin}=0.070, and \texttt{showcase}=1.92. It passes the first gate:
+The clear-instance metrics (near/far masses, sep-score, valley/max, peak/min margins, showcase score, and splitting-committor closure error $\varepsilon_{\rm split}$) are listed in Table~\ref{tab:tt-near-clear-instance}. The selected showcase case comes from the adaptive-refinement round, $(b_x,d,\Delta y)=(0.12,4,1)$, with \texttt{peak-margin}=0.070, \texttt{min-margin}=0.070, and \texttt{showcase}=1.92. It passes the first robustness gate
 \[
 \mathrm{peak\mbox{-}margin}\ge 0.07,\qquad \mathrm{min\mbox{-}margin}\ge 0.07,\qquad \mathrm{valley}/\max\le 0.10.
 \]
-Its primary-gate audit reports \texttt{gate-pass=yes}, \texttt{gate-slack}=0.070 (minimum slack over the three thresholds), and 168 candidates in the first gate pool.
+Its primary-gate audit reports \texttt{gate-pass=yes}, \texttt{gate-slack}=0.070 (minimum slack over the three thresholds), and 168 candidates in the first gate pool. We keep this point as the sharpest picture, but all mechanism claims in Track B are anchored at $(0.12,2,2)$.
 
 \section{Method Reference (Committor + 2x2 Classes)}
 \subsection*{Reproducible Definition of Phase and sep-score}
@@ -265,6 +357,17 @@ plus side-dominance tolerance (\texttt{dominance\_tol}=0.02). Define
 \[
 \mathrm{has\_double}:=\mathbf 1\{t_{p1},t_{p2}\ \text{both exist}\}.
 \]
+These front-end conditions already form the first anti-fake filter:
+\begin{itemize}
+  \item Smoothing $\tilde f=\mathrm{smooth}_7(f)$ suppresses parity oscillations, staircase artifacts, and tiny numerical ripples, so discrete noise is not promoted into a second peak.
+  \item The relative threshold $0.06\,\max\tilde f$ removes very small tail bumps; if a would-be second peak is below $6\%$ of the main peak, it is more naturally treated as tail roughness than as a genuine lobe.
+  \item The time-gap condition $t_{p2}-t_{p1}\ge 20$ rejects shoulder structures on a single broad peak; without enough separation, two local maxima are usually just one lobe with a wrinkle.
+  \item Candidate-level balance $\mathrm{peak\_balance}\ge 0.08$ rejects extremely weak secondary ripples, so a tiny bulge next to a main peak is not counted as a second peak.
+  \item $\mathrm{valley\_drop}\ge 0.08$ enforces a nontrivial valley below the higher peak and removes shallow-notch pseudo-splitting.
+  \item $\mathrm{minor\_drop}\ge 0.005$ further requires the valley to sit meaningfully below the weaker peak itself, specifically targeting near-flat plateaus or light waviness that can masquerade as a second peak.
+  \item Side-dominance tolerance forces each selected peak to be near-dominant on its own side of the valley, which blocks the common shoulder-artifact failure mode.
+\end{itemize}
+So the later phase labels operate only after this first pass has already removed most obvious fake double peaks.
 
 \paragraph{(2) One-target phase definition}
 Define
@@ -283,6 +386,14 @@ Then
 0,& \mathrm{has\_double}=0.
 \end{cases}
 \]
+The role of each threshold is:
+\begin{itemize}
+  \item $\mathrm{has\_double}=1$ is the basic prerequisite: if the front-end detector does not find two credible peaks, the case cannot be called clear-double.
+  \item $\mathrm{sep}_{\rm peaks}\ge 1.0$ requires the distance between the two peak centers to be at least comparable to the sum of their half-widths; this blocks ``one broad peak with a small wiggle'' and heavily overlapping two-lobe shapes.
+  \item $\mathrm{valley}/\max\le 0.35$ requires a sufficiently deep valley; this blocks shallow-notch or double-shoulder shapes that are visually close to a single peak.
+  \item $\mathrm{peak\_balance}\ge 0.15$ requires the weaker peak to retain at least $15\%$ of the stronger peak height; this blocks cases where the ``second peak'' is only a tiny bump trailing the main peak.
+\end{itemize}
+So for one-target runs, \textbf{phase=2} is a deliberately shape-based clear-double label: two peaks must be separated, the valley must be real, and the weaker peak must still be non-negligible.
 
 \paragraph{(3) Two-target phase definition}
 Define modal times and mode-separation score
@@ -313,7 +424,38 @@ Then
 0,& \mathrm{has\_double}=0.
 \end{cases}
 \]
-So mathematically, \textbf{phase=1} means ``double peaks are detected, but at least one clear-double threshold is not met''.
+The two-target gate is stricter than the one-target gate because here we can test not only total-curve shape but also the physical near/far branch split:
+\begin{itemize}
+  \item $\mathrm{has\_double}=1$ is still required at the level of the total FPT curve; if the total law does not even look two-peaked, the case cannot be clear-double.
+  \item $\mathrm{sep}_{\rm mode}\ge 1.0$ compares the modal times and widths of $f_{\rm near}$ and $f_{\rm far}$ themselves, not just the total curve; this blocks cases where the total curve has a shallow notch even though the two physical branches do not have genuinely separated time scales.
+  \item $\min(P_{\rm near},P_{\rm far})\ge 0.15$ forces both branches to carry nontrivial mass; this blocks ``one real branch plus one tiny tail branch'' from being promoted into a true double-peak claim.
+  \item $\mathrm{valley}/\max\le 0.35$ again enforces a real valley in the total curve and rejects shallow-notch shapes.
+  \item $\mathrm{peak\_ratio}\ge 0.10$ requires the weaker peak in the total law to stay above $10\%$ of the stronger one; this blocks extremely small secondary bumps.
+  \item $(\mathrm{peak\_ratio}-\mathrm{valley}/\max)\ge 0.01$ further requires the weaker peak to stand measurably above the valley floor; this specifically blocks plateau-like or lightly wavy shapes where the ``second peak'' is barely above the intervening valley.
+\end{itemize}
+So mathematically, \textbf{phase=1} means ``double peaks are detected, but at least one clear-double threshold is not met'', while \textbf{phase=2} in the two-target setting should be read as a joint statement about total-curve shape \emph{and} physically separated near/far branches.
+
+\subsection*{Adaptive Horizon Guard and Loss-Mode Rules}
+For Track B continuation scans we do not infer ``the second peak disappeared'' from a fixed horizon. We start from $t_{\max}=12000$ and double it until both
+\[
+\mathrm{survival\_tail}\le 10^{-12},
+\qquad
+t_{\mathrm{mode,far}} < 0.85\, t_{\max},
+\]
+or until the hard cap $t_{\max}=48000$ is reached. Any row that still violates the guard is labeled \texttt{tail\_truncation\_risk}. The ordered loss-mode classifier is then applied as
+\[
+\texttt{clear}\ \rightarrow\ \texttt{far\_mass\_loss}\ \rightarrow\ \texttt{near\_mass\_loss}\ \rightarrow\ \texttt{timescale\_merge}\ \rightarrow\ \texttt{far\_broadening}\ \rightarrow\ \texttt{tail\_truncation\_risk},
+\]
+with the following concrete meanings:
+\begin{itemize}
+  \item \texttt{clear}: the row still satisfies the full two-target clear-double gate, i.e., phase=2.
+  \item \texttt{far\_mass\_loss}: $P_{\rm far}<0.15$, so the slow far branch loses too much total mass to support the second peak.
+  \item \texttt{near\_mass\_loss}: $P_{\rm near}<0.15$, so the fast near branch loses mass first and the early peak collapses.
+  \item \texttt{timescale\_merge}: both masses remain nontrivial, but $\mathrm{sep}_{\rm mode}<1.0$ or $t_{\rm mode}^{\rm far}-t_{\rm mode}^{\rm near}<60$, meaning the near/far conditional timescales have merged and the valley is no longer sharp.
+  \item \texttt{far\_broadening}: none of the earlier rules fires, but the far branch has broadened enough to smear out the slow peak; physically, the late branch still exists in mass but no longer produces a clean peak top.
+  \item \texttt{tail\_truncation\_risk}: even at $t_{\max}=48000$ the horizon guard is not passed, so a missing second peak must still be treated as a time-window truncation risk rather than a physical loss.
+\end{itemize}
+So a lost case is first interpreted in terms of branch mass and branch width before being called a classification failure. In the current start and near-target continuation scans, all rows pass the horizon guard; the dominant loss mode is therefore physical (\texttt{near\_mass\_loss}), not numerical truncation. In the present $(d,\Delta y)$ window, only \texttt{clear}, \texttt{near\_mass\_loss}, and \texttt{far\_broadening} are actually populated, so the maps display only three colors even though the unified classifier keeps six labels.
 
 \subsection*{Committor Mechanism (Detailed)}
 Let the hitting time be $\tau_C:=\inf\{t\ge 0:\,X_t\in C\}$. On the discrete Markov chain with transition matrix $P$, let $A$ be the start basin (here a strip near the start) and $B$ be the absorbing target set. Define
@@ -440,39 +582,40 @@ So $\varepsilon_{\rm split}$ is theoretically zero; numerically, its scale shoul
   \centering
   \footnotesize
   \resizebox{\linewidth}{!}{\input{tables/two_target_splitting_committor_qc.tex}}
-  \caption{Splitting-committor closure QC for no-corridor two-target runs (representative + dedicated clear-instance): we report $q_{\rm far}(x_s)$, $P_{\rm far}$, $\varepsilon_{\rm split}$, and interior/boundary residual norms.}
+  \caption{Splitting-committor closure QC for no-corridor two-target runs (physics anchor, listed as ``representative'' in the legacy table, plus dedicated clear-instance): we report $q_{\rm far}(x_s)$, $P_{\rm far}$, $\varepsilon_{\rm split}$, and interior/boundary residual norms.}
   \label{tab:tt-splitting-qc}
 \end{table}
 
-Table~\ref{tab:tt-splitting-qc} shows that both routes satisfy $q_{\rm far}(x_s)\approx P_{\rm far}$, with $\varepsilon_{\rm split}$ at $10^{-8}$ and $10^{-9}$ scales, while interior Bellman residuals stay at the $10^{-11}$ scale. This closes the mechanism loop behind the fast/slow peak split for both representative and showcase-quality clear-instance routes. We track these residuals together with $\varepsilon_{\rm split}$ as automatic QC scalars in continuous optimization runs.
+Table~\ref{tab:tt-splitting-qc} shows that both routes satisfy $q_{\rm far}(x_s)\approx P_{\rm far}$, with $\varepsilon_{\rm split}$ already at the $10^{-9}$ scale for both rows, while interior Bellman residuals stay at the $10^{-11}$ scale. This closes the mechanism loop behind the fast/slow peak split for both the physics-anchor route and the showcase-quality clear-instance route. We track these residuals together with $\varepsilon_{\rm split}$ as automatic QC scalars in continuous optimization runs.
 
 \subsection*{Committor Implementation in This Report}
 \begin{enumerate}
-  \item Build the exact transition kernel for each representative case (including laziness, drift, membrane permeability, and reflecting boundaries).
-  \item Use $A=\{x\le x_s+1,\ |y-y_{\rm mid}|\le 1\}$ and $B=\{\text{target}\}$, and solve $q$ via fixed-point iteration with tolerance $10^{-11}$; record interior Bellman residual and boundary mismatch as quality diagnostics.
+  \item Build the exact transition kernel for each anchor case (including laziness, drift, membrane permeability, and reflecting boundaries).
+  \item Use $A=\{x\le x_s+1,\ |y-y_s|\le 1\}$ and $B=\{\text{target}\}$, and solve $q$ via fixed-point iteration with tolerance $10^{-11}$; record interior Bellman residual and boundary mismatch as quality diagnostics, and render the basin/commitment schematic in Figure~\ref{fig:one-target-basin}.
   \item Use exact augmented-state recursion on $(x,\ell,s,r)$ (not MC): $\ell$ tracks leak, $s$ tracks whether $\Sigma_{q^*}$ has been visited, and $r$ tracks strict recross (return to $A$ after visiting $\Sigma_{q^*}$).
   \item Report $q^*=0.5$ as default and additionally provide $q^*\in\{0.4,0.5,0.6\}$ robustness results (Table~\ref{tab:membrane-qstar-sens}).
-  \item For no-corridor two-target cases, keep the strict identity $f=f_{\rm near}+f_{\rm far}$ as level-1 decomposition, then interpret windows with committor-consistent labels.
+  \item For no-corridor two-target cases, keep the strict identity $f=f_{\rm near}+f_{\rm far}$ as level-1 decomposition, export the full $q_{\rm far}$ field plus the $q_{\rm far}=0.5$ mask, and then interpret windows with committor-consistent labels.
 \end{enumerate}
 
 \section{Takeaways and Next Steps (Committor-Centric)}
 \subsection*{Implementation Summary}
 \begin{enumerate}
   \item Membrane corridor track: clear-double persists in both symmetric and asymmetric representatives; under strict recross, peak1 is mostly \texttt{L0R0}, valley gains \texttt{L1R0}, and peak2 is mostly \texttt{L0R1}.
-  \item No-corridor two-target track: we now run ``all-candidates scan $\rightarrow$ adaptive local refinement $\rightarrow$ robust-gated clear-instance selection'' and report a dedicated figure/table pair (Figure~\ref{fig:tt-near-clear-instance}, Table~\ref{tab:tt-near-clear-instance}); the selected clear-instance is $(b_x,d,\Delta y)=(0.12,4,1)$, keeps positive phase=2 margins, and passes the first robustness gate ($\mathrm{peak\mbox{-}margin}\ge 0.07$, $\mathrm{min\mbox{-}margin}\ge 0.07$, $\mathrm{valley}/\max\le 0.10$). We additionally export strong-gate audit scalars (\texttt{gate-pass}/\texttt{gate-slack}) plus first-gate candidate count (168) and keep the hard clear-figure integrity check (file exists and size $>2$KB), with figure path/size metadata written to `summary.json` for continuous monitoring.
-  \item Methodologically, committor is now fully operational in the pipeline; splitting committor is numerically closed against exact far-hit mass for both representative and clear-instance cases, and we jointly monitor $\varepsilon_{\rm split}$ plus committor residual diagnostics in automatic QC (current $\varepsilon_{\rm split}$ scale $\sim10^{-8}$ for representative and $\sim10^{-9}$ for clear-instance).
+  \item No-corridor two-target track: Track B is now explicitly split into a physics anchor $(0.12,2,2)$ and a showcase clear-instance $(0.12,4,1)$. The physics anchor gives $P_{\rm near}/P_{\rm far}\approx0.324/0.676$ with $(t_{p1},t_v,t_{p2})=(7,196,469)$, while the showcase case keeps the strongest visual margins and passes the first robustness gate ($\mathrm{peak\mbox{-}margin}\ge 0.07$, $\mathrm{min\mbox{-}margin}\ge 0.07$, $\mathrm{valley}/\max\le 0.10$). We additionally export strong-gate audit scalars (\texttt{gate-pass}/\texttt{gate-slack}), first-gate candidate count (168), the start-scan continuation CSV, and the $(d,\Delta y)$ loss-mode CSV.
+  \item Continuation results now answer the two physics questions directly: in the \texttt{source\_only\_x} start scan only $4/11$ positions remain \texttt{clear}, whereas the comoving control \texttt{source\_plus\_near\_x} stays \texttt{clear} for all $11$ positions; in the $(d,\Delta y)$ near-target scan the dominant failure mode is \texttt{near\_mass\_loss} (22 rows total), with no surviving truncation-risk rows after the adaptive horizon guard.
+  \item Methodologically, committor is now fully operational in the pipeline; splitting committor is numerically closed against exact far-hit mass for both the physics anchor and the clear-instance, and we jointly monitor $\varepsilon_{\rm split}$ plus committor residual diagnostics in automatic QC (current $\varepsilon_{\rm split}$ scale $\sim10^{-9}$ for both rows).
   \item Operationally, the current full local regression (codegen + CN/EN build checks) takes about $70\,$s per round (around 1.2 minutes), so it stays in the local-first regime ($<10$ minutes); we switch to Isambard only when projected single-round runtime exceeds $20$ minutes.
 \end{enumerate}
 
 \subsection*{Next Directions (All Grounded in Committor)}
 \begin{enumerate}
-  \item Scale exact decomposition from representative cases to full scan maps, and export threshold-margin maps for clear-instance quality (not just single-point tables).
+  \item Extend the current physics-anchor continuation from 1D start scans and two $b_x$ slices to the full $(d,\Delta y,b_x)$ continuation surface, while keeping the same loss-mode bookkeeping.
   \item Run $q^*$ sensitivity analysis (e.g., $0.4/0.5/0.6$) and report peak/valley class stability.
-  \item Systematically output splitting committor fields and window summaries for two-target scans:
+  \item Turn the exported splitting-committor fields and window summaries into threshold-margin maps and trajectory-family atlases for the whole two-target scan:
   \[
   q_{\rm far}(x)=\mathbb P_x(\tau_{\rm far}<\tau_{\rm near}),
   \]
-  and use both $\varepsilon_{\rm split}=|q_{\rm far}(x_s)-P_{\rm far}|$ (for representative and clear-instance routes) and \texttt{min-margin}/\texttt{gate-slack} as automatic quality checks.
+  while continuing to use both $\varepsilon_{\rm split}=|q_{\rm far}(x_s)-P_{\rm far}|$ and \texttt{min-margin}/\texttt{gate-slack} as automatic quality checks.
   \item Compare top/bottom membrane asymmetry versus directional asymmetry (inside/outside permeability mismatch) in a unified committor geometry view.
   \item Keep continuous build checks active (codegen + EN/CN LaTeX) and enforce routing policy in keepalive: run local for short rounds ($<10$ minutes), and use isbard doctor/auth + submit/status/fetch for large scans (projected round $>20$ minutes), with automatic local-smoke fallback on remote failures.
   \item For every remote round, always record \texttt{JOB\_ID}, \texttt{REMOTE\_DIR}, key artifact paths, and explicit next actions in the run summary.
@@ -480,8 +623,9 @@ Table~\ref{tab:tt-splitting-qc} shows that both routes satisfy $q_{\rm far}(x_s)
 
 \section*{Reproducibility}
 \begin{verbatim}
-cd reports/grid2d_membrane_near_target
-../../.venv/bin/python code/membrane_near_target_report.py
+cd research/reports/grid2d_membrane_near_target
+../../../.venv/bin/python code/membrane_near_target_report.py
+cd manuscript
 latexmk -pdf -interaction=nonstopmode -halt-on-error \
   -auxdir=build -emulate-aux-dir grid2d_membrane_near_target_en.tex
 \end{verbatim}

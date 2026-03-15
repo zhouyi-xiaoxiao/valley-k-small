@@ -30,14 +30,14 @@
 \section*{Headline Results}
 This report adds two new research tracks on the 2D rectangular setting while keeping the same phase criteria and peak-valley style used in earlier reports.
 \begin{enumerate}
-  \item \textbf{Corridor + one target:} replace fully reflecting corridor walls by semi-permeable membranes, with both symmetric ($\kappa_\uparrow=\kappa_\downarrow$) and asymmetric ($\kappa_\uparrow\neq\kappa_\downarrow$) cases.
+  \item \textbf{Corridor + one target:} replace fully reflecting corridor walls by semi-permeable membranes, with both symmetric ($\kappa_{\mathrm{c\to o}}=\kappa_{\mathrm{o\to c}}$) and directional ($\kappa_{\mathrm{c\to o}}\neq\kappa_{\mathrm{o\to c}}$) cases.
   \item \textbf{No corridor + two targets:} place one target close to the start and keep the other at the far side, to test robust ``fast near-hit + slow far-hit'' splitting.
 \end{enumerate}
 
 Main outcomes:
 \begin{itemize}
   \item For symmetric membranes, clear-double forms a continuous ultra-low leakage band (see Figure~\ref{fig:sym-phase} and Table~\ref{tab:sym-w16}); it then enters a weak-double transition band and finally turns mostly single-peak at higher leakage.
-  \item A clear asymmetric representative ($\kappa_\uparrow=0.002,\kappa_\downarrow=0$) keeps robust bimodality and changes valley/second-peak composition in the L$\times$R class decomposition.
+  \item Two directional representatives remain clear-double: easy-out/hard-return $(\kappa_{\mathrm{c\to o}},\kappa_{\mathrm{o\to c}})=(0.002,0)$ and hard-out/easy-return $(0,0.002)$. Their exact occupancy and flux diagnostics show which spatial trajectories feed peak1 versus peak2.
   \item In the no-corridor two-target setup, the mechanism-first physics anchor $(b_x,d,\Delta y)=(0.12,2,2)$ gives near/far mass $\approx0.324/0.676$ with $(t_{p1},t_v,t_{p2})\approx(7,196,469)$, while the dedicated showcase clear-instance remains $(0.12,4,1)$ with near/far mass $\approx0.350/0.650$ and valley/max $\approx0.007$.
 \end{itemize}
 
@@ -53,8 +53,12 @@ h=2,\quad m=5,\quad \delta_{\rm core}=1.00,\quad \delta_{\rm open}=0.55,\quad b_
 
 \subsection{Membrane Definition}
 Each wall-crossing attempt at a membrane edge is accepted with probability $\kappa$ and reflected with probability $1-\kappa$.
-Symmetric case: $\kappa_\uparrow=\kappa_\downarrow=\kappa$.
-Asymmetric case: $\kappa_\uparrow\neq\kappa_\downarrow$.
+In this revision the main asymmetry is \emph{directional}: for the same membrane edge, corridor$\to$outer and outer$\to$corridor crossings can have different pass probabilities,
+\[
+\kappa_{\mathrm{c\to o}},\qquad \kappa_{\mathrm{o\to c}}.
+\]
+Symmetric case: $\kappa_{\mathrm{c\to o}}=\kappa_{\mathrm{o\to c}}=\kappa$.
+Directional case: $\kappa_{\mathrm{c\to o}}\neq\kappa_{\mathrm{o\to c}}$.
 
 \subsection{Class Labels for Mechanism}
 We keep peak/valley windows and use a compact 4-class coding:
@@ -90,26 +94,26 @@ Classes are \texttt{L0R0}, \texttt{L0R1}, \texttt{L1R0}, \texttt{L1R1}.
 
 In this run (taking the $W_y=16$ slice as reference), strong bimodality gradually weakens with permeability: clear-double for $\kappa\in[0,0.0035]$, weak-double around $\kappa\in[0.0037,0.02]$, and mostly single-peak for $\kappa\ge 0.03$.
 
-\subsection{Asymmetric Scan}
+\subsection{Directional Scan}
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.86\linewidth]{figures/membrane_asymmetric_phase_map.pdf}
-  \caption{Asymmetric membrane phase map ($\kappa_\uparrow$ vs $\kappa_\downarrow$). The colorbar is discrete: phase $\in\{0,1,2\}$ only.}
+  \includegraphics[width=0.86\linewidth]{figures/membrane_directional_phase_map.pdf}
+  \caption{Directional membrane phase map ($\kappa_{\mathrm{c\to o}}$ vs $\kappa_{\mathrm{o\to c}}$). The colorbar is discrete: phase $\in\{0,1,2\}$ only.}
   \label{fig:asym-phase}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.86\linewidth]{figures/membrane_asymmetric_sep_map.pdf}
-  \caption{Asymmetric membrane separation map.}
+  \includegraphics[width=0.86\linewidth]{figures/membrane_directional_sep_map.pdf}
+  \caption{Directional membrane separation map.}
   \label{fig:asym-sep}
 \end{figure}
 
 \begin{table}[!htbp]
   \centering
   \footnotesize
-  \input{tables/membrane_asymmetric_topcases.tex}
-  \caption{Top asymmetric membrane cases (ranked by phase and separation).}
+  \input{tables/membrane_directional_topcases.tex}
+  \caption{Top directional membrane cases (ranked by phase and separation).}
   \label{tab:asym-top}
 \end{table}
 
@@ -117,7 +121,7 @@ Representative overlays:
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.88\linewidth]{figures/membrane_rep_sym_geometry.pdf}
-  \caption{Symmetric membrane representative geometry (corridor band, start/target, local-bias direction). The two dashed horizontal lines are the two semi-permeable membrane boundaries; in the symmetric case they are physically the same kind of membrane with the same permeability $\kappa_\uparrow=\kappa_\downarrow=0.002$.}
+  \caption{Symmetric membrane representative geometry (corridor band, start/target, local-bias direction). The two dashed horizontal lines are the two semi-permeable membrane boundaries; in the symmetric case they share the same directional permeability $\kappa_{\mathrm{c\to o}}=\kappa_{\mathrm{o\to c}}=0.002$.}
   \label{fig:rep-sym-geo}
 \end{figure}
 
@@ -164,22 +168,29 @@ The full scan shows that phase0 does not appear near the original start. Instead
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.88\linewidth]{figures/membrane_rep_asym_geometry.pdf}
-  \caption{Asymmetric membrane representative geometry. The two dashed horizontal lines are still semi-permeable membranes; only their permeabilities differ between top and bottom.}
+  \includegraphics[width=0.88\linewidth]{figures/membrane_rep_dir_out_geometry.pdf}
+  \caption{Directional representative with easy-out / hard-return $(\kappa_{\mathrm{c\to o}},\kappa_{\mathrm{o\to c}})=(0.002,0)$. The geometry is unchanged; only the two crossing directions on the same membrane are no longer equivalent.}
   \label{fig:rep-asym-geo}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_asym_fpt.pdf}
-  \caption{Asymmetric representative ($\kappa_\uparrow=0.002,\kappa_\downarrow=0$): total FPT and last-hop source decomposition. Here again the outer-source branch is identically zero for geometric reasons, so the useful information is that the total curve coincides with the corridor-source branch.}
+  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_dir_out_fpt.pdf}
+  \caption{Easy-out / hard-return representative: total FPT and last-hop source decomposition. Here again the outer-source branch is identically zero for geometric reasons, so the useful information is the shifted peak-valley timing under directional permeability.}
   \label{fig:rep-asym-fpt}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_dir_in_fpt.pdf}
+  \caption{Hard-out / easy-return representative $(\kappa_{\mathrm{c\to o}},\kappa_{\mathrm{o\to c}})=(0,0.002)$, shown for contrast with Figure~\ref{fig:rep-asym-fpt}.}
+  \label{fig:rep-dir-in-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
   \includegraphics[width=0.94\linewidth]{figures/membrane_class_window_bars.pdf}
-  \caption{Window-wise composition of 4 classes (L$\times$R).}
+  \caption{Window-wise composition of 4 classes (L$\times$R), used here as a consistency check rather than the primary spatial diagnostic.}
   \label{fig:membrane-class-bars}
 \end{figure}
 
@@ -207,6 +218,27 @@ The full scan shows that phase0 does not appear near the original start. Instead
 \end{table}
 
 With strict recross (visit $\Sigma_{q^*}$ then return to $A$), the exact decomposition shows: peak1 is \texttt{L0R0}-dominated, valley remains mostly \texttt{L0R0} with increased \texttt{L1R0}, and peak2 is \texttt{L0R1}-dominated. So the late peak is mainly a commitment-failure effect, not necessarily leak-driven.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/membrane_directional_window_occupancy_atlas.pdf}
+  \caption{Exact pre-hit occupancy conditioned on eventually landing in peak1 / valley / peak2 windows. The two rows compare easy-out / hard-return and hard-out / easy-return directional membranes.}
+  \label{fig:membrane-dir-occ}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/membrane_directional_window_flux.pdf}
+  \caption{Exact directional membrane flux conditioned on each window. The bars show expected corridor$\to$outer versus outer$\to$corridor crossings per window-hit trajectory, making the peak1/peak2 asymmetry explicit.}
+  \label{fig:membrane-dir-flux}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/membrane_directional_trajectory_atlas.pdf}
+  \caption{Small MC trajectory atlas aligned to peak1 and peak2 windows for the two directional representatives. These panels are illustrative only; the quantitative claims come from the exact diagnostics in Figures~\ref{fig:membrane-dir-occ} and \ref{fig:membrane-dir-flux}.}
+  \label{fig:membrane-dir-mc}
+\end{figure}
 
 \section{Track B: No Corridor + Two Targets (Near-Start Target)}
 We remove corridor geometry and keep reflecting boundaries only. One target is placed near the start, and Track B is now organized around two distinct anchors: a \emph{physics anchor} $(b_x,d,\Delta y)=(0.12,2,2)$ for mechanism analysis, and a \emph{showcase clear-instance} $(0.12,4,1)$ for the sharpest double-peak visualization. The old coarse $(d,b_x)$ scan is still kept as background, but the narrative below follows the order ``geometry $\rightarrow$ branch splitting $\rightarrow$ continuation $\rightarrow$ loss modes'' so we do not classify a disappearing second peak before checking what physically disappeared.
@@ -600,7 +632,7 @@ Table~\ref{tab:tt-splitting-qc} shows that both routes satisfy $q_{\rm far}(x_s)
 \section{Takeaways and Next Steps (Committor-Centric)}
 \subsection*{Implementation Summary}
 \begin{enumerate}
-  \item Membrane corridor track: clear-double persists in both symmetric and asymmetric representatives; under strict recross, peak1 is mostly \texttt{L0R0}, valley gains \texttt{L1R0}, and peak2 is mostly \texttt{L0R1}.
+  \item Membrane corridor track: clear-double persists in both symmetric and directional representatives; under strict recross, peak1 is mostly \texttt{L0R0}, valley gains \texttt{L1R0}, and peak2 is mostly \texttt{L0R1}. The new exact occupancy/flux panels further show which regions and crossing directions feed those windows.
   \item No-corridor two-target track: Track B is now explicitly split into a physics anchor $(0.12,2,2)$ and a showcase clear-instance $(0.12,4,1)$. The physics anchor gives $P_{\rm near}/P_{\rm far}\approx0.324/0.676$ with $(t_{p1},t_v,t_{p2})=(7,196,469)$, while the showcase case keeps the strongest visual margins and passes the first robustness gate ($\mathrm{peak\mbox{-}margin}\ge 0.07$, $\mathrm{min\mbox{-}margin}\ge 0.07$, $\mathrm{valley}/\max\le 0.10$). We additionally export strong-gate audit scalars (\texttt{gate-pass}/\texttt{gate-slack}), first-gate candidate count (168), the start-scan continuation CSV, and the $(d,\Delta y)$ loss-mode CSV.
   \item Continuation results now answer the two physics questions directly: in the \texttt{source\_only\_x} start scan only $4/11$ positions remain \texttt{clear}, whereas the comoving control \texttt{source\_plus\_near\_x} stays \texttt{clear} for all $11$ positions; in the $(d,\Delta y)$ near-target scan the dominant failure mode is \texttt{near\_mass\_loss} (22 rows total), with no surviving truncation-risk rows after the adaptive horizon guard.
   \item Methodologically, committor is now fully operational in the pipeline; splitting committor is numerically closed against exact far-hit mass for both the physics anchor and the clear-instance, and we jointly monitor $\varepsilon_{\rm split}$ plus committor residual diagnostics in automatic QC (current $\varepsilon_{\rm split}$ scale $\sim10^{-9}$ for both rows).
@@ -616,7 +648,7 @@ Table~\ref{tab:tt-splitting-qc} shows that both routes satisfy $q_{\rm far}(x_s)
   q_{\rm far}(x)=\mathbb P_x(\tau_{\rm far}<\tau_{\rm near}),
   \]
   while continuing to use both $\varepsilon_{\rm split}=|q_{\rm far}(x_s)-P_{\rm far}|$ and \texttt{min-margin}/\texttt{gate-slack} as automatic quality checks.
-  \item Compare top/bottom membrane asymmetry versus directional asymmetry (inside/outside permeability mismatch) in a unified committor geometry view.
+  \item Extend the same committor/flux analysis from directional asymmetry to segmented membranes (for example left/right heterogeneous patches) in a unified geometry view.
   \item Keep continuous build checks active (codegen + EN/CN LaTeX) and enforce routing policy in keepalive: run local for short rounds ($<10$ minutes), and use isbard doctor/auth + submit/status/fetch for large scans (projected round $>20$ minutes), with automatic local-smoke fallback on remote failures.
   \item For every remote round, always record \texttt{JOB\_ID}, \texttt{REMOTE\_DIR}, key artifact paths, and explicit next actions in the run summary.
 \end{enumerate}

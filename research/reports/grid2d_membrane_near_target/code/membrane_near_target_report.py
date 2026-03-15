@@ -45,6 +45,7 @@ from vkcore.grid2d.rect_bimodality.cli import (
 
 Coord = Tuple[int, int]
 Edge = Tuple[Coord, Coord]
+DirectedEdge = Tuple[Coord, Coord]
 
 LOSS_MODE_ORDER = [
     "clear",
@@ -426,8 +427,8 @@ def _draw_membrane_geometry_panel(
     start = case["start"]
     target = case["target"]
     y_mid, y_low, y_high, x0, x1 = case["wall_span"]
-    k_top = float(case["kappa_top"])
-    k_bottom = float(case["kappa_bottom"])
+    k_c2o = float(case["kappa_c2o"])
+    k_o2c = float(case["kappa_o2c"])
     ax.set_facecolor("#f5f3eb")
 
     # Corridor band shading.
@@ -462,6 +463,7 @@ def _draw_membrane_geometry_panel(
         return 0.35 + 0.55 * (1.0 - max(0.0, min(1.0, kappa)))
 
     membrane_ls = (0, (5, 3))
+    alpha_mem = _line_alpha(0.5 * (k_c2o + k_o2c))
     if y_low > 0:
         ax.plot(
             [x0 - 0.5, x1 + 0.5],
@@ -469,7 +471,7 @@ def _draw_membrane_geometry_panel(
             color="#2d2d2d",
             lw=2.1,
             linestyle=membrane_ls,
-            alpha=_line_alpha(k_bottom),
+            alpha=alpha_mem,
             zorder=4,
         )
     if y_high < Wy - 1:
@@ -479,7 +481,7 @@ def _draw_membrane_geometry_panel(
             color="#2d2d2d",
             lw=2.1,
             linestyle=membrane_ls,
-            alpha=_line_alpha(k_top),
+            alpha=alpha_mem,
             zorder=4,
         )
 
@@ -526,7 +528,7 @@ def _draw_membrane_geometry_panel(
 
     info_text = detail_text or (
         f"Wy={Wy}, bx={float(case['bx']):+.2f}, h={int(case.get('corridor_halfwidth', 1))}, m={int(case.get('wall_margin', 5))}\n"
-        f"k_up={k_top:.3f}, k_dn={k_bottom:.3f}"
+        f"k_c2o={k_c2o:.3f}, k_o2c={k_o2c:.3f}"
     )
     ax.text(
         0.01,
@@ -840,6 +842,152 @@ def plot_one_target_basin_schematic(
     cbar = fig.colorbar(im, ax=ax)
     cbar.set_label(r"$q(x)$")
     fig.tight_layout()
+    save_figure(fig, out_path)
+    plt.close(fig)
+
+
+def plot_one_target_window_occupancy_atlas(
+    out_path: Path,
+    *,
+    Lx: int,
+    case_blocks: Sequence[Tuple[str, dict, Dict[str, dict]]],
+    window_names: Sequence[str] = ("peak1", "valley", "peak2"),
+) -> None:
+    ensure_dir(out_path.parent)
+    n_rows = max(1, len(case_blocks))
+    n_cols = max(1, len(window_names))
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(4.0 * n_cols, 3.6 * n_rows))
+    axes_arr = np.atleast_2d(axes)
+    vmax = 0.0
+    for _, case, stats in case_blocks:
+        for wn in window_names:
+            if wn in stats:
+                vmax = max(vmax, float(np.max(stats[wn]["occupancy"])))
+    vmax = max(vmax, 1e-6)
+
+    for i, (label, case, stats) in enumerate(case_blocks):
+        Wy = int(case["Wy"])
+        y_mid, y_low, y_high, x0, x1 = case["wall_span"]
+        for j, wn in enumerate(window_names):
+            ax = axes_arr[i, j]
+            payload = stats.get(str(wn))
+            arr = np.asarray(payload["occupancy"], dtype=float) if payload is not None else np.zeros((Wy, Lx), dtype=float)
+            im = ax.imshow(arr, origin="lower", cmap="magma", vmin=0.0, vmax=vmax, aspect="equal", alpha=0.95)
+            for y in range(y_low, y_high + 1):
+                ax.add_patch(
+                    plt.Rectangle((-0.5, y - 0.5), float(Lx), 1.0, facecolor="#bde4f4", edgecolor="none", alpha=0.08, zorder=2)
+                )
+            _draw_lattice(ax, Lx=Lx, Wy=Wy)
+            membrane_ls = (0, (5, 3))
+            ax.plot([x0 - 0.5, x1 + 0.5], [y_low - 0.5, y_low - 0.5], color="#ffffff", lw=1.8, linestyle=membrane_ls, alpha=0.9, zorder=5)
+            ax.plot([x0 - 0.5, x1 + 0.5], [y_high + 0.5, y_high + 0.5], color="#ffffff", lw=1.8, linestyle=membrane_ls, alpha=0.9, zorder=5)
+            ax.scatter([case["start"][0]], [case["start"][1]], s=48, marker="s", color="#e53935", edgecolors="white", linewidths=0.7, zorder=7)
+            ax.scatter([case["target"][0]], [case["target"][1]], s=58, marker="D", color="#1565c0", edgecolors="white", linewidths=0.7, zorder=7)
+            occ_mass = 0.0 if payload is None else float(payload.get("occupancy_mass", 0.0))
+            hit_mass = 0.0 if payload is None else float(payload.get("hit_mass", 0.0))
+            ax.set_title(f"{label} | {wn}", fontsize=10)
+            ax.text(
+                0.02,
+                0.98,
+                f"hit={hit_mass:.3e}\nocc={occ_mass:.3e}",
+                transform=ax.transAxes,
+                ha="left",
+                va="top",
+                fontsize=7.5,
+                color="white",
+                bbox=dict(boxstyle="round,pad=0.16", fc=(0.05, 0.05, 0.05, 0.55), ec="none"),
+            )
+            ax.set_xlim(-0.5, Lx - 0.5)
+            ax.set_ylim(-0.5, Wy - 0.5)
+            ax.tick_params(which="both", left=False, bottom=False, labelleft=False, labelbottom=False)
+            for s in ax.spines.values():
+                s.set_linewidth(1.2)
+                s.set_color("#111111")
+
+    cbar = fig.colorbar(im, ax=axes_arr.ravel().tolist(), shrink=0.88)
+    cbar.set_label("normalized pre-hit occupancy")
+    fig.suptitle("Exact window-conditioned occupancy before absorption", fontsize=12, y=0.98)
+    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    save_figure(fig, out_path)
+    plt.close(fig)
+
+
+def plot_one_target_directional_flux(
+    out_path: Path,
+    *,
+    case_blocks: Sequence[Tuple[str, Dict[str, dict]]],
+    window_names: Sequence[str] = ("peak1", "valley", "peak2"),
+) -> None:
+    ensure_dir(out_path.parent)
+    n = max(1, len(case_blocks))
+    fig, axes = plt.subplots(1, n, figsize=(5.2 * n, 4.2), sharey=True)
+    axes_list = [axes] if n == 1 else list(axes)
+    xs = np.arange(len(window_names), dtype=float)
+    width = 0.34
+    for ax, (label, stats) in zip(axes_list, case_blocks):
+        c2o_vals: List[float] = []
+        o2c_vals: List[float] = []
+        for wn in window_names:
+            payload = stats.get(str(wn), {})
+            hit_mass = max(1e-15, float(payload.get("hit_mass", 0.0)))
+            c2o_vals.append(float(payload.get("flux_c2o", 0.0)) / hit_mass)
+            o2c_vals.append(float(payload.get("flux_o2c", 0.0)) / hit_mass)
+        ax.bar(xs - 0.5 * width, c2o_vals, width=width, color="#2c7fb8", label="corridor→outer")
+        ax.bar(xs + 0.5 * width, o2c_vals, width=width, color="#f03b20", label="outer→corridor")
+        ax.set_xticks(xs)
+        ax.set_xticklabels(list(window_names))
+        ax.set_title(label, fontsize=10)
+        ax.grid(axis="y", alpha=0.20)
+        ax.set_xlabel("window")
+    axes_list[0].set_ylabel("expected membrane crossings per window-hit trajectory")
+    handles, labels = axes_list[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.02), ncol=2, fontsize=8)
+    fig.suptitle("Exact directional membrane flux by peak/valley window", fontsize=12, y=0.98)
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    save_figure(fig, out_path)
+    plt.close(fig)
+
+
+def plot_one_target_trajectory_atlas(
+    out_path: Path,
+    *,
+    Lx: int,
+    case_windows: Sequence[Tuple[str, dict, str, List[List[Coord]]]],
+) -> None:
+    ensure_dir(out_path.parent)
+    n = max(1, len(case_windows))
+    n_cols = 2
+    n_rows = int(math.ceil(float(n) / float(n_cols)))
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(6.0 * n_cols, 4.5 * n_rows))
+    axes_list = list(np.atleast_1d(axes).reshape(-1))
+    for ax in axes_list[n:]:
+        ax.axis("off")
+
+    for ax, (case_label, case, window_name, trajectories) in zip(axes_list, case_windows):
+        _draw_membrane_geometry_panel(
+            ax,
+            Lx=Lx,
+            case=case,
+            title=f"{case_label} | {window_name}",
+            detail_text=f"k_c2o={float(case['kappa_c2o']):.3f}, k_o2c={float(case['kappa_o2c']):.3f}",
+        )
+        for path in trajectories:
+            if len(path) < 2:
+                continue
+            xs = [float(p[0]) for p in path]
+            ys = [float(p[1]) for p in path]
+            ax.plot(xs, ys, color="#3a7ca5", lw=1.0, alpha=0.30, zorder=9)
+        ax.text(
+            0.02,
+            0.06,
+            f"{len(trajectories)} sampled trajectories",
+            transform=ax.transAxes,
+            fontsize=8,
+            color="#1f1f1f",
+            bbox=dict(boxstyle="round,pad=0.16", fc="white", ec="#777777", lw=0.6, alpha=0.92),
+        )
+    fig.suptitle("MC trajectory sketches aligned to peak windows", fontsize=12, y=0.98)
+    fig.tight_layout(rect=(0, 0, 1, 0.96))
     save_figure(fig, out_path)
     plt.close(fig)
 
@@ -1805,8 +1953,8 @@ def build_membrane_case(
     delta_open: float,
     start_x: int,
     target_x: int,
-    kappa_top: float,
-    kappa_bottom: float,
+    kappa_c2o: float,
+    kappa_o2c: float,
     start: Coord | None = None,
     target: Coord | None = None,
 ) -> dict:
@@ -1843,17 +1991,38 @@ def build_membrane_case(
     local_bias_map.pop(target, None)
 
     membrane_edges: set[Edge] = set()
+    directed_barrier_map: Dict[DirectedEdge, float] = {}
+    membrane_c2o_edges: set[DirectedEdge] = set()
+    membrane_o2c_edges: set[DirectedEdge] = set()
     for edge in list(barrier_map.keys()):
         (x0, y0), (x1, y1) = edge
         if x0 == x1 and abs(y1 - y0) == 1:
             lowy = min(y0, y1)
             highy = max(y0, y1)
             if lowy == y_low - 1 and highy == y_low:
-                barrier_map[edge] = float(kappa_bottom)
                 membrane_edges.add(edge)
+                a, b = edge
+                a_in = bool(channel_mask[idx(a[0], a[1], Lx)])
+                b_in = bool(channel_mask[idx(b[0], b[1], Lx)])
+                if a_in != b_in:
+                    c = a if a_in else b
+                    o = b if a_in else a
+                    directed_barrier_map[(c, o)] = float(kappa_c2o)
+                    directed_barrier_map[(o, c)] = float(kappa_o2c)
+                    membrane_c2o_edges.add((c, o))
+                    membrane_o2c_edges.add((o, c))
             elif lowy == y_high and highy == y_high + 1:
-                barrier_map[edge] = float(kappa_top)
                 membrane_edges.add(edge)
+                a, b = edge
+                a_in = bool(channel_mask[idx(a[0], a[1], Lx)])
+                b_in = bool(channel_mask[idx(b[0], b[1], Lx)])
+                if a_in != b_in:
+                    c = a if a_in else b
+                    o = b if a_in else a
+                    directed_barrier_map[(c, o)] = float(kappa_c2o)
+                    directed_barrier_map[(o, c)] = float(kappa_o2c)
+                    membrane_c2o_edges.add((c, o))
+                    membrane_o2c_edges.add((o, c))
 
     src_idx, dst_idx, probs = build_transition_arrays_general_rect(
         Lx=Lx,
@@ -1862,6 +2031,7 @@ def build_membrane_case(
         local_bias_map=local_bias_map,
         sticky_map={},
         barrier_map=barrier_map,
+        directed_barrier_map=directed_barrier_map,
         long_range_map={},
         global_bias=(float(bx), 0.0),
     )
@@ -1897,7 +2067,10 @@ def build_membrane_case(
         "y_mid": y_mid,
         "channel_mask": channel_mask,
         "barrier_map": barrier_map,
+        "directed_barrier_map": directed_barrier_map,
         "membrane_edges": membrane_edges,
+        "membrane_c2o_edges": membrane_c2o_edges,
+        "membrane_o2c_edges": membrane_o2c_edges,
         "src_idx": src_idx,
         "dst_idx": dst_idx,
         "probs": probs,
@@ -1906,13 +2079,147 @@ def build_membrane_case(
         "f_outer": f_outer,
         "surv": surv,
         "res": res,
-        "kappa_top": float(kappa_top),
-        "kappa_bottom": float(kappa_bottom),
+        "kappa_c2o": float(kappa_c2o),
+        "kappa_o2c": float(kappa_o2c),
         "corridor_halfwidth": int(corridor_halfwidth),
         "wall_margin": int(wall_margin),
         "Wy": int(Wy),
         "bx": float(bx),
     }
+
+
+def compute_one_target_forward_history(
+    case: dict,
+    *,
+    Lx: int,
+    max_t: int,
+) -> Tuple[List[np.ndarray], np.ndarray, np.ndarray, np.ndarray]:
+    """Forward transient state distributions up to `max_t` for one-target cases."""
+    n_states = int(Lx * int(case["Wy"]))
+    start = case["start"]
+    target = case["target"]
+    start_idx = idx(start[0], start[1], Lx)
+    target_idx = idx(target[0], target[1], Lx)
+
+    src_idx = np.asarray(case["src_idx"], dtype=np.int64)
+    dst_idx = np.asarray(case["dst_idx"], dtype=np.int64)
+    probs = np.asarray(case["probs"], dtype=np.float64)
+
+    hit_mask = dst_idx == int(target_idx)
+    src_nonhit = src_idx[~hit_mask]
+    dst_nonhit = dst_idx[~hit_mask]
+    prob_nonhit = probs[~hit_mask]
+    hit_prob = np.bincount(src_idx[hit_mask], weights=probs[hit_mask], minlength=n_states).astype(np.float64)
+
+    p = np.zeros(n_states, dtype=np.float64)
+    p[int(start_idx)] = 1.0
+    history: List[np.ndarray] = [p.copy()]
+    for _ in range(int(max_t)):
+        p_next = np.zeros_like(p)
+        np.add.at(p_next, dst_nonhit, p[src_nonhit] * prob_nonhit)
+        history.append(p_next.copy())
+        p = p_next
+    return history, src_nonhit, dst_nonhit, hit_prob
+
+
+def compute_one_target_window_path_statistics(
+    case: dict,
+    *,
+    Lx: int,
+    windows: Sequence[Tuple[str, int, int]],
+) -> Dict[str, dict]:
+    """Exact path statistics conditioned on hitting within each named window."""
+    if not windows:
+        return {}
+    max_hi = max(int(hi) for _, _, hi in windows)
+    history, src_nonhit, dst_nonhit, hit_prob = compute_one_target_forward_history(case, Lx=Lx, max_t=max_hi)
+    prob_nonhit = np.asarray(case["probs"], dtype=np.float64)[np.asarray(case["dst_idx"], dtype=np.int64) != idx(case["target"][0], case["target"][1], Lx)]
+    n_states = int(Lx * int(case["Wy"]))
+
+    c2o_pairs = {
+        (idx(a[0], a[1], Lx), idx(b[0], b[1], Lx))
+        for a, b in case.get("membrane_c2o_edges", set())
+    }
+    o2c_pairs = {
+        (idx(a[0], a[1], Lx), idx(b[0], b[1], Lx))
+        for a, b in case.get("membrane_o2c_edges", set())
+    }
+    edge_pairs = list(zip(src_nonhit.tolist(), dst_nonhit.tolist()))
+    c2o_mask = np.asarray([pair in c2o_pairs for pair in edge_pairs], dtype=bool)
+    o2c_mask = np.asarray([pair in o2c_pairs for pair in edge_pairs], dtype=bool)
+
+    out: Dict[str, dict] = {}
+    for name, lo, hi in windows:
+        lo_i = max(1, int(lo))
+        hi_i = min(int(max_hi), int(hi))
+        if hi_i < lo_i:
+            continue
+        b_next = np.zeros(n_states, dtype=np.float64)
+        occ = np.zeros(n_states, dtype=np.float64)
+        flux_c2o = 0.0
+        flux_o2c = 0.0
+        for t in range(hi_i - 1, -1, -1):
+            b_t = np.zeros(n_states, dtype=np.float64)
+            np.add.at(b_t, src_nonhit, prob_nonhit * b_next[dst_nonhit])
+            if lo_i <= (t + 1) <= hi_i:
+                b_t += hit_prob
+            occ += history[t] * b_t
+            if c2o_mask.any():
+                flux_c2o += float(np.sum(history[t][src_nonhit[c2o_mask]] * prob_nonhit[c2o_mask] * b_next[dst_nonhit[c2o_mask]]))
+            if o2c_mask.any():
+                flux_o2c += float(np.sum(history[t][src_nonhit[o2c_mask]] * prob_nonhit[o2c_mask] * b_next[dst_nonhit[o2c_mask]]))
+            b_next = b_t
+
+        hit_mass = float(np.sum(case["f_total"][lo_i : hi_i + 1]))
+        occ_sum = float(np.sum(occ))
+        occ_norm = occ / occ_sum if occ_sum > 0.0 else occ
+        out[name] = {
+            "occupancy": occ_norm.reshape(int(case["Wy"]), Lx),
+            "occupancy_mass": occ_sum,
+            "hit_mass": hit_mass,
+            "flux_c2o": float(flux_c2o),
+            "flux_o2c": float(flux_o2c),
+            "consistency_gap": float(abs(float(b_next[int(idx(case["start"][0], case["start"][1], Lx))]) - hit_mass)),
+        }
+    return out
+
+
+def sample_one_target_window_trajectories(
+    case: dict,
+    *,
+    Lx: int,
+    window: Tuple[str, int, int],
+    n_keep: int,
+    seed: int,
+    max_steps: int | None = None,
+    max_attempts: int = 50000,
+) -> List[List[Coord]]:
+    n_states = int(Lx * int(case["Wy"]))
+    start_idx = idx(case["start"][0], case["start"][1], Lx)
+    target_idx = idx(case["target"][0], case["target"][1], Lx)
+    dst_rows, cdf_rows = build_row_sampler(
+        n_states=n_states,
+        src_idx=np.asarray(case["src_idx"], dtype=np.int64),
+        dst_idx=np.asarray(case["dst_idx"], dtype=np.int64),
+        probs=np.asarray(case["probs"], dtype=np.float64),
+    )
+    rng = np.random.default_rng(int(seed))
+    _, lo, hi = window
+    t_cap = int(max_steps if max_steps is not None else len(case["f_total"]) - 1)
+    keep: List[List[Coord]] = []
+    attempts = 0
+    while len(keep) < int(n_keep) and attempts < int(max_attempts):
+        attempts += 1
+        s = int(start_idx)
+        coords: List[Coord] = [case["start"]]
+        for t in range(1, t_cap + 1):
+            s = sample_next_state(s, dst_rows, cdf_rows, rng)
+            coords.append((int(s % Lx), int(s // Lx)))
+            if s == int(target_idx):
+                if int(lo) <= t <= int(hi):
+                    keep.append(coords)
+                break
+    return keep
 
 
 def build_two_target_case(
@@ -2407,9 +2714,9 @@ def write_table_symmetric(path: Path, rows: Sequence[dict], wy_focus: int) -> Li
     return focus
 
 
-def write_table_asymmetric(path: Path, rows: Sequence[dict], *, representative: dict | None = None, top_n: int = 10) -> List[dict]:
-    # Keep this table genuinely asymmetric so caption and table content stay aligned.
-    rows_pool = [r for r in rows if abs(float(r["kappa_top"]) - float(r["kappa_bottom"])) > 1e-12]
+def write_table_directional(path: Path, rows: Sequence[dict], *, representative: dict | None = None, top_n: int = 10) -> List[dict]:
+    # Keep this table genuinely directional so caption and content stay aligned.
+    rows_pool = [r for r in rows if abs(float(r["kappa_c2o"]) - float(r["kappa_o2c"])) > 1e-12]
     if not rows_pool:
         rows_pool = list(rows)
 
@@ -2418,16 +2725,16 @@ def write_table_asymmetric(path: Path, rows: Sequence[dict], *, representative: 
         key=lambda r: (
             -int(r["phase"]),
             -float(r["sep_peaks"]),
-            -abs(float(r["kappa_top"]) - float(r["kappa_bottom"])),
-            float(r["kappa_top"]) + float(r["kappa_bottom"]),
+            -abs(float(r["kappa_c2o"]) - float(r["kappa_o2c"])),
+            float(r["kappa_c2o"]) + float(r["kappa_o2c"]),
         ),
     )
     rows_s = rows_s[: max(1, int(top_n))]
 
-    if representative is not None and not _row_exists(rows_s, representative, keys=["kappa_top", "kappa_bottom"]):
+    if representative is not None and not _row_exists(rows_s, representative, keys=["kappa_c2o", "kappa_o2c"]):
         rep_match = None
         for r in rows_pool:
-            if _row_exists([r], representative, keys=["kappa_top", "kappa_bottom"]):
+            if _row_exists([r], representative, keys=["kappa_c2o", "kappa_o2c"]):
                 rep_match = r
                 break
         if rep_match is not None:
@@ -2436,14 +2743,14 @@ def write_table_asymmetric(path: Path, rows: Sequence[dict], *, representative: 
     lines = [
         r"\begin{tabular}{@{}cccccc@{}}",
         r"\toprule",
-        r"$\kappa_{\uparrow}$ & $\kappa_{\downarrow}$ & phase & $t_{p1}$ & $t_{p2}$ & sep-score \\",
+        r"$\kappa_{\mathrm{c\to o}}$ & $\kappa_{\mathrm{o\to c}}$ & phase & $t_{p1}$ & $t_{p2}$ & sep-score \\",
         r"\midrule",
     ]
     for r in rows_s:
         tp1 = "-" if r["t_peak1"] is None else str(int(r["t_peak1"]))
         tp2 = "-" if r["t_peak2"] is None else str(int(r["t_peak2"]))
         lines.append(
-            f"{fmt_scan_float(float(r['kappa_top']))} & {fmt_scan_float(float(r['kappa_bottom']))} & {int(r['phase'])} & {tp1} & {tp2} & {float(r['sep_peaks']):.2f} \\\\"
+            f"{fmt_scan_float(float(r['kappa_c2o']))} & {fmt_scan_float(float(r['kappa_o2c']))} & {int(r['phase'])} & {tp1} & {tp2} & {float(r['sep_peaks']):.2f} \\\\"
         )
     lines += [r"\bottomrule", r"\end{tabular}"]
     ensure_dir(path.parent)
@@ -3100,8 +3407,8 @@ def main() -> int:
                 delta_open=delta_open,
                 start_x=start_x,
                 target_x=target_x,
-                kappa_top=kappa,
-                kappa_bottom=kappa,
+                kappa_c2o=kappa,
+                kappa_o2c=kappa,
             )
             res = case["res"]
             row = {
@@ -3188,14 +3495,13 @@ def main() -> int:
         delta_open=delta_open,
         start_x=start_x,
         target_x=target_x,
-        kappa_top=float(rep_sym_row["kappa"]),
-        kappa_bottom=float(rep_sym_row["kappa"]),
+        kappa_c2o=float(rep_sym_row["kappa"]),
+        kappa_o2c=float(rep_sym_row["kappa"]),
     )
 
-    # Asymmetric scan (fixed Wy focus)
-    asym_wy = 16
-    # Focus asymmetry map on the transition window to maximize clear-double coverage.
-    k_top_vals = [
+    # Directional membrane scan (fixed Wy focus)
+    directional_wy = 16
+    k_c2o_vals = [
         0.00,
         0.00025,
         0.0005,
@@ -3212,17 +3518,17 @@ def main() -> int:
         0.0045,
         0.0050,
     ]
-    k_bottom_vals = list(k_top_vals)
+    k_o2c_vals = list(k_c2o_vals)
 
-    asym_rows: List[dict] = []
-    asym_phase = np.zeros((len(k_bottom_vals), len(k_top_vals)), dtype=float)
-    asym_sep = np.zeros_like(asym_phase)
+    directional_rows: List[dict] = []
+    directional_phase = np.zeros((len(k_o2c_vals), len(k_c2o_vals)), dtype=float)
+    directional_sep = np.zeros_like(directional_phase)
 
-    for i, k_bottom in enumerate(k_bottom_vals):
-        for j, k_top in enumerate(k_top_vals):
+    for i, k_o2c in enumerate(k_o2c_vals):
+        for j, k_c2o in enumerate(k_c2o_vals):
             case = build_membrane_case(
                 Lx=Lx,
-                Wy=asym_wy,
+                Wy=directional_wy,
                 bx=bx_base,
                 corridor_halfwidth=corridor_halfwidth,
                 wall_margin=wall_margin,
@@ -3230,14 +3536,14 @@ def main() -> int:
                 delta_open=delta_open,
                 start_x=start_x,
                 target_x=target_x,
-                kappa_top=k_top,
-                kappa_bottom=k_bottom,
+                kappa_c2o=k_c2o,
+                kappa_o2c=k_o2c,
             )
             res = case["res"]
             row = {
-                "Wy": asym_wy,
-                "kappa_top": float(k_top),
-                "kappa_bottom": float(k_bottom),
+                "Wy": directional_wy,
+                "kappa_c2o": float(k_c2o),
+                "kappa_o2c": float(k_o2c),
                 "phase": int(res.phase),
                 "t_peak1": None if res.t_peak1 is None else int(res.t_peak1),
                 "t_peak2": None if res.t_peak2 is None else int(res.t_peak2),
@@ -3246,17 +3552,17 @@ def main() -> int:
                 "peak_balance": None if res.peak_balance is None else float(res.peak_balance),
                 "sep_peaks": float(res.sep_peaks),
             }
-            asym_rows.append(row)
-            asym_phase[i, j] = int(res.phase)
-            asym_sep[i, j] = float(res.sep_peaks)
+            directional_rows.append(row)
+            directional_phase[i, j] = int(res.phase)
+            directional_sep[i, j] = float(res.sep_peaks)
 
     save_csv(
-        data_dir / "corridor_membrane_asymmetric_scan.csv",
-        asym_rows,
+        data_dir / "corridor_membrane_directional_scan.csv",
+        directional_rows,
         fieldnames=[
             "Wy",
-            "kappa_top",
-            "kappa_bottom",
+            "kappa_c2o",
+            "kappa_o2c",
             "phase",
             "t_peak1",
             "t_peak2",
@@ -3268,11 +3574,11 @@ def main() -> int:
     )
 
     plot_heatmap(
-        fig_dir / "membrane_asymmetric_phase_map.pdf",
-        asym_phase,
-        x_labels=[fmt_scan_float(k) for k in k_top_vals],
-        y_labels=[fmt_scan_float(k) for k in k_bottom_vals],
-        title="Asymmetric membrane phase map (top vs bottom)",
+        fig_dir / "membrane_directional_phase_map.pdf",
+        directional_phase,
+        x_labels=[fmt_scan_float(k) for k in k_c2o_vals],
+        y_labels=[fmt_scan_float(k) for k in k_o2c_vals],
+        title="Directional membrane phase map (corridor→outer vs outer→corridor)",
         cmap="RdYlBu_r",
         cbar_label="phase",
         annotate_fmt="{:.0f}",
@@ -3281,39 +3587,46 @@ def main() -> int:
     )
 
     plot_heatmap(
-        fig_dir / "membrane_asymmetric_sep_map.pdf",
-        asym_sep,
-        x_labels=[fmt_scan_float(k) for k in k_top_vals],
-        y_labels=[fmt_scan_float(k) for k in k_bottom_vals],
-        title="Asymmetric membrane separation map",
+        fig_dir / "membrane_directional_sep_map.pdf",
+        directional_sep,
+        x_labels=[fmt_scan_float(k) for k in k_c2o_vals],
+        y_labels=[fmt_scan_float(k) for k in k_o2c_vals],
+        title="Directional membrane separation map",
         cmap="viridis",
         cbar_label="sep-score",
         annotate_fmt="{:.2f}",
     )
 
-    asym_rows_non_sym = [
-        r for r in asym_rows if abs(float(r["kappa_top"]) - float(r["kappa_bottom"])) > 1e-12
+    directional_rows_non_sym = [
+        r for r in directional_rows if abs(float(r["kappa_c2o"]) - float(r["kappa_o2c"])) > 1e-12
     ]
-    rep_asym_pref = [
-        r for r in asym_rows_non_sym
-        if abs(float(r["kappa_top"]) - 0.002) < 1e-12 and abs(float(r["kappa_bottom"]) - 0.0) < 1e-12
-    ]
-    if rep_asym_pref and int(rep_asym_pref[0]["phase"]) >= 2:
-        rep_asym_row = rep_asym_pref[0]
-    else:
-        rep_asym_row = max(
-            asym_rows_non_sym,
+    phase2_directional = [r for r in directional_rows_non_sym if int(r["phase"]) >= 2]
+
+    def _pick_directional_rep(target_c2o: float, target_o2c: float) -> dict:
+        pref = [
+            r
+            for r in phase2_directional
+            if abs(float(r["kappa_c2o"]) - float(target_c2o)) < 1e-12
+            and abs(float(r["kappa_o2c"]) - float(target_o2c)) < 1e-12
+        ]
+        if pref:
+            return pref[0]
+        pool = phase2_directional if phase2_directional else directional_rows_non_sym
+        return max(
+            pool,
             key=lambda r: (
+                -abs(float(r["kappa_c2o"]) - float(target_c2o)) - abs(float(r["kappa_o2c"]) - float(target_o2c)),
                 int(r["phase"]),
-                -abs(float(r["kappa_top"]) - 0.002) - abs(float(r["kappa_bottom"]) - 0.0),
                 float(r["sep_peaks"]),
-                abs(float(r["kappa_top"]) - float(r["kappa_bottom"])),
             ),
         )
 
-    rep_asym = build_membrane_case(
+    rep_dir_out_row = _pick_directional_rep(0.002, 0.0)
+    rep_dir_in_row = _pick_directional_rep(0.0, 0.002)
+
+    rep_dir_out = build_membrane_case(
         Lx=Lx,
-        Wy=asym_wy,
+        Wy=directional_wy,
         bx=bx_base,
         corridor_halfwidth=corridor_halfwidth,
         wall_margin=wall_margin,
@@ -3321,23 +3634,45 @@ def main() -> int:
         delta_open=delta_open,
         start_x=start_x,
         target_x=target_x,
-        kappa_top=float(rep_asym_row["kappa_top"]),
-        kappa_bottom=float(rep_asym_row["kappa_bottom"]),
+        kappa_c2o=float(rep_dir_out_row["kappa_c2o"]),
+        kappa_o2c=float(rep_dir_out_row["kappa_o2c"]),
+    )
+    rep_dir_in = build_membrane_case(
+        Lx=Lx,
+        Wy=directional_wy,
+        bx=bx_base,
+        corridor_halfwidth=corridor_halfwidth,
+        wall_margin=wall_margin,
+        delta_core=delta_core,
+        delta_open=delta_open,
+        start_x=start_x,
+        target_x=target_x,
+        kappa_c2o=float(rep_dir_in_row["kappa_c2o"]),
+        kappa_o2c=float(rep_dir_in_row["kappa_o2c"]),
     )
 
     plot_membrane_geometry(
         fig_dir / "membrane_rep_sym_geometry.pdf",
         Lx=Lx,
         case=rep_sym,
-        title=f"Symmetric membrane representative geometry (k={rep_sym['kappa_top']:.3f})",
+        title=f"Symmetric membrane representative geometry (k={rep_sym['kappa_c2o']:.3f})",
     )
     plot_membrane_geometry(
-        fig_dir / "membrane_rep_asym_geometry.pdf",
+        fig_dir / "membrane_rep_dir_out_geometry.pdf",
         Lx=Lx,
-        case=rep_asym,
+        case=rep_dir_out,
         title=(
-            "Asymmetric membrane representative geometry "
-            f"(k_up={rep_asym['kappa_top']:.3f}, k_dn={rep_asym['kappa_bottom']:.3f})"
+            "Directional representative geometry "
+            f"(k_c2o={rep_dir_out['kappa_c2o']:.3f}, k_o2c={rep_dir_out['kappa_o2c']:.3f})"
+        ),
+    )
+    plot_membrane_geometry(
+        fig_dir / "membrane_rep_dir_in_geometry.pdf",
+        Lx=Lx,
+        case=rep_dir_in,
+        title=(
+            "Directional representative geometry "
+            f"(k_c2o={rep_dir_in['kappa_c2o']:.3f}, k_o2c={rep_dir_in['kappa_o2c']:.3f})"
         ),
     )
 
@@ -3351,24 +3686,39 @@ def main() -> int:
         f_b=rep_sym["f_outer"],
         label_a="corridor-source flux",
         label_b="outer-source flux",
-        title=f"Symmetric membrane representative (Wy={rep_sym['Wy']}, k={rep_sym['kappa_top']:.3f})",
+        title=f"Symmetric membrane representative (Wy={rep_sym['Wy']}, k={rep_sym['kappa_c2o']:.3f})",
         peaks=(rep_sym["res"].t_peak1, rep_sym["res"].t_valley, rep_sym["res"].t_peak2),
     )
 
-    t_asym = np.arange(len(rep_asym["f_total"]))
+    t_dir_out = np.arange(len(rep_dir_out["f_total"]))
     plot_fpt_overlay(
-        fig_dir / "membrane_rep_asym_fpt.pdf",
-        t=t_asym,
-        f_total=rep_asym["f_total"],
-        f_a=rep_asym["f_corr"],
-        f_b=rep_asym["f_outer"],
+        fig_dir / "membrane_rep_dir_out_fpt.pdf",
+        t=t_dir_out,
+        f_total=rep_dir_out["f_total"],
+        f_a=rep_dir_out["f_corr"],
+        f_b=rep_dir_out["f_outer"],
         label_a="corridor-source flux",
         label_b="outer-source flux",
         title=(
-            "Asymmetric membrane representative "
-            f"(Wy={rep_asym['Wy']}, k_up={rep_asym['kappa_top']:.3f}, k_dn={rep_asym['kappa_bottom']:.3f})"
+            "Directional representative "
+            f"(Wy={rep_dir_out['Wy']}, k_c2o={rep_dir_out['kappa_c2o']:.3f}, k_o2c={rep_dir_out['kappa_o2c']:.3f})"
         ),
-        peaks=(rep_asym["res"].t_peak1, rep_asym["res"].t_valley, rep_asym["res"].t_peak2),
+        peaks=(rep_dir_out["res"].t_peak1, rep_dir_out["res"].t_valley, rep_dir_out["res"].t_peak2),
+    )
+    t_dir_in = np.arange(len(rep_dir_in["f_total"]))
+    plot_fpt_overlay(
+        fig_dir / "membrane_rep_dir_in_fpt.pdf",
+        t=t_dir_in,
+        f_total=rep_dir_in["f_total"],
+        f_a=rep_dir_in["f_corr"],
+        f_b=rep_dir_in["f_outer"],
+        label_a="corridor-source flux",
+        label_b="outer-source flux",
+        title=(
+            "Directional representative "
+            f"(Wy={rep_dir_in['Wy']}, k_c2o={rep_dir_in['kappa_c2o']:.3f}, k_o2c={rep_dir_in['kappa_o2c']:.3f})"
+        ),
+        peaks=(rep_dir_in["res"].t_peak1, rep_dir_in["res"].t_valley, rep_dir_in["res"].t_peak2),
     )
 
     # Start-point scan around the symmetric membrane representative.
@@ -3395,8 +3745,8 @@ def main() -> int:
                 delta_open=delta_open,
                 start_x=int(start_x_scan),
                 target_x=int(rep_sym_target[0]),
-                kappa_top=float(rep_sym["kappa_top"]),
-                kappa_bottom=float(rep_sym["kappa_bottom"]),
+                kappa_c2o=float(rep_sym["kappa_c2o"]),
+                kappa_o2c=float(rep_sym["kappa_o2c"]),
                 start=(int(start_x_scan), int(start_y_scan)),
                 target=rep_sym_target,
             )
@@ -3404,8 +3754,8 @@ def main() -> int:
             row = {
                 "Wy": int(case["Wy"]),
                 "bx": float(case["bx"]),
-                "kappa_top": float(case["kappa_top"]),
-                "kappa_bottom": float(case["kappa_bottom"]),
+                "kappa_c2o": float(case["kappa_c2o"]),
+                "kappa_o2c": float(case["kappa_o2c"]),
                 "start_x": int(case["start"][0]),
                 "start_y": int(case["start"][1]),
                 "start_dx": int(case["start"][0] - rep_sym_start[0]),
@@ -3477,7 +3827,7 @@ def main() -> int:
         base_start=rep_sym_start,
         title=(
             "One-target phase map under moved start "
-            f"(symmetric membrane, k={float(rep_sym['kappa_top']):.3f})"
+            f"(symmetric membrane, k={float(rep_sym['kappa_c2o']):.3f})"
         ),
         cbar_label="phase",
         annotate_fmt="{:.0f}",
@@ -3508,8 +3858,8 @@ def main() -> int:
             delta_open=delta_open,
             start_x=int(row["start_x"]),
             target_x=int(rep_sym_target[0]),
-            kappa_top=float(rep_sym["kappa_top"]),
-            kappa_bottom=float(rep_sym["kappa_bottom"]),
+            kappa_c2o=float(rep_sym["kappa_c2o"]),
+            kappa_o2c=float(rep_sym["kappa_o2c"]),
             start=(int(row["start_x"]), int(row["start_y"])),
             target=rep_sym_target,
         )
@@ -3597,7 +3947,7 @@ def main() -> int:
         return win_names, arr, q_values, q_stats
 
     win_names_sym, props_sym, q_sym, q_sym_stats = _membrane_window_props_exact(rep_sym, q_star=0.5)
-    win_names_asym, props_asym, q_asym, q_asym_stats = _membrane_window_props_exact(rep_asym, q_star=0.5)
+    win_names_dir, props_dir, q_dir, q_dir_stats = _membrane_window_props_exact(rep_dir_out, q_star=0.5)
 
     # Align windows names for plotting.
     win_names = ["peak1", "valley", "peak2"]
@@ -3616,16 +3966,16 @@ def main() -> int:
         return out
 
     props_sym = _align(win_names_sym, props_sym)
-    props_asym = _align(win_names_asym, props_asym)
+    props_dir = _align(win_names_dir, props_dir)
 
     plot_dual_window_panels(
         fig_dir / "membrane_class_window_bars.pdf",
         windows=win_names,
         categories=["L0R0", "L0R1", "L1R0", "L1R1"],
         left_props=props_sym,
-        right_props=props_asym,
+        right_props=props_dir,
         left_title="Symmetric representative",
-        right_title="Asymmetric representative",
+        right_title="Directional representative",
     )
     cats_lr = ["L0R0", "L0R1", "L1R0", "L1R1"]
     dominant_sym = [cats_lr[int(np.argmax(props_sym[i, :]))] for i in range(len(win_names))]
@@ -3639,7 +3989,7 @@ def main() -> int:
     qstar_rows: List[dict] = []
     for qstar in q_star_values:
         w_sym, arr_sym, _, _ = _membrane_window_props_exact(rep_sym, q_star=float(qstar))
-        w_asy, arr_asy, _, _ = _membrane_window_props_exact(rep_asym, q_star=float(qstar))
+        w_dir, arr_dir, _, _ = _membrane_window_props_exact(rep_dir_out, q_star=float(qstar))
         for i_w, wn in enumerate(w_sym):
             qstar_rows.append(
                 {
@@ -3652,18 +4002,52 @@ def main() -> int:
                     "L1R1": float(arr_sym[i_w, 3]),
                 }
             )
-        for i_w, wn in enumerate(w_asy):
+        for i_w, wn in enumerate(w_dir):
             qstar_rows.append(
                 {
-                    "case": "asym",
+                    "case": "dir",
                     "q_star": float(qstar),
                     "window": wn,
-                    "L0R0": float(arr_asy[i_w, 0]),
-                    "L0R1": float(arr_asy[i_w, 1]),
-                    "L1R0": float(arr_asy[i_w, 2]),
-                    "L1R1": float(arr_asy[i_w, 3]),
+                    "L0R0": float(arr_dir[i_w, 0]),
+                    "L0R1": float(arr_dir[i_w, 1]),
+                    "L1R0": float(arr_dir[i_w, 2]),
+                    "L1R1": float(arr_dir[i_w, 3]),
                 }
             )
+
+    directional_windows_out = window_ranges(rep_dir_out["res"].t_peak1, rep_dir_out["res"].t_valley, rep_dir_out["res"].t_peak2, len(rep_dir_out["f_total"]))
+    directional_windows_in = window_ranges(rep_dir_in["res"].t_peak1, rep_dir_in["res"].t_valley, rep_dir_in["res"].t_peak2, len(rep_dir_in["f_total"]))
+    directional_stats_out = compute_one_target_window_path_statistics(rep_dir_out, Lx=Lx, windows=directional_windows_out)
+    directional_stats_in = compute_one_target_window_path_statistics(rep_dir_in, Lx=Lx, windows=directional_windows_in)
+    plot_one_target_window_occupancy_atlas(
+        fig_dir / "membrane_directional_window_occupancy_atlas.pdf",
+        Lx=Lx,
+        case_blocks=[
+            ("easy-out / hard-return", rep_dir_out, directional_stats_out),
+            ("hard-out / easy-return", rep_dir_in, directional_stats_in),
+        ],
+        window_names=["peak1", "valley", "peak2"],
+    )
+    plot_one_target_directional_flux(
+        fig_dir / "membrane_directional_window_flux.pdf",
+        case_blocks=[
+            ("easy-out / hard-return", directional_stats_out),
+            ("hard-out / easy-return", directional_stats_in),
+        ],
+        window_names=["peak1", "valley", "peak2"],
+    )
+
+    mc_case_windows = [
+        ("easy-out / hard-return", rep_dir_out, "peak1", sample_one_target_window_trajectories(rep_dir_out, Lx=Lx, window=directional_windows_out[0], n_keep=8, seed=20260315)),
+        ("easy-out / hard-return", rep_dir_out, "peak2", sample_one_target_window_trajectories(rep_dir_out, Lx=Lx, window=directional_windows_out[2], n_keep=8, seed=20260316)),
+        ("hard-out / easy-return", rep_dir_in, "peak1", sample_one_target_window_trajectories(rep_dir_in, Lx=Lx, window=directional_windows_in[0], n_keep=8, seed=20260317)),
+        ("hard-out / easy-return", rep_dir_in, "peak2", sample_one_target_window_trajectories(rep_dir_in, Lx=Lx, window=directional_windows_in[2], n_keep=8, seed=20260318)),
+    ]
+    plot_one_target_trajectory_atlas(
+        fig_dir / "membrane_directional_trajectory_atlas.pdf",
+        Lx=Lx,
+        case_windows=mc_case_windows,
+    )
 
     # ----- Study B: no-corridor two-target with near-start target -----
     Wy_two_target = 16
@@ -4374,8 +4758,8 @@ def main() -> int:
         fieldnames=[
             "Wy",
             "bx",
-            "kappa_top",
-            "kappa_bottom",
+            "kappa_c2o",
+            "kappa_o2c",
             "start_x",
             "start_y",
             "start_dx",
@@ -4399,6 +4783,25 @@ def main() -> int:
         qstar_rows,
         fieldnames=["case", "q_star", "window", "L0R0", "L0R1", "L1R0", "L1R1"],
     )
+    directional_flux_rows = []
+    for case_name, stats in [("dir_out", directional_stats_out), ("dir_in", directional_stats_in)]:
+        for wn in ["peak1", "valley", "peak2"]:
+            payload = stats.get(wn, {})
+            directional_flux_rows.append(
+                {
+                    "case": case_name,
+                    "window": wn,
+                    "hit_mass": float(payload.get("hit_mass", 0.0)),
+                    "flux_c2o": float(payload.get("flux_c2o", 0.0)),
+                    "flux_o2c": float(payload.get("flux_o2c", 0.0)),
+                    "consistency_gap": float(payload.get("consistency_gap", 0.0)),
+                }
+            )
+    save_csv(
+        data_dir / "membrane_directional_window_flux.csv",
+        directional_flux_rows,
+        fieldnames=["case", "window", "hit_mass", "flux_c2o", "flux_o2c", "consistency_gap"],
+    )
 
     plot_stacked_windows(
         fig_dir / "two_target_rep_window_split.pdf",
@@ -4413,15 +4816,16 @@ def main() -> int:
 
     # Write representative time series outputs.
     save_time_series(out_dir / "membrane_rep_sym_fpt.csv", rep_sym["f_total"], rep_sym["f_corr"], rep_sym["f_outer"])
-    save_time_series(out_dir / "membrane_rep_asym_fpt.csv", rep_asym["f_total"], rep_asym["f_corr"], rep_asym["f_outer"])
+    save_time_series(out_dir / "membrane_rep_dir_out_fpt.csv", rep_dir_out["f_total"], rep_dir_out["f_corr"], rep_dir_out["f_outer"])
+    save_time_series(out_dir / "membrane_rep_dir_in_fpt.csv", rep_dir_in["f_total"], rep_dir_in["f_corr"], rep_dir_in["f_outer"])
     save_time_series(out_dir / "two_target_rep_fpt.csv", rep_tt["f_any"], rep_tt["f_near"], rep_tt["f_far"])
 
     # Tables used by TeX.
     sym_table_rows = write_table_symmetric(table_dir / "membrane_symmetric_w16.tex", sym_rows, wy_focus=16)
-    asym_table_rows = write_table_asymmetric(
-        table_dir / "membrane_asymmetric_topcases.tex",
-        asym_rows,
-        representative=rep_asym_row,
+    directional_table_rows = write_table_directional(
+        table_dir / "membrane_directional_topcases.tex",
+        directional_rows,
+        representative=rep_dir_out_row,
     )
     tt_table_rows = write_table_two_target(table_dir / "two_target_nearstart_summary.tex", tt_rows, bx_vals)
     write_table_two_target_representative(table_dir / "two_target_rep_case.tex", rep_tt_row)
@@ -4439,8 +4843,8 @@ def main() -> int:
 
     if not _row_exists(sym_table_rows, rep_sym_row, keys=["Wy", "kappa"]):
         raise ValueError("Representative symmetric case is missing from membrane_symmetric_w16.tex.")
-    if not _row_exists(asym_table_rows, rep_asym_row, keys=["kappa_top", "kappa_bottom"]):
-        raise ValueError("Representative asymmetric case is missing from membrane_asymmetric_topcases.tex.")
+    if not _row_exists(directional_table_rows, rep_dir_out_row, keys=["kappa_c2o", "kappa_o2c"]):
+        raise ValueError("Directional representative case is missing from membrane_directional_topcases.tex.")
     if not _row_exists(tt_candidate_rows, rep_tt_row, keys=["bx", "near_dx", "near_dy"]):
         raise ValueError("Physics-anchor two-target case is missing from candidate scan rows.")
     if int(clear_tt_row.get("phase", 0)) < 2:
@@ -4458,7 +4862,7 @@ def main() -> int:
             f"{w} & sym & {props_sym[i,0]:.3f} & {props_sym[i,1]:.3f} & {props_sym[i,2]:.3f} & {props_sym[i,3]:.3f} \\\\"
         )
         lines.append(
-            f"{w} & asym & {props_asym[i,0]:.3f} & {props_asym[i,1]:.3f} & {props_asym[i,2]:.3f} & {props_asym[i,3]:.3f} \\\\"
+            f"{w} & dir & {props_dir[i,0]:.3f} & {props_dir[i,1]:.3f} & {props_dir[i,2]:.3f} & {props_dir[i,3]:.3f} \\\\"
         )
     lines += [r"\bottomrule", r"\end{tabular}"]
     (table_dir / "membrane_window_classes.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -4601,7 +5005,7 @@ def main() -> int:
             ),
             "rep": {
                 "Wy": int(rep_sym["Wy"]),
-                "kappa": float(rep_sym["kappa_top"]),
+                "kappa": float(rep_sym["kappa_c2o"]),
                 "phase": int(rep_sym["res"].phase),
                 "t_peak1": None if rep_sym["res"].t_peak1 is None else int(rep_sym["res"].t_peak1),
                 "t_peak2": None if rep_sym["res"].t_peak2 is None else int(rep_sym["res"].t_peak2),
@@ -4623,41 +5027,52 @@ def main() -> int:
             },
             "start_scan": one_target_start_scan_summary,
         },
-        "asymmetric": {
-            "scan_size": len(asym_rows),
-            "phase2_count": int(sum(int(r["phase"]) >= 2 for r in asym_rows)),
+        "directional": {
+            "scan_size": len(directional_rows),
+            "phase2_count": int(sum(int(r["phase"]) >= 2 for r in directional_rows)),
             "phase2_nonsymmetric_count": int(
                 sum(
                     int(r["phase"]) >= 2
-                    and abs(float(r["kappa_top"]) - float(r["kappa_bottom"])) > 1e-12
-                    for r in asym_rows
+                    and abs(float(r["kappa_c2o"]) - float(r["kappa_o2c"])) > 1e-12
+                    for r in directional_rows
                 )
             ),
             "phase2_positive_kappa_count": int(
                 sum(
                     int(r["phase"]) >= 2
-                    and (float(r["kappa_top"]) > 0.0 or float(r["kappa_bottom"]) > 0.0)
-                    for r in asym_rows
+                    and (float(r["kappa_c2o"]) > 0.0 or float(r["kappa_o2c"]) > 0.0)
+                    for r in directional_rows
                 )
             ),
-            "rep": {
-                "Wy": int(rep_asym["Wy"]),
-                "kappa_top": float(rep_asym["kappa_top"]),
-                "kappa_bottom": float(rep_asym["kappa_bottom"]),
-                "phase": int(rep_asym["res"].phase),
-                "t_peak1": None if rep_asym["res"].t_peak1 is None else int(rep_asym["res"].t_peak1),
-                "t_peak2": None if rep_asym["res"].t_peak2 is None else int(rep_asym["res"].t_peak2),
-                "t_valley": None if rep_asym["res"].t_valley is None else int(rep_asym["res"].t_valley),
-                "sep": float(rep_asym["res"].sep_peaks),
-                "valley_over_max": None if rep_asym["res"].valley_over_max is None else float(rep_asym["res"].valley_over_max),
-                "in_asymmetric_table": True,
+            "rep_easy_out": {
+                "Wy": int(rep_dir_out["Wy"]),
+                "kappa_c2o": float(rep_dir_out["kappa_c2o"]),
+                "kappa_o2c": float(rep_dir_out["kappa_o2c"]),
+                "phase": int(rep_dir_out["res"].phase),
+                "t_peak1": None if rep_dir_out["res"].t_peak1 is None else int(rep_dir_out["res"].t_peak1),
+                "t_peak2": None if rep_dir_out["res"].t_peak2 is None else int(rep_dir_out["res"].t_peak2),
+                "t_valley": None if rep_dir_out["res"].t_valley is None else int(rep_dir_out["res"].t_valley),
+                "sep": float(rep_dir_out["res"].sep_peaks),
+                "valley_over_max": None if rep_dir_out["res"].valley_over_max is None else float(rep_dir_out["res"].valley_over_max),
+                "in_directional_table": True,
+            },
+            "rep_hard_out": {
+                "Wy": int(rep_dir_in["Wy"]),
+                "kappa_c2o": float(rep_dir_in["kappa_c2o"]),
+                "kappa_o2c": float(rep_dir_in["kappa_o2c"]),
+                "phase": int(rep_dir_in["res"].phase),
+                "t_peak1": None if rep_dir_in["res"].t_peak1 is None else int(rep_dir_in["res"].t_peak1),
+                "t_peak2": None if rep_dir_in["res"].t_peak2 is None else int(rep_dir_in["res"].t_peak2),
+                "t_valley": None if rep_dir_in["res"].t_valley is None else int(rep_dir_in["res"].t_valley),
+                "sep": float(rep_dir_in["res"].sep_peaks),
+                "valley_over_max": None if rep_dir_in["res"].valley_over_max is None else float(rep_dir_in["res"].valley_over_max),
             },
             "committor_stats": {
-                "q_min": float(np.min(q_asym)),
-                "q_max": float(np.max(q_asym)),
-                "interior_residual_inf": float(q_asym_stats["interior_residual_inf"]),
-                "boundary_A_residual_inf": float(q_asym_stats["boundary_A_residual_inf"]),
-                "boundary_B_residual_inf": float(q_asym_stats["boundary_B_residual_inf"]),
+                "q_min": float(np.min(q_dir)),
+                "q_max": float(np.max(q_dir)),
+                "interior_residual_inf": float(q_dir_stats["interior_residual_inf"]),
+                "boundary_A_residual_inf": float(q_dir_stats["boundary_A_residual_inf"]),
+                "boundary_B_residual_inf": float(q_dir_stats["boundary_B_residual_inf"]),
             },
         },
         "membrane_lr_exact": {
@@ -4665,8 +5080,9 @@ def main() -> int:
             "q_star_values": [float(v) for v in q_star_values],
             "window_names": [str(w) for w in win_names],
             "dominant_sym_q05": [cats_lr[int(np.argmax(props_sym[i, :]))] for i in range(len(win_names))],
-            "dominant_asym_q05": [cats_lr[int(np.argmax(props_asym[i, :]))] for i in range(len(win_names))],
+            "dominant_dir_q05": [cats_lr[int(np.argmax(props_dir[i, :]))] for i in range(len(win_names))],
             "qstar_rows": qstar_rows,
+            "directional_flux_rows": directional_flux_rows,
         },
         "two_target_no_corridor": {
             "scan_size": len(tt_rows),

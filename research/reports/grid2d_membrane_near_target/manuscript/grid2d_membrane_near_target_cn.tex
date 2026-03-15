@@ -30,14 +30,14 @@
 \section*{结论先行}
 本报告在二维长方形域上新增两条研究线，并且与旧报告的 phase 判据、峰谷图式、分解解释保持一致。
 \begin{enumerate}
-  \item \textbf{有 corridor、单 target：}将原全反射走廊墙替换为半透膜，分别研究对称膜（$\kappa_\uparrow=\kappa_\downarrow$）与非对称膜（$\kappa_\uparrow\neq\kappa_\downarrow$）。
+  \item \textbf{有 corridor、单 target：}将原全反射走廊墙替换为半透膜，分别研究对称膜（$\kappa_{\mathrm{c\to o}}=\kappa_{\mathrm{o\to c}}$）与方向不对称膜（$\kappa_{\mathrm{c\to o}}\neq\kappa_{\mathrm{o\to c}}$）。
   \item \textbf{无 corridor、双 target：}将一个 target 放在起点附近，另一个保持远端，研究“近目标快峰 + 远目标慢峰”是否稳定形成双峰。
 \end{enumerate}
 
 核心结果：
 \begin{itemize}
   \item 对称半透膜扫描中，clear-double 在超低泄漏区形成连续带（见图~\ref{fig:sym-phase} 与表~\ref{tab:sym-w16}）；随后进入 weak-double 过渡带，再增大渗透率后转为单峰。
-  \item 非对称膜（如 $\kappa_\uparrow=0.002,\kappa_\downarrow=0$）可保持 clear-double，并在窗口分类中显著改变 valley/第二峰的组成权重。
+  \item 两个方向不对称代表案例都保持 clear-double：易出难回 $(\kappa_{\mathrm{c\to o}},\kappa_{\mathrm{o\to c}})=(0.002,0)$ 与难出易回 $(0,0.002)$。新的 exact 空间占据图与方向通量图直接说明了 peak1 和 peak2 分别由哪些空间轨迹贡献。
   \item 无 corridor 双 target 现在分成两个锚点来讲：physics anchor $(b_x,d,\Delta y)=(0.12,2,2)$ 给出 near/far 质量约 $0.324/0.676$，三处特征时刻约为 $(t_{p1},t_v,t_{p2})=(7,196,469)$；专用 clear-instance（showcase 最优）仍为 $(0.12,4,1)$，near/far 质量约 $0.350/0.650$，且 valley/max 约 $0.007$。
 \end{itemize}
 
@@ -55,8 +55,12 @@ L_x=60,\quad q=0.8,\quad x_s=7,\quad x_t=58,
 \[
 P(\text{穿越膜边})=\kappa,\qquad P(\text{被反射})=1-\kappa.
 \]
-对称膜：$\kappa_\uparrow=\kappa_\downarrow=\kappa$；
-非对称膜：$\kappa_\uparrow\neq\kappa_\downarrow$。
+本轮主线的不对称是\emph{方向不对称}：对同一条膜边，corridor$\to$outer 与 outer$\to$corridor 两个方向允许不同的通过率，
+\[
+\kappa_{\mathrm{c\to o}},\qquad \kappa_{\mathrm{o\to c}}.
+\]
+对称膜：$\kappa_{\mathrm{c\to o}}=\kappa_{\mathrm{o\to c}}=\kappa$；
+方向不对称膜：$\kappa_{\mathrm{c\to o}}\neq\kappa_{\mathrm{o\to c}}$。
 
 \subsection{分类框架}
 保持“峰-谷-峰”窗口分析，并加入新的 4 类标签：
@@ -92,34 +96,34 @@ P(\text{穿越膜边})=\kappa,\qquad P(\text{被反射})=1-\kappa.
 
 在本次参数下（以 $W_y=16$ 截面为例），$\kappa\in[0,0.0035]$ 保持 clear-double；约 $\kappa\in[0.0037,0.02]$ 处于 weak-double；$\kappa\ge 0.03$ 转为单峰，说明“膜泄漏”会持续削弱原走廊机制的时间尺度分离。
 
-\subsection{非对称膜扫描}
+\subsection{方向不对称膜扫描}
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.86\linewidth]{figures/membrane_asymmetric_phase_map.pdf}
-  \caption{非对称半透膜相图（$\kappa_\uparrow$ vs $\kappa_\downarrow$）。右侧色标是离散的，phase 只取 $\{0,1,2\}$ 三种值。}
+  \includegraphics[width=0.86\linewidth]{figures/membrane_directional_phase_map.pdf}
+  \caption{方向不对称半透膜相图（$\kappa_{\mathrm{c\to o}}$ vs $\kappa_{\mathrm{o\to c}}$）。右侧色标是离散的，phase 只取 $\{0,1,2\}$ 三种值。}
   \label{fig:asym-phase}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.86\linewidth]{figures/membrane_asymmetric_sep_map.pdf}
-  \caption{非对称半透膜分离度热图。}
+  \includegraphics[width=0.86\linewidth]{figures/membrane_directional_sep_map.pdf}
+  \caption{方向不对称半透膜分离度热图。}
   \label{fig:asym-sep}
 \end{figure}
 
 \begin{table}[!htbp]
   \centering
   \footnotesize
-  \input{tables/membrane_asymmetric_topcases.tex}
-  \caption{非对称膜 top cases（按 phase 与 sep 排序）。}
+  \input{tables/membrane_directional_topcases.tex}
+  \caption{方向不对称膜 top cases（按 phase 与 sep 排序）。}
   \label{tab:asym-top}
 \end{table}
 
-代表性对比（对称 $\kappa=0.002$ vs 非对称 $\kappa_\uparrow=0.002,\kappa_\downarrow=0$）如下：
+代表性对比（对称 $\kappa=0.002$、易出难回 $(0.002,0)$、难出易回 $(0,0.002)$）如下：
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.88\linewidth]{figures/membrane_rep_sym_geometry.pdf}
-  \caption{对称半透膜代表案例配置图（包含 corridor、起点/终点与局部偏置方向）。图中的两条虚线都表示半透膜边界；在对称情形下，它们是同一种物理对象，只是上下两侧都取 $\kappa_\uparrow=\kappa_\downarrow=0.002$。}
+  \caption{对称半透膜代表案例配置图（包含 corridor、起点/终点与局部偏置方向）。图中的两条虚线都表示半透膜边界；在对称情形下，它们共享同一组方向通过率 $\kappa_{\mathrm{c\to o}}=\kappa_{\mathrm{o\to c}}=0.002$。}
   \label{fig:rep-sym-geo}
 \end{figure}
 
@@ -166,22 +170,29 @@ P(\text{穿越膜边})=\kappa,\qquad P(\text{被反射})=1-\kappa.
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.88\linewidth]{figures/membrane_rep_asym_geometry.pdf}
-  \caption{非对称半透膜代表案例配置图。图中的两条虚线仍然都表示半透膜，只是上/下边界的通透率不同。}
+  \includegraphics[width=0.88\linewidth]{figures/membrane_rep_dir_out_geometry.pdf}
+  \caption{易出难回代表案例配置图 $(\kappa_{\mathrm{c\to o}},\kappa_{\mathrm{o\to c}})=(0.002,0)$。几何本身不变，变化的是同一条膜上两个穿越方向不再等价。}
   \label{fig:rep-asym-geo}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_asym_fpt.pdf}
-  \caption{非对称半透膜代表案例：总 FPT 与“最后一步来自 corridor / outer”的分解。这里 outer-source 分支同样恒为 0，因此真正有信息量的是总曲线与 corridor-source 分支重合。}
+  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_dir_out_fpt.pdf}
+  \caption{易出难回代表案例：总 FPT 与“最后一步来自 corridor / outer”的分解。这里 outer-source 分支同样恒为 0，因此真正有信息量的是方向不对称后峰谷时标的移动。}
   \label{fig:rep-asym-fpt}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
+  \includegraphics[width=0.86\linewidth]{figures/membrane_rep_dir_in_fpt.pdf}
+  \caption{难出易回代表案例 $(\kappa_{\mathrm{c\to o}},\kappa_{\mathrm{o\to c}})=(0,0.002)$，用于和图~\ref{fig:rep-asym-fpt} 直接对照。}
+  \label{fig:rep-dir-in-fpt}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
   \includegraphics[width=0.94\linewidth]{figures/membrane_class_window_bars.pdf}
-  \caption{峰1/谷/峰2 三窗口中的四类占比（L×R）。}
+  \caption{峰1/谷/峰2 三窗口中的四类占比（L×R）。这里主要作为一致性检查，不再是主空间解释图。}
   \label{fig:membrane-class-bars}
 \end{figure}
 
@@ -209,6 +220,27 @@ P(\text{穿越膜边})=\kappa,\qquad P(\text{被反射})=1-\kappa.
 \end{table}
 
 基于“严格 recross（先达 $\Sigma_{q^*}$ 后回到 $A$）”的精确分解结果可见：peak1 由 \texttt{L0R0} 主导；valley 仍以 \texttt{L0R0} 为主但 \texttt{L1R0} 显著上升；peak2 由 \texttt{L0R1} 主导。说明慢峰主要来自“承诺后回撤”而不一定要求膜泄漏。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/membrane_directional_window_occupancy_atlas.pdf}
+  \caption{exact 的窗口条件化 pre-hit 空间占据图。两行分别对应易出难回与难出易回，三列对应 peak1 / valley / peak2。}
+  \label{fig:membrane-dir-occ}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/membrane_directional_window_flux.pdf}
+  \caption{exact 的方向化跨膜通量图。柱高表示命中对应窗口的轨迹平均会发生多少次 corridor$\to$outer 与 outer$\to$corridor 穿越。}
+  \label{fig:membrane-dir-flux}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/membrane_directional_trajectory_atlas.pdf}
+  \caption{与 peak1 / peak2 窗口对齐的小型 MC 轨迹 atlas。它只做示意；真正的定量结论来自图~\ref{fig:membrane-dir-occ} 与图~\ref{fig:membrane-dir-flux}。}
+  \label{fig:membrane-dir-mc}
+\end{figure}
 
 \section{结果 B：无 corridor + 双 target（近起点目标）}
 本节移除 corridor，仅保留反射边界与全局 $b_x$，并把一个 target 放到起点附近。Track B 现在明确分成两个角色：\emph{physics anchor} $(b_x,d,\Delta y)=(0.12,2,2)$ 用来解释 second peak 的物理来源，\emph{showcase clear-instance} $(0.12,4,1)$ 用来给出最清晰的双峰示意。旧的 $(d,b_x)$ 粗扫描仍然保留作为背景，但正文顺序改成“配置 $\rightarrow$ 分支分流 $\rightarrow$ continuation $\rightarrow$ loss mode”，避免还没看清 second peak 到底消失了什么，就先做相图分类。
@@ -603,7 +635,7 @@ q_{\rm far}(x_s)=\mathbb E[M_\tau]
 \section{总结与后续优化方向（committor 导向）}
 \subsection*{实现总结（本轮优化后）}
 \begin{enumerate}
-  \item corridor 半透膜：对称/非对称代表案例均保持 clear-double；在严格 recross 定义下，peak1 主要是 \texttt{L0R0}，而慢峰由 \texttt{L0R1} 抬升，valley 中 \texttt{L1R0} 比例明显增加。
+  \item corridor 半透膜：对称/方向不对称代表案例均保持 clear-double；在严格 recross 定义下，peak1 主要是 \texttt{L0R0}，而慢峰由 \texttt{L0R1} 抬升，valley 中 \texttt{L1R0} 比例明显增加；新的 exact 空间占据图与方向通量图进一步把峰1/峰2 对应的区域与穿越方向直接画出来。
   \item 无 corridor 双 target：Track B 现在分成 physics anchor $(0.12,2,2)$ 与 showcase clear-instance $(0.12,4,1)$ 两条线。physics anchor 给出 $P_{\rm near}/P_{\rm far}\approx0.324/0.676$ 与 $(t_{p1},t_v,t_{p2})=(7,196,469)$；showcase clear-instance 则继续负责最清晰的图像，并通过首道 gate（\texttt{peak>=0.07}、\texttt{min>=0.07}、\texttt{valley<=0.10}）。同时新增输出 start-scan continuation CSV、$(d,\Delta y)$ loss-mode CSV，以及相应的 atlas/committor/loss-mode 图组。
   \item continuation 结果已经把两个物理问题具体化：\texttt{source\_only\_x} 扫描里 11 个点只有 4 个保持 \texttt{clear}，而控制组 \texttt{source\_plus\_near\_x} 的 11 个点全部保持 \texttt{clear}；$(d,\Delta y)$ 扫描中主导失效模式是 \texttt{near\_mass\_loss}（共 22 个），且在自适应 horizon guard 之后不再有 truncation-risk 假阳性。
   \item 方法层面：committor 从“术语”落到了可计算、可复核流程；splitting committor 在 physics anchor 与 clear-instance 上都与吸收质量形成数值闭环，并把 $\varepsilon_{\rm split}$ 与 committor 残差共同纳入自动质检（当前两行 $\varepsilon_{\rm split}$ 都在 $\sim10^{-9}$ 量级）。
@@ -619,7 +651,7 @@ q_{\rm far}(x_s)=\mathbb E[M_\tau]
   q_{\rm far}(x)=\mathbb P_x(\tau_{\rm far}<\tau_{\rm near}),
   \]
   并继续把 $\varepsilon_{\rm split}=|q_{\rm far}(x_s)-P_{\rm far}|$ 与两项阈值裕量指标（\texttt{min-margin} 与 \texttt{gate-slack}）共同作为自动质检项。
-  \item 在膜模型中比较“上下非对称”与“方向非对称（内外穿透率不同）”两类破缺，并统一投影到 committor 几何上对比。
+  \item 在膜模型中继续扩展到“分段异质膜”（例如左/右不同 patch），并把它与当前方向不对称模型统一投影到 committor 几何上比较。
   \item 在 keepalive 循环中把“codegen + 中英文构建可通过”作为一等优化目标，并固定执行分流策略：本地小轮次（$<10$ 分钟）优先直跑；大规模扫描（预计单轮 $>20$ 分钟）走 isbard doctor/auth + submit/status/fetch；远端失败时先记录原因并回退最小本地 smoke。
   \item 所有远端轮次统一输出运行元信息（\texttt{JOB\_ID}、\texttt{REMOTE\_DIR}、关键产物路径与下一步动作），保证总结可追溯。
 \end{enumerate}

@@ -32,6 +32,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 Coord = Tuple[int, int]
 Edge = Tuple[Coord, Coord]
+DirectedEdge = Tuple[Coord, Coord]
 
 DIR_VEC: dict[str, Coord] = {
     "E": (1, 0),
@@ -248,6 +249,10 @@ def _edge_key(a: Coord, b: Coord) -> Edge:
     return (a, b) if a <= b else (b, a)
 
 
+def _directed_edge_key(a: Coord, b: Coord) -> DirectedEdge:
+    return (a, b)
+
+
 def idx(x: int, y: int, Lx: int) -> int:
     return y * Lx + x
 
@@ -385,9 +390,17 @@ def build_transition_arrays_general_rect(
     local_bias_map: Dict[Coord, Tuple[str, float]],
     sticky_map: Dict[Coord, float],
     barrier_map: Dict[Edge, float],
+    directed_barrier_map: Dict[DirectedEdge, float] | None = None,
     long_range_map: Dict[Coord, List[Tuple[Coord, float]]],
     global_bias: Tuple[float, float],
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Build the transition kernel for the rectangular grid model.
+
+    `barrier_map` keeps the legacy undirected pass probability on an edge. When
+    `directed_barrier_map` is provided it overrides the pass probability for the
+    specific ordered crossing `(from_cell, to_cell)`, which lets callers model
+    directional membrane permeability without affecting existing reports.
+    """
     base_moves = _parse_global_bias(q, float(global_bias[0]), float(global_bias[1]))
 
     src: List[int] = []
@@ -431,6 +444,8 @@ def build_transition_arrays_general_rect(
                     stay_extra += p
                     continue
                 pass_prob = float(barrier_map.get(_edge_key(c, (nx, ny)), 1.0))
+                if directed_barrier_map is not None:
+                    pass_prob = float(directed_barrier_map.get(_directed_edge_key(c, (nx, ny)), pass_prob))
                 pass_prob = min(max(pass_prob, 0.0), 1.0)
                 flow = p * pass_prob
                 blocked = p - flow

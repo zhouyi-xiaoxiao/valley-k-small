@@ -8,16 +8,21 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+REPO_TOOL_DIR = Path(__file__).resolve().parents[1] / "repo"
+if str(REPO_TOOL_DIR) not in sys.path:
+    sys.path.insert(0, str(REPO_TOOL_DIR))
 
 from report_registry import load_registry
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
-OUT_DIR = REPO_ROOT / "artifacts" / "deliverables" / "publication"
+DATA_ROOT = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
+OUT_DIR = REPO_ROOT / ".local" / "deliverables" / "publication"
 
 
 def utc_now_iso() -> str:
@@ -466,7 +471,7 @@ def render_appendix(pdf_paths: list[Path]) -> str:
 
 def build_compendium(*, lang: str, include_appendix: bool, base_url: str) -> dict[str, Any]:
     if not (DATA_ROOT / "index.json").exists():
-        raise SystemExit("missing site/public/data/v1/index.json; run `python3 scripts/reportctl.py web-data --mode full` first")
+        raise SystemExit("missing platform/web/public/data/v1/index.json; run `python3 scripts/reportctl.py web-data --mode full` first")
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     index = read_json(DATA_ROOT / "index.json")

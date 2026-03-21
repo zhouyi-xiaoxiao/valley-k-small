@@ -10,17 +10,22 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+REPO_TOOL_DIR = Path(__file__).resolve().parents[1] / "repo"
+if str(REPO_TOOL_DIR) not in sys.path:
+    sys.path.insert(0, str(REPO_TOOL_DIR))
+
 from report_registry import load_registry
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_OUTPUT_DIR = REPO_ROOT / "site" / "public" / "data" / "v1"
-DEFAULT_ARTIFACTS_DIR = REPO_ROOT / "site" / "public" / "artifacts"
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
+DEFAULT_ARTIFACTS_DIR = REPO_ROOT / "platform" / "web" / "public" / "artifacts"
 TEXT_EXT = {".md", ".tex", ".txt"}
 FIGURE_EXT = {".pdf", ".png", ".svg", ".jpg", ".jpeg", ".webp"}
 DATA_EXT = {".json", ".csv", ".npz"}
@@ -32,18 +37,21 @@ REPO_SYNC_INCLUDE_GLOBS = [
     "AGENTS.md",
     "requirements.txt",
     "pyproject.toml",
-    "docs/**/*.md",
-    "docs/**/*.tex",
-    "reports/**/*.tex",
-    "reports/**/README.md",
-    "reports/**/notes/*.md",
-    "reports/**/code/*.py",
+    "research/docs/**/*.md",
+    "research/docs/**/*.tex",
+    "research/reports/**/*.tex",
+    "research/reports/**/README.md",
+    "research/reports/**/notes/*.md",
+    "research/reports/**/code/*.py",
+    "platform/README.md",
+    "platform/tools/**/*.py",
+    "platform/skills/**/*.md",
+    "platform/agent/**/*.md",
     "scripts/README.md",
-    "scripts/**/*.py",
-    "src/**/*.py",
+    "scripts/reportctl.py",
+    "packages/vkcore/src/**/*.py",
     "tests/**/*.py",
-    "schemas/**/*.json",
-    "site/README.md",
+    "platform/schemas/**/*.json",
 ]
 REPO_SYNC_CATEGORY_LABELS: dict[str, dict[str, str]] = {
     "root": {"en": "Root Documents", "cn": "根目录文档"},
@@ -772,57 +780,54 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
     },
-    "cross_luca_regime_map": {
+    "luca_vs_recursion_unified_benchmark": {
         "en": {
-            "title": "Cross-Model Luca Regime Map",
+            "title": "Unified Computational Benchmark",
             "summary": (
-                "This cross-report study benchmarks full-FPT solvers under fixed-horizon fairness, comparing sparse exact recursion "
-                "against Luca defect-reduced routes while keeping linear-system MFPT only as reference. The core output is a reproducible "
-                "speed-ratio map R=t_sparse/t_luca and a regime classification that distinguishes where acceleration is real versus negligible."
+                "This repository-wide benchmark is the single active computational-comparison report. It compares Luca / generating-function "
+                "solvers against exact time-domain recursion across six workloads under a practical native-task fairness rule, with long-horizon "
+                "curve costs retained separately from the main report-production timing table."
             ),
             "narrative": {
                 "model_overview": (
-                    "The comparison protocol aligns Grid2D and Ring instances under one fairness contract: same horizon, same observable, "
-                    "and no mixing of full-FPT metrics with MFPT-only claims."
+                    "The benchmark spans ring single-target, ring encounter, 2D two-target, and 2D reflecting workloads while preserving each report's own natural observable and horizon."
                 ),
                 "method_overview": (
-                    "Runs use warm-up plus repeated timed executions, defect-pair routing rules, and pooled medians to stabilize solver-side "
-                    "variance before regime labeling."
+                    "The GF family is represented by closed-form propagators, defect-reduced resolvents, renewal closures, and AW/Cauchy-FFT inversion; the time family is represented by exact absorbing recursion on transient states or pair chains."
                 ),
                 "result_overview": (
-                    "Across the scanned workload, sparse exact remains the dominant full-FPT baseline; Luca-mode speedups appear only in limited "
-                    "defect-regime subsets and are near-neutral in the aggregate ratio metric."
+                    "Time recursion dominates practical encounter and medium-defect two-target workloads, while the Luca/GF route wins in the analytic ring benchmark and the ultra-sparse LF1 anchor."
                 ),
             },
             "key_findings": [
-                "The ratio metric R=t_sparse/t_luca is computed under fixed full-FPT fairness, with MFPT linear systems separated as reference only.",
-                "Pooled timing medians indicate sparse exact dominates most scanned regimes in full-FPT mode.",
-                "Luca acceleration is regime-dependent and concentrated in specific defect-pair configurations.",
-                "Cross-report transfer claims are accepted only when both model families satisfy the same fairness and observability constraints.",
+                "The active benchmark compares only two families: `luca_gf` and `time_recursion`.",
+                "Diagnostic-task timings are treated as primary, while curve-task timings are explicitly secondary.",
+                "The new encounter GF route is timed directly rather than inferred only from A1/A8 consistency notes.",
+                "Historical fixed-full-FPT discussion is retained inside the unified report instead of as a separate active compare report.",
             ],
         },
         "cn": {
-            "title": "跨模型 Luca 相区图",
+            "title": "统一计算 benchmark",
             "summary": (
-                "该跨报告研究在固定时域公平口径下比较 full-FPT 求解器：以 sparse 精确递推为基线，"
-                "对照 Luca 缺陷约化路径，并把线性系统 MFPT 仅作为参考。核心产出是可复现的速度比 R=t_sparse/t_luca 及其相区分类。"
+                "这是仓库里唯一活跃的计算方法比较主稿。报告在六个 workload 上比较 Luca / 生成函数家族与精确时域递推家族，"
+                "主公平口径采用实务 native-task，长时窗 curve 成本被单独保留，不覆盖主 timing 表。"
             ),
             "narrative": {
                 "model_overview": (
-                    "比较协议在 Grid2D 与 Ring 上统一为同一公平契约：相同时间窗、相同观测量，且不把 full-FPT 与仅 MFPT 指标混用。"
+                    "benchmark 同时覆盖 ring 单目标、ring encounter、2D two-target 与 2D reflecting workload，并保留各科学报告原生的观测量与时窗定义。"
                 ),
                 "method_overview": (
-                    "流程采用预热+多次计时、中位数汇总和缺陷配对规则控制，以减少求解器侧波动对相区结论的影响。"
+                    "GF 家族由闭式传播子、缺陷约化 resolvent、renewal 闭合与 AW/Cauchy-FFT 反演构成；时域家族由瞬态状态或 pair chain 上的精确吸收递推构成。"
                 ),
                 "result_overview": (
-                    "在扫描工作负载上，sparse 精确解仍是 full-FPT 主基线；Luca 加速仅在部分缺陷区间显著，整体速度比接近中性。"
+                    "时域递推在 practical encounter 与中等缺陷 two-target workload 上更占优，而 Luca/GF 在解析 ring benchmark 与超稀疏 LF1 正锚点上更快。"
                 ),
             },
             "key_findings": [
-                "速度比 R=t_sparse/t_luca 在固定 full-FPT 公平口径下计算，MFPT 线性系统仅作对照参考。",
-                "汇总中位计时显示 sparse 精确解在多数扫描区间保持主导。",
-                "Luca 的加速收益具有相区依赖性，集中在特定缺陷配对构型。",
-                "跨模型迁移结论仅在两侧公平口径与观测约束一致时成立。",
+                "活跃 benchmark 只比较两大家族：`luca_gf` 与 `time_recursion`。",
+                "diagnostic-task timing 是主结论，curve-task timing 明确降为次级。",
+                "encounter 的 GF 路线现在做了直接计时，而不是只停留在 A1/A8 一致性说明。",
+                "历史 fixed-full-FPT 讨论被内嵌进统一报告，不再单独维护活跃 compare 报告。",
             ],
         },
     },
@@ -1042,7 +1047,7 @@ def looks_like_operational_note(text: str) -> bool:
     if re.search(r"\.(?:py|json|csv|tex|md)\b", lowered):
         if any(token in lowered for token in ("script", "config", "notes", "path", "workflow", "file")):
             return True
-    if lowered.startswith("`code/`") or lowered.startswith("`reports/`") or lowered.startswith("`outputs/`") or lowered.startswith("`tables/`"):
+    if lowered.startswith("`code/`") or lowered.startswith("`research/reports/`") or lowered.startswith("`outputs/`") or lowered.startswith("`tables/`"):
         return True
     if lowered in {"`code/`: data generation scripts.", "code/: data generation scripts."}:
         return True
@@ -1926,7 +1931,7 @@ def ensure_repro_commands(commands: list[str], report_id: str) -> list[str]:
         has_report_specific = any(
             report_id in cmd
             or f"--report {report_id}" in cmd
-            or f"reports/{report_id}" in cmd
+            or f"research/reports/{report_id}" in cmd
             or "reportctl.py build --report" in cmd
             for cmd in executable
         )
@@ -2540,7 +2545,7 @@ def parse_readme(report_dir: Path, report_id: str) -> tuple[str, str, list[str]]
             return True
         if "--" in stripped:
             return True
-        if "/" in stripped and any(token in lowered for token in ("reports/", "scripts/", ".py", ".json", ".tex")):
+        if "/" in stripped and any(token in lowered for token in ("research/reports/", "scripts/", ".py", ".json", ".tex")):
             return True
         return False
 
@@ -2803,7 +2808,7 @@ def detect_changed_reports(registry: list[dict[str, Any]]) -> set[str]:
     if not changed:
         return {item["id"] for item in registry}
 
-    if "reports/report_registry.yaml" in changed:
+    if "research/reports/report_registry.yaml" in changed:
         return {item["id"] for item in registry}
 
     matched: set[str] = set()
@@ -3119,6 +3124,28 @@ def sanitize_latex_for_katex(latex: str) -> str:
     value = normalize_space(strip_tex_comments(latex))
     if not value:
         return ""
+    if re.search(r"[，。；：（）【】［］｛｝％]", value):
+        if "\\" not in value:
+            return ""
+        value = value.translate(
+            str.maketrans(
+                {
+                    "，": ",",
+                    "。": ".",
+                    "；": ";",
+                    "：": ":",
+                    "（": "(",
+                    "）": ")",
+                    "【": "[",
+                    "】": "]",
+                    "［": "[",
+                    "］": "]",
+                    "｛": "{",
+                    "｝": "}",
+                    "％": "%",
+                }
+            )
+        )
     value = re.sub(r"\\(?:label|tag\*?)\{[^{}]*\}", " ", value)
     value = value.replace("\\nonumber", " ")
     value = value.replace("\\notag", " ")
@@ -5662,7 +5689,7 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build site/public/data/v1 web payloads from report assets.")
+    parser = argparse.ArgumentParser(description="Build platform/web/public/data/v1 web payloads from report assets.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--artifacts-dir", type=Path, default=DEFAULT_ARTIFACTS_DIR)
     parser.add_argument("--mode", choices=["full", "changed"], default="full")

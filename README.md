@@ -1,51 +1,75 @@
 # valley-k-small
 
-研究随机游走首达时间分布的单仓库，现已整理为“研究内容 + 平台能力”双主轴结构。
+随机游走首达时间分布研究仓库，采用单一 canonical 结构：
+- 人类优先阅读 `research/` 和 `platform/`
+- agent 通过 `reportctl` 生成 handoff/pack，而不是依赖第二套仓库镜像
+- 本地运行时状态统一放在隐藏目录 `.local/`
+- 仓库默认按 agent-first 组织；人的参与主要是自然语言指令、调试协助和 PDF 方向性反馈
 
-## 入口
-- 研究内容在 `research/`
-- 平台能力在 `platform/`
-- 共享 Python 核心库在 `packages/vkcore/src/vkcore/`
-- 兼容脚本入口保留在 `scripts/`
-
-## 目录
+## Canonical Layout
 ```text
 .
+├── README.md
+├── AGENTS.md
+├── pyproject.toml
+├── requirements.txt
 ├── research/
-│   ├── reports/      # 报告、文稿、图表数据、研究索引
-│   ├── docs/         # 研究总览、日志、提交材料
-│   └── archives/     # 历史 runs 与归档产物
+│   ├── reports/
+│   ├── docs/
+│   └── archives/
 ├── platform/
-│   ├── web/          # Next.js 站点与预计算数据
-│   ├── tools/        # 实际脚本实现（repo/web/automation）
-│   ├── schemas/      # JSON schema
-│   ├── skills/       # 仓库与 agent skill
-│   ├── agent/        # agent 人格/引导文档
-│   └── runtime/      # 本地产物、日志、keepalive 状态
+│   ├── web/
+│   ├── agent/
+│   ├── schemas/
+│   ├── skills/
+│   └── tools/
 ├── packages/
 │   └── vkcore/src/vkcore/
-├── scripts/          # 兼容包装器与 shell 入口
+├── scripts/
+│   ├── reportctl.py
+│   ├── ka
+│   └── README.md
 └── tests/
 ```
 
-## 最常用命令
+## Human Entry Points
+- 研究总览: `research/docs/RESEARCH_SUMMARY.md`
+- 研究文档索引: `research/docs/README.md`
+- 报告目录索引: `research/reports/README.md`
+- 平台与工具说明: `platform/README.md`
+
+## Agent Entry Points
+- 仓库约束: `AGENTS.md`
+- continuation skill: `platform/skills/valley-k-small-continuation/`
+- 生成 agent 视图:
+  - `python3 scripts/reportctl.py agent-sync`
+  - `python3 scripts/reportctl.py agent-pack`
+- 生成输出位置: `.local/deliverables/agent_pack/v1`
+
+## Common Commands
 - `python3 scripts/reportctl.py list`
 - `python3 scripts/reportctl.py resolve --report ring_valley_dst`
 - `python3 scripts/reportctl.py build --report ring_valley_dst --lang cn`
-- `python3 scripts/validate_registry.py`
-- `python3 scripts/validate_archives.py`
-- `python3 scripts/update_research_summary.py`
-- `python3 scripts/check_docs_paths.py`
-- `python3 scripts/cleanup_local.py --include-runtime`
+- `python3 scripts/reportctl.py summary`
+- `python3 scripts/reportctl.py validate-registry`
+- `python3 scripts/reportctl.py validate-archives`
+- `python3 scripts/reportctl.py check-docs-paths`
+- `python3 scripts/reportctl.py doctor`
+- `python3 scripts/reportctl.py cleanup --include-runtime`
+- `./scripts/ka start <job> [task text...]`
 
-## 人看研究
-- 研究总览: `research/docs/RESEARCH_SUMMARY.md`
-- 文档索引: `research/docs/README.md`
-- 报告索引: `research/reports/README.md`
+## Reproducible Setup
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+python3 scripts/reportctl.py doctor
+```
 
-## 人看平台
-- 平台说明: `platform/README.md`
-- 脚本说明: `scripts/README.md`
+- `scripts/reportctl.py` 会在仓库根目录存在 `.venv/bin/python` 时优先使用它，避免校验链路落到系统 Python。
+- 对外公开时，根目录只保留 canonical 表面：`research/`、`platform/`、`packages/`、`scripts/`、`tests/` 与 4 个根文件。
 
-## 说明
-- 根目录保留了少量旧路径 symlink（如 `reports/`、`docs/`、`site/`），只用于兼容旧脚本与旧文档；新工作流统一使用 `research/`、`platform/`、`packages/` 路径。
+## Local State
+- `platform/web/public/data/v1/` 和 `platform/web/public/artifacts/` 是站点预计算输出
+- `.local/checks/`、`.local/deliverables/`、`.local/keepalive/`、`.local/loop/` 是隐藏本地状态
+- 这些路径都不属于人工主阅读面

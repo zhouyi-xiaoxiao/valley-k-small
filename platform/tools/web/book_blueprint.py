@@ -146,7 +146,7 @@ CHAPTER_BLUEPRINT: list[dict[str, Any]] = [
             "跨模型结论只在两侧都具备可审计证据路径时成立。",
             "最终形成可复用的迁移图谱，在避免过度外推的前提下转移直觉。",
         ],
-        "report_ids": ["cross_luca_regime_map", "grid2d_two_target_double_peak", "ring_two_target", "ring_valley_dst"],
+        "report_ids": ["luca_vs_recursion_unified_benchmark", "grid2d_two_target_double_peak", "ring_two_target", "ring_valley_dst"],
         "concept_keywords": ["cross", "regime", "synthesis", "phase", "hazard"],
     },
     {
@@ -200,7 +200,7 @@ CHAPTER_BLUEPRINT: list[dict[str, Any]] = [
             "我们明确区分“已确认机制”与“合理假设”，避免叙事膨胀。",
             "产出是一份可交接路线图，使新 agent 无需重新收集全部上下文。",
         ],
-        "report_ids": ["cross_luca_regime_map", "ring_valley_dst", "grid2d_two_target_double_peak", "ring_two_target"],
+        "report_ids": ["luca_vs_recursion_unified_benchmark", "ring_valley_dst", "grid2d_two_target_double_peak", "ring_two_target"],
         "concept_keywords": ["outlook", "open question", "phase transition", "future work"],
     },
 ]

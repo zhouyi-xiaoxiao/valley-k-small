@@ -1,6 +1,6 @@
 # lazy_jump_ext
 
-This extension folder is isolated from the original report. All new scripts, data, figures, and PDFs live here under `reports/ring_lazy_jump_ext/`.
+This extension folder is isolated from the original report. All new scripts, data, figures, and PDFs live here under `research/reports/ring_lazy_jump_ext/`.
 
 ## Structure
 - `code/`: pipelines and sweep scripts (beta/N scans, MC class sweeps, tail diagnostics)

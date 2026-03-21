@@ -14,6 +14,7 @@ import {
   localizedText,
   prefixPath,
 } from '@/lib/content';
+import { KATEX_MACROS } from '@/lib/latex';
 import type { BookChapter, Lang } from '@/types';
 
 function escapeHtml(value: string): string {
@@ -28,7 +29,12 @@ function escapeHtml(value: string): string {
 function renderLatex(latex: string, displayMode = true): { html: string; error: string | null } {
   try {
     return {
-      html: katex.renderToString(latex, { throwOnError: true, displayMode, strict: 'error' }),
+      html: katex.renderToString(latex, {
+        throwOnError: true,
+        displayMode,
+        strict: 'error',
+        macros: KATEX_MACROS,
+      }),
       error: null,
     };
   } catch (error: unknown) {

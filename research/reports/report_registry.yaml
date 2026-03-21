@@ -40,6 +40,16 @@ reports:
     languages: [cn, en]
     archive_policy: latest_only_archive_runs
     status: active
+  - id: grid2d_one_two_target_gating
+    aliases: []
+    path: research/reports/grid2d_one_two_target_gating
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_one_two_target_gating_cn.tex, grid2d_one_two_target_gating_en.tex]
+    entry_scripts: [code/one_two_target_gating_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
   - id: grid2d_reflecting_bimodality
     aliases: []
     path: research/reports/grid2d_reflecting_bimodality
@@ -56,7 +66,7 @@ reports:
     manuscript_dir: manuscript
     artifact_dir: artifacts
     main_tex: [grid2d_two_target_double_peak_cn.tex, grid2d_two_target_double_peak_en.tex]
-    entry_scripts: [code/two_target_2d_report.py, code/compare_numeric_methods.py]
+    entry_scripts: [code/two_target_2d_report.py]
     languages: [cn, en]
     archive_policy: latest_only_archive_runs
     status: active
@@ -130,13 +140,13 @@ reports:
     languages: [cn, en]
     archive_policy: latest_only_archive_runs
     status: active
-  - id: cross_luca_regime_map
+  - id: luca_vs_recursion_unified_benchmark
     aliases: []
-    path: research/reports/cross_luca_regime_map
+    path: research/reports/luca_vs_recursion_unified_benchmark
     manuscript_dir: manuscript
     artifact_dir: artifacts
-    main_tex: [cross_luca_regime_map_cn.tex, cross_luca_regime_map_en.tex]
-    entry_scripts: [code/build_manifest.py, code/run_regime_scan.py, code/plot_regime_figures.py, code/write_regime_report.py]
+    main_tex: [luca_vs_recursion_unified_benchmark_cn.tex, luca_vs_recursion_unified_benchmark_en.tex]
+    entry_scripts: [code/build_manifest.py, code/run_unified_benchmark.py, code/plot_unified_figures.py, code/write_unified_report.py]
     languages: [cn, en]
     archive_policy: latest_only_archive_runs
     status: active

@@ -1,0 +1,266 @@
+\documentclass[11pt]{ctexart}
+\usepackage[a4paper,margin=0.95in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,booktabs,graphicx,float,hyperref,enumitem,longtable,array,pdflscape}
+\hypersetup{hidelinks}
+\setlength{\emergencystretch}{2em}
+\newcommand{\FigDir}{../figures}
+\newcommand{\TabDir}{../tables}
+\title{统一计算方法比较主稿\\Luca / 生成函数家族 vs. 时域递推家族}
+\author{valley-k-small 自动化报告}
+\date{\today}
+\begin{document}
+\maketitle
+\begin{abstract}
+这份文稿是仓库里唯一活跃的计算方法比较报告。科学主报告继续各自独立，但方法比较线统一收敛到这里，并固定保留六个 workload。 
+主公平口径采用\emph{实务 native-task}：每份科学报告实际需要完成什么任务，就按那个任务去计时，而不是强行统一 full-tail。 
+在 diagnostic 协议下，中位比值 $t_{\mathrm{time}}/t_{\mathrm{Luca}}=0.0866$；
+时域递推赢在 ENC-FIXED、ENC-ANY、TT-C1、REF-S0，Luca/GF 赢在 RING-1T-paper、TT-LF1。 
+在 curve 协议下，中位比值为 0.0671；
+时域递推赢在 ENC-FIXED、ENC-ANY、TT-C1、REF-S0，Luca/GF 赢在 RING-1T-paper、TT-LF1。
+\end{abstract}
+\section{研究目标与比较口径}
+这里只比较两大家族：
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{Luca / 生成函数家族}：闭式传播子、defect-reduced resolvent、变换域 renewal、AW/Cauchy-FFT 反演。
+\item \textbf{时域递推家族}：在瞬态状态空间上做精确推进，包括 sparse exact recursion 与 absorbed pair-distribution update。
+\end{itemize}
+主 benchmark 不是强制 full-tail 公平，而是“为了交付当前科学结论，哪个家族更合适”。
+\section{统一记号与 runtime 协议}
+设 $X_t$ 为离散时间 Markov 链，$T$ 为 target set，$\tau_T=\inf\{t\ge 1:X_t\in T\}$ 为首达时间，则
+\begin{align}
+f_T(t) &= \mathbb P(\tau_T=t),\\
+S_T(t) &= \mathbb P(\tau_T>t),\\
+\widetilde f_T(z) &= \sum_{t\ge 1} f_T(t) z^t,\\
+\widetilde P_{ij}(z) &= \sum_{t\ge 0} \mathbb P_i(X_t=j) z^t = \bigl[(I-zP)^{-1}\bigr]_{ij}.
+\end{align}
+单 target 情况下 renewal 直接闭合为
+\begin{align}
+\widetilde f_{i\to m}(z)=\frac{\widetilde P_{im}(z)}{\widetilde P_{mm}(z)}.
+\end{align}
+多 target 情况则在 target-to-target propagator 上变成一个小线性系统。 
+全部 runtime 均采用单线程 BLAS、1 次 warm-up、3 次 measured，再取中位 wall time。
+\section{Luca / 生成函数家族：完整数学主线}
+变换域家族的统一流程是：
+\begin{enumerate}[leftmargin=1.5em]
+\item 先写 defect-free propagator 或闭式单 walker PGF；
+\item 再通过有限维 Woodbury / determinant 系统恢复 defected propagator；
+\item 再闭合单 target 或多 target renewal，得到 FPT 的 generating function；
+\item 最后在半径 $r$ 的圆周上做 AW/Cauchy-FFT 反演。
+\end{enumerate}
+反演公式统一写成
+\begin{align}
+f(t)=[z^t]\widetilde f(z)=\frac{1}{2\pi i}\oint_{|z|=r}\frac{\widetilde f(z)}{z^{t+1}}\,dz
+\approx \frac{r^{-t}}{m}\sum_{k=0}^{m-1}\widetilde f\!\left(re^{2\pi i k/m}\right)e^{-2\pi i kt/m}.
+\end{align}
+\subsection{Encounter 的 GF 路线}
+对于 two-walker shortcut encounter，defect-free pair propagator 为
+\begin{align}
+G_0\big((n_0,m_0)\to(x,y);z\big)=\frac{1}{N^2}\sum_{k_1,k_2}\frac{h_{k_1}(x,n_0)h_{k_2}(y,m_0)}{1-z\lambda_{k_1}^{(1)}\lambda_{k_2}^{(2)}}.
+\end{align}
+shortcut 在 pair torus 上变成 line defect，并通过
+\begin{align}
+G(z)=G_0(z)+z\,G_0(z)U\left(I-zV^{\top}G_0(z)U\right)^{-1}V^{\top}G_0(z)
+\end{align}
+恢复真实 propagator。A1 与 A8 在这里不是主求解器，而是新 timed GF 路线的频谱锚点。
+\section{时域递推家族：完整数学主线}
+时域家族直接推进吸收瞬态量。若 $Q$ 为瞬态转移矩阵、$r$ 为瞬态到 target 的流量，则
+\begin{align}
+u_{t+1} &= u_tQ,\\
+f(t+1) &= u_tr,\\
+S(t+1) &= u_{t+1}\mathbf 1.
+\end{align}
+对 two-target 问题，把 $r$ 换成两列 target flux block 即可。对 encounter，最自然的写法是 pair recursion：
+\begin{align}
+J_{t+1} &= P_1^{\top}J_tP_2,\\
+f_{\mathrm{enc}}(t+1) &= \operatorname{tr}(J_{t+1}).
+\end{align}
+这里每一步都把对角线或指定 encounter site 清零，从而实现精确吸收。全文统一不用“渐进递推”这个词；这里的 recursion 是精确时域推进。
+\section{六个 Workload 的实例化与详细配置图}
+六个 workload 现在都在这份统一报告里直接说明：每个案例都给出详细配置图，并把两大家族在该案例上的公式实例化写清楚。
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_workload_inventory_cn.tex}
+}
+\caption{统一比较里保留的六个 workload。}
+\end{table}
+\subsection{RING-1T-paper}
+这是解析单目标 ring benchmark。生成函数家族从闭式单 walker 传播子出发：
+\begin{align}
+\widetilde P_{n_0\to n}(u) &= \sum_{k=0}^{N-1} \frac{h_k(n,n_0)}{1-u\alpha_k},\\
+\widetilde F_{n_0\to m}(u) &= \frac{\widetilde P_{n_0\to m}(u)}{\widetilde P_{m\to m}(u)},
+\end{align}
+再沿半径 $r$ 的圆周做 AW/Cauchy 反演。时域家族则直接推进吸收链。
+与配置图直接对应的速度结论是：diagnostic 任务由Luca/GF更快（time=0.007163s，luca=0.0006995s，相差 10.2 倍）。 curve 任务保持同一赢家（time=0.01769s，luca=0.002326s）。
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.97\linewidth]{\FigDir/RING-1T-paper_config_detailed.pdf}
+\caption{paper-like 单目标 shortcut benchmark 的详细 ring 几何。}
+\end{figure}
+\clearpage
+\subsection{ENC-FIXED}
+fixed-site encounter 在 pair chain 上是一个单 target 首达问题。GF 家族先写 defect-free pair propagator，再闭合单 target renewal：
+\begin{align}
+G_0\big((n_0,m_0)\to(x,y);z\big) &= \frac{1}{N^2}\sum_{k_1,k_2}\frac{h_{k_1}(x,n_0)h_{k_2}(y,m_0)}{1-z\lambda^{(1)}_{k_1}\lambda^{(2)}_{k_2}},\\
+\widetilde f_{\delta}(z) &= \frac{G\big((n_0,m_0)\to(\delta,\delta);z\big)}{G\big((\delta,\delta)\to(\delta,\delta);z\big)}.
+\end{align}
+时域家族则在 $N^2$ 状态空间上精确推进吸收 pair density。
+与配置图直接对应的速度结论是：diagnostic 任务由时域递推更快（time=0.006232s，luca=0.3488s，相差 56.0 倍）。 curve 任务保持同一赢家（time=0.005959s，luca=0.3508s）。
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.97\linewidth]{\FigDir/ENC-FIXED_config_detailed.pdf}
+\caption{fixed-site encounter benchmark 的详细配置图，其中 pair-state target 是单点 $(\delta,\delta)$。}
+\end{figure}
+\clearpage
+\subsection{ENC-ANY}
+anywhere encounter 把 target 从单点提升成整条对角线 $D=\{(x,x):x\in\mathbb Z_N\}$。GF 家族仍从 defect-free pair propagator 出发，但需要多 target renewal：
+\begin{align}
+G(z) &= G_0(z) + z\,G_0(z)U\left(I-zV^{\top}G_0(z)U\right)^{-1}V^{\top}G_0(z),\\
+\widetilde{\mathbf f}_D(z) &= G_{DD}(z)^{-1}G_{Ds}(z),\\
+\widetilde f_{\mathrm{enc}}(z) &= \mathbf 1^{\top}\widetilde{\mathbf f}_D(z).
+\end{align}
+shortcut 在 pair torus 上对应一条 defect line，因此 Woodbury 修正就是把 defect-free 频谱恢复成真实 encounter PGF 的关键步骤。
+与配置图直接对应的速度结论是：diagnostic 任务由时域递推更快（time=0.0123s，luca=2.317s，相差 188.3 倍）。 curve 任务保持同一赢家（time=0.02134s，luca=4.664s）。
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.97\linewidth]{\FigDir/ENC-ANY_config_detailed.pdf}
+\caption{anywhere encounter benchmark 的详细配置图：原 ring、对角 target set 与 shortcut 对应的 defect line 同时展示。}
+\end{figure}
+\clearpage
+\subsection{TT-C1}
+C1 是最重要的 two-target 实务 benchmark。GF 家族不是去做完整 dense transient solve，而是做 defect-reduced resolvent：
+\begin{align}
+Q &= Q_0 + U\Delta V^{\top},\\
+(I-zQ)^{-1} &= (I-zQ_0)^{-1} + z(I-zQ_0)^{-1}U\left(I-zV^{\top}(I-zQ_0)^{-1}U\Delta\right)^{-1}V^{\top}(I-zQ_0)^{-1},\\
+\widetilde{\mathbf f}(z) &= G_{TT}(z)^{-1}G_{Ts}(z),
+\end{align}
+其中 $T=\{m_1,m_2\}$。时域家族则是在瞬态图上做 sparse exact recursion，并延伸到支撑科学结论所需的长时窗。
+与配置图直接对应的速度结论是：diagnostic 任务由时域递推更快（time=0.01313s，luca=41.19s，相差 3137.2 倍）。 curve 任务保持同一赢家（time=0.06642s，luca=41.03s）。
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.97\linewidth]{\FigDir/TT-C1_config_detailed.pdf}
+\caption{C1 的详细几何图：同时展示完整 local-bias field 与决定 defect-reduced 维数的 corridor support。}
+\end{figure}
+\clearpage
+\subsection{TT-LF1}
+TT-LF1 复用相同的 two-target 数学，但把 defect support 压到极稀疏，因此成为本仓库里 Luca/GF 占优的正锚点。
+与配置图直接对应的速度结论是：diagnostic 任务由Luca/GF更快（time=0.1901s，luca=0.01725s，相差 11.0 倍）。 curve 任务保持同一赢家（time=0.1904s，luca=0.01719s）。
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.97\linewidth]{\FigDir/TT-LF1_config_detailed.pdf}
+\caption{LF1 稀疏缺陷正锚点的详细配置图。}
+\end{figure}
+\clearpage
+\subsection{REF-S0}
+REF-S0 是 reflecting 低缺陷控制例。GF 家族仍然是单 target resolvent + 反演，但在这个案例里 full AW 还保持可行：
+\begin{align}
+\widetilde F_{s\to m}(z) &= \frac{G_{sm}(z)}{G_{mm}(z)},\\
+f(t) &= [z^t]\widetilde F_{s\to m}(z).
+\end{align}
+时域家族则是标准的 reflecting 吸收递推。
+与配置图直接对应的速度结论是：diagnostic 任务由时域递推更快（time=0.006363s，luca=0.04098s，相差 6.4 倍）。 curve 任务保持同一赢家（time=0.01758s，luca=0.15s）。
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.97\linewidth]{\FigDir/REF-S0_config_detailed.pdf}
+\caption{reflecting 低缺陷 S0 控制案例的详细几何图，重点标出 sticky site 与部分透过 barrier。}
+\end{figure}
+\clearpage
+\section{主 benchmark 结果}
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_complexity_table.tex}
+}
+\caption{家族级复杂度总表。}
+\end{table}
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_solver_map.tex}
+}
+\caption{六个 workload 的家族内部 solver 映射。}
+\end{table}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{\FigDir/unified_runtime_config_overview.pdf}
+\caption{一目了然总览图。下方 1--6 号小图就是六个 workload 的配置图，上方 runtime 主图中的 1--6 号柱组与之按同样顺序一一对应。这是本报告的主 benchmark 图。}
+\end{figure}
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_runtime_diagnostic_cn.tex}
+}
+\caption{diagnostic-task runtime 表。}
+\end{table}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{\FigDir/unified_speedup_by_workload.pdf}
+\caption{逐 workload 的速度比 $t_{\mathrm{time}}/t_{\mathrm{Luca}}$。大于 1 表示 Luca/GF 更快。}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{\FigDir/unified_runtime_curve.pdf}
+\caption{curve-task runtime。该口径刻意置于次级位置，避免长尾成本覆盖主 benchmark。}
+\end{figure}
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_runtime_curve_cn.tex}
+}
+\caption{curve-task runtime 表。}
+\end{table}
+\section{推荐矩阵}
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_recommendation_cn.tex}
+}
+\caption{由六个 workload benchmark 导出的推荐矩阵。}
+\end{table}
+\section{结论}
+方法比较线现在完全收束到这一份报告。科学主报告继续讲科学，而这份文稿统一负责算法比较、fairness rule、workload inventory 与选型建议。
+\clearpage
+\appendix
+\section{附录 A：符号表与变量映射}
+\begin{align}
+P &: \text{完整转移算子}, & Q &: \text{瞬态转移矩阵},\\
+r &: \text{瞬态到 target 的流量}, & U\Delta V^{\top} &: \text{defect 更新},\\
+G_0(z) &: (I-zQ_0)^{-1}, & G(z) &: (I-zQ)^{-1},\\
+m &: \text{AW FFT 长度}, & r &: \text{AW 轮廓半径}.
+\end{align}
+\section{附录 B：GF 家族完整推导}
+GF 家族把所有 workload 都写进同一代数模板。由 defect-free $Q_0$ 出发，记
+\begin{align}
+Q &= Q_0 + U\Delta V^{\top},\\
+I-zQ &= (I-zQ_0)\Bigl[I-z(I-zQ_0)^{-1}U\Delta V^{\top}\Bigr],\\
+(I-zQ)^{-1} &= (I-zQ_0)^{-1} + z(I-zQ_0)^{-1}U\Bigl[I-zV^{\top}(I-zQ_0)^{-1}U\Delta\Bigr]^{-1}V^{\top}(I-zQ_0)^{-1}.
+\end{align}
+若 target set 为 $T=\{m_1,\dots,m_K\}$，则 renewal 写成
+\begin{align}
+G_{sT}(z)=\widetilde{\mathbf f}_T(z)^{\top}G_{TT}(z),\\
+\widetilde{\mathbf f}_T(z)=G_{TT}(z)^{-1}G_{Ts}(z).
+\end{align}
+单 target 公式正是这个矩阵方程在 $K=1$ 时的退化。
+\section{附录 C：时域递推家族完整推导}
+给定瞬态状态向量 $u_t$，精确递推统一写成
+\begin{align}
+u_0 &= e_s,\\
+u_{t+1} &= u_tQ,\\
+f(t+1) &= u_tr,\\
+S(t+1) &= u_{t+1}\mathbf 1.
+\end{align}
+对 two-target 问题，让 $R=[r^{(1)}\;r^{(2)}]$，于是 $f_1(t+1)=u_tr^{(1)}$、$f_2(t+1)=u_tr^{(2)}$。对 pair encounter，则矩阵递推形式更方便，因为吸收集在 pair torus 上具有结构。
+\section{附录 D：六个 workload 的逐例公式展开}
+RING-1T-paper 是标量 renewal；ENC-FIXED 是 pair chain 上的单 target renewal；ENC-ANY 是 pair torus 对角集上的多 target renewal；TT-C1 与 TT-LF1 是 defect-reduced selected-propagator 恢复之后的两目标 renewal；REF-S0 是 reflecting 单 target resolvent。正文第五节已经把它们与详细配置图一一对应。
+\section{附录 E：复杂度、内存、误差与数值协议}
+runtime 比较只有在共同比较窗口内通过数值一致性检查后才会进入主表。对每个 workload，都报告 $L^1$、$L^{\infty}$ 与峰位一致性标志，因此 wall time 从不脱离数值 sanity check 单独汇报。
+\section{附录 F：内嵌历史 full-FPT 口径说明}
+仓库里不再保留外部活跃 compare 报告去承载旧的 fixed full-tail fairness 问题。相关历史说明现在以内嵌附录形式保留在这里。
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_appendix_fairness_cn.tex}
+}
+\caption{统一报告内部保留的历史公平口径说明。}
+\end{table}
+\end{document}

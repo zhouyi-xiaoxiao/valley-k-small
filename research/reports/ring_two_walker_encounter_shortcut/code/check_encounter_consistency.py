@@ -103,6 +103,8 @@ def main() -> int:
         "encounter_fpt_overlay.pdf",
         "encounter_shortcut_decomp.pdf",
         "encounter_shortcut_share.pdf",
+        "encounter_peak_basin_rep.pdf",
+        "encounter_site_splitting_rep.pdf",
         "encounter_mass_balance.pdf",
         "encounter_beta_phase.pdf",
         "encounter_peakcount_vs_beta.pdf",
@@ -113,6 +115,8 @@ def main() -> int:
         "encounter_onset_n_scan.pdf",
         "encounter_onset_scaling.pdf",
         "encounter_onset_source_window.pdf",
+        "encounter_beta_site_heatmap.pdf",
+        "encounter_n_site_heatmap.pdf",
         "encounter_fixedsite_examples.pdf",
         "encounter_fixedsite_parity_compare.pdf",
         "encounter_fixedsite_gphase.pdf",
@@ -123,6 +127,8 @@ def main() -> int:
         "encounter_n_scan_table.tex",
         "encounter_key_metrics.tex",
         "encounter_shortcut_rep_case.tex",
+        "encounter_peak_contrib_rep.tex",
+        "encounter_site_splitting_rep.tex",
         "fixedsite_example_table.tex",
         "fixedsite_phase_summary.tex",
         "fixedsite_parity_note_cn.tex",
@@ -140,28 +146,44 @@ def main() -> int:
     ]
     required_tex_markers = [
         (
-            REPORT_DIR / "ring_two_walker_encounter_shortcut_cn.tex",
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_cn.tex",
             r"\input{\TabDir/encounter_consistency_summary_cn.tex}",
         ),
         (
-            REPORT_DIR / "ring_two_walker_encounter_shortcut_cn.tex",
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_cn.tex",
             r"\input{\TabDir/encounter_nscan_summary_cn.tex}",
         ),
         (
-            REPORT_DIR / "ring_two_walker_encounter_shortcut_cn.tex",
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_cn.tex",
             r"\input{\TabDir/fixedsite_parity_note_cn.tex}",
         ),
         (
-            REPORT_DIR / "ring_two_walker_encounter_shortcut_en.tex",
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_en.tex",
             r"\input{\TabDir/encounter_consistency_summary_en.tex}",
         ),
         (
-            REPORT_DIR / "ring_two_walker_encounter_shortcut_en.tex",
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_en.tex",
             r"\input{\TabDir/encounter_nscan_summary_en.tex}",
         ),
         (
-            REPORT_DIR / "ring_two_walker_encounter_shortcut_en.tex",
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_en.tex",
             r"\input{\TabDir/fixedsite_parity_note_en.tex}",
+        ),
+        (
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_cn.tex",
+            r"\input{\TabDir/encounter_peak_contrib_rep.tex}",
+        ),
+        (
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_cn.tex",
+            r"\input{\TabDir/encounter_site_splitting_rep.tex}",
+        ),
+        (
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_en.tex",
+            r"\input{\TabDir/encounter_peak_contrib_rep.tex}",
+        ),
+        (
+            REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_en.tex",
+            r"\input{\TabDir/encounter_site_splitting_rep.tex}",
         ),
     ]
 
@@ -174,6 +196,8 @@ def main() -> int:
     require_file(DATA_DIR / "encounter_onset_n_scan.csv", errors)
     require_file(DATA_DIR / "encounter_beta_scan_timescale.csv", errors)
     require_file(DATA_DIR / "encounter_beta_scan_compare_detectors.csv", errors)
+    require_file(DATA_DIR / "encounter_peak_contrib_scan.csv", errors)
+    require_file(DATA_DIR / "encounter_site_splitting_scan.csv", errors)
 
     for tex_path, marker in required_tex_markers:
         if tex_path.exists():
@@ -210,15 +234,23 @@ def main() -> int:
     fixedsite_parity_cn_tex = (TABLE_DIR / "fixedsite_parity_note_cn.tex").read_text(encoding="utf-8")
     fixedsite_parity_en_tex = (TABLE_DIR / "fixedsite_parity_note_en.tex").read_text(encoding="utf-8")
     scan_table_tex = (TABLE_DIR / "encounter_scan_table.tex").read_text(encoding="utf-8")
-    report_cn_tex = (REPORT_DIR / "ring_two_walker_encounter_shortcut_cn.tex").read_text(encoding="utf-8")
-    report_en_tex = (REPORT_DIR / "ring_two_walker_encounter_shortcut_en.tex").read_text(encoding="utf-8")
+    report_cn_tex = (REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_cn.tex").read_text(encoding="utf-8")
+    report_en_tex = (REPORT_DIR / "manuscript" / "ring_two_walker_encounter_shortcut_en.tex").read_text(encoding="utf-8")
 
     representative = case_summary.get("representative", {})
     rep_metrics = representative.get("metrics", {}) if isinstance(representative, dict) else {}
     rep_share = representative.get("shortcut_share", {}) if isinstance(representative, dict) else {}
     onset = case_summary.get("onset", {})
-    sensitivity = onset.get("sensitivity", {}) if isinstance(onset, dict) else {}
-    onset_summary = onset.get("n_scan_summary", {}) if isinstance(onset, dict) else {}
+    onset_clear = onset.get("clear", {}) if isinstance(onset, dict) and isinstance(onset.get("clear"), dict) else {}
+    onset_has_two = onset.get("has_two", {}) if isinstance(onset, dict) and isinstance(onset.get("has_two"), dict) else {}
+    sensitivity = onset_clear.get("sensitivity", {}) if isinstance(onset_clear.get("sensitivity"), dict) else {}
+    sensitivity_has_two = (
+        onset_has_two.get("sensitivity", {}) if isinstance(onset_has_two.get("sensitivity"), dict) else {}
+    )
+    onset_summary = onset_clear.get("n_scan_summary", {}) if isinstance(onset_clear.get("n_scan_summary"), dict) else {}
+    onset_has_two_summary = (
+        onset_has_two.get("n_scan_summary", {}) if isinstance(onset_has_two.get("n_scan_summary"), dict) else {}
+    )
     detector_mode = str(case_summary.get("scan_detector_mode", ""))
     if detector_mode != "timescale":
         errors.append(f"scan_detector_mode should be timescale, got {detector_mode!r}")
@@ -304,6 +336,16 @@ def main() -> int:
                 "case_summary detector tie_break mismatch: "
                 f"{case_detector_cfg.get('tie_break')!r}"
             )
+        if str(case_detector_cfg.get("phase_rule")) != "has_two_and_sep_peaks":
+            errors.append(
+                "case_summary detector phase_rule mismatch: "
+                f"{case_detector_cfg.get('phase_rule')!r}"
+            )
+        if not approx_equal(case_detector_cfg.get("sep_threshold"), 1.0):
+            errors.append(
+                "case_summary detector sep_threshold mismatch: "
+                f"{case_detector_cfg.get('sep_threshold')!r}"
+            )
 
     expect_contains(
         fixedsite_example_tex,
@@ -313,13 +355,13 @@ def main() -> int:
     )
     expect_contains(
         fixedsite_example_tex,
-        r"peak balance ratio ($\bar{\tilde f}$, min/max)",
+        r"sep ($\bar{\tilde f}$)",
         label="fixedsite_example_table.tex",
         errors=errors,
     )
     expect_contains(
         scan_table_tex,
-        r"peak balance ratio (min/max)",
+        r"sep",
         label="encounter_scan_table.tex",
         errors=errors,
     )
@@ -505,13 +547,13 @@ def main() -> int:
     )
     expect_contains(
         report_cn_tex,
-        r"phase/onset 与多峰 score 选峰时，只使用峰平衡比 $R_{\mathrm{peak}}$（min/max）和谷比 $R_{\mathrm{valley}}$",
+        r"phase/onset 的硬门槛现在改成峰分离度",
         label="ring_two_walker_encounter_shortcut_cn.tex",
         errors=errors,
     )
     expect_contains(
         report_en_tex,
-        r"For phase/onset and multi-peak score selection, we use $R_{\mathrm{peak}}$ (min/max) together with $R_{\mathrm{valley}}$",
+        r"the phase/onset gate itself is now based on peak separation rather than ratio thresholds",
         label="ring_two_walker_encounter_shortcut_en.tex",
         errors=errors,
     )
@@ -529,25 +571,37 @@ def main() -> int:
     )
     expect_contains(
         report_cn_tex,
-        r"$R_{\mathrm{dir}}$ 仅作为方向性诊断展示（不参与 phase 阈值判别）",
+        r"这三类 ratio 继续作为诊断量输出",
         label="ring_two_walker_encounter_shortcut_cn.tex",
         errors=errors,
     )
     expect_contains(
         report_cn_tex,
-        r"$R_{\mathrm{dir}}=g_{t_2}/g_{t_1}$ 可大于 1，该量不进入 phase 阈值判别。",
+        r"$R_{\mathrm{dir}}=g_{t_2}/g_{t_1}$ 可大于 1",
         label="ring_two_walker_encounter_shortcut_cn.tex",
         errors=errors,
     )
     expect_contains(
         report_en_tex,
-        r"$R_{\mathrm{dir}}$ is reported only as a directional diagnostic (not used in phase thresholds).",
+        r"all three ratios are reported as diagnostics",
         label="ring_two_walker_encounter_shortcut_en.tex",
         errors=errors,
     )
     expect_contains(
         report_en_tex,
-        r"$R_{\mathrm{dir}}=g_{t_2}/g_{t_1}$ may exceed 1, and this directional ratio is not used in phase thresholds.",
+        r"$R_{\mathrm{dir}}=g_{t_2}/g_{t_1}$ may exceed 1",
+        label="ring_two_walker_encounter_shortcut_en.tex",
+        errors=errors,
+    )
+    expect_contains(
+        report_cn_tex,
+        r"\mathrm{sep}_{\mathrm{peaks}}=\frac{|t_2-t_1|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}}",
+        label="ring_two_walker_encounter_shortcut_cn.tex",
+        errors=errors,
+    )
+    expect_contains(
+        report_en_tex,
+        r"\mathrm{sep}_{\mathrm{peaks}}=\frac{|t_2-t_1|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}}",
         label="ring_two_walker_encounter_shortcut_en.tex",
         errors=errors,
     )
@@ -670,6 +724,10 @@ def main() -> int:
             errors.append(f"fixedsite tie_break mismatch: {detector_cfg.get('tie_break')!r}")
         if str(detector_cfg.get("t_end_policy")) != "no_extra_cutoff":
             errors.append(f"fixedsite t_end_policy should be 'no_extra_cutoff', got {detector_cfg.get('t_end_policy')!r}")
+        if str(detector_cfg.get("phase_rule")) != "has_two_and_sep_peaks":
+            errors.append(f"fixedsite phase_rule mismatch: {detector_cfg.get('phase_rule')!r}")
+        if not approx_equal(detector_cfg.get("sep_threshold"), 1.0):
+            errors.append(f"fixedsite sep_threshold mismatch: {detector_cfg.get('sep_threshold')!r}")
 
     fixed_phase_summary = fixedsite_summary.get("phase_summary", {})
     if not isinstance(fixed_phase_summary, dict):
@@ -858,14 +916,14 @@ def main() -> int:
         if not line or "&" not in line or not line.endswith("\\\\") or line.startswith("\\"):
             continue
         cells = [c.strip() for c in line[:-2].split("&")]
-        if len(cells) < 7:
+        if len(cells) < 8:
             continue
         t1_cell, t2_cell = cells[3], cells[4]
-        peak_cell, valley_cell = cells[5], cells[6]
+        sep_cell, peak_cell, valley_cell = cells[5], cells[6], cells[7]
         if t1_cell == "-" or t2_cell == "-":
-            if peak_cell != "--" or valley_cell != "--":
+            if sep_cell != "--" or peak_cell != "--" or valley_cell != "--":
                 errors.append(
-                    "fixedsite example row with missing peak pair must use '--' for peak/valley ratios: "
+                    "fixedsite example row with missing peak pair must use '--' for separation/peak/valley metrics: "
                     f"{line}"
                 )
 
@@ -874,14 +932,14 @@ def main() -> int:
         if not line or "&" not in line or not line.endswith("\\\\") or line.startswith("\\"):
             continue
         cells = [c.strip() for c in line[:-2].split("&")]
-        if len(cells) < 7:
+        if len(cells) < 9:
             continue
-        t1_cell, t2_cell = cells[2], cells[3]
-        peak_cell, valley_cell = cells[4], cells[5]
+        t1_cell, t2_cell = cells[3], cells[4]
+        sep_cell, peak_cell, valley_cell = cells[5], cells[6], cells[7]
         if t1_cell == "-" or t2_cell == "-":
-            if peak_cell != "--" or valley_cell != "--":
+            if sep_cell != "--" or peak_cell != "--" or valley_cell != "--":
                 errors.append(
-                    "encounter scan row with missing peak pair must use '--' for peak/valley ratios: "
+                    "encounter scan row with missing peak pair must use '--' for separation/peak/valley metrics: "
                     f"{line}"
                 )
 
@@ -900,6 +958,7 @@ def main() -> int:
     rep_h2 = to_float(rep_metrics.get("h2"))
     rep_peak_ratio = to_float(rep_metrics.get("peak_ratio"))
     rep_peak_ratio_dir = to_float(rep_metrics.get("peak_ratio_dir"))
+    rep_sep_peaks = to_float(rep_metrics.get("sep_peaks"))
     if rep_h1 is None or rep_h2 is None or rep_h1 <= 0.0 or rep_h2 <= 0.0:
         errors.append(
             "representative peak heights h1/h2 are missing or non-positive "
@@ -922,6 +981,10 @@ def main() -> int:
                 "representative peak_ratio_dir mismatch: "
                 f"got {rep_peak_ratio_dir:.12g}, expected h2/h1={expected_peak_ratio_dir:.12g}"
             )
+    if rep_sep_peaks is None or not math.isfinite(rep_sep_peaks):
+        errors.append("representative sep_peaks is missing/non-finite")
+    elif rep_sep_peaks < 1.0:
+        errors.append(f"representative sep_peaks should be >= 1 for phase-2 representative, got {rep_sep_peaks:.12g}")
 
     share_t1 = to_float(rep_share.get("share_t1_window"))
     share_t2 = to_float(rep_share.get("share_t2_window"))
@@ -943,9 +1006,60 @@ def main() -> int:
                 f"mass conservation drift too large: |mass+survival-1|={residue:.3e}"
             )
 
-    if not approx_equal(run_summary.get("onset_beta_coarse"), onset.get("coarse_beta")):
+    selected_pair = representative.get("selected_pair", {}) if isinstance(representative, dict) else {}
+    if to_int(selected_pair.get("t1")) != 108 or to_int(selected_pair.get("t2")) != 321 or to_int(selected_pair.get("tv")) != 278:
+        errors.append(f"representative selected_pair mismatch: {selected_pair!r}")
+    if to_int(representative.get("num_prominent_peaks")) is None or int(representative.get("num_prominent_peaks", 0)) < 3:
+        errors.append("representative num_prominent_peaks should be at least 3")
+    if not bool(representative.get("has_two_peaks")):
+        errors.append("representative has_two_peaks should be true")
+
+    peak_contribs = representative.get("peak_contributions", []) if isinstance(representative, dict) else []
+    site_splitting = representative.get("site_splitting", []) if isinstance(representative, dict) else []
+    top_sites_full = representative.get("top_sites_full", []) if isinstance(representative, dict) else []
+    top_sites_by_peak = representative.get("top_sites_by_peak", []) if isinstance(representative, dict) else []
+    if not isinstance(peak_contribs, list) or not peak_contribs:
+        errors.append("representative peak_contributions missing or empty")
+    else:
+        frac_sum = sum(to_float(item.get("fraction_total")) or 0.0 for item in peak_contribs if isinstance(item, dict))
+        if abs(frac_sum - 1.0) > 1e-8:
+            errors.append(f"representative peak_contributions fractions should sum to 1, got {frac_sum:.12g}")
+        if "other" not in {str(item.get("peak_id")) for item in peak_contribs if isinstance(item, dict)}:
+            errors.append("representative peak_contributions must include 'other'")
+    if not isinstance(site_splitting, list) or len(site_splitting) != to_int(case_cfg.get("N")):
+        errors.append("representative site_splitting missing or wrong length")
+    else:
+        p_full_sum = sum(to_float(row.get("p_full")) or 0.0 for row in site_splitting if isinstance(row, dict))
+        if abs(p_full_sum - 1.0) > 1e-8:
+            errors.append(f"representative site_splitting p_full should sum to 1, got {p_full_sum:.12g}")
+        for idx, row in enumerate(site_splitting):
+            if not isinstance(row, dict):
+                errors.append(f"representative site_splitting[{idx}] is not a dict")
+                continue
+            p_full = to_float(row.get("p_full")) or 0.0
+            p_yes = to_float(row.get("p_yes")) or 0.0
+            p_no = to_float(row.get("p_no")) or 0.0
+            if abs((p_yes + p_no) - p_full) > 1e-8:
+                errors.append(f"site_splitting[{idx}] violates p_yes+p_no=p_full")
+                break
+            basin_sum = sum(to_float(row.get(key)) or 0.0 for key in ("p_peak1", "p_peak2", "p_peak3", "p_other"))
+            if abs(basin_sum - p_full) > 1e-8:
+                errors.append(f"site_splitting[{idx}] violates basin decomposition")
+                break
+    if not isinstance(top_sites_full, list) or not top_sites_full:
+        errors.append("representative top_sites_full missing or empty")
+    else:
+        lead_site = to_int(top_sites_full[0].get("site")) if isinstance(top_sites_full[0], dict) else None
+        if lead_site is None or not (36 <= lead_site <= 39):
+            errors.append(f"representative dominant splitting site should lie in 36-39, got {lead_site!r}")
+    if not isinstance(top_sites_by_peak, list) or {"peak1", "peak2", "peak3", "other"} - {
+        str(item.get("peak_id")) for item in top_sites_by_peak if isinstance(item, dict)
+    }:
+        errors.append("representative top_sites_by_peak should include peak1/peak2/peak3/other")
+
+    if not approx_equal(run_summary.get("onset_beta_coarse"), onset_clear.get("coarse_beta")):
         errors.append("run_summary onset_beta_coarse mismatches case_summary onset.coarse_beta")
-    if not approx_equal(run_summary.get("onset_beta_refined"), onset.get("refined_beta")):
+    if not approx_equal(run_summary.get("onset_beta_refined"), onset_clear.get("refined_beta")):
         errors.append("run_summary onset_beta_refined mismatches case_summary onset.refined_beta")
     encounter_scan_points = to_int(run_summary.get("encounter_scan_points"))
     if encounter_scan_points is not None and encounter_scan_points != len(scan_rows):
@@ -958,6 +1072,10 @@ def main() -> int:
     count_with_window = sum(1 for row in n_scan_rows if row.get("onset_beta_window"))
     count_extended = sum(1 for row in n_scan_rows if row.get("onset_source") == "extended")
     count_none = sum(1 for row in n_scan_rows if row.get("onset_source") == "none")
+    count_has_two_with_onset = sum(1 for row in n_scan_rows if row.get("has_two_onset_beta"))
+    count_has_two_with_window = sum(1 for row in n_scan_rows if row.get("has_two_onset_window"))
+    count_has_two_extended = sum(1 for row in n_scan_rows if row.get("has_two_onset_source") == "extended")
+    count_has_two_none = sum(1 for row in n_scan_rows if row.get("has_two_onset_source") == "none")
 
     summary_checks = [
         ("count_total", count_total),
@@ -973,8 +1091,31 @@ def main() -> int:
         elif got != expected:
             errors.append(f"n_scan_summary[{key}]={got} but csv-derived value is {expected}")
 
+    has_two_summary_checks = [
+        ("count_total", count_total),
+        ("count_with_onset", count_has_two_with_onset),
+        ("count_with_onset_window", count_has_two_with_window),
+        ("count_extended", count_has_two_extended),
+        ("count_none", count_has_two_none),
+    ]
+    for key, expected in has_two_summary_checks:
+        got = to_int(onset_has_two_summary.get(key))
+        if got is None:
+            errors.append(f"has_two n_scan_summary missing key: {key}")
+        elif got != expected:
+            errors.append(f"has_two n_scan_summary[{key}]={got} but csv-derived value is {expected}")
+
     if to_float(onset_summary.get("onset_window_median")) is None and count_with_window > 0:
         warnings.append("onset_window_median is missing despite available nominal-window onsets")
+
+    for idx, row in enumerate(n_scan_rows):
+        clear_beta = to_float(row.get("onset_beta"))
+        has_two_beta = to_float(row.get("has_two_onset_beta"))
+        if clear_beta is not None and has_two_beta is not None and has_two_beta > clear_beta + 1e-12:
+            errors.append(
+                f"n_scan row {idx} has has_two_onset_beta={has_two_beta:.3f} later than clear onset {clear_beta:.3f}"
+            )
+            break
 
     phase1_betas: list[float] = []
     clear_betas: list[float] = []
@@ -991,6 +1132,7 @@ def main() -> int:
     clear_onset = min(clear_betas) if clear_betas else None
 
     rep_beta = to_float(representative.get("beta"))
+    sep_peaks = to_float(rep_metrics.get("sep_peaks"))
     peak_ratio = to_float(rep_metrics.get("peak_ratio"))
     valley_ratio = to_float(rep_metrics.get("valley_ratio"))
     share_tv = to_float(rep_share.get("share_tv_window"))
@@ -1001,23 +1143,27 @@ def main() -> int:
     peak_ratio_dir = to_float(rep_metrics.get("peak_ratio_dir"))
     beta0_rel_maxdiff = to_float(representative.get("beta0_rel_maxdiff"))
     onset_scaling = case_summary.get("onset_scaling", {})
-    onset_scaling_slope = to_float(onset_scaling.get("slope")) if isinstance(onset_scaling, dict) else None
-    onset_scaling_r2 = to_float(onset_scaling.get("r2")) if isinstance(onset_scaling, dict) else None
+    clear_scaling = onset_scaling.get("clear", {}) if isinstance(onset_scaling.get("clear"), dict) else {}
+    has_two_scaling = onset_scaling.get("has_two", {}) if isinstance(onset_scaling.get("has_two"), dict) else {}
 
     key_metric_expectations = [
-        f"Coarse onset $\\beta$ & {fmt_num(onset.get('coarse_beta'), digits=3)}",
-        f"Refined onset $\\beta$ & {fmt_num(onset.get('refined_beta'), digits=3)}",
-        "Detector onset range & "
+        f"Has$\\geq$2 onset $\\beta$ (coarse/refined) & {fmt_num(onset_has_two.get('coarse_beta'), digits=3)} / {fmt_num(onset_has_two.get('refined_beta'), digits=3)}",
+        f"Clear onset $\\beta$ (coarse/refined) & {fmt_num(onset_clear.get('coarse_beta'), digits=3)} / {fmt_num(onset_clear.get('refined_beta'), digits=3)}",
+        "Has$\\geq$2 onset range & "
+        f"[{fmt_num(sensitivity_has_two.get('beta_min'), digits=3)}, {fmt_num(sensitivity_has_two.get('beta_max'), digits=3)}]",
+        "Clear onset range & "
         f"[{fmt_num(sensitivity.get('beta_min'), digits=3)}, {fmt_num(sensitivity.get('beta_max'), digits=3)}]",
-        f"Detector onset median & {fmt_num(sensitivity.get('beta_median'), digits=3)}",
-        f"Agreement crossing ($25\\%$) & {fmt_num(sensitivity.get('beta_agreement_25'), digits=3)}",
-        f"Agreement crossing ($50\\%$) & {fmt_num(sensitivity.get('beta_agreement_50'), digits=3)}",
-        f"Agreement crossing ($75\\%$) & {fmt_num(sensitivity.get('beta_agreement_75'), digits=3)}",
+        f"Has$\\geq$2 onset median & {fmt_num(sensitivity_has_two.get('beta_median'), digits=3)}",
+        f"Clear onset median & {fmt_num(sensitivity.get('beta_median'), digits=3)}",
+        f"Clear agreement crossing ($25\\%$) & {fmt_num(sensitivity.get('beta_agreement_25'), digits=3)}",
+        f"Clear agreement crossing ($50\\%$) & {fmt_num(sensitivity.get('beta_agreement_50'), digits=3)}",
+        f"Clear agreement crossing ($75\\%$) & {fmt_num(sensitivity.get('beta_agreement_75'), digits=3)}",
         "Agreement width ($75\\%-25\\%$) & "
         f"{fmt_num(sensitivity.get('beta_agreement_width_25_75'), digits=3)}",
         "Agreement width ($75\\%-50\\%$) & "
         f"{fmt_num(sensitivity.get('beta_agreement_width_50_75'), digits=3)}",
         f"Representative peaks $(t_1,t_2)$ & ({fmt_int(t1)}, {fmt_int(t2)})",
+        f"Peak separation $\\mathrm{{sep}}_{{\\mathrm{{peaks}}}}$ & {fmt_num(sep_peaks, digits=3)}",
         "Peak balance ratio (min/max) / valley ratio & "
         f"{fmt_num(peak_ratio, digits=3)} / {fmt_num(valley_ratio, digits=3)}",
         "Directed peak ratio $R_\\mathrm{dir}=\\bar f(t_2)/\\bar f(t_1)$ (diagnostic only) & "
@@ -1029,8 +1175,12 @@ def main() -> int:
         f"Cumulative shortcut share at $t_{{\\max}}$ & {fmt_num(share_cum, digits=3)}",
         f"Shortcut shift mass & {fmt_num(shift_mass, digits=3)}",
         f"Beta=0 relative-chain max diff & {fmt_num(beta0_rel_maxdiff, digits=3)}",
-        f"Onset scaling slope (log-beta vs N) & {fmt_num(onset_scaling_slope, digits=4)}",
-        f"Onset scaling $R^2$ & {fmt_num(onset_scaling_r2, digits=3)}",
+        "Has$\\geq$2 scaling slope / 95\\% CI & "
+        f"{fmt_num(has_two_scaling.get('slope'), digits=4)} / ",
+        "Clear scaling slope / 95\\% CI & "
+        f"{fmt_num(clear_scaling.get('slope'), digits=4)} / ",
+        "Has$\\geq$2 / clear scaling $R^2$ & "
+        f"{fmt_num(has_two_scaling.get('r2'), digits=3)} / {fmt_num(clear_scaling.get('r2'), digits=3)}",
     ]
     if mass_tmax is not None:
         key_metric_expectations.append(f"$\\sum_t f(t)$ at $t_{{\\max}}$ & {mass_tmax:.8f}")
@@ -1040,24 +1190,42 @@ def main() -> int:
         expect_contains(key_metrics_tex, fragment, label="encounter_key_metrics.tex", errors=errors)
 
     summary_en_expectations = [
-        f"$\\beta\\le{fmt_num(phase1_upper, digits=2)}$: phase 1",
-        f"coarse-onset from $\\beta\\approx{fmt_num(clear_onset, digits=2)}$: phase 2",
+        f"coarse scan first reaches has$\\geq$2 prominent peaks at $\\beta\\approx{fmt_num(onset_has_two.get('coarse_beta'), digits=2)}$",
+        f"and enters phase 2 once $\\mathrm{{sep}}_\\mathrm{{peaks}}\\ge 1$ at $\\beta\\approx{fmt_num(clear_onset, digits=2)}$",
         f"representative case $\\beta={fmt_num(rep_beta, digits=2)}$: peaks at $t_1={fmt_int(t1)},\\ t_2={fmt_int(t2)}$",
+        f"separation $\\mathrm{{sep}}_\\mathrm{{peaks}}={fmt_num(sep_peaks)}$",
         f"peak-balance ratio $R_\\mathrm{{peak}}={fmt_num(peak_ratio)}$ (min/max)",
         (
             f"directed peak ratio $R_\\mathrm{{dir}}={fmt_num(peak_ratio_dir)}$ "
             "(diagnostic only; may exceed 1; not used in phase thresholds)"
         ),
         f"valley ratio $R_\\mathrm{{valley}}={fmt_num(valley_ratio)}$.",
-        f"We further refine onset on $\\beta\\in[{fmt_num(onset.get('refine_min'), digits=2)},{fmt_num(onset.get('refine_max'), digits=2)}]$ "
-        f"with step ${fmt_num(onset.get('refine_step'), digits=3)}$, giving nominal clear-bimodal onset "
-        f"$\\beta\\approx{fmt_num(onset.get('refined_beta'), digits=2)}$.",
-        f"first-onset range is $[{fmt_num(sensitivity.get('beta_min'), digits=2)},{fmt_num(sensitivity.get('beta_max'), digits=2)}]$ "
+        "A weak double / multi-timescale structure already exists at $\\beta=0$",
+        f"We further refine onset on $\\beta\\in[{fmt_num(onset_clear.get('refine_min'), digits=2)},{fmt_num(onset_clear.get('refine_max'), digits=2)}]$ "
+        f"with step ${fmt_num(onset_clear.get('refine_step'), digits=3)}$, giving nominal has$\\geq$2 onset "
+        f"$\\beta\\approx{fmt_num(onset_has_two.get('refined_beta'), digits=2)}$ and nominal clear onset "
+        f"$\\beta\\approx{fmt_num(onset_clear.get('refined_beta'), digits=2)}$.",
+        f"has$\\geq$2 onset range is $[{fmt_num(sensitivity_has_two.get('beta_min'), digits=2)},{fmt_num(sensitivity_has_two.get('beta_max'), digits=2)}]$ "
+        f"with median {fmt_num(sensitivity_has_two.get('beta_median'), digits=2)};",
+        f"clear onset range is $[{fmt_num(sensitivity.get('beta_min'), digits=2)},{fmt_num(sensitivity.get('beta_max'), digits=2)}]$ "
         f"with median {fmt_num(sensitivity.get('beta_median'), digits=2)};",
         f"50\\% at $\\beta\\approx{fmt_num(sensitivity.get('beta_agreement_50'), digits=2)}$",
-        f"75\\% at $\\beta\\approx{fmt_num(sensitivity.get('beta_agreement_75'), digits=2)}$",
-        f"$\\Delta\\beta_{{25\\to75}}\\approx{fmt_num(sensitivity.get('beta_agreement_width_25_75'), digits=2)}$.",
     ]
+    if phase1_upper is not None:
+        summary_en_expectations.insert(0, f"$\\beta\\le{fmt_num(phase1_upper, digits=2)}$: phase 1")
+    else:
+        summary_en_expectations.insert(0, "No resolvable phase-1 plateau appears inside the current scan window")
+    beta_75 = sensitivity.get("beta_agreement_75")
+    beta_w = sensitivity.get("beta_agreement_width_25_75")
+    if beta_75 is not None and beta_w is not None:
+        summary_en_expectations.append(
+            f"75\\% at $\\beta\\approx{fmt_num(beta_75, digits=2)}$, with agreement width "
+            f"$\\Delta\\beta_{{25\\to75}}\\approx{fmt_num(beta_w, digits=2)}$."
+        )
+    elif beta_75 is not None:
+        summary_en_expectations.append(f"75\\% at $\\beta\\approx{fmt_num(beta_75, digits=2)}$")
+    else:
+        summary_en_expectations.append("does not reach 75\\% inside the current window")
     if mass_tmax is not None and survival_tmax is not None:
         summary_en_expectations.append(
             f"Mass-conservation check: $\\sum_t f(t)={mass_tmax:.8f}$, $S(t_{{\\max}})\\approx{survival_tmax:.2e}$."
@@ -1066,21 +1234,37 @@ def main() -> int:
         expect_contains(summary_en_tex, fragment, label="encounter_consistency_summary_en.tex", errors=errors)
 
     summary_cn_expectations = [
-        f"$\\beta\\le{fmt_num(phase1_upper, digits=2)}$：phase=1",
-        f"粗扫描从 $\\beta\\approx{fmt_num(clear_onset, digits=2)}$ 起：phase=2",
+        f"粗扫描在 $\\beta\\approx{fmt_num(onset_has_two.get('coarse_beta'), digits=2)}$ 首次达到 has$\\geq$2 prominent peaks",
+        f"并从 $\\beta\\approx{fmt_num(clear_onset, digits=2)}$ 起因 $\\mathrm{{sep}}_\\mathrm{{peaks}}\\ge 1$ 进入 phase=2",
         f"代表点 $\\beta={fmt_num(rep_beta, digits=2)}$：两峰在 $t_1={fmt_int(t1)},\\ t_2={fmt_int(t2)}$",
+        f"分离度 $\\mathrm{{sep}}_\\mathrm{{peaks}}={fmt_num(sep_peaks)}$",
         f"峰平衡比 $R_\\mathrm{{peak}}={fmt_num(peak_ratio)}$（min/max）",
         f"有向峰比 $R_\\mathrm{{dir}}={fmt_num(peak_ratio_dir)}$（仅方向性诊断，可大于 1，不参与 phase 阈值）",
         f"谷比 $R_\\mathrm{{valley}}={fmt_num(valley_ratio)}$。",
-        f"进一步在 $\\beta\\in[{fmt_num(onset.get('refine_min'), digits=2)},{fmt_num(onset.get('refine_max'), digits=2)}]$ 上做步长 "
-        f"${fmt_num(onset.get('refine_step'), digits=3)}$ 的细扫描，名义 clear-bimodal onset 约为 "
-        f"$\\beta\\approx{fmt_num(onset.get('refined_beta'), digits=2)}$。",
-        f"首次 onset 区间为 $[{fmt_num(sensitivity.get('beta_min'), digits=2)},{fmt_num(sensitivity.get('beta_max'), digits=2)}]$，"
+        "$\\beta=0$ 已可见 weak double / multi-timescale structure",
+        f"进一步在 $\\beta\\in[{fmt_num(onset_clear.get('refine_min'), digits=2)},{fmt_num(onset_clear.get('refine_max'), digits=2)}]$ 上做步长 "
+        f"${fmt_num(onset_clear.get('refine_step'), digits=3)}$ 的细扫描：名义 has$\\geq$2 onset 约为 "
+        f"$\\beta\\approx{fmt_num(onset_has_two.get('refined_beta'), digits=2)}$，名义 clear onset 约为 "
+        f"$\\beta\\approx{fmt_num(onset_clear.get('refined_beta'), digits=2)}$。",
+        f"has$\\geq$2 onset 区间为 $[{fmt_num(sensitivity_has_two.get('beta_min'), digits=2)},{fmt_num(sensitivity_has_two.get('beta_max'), digits=2)}]$，"
+        f"中位数约 {fmt_num(sensitivity_has_two.get('beta_median'), digits=2)}；",
+        f"clear onset 区间为 $[{fmt_num(sensitivity.get('beta_min'), digits=2)},{fmt_num(sensitivity.get('beta_max'), digits=2)}]$，"
         f"中位数约 {fmt_num(sensitivity.get('beta_median'), digits=2)}；",
         f"$\\beta\\approx{fmt_num(sensitivity.get('beta_agreement_50'), digits=2)}$ 首次超过 50\\%",
-        f"$\\beta\\approx{fmt_num(sensitivity.get('beta_agreement_75'), digits=2)}$ 超过 75\\%",
-        f"$\\Delta\\beta_{{25\\to75}}\\approx{fmt_num(sensitivity.get('beta_agreement_width_25_75'), digits=2)}$。",
     ]
+    if phase1_upper is not None:
+        summary_cn_expectations.insert(0, f"$\\beta\\le{fmt_num(phase1_upper, digits=2)}$：phase=1")
+    else:
+        summary_cn_expectations.insert(0, "当前扫描窗口内未形成可分辨的 phase=1 平台")
+    if beta_75 is not None and beta_w is not None:
+        summary_cn_expectations.append(
+            f"$\\beta\\approx{fmt_num(beta_75, digits=2)}$ 超过 75\\%，对应一致性窗宽 "
+            f"$\\Delta\\beta_{{25\\to75}}\\approx{fmt_num(beta_w, digits=2)}$。"
+        )
+    elif beta_75 is not None:
+        summary_cn_expectations.append(f"$\\beta\\approx{fmt_num(beta_75, digits=2)}$ 超过 75\\%")
+    else:
+        summary_cn_expectations.append("尚未达到 75\\% agreement")
     if mass_tmax is not None and survival_tmax is not None:
         summary_cn_expectations.append(f"质量守恒检查：$\\sum_t f(t)={mass_tmax:.8f}$，$S(t_{{\\max}})\\approx{survival_tmax:.2e}$。")
     for fragment in summary_cn_expectations:
@@ -1126,8 +1310,8 @@ def main() -> int:
     nscan_en_expectations = [
         f"$N\\in\\{{{n_set_text}\\}}$",
         (
-            f"Current run summary: {count_total} size points total, {count_with_window} with nominal-window onset, "
-            f"{count_extended} recovered by extension, {count_none} still unresolved."
+            f"Current run summary: {count_total} size points total, {count_has_two_with_window} with nominal-window has$\\geq$2 onset, "
+            f"{count_with_window} with nominal-window clear onset, {count_extended} recovered by extension, {count_none} still unresolved."
         ),
         f"Extension details: {ext_desc_en}.",
         f"Nominal-window conclusion: {main_desc_en}.",
@@ -1138,8 +1322,8 @@ def main() -> int:
     nscan_cn_expectations = [
         f"$N\\in\\{{{n_set_text}\\}}$",
         (
-            f"本轮统计：共 {count_total} 个 $N$，名义窗口内找到 onset 的有 {count_with_window} 个，"
-            f"扩展回收 {count_extended} 个，未检出 {count_none} 个。"
+            f"本轮统计：共 {count_total} 个 $N$，名义窗口内找到 has$\\geq$2 onset 的有 {count_has_two_with_window} 个，"
+            f"找到 clear onset 的有 {count_with_window} 个，扩展回收 {count_extended} 个，未检出 {count_none} 个。"
         ),
         f"扩展回收细节：{ext_desc_cn}。",
         f"窗口内结论：{main_desc_cn}。",

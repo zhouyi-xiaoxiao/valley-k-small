@@ -1,0 +1,110 @@
+{
+  "one_target": {
+    "x_gate_star": 32,
+    "x_gate_scan_min": 9,
+    "x_gate_scan_max": 57,
+    "standard_case": "sym_shared",
+    "comparison_cases": [
+      "tb_asym_balanced",
+      "dir_asym_easy_out_balanced",
+      "dir_asym_easy_in_balanced"
+    ],
+    "representative_selection_rule": "prefer phase-2 interior points nearest to fixed balanced anchors, with tie-breaks by phase, separation, and parameter distance",
+    "scan_dominant_family_counts": {
+      "sym_shared": {
+        "N": 49,
+        "P": 0,
+        "Q": 0
+      },
+      "tb_asym_balanced": {
+        "N": 49,
+        "P": 0,
+        "Q": 0
+      },
+      "dir_asym_easy_out_balanced": {
+        "N": 49,
+        "P": 0,
+        "Q": 0
+      },
+      "dir_asym_easy_in_balanced": {
+        "N": 49,
+        "P": 0,
+        "Q": 0
+      }
+    },
+    "equivalence_max_abs_diff": 0.0,
+    "symmetry_control": {
+      "case_a": "sym_shared",
+      "case_b": "tb_sym_control",
+      "x_gate": "32",
+      "max_npq_abs_diff": "0.0",
+      "max_lr_abs_diff": "0.0",
+      "max_side_abs_diff": "0.0",
+      "max_total_abs_diff": "0.0"
+    },
+    "start_phase_counts": {
+      "sym_shared": {
+        "0": 81,
+        "1": 558,
+        "2": 320
+      },
+      "tb_asym_balanced": {
+        "0": 83,
+        "1": 555,
+        "2": 321
+      },
+      "dir_asym_easy_out_balanced": {
+        "0": 80,
+        "1": 562,
+        "2": 317
+      },
+      "dir_asym_easy_in_balanced": {
+        "0": 77,
+        "1": 555,
+        "2": 327
+      }
+    },
+    "tb_phase0_count": 0,
+    "dir_phase0_count": 0,
+    "representatives": {
+      "sym_shared": {
+        "phase": 2,
+        "sep_peaks": 1.528169014084507,
+        "rollback_total": 0.8921338401382382
+      },
+      "tb_asym_balanced": {
+        "phase": 2,
+        "sep_peaks": 1.6888315041962556,
+        "rollback_total": 0.8910327204544815
+      },
+      "dir_asym_easy_out_balanced": {
+        "phase": 2,
+        "sep_peaks": 1.6143386897404202,
+        "rollback_total": 0.8933985051976591
+      },
+      "dir_asym_easy_in_balanced": {
+        "phase": 2,
+        "sep_peaks": 1.7374005305039788,
+        "rollback_total": 0.8885434156555451
+      }
+    }
+  },
+  "two_target": {
+    "grid_points": 63,
+    "phase_counts": {
+      "0": 2,
+      "2": 61
+    },
+    "phase_ge_1_points": 61,
+    "late_family_all_phase_ge_1": "F_no_return",
+    "late_f_no_return_range": [
+      0.8748532188978663,
+      0.8884929621212463
+    ],
+    "late_f_no_return_mean": 0.8813925719301774,
+    "sep_gate_coarse_range": [
+      1.7986270022883295,
+      2.4932249322493223
+    ]
+  }
+}

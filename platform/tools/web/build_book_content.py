@@ -12,7 +12,7 @@ from book_blueprint import CHAPTER_BLUEPRINT, report_to_chapters
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
+DEFAULT_DATA_ROOT = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
 STAGE_ORDER = {"model": 0, "method": 1, "result": 2, "finding": 3}
 
 CHAPTER_CLAIM_LIMIT: dict[str, int] = {
@@ -603,7 +603,7 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                     },
                     {
                         "evidence_type": "source_document",
-                        "path": "scripts/build_three_deliverables.py",
+                        "path": "platform/tools/web/build_three_deliverables.py",
                         "snippet_en": "deliverables pipeline includes publication and agent pack outputs.",
                         "snippet_cn": "三交付流水线包含 publication 与 agent pack 同步构建。",
                     },
@@ -619,13 +619,13 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "scripts/validate_web_data.py",
+                        "path": "platform/tools/web/validate_web_data.py",
                         "snippet_en": "validator checks book manifest/chapters/backbone and cross-file consistency.",
                         "snippet_cn": "校验器会检查 book manifest/chapters/backbone 以及跨文件一致性。",
                     },
                     {
                         "evidence_type": "source_document",
-                        "path": "schemas/book_backbone_v1.schema.json",
+                        "path": "platform/schemas/book_backbone_v1.schema.json",
                         "snippet_en": "book backbone has explicit schema contract for chapter spine and acts.",
                         "snippet_cn": "book backbone 具备章节主干与幕结构的显式 schema 契约。",
                     },
@@ -663,7 +663,7 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "scripts/build_agent_sync.py",
+                        "path": "platform/tools/web/build_agent_sync.py",
                         "snippet_en": "agent sync exports manifest, reports/events jsonl, book files, claim graph, and guide.",
                         "snippet_cn": "agent sync 会导出 manifest、reports/events jsonl、book 文件、claim graph 与 guide。",
                     },
@@ -688,13 +688,13 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "reports/grid2d_two_target_double_peak/grid2d_two_target_double_peak_en.tex",
+                        "path": "research/reports/grid2d_two_target_double_peak/manuscript/grid2d_two_target_double_peak_en.tex",
                         "snippet_en": "grid two-target evidence provides hazard-sensitive valley behavior under geometric constraints.",
                         "snippet_cn": "grid 双目标证据给出了几何约束下对 hazard 敏感的谷值行为。",
                     },
                     {
                         "evidence_type": "source_document",
-                        "path": "reports/ring_two_target/ring_two_target_en.tex",
+                        "path": "research/reports/ring_two_target/manuscript/ring_two_target_en.tex",
                         "snippet_en": "ring two-target results expose shortcut-regime transitions with comparable diagnostics.",
                         "snippet_cn": "ring 双目标结果展示了可对齐诊断下的 shortcut 区间转变。",
                     },
@@ -710,15 +710,15 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "reports/cross_luca_regime_map/cross_luca_regime_map_en.tex",
-                        "snippet_en": "cross-model map quantifies regime outcomes under fixed-T full-FPT fairness settings.",
-                        "snippet_cn": "跨模型图谱在固定 T 与完整 FPT 公平设定下量化了相区结果。",
+                        "path": "research/reports/luca_vs_recursion_unified_benchmark/manuscript/luca_vs_recursion_unified_benchmark_en.tex",
+                        "snippet_en": "the unified benchmark compares practical native-task runtimes across the two solver families.",
+                        "snippet_cn": "统一 benchmark 直接比较了两大家族在实务 native-task 口径下的运行时间。",
                     },
                     {
                         "evidence_type": "dataset",
-                        "path": "/data/v1/reports/cross_luca_regime_map/series/manifest.json",
-                        "snippet_en": "manifest keeps explicit regime-scan metadata for reproducible transfer checks.",
-                        "snippet_cn": "manifest 保留了可复现迁移校验所需的相区扫描元数据。",
+                        "path": "/data/v1/reports/luca_vs_recursion_unified_benchmark/series/manifest.json",
+                        "snippet_en": "the unified manifest keeps explicit workload and solver metadata for reproducible transfer checks.",
+                        "snippet_cn": "统一 manifest 保留了可复现迁移校验所需的 workload 与 solver 元数据。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -732,7 +732,7 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "site/public/data/v1/book/backbone.json",
+                        "path": "platform/web/public/data/v1/book/backbone.json",
                         "snippet_en": "backbone captures chapter-level dependencies and transition constraints for planning.",
                         "snippet_cn": "backbone 记录了章节依赖与过渡约束，可直接用于实验规划。",
                     },
@@ -754,13 +754,13 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "artifacts/checks/openclaw_review_history.jsonl",
+                        "path": ".local/checks/openclaw_review_history.jsonl",
                         "snippet_en": "review history tracks iterative quality decisions across rounds.",
                         "snippet_cn": "评审历史记录了多轮质量决策轨迹。",
                     },
                     {
                         "evidence_type": "source_document",
-                        "path": "artifacts/checks/content_iteration/run_history.jsonl",
+                        "path": ".local/checks/content_iteration/run_history.jsonl",
                         "snippet_en": "content iteration history records build and validation progression.",
                         "snippet_cn": "内容迭代历史记录了构建与校验推进过程。",
                     },
@@ -776,13 +776,13 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "reports/grid2d_rect_bimodality/grid2d_rect_bimodality_en.tex",
+                        "path": "research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_en.tex",
                         "snippet_en": "rectangular geometry changes first-passage structure and valley shape under fixed model assumptions.",
                         "snippet_cn": "在固定模型假设下，矩形几何会改变首达结构与谷值形态。",
                     },
                     {
                         "evidence_type": "source_document",
-                        "path": "reports/ring_valley_dst/ring_valley_dst_en.tex",
+                        "path": "research/reports/ring_valley_dst/manuscript/ring_valley_dst_en.tex",
                         "snippet_en": "shortcut-strength scans show regime turnover tied to parameter choices.",
                         "snippet_cn": "shortcut 强度扫描显示了与参数选择相关的相区翻转。",
                     },
@@ -798,13 +798,13 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "evidence": [
                     {
                         "evidence_type": "source_document",
-                        "path": "site/public/data/v1/theory_map.json",
+                        "path": "platform/web/public/data/v1/theory_map.json",
                         "snippet_en": "theory consistency checks expose formula-depth policy status and exception rows.",
                         "snippet_cn": "theory 一致性检查会给出公式深度策略状态及例外条目。",
                     },
                     {
                         "evidence_type": "source_document",
-                        "path": "artifacts/checks/openclaw_book_math.json",
+                        "path": ".local/checks/openclaw_book_math.json",
                         "snippet_en": "math review flags remaining caveats on derivation depth and auditability quality.",
                         "snippet_cn": "数学评审标注了推导深度与可审计性方面仍待改进的项。",
                     },
@@ -1255,7 +1255,7 @@ def main() -> int:
                     "evidence": [
                         {
                             "evidence_type": "source_document",
-                            "path": f"reports/{chapter_report_ids[0]}",
+                            "path": f"research/reports/{chapter_report_ids[0]}",
                             "snippet_en": "Linked report assets provide reproducible traces.",
                             "snippet_cn": "关联报告资产提供可复现实验轨迹。",
                         }

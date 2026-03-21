@@ -34,13 +34,15 @@ class MoveEntry:
 
 
 ROOT = Path(__file__).resolve().parents[3]
-REPORTS = ROOT / "reports"
-ARCHIVE_ROOT = ROOT / "archives" / "reports"
+REPORTS = ROOT / "research" / "reports"
+ARCHIVE_ROOT = ROOT / "research" / "archives" / "reports"
 INDEX_PATH = ARCHIVE_ROOT / "index.jsonl"
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Archive timestamp runs into archives/reports")
+    p = argparse.ArgumentParser(
+        description="Archive timestamp runs into research/archives/reports"
+    )
     p.add_argument("--dry-run", action="store_true", help="Show what would be moved without changing files")
     p.add_argument("--report", default=None, help="Only process one report id/alias")
     p.add_argument("--verify", action="store_true", help="Only verify archive metadata, do not move")

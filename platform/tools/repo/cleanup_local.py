@@ -10,15 +10,29 @@ from pathlib import Path
 DEFAULT_FILE_NAMES = {".DS_Store"}
 DEFAULT_DIR_NAMES = {"__pycache__", ".pycache", ".mplcache", "build", ".pytest_cache"}
 VENV_DIRS = {".venv", "venv"}
-DEFAULT_FILE_SUFFIXES = {".pyc", ".pyo"}
+DEFAULT_FILE_SUFFIXES = {
+    ".aux",
+    ".fdb_latexmk",
+    ".fls",
+    ".log",
+    ".out",
+    ".pyc",
+    ".pyo",
+    ".synctex.gz",
+    ".toc",
+    ".xdv",
+}
+LEGACY_ROOT_NAMES = {"archives", "artifacts", "docs", "reports", "schemas", "site", "skills", "src"}
 RUNTIME_RELATIVE_DIRS = {
     Path(".openclaw"),
-    Path("platform/runtime/loop"),
-    Path("platform/runtime/keepalive"),
-    Path("platform/runtime/checks/content_iteration"),
+    Path(".local/loop"),
+    Path(".local/keepalive"),
+    Path(".local/checks/content_iteration"),
+    Path(".local/deliverables"),
 }
 RUNTIME_RELATIVE_FILES = {
-    Path("platform/runtime/checks/openclaw_review_history.jsonl"),
+    Path(".local/checks/openclaw_review_history.jsonl"),
+    Path(".local/checks/openclaw_review.json"),
 }
 
 
@@ -43,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--include-runtime",
         action="store_true",
-        help="Also remove runtime artifacts under platform/runtime/ and .openclaw/.",
+        help="Also remove hidden runtime artifacts under .local/ and .openclaw/.",
     )
     return parser.parse_args()
 
@@ -83,6 +97,13 @@ def collect_paths(
             abs_path = root / rel_path
             if abs_path.exists() and abs_path.is_file():
                 files.append(abs_path)
+
+    for name in sorted(LEGACY_ROOT_NAMES):
+        path = root / name
+        if path.is_symlink() or path.is_file():
+            files.append(path)
+        elif path.is_dir():
+            dirs.append(path)
 
     return files, dirs
 

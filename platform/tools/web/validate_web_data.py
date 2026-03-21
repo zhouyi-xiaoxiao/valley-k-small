@@ -15,16 +15,16 @@ except ModuleNotFoundError:  # pragma: no cover
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
-WEB_SCHEMA_PATH = REPO_ROOT / "schemas" / "web_report.schema.json"
-AGENT_SCHEMA_PATH = REPO_ROOT / "schemas" / "agent_sync_v1.schema.json"
-THEORY_SCHEMA_PATH = REPO_ROOT / "schemas" / "theory_map_v1.schema.json"
-CONTENT_SCHEMA_PATH = REPO_ROOT / "schemas" / "content_map_v1.schema.json"
-BOOK_MANIFEST_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_manifest_v1.schema.json"
-BOOK_CHAPTER_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_chapter_v1.schema.json"
-BOOK_BACKBONE_SCHEMA_PATH = REPO_ROOT / "schemas" / "book_backbone_v1.schema.json"
-GLOSSARY_SCHEMA_PATH = REPO_ROOT / "schemas" / "glossary_v1.schema.json"
-TRANSLATION_QC_SCHEMA_PATH = REPO_ROOT / "schemas" / "translation_qc_v1.schema.json"
+DEFAULT_DATA_ROOT = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
+WEB_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "web_report.schema.json"
+AGENT_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "agent_sync_v1.schema.json"
+THEORY_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "theory_map_v1.schema.json"
+CONTENT_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "content_map_v1.schema.json"
+BOOK_MANIFEST_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "book_manifest_v1.schema.json"
+BOOK_CHAPTER_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "book_chapter_v1.schema.json"
+BOOK_BACKBONE_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "book_backbone_v1.schema.json"
+GLOSSARY_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "glossary_v1.schema.json"
+TRANSLATION_QC_SCHEMA_PATH = REPO_ROOT / "platform" / "schemas" / "translation_qc_v1.schema.json"
 
 
 def read_json(path: Path) -> Any:
@@ -56,7 +56,7 @@ def looks_like_path_finding(text: str) -> bool:
         return True
     if lowered.startswith("figures:") or lowered.startswith("environment:"):
         return True
-    return "/" in lowered and any(tok in lowered for tok in ("reports/", "scripts/", "config/"))
+    return "/" in lowered and any(tok in lowered for tok in ("research/reports/", "scripts/", "config/"))
 
 
 def is_path_heavy_section_summary(text: str) -> bool:
@@ -292,7 +292,7 @@ def run_katex_lint(formulas: list[dict[str, str]]) -> list[dict[str, str]]:
 const fs = require('fs');
 let katex = null;
 let loadError = null;
-for (const candidate of ['katex', './site/node_modules/katex']) {
+for (const candidate of ['katex', './platform/web/node_modules/katex']) {
   try {
     katex = require(candidate);
     break;
@@ -309,10 +309,19 @@ if (!katex) {
   process.exit(0);
 }
 const payload = JSON.parse(fs.readFileSync(0, 'utf8'));
+const macros = {
+  '\\T': '\\mathcal{T}',
+  '\\U': '\\mathcal{U}',
+};
 const errors = [];
 for (const row of payload) {
   try {
-    katex.renderToString(row.latex, { throwOnError: true, displayMode: true, strict: 'error' });
+    katex.renderToString(row.latex, {
+      throwOnError: true,
+      displayMode: true,
+      strict: 'error',
+      macros,
+    });
   } catch (err) {
     errors.push({
       report_id: row.report_id || '',

@@ -75,6 +75,22 @@ def strict_local_maxima(y: np.ndarray) -> np.ndarray:
     return np.where((y[1:-1] > y[:-2]) & (y[1:-1] >= y[2:]))[0] + 1
 
 
+def half_width_at_half_max(f: np.ndarray, mode: int) -> float:
+    if mode <= 0 or mode >= len(f):
+        return 0.0
+    peak = float(f[mode])
+    if peak <= 0.0:
+        return 0.0
+    thr = 0.5 * peak
+    left = int(mode)
+    right = int(mode)
+    while left > 1 and f[left - 1] >= thr:
+        left -= 1
+    while right < len(f) - 1 and f[right + 1] >= thr:
+        right += 1
+    return 0.5 * float(right - left)
+
+
 def detect_two_peak_metrics(
     f: np.ndarray,
     *,
@@ -98,6 +114,7 @@ def detect_two_peak_metrics(
             "valley": None,
             "peak_ratio": 0.0,
             "valley_ratio": 1.0,
+            "sep_peaks": 0.0,
         }
 
     mask = (peaks >= t_ignore) & (fs[peaks] >= 0.01 * float(np.max(fs)))
@@ -133,12 +150,17 @@ def detect_two_peak_metrics(
             "valley": None,
             "peak_ratio": 0.0,
             "valley_ratio": 1.0,
+            "sep_peaks": 0.0,
         }
 
     _, p1, p2, h1, h2, valley, valley_ratio = best
     tv = int(p1 + np.argmin(fs[p1 : p2 + 1]))
     peak_ratio = min(h1, h2) / max(h1, h2)
-    is_bimodal = bool(peak_ratio >= min_ratio and valley_ratio <= max_valley_ratio)
+    hw1 = half_width_at_half_max(fs, p1)
+    hw2 = half_width_at_half_max(fs, p2)
+    denom = hw1 + hw2
+    sep_peaks = float(abs(p2 - p1) / denom) if denom > 0.0 else 0.0
+    is_bimodal = bool(sep_peaks >= 1.0)
 
     return {
         "has_two": True,
@@ -151,6 +173,7 @@ def detect_two_peak_metrics(
         "valley": valley,
         "peak_ratio": float(peak_ratio),
         "valley_ratio": float(valley_ratio),
+        "sep_peaks": float(sep_peaks),
     }
 
 
@@ -571,6 +594,7 @@ def run_encounter_experiments() -> dict[str, object]:
             "t1": metrics["t1"],
             "t2": metrics["t2"],
             "tv": metrics["tv"],
+            "sep_peaks": float(metrics.get("sep_peaks", 0.0)),
             "peak_ratio": float(metrics["peak_ratio"]),
             "valley_ratio": float(metrics["valley_ratio"]),
             "mass_tmax": float(np.sum(f)),
@@ -647,7 +671,21 @@ def run_encounter_experiments() -> dict[str, object]:
     # Save scan table/CSV/JSON.
     with (DATA_DIR / "encounter_beta_scan.csv").open("w", newline="", encoding="utf-8") as fh:
         writer = csv.writer(fh)
-        writer.writerow(["beta", "phase", "t1", "t2", "tv", "peak_ratio", "valley_ratio", "mass_tmax", "survival_tmax", "is_bimodal"])
+        writer.writerow(
+            [
+                "beta",
+                "phase",
+                "t1",
+                "t2",
+                "tv",
+                "sep_peaks",
+                "peak_ratio",
+                "valley_ratio",
+                "mass_tmax",
+                "survival_tmax",
+                "is_bimodal",
+            ]
+        )
         for r in scan_rows:
             writer.writerow(
                 [
@@ -656,6 +694,7 @@ def run_encounter_experiments() -> dict[str, object]:
                     r["t1"],
                     r["t2"],
                     r["tv"],
+                    r["sep_peaks"],
                     r["peak_ratio"],
                     r["valley_ratio"],
                     r["mass_tmax"],
@@ -821,17 +860,18 @@ def plot_shortcut_decomp(
 def plot_encounter_phase(scan_rows: list[dict[str, object]]) -> None:
     beta = np.array([float(r["beta"]) for r in scan_rows], dtype=np.float64)
     phase = np.array([int(r["phase"]) for r in scan_rows], dtype=np.int64)
+    sep_peaks = np.array([float(r["sep_peaks"]) for r in scan_rows], dtype=np.float64)
     peak_ratio = np.array([float(r["peak_ratio"]) for r in scan_rows], dtype=np.float64)
     valley_ratio = np.array([float(r["valley_ratio"]) for r in scan_rows], dtype=np.float64)
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6.4, 5.8), sharex=True, gridspec_kw={"height_ratios": [3.0, 1.0]})
 
-    ax1.plot(beta, peak_ratio, "o-", color="#d81b60", lw=1.6, label="peak ratio")
-    ax1.plot(beta, valley_ratio, "s-", color="#1e88e5", lw=1.4, label="valley ratio")
-    ax1.axhline(0.20, color="#d81b60", lw=1.0, ls="--", alpha=0.7)
-    ax1.axhline(0.92, color="#1e88e5", lw=1.0, ls="--", alpha=0.7)
+    ax1.plot(beta, sep_peaks, "o-", color="#2e7d32", lw=1.8, label="separation")
+    ax1.plot(beta, peak_ratio, "s-", color="#d81b60", lw=1.3, label="peak ratio")
+    ax1.plot(beta, valley_ratio, "^-", color="#1e88e5", lw=1.2, label="valley ratio")
+    ax1.axhline(1.0, color="#2e7d32", lw=1.0, ls="--", alpha=0.75)
     ax1.set_ylabel("metric")
-    ax1.set_title("Bimodality metrics vs shortcut strength")
+    ax1.set_title("Separation and secondary diagnostics vs shortcut strength")
     ax1.grid(alpha=0.25)
     ax1.legend(loc="upper right", fontsize=9)
 
@@ -841,7 +881,7 @@ def plot_encounter_phase(scan_rows: list[dict[str, object]]) -> None:
     ax2.set_yticks([])
     ax2.set_xlabel(r"shortcut strength $\beta$")
     ax2.set_xlim(float(beta.min()) - 0.03, float(beta.max()) + 0.03)
-    ax2.set_title("phase: 0 single, 1 weak double, 2 clear double", fontsize=9)
+    ax2.set_title("phase: 0 no pair, 1 paired but not separated, 2 paired and separated", fontsize=9)
 
     fig.tight_layout()
     fig.savefig(FIG_DIR / "encounter_beta_phase.pdf")
@@ -850,16 +890,16 @@ def plot_encounter_phase(scan_rows: list[dict[str, object]]) -> None:
 
 def write_encounter_scan_table(scan_rows: Iterable[dict[str, object]]) -> None:
     lines: list[str] = []
-    lines.append("\\begin{tabular}{ccccccc}")
+    lines.append("\\begin{tabular}{cccccccc}")
     lines.append("\\toprule")
-    lines.append(r"$\beta$ & phase & $t_1$ & $t_2$ & peak ratio & valley ratio & bimodal \\")
+    lines.append(r"$\beta$ & phase & $t_1$ & $t_2$ & sep & peak ratio & valley ratio & separated \\")
     lines.append("\\midrule")
     for r in scan_rows:
         t1 = "-" if r["t1"] is None else str(int(r["t1"]))
         t2 = "-" if r["t2"] is None else str(int(r["t2"]))
         lines.append(
-            f"{float(r['beta']):.2f} & {int(r['phase'])} & {t1} & {t2} & {float(r['peak_ratio']):.3f} & "
-            f"{float(r['valley_ratio']):.3f} & {int(bool(r['is_bimodal']))} \\\\"
+            f"{float(r['beta']):.2f} & {int(r['phase'])} & {t1} & {t2} & {float(r['sep_peaks']):.3f} & "
+            f"{float(r['peak_ratio']):.3f} & {float(r['valley_ratio']):.3f} & {int(bool(r['is_bimodal']))} \\\\"
         )
     lines.append("\\bottomrule")
     lines.append("\\end{tabular}")

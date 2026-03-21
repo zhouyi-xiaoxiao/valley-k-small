@@ -11,7 +11,7 @@ from book_blueprint import report_to_chapters
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
+DEFAULT_DATA_ROOT = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
 
 
 MANUAL_LOCKED_TERMS: list[dict[str, Any]] = [
@@ -202,7 +202,7 @@ def main() -> int:
             "provenance": [
                 {
                     "type": "manual_lock_table",
-                    "source": "scripts/build_glossary.py#MANUAL_LOCKED_TERMS",
+                    "source": "platform/tools/web/build_glossary.py#MANUAL_LOCKED_TERMS",
                 }
             ],
         }
@@ -225,7 +225,7 @@ def main() -> int:
             "provenance": [
                 {
                     "type": "theory_map",
-                    "source": f"site/public/data/v1/theory_map.json#cards/{card.get('id')}",
+                    "source": f"platform/web/public/data/v1/theory_map.json#cards/{card.get('id')}",
                 }
             ],
         }

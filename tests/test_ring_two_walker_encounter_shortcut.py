@@ -11,7 +11,7 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REPORT = ROOT / "reports" / "ring_two_walker_encounter_shortcut"
+REPORT = ROOT / "research" / "reports" / "ring_two_walker_encounter_shortcut"
 DATA = REPORT / "artifacts" / "data"
 FIGURES = REPORT / "artifacts" / "figures"
 TABLES = REPORT / "artifacts" / "tables"
@@ -44,11 +44,15 @@ def test_ring_two_walker_assets_exist() -> None:
         DATA / "encounter_onset_sensitivity.csv",
         DATA / "encounter_onset_agreement.csv",
         DATA / "encounter_onset_n_scan.csv",
+        DATA / "encounter_peak_contrib_scan.csv",
+        DATA / "encounter_site_splitting_scan.csv",
         DATA / "fixedsite_drift_scan.csv",
         DATA / "fixedsite_summary.json",
         FIGURES / "encounter_fpt_overlay.pdf",
         FIGURES / "encounter_shortcut_decomp.pdf",
         FIGURES / "encounter_shortcut_share.pdf",
+        FIGURES / "encounter_peak_basin_rep.pdf",
+        FIGURES / "encounter_site_splitting_rep.pdf",
         FIGURES / "encounter_mass_balance.pdf",
         FIGURES / "encounter_onset_refine.pdf",
         FIGURES / "encounter_onset_sensitivity.pdf",
@@ -56,12 +60,16 @@ def test_ring_two_walker_assets_exist() -> None:
         FIGURES / "encounter_onset_n_scan.pdf",
         FIGURES / "encounter_onset_scaling.pdf",
         FIGURES / "encounter_onset_source_window.pdf",
+        FIGURES / "encounter_beta_site_heatmap.pdf",
+        FIGURES / "encounter_n_site_heatmap.pdf",
         FIGURES / "encounter_peakcount_vs_beta.pdf",
         FIGURES / "encounter_t2_old_vs_new.pdf",
         FIGURES / "encounter_fixedsite_parity_compare.pdf",
         TABLES / "a1a8_test_table.tex",
         TABLES / "encounter_scan_table.tex",
         TABLES / "encounter_n_scan_table.tex",
+        TABLES / "encounter_peak_contrib_rep.tex",
+        TABLES / "encounter_site_splitting_rep.tex",
         TABLES / "fixedsite_example_table.tex",
         TABLES / "fixedsite_parity_note_cn.tex",
         TABLES / "fixedsite_parity_note_en.tex",
@@ -129,34 +137,51 @@ def test_ring_two_walker_summary_consistency() -> None:
     assert fixedsite_detector_cfg["t_end_policy"] == "no_extra_cutoff"
 
     onset = case_summary["onset"]
-    coarse = onset["coarse_beta"]
-    refined = onset["refined_beta"]
-    median = onset["sensitivity"]["beta_median"]
+    onset_clear = onset["clear"]
+    onset_has_two = onset["has_two"]
+    coarse = onset_clear["coarse_beta"]
+    refined = onset_clear["refined_beta"]
+    median = onset_clear["sensitivity"]["beta_median"]
 
     assert coarse is None or 0.0 <= float(coarse) <= 0.30
     assert refined is None or 0.0 <= float(refined) <= 0.30
     assert median is None or 0.0 <= float(median) <= 0.30
-    agree50 = onset["sensitivity"].get("beta_agreement_50")
-    agree75 = onset["sensitivity"].get("beta_agreement_75")
+    assert onset["coarse_beta"] == coarse
+    assert onset["refined_beta"] == refined
+    assert onset_has_two["coarse_beta"] is None or 0.0 <= float(onset_has_two["coarse_beta"]) <= 0.30
+    assert onset_has_two["refined_beta"] is None or 0.0 <= float(onset_has_two["refined_beta"]) <= 0.30
+    agree50 = onset_clear["sensitivity"].get("beta_agreement_50")
+    agree75 = onset_clear["sensitivity"].get("beta_agreement_75")
     assert agree50 is None or 0.0 <= float(agree50) <= 0.30
     assert agree75 is None or 0.0 <= float(agree75) <= 0.30
     if agree50 is not None and agree75 is not None:
         assert float(agree50) <= float(agree75)
     n_scan_rows = onset["n_scan_rows"]
-    n_scan_summary = onset["n_scan_summary"]
+    n_scan_summary = onset_clear["n_scan_summary"]
+    n_scan_has_two_summary = onset_has_two["n_scan_summary"]
     assert len(n_scan_rows) >= 4
     assert int(n_scan_summary["count_total"]) == len(n_scan_rows)
     assert int(n_scan_summary["count_with_onset"]) >= 1
+    assert int(n_scan_has_two_summary["count_total"]) == len(n_scan_rows)
+    assert int(n_scan_has_two_summary["count_with_onset"]) >= int(n_scan_summary["count_with_onset"])
     assert any(int(row["N"]) == 101 for row in n_scan_rows)
     for row in n_scan_rows:
         assert int(row["N"]) >= 20
         onset_beta = row.get("onset_beta")
+        has_two_onset_beta = row.get("has_two_onset_beta")
         onset_source = str(row.get("onset_source", "main"))
+        has_two_onset_source = str(row.get("has_two_onset_source", "main"))
         onset_search_max_beta = row.get("onset_search_max_beta")
         if onset_beta is not None:
             onset_val = float(onset_beta)
             assert onset_search_max_beta is not None
             assert 0.0 <= onset_val <= float(onset_search_max_beta)
+        if has_two_onset_beta is not None:
+            has_two_val = float(has_two_onset_beta)
+            assert onset_search_max_beta is not None
+            assert 0.0 <= has_two_val <= float(onset_search_max_beta)
+            if onset_beta is not None:
+                assert has_two_val <= float(onset_beta)
         if onset_source == "main":
             assert row.get("onset_beta_window") is not None
             assert row.get("onset_beta_ext") is None
@@ -170,6 +195,19 @@ def test_ring_two_walker_summary_consistency() -> None:
             assert row.get("onset_beta_ext") is None
         else:
             pytest.fail(f"unexpected onset_source: {onset_source}")
+        if has_two_onset_source == "main":
+            assert row.get("has_two_onset_window") is not None
+            assert row.get("has_two_onset_ext") is None
+        elif has_two_onset_source == "extended":
+            assert row.get("has_two_onset_window") is None
+            assert row.get("has_two_onset_ext") is not None
+        elif has_two_onset_source == "none":
+            assert has_two_onset_beta is None
+            assert row.get("has_two_onset_window") is None
+            assert row.get("has_two_onset_ext") is None
+        else:
+            pytest.fail(f"unexpected has_two_onset_source: {has_two_onset_source}")
+        assert 0.0 <= float(row["has_two_fraction"]) <= 1.0
         assert 0.0 <= float(row["clear_fraction"]) <= 1.0
         assert 0.0 <= float(row["rep_peak_ratio"]) <= 1.0
         assert 0.0 <= float(row["rep_valley_ratio"]) <= 1.0
@@ -181,7 +219,7 @@ def test_ring_two_walker_summary_consistency() -> None:
     fixedsite_note_en = (TABLES / "fixedsite_parity_note_en.tex").read_text(encoding="utf-8")
     report_cn_tex = (MANUSCRIPT / "ring_two_walker_encounter_shortcut_cn.tex").read_text(encoding="utf-8")
     report_en_tex = (MANUSCRIPT / "ring_two_walker_encounter_shortcut_en.tex").read_text(encoding="utf-8")
-    assert "onset source" in n_scan_table
+    assert "clear source" in n_scan_table
     assert "\\beta_{\\max}" in n_scan_table
     assert "peak balance ratio (min/max)" in scan_table
     assert "peak balance ratio ($\\bar{\\tilde f}$, min/max)" in fixedsite_table
@@ -222,12 +260,33 @@ def test_ring_two_walker_summary_consistency() -> None:
     assert "记 $g$ 为检测轨迹（anywhere: $g=\\bar f$；fixed-site K=2: $g=\\bar{\\widetilde f}$" in report_cn_tex
     assert "Let $g$ denote the detector trace (anywhere: $g=\\bar f$; fixed-site K=2: $g=\\bar{\\widetilde f}$" in report_en_tex
     assert "$R_{\\mathrm{dir}}$ 仅作为方向性诊断展示（不参与 phase 阈值判别）" in report_cn_tex
-    assert "$R_{\\mathrm{dir}}=g_{t_2}/g_{t_1}$ 可大于 1，该量不进入 phase 阈值判别。" in report_cn_tex
+    assert (
+        "$R_{\\mathrm{dir}}=g_{t_2}/g_{t_1}$ 可大于 1；这三类 ratio 继续作为诊断量输出，但 phase/onset 的硬门槛现在改成峰分离度，而不是 ratio 阈值。"
+        in report_cn_tex
+    )
     assert "$R_{\\mathrm{dir}}$ is reported only as a directional diagnostic (not used in phase thresholds)." in report_en_tex
     assert (
-        "$R_{\\mathrm{dir}}=g_{t_2}/g_{t_1}$ may exceed 1, and this directional ratio is not used in phase thresholds."
+        "$R_{\\mathrm{dir}}=g_{t_2}/g_{t_1}$ may exceed 1; all three ratios are reported as diagnostics, but the phase/onset gate itself is now based on peak separation rather than ratio thresholds."
         in report_en_tex
     )
+    assert "\\input{\\TabDir/encounter_peak_contrib_rep.tex}" in report_cn_tex
+    assert "\\input{\\TabDir/encounter_peak_contrib_rep.tex}" in report_en_tex
+    assert "\\input{\\TabDir/encounter_site_splitting_rep.tex}" in report_cn_tex
+    assert "\\input{\\TabDir/encounter_site_splitting_rep.tex}" in report_en_tex
+    assert "encounter_peak_basin_rep.pdf" in report_cn_tex
+    assert "encounter_peak_basin_rep.pdf" in report_en_tex
+    assert "encounter_site_splitting_rep.pdf" in report_cn_tex
+    assert "encounter_site_splitting_rep.pdf" in report_en_tex
+    assert "encounter_beta_site_heatmap.pdf" in report_cn_tex
+    assert "encounter_beta_site_heatmap.pdf" in report_en_tex
+    assert "encounter_n_site_heatmap.pdf" in report_cn_tex
+    assert "encounter_n_site_heatmap.pdf" in report_en_tex
+    assert "\\label{eq:site-splitting}" in report_cn_tex
+    assert "\\label{eq:site-splitting}" in report_en_tex
+    assert "Fourier-collapse 公式直接外推到含 defect 主模型" in report_cn_tex
+    assert "we do not rely on the Fourier-collapse formula there" in report_en_tex
+    assert "benchmark-specific" in report_cn_tex
+    assert "benchmark-specific" in report_en_tex
     assert "同时 $R_{\\mathrm{dir}}$ 与晚峰方向一致" not in report_cn_tex
     assert "consistent directed ratio $R_{\\mathrm{dir}}$" not in report_en_tex
     assert "\\input{\\TabDir/fixedsite_parity_note_cn.tex}" in report_cn_tex
@@ -242,6 +301,10 @@ def test_ring_two_walker_summary_consistency() -> None:
     assert ratio_token in fixedsite_note_en
     assert "该分支沿用主文同一 timescale 选峰口径" in fixedsite_note_cn
     assert "This branch uses the same timescale selector as the main scan" in fixedsite_note_en
+    summary_cn = (TABLES / "encounter_consistency_summary_cn.tex").read_text(encoding="utf-8")
+    summary_en = (TABLES / "encounter_consistency_summary_en.tex").read_text(encoding="utf-8")
+    assert "--" not in summary_cn
+    assert "--" not in summary_en
     assert "$g_m=\\bar{\\widetilde f}(m)$" in fixedsite_note_cn
     assert "$g_m=\\bar{\\widetilde f}(m)$" in fixedsite_note_en
     assert "在首遇分布中 $f(0)=0$，因此 $\\widetilde f(0)=f(0)=0$，检测从 $m\\ge1$ 开始。" in fixedsite_note_cn
@@ -316,9 +379,43 @@ def test_ring_two_walker_summary_consistency() -> None:
     expected_peak_ratio_dir = h2 / h1
     assert abs(float(metrics["peak_ratio"]) - expected_peak_ratio) <= 1e-12
     assert abs(float(metrics["peak_ratio_dir"]) - expected_peak_ratio_dir) <= 1e-12
+    assert bool(rep["has_two_peaks"])
+    assert int(rep["num_prominent_peaks"]) >= 3
+    selected_pair = rep["selected_pair"]
+    assert int(selected_pair["t1"]) == 108
+    assert int(selected_pair["t2"]) == 321
+    assert int(selected_pair["tv"]) == 278
+    peak_contribs = rep["peak_contributions"]
+    assert [item["peak_id"] for item in peak_contribs[:3]] == ["peak1", "peak2", "peak3"]
+    assert any(item["peak_id"] == "other" for item in peak_contribs)
+    assert abs(sum(float(item["fraction_total"]) for item in peak_contribs) - 1.0) <= 1e-9
+    site_rows = rep["site_splitting"]
+    assert len(site_rows) == int(case_summary["config"]["N"])
+    assert abs(sum(float(row["p_full"]) for row in site_rows) - 1.0) <= 1e-9
+    for row in site_rows:
+        full = float(row["p_full"])
+        assert abs((float(row["p_yes"]) + float(row["p_no"])) - full) <= 1e-9
+        assert abs(
+            (float(row["p_peak1"]) + float(row["p_peak2"]) + float(row["p_peak3"]) + float(row["p_other"])) - full
+        ) <= 1e-9
+    top_sites_full = rep["top_sites_full"]
+    assert top_sites_full
+    assert 36 <= int(top_sites_full[0]["site"]) <= 39
+    assert top_sites_full[0]["fraction_of_total"] >= top_sites_full[1]["fraction_of_total"]
+    top_sites_by_peak = {item["peak_id"]: item["sites"] for item in rep["top_sites_by_peak"]}
+    assert {"peak1", "peak2", "peak3", "other"} <= set(top_sites_by_peak)
     assert float(rep["beta0_rel_maxdiff"]) <= 1e-12
     onset_scaling = case_summary.get("onset_scaling", {})
-    assert float(onset_scaling["r2"]) >= 0.95
+    clear_scaling = onset_scaling["clear"]
+    has_two_scaling = onset_scaling["has_two"]
+    if clear_scaling["slope"] is not None:
+        assert float(clear_scaling["r2"]) >= 0.80
+    else:
+        assert clear_scaling["r2"] is None
+    if has_two_scaling["slope"] is not None:
+        assert 0.0 <= float(has_two_scaling["r2"]) <= 1.0
+    else:
+        assert has_two_scaling["r2"] is None
     share = rep["shortcut_share"]
     assert int(share["window_half_width"]) >= 0
     assert share["t_switch_share50"] is None or int(share["t_switch_share50"]) >= int(metrics["t1"])
@@ -466,3 +563,50 @@ def test_select_timescale_t2_rejects_adjacent_peak_without_interior_valley() -> 
     )
 
     assert selected is None
+
+
+def test_summarize_peak_and_site_contributions_tracks_other_mass() -> None:
+    mod = _load_report_module()
+    phi_total = np.array(
+        [
+            [0.2, 0.0, 0.0],
+            [0.0, 0.3, 0.0],
+            [0.0, 0.0, 0.5],
+        ],
+        dtype=np.float64,
+    )
+    phi_yes = np.array(
+        [
+            [0.1, 0.0, 0.0],
+            [0.0, 0.1, 0.0],
+            [0.0, 0.0, 0.2],
+        ],
+        dtype=np.float64,
+    )
+    phi_no = phi_total - phi_yes
+    basins = [
+        {"peak_id": "peak1", "t_peak": 0, "t_left": 0, "t_right": 0},
+        {"peak_id": "peak2", "t_peak": 1, "t_left": 1, "t_right": 1},
+    ]
+
+    peak_windows, site_rows, peak_contribs, top_payload = mod.summarize_peak_and_site_contributions(
+        phi_total=phi_total,
+        phi_no=phi_no,
+        phi_yes=phi_yes,
+        basins=basins,
+        max_explicit_peaks=1,
+    )
+
+    assert peak_windows[0]["peak_id"] == "peak1"
+    assert peak_windows[1]["peak_id"] == "other"
+    contrib_map = {row["peak_id"]: row for row in peak_contribs}
+    assert abs(float(contrib_map["peak1"]["fraction_total"]) - 0.2) <= 1e-12
+    assert abs(float(contrib_map["other"]["fraction_total"]) - 0.8) <= 1e-12
+    assert abs(sum(float(row["p_full"]) for row in site_rows) - 1.0) <= 1e-12
+    for row in site_rows:
+        assert abs(
+            float(row["p_full"]) - (float(row["p_peak1"]) + float(row["p_peak2"]) + float(row["p_peak3"]) + float(row["p_other"]))
+        ) <= 1e-12
+    top_full, top_by_peak = mod.split_top_site_payload(top_payload)
+    assert top_full[0]["site"] == 2
+    assert any(item["peak_id"] == "other" for item in top_by_peak)

@@ -256,13 +256,12 @@ I examine how $P(C\ge 1\mid T\in W)$ varies with $R$ and with the absolute heigh
 {\footnotesize
 \noindent\textbf{Reproducibility:}
 flux scan (deterministic):\\
-Case A: \verb|python3 code/bimodality_flux_scan.py --sc-src 6 --aw-check|\\
-Case B: \verb|python3 code/bimodality_flux_scan.py --sc-src 1 --aw-check|\\
+Case A: \verb|python3 scripts/reportctl.py run --report ring_valley_dst -- python3 code/bimodality_flux_scan.py --sc-src 6 --aw-check|\\
+Case B: \verb|python3 scripts/reportctl.py run --report ring_valley_dst -- python3 code/bimodality_flux_scan.py --sc-src 1 --aw-check|\\
 dst scan + MC:\\
-Case A: \verb|python3 code/dst_shortcut_usage_mc.py --sc-src 6 --mc-all-bimodal|\\
-Case B: \verb|python3 code/dst_shortcut_usage_mc.py --sc-src 1 --mc-all-bimodal|\\
-Build: \texttt{latexmk -pdf -interaction=nonstopmode -halt-on-error}\\
-\phantom{Build: }\texttt{-auxdir=build -emulate-aux-dir valley\_dst\_report\_en.tex}\\
+Case A: \verb|python3 scripts/reportctl.py run --report ring_valley_dst -- python3 code/dst_shortcut_usage_mc.py --sc-src 6 --mc-all-bimodal|\\
+Case B: \verb|python3 scripts/reportctl.py run --report ring_valley_dst -- python3 code/dst_shortcut_usage_mc.py --sc-src 1 --mc-all-bimodal|\\
+Build: \verb|python3 scripts/reportctl.py build --report ring_valley_dst --lang en|\\
 (MC defaults to \verb|--seed 0| unless specified).
 }
 

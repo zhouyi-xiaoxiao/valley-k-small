@@ -21,6 +21,15 @@ def test_root_regular_layout_is_curated() -> None:
     assert regular_dirs == ALLOWED_ROOT_DIRS
 
 
+def test_root_has_no_legacy_symlinks() -> None:
+    legacy = [
+        p.name
+        for p in ROOT.iterdir()
+        if p.is_symlink()
+    ]
+    assert legacy == [], f"legacy root symlinks should be removed: {legacy}"
+
+
 def test_real_report_dirs_follow_v2_layout() -> None:
     dirs = [p for p in REPORTS.iterdir() if p.is_dir() and not p.is_symlink()]
     assert dirs

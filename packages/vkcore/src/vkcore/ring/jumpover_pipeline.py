@@ -34,10 +34,14 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 import numpy as np
 
-import matplotlib
+try:
+    import matplotlib
 
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+except ModuleNotFoundError:  # pragma: no cover - plotting is optional for numeric-only workloads
+    matplotlib = None
+    plt = None
 
 
 # ---------------------------

@@ -23,6 +23,8 @@
 This report delivers the requested 1D ring encounter extension in two blocks:
 (1) an implementation-ready and numerically robust verification of Eq.~(A1)$\Leftrightarrow$Eq.~(A8) from the appendix ``Product of two generating functions'';
 (2) an exact two-walker encounter solver on a 1D ring with a directed shortcut, including a shortcut-channel decomposition that explains the observed double-peak regime.
+In the present report, the production solver for the main encounter curves is the exact time-domain pair recursion; the A1/A8 block is the transform-domain compatibility anchor.
+For a family-level runtime comparison between the Luca / generating-function route and the time-domain route, see the unified benchmark companion report \texttt{luca\_vs\_recursion\_unified\_benchmark}.
 All figures, tables, and machine-readable outputs are generated from one script.
 \end{abstract}
 
@@ -95,11 +97,12 @@ To make this first dedicated encounter report unambiguous, we fix all quantities
   R_{\mathrm{dir}}=\frac{g_{t_2}}{g_{t_1}},\qquad
   R_{\mathrm{valley}}=\frac{g_{t_v}}{\max\{g_{t_1},g_{t_2}\}}.
   \]
-  For phase/onset and multi-peak score selection, we use $R_{\mathrm{peak}}$ (min/max) together with $R_{\mathrm{valley}}$; $R_{\mathrm{dir}}$ is reported only as a directional diagnostic.
-  By definition $R_{\mathrm{dir}}=g_{t_2}/g_{t_1}$ may exceed 1, and this directional ratio is not used in phase thresholds.
-  Candidate scoring uses $R_{\mathrm{peak}}(\tau),R_{\mathrm{valley}}(\tau)$, then commits to $R_{\mathrm{peak}},R_{\mathrm{valley}}$ at $\tau=t_2$.
-  \item Phase labels: single / weak / clear (encoded as 0/1/2);
-  onset $\beta$ means the first shortcut strength entering clear phase.
+  Candidate scoring uses $R_{\mathrm{peak}}(\tau),R_{\mathrm{valley}}(\tau)$ to choose the late partner peak, then commits to $R_{\mathrm{peak}},R_{\mathrm{valley}}$ at $\tau=t_2$.
+  By definition $R_{\mathrm{dir}}=g_{t_2}/g_{t_1}$ may exceed 1; all three ratios are reported as diagnostics, but the phase/onset gate itself is now based on peak separation rather than ratio thresholds.
+  \item Phase labels: single / weak / clear (encoded as 0/1/2).
+  We report two onset notions in parallel:
+  the first shortcut strength with at least two prominent peaks (`has$\geq$2 onset'),
+  and the first shortcut strength entering clear phase (`clear onset').
   \item Shortcut-channel shares:
   \[
   h_{\mathrm{sc}}(t)=\frac{f_{\mathrm{sc}}(t)}{f_{\mathrm{sc}}(t)+f_{\mathrm{no}}(t)},\quad
@@ -142,24 +145,23 @@ R_{\mathrm{valley}}(\tau)=\frac{g_{t_v(\tau)}}{\max\{g_{t_1},g_{\tau}\}}.
 After selecting $t_2$, define
 \[
 R_{\mathrm{peak}}=R_{\mathrm{peak}}(t_2),\qquad
-R_{\mathrm{valley}}=R_{\mathrm{valley}}(t_2).
+R_{\mathrm{valley}}=R_{\mathrm{valley}}(t_2),\qquad
+\mathrm{sep}_{\mathrm{peaks}}=\frac{|t_2-t_1|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}}.
 \]
+Here $w_{1/2}^{(1)},w_{1/2}^{(2)}$ are the half-widths at half-maximum of the selected peaks, measured directly on the detector trace $g$.
 The phase code is
 \[
 \mathrm{phase}=
 \begin{cases}
 0,& \neg\mathrm{has\_two},\\
-2,& \mathrm{has\_two}\ \land\ R_{\mathrm{peak}}\ge\eta_p\ \land\ R_{\mathrm{valley}}\le\eta_v,\\
-1,& \mathrm{has\_two}\ \land\ \neg\!\left(R_{\mathrm{peak}}\ge\eta_p\ \land\ R_{\mathrm{valley}}\le\eta_v\right).
+2,& \mathrm{has\_two}\ \land\ \mathrm{sep}_{\mathrm{peaks}}\ge 1,\\
+1,& \mathrm{has\_two}\ \land\ \mathrm{sep}_{\mathrm{peaks}}< 1.
 \end{cases}
-\]
-Parameter values used in this report:
-\[
-(\eta_p,\eta_v)=(0.20,0.90)\ \text{for anywhere},\qquad
-(\eta_p,\eta_v)=(0.10,0.90)\ \text{for fixed-site K=2 coarse}.
 \]
 Anywhere primary detector settings are $(w,t_{\mathrm{ignore}},t_{\mathrm{end}})=(11,80,400)$.
 Fixed-site coarse settings are $(w,t_{\mathrm{ignore,pair}},\mathrm{min\_sep\_pair})=(9,18,8)$ in parity-coarsened index.
+The separation threshold is uniformly $\mathrm{sep}_{\mathrm{peaks}}\ge 1$.
+The ratio quantities $R_{\mathrm{peak}},R_{\mathrm{dir}},R_{\mathrm{valley}}$ remain in the tables and figures as secondary diagnostics, and $R_{\mathrm{peak}}(\tau),R_{\mathrm{valley}}(\tau)$ still appear in the candidate-selection score; they are simply no longer extra phase gates.
 
 \section{Compact Derivation Roadmap: A1 to A8}
 Define
@@ -210,7 +212,7 @@ The same A1$\to$A8 block is the core kernel for both encounter definitions:
   \widetilde P_{n_0}(n,u)\widetilde P_{m_0}\!\left(n,\frac{z}{u}\right).
   \]
 \end{itemize}
-Using ring Fourier orthogonality, the modal double sum collapses to a single sum:
+For the homogeneous defect-free ring, translation invariance lets the modal double sum collapse to a single sum:
 \[
 \widetilde Q_{\mathrm{any}}(z)=
 \sum_{k=0}^{N-1}
@@ -218,7 +220,9 @@ Using ring Fourier orthogonality, the modal double sum collapses to a single sum
 {1-z\,\lambda_k^{(1)}\lambda_{-k}^{(2)}},
 \]
 where $\lambda_k^{(1)},\lambda_k^{(2)}$ are one-step mode eigenvalues of walkers A/B.
-So A1$\to$A8 indeed covers both fixed-site and non-fixed encounter branches.
+This collapse should therefore be read as a transform-domain validation block for the homogeneous benchmark.
+In the main shortcut model studied later, walker A carries a local directed defect at $\mathrm{src}\to\mathrm{dst}$, so translation invariance is broken and we do not rely on the Fourier-collapse formula there.
+All production anywhere-encounter figures with shortcut are generated instead by exact time-domain absorption recursion.
 
 \section{Numerically Stable Verification Routine}
 Use $u=re^{i\theta}$ and $du/u=i\,d\theta$:
@@ -292,6 +296,7 @@ f_{\mathrm{enc}}(t)=f_{\mathrm{sc}}(t)+f_{\mathrm{no}}(t).
 For the representative case (Table~\ref{tab:shortcut-rep}), we observe $t_1<t_v<t_2$ with threshold-qualified
 $R_{\mathrm{peak}},R_{\mathrm{valley}}$; $R_{\mathrm{dir}}$ is reported only as a directional diagnostic (not used in phase thresholds).
 Together with the channel handoff in the shortcut-share curve, this closes the mechanism chain for a clear-bimodal diagnosis.
+The important nuance is that a weak double / multi-timescale structure is already visible at $\beta=0$; the shortcut does not create bimodality ex nihilo, but lifts an earlier fast channel above threshold and reorganizes the signal into a cleaner two/three-peak regime.
 
 \section{Fixed-Site Encounter Extension (\texorpdfstring{$n=m=\delta$}{n=m=delta})}
 We also complete the fixed-site encounter branch highlighted in your notes:
@@ -328,6 +333,7 @@ At baseline $N=30,q=0.7,n_0=5,m_0=12,\delta=0$, drift cases show:
   \item $(0.9,0.9)$, $(0.7,0.7)$, and $(0.9,-0.9)$ are clearly bimodal.
 \end{itemize}
 The full phase-map occupancy (single/weak/clear fractions over the full drift grid) is auto-summarized in Table~\ref{tab:fixedsite-phase-summary}.
+This fixed-site branch is intentionally a drift-dominated benchmark, so the resulting clear-phase occupancy should be read as benchmark-specific rather than a universal statement about all fixed-site encounter settings.
 
 \begin{figure}[H]
   \centering
@@ -338,7 +344,7 @@ The full phase-map occupancy (single/weak/clear fractions over the full drift gr
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_fixedsite_parity_compare.pdf}
-  \caption{Why parity coarse graining is needed for K=2: raw trace (odd-even micro-oscillation) versus parity-coarsened trace used by the detector.}
+  \caption{Why fixed-site encounter parity coarse graining is needed for K=2: raw trace (odd-even micro-oscillation) versus parity-coarsened trace used by the detector.}
 \end{figure}
 
 \begin{figure}[H]
@@ -424,40 +430,80 @@ The first three prominent peaks (after smoothing) are listed for multi-peak visi
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_shortcut_rep_case.pdf}
-  \caption{Representative case at $\beta=0.20$ with labeled peak structure: detector pair $(t_1,t_2)$ and prominent peaks $P_1,P_2,P_3$.}
+  \caption{Representative anywhere-encounter case at $\beta=0.20$ with labeled peak structure: detector pair $(t_1,t_2)$ and prominent peaks $P_1,P_2,P_3$.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.62\linewidth]{\FigDir/encounter_ring_geometry.pdf}
-  \caption{1D ring geometry and shortcut placement; the fixed-site encounter point is marked as $\delta=0$ (star).}
+  \caption{1D ring anywhere-encounter geometry and shortcut placement; the fixed-site encounter point is marked as $\delta=0$ (star).}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_fpt_overlay.pdf}
-  \caption{Encounter FPT curves across shortcut strengths.}
+  \caption{Anywhere-encounter FPT curves across shortcut strengths.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_shortcut_decomp.pdf}
-  \caption{Shortcut-channel decomposition at $\beta=0.20$: early lobe is shortcut-used dominated; late lobe is mostly no-shortcut trajectories.}
+  \caption{Anywhere-encounter shortcut-channel decomposition at $\beta=0.20$: early lobe is shortcut-used dominated; late lobe is mostly no-shortcut trajectories.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_shortcut_share.pdf}
-  \caption{Shortcut-used share diagnostics at $\beta=0.20$: instantaneous share (smoothed) and cumulative share versus time.}
+  \caption{Anywhere-encounter shortcut-used share diagnostics at $\beta=0.20$: instantaneous share (smoothed) and cumulative share versus time.}
 \end{figure}
 
 The share diagnostics make the channel handoff quantitative:
 shortcut-used trajectories dominate around the first peak and then give way to no-shortcut trajectories before the second peak, while the cumulative shortcut share remains bounded away from one.
 
+To localize which timescales and which sites carry the full encounter signal, we record the diagonal first-encounter flux
+$\phi_t(n)=J_t(n,n)$ before absorption and define the site splitting probability
+\begin{equation}
+\label{eq:site-splitting}
+\pi_{\mathrm{full}}(n)=\frac{\sum_t \phi_t(n)}{\sum_t f_{\mathrm{enc}}(t)}.
+\end{equation}
+This is the time-domain counterpart of Eq.~(10) in \cite{giuggioli2022transmission}: the marker variable $\rho_{\boldsymbol m_j}$ selects the target contribution in the generating function, while evaluating the corresponding first-encounter flux at $z=1$ yields the splitting probability over encounter sites.
+For each peak basin $W_k$ selected by the timescale detector, we also define
+\[
+\pi_k(n)=\frac{\sum_{t\in W_k}\phi_t(n)}{\sum_t f_{\mathrm{enc}}(t)},
+\]
+and analogously $\pi_{\mathrm{yes}}(n),\pi_{\mathrm{no}}(n)$ for shortcut-used / no-shortcut channels.
+The first three prominent basins are kept explicitly and the remaining mass is aggregated into `other'.
+
+\begin{table}[H]
+  \centering
+  \caption{Representative peak-basin contributions at $\beta=0.20$.}
+  \label{tab:peak-basin}
+  \input{\TabDir/encounter_peak_contrib_rep.tex}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Representative site splitting probabilities for the dominant encounter sites.}
+  \label{tab:site-splitting}
+  \input{\TabDir/encounter_site_splitting_rep.tex}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_peak_basin_rep.pdf}
+  \caption{Representative anywhere-encounter peak-basin partition: the first three prominent basins are shown explicitly, while the residual encounter mass is reported as `other'.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_site_splitting_rep.pdf}
+  \caption{Representative anywhere-encounter site splitting profile from Eq.~\eqref{eq:site-splitting}, resolved into peak-conditioned contributions.}
+\end{figure}
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_mass_balance.pdf}
-  \caption{Mass-conservation audit for the representative case: cumulative encounter mass, survival tail, and residual $|1-\sum_{\tau\le t} f(\tau)-S(t)|$.}
+  \caption{Anywhere-encounter mass-conservation audit for the representative case: cumulative encounter mass, survival tail, and residual $|1-\sum_{\tau\le t} f(\tau)-S(t)|$.}
 \end{figure}
 
 The residual curve stays near machine precision and confirms that the late-time shoulder is a model effect rather than truncation leakage.
@@ -465,37 +511,37 @@ The residual curve stays near machine precision and confirms that the late-time 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_beta_phase.pdf}
-  \caption{Peak-balance (min/max) / valley metrics and phase labels versus $\beta$ (timescale detector, primary).}
+  \caption{Anywhere-encounter peak-balance (min/max) / valley metrics and phase labels versus $\beta$ (timescale detector, primary).}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_peakcount_vs_beta.pdf}
-  \caption{Number of prominent peaks in the detector window versus $\beta$ (timescale detector view): the regime shifts from mostly 2 peaks to 3 peaks around onset.}
+  \caption{Anywhere-encounter number of prominent peaks in the detector window versus $\beta$ (timescale detector view): the regime shifts from mostly 2 peaks to 3 peaks around onset.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_t2_old_vs_new.pdf}
-  \caption{$t_2$ selection comparison: legacy second-peak rule can switch from late to middle peak near $\beta\approx0.24$, while the timescale detector remains stable on the late scale.}
+  \caption{Anywhere-encounter $t_2$ selection comparison: legacy second-peak rule can switch from late to middle peak near $\beta\approx0.24$, while the timescale detector remains stable on the late scale.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_refine.pdf}
-  \caption{Dense refinement around onset: metric curves and phase labels on the local $\beta$ window.}
+  \caption{Anywhere-encounter dense refinement around onset: metric curves and phase labels on the local $\beta$ window.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.76\linewidth]{\FigDir/encounter_onset_sensitivity.pdf}
-  \caption{Distribution of first clear-bimodal onset under detector-parameter variations; dashed line is nominal refined onset.}
+  \caption{Anywhere-encounter distribution of `has$\geq$2' onset and clear onset under detector-parameter variations; dashed line marks the nominal clear refined onset.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.78\linewidth]{\FigDir/encounter_onset_agreement.pdf}
-  \caption{Detector-agreement curve across refined $\beta$: crossings at 25\%, 50\%, and 75\% define onset location and transition width.}
+  \caption{Anywhere-encounter detector-agreement curve across refined $\beta$: crossings at 25\%, 50\%, and 75\% define onset location and transition width.}
 \end{figure}
 
 Ring-size robustness conclusions are also auto-generated to avoid manual drift:
@@ -505,14 +551,26 @@ The resulting trend is summarized in Fig.~\ref{fig:onsetN} and Table~\ref{tab:ns
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_n_scan.pdf}
-  \caption{Ring-size robustness scan: onset and clear-fraction trends across $N$, plus representative ratio diagnostics at $\beta=0.20$ (star marker = onset recovered by extension beyond $\beta=0.30$).}
+  \caption{Anywhere-encounter ring-size robustness scan: `has$\geq$2' onset, clear onset, and clear-fraction trends across $N$, plus representative ratio diagnostics at $\beta=0.20$ (star marker = clear onset recovered by extension beyond $\beta=0.30$).}
   \label{fig:onsetN}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_scaling.pdf}
-  \caption{Onset scaling against ring size: linear fit in $(N,\log \beta_{\mathrm{onset}})$ coordinates, with fit coefficients reported in Table~\ref{tab:keymetrics}.}
+  \caption{Anywhere-encounter onset scaling against ring size: separate fits for `has$\geq$2' onset and clear onset in $(N,\log \beta_{\mathrm{onset}})$ coordinates, with bootstrap confidence intervals when resolvable.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_beta_site_heatmap.pdf}
+  \caption{Anywhere-encounter site splitting heatmap versus shortcut strength at fixed $N=101$.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.80\linewidth]{\FigDir/encounter_n_site_heatmap.pdf}
+  \caption{Anywhere-encounter site splitting heatmap versus ring size at fixed $\beta=0.20$.}
 \end{figure}
 
 To make extension usage explicit rather than implicit, Fig.~\ref{fig:onsetSource} separates
@@ -525,7 +583,7 @@ the corresponding $\beta_{\max}$, so extension recovery can be audited without c
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\linewidth]{\FigDir/encounter_onset_source_window.pdf}
-  \caption{Onset-source diagnostics across ring sizes: top panel shows resolved onset versus per-$N$ search cap and nominal cap $0.30$; bottom panel labels whether each onset is found in the nominal window, recovered by extension, or still unresolved.}
+  \caption{Anywhere-encounter onset-source diagnostics across ring sizes: top panel shows resolved onset versus per-$N$ search cap and nominal cap $0.30$; bottom panel labels whether each onset is found in the nominal window, recovered by extension, or still unresolved.}
   \label{fig:onsetSource}
 \end{figure}
 
@@ -565,13 +623,9 @@ So the encounter report is aligned with literature at the level of definitions, 
 
 \section{Reproducibility}
 \begin{verbatim}
-cd reports/ring_two_walker_encounter_shortcut
-python3 code/two_walker_ring_encounter_report.py
-
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir ring_two_walker_encounter_shortcut_cn.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir ring_two_walker_encounter_shortcut_en.tex
+python3 scripts/reportctl.py run --report ring_two_walker_encounter_shortcut -- python3 code/two_walker_ring_encounter_report.py
+python3 scripts/reportctl.py build --report ring_two_walker_encounter_shortcut --lang cn
+python3 scripts/reportctl.py build --report ring_two_walker_encounter_shortcut --lang en
 \end{verbatim}
 
 \begin{thebibliography}{9}
@@ -580,6 +634,12 @@ S. Sarvaharman and L. Giuggioli,
 \emph{First-passage-time statistics of a random walker under biased quenched disorder},
 Phys. Rev. E \textbf{102}, 062124 (2020).
 DOI: 10.1103/PhysRevE.102.062124.
+
+\bibitem{giuggioli2022transmission}
+L. Giuggioli and S. Sarvaharman,
+\emph{Spatio-temporal dynamics of random transmission events: from information sharing to epidemic spread},
+J. Phys. A: Math. Theor. \textbf{55}, 375005 (2022).
+DOI: 10.1088/1751-8121/ac8587.
 
 \bibitem{giuggioli2024multi}
 L. Giuggioli, S. Sarvaharman, D. Das, D. Marris, and T. Kay,

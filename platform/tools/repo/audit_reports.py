@@ -18,8 +18,10 @@ from report_registry import load_registry
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REPORTS_ROOT = REPO_ROOT / "research" / "reports"
-TEX_JSON = REPORTS_ROOT / "_audit_all_tex_results.json"
-PY_JSON = REPORTS_ROOT / "_audit_python_results.json"
+AUDIT_ROOT = REPO_ROOT / "research" / "archives" / "meta" / "repo_audits"
+TEX_JSON = AUDIT_ROOT / "_audit_all_tex_results.json"
+PY_JSON = AUDIT_ROOT / "_audit_python_results.json"
+AUDIT_ROOT.mkdir(parents=True, exist_ok=True)
 
 LATEXMK_COMMON = [
     "latexmk",
@@ -40,6 +42,13 @@ WARN_PATTERNS = {
 }
 
 
+def preferred_python() -> str:
+    repo_python = REPO_ROOT / ".venv" / "bin" / "python"
+    if repo_python.exists():
+        return str(repo_python)
+    return sys.executable or "python3"
+
+
 @dataclass(frozen=True)
 class TexCase:
     path: Path
@@ -53,8 +62,8 @@ def detect_engine(tex_path: Path) -> str:
 
 def run_metadata_validation() -> None:
     checks = (
-        ("registry", ["python3", "scripts/validate_registry.py"]),
-        ("archives", ["python3", "scripts/validate_archives.py"]),
+        ("registry", [preferred_python(), "platform/tools/repo/validate_registry.py"]),
+        ("archives", [preferred_python(), "platform/tools/repo/validate_archives.py"]),
     )
     for name, cmd in checks:
         proc = subprocess.run(cmd, cwd=REPO_ROOT, check=False)
@@ -87,6 +96,22 @@ def parse_warnings(log_text: str) -> dict[str, int]:
     return {k: len(p.findall(log_text)) for k, p in WARN_PATTERNS.items()}
 
 
+def run_latexmk(case: TexCase, *, force: bool = False) -> subprocess.CompletedProcess[str]:
+    tex_dir = case.path.parent
+    cmd = LATEXMK_COMMON.copy()
+    if force:
+        cmd.append("-g")
+    cmd.extend([case.engine, case.path.name])
+    return subprocess.run(
+        cmd,
+        cwd=tex_dir,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=False,
+    )
+
+
 def run_tex_audit(*, mode: str) -> tuple[list[dict[str, Any]], dict[str, int]]:
     rows: list[dict[str, Any]] = []
     agg = {k: 0 for k in WARN_PATTERNS}
@@ -97,17 +122,14 @@ def run_tex_audit(*, mode: str) -> tuple[list[dict[str, Any]], dict[str, int]]:
 
     for case in discover_tex_cases(mode=mode):
         tex_dir = case.path.parent
-        cmd = LATEXMK_COMMON + [case.engine, case.path.name]
-        proc = subprocess.run(
-            cmd,
-            cwd=tex_dir,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            check=False,
-        )
+        proc = run_latexmk(case)
         log_path = tex_dir / "build" / f"{case.path.stem}.log"
         log_text = log_path.read_text(encoding="utf-8", errors="ignore") if log_path.exists() else proc.stdout
+        if proc.returncode != 0 and "gave an error in previous invocation of latexmk" in proc.stdout:
+            # Latexmk can keep a stale failure marker in .fdb_latexmk even after the
+            # current source tree is healthy, so retry once with a forced rebuild.
+            proc = run_latexmk(case, force=True)
+            log_text = log_path.read_text(encoding="utf-8", errors="ignore") if log_path.exists() else proc.stdout
         warn = parse_warnings(log_text)
         for k, v in warn.items():
             agg[k] += v

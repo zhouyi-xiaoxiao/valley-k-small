@@ -589,14 +589,13 @@ Case E (Fig.~\ref{fig:caseE}) shows a three-peak case driven by strong drift and
 Tables~\ref{tab:configs} and~\ref{tab:peaks} summarize the representative cases and peak metrics.
 Reproduce with:
 \begin{verbatim}
-cd reports/ring_two_target
-python3 code/two_target_report.py
-latexmk -pdf -auxdir=build -emulate-aux-dir ring_two_target_en.tex
+python3 scripts/reportctl.py run --report ring_two_target -- python3 code/two_target_report.py
+python3 scripts/reportctl.py build --report ring_two_target --lang en
 \end{verbatim}
 
 \begin{table}[!htbp]
   \centering
-  \caption{Representative configurations (see \texttt{data/model\_configs.csv}).}
+  \caption{Representative configurations (see \texttt{research/reports/ring\_two\_target/artifacts/data/model\_configs.csv}).}
   \label{tab:configs}
   \input{tables/case_configs.tex}
 \end{table}

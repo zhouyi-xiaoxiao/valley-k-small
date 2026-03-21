@@ -439,19 +439,10 @@ f_{\mathcal C}(t)=\sum_{u\in\mathcal C} p_{t-1}(u)\,P(u\to m).
 
 \section*{复现命令}
 \begin{verbatim}
-# 在仓库根目录先安装依赖（一次即可）
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-cd reports/grid2d_rect_bimodality
-python3 code/rect_bimodality_report.py --quick
-python3 code/rect_bimodality_report.py
-
-latexmk -xelatex -interaction=nonstopmode -halt-on-error \
-  -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_cn.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error \
-  -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_en.tex
+python3 scripts/reportctl.py run --report grid2d_rect_bimodality -- python3 code/rect_bimodality_report.py --quick
+python3 scripts/reportctl.py run --report grid2d_rect_bimodality -- python3 code/rect_bimodality_report.py
+python3 scripts/reportctl.py build --report grid2d_rect_bimodality --lang cn
+python3 scripts/reportctl.py build --report grid2d_rect_bimodality --lang en
 \end{verbatim}
 
 \end{document}

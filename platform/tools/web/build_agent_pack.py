@@ -11,11 +11,11 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DATA_ROOT = REPO_ROOT / "site" / "public" / "data" / "v1"
+DATA_ROOT = REPO_ROOT / "platform" / "web" / "public" / "data" / "v1"
 AGENT_DATA_ROOT = DATA_ROOT / "agent"
-SCHEMAS_ROOT = REPO_ROOT / "schemas"
-CHECKS_ROOT = REPO_ROOT / "artifacts" / "checks"
-OUT_ROOT = REPO_ROOT / "artifacts" / "deliverables" / "agent_pack" / "v1"
+SCHEMAS_ROOT = REPO_ROOT / "platform" / "schemas"
+CHECKS_ROOT = REPO_ROOT / ".local" / "checks"
+OUT_ROOT = REPO_ROOT / ".local" / "deliverables" / "agent_pack" / "v1"
 
 
 def utc_now_iso() -> str:
@@ -137,7 +137,7 @@ def build_guide_markdown(manifest: dict[str, Any]) -> str:
         "7. Regenerate via `python3 scripts/reportctl.py agent-pack` after edits.",
         "",
         "## Non-Temporary Review Trace",
-        "OpenClaw review outputs are persisted to `artifacts/checks/openclaw_review.json` and mirrored into this pack.",
+        "OpenClaw review outputs are persisted to `.local/checks/openclaw_review.json` and mirrored into this pack.",
     ]
     return "\n".join(lines) + "\n"
 
@@ -289,7 +289,7 @@ def build_agent_pack() -> dict[str, Any]:
     if copied_traces:
         trace_md.extend([f"- `{path}`" for path in copied_traces])
     else:
-        trace_md.append("- No trace stream found in artifacts/checks yet.")
+        trace_md.append("- No trace stream found in .local/checks yet.")
     trace_md.extend(
         [
             "",

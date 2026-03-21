@@ -1426,12 +1426,7 @@ def summarize_case(case: CaseConfig, f_any: np.ndarray, f_m1: np.ndarray, f_m2: 
 
 def classify_phase(r: CaseResult) -> int:
     has_double = int(r.t_peak1 is not None and r.t_peak2 is not None)
-    clear_double = int(
-        has_double
-        and r.sep_mode_width >= 1.0
-        and min(r.p_m1, r.p_m2) >= 0.15
-        and (r.valley_over_max is not None and r.valley_over_max <= 0.35)
-    )
+    clear_double = int(has_double and r.sep_mode_width >= 1.0)
     return 2 if clear_double else (1 if has_double else 0)
 
 

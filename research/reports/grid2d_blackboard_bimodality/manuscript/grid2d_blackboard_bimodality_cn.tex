@@ -298,11 +298,10 @@ Z0--Z4 仅出现单峰 + 长尾，晚窗峰值基本贴近窗口边界，属于 
 
 \section*{数据与复现}
 \begin{Verbatim}[breaklines=true,breakanywhere=true]
-cd reports/grid2d_blackboard_bimodality
-python3 code/blackboard_bimodality_pipeline.py --cases Z,S
-python3 code/z_scan.py
-latexmk -xelatex -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_cn.tex
-latexmk -pdf -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_en.tex
+python3 scripts/reportctl.py run --report grid2d_blackboard_bimodality -- python3 code/blackboard_bimodality_pipeline.py --cases Z,S
+python3 scripts/reportctl.py run --report grid2d_blackboard_bimodality -- python3 code/z_scan.py
+python3 scripts/reportctl.py build --report grid2d_blackboard_bimodality --lang cn
+python3 scripts/reportctl.py build --report grid2d_blackboard_bimodality --lang en
 \end{Verbatim}
 
 \end{document}

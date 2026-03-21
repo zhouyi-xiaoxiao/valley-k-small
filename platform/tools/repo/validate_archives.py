@@ -24,6 +24,26 @@ def is_repo_relative(path_str: str) -> bool:
     return bool(path_str) and (not p.is_absolute()) and ".." not in p.parts
 
 
+def canonical_repo_rel(path_str: str) -> str:
+    if path_str.startswith("research/") or path_str.startswith("platform/") or path_str.startswith("packages/"):
+        return path_str
+    if path_str.startswith("reports/"):
+        return f"research/{path_str}"
+    if path_str.startswith("docs/"):
+        return f"research/{path_str}"
+    if path_str.startswith("archives/"):
+        return f"research/{path_str}"
+    if path_str.startswith("site/"):
+        return f"platform/web/{path_str.removeprefix('site/')}"
+    if path_str.startswith("schemas/"):
+        return f"platform/{path_str}"
+    if path_str.startswith("skills/"):
+        return f"platform/{path_str}"
+    if path_str.startswith("src/"):
+        return f"packages/vkcore/{path_str}"
+    return path_str
+
+
 def validate_index_entry(
     row: dict[str, Any], *, root: Path, valid_report_ids: set[str], schema: dict[str, Any]
 ) -> list[str]:
@@ -50,14 +70,14 @@ def validate_index_entry(
     if archive_rel:
         if not is_repo_relative(archive_rel):
             errs.append(f"archive_path_rel must be repo-relative: {archive_rel}")
-        elif not (root / archive_rel).exists():
+        elif not (root / canonical_repo_rel(archive_rel)).exists():
             errs.append(f"archive path does not exist: {archive_rel}")
 
     pointer_rel = str(row.get("latest_pointer_rel", ""))
     if pointer_rel:
         if not is_repo_relative(pointer_rel):
             errs.append(f"latest_pointer_rel must be repo-relative: {pointer_rel}")
-        elif not (root / pointer_rel).exists():
+        elif not (root / canonical_repo_rel(pointer_rel)).exists():
             errs.append(f"latest pointer missing: {pointer_rel}")
     return errs
 
@@ -80,7 +100,7 @@ def validate_latest_manifest(
     archive_runs_rel = str(payload.get("archive_runs_path_rel", ""))
     if archive_runs_rel and not is_repo_relative(archive_runs_rel):
         errs.append(f"{path}: archive_runs_path_rel must be repo-relative: {archive_runs_rel}")
-    elif archive_runs_rel and not (root / archive_runs_rel).exists():
+    elif archive_runs_rel and not (root / canonical_repo_rel(archive_runs_rel)).exists():
         errs.append(f"{path}: archive_runs_path_rel missing: {archive_runs_rel}")
 
     updated_at = str(payload.get("updated_at_utc", ""))

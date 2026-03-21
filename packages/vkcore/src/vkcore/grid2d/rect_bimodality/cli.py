@@ -929,31 +929,13 @@ class OTCaseResult:
 
 def classify_phase_two_target(r: TTCaseResult) -> int:
     has_double = int(r.t_peak1 is not None and r.t_peak2 is not None)
-    peak_ratio_ok = bool(r.peak_ratio is not None and r.peak_ratio >= 0.10)
-    valley_margin_ok = bool(
-        r.peak_ratio is not None
-        and r.valley_over_max is not None
-        and (r.peak_ratio - r.valley_over_max) >= 0.01
-    )
-    clear_double = int(
-        has_double
-        and r.sep_mode_width >= 1.0
-        and min(r.p_m1, r.p_m2) >= 0.15
-        and (r.valley_over_max is not None and r.valley_over_max <= 0.35)
-        and peak_ratio_ok
-        and valley_margin_ok
-    )
+    clear_double = int(has_double and r.sep_mode_width >= 1.0)
     return 2 if clear_double else (1 if has_double else 0)
 
 
 def classify_phase_one_target(r: OTCaseResult) -> int:
     has_double = int(r.t_peak1 is not None and r.t_peak2 is not None)
-    clear_double = int(
-        has_double
-        and r.sep_peaks >= 1.0
-        and (r.valley_over_max is not None and r.valley_over_max <= 0.35)
-        and (r.peak_balance is not None and r.peak_balance >= 0.15)
-    )
+    clear_double = int(has_double and r.sep_peaks >= 1.0)
     return 2 if clear_double else (1 if has_double else 0)
 
 

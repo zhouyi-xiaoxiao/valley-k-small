@@ -153,10 +153,10 @@
       ],
       "phase_counts": {
         "0": 77,
-        "1": 712,
-        "2": 170
+        "1": 558,
+        "2": 324
       },
-      "phase2_count": 170,
+      "phase2_count": 324,
       "phase0_examples": [
         {
           "label": "A",
@@ -191,7 +191,32 @@
         17,
         18,
         19,
-        20
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
       ],
       "vertical_phase2_y": [
         5,
@@ -483,14 +508,14 @@
   },
   "two_target_no_corridor": {
     "scan_size": 117,
-    "phase2_count": 97,
-    "phase2_ratio": 0.8290598290598291,
-    "candidate_scan_size": 465,
-    "candidate_phase2_count": 364,
-    "candidate_phase2_ratio": 0.7827956989247312,
+    "phase2_count": 100,
+    "phase2_ratio": 0.8547008547008547,
+    "candidate_scan_size": 445,
+    "candidate_phase2_count": 363,
+    "candidate_phase2_ratio": 0.8157303370786517,
     "selected_grid": {
-      "spec": "dense_bx_near_dy3",
-      "near_dy": 3,
+      "spec": "dense_bx_near_dy4",
+      "near_dy": 4,
       "near_dx_vals": [
         2,
         3,
@@ -525,8 +550,8 @@
         "status": "ok",
         "near_dy": 2,
         "scan_size": 81,
-        "phase2_count": 56,
-        "phase2_ratio": 0.691358024691358
+        "phase2_count": 60,
+        "phase2_ratio": 0.7407407407407407
       },
       {
         "round": 2,
@@ -534,8 +559,8 @@
         "status": "ok",
         "near_dy": 3,
         "scan_size": 117,
-        "phase2_count": 97,
-        "phase2_ratio": 0.8290598290598291
+        "phase2_count": 98,
+        "phase2_ratio": 0.8376068376068376
       },
       {
         "round": 3,
@@ -543,17 +568,17 @@
         "status": "ok",
         "near_dy": 4,
         "scan_size": 117,
-        "phase2_count": 95,
-        "phase2_ratio": 0.811965811965812
+        "phase2_count": 100,
+        "phase2_ratio": 0.8547008547008547
       },
       {
         "round": 4,
         "spec": "adaptive_refine",
         "status": "ok",
         "near_dy": "mixed",
-        "scan_size": 150,
-        "phase2_count": 116,
-        "phase2_ratio": 0.7733333333333333
+        "scan_size": 130,
+        "phase2_count": 105,
+        "phase2_ratio": 0.8076923076923077
       }
     ],
     "adaptive_refine_enabled": true,
@@ -641,7 +666,7 @@
         "peak_margin_min": 0.07,
         "min_margin_min": 0.07,
         "valley_max": 0.1,
-        "candidate_count": 168
+        "candidate_count": 152
       },
       "figure": {
         "path": "figures/two_target_no_corridor_clear_instance.pdf",
@@ -653,11 +678,11 @@
       "source_only_x": {
         "rows": 11,
         "loss_mode_counts": {
-          "clear": 4,
+          "clear": 10,
           "far_mass_loss": 0,
-          "near_mass_loss": 5,
+          "near_mass_loss": 1,
           "timescale_merge": 0,
-          "far_broadening": 2,
+          "far_broadening": 0,
           "tail_truncation_risk": 0
         },
         "peak2_range": [
@@ -684,35 +709,35 @@
     "near_target_scan": {
       "+0.12": {
         "rows": 77,
-        "phase2_count": 67,
+        "phase2_count": 75,
         "loss_mode_counts": {
-          "clear": 67,
+          "clear": 75,
           "far_mass_loss": 0,
-          "near_mass_loss": 7,
+          "near_mass_loss": 0,
           "timescale_merge": 0,
-          "far_broadening": 3,
+          "far_broadening": 2,
           "tail_truncation_risk": 0
         }
       },
       "+0.14": {
         "rows": 77,
-        "phase2_count": 59,
+        "phase2_count": 75,
         "loss_mode_counts": {
-          "clear": 59,
+          "clear": 75,
           "far_mass_loss": 0,
-          "near_mass_loss": 15,
+          "near_mass_loss": 0,
           "timescale_merge": 0,
-          "far_broadening": 3,
+          "far_broadening": 2,
           "tail_truncation_risk": 0
         }
       }
     },
     "loss_mode_counts": {
-      "clear": 126,
+      "clear": 150,
       "far_mass_loss": 0,
-      "near_mass_loss": 22,
+      "near_mass_loss": 0,
       "timescale_merge": 0,
-      "far_broadening": 6,
+      "far_broadening": 4,
       "tail_truncation_risk": 0
     },
     "horizon_diagnostics": {
@@ -723,8 +748,8 @@
     "failure_example": {
       "bx": 0.12,
       "near_dx": 2,
-      "near_dy": 6,
-      "loss_mode": "near_mass_loss"
+      "near_dy": 0,
+      "loss_mode": "far_broadening"
     },
     "splitting_committor": {
       "q_far_start": 0.6760085316212855,
@@ -760,13 +785,13 @@
       "boundary_far_residual_inf": 0.0
     },
     "splitting_committor_failure_example": {
-      "q_far_start": 0.9112623168394842,
+      "q_far_start": 0.5017722962872491,
       "q_far_min": 0.0,
       "q_far_max": 1.0,
-      "p_far_mass": 0.9112623182491815,
-      "p_near_mass": 0.08873768174979767,
-      "consistency_gap_vs_f_far_mass": 1.4096972478228054e-09,
-      "interior_residual_inf": 9.94748727833894e-12,
+      "p_far_mass": 0.5017722971641276,
+      "p_near_mass": 0.4982277028348596,
+      "consistency_gap_vs_f_far_mass": 8.768785697554904e-10,
+      "interior_residual_inf": 9.91084991852631e-12,
       "boundary_near_residual_inf": 0.0,
       "boundary_far_residual_inf": 0.0
     }

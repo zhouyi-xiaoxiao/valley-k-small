@@ -1,6 +1,6 @@
 % Auto-generated from data/encounter_onset_n_scan.csv; do not edit by hand.
-为避免结论仅依赖单一基准尺寸 $N=101$，我们额外做了 $N\in\{81,101,121,141\}$ 的 ring-size 稳健性扫描，并按比例缩放 $(n_0,m_0,\text{src},\text{dst})$ 几何位置。
-对每个 $N$，先在名义窗口 $\beta\in[0,0.30]$ 上重算 coarse onset 与 clear-bimodal 覆盖率，并与主文一致使用同一 timescale 选峰口径（首峰 + score 选 $t_2$），并比较代表点 $\beta=0.20$ 的 peak/valley 比值；若名义窗口内未出现 clear onset，则做一次单侧扩展扫描到 $\beta\le0.50$（步长 $0.02$）。
-本轮统计：共 4 个 $N$，名义窗口内找到 onset 的有 3 个，扩展回收 1 个，未检出 0 个。
-扩展回收细节：$N=81$ 在扩展扫描下于 $\beta\approx0.38$ 才进入 clear-bimodal。
-窗口内结论：$N\in\{101,121,141\}$ 均在名义窗口内出现 clear onset。
+为避免结论仅依赖单一基准尺寸 $N=101$，我们额外做了 $N\in\{61,81,101,121,141,161,181,201\}$ 的 ring-size 稳健性扫描，并按比例缩放 $(n_0,m_0,\text{src},\text{dst})$ 几何位置。
+对每个 $N$，先在名义窗口 $\beta\in[0,0.30]$ 上重算 has$\geq$2 onset、clear onset 与 clear-bimodal 覆盖率，并与主文一致使用同一 timescale 选峰口径（首峰 + score 选 $t_2$），并比较代表点 $\beta=0.20$ 的 peak/valley 比值；若名义窗口内未出现 clear onset，则做一次单侧扩展扫描到 $\beta\le0.50$（步长 $0.02$）。
+本轮统计：共 8 个 $N$，名义窗口内找到 has$\geq$2 onset 的有 8 个，找到 clear onset 的有 8 个，扩展回收 0 个，未检出 0 个。
+扩展回收细节：本轮未触发扩展区回收 onset。
+窗口内结论：$N\in\{61,81,101,121,141,161,181,201\}$ 均在名义窗口内出现 clear onset。

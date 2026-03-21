@@ -17,11 +17,11 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-SITE_DIR = REPO_ROOT / "site"
+SITE_DIR = REPO_ROOT / "platform" / "web"
 DATA_ROOT = SITE_DIR / "public" / "data" / "v1"
 ARTIFACTS_DIR = SITE_DIR / "public" / "artifacts"
-LOOP_ROOT = REPO_ROOT / "artifacts" / "loop"
-CHECKS_DIR = REPO_ROOT / "artifacts" / "checks"
+LOOP_ROOT = REPO_ROOT / ".local" / "loop"
+CHECKS_DIR = REPO_ROOT / ".local" / "checks"
 HEARTBEAT_PATH = LOOP_ROOT / "progress" / "heartbeat.json"
 
 
@@ -290,7 +290,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
             "Agent-A-Data",
             [
                 sys.executable,
-                "scripts/build_web_data.py",
+                "platform/tools/web/build_web_data.py",
                 "--mode",
                 mode,
                 "--max-assets",
@@ -310,7 +310,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     results.append(
         run_cmd(
             "Agent-B-Glossary",
-            [sys.executable, "scripts/build_glossary.py"],
+            [sys.executable, "platform/tools/web/build_glossary.py"],
             round_id=round_id,
             profile_name=profile.name,
         )
@@ -318,7 +318,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     results.append(
         run_cmd(
             "Agent-C-BookContent",
-            [sys.executable, "scripts/build_book_content.py"],
+            [sys.executable, "platform/tools/web/build_book_content.py"],
             round_id=round_id,
             profile_name=profile.name,
         )
@@ -326,7 +326,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     results.append(
         run_cmd(
             "Agent-D-TranslationQC",
-            [sys.executable, "scripts/validate_bilingual_quality.py"],
+            [sys.executable, "platform/tools/web/validate_bilingual_quality.py"],
             round_id=round_id,
             profile_name=profile.name,
         )
@@ -334,7 +334,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     results.append(
         run_cmd(
             "Agent-E-Sync",
-            [sys.executable, "scripts/build_agent_sync.py"],
+            [sys.executable, "platform/tools/web/build_agent_sync.py"],
             round_id=round_id,
             profile_name=profile.name,
         )
@@ -342,7 +342,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     results.append(
         run_cmd(
             "Agent-F-Validate",
-            [sys.executable, "scripts/validate_web_data.py"],
+            [sys.executable, "platform/tools/web/validate_web_data.py"],
             round_id=round_id,
             profile_name=profile.name,
         )
@@ -359,7 +359,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
         fut_docs = executor.submit(
             run_cmd,
             "Agent-H-QA-Docs",
-            [sys.executable, "scripts/check_docs_paths.py"],
+            [sys.executable, "platform/tools/repo/check_docs_paths.py"],
             round_id=round_id,
             profile_name=profile.name,
         )
@@ -396,7 +396,7 @@ def run_round(round_no: int, profile: Profile, base_path: str, mode: str) -> dic
     results.append(
         run_cmd(
             "Agent-J-OpenClaw-Review",
-            [sys.executable, "scripts/run_openclaw_review.py"],
+            [sys.executable, "platform/tools/automation/run_openclaw_review.py"],
             round_id=round_id,
             profile_name=profile.name,
             timeout=1800,

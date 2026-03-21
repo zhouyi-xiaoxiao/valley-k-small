@@ -53,14 +53,20 @@
     "critical_table": "tables/tt_critical_width_by_xstart.tex",
     "critical_curve": "figures/tt_critical_vs_xstart.pdf",
     "representatives": [
+      "TT_W05_X08",
       "TT_W05_X10",
       "TT_W05_X12",
-      "TT_W06_X10"
+      "TT_W06_X08",
+      "TT_W06_X10",
+      "TT_W07_X08"
     ],
     "rep_series_csv": [
+      "outputs/TT_W05_X08_fpt.csv",
       "outputs/TT_W05_X10_fpt.csv",
       "outputs/TT_W05_X12_fpt.csv",
-      "outputs/TT_W06_X10_fpt.csv"
+      "outputs/TT_W06_X08_fpt.csv",
+      "outputs/TT_W06_X10_fpt.csv",
+      "outputs/TT_W07_X08_fpt.csv"
     ],
     "rep_geometry_grid": "figures/tt_representative_geometry_grid.pdf",
     "rep_fpt_grid": "figures/tt_representative_fpt_grid.pdf",
@@ -110,11 +116,11 @@
       "phase": 2,
       "sep_peaks": 1.2103849597135183,
       "valley_over_max": 0.08778272310254148,
-      "peak_balance": null,
+      "peak_balance": 0.20724576742732304,
       "t_peak1": 415,
       "t_peak2": 1767,
-      "phase2_count": 5,
-      "phase1plus_count": 11,
+      "phase2_count": 3,
+      "phase1plus_count": 3,
       "placement_widths": [
         8,
         12,

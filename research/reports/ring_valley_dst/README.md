@@ -1,30 +1,33 @@
 # ring_valley_dst
 
-This report studies DST-driven second-peak modulation on ring lattices (CN/EN).
+This report studies DST-driven second-peak modulation on ring lattices.
 
-## Entry scripts (thin wrappers)
-- `reports/ring_valley_dst/code/bimodality_flux_scan.py`
-- `reports/ring_valley_dst/code/dst_shortcut_usage_mc.py`
-- `reports/ring_valley_dst/code/second_peak_scan.py`
-- `reports/ring_valley_dst/code/second_peak_shortcut_usage_mc.py`
+## Active Entry Scripts
+- `research/reports/ring_valley_dst/code/bimodality_flux_scan.py`
+- `research/reports/ring_valley_dst/code/dst_shortcut_usage_mc.py`
+- `research/reports/ring_valley_dst/code/second_peak_scan.py`
+- `research/reports/ring_valley_dst/code/second_peak_shortcut_usage_mc.py`
 
-Core implementation now lives in:
-- `src/vkcore/ring/valley_dst/`
+Shared implementation lives under `packages/vkcore/src/vkcore/ring/valley_dst/`.
 
-## Quick run
+## Reproduce
 From repo root:
 
 ```bash
-source .venv/bin/activate
-python3 reports/ring_valley_dst/code/bimodality_flux_scan.py --help
-python3 reports/ring_valley_dst/code/dst_shortcut_usage_mc.py --help
-python3 reports/ring_valley_dst/code/second_peak_scan.py --help
-python3 reports/ring_valley_dst/code/second_peak_shortcut_usage_mc.py --help
+python3 scripts/reportctl.py run --report ring_valley_dst -- \
+  python3 code/bimodality_flux_scan.py --help
+python3 scripts/reportctl.py run --report ring_valley_dst -- \
+  python3 code/dst_shortcut_usage_mc.py --help
+python3 scripts/reportctl.py run --report ring_valley_dst -- \
+  python3 code/second_peak_scan.py --help
+python3 scripts/reportctl.py run --report ring_valley_dst -- \
+  python3 code/second_peak_shortcut_usage_mc.py --help
+python3 scripts/reportctl.py build --report ring_valley_dst --lang cn
+python3 scripts/reportctl.py build --report ring_valley_dst --lang en
 ```
 
-## Build PDFs
-```bash
-cd reports/ring_valley_dst
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir ring_valley_dst_cn.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir ring_valley_dst_en.tex
-```
+## Canonical Paths
+- Data and inputs: `research/reports/ring_valley_dst/artifacts/data/`
+- Figures: `research/reports/ring_valley_dst/artifacts/figures/`
+- Tables: `research/reports/ring_valley_dst/artifacts/tables/`
+- PDFs: `research/reports/ring_valley_dst/manuscript/ring_valley_dst_cn.pdf`, `research/reports/ring_valley_dst/manuscript/ring_valley_dst_en.pdf`

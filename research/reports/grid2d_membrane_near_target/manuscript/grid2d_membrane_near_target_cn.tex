@@ -379,7 +379,7 @@ P(\text{穿越膜边})=\kappa,\qquad P(\text{被反射})=1-\kappa.
 
 \section{方法参考（committor + 2×2 分类）}
 \subsection*{phase/sep-score 的可复现定义}
-为保证相图可复现，本文直接采用代码中的判据（与 \path{src/vkcore/grid2d/rect_bimodality/cli.py} 一致）：
+为保证相图可复现，本文直接采用代码中的判据（与 \path{packages/vkcore/src/vkcore/grid2d/rect_bimodality/cli.py} 一致）：
 \paragraph{(1) 双峰探测（\texttt{find\_two\_peaks}）}
 令 $\tilde f=\mathrm{smooth}_7(f)$（窗口 7 平滑）。候选峰点需满足局部极大且高于相对阈值
 \[
@@ -417,19 +417,17 @@ t_{p2}-t_{p1}\ge 20,\ \mathrm{peak\_balance}\ge 0.08,\ \mathrm{valley\_drop}\ge 
 \[
 \mathrm{phase}_{\rm OT}=
 \begin{cases}
-2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm peaks}\ge 1.0,\ \mathrm{valley}/\max\le 0.35,\ \mathrm{peak\_balance}\ge 0.15,\\
-1,& \mathrm{has\_double}=1\ \text{但不满足上式},\\
+2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm peaks}\ge 1.0,\\
+1,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm peaks}< 1.0,\\
 0,& \mathrm{has\_double}=0.
 \end{cases}
 \]
-逐条解释其物理含义与“防伪”作用如下：
+因此 one-target 的硬 phase 判据现在只保留两条：
 \begin{itemize}
-  \item $\mathrm{has\_double}=1$ 是最基本前提：如果前置峰探测都没有找到两个可信候选峰，那么后面不再讨论 clear-double。
+  \item $\mathrm{has\_double}=1$ 仍然是最基本前提；若前置峰探测没有找到两个可信峰，phase 就保持 0。
   \item $\mathrm{sep}_{\rm peaks}\ge 1.0$ 要求两峰中心距至少与两峰总半高宽同量级；它防的是“一个宽峰上只有轻微起伏”或“两个峰严重重叠却被肉眼错看成双峰”。
-  \item $\mathrm{valley}/\max\le 0.35$ 要求谷底足够低；它防的是“浅谷双肩”型假双峰，也就是本质上仍是单峰但中间有一个轻微凹口。
-  \item $\mathrm{peak\_balance}\ge 0.15$ 要求弱峰至少达到强峰的 $15\%$；它防的是“主峰后面拖一个很小的小包”就被算作第二峰。
 \end{itemize}
-因此 one-target 的 \textbf{phase=2} 本质上是一个\emph{纯形状学 clear-double 判据}：要求两个峰既分得开、谷够深、而且弱峰不能过弱。
+而 $\mathrm{valley}/\max$ 与 $\mathrm{peak\_balance}$ 仍然保留并输出，但统一降级为 \emph{secondary diagnostics}：它们只负责解释双峰有多“干净”或多不对称，不再额外决定 phase。
 
 \paragraph{(3) two-target 的 phase 定义}
 先定义分量模态时间与分离度
@@ -454,22 +452,17 @@ P_{\rm far}:=\frac{\sum_t f_{\rm far}(t)}{\sum_t f_{\rm any}(t)}.
 \[
 \mathrm{phase}_{\rm TT}=
 \begin{cases}
-2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm mode}\ge 1.0,\ \min(P_{\rm near},P_{\rm far})\ge 0.15,\\
-& \mathrm{valley}/\max\le 0.35,\ \mathrm{peak\_ratio}\ge 0.10,\ (\mathrm{peak\_ratio}-\mathrm{valley}/\max)\ge 0.01,\\
-1,& \mathrm{has\_double}=1\ \text{但不满足上式},\\
+2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm mode}\ge 1.0,\\
+1,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm mode}< 1.0,\\
 0,& \mathrm{has\_double}=0.
 \end{cases}
 \]
-two-target 情形比 one-target 更严格，因为这里不仅看总 FPT 曲线形状，还能利用 exact near/far splitting 直接检查两条物理分支是否都真实存在：
+two-target 情形现在也只保留最小的 hard gate：
 \begin{itemize}
-  \item $\mathrm{has\_double}=1$ 仍然是总曲线层面的必要条件；若总 FPT 根本没有两峰外观，就不会进入 clear-double。
-  \item $\mathrm{sep}_{\rm mode}\ge 1.0$ 比较的是 $f_{\rm near}$ 与 $f_{\rm far}$ 的条件模态时间和宽度，而不是只看总曲线峰位；它防的是“总曲线恰好有个凹口，但 near/far 两支本征时间尺度其实并没分开”的假双峰。
-  \item $\min(P_{\rm near},P_{\rm far})\ge 0.15$ 要求两条通道都带有非平凡质量；它防的是“一条主分支 + 一条极小尾部分支”在总曲线上制造出视觉上的次峰。
-  \item $\mathrm{valley}/\max\le 0.35$ 继续保证总曲线谷底足够低，防止浅谷双肩。
-  \item $\mathrm{peak\_ratio}\ge 0.10$ 要求总曲线上的弱峰至少有主峰的 $10\%$，防止第二峰只是极小 bump。
-  \item $(\mathrm{peak\_ratio}-\mathrm{valley}/\max)\ge 0.01$ 进一步要求弱峰必须真正高出谷底一截；它专门防止“弱峰和谷几乎齐平”的平台型或轻微波纹型伪双峰。
+  \item $\mathrm{has\_double}=1$ 仍然是总曲线层面的必要条件；若总 FPT 根本没有两峰外观，phase 就保持 0。
+  \item $\mathrm{sep}_{\rm mode}\ge 1.0$ 比较的是 $f_{\rm near}$ 与 $f_{\rm far}$ 的条件模态时间和宽度，而不是只看总曲线峰位；这就是 phase=2 唯一的硬分离门槛。
 \end{itemize}
-因此：\textbf{phase=1} 的数学含义是“检测到双峰，但分离度/分支质量/谷深/弱峰高度等条件至少有一项不达 clear-double 阈值”；而 \textbf{phase=2} 对 two-target 来说不是单纯的外形标签，而是“总曲线形状 + near/far 分支物理分离”同时成立。
+与此同时，$P_{\rm near},P_{\rm far}$、$\mathrm{valley}/\max$、$\mathrm{peak\_ratio}$ 等量继续输出，因为它们仍然适合做分支平衡与总曲线洁净度的诊断。但从数学定义上说，它们不再参与 phase gate：\textbf{phase=1} 现在只表示“已经检测到双峰，但分离度还不够”，而 \textbf{phase=2} 则表示“已经检测到双峰，且 near/far 模态分离足够明显”。
 
 \subsection*{自适应 horizon guard 与 loss-mode 规则}
 对 Track B 的 continuation 扫描，我们不允许把“second peak 没看到”直接当成“second peak 消失”。默认从 $t_{\max}=12000$ 开始，只要下面两条里有任何一条不满足，就把 horizon 加倍：
@@ -658,11 +651,8 @@ q_{\rm far}(x_s)=\mathbb E[M_\tau]
 
 \section*{复现命令}
 \begin{verbatim}
-cd research/reports/grid2d_membrane_near_target
-../../../.venv/bin/python code/membrane_near_target_report.py
-cd manuscript
-latexmk -xelatex -interaction=nonstopmode -halt-on-error \
-  -auxdir=build -emulate-aux-dir grid2d_membrane_near_target_cn.tex
+python3 scripts/reportctl.py run --report grid2d_membrane_near_target -- python3 code/membrane_near_target_report.py
+python3 scripts/reportctl.py build --report grid2d_membrane_near_target --lang cn
 \end{verbatim}
 
 \end{document}

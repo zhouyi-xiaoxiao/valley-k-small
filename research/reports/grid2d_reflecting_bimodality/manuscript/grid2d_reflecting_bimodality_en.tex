@@ -978,7 +978,7 @@ Approximate drift along the corridor as $v\approx p_{\text{forward}}-p_{\text{ba
 \end{itemize}
 
 \section{Data and code availability}
-All scripts and data are organized in \url{reports/grid2d_reflecting_bimodality/}. Figures are under \url{figures/}, and numerical metrics/intermediate outputs are stored in \url{data/} and \url{outputs/}. The PDF is produced via \LaTeX{}. To reproduce, run the main script and follow the directory structure above.
+All scripts and data are organized in \url{research/reports/grid2d_reflecting_bimodality/}. Figures are under \url{research/reports/grid2d_reflecting_bimodality/artifacts/figures/}, and numerical metrics/intermediate outputs are stored in \url{research/reports/grid2d_reflecting_bimodality/artifacts/data/} and \url{research/reports/grid2d_reflecting_bimodality/artifacts/outputs/}. The PDF is produced via \LaTeX{}. To reproduce, run \path{python3 scripts/reportctl.py run --report grid2d_reflecting_bimodality -- python3 code/reflecting_bimodality_pipeline.py}, then rebuild the manuscripts with \path{python3 scripts/reportctl.py build --report grid2d_reflecting_bimodality --lang cn} and \path{... --lang en}.
 
 \begin{thebibliography}{9}
   \bibitem{PRE102} S. Sarvaharman and L. Giuggioli, \emph{Phys. Rev. E} \textbf{102}, 062124 (2020). DOI: 10.1103/PhysRevE.102.062124.

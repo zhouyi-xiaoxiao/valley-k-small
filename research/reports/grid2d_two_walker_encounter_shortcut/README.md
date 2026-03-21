@@ -1,38 +1,23 @@
 # 2D Two-Walker Encounter With Shortcut
 
-This report extends the existing bimodality workflow to **two walkers** on a 2D reflecting lattice with directed shortcuts.
-It includes:
-
-- A robust numerical routine verifying equivalence between appendix Eq. (A1) and Eq. (A8).
-- Exact time-domain first-encounter computation for two independent walkers.
-- A shortcut-strength scan showing when the encounter FPT becomes double-peaked.
+This report extends the bimodality workflow to two independent walkers on a reflecting 2D lattice with directed shortcuts.
 
 ## Reproduce
+From repo root:
 
 ```bash
-python3 reports/grid2d_two_walker_encounter_shortcut/code/two_walker_encounter_report.py
-
-cd reports/grid2d_two_walker_encounter_shortcut
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_two_walker_encounter_shortcut_cn.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_two_walker_encounter_shortcut_en.tex
+python3 scripts/reportctl.py run --report grid2d_two_walker_encounter_shortcut -- \
+  python3 code/two_walker_encounter_report.py
+python3 scripts/reportctl.py build --report grid2d_two_walker_encounter_shortcut --lang cn
+python3 scripts/reportctl.py build --report grid2d_two_walker_encounter_shortcut --lang en
 ```
 
-## Outputs
+## Canonical Paths
+- PDFs: `research/reports/grid2d_two_walker_encounter_shortcut/manuscript/grid2d_two_walker_encounter_shortcut_cn.pdf`, `research/reports/grid2d_two_walker_encounter_shortcut/manuscript/grid2d_two_walker_encounter_shortcut_en.pdf`
+- Data: `research/reports/grid2d_two_walker_encounter_shortcut/artifacts/data/a1a8_validation.json`, `research/reports/grid2d_two_walker_encounter_shortcut/artifacts/data/encounter_beta_scan.csv`, `research/reports/grid2d_two_walker_encounter_shortcut/artifacts/data/case_summary.json`
+- Tables: `research/reports/grid2d_two_walker_encounter_shortcut/artifacts/tables/`
+- Figures: `research/reports/grid2d_two_walker_encounter_shortcut/artifacts/figures/`
 
-- Main PDFs:
-  - `grid2d_two_walker_encounter_shortcut_cn.pdf`
-  - `grid2d_two_walker_encounter_shortcut_en.pdf`
-- Data:
-  - `data/a1a8_validation.json`
-  - `data/encounter_beta_scan.csv`
-  - `data/case_summary.json`
-- Tables:
-  - `tables/a1a8_test_table.tex`
-  - `tables/encounter_scan_table.tex`
-- Figures:
-  - `figures/a1a8_contour_convergence.pdf`
-  - `figures/a1a8_radius_invariance.pdf`
-  - `figures/encounter_geometry.pdf`
-  - `figures/encounter_fpt_overlay.pdf`
-  - `figures/encounter_shortcut_decomp.pdf`
-  - `figures/encounter_beta_phase.pdf`
+## Notes
+- The report keeps the appendix Eq. (A1) vs Eq. (A8) verification alongside the main encounter scan.
+- Public-facing references should use `artifacts/` and `manuscript/`, not report-root compatibility links.

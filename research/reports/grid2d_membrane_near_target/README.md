@@ -1,44 +1,26 @@
 # grid2d_membrane_near_target
 
-New 2D extension report covering:
-- one-target corridor with symmetric/directional semi-permeable membranes;
-- no-corridor two-target setting with one target near the start.
+Canonical bilingual report for the membrane-near-target extension line:
+- one-target corridor with symmetric and directional semi-permeable membranes
+- no-corridor two-target setting with one target near the start
 
-## Generate data and figures
+## Reproduce
+From repo root:
+
 ```bash
-cd research/reports/grid2d_membrane_near_target
-../../../.venv/bin/python code/membrane_near_target_report.py
+python3 scripts/reportctl.py run --report grid2d_membrane_near_target -- \
+  python3 code/membrane_near_target_report.py
+python3 scripts/reportctl.py build --report grid2d_membrane_near_target --lang cn
+python3 scripts/reportctl.py build --report grid2d_membrane_near_target --lang en
 ```
 
-## Build PDFs
-Chinese:
-```bash
-cd research/reports/grid2d_membrane_near_target/manuscript
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_membrane_near_target_cn.tex
-```
+## Canonical Paths
+- Data products: `research/reports/grid2d_membrane_near_target/artifacts/data/`
+- Figures: `research/reports/grid2d_membrane_near_target/artifacts/figures/`
+- Tables: `research/reports/grid2d_membrane_near_target/artifacts/tables/`
+- Time-series outputs: `research/reports/grid2d_membrane_near_target/artifacts/outputs/`
+- PDFs: `research/reports/grid2d_membrane_near_target/manuscript/grid2d_membrane_near_target_cn.pdf`, `research/reports/grid2d_membrane_near_target/manuscript/grid2d_membrane_near_target_en.pdf`
 
-English:
-```bash
-cd research/reports/grid2d_membrane_near_target/manuscript
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_membrane_near_target_en.tex
-```
-
-## Key outputs
-- `data/summary.json`
-- `data/corridor_membrane_directional_scan.csv`
-- `data/membrane_directional_window_flux.csv`
-- `data/one_target_start_scan.csv`
-- `data/two_target_candidate_scans.csv`
-- `data/two_target_start_scan.csv`
-- `data/two_target_near_position_scan.csv`
-- `figures/membrane_symmetric_*`
-- `figures/membrane_directional_*`
-- `figures/membrane_rep_dir_*.pdf`
-- `figures/one_target_start_phase_map.pdf`
-- `figures/one_target_start_sep_map.pdf`
-- `figures/two_target_geometry_atlas.pdf`
-- `figures/two_target_committor_surface.pdf`
-- `figures/one_target_basin_schematic.pdf`
-- `figures/two_target_*`
-- `tables/*.tex`
-- `outputs/*_fpt.csv`
+## Notes
+- Shared implementation is repo-native and lives under `packages/vkcore/src/vkcore/grid2d/`.
+- Representative one-target and two-target artifacts are regenerated from the canonical code path rather than imported bundles.

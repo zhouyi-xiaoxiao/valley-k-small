@@ -329,12 +329,10 @@ C1$(3,2)$、C2$(2,1)$、C3$(2,0)$、C4$(1,1)$。
 \text{clear-double} \iff
 \begin{cases}
 \text{检测到两个主峰},\\
-\frac{|\Delta t^*|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}}\ge 1,\\
-\min(p_1,p_2)\ge 0.15,\\
-\frac{h_{\mathrm{valley}}}{\max(h_1,h_2)}\le 0.35.
+\frac{|\Delta t^*|}{w_{1/2}^{(1)}+w_{1/2}^{(2)}}\ge 1.
 \end{cases}
 \end{equation}
-其中不满足 clear-double 但仍检测到双峰者标记为 weak-double。
+其中不满足 clear-double 但仍检测到双峰者标记为 weak-double。$\min(p_1,p_2)$、$h_{\mathrm{valley}}/\max(h_1,h_2)$ 等量继续保留为 secondary diagnostics，用于解释而不再作为 phase 的硬门槛。
 
 \begin{figure}[!htbp]
   \centering
@@ -409,19 +407,17 @@ C1$(3,2)$、C2$(2,1)$、C3$(2,0)$、C4$(1,1)$。
 
 \section{复现}
 \begin{verbatim}
-cd reports/grid2d_two_target_double_peak
-.venv/bin/python code/two_target_2d_report.py
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir grid2d_two_target_double_peak_cn.tex
+python3 scripts/reportctl.py run --report grid2d_two_target_double_peak -- python3 code/two_target_2d_report.py
+python3 scripts/reportctl.py build --report grid2d_two_target_double_peak --lang cn
 \end{verbatim}
 
 主要产物：
 \begin{itemize}
-  \item 数据汇总：\texttt{data/case\_summary.json}
-  \item 参数扫描：\texttt{data/scan\_w2\_skip2.csv}, \texttt{data/scan\_w2\_skip2.json}
-  \item 曲线数据：\texttt{outputs/C1\_fpt.csv} -- \texttt{outputs/C4\_fpt.csv}
-  \item 热图：\texttt{figures/case\_C1\_env\_heatmap.pdf} 等
-  \item 机理图：\texttt{figures/hazard\_grid.pdf}, \texttt{figures/phase\_w2\_skip2.pdf}
+  \item 数据汇总：\texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/data/case\_summary.json}
+  \item 参数扫描：\texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/data/scan\_w2\_skip2.csv}, \texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/data/scan\_w2\_skip2.json}
+  \item 曲线数据：\texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/outputs/C1\_fpt.csv} -- \texttt{.../C4\_fpt.csv}
+  \item 热图：\texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/figures/case\_C1\_env\_heatmap.pdf} 等
+  \item 机理图：\texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/figures/hazard\_grid.pdf}, \texttt{.../phase\_w2\_skip2.pdf}
 \end{itemize}
 
 \clearpage

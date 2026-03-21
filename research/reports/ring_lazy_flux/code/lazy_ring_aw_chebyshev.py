@@ -76,7 +76,7 @@ def fpt_genfun_cheb(
 ) -> np.ndarray:
     """
     Closed-form FPT generating function \\tilde F_{start->target}(z) from:
-      `reports/ring_deriv_k2/note_k2.tex`, Eq. (F_cheb_closed).
+      `research/reports/ring_deriv_k2/manuscript/extras/note_k2.tex`, Eq. (F_cheb_closed).
 
     Model:
       - lazy NN ring baseline with jump prob q and self-loop 1-q
@@ -270,7 +270,7 @@ def fpt_genfun_column_defect(
     """
     First-passage generating function via a rank-1 (single-column) defect update.
 
-    Conventions match `reports/ring_deriv_k2/note_k2.tex`:
+    Conventions match `research/reports/ring_deriv_k2/manuscript/extras/note_k2.tex`:
       - B and A are column-stochastic, and only column u is modified
       - x = X[:,u] = B[:,u] - A[:,u]
       - Q(z) = (I - z B)^{-1} is the defect-free propagator generating function

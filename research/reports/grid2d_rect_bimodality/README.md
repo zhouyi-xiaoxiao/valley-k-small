@@ -1,30 +1,28 @@
-# 2D Rectangle Bimodality (Two-Target + One-Target Corridor)
+# 2D Rectangle Bimodality
 
-This report studies when **non-square rectangular** 2D domains can produce a visible **double peak** in first-passage time
-(FPT) distributions, in two settings:
-
-1. **Two targets** placed near the two ends of the rectangle, with a short/long path design to induce two timescales.
-   The default build uses **straight one-cell-thick biased streams** on the midline (`--tt-style straight`), so arrows do not turn.
-2. **One target** with a **reflecting-wall corridor** and local bias inside the corridor, optionally with global bias outside.
-
-## Outputs
-- Main report sources: `grid2d_rect_bimodality_cn.tex`, `grid2d_rect_bimodality_en.tex`
-- Main report PDFs: `grid2d_rect_bimodality_cn.pdf`, `grid2d_rect_bimodality_en.pdf`
-- Figures: `figures/*.pdf`
-- Tables: `tables/*.tex`
-- Scan data: `data/*.csv`, `data/*.json`
+This report studies double-peak first-passage behavior in non-square rectangular domains for:
+- two targets with a short/long path design
+- one target with a reflecting-wall corridor and local bias
 
 ## Reproduce
+From repo root:
+
 ```bash
-# from repo root (once)
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-python3 reports/grid2d_rect_bimodality/code/rect_bimodality_report.py --quick
-python3 reports/grid2d_rect_bimodality/code/rect_bimodality_report.py
-
-cd reports/grid2d_rect_bimodality
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_cn.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_en.tex
+python3 scripts/reportctl.py run --report grid2d_rect_bimodality -- \
+  python3 code/rect_bimodality_report.py --quick
+python3 scripts/reportctl.py run --report grid2d_rect_bimodality -- \
+  python3 code/rect_bimodality_report.py
+python3 scripts/reportctl.py build --report grid2d_rect_bimodality --lang cn
+python3 scripts/reportctl.py build --report grid2d_rect_bimodality --lang en
 ```
+
+## Canonical Paths
+- Manuscripts: `research/reports/grid2d_rect_bimodality/manuscript/`
+- PDFs: `research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_cn.pdf`, `research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_en.pdf`
+- Figures: `research/reports/grid2d_rect_bimodality/artifacts/figures/`
+- Tables: `research/reports/grid2d_rect_bimodality/artifacts/tables/`
+- Scan data: `research/reports/grid2d_rect_bimodality/artifacts/data/`
+
+## Notes
+- `--quick` is the recommended smoke path before full regeneration.
+- The report keeps both the two-target and one-target corridor branches in one canonical artifact tree.

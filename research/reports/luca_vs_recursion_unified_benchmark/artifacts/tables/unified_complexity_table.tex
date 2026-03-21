@@ -1,0 +1,11 @@
+\begin{tabular}{llll}
+\toprule
+workload family & Luca/GF family & time recursion family & comment \\
+\midrule
+RING-1T-paper & $O(mN)+O(m\log m)$ & $O(TN)$ & closed-form single-target PGF plus AW \\
+ENC-FIXED & $O(mN^3)$ & $O(TN^3)$ & single-target renewal on the pair chain \\
+ENC-ANY & $O(mN^3)$ & $O(TN^3)$ & diagonal target set with $|D|=N$ \\
+TT-C1 / TT-LF1 & $O(mM^3)+O(m\log m)$ & $O(T|E|)$ & defect-reduced AW vs sparse exact recursion \\
+REF-S0 & $O(mn_T^3)+O(m\log m)$ & $O(T|E|)$ & low-defect full AW vs exact recursion \\
+\bottomrule
+\end{tabular}

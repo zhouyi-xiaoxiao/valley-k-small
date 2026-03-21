@@ -19,6 +19,7 @@ import {
   prefixPath,
   withBasePath,
 } from '@/lib/content';
+import { KATEX_MACROS } from '@/lib/latex';
 import type { AssetRecord, ContentMap, Lang, ReportMeta, ReportNetwork } from '@/types';
 
 type LatexRenderResult = {
@@ -38,7 +39,12 @@ function escapeHtml(value: string): string {
 function renderLatex(latex: string, displayMode = true): LatexRenderResult {
   try {
     return {
-      html: katex.renderToString(latex, { throwOnError: true, displayMode, strict: 'error' }),
+      html: katex.renderToString(latex, {
+        throwOnError: true,
+        displayMode,
+        strict: 'error',
+        macros: KATEX_MACROS,
+      }),
       error: null,
     };
   } catch (error: unknown) {

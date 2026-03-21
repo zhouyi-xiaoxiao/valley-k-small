@@ -375,7 +375,7 @@ Its primary-gate audit reports \texttt{gate-pass=yes}, \texttt{gate-slack}=0.070
 
 \section{Method Reference (Committor + 2x2 Classes)}
 \subsection*{Reproducible Definition of Phase and sep-score}
-To make phase maps fully reproducible, we use the same criteria as in \path{src/vkcore/grid2d/rect_bimodality/cli.py}:
+To make phase maps fully reproducible, we use the same criteria as in \path{packages/vkcore/src/vkcore/grid2d/rect_bimodality/cli.py}:
 \paragraph{(1) Two-peak detection (\texttt{find\_two\_peaks})}
 Let $\tilde f=\mathrm{smooth}_7(f)$ (window-7 smoothing). Candidate peaks satisfy
 \[
@@ -413,19 +413,17 @@ Then
 \[
 \mathrm{phase}_{\rm OT}=
 \begin{cases}
-2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm peaks}\ge 1.0,\ \mathrm{valley}/\max\le 0.35,\ \mathrm{peak\_balance}\ge 0.15,\\
-1,& \mathrm{has\_double}=1\ \text{but the above clear-double test fails},\\
+2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm peaks}\ge 1.0,\\
+1,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm peaks}< 1.0,\\
 0,& \mathrm{has\_double}=0.
 \end{cases}
 \]
-The role of each threshold is:
+The hard phase gate is therefore minimal:
 \begin{itemize}
-  \item $\mathrm{has\_double}=1$ is the basic prerequisite: if the front-end detector does not find two credible peaks, the case cannot be called clear-double.
+  \item $\mathrm{has\_double}=1$ remains the basic prerequisite: if the front-end detector does not find two credible peaks, the case stays at phase 0.
   \item $\mathrm{sep}_{\rm peaks}\ge 1.0$ requires the distance between the two peak centers to be at least comparable to the sum of their half-widths; this blocks ``one broad peak with a small wiggle'' and heavily overlapping two-lobe shapes.
-  \item $\mathrm{valley}/\max\le 0.35$ requires a sufficiently deep valley; this blocks shallow-notch or double-shoulder shapes that are visually close to a single peak.
-  \item $\mathrm{peak\_balance}\ge 0.15$ requires the weaker peak to retain at least $15\%$ of the stronger peak height; this blocks cases where the ``second peak'' is only a tiny bump trailing the main peak.
 \end{itemize}
-So for one-target runs, \textbf{phase=2} is a deliberately shape-based clear-double label: two peaks must be separated, the valley must be real, and the weaker peak must still be non-negligible.
+The quantities $\mathrm{valley}/\max$ and $\mathrm{peak\_balance}$ are still exported and discussed, but now only as \emph{secondary diagnostics}: they help explain how clean or asymmetric the double-peak shape is, without acting as additional phase gates.
 
 \paragraph{(3) Two-target phase definition}
 Define modal times and mode-separation score
@@ -450,22 +448,17 @@ Then
 \[
 \mathrm{phase}_{\rm TT}=
 \begin{cases}
-2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm mode}\ge 1.0,\ \min(P_{\rm near},P_{\rm far})\ge 0.15,\\
-& \mathrm{valley}/\max\le 0.35,\ \mathrm{peak\_ratio}\ge 0.10,\ (\mathrm{peak\_ratio}-\mathrm{valley}/\max)\ge 0.01,\\
-1,& \mathrm{has\_double}=1\ \text{but the above clear-double test fails},\\
+2,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm mode}\ge 1.0,\\
+1,& \mathrm{has\_double}=1,\ \mathrm{sep}_{\rm mode}< 1.0,\\
 0,& \mathrm{has\_double}=0.
 \end{cases}
 \]
-The two-target gate is stricter than the one-target gate because here we can test not only total-curve shape but also the physical near/far branch split:
+The two-target gate now reads:
 \begin{itemize}
-  \item $\mathrm{has\_double}=1$ is still required at the level of the total FPT curve; if the total law does not even look two-peaked, the case cannot be clear-double.
-  \item $\mathrm{sep}_{\rm mode}\ge 1.0$ compares the modal times and widths of $f_{\rm near}$ and $f_{\rm far}$ themselves, not just the total curve; this blocks cases where the total curve has a shallow notch even though the two physical branches do not have genuinely separated time scales.
-  \item $\min(P_{\rm near},P_{\rm far})\ge 0.15$ forces both branches to carry nontrivial mass; this blocks ``one real branch plus one tiny tail branch'' from being promoted into a true double-peak claim.
-  \item $\mathrm{valley}/\max\le 0.35$ again enforces a real valley in the total curve and rejects shallow-notch shapes.
-  \item $\mathrm{peak\_ratio}\ge 0.10$ requires the weaker peak in the total law to stay above $10\%$ of the stronger one; this blocks extremely small secondary bumps.
-  \item $(\mathrm{peak\_ratio}-\mathrm{valley}/\max)\ge 0.01$ further requires the weaker peak to stand measurably above the valley floor; this specifically blocks plateau-like or lightly wavy shapes where the ``second peak'' is barely above the intervening valley.
+  \item $\mathrm{has\_double}=1$ is still required at the level of the total FPT curve; if the total law does not even look two-peaked, the case stays at phase 0.
+  \item $\mathrm{sep}_{\rm mode}\ge 1.0$ compares the modal times and widths of $f_{\rm near}$ and $f_{\rm far}$ themselves, not just the total curve; this is the only hard separation test for phase 2.
 \end{itemize}
-So mathematically, \textbf{phase=1} means ``double peaks are detected, but at least one clear-double threshold is not met'', while \textbf{phase=2} in the two-target setting should be read as a joint statement about total-curve shape \emph{and} physically separated near/far branches.
+The branch masses $P_{\rm near},P_{\rm far}$ together with $\mathrm{valley}/\max$ and $\mathrm{peak\_ratio}$ are still reported, because they remain useful diagnostics of branch balance and total-curve cleanliness. But mathematically they are no longer part of the phase gate: \textbf{phase=1} now means ``double peaks are detected but not sufficiently separated'', while \textbf{phase=2} means ``double peaks are detected and the near/far modes are sufficiently separated''.
 
 \subsection*{Adaptive Horizon Guard and Loss-Mode Rules}
 For Track B continuation scans we do not infer ``the second peak disappeared'' from a fixed horizon. We start from $t_{\max}=12000$ and double it until both
@@ -655,11 +648,8 @@ Table~\ref{tab:tt-splitting-qc} shows that both routes satisfy $q_{\rm far}(x_s)
 
 \section*{Reproducibility}
 \begin{verbatim}
-cd research/reports/grid2d_membrane_near_target
-../../../.venv/bin/python code/membrane_near_target_report.py
-cd manuscript
-latexmk -pdf -interaction=nonstopmode -halt-on-error \
-  -auxdir=build -emulate-aux-dir grid2d_membrane_near_target_en.tex
+python3 scripts/reportctl.py run --report grid2d_membrane_near_target -- python3 code/membrane_near_target_report.py
+python3 scripts/reportctl.py build --report grid2d_membrane_near_target --lang en
 \end{verbatim}
 
 \end{document}

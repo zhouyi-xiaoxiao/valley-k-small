@@ -511,6 +511,8 @@ export type TalkFigureReference = {
   alt_cn: string;
   caption_en: string;
   caption_cn: string;
+  full_bleed?: boolean;
+  hide_caption?: boolean;
 };
 
 export type TalkAnimationSpec = {

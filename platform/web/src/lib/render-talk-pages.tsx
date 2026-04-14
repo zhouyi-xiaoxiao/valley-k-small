@@ -1,9 +1,7 @@
 import { TalkDeck } from '@/components/TalkDeck';
 import {
   loadBasicDemo,
-  loadGatingDemo,
   loadRingDemo,
-  loadSeriesPayload,
   loadTalkManifest,
   loadTalkScript,
   localizedText,
@@ -16,11 +14,8 @@ export function renderTalkPage(lang: Lang, prefix: string, talkId: string) {
   const scriptCn = loadTalkScript(talkId, 'cn');
   const basicDemo = loadBasicDemo(talkId);
   const ringDemo = loadRingDemo(talkId);
-  const gatingDemo = loadGatingDemo(talkId);
-  const ringScanProbability = loadSeriesPayload('ring_valley_dst', 'scan-probability-12');
-  const ringScanTiming = loadSeriesPayload('ring_valley_dst', 'scan-metric');
 
-  if (!manifest || !scriptEn || !scriptCn || !basicDemo || !ringDemo || !gatingDemo) {
+  if (!manifest || !scriptEn || !scriptCn || !basicDemo || !ringDemo) {
     return (
       <main className="talk-deck-fallback">
         <section className="talk-fallback-card">
@@ -39,9 +34,6 @@ export function renderTalkPage(lang: Lang, prefix: string, talkId: string) {
       scriptCn={scriptCn}
       basicDemo={basicDemo}
       ringDemo={ringDemo}
-      gatingDemo={gatingDemo}
-      ringScanProbability={ringScanProbability}
-      ringScanTiming={ringScanTiming}
     />
   );
 }

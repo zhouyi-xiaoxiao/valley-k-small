@@ -19,6 +19,17 @@
       "sentence": "This talk studies how hitting-time distributions reveal hidden pathways in random-walk systems.",
       "question_en": "What scientific question links the recent ring and 2D work?",
       "question_cn": "最近的 ring 和 2D 工作，到底被哪个科学问题串起来？"
+      ,
+      "evidence": {
+        "kind": "image",
+        "src": "/talk-assets/smet-phd/slide1-hero.png",
+        "alt_en": "Hero illustration for hidden routes in first-passage time",
+        "alt_cn": "首达时间隐藏路径的主视觉图",
+        "caption_en": "",
+        "caption_cn": "",
+        "full_bleed": true,
+        "hide_caption": true
+      }
     },
     {
       "id": "basic-idea",
@@ -69,13 +80,12 @@
       "question_en": "What did the recent single-target scans add beyond the minimal example?",
       "question_cn": "最近这几个月的单目标扫描，新增了什么信息？",
       "evidence": {
-        "kind": "series",
-        "title_en": "Ring destination scan",
-        "title_cn": "Ring 终点扫描",
-        "caption_en": "Changing the shortcut destination reweights the early branch and shifts its visibility time.",
-        "caption_cn": "改变 shortcut 终点，会同时改写早峰权重和它出现的时间。",
-        "primary_series_id": "scan-probability-12",
-        "secondary_series_id": "scan-metric"
+        "kind": "image",
+        "src": "/talk-assets/smet-phd/slide5-peak2-vs-dst.png",
+        "alt_en": "Peak-two weight versus shortcut destination in the ring model",
+        "alt_cn": "ring 模型中第二峰权重随 shortcut 终点变化的图",
+        "caption_en": "Changing the shortcut destination can strengthen, weaken, or nearly erase the late branch, so route design matters as much as route existence.",
+        "caption_cn": "改变 shortcut 终点会增强、削弱，甚至几乎抹去晚分支，所以关键不只是有没有 shortcut，而是怎样配置它。"
       }
     },
     {
@@ -89,11 +99,13 @@
       "question_cn": "系统变成真正的几何问题以后，这个机制还在吗？",
       "evidence": {
         "kind": "image",
-        "src": "/artifacts/grid2d_bimodality/figures/fig3_panels/candidate_B_fig3_panel.png",
-        "alt_en": "Grid2D candidate B panel showing geometry and time evolution",
-        "alt_cn": "Grid2D 候选 B 的几何与时间演化图",
-        "caption_en": "The 2D baseline already separates an early corridor-guided arrival from a delayed branch, but now the story lives in a spatial geometry instead of an abstract ring.",
-        "caption_cn": "二维基线中已经能分出早期 corridor-guided 到达和较晚分支，但现在这个故事发生在真实几何里，而不是抽象 ring 上。"
+        "src": "/talk-assets/smet-phd/slide6-2d-targets.png",
+        "alt_en": "One-target and two-target lattice geometries for the 2D transition",
+        "alt_cn": "二维从单目标到双目标的格点几何图",
+        "caption_en": "",
+        "caption_cn": "",
+        "full_bleed": true,
+        "hide_caption": true
       }
     },
     {
@@ -101,12 +113,19 @@
       "order": 7,
       "start": "6:35",
       "end": "8:35",
-      "title": "Valley Is a Budget Structure",
-      "sentence": "The valley is not just about crossing; it is about where time is spent.",
-      "question_en": "Why is “membrane crossing happened” still too coarse an explanation?",
-      "question_cn": "为什么“发生过膜穿越”这个说法仍然太粗？",
-      "animation": {
-        "kind": "valley-budget"
+      "title": "Membrane Helps, but It Plateaus",
+      "sentence": "Increasing permeability raises the membrane-related share, but only up to about fifty percent.",
+      "question_en": "Why is membrane passage still not enough to explain the late peak by itself?",
+      "question_cn": "为什么即使提高膜透度，也还不足以单独解释晚峰？",
+      "evidence": {
+        "kind": "image",
+        "src": "/talk-assets/smet-phd/slide7-membrane-plateau.png",
+        "alt_en": "Membrane permeability storyboard showing saturation near fifty percent",
+        "alt_cn": "半透膜透度扫描及五成左右平台化的示意图",
+        "caption_en": "",
+        "caption_cn": "",
+        "full_bleed": true,
+        "hide_caption": true
       }
     },
     {
@@ -114,23 +133,19 @@
       "order": 8,
       "start": "8:35",
       "end": "10:00",
-      "title": "From One Target to Many Potential Targets",
-      "sentence": "The next challenge is not just route competition, but target competition.",
+      "title": "Two-Target and Multi-Target Mechanisms",
+      "sentence": "The next step is to understand how route competition and target competition combine.",
       "question_en": "Where does this research line go next?",
       "question_cn": "这条研究线接下来最自然的方向是什么？",
       "evidence": {
-        "kind": "outlook",
-        "image_src": "/artifacts/grid2d_one_two_target_gating/figures/gating_game_two_target_extension.png",
-        "image_alt_en": "Two-target extension schematic",
-        "image_alt_cn": "双目标扩展示意图",
-        "cards_en": [
-          "One hit-time curve may soon have to encode both route choice and target choice.",
-          "The next useful language is not only fast versus slow, but near-target versus far-target competition."
-        ],
-        "cards_cn": [
-          "以后的一条命中时间曲线，可能同时在编码“走哪条路”和“先打到哪个 target”。",
-          "所以下一步更关键的语言，不只是快和慢，还包括近目标与远目标之间的竞争。"
-        ]
+        "kind": "image",
+        "src": "/talk-assets/smet-phd/slide8-target-mechanisms.png",
+        "alt_en": "Two-target and many-target physical mechanisms for bimodal first-passage behavior",
+        "alt_cn": "双目标与多目标下双峰首达机制的示意图",
+        "caption_en": "",
+        "caption_cn": "",
+        "full_bleed": true,
+        "hide_caption": true
       }
     }
   ]

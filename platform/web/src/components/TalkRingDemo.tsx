@@ -39,13 +39,24 @@ function linePath(xValues: number[], yValues: number[], width: number, height: n
   const minX = Math.min(...xValues);
   const maxX = Math.max(...xValues);
   const maxY = Math.max(...yValues, 1e-6);
-  return xValues
-    .map((value, index) => {
-      const x = padding + ((width - padding * 2) * (value - minX)) / Math.max(1, maxX - minX);
-      const y = height - padding - ((height - padding * 2) * yValues[index]) / maxY;
-      return `${index === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`;
-    })
-    .join(' ');
+  const points = xValues.map((value, index) => ({
+    x: padding + ((width - padding * 2) * (value - minX)) / Math.max(1, maxX - minX),
+    y: height - padding - ((height - padding * 2) * yValues[index]) / maxY,
+  }));
+  if (points.length <= 1) {
+    return points.length === 1 ? `M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}` : '';
+  }
+  let path = `M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`;
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const current = points[index];
+    const next = points[index + 1];
+    const midX = (current.x + next.x) / 2;
+    const midY = (current.y + next.y) / 2;
+    path += ` Q ${current.x.toFixed(2)} ${current.y.toFixed(2)} ${midX.toFixed(2)} ${midY.toFixed(2)}`;
+  }
+  const last = points[points.length - 1];
+  path += ` T ${last.x.toFixed(2)} ${last.y.toFixed(2)}`;
+  return path;
 }
 
 function projectPoint(
@@ -67,7 +78,9 @@ function projectPoint(
 }
 
 export function TalkRingDemo({ lang, payload }: TalkRingDemoProps) {
-  const [selectedId, setSelectedId] = useState(payload.presets[0]?.id ?? '');
+  const [selectedId, setSelectedId] = useState(
+    payload.presets.find((preset) => preset.id === 'bimodal')?.id ?? payload.presets[0]?.id ?? '',
+  );
   const [progress, setProgress] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 

@@ -660,15 +660,6 @@ button:hover {
   overflow: hidden;
 }
 
-.talk-figure-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 12px;
-  border: 1px solid rgba(216, 204, 179, 0.7);
-  background: #fff;
-}
-
 .talk-script-card p {
   max-width: none;
 }
@@ -729,6 +720,10 @@ button:hover {
   color: var(--ink);
 }
 
+.talk-deck-page.is-fullscreen {
+  min-height: 100dvh;
+}
+
 .talk-deck-fallback {
   min-height: 100vh;
   display: grid;
@@ -755,6 +750,13 @@ button:hover {
   backdrop-filter: blur(18px);
   background: rgba(247, 244, 237, 0.88);
   border-bottom: 1px solid rgba(53, 65, 59, 0.08);
+}
+
+.talk-deck-page.is-fullscreen .talk-deck-toolbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  padding: 0.8rem 1rem;
+  background: rgba(247, 244, 237, 0.78);
 }
 
 .talk-toolbar-left,
@@ -804,6 +806,11 @@ button:hover {
   align-items: stretch;
 }
 
+.talk-deck-page.is-fullscreen .talk-deck-stage {
+  padding: 0;
+  min-height: 100dvh;
+}
+
 .talk-deck-stage.is-presenter {
   grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
 }
@@ -826,6 +833,18 @@ button:hover {
 .talk-slide-card.is-immersive {
   padding: 1rem;
   justify-content: center;
+}
+
+.talk-deck-page.is-fullscreen .talk-slide-card {
+  min-height: 100dvh;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.talk-deck-page.is-fullscreen .talk-slide-card.is-immersive {
+  padding: 0.4rem 0.4rem 0;
 }
 
 .talk-slide-topline {
@@ -1212,6 +1231,13 @@ button:hover {
   height: min(calc(100dvh - 152px), 82vh);
   object-fit: contain;
   background: rgba(255, 252, 246, 0.82);
+}
+
+.talk-deck-page.is-fullscreen .talk-figure-shell.is-full-bleed .talk-figure-image {
+  height: calc(100dvh - 72px);
+  border-radius: 0;
+  border: none;
+  background: transparent;
 }
 
 .talk-figure-caption {

@@ -279,7 +279,7 @@ export function TalkDeck({
   };
 
   return (
-    <main className="talk-deck-page">
+    <main className={`talk-deck-page${isFullscreen ? ' is-fullscreen' : ''}`}>
       <div className="talk-deck-toolbar">
         <div className="talk-toolbar-left">
           <div className="talk-toolbar-title">

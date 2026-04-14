@@ -1,0 +1,137 @@
+{
+  "talk_id": "smet-phd",
+  "title_en": "Hidden Routes in First-Passage Time",
+  "title_cn": "首达时间中的隐藏路径",
+  "subtitle_en": "A recent research line on how random-walk hitting-time distributions encode fast and slow pathways.",
+  "subtitle_cn": "最近几个月推进的一条研究线：随机游走首达时间分布如何编码快慢路径。",
+  "audience_en": "Broad SMET PhD audience",
+  "audience_cn": "面向不同方向的 SMET PhD 听众",
+  "duration_minutes": 10,
+  "theme_en": "Mechanism first, evidence second, outlook last.",
+  "theme_cn": "先讲机制，再给证据，最后落到下一步问题。",
+  "slides": [
+    {
+      "id": "opening",
+      "order": 1,
+      "start": "0:00",
+      "end": "0:45",
+      "title": "Hidden Routes in First-Passage Time",
+      "sentence": "This talk studies how hitting-time distributions reveal hidden pathways in random-walk systems.",
+      "question_en": "What scientific question links the recent ring and 2D work?",
+      "question_cn": "最近的 ring 和 2D 工作，到底被哪个科学问题串起来？"
+    },
+    {
+      "id": "basic-idea",
+      "order": 2,
+      "start": "0:45",
+      "end": "1:45",
+      "title": "What Is First-Passage Time?",
+      "sentence": "It is the first time a walker reaches a target.",
+      "question_en": "What quantity are we actually measuring?",
+      "question_cn": "我们到底在测什么量？",
+      "animation": {
+        "kind": "basic-walk"
+      }
+    },
+    {
+      "id": "why-double-peaks",
+      "order": 3,
+      "start": "1:45",
+      "end": "2:40",
+      "title": "Why a Double Peak Matters",
+      "sentence": "A double peak suggests competing timescales or competing routes.",
+      "question_en": "Why look at the whole distribution instead of one average time?",
+      "question_cn": "为什么要看整条分布，而不是只看一个平均时间？",
+      "evidence": {
+        "kind": "comparison"
+      }
+    },
+    {
+      "id": "ring-single-target",
+      "order": 4,
+      "start": "2:40",
+      "end": "4:05",
+      "title": "Single Target on a Ring",
+      "sentence": "In the simplest model, fast and slow branches already separate.",
+      "question_en": "How does a minimal single-target system produce two visible branches?",
+      "question_cn": "最小单目标系统是怎样长出两个可见分支的？",
+      "animation": {
+        "kind": "ring-branches"
+      }
+    },
+    {
+      "id": "recent-single-target",
+      "order": 5,
+      "start": "4:05",
+      "end": "5:20",
+      "title": "Route Design Changes the Distribution",
+      "sentence": "The second peak depends on how the route is configured, not just whether a shortcut exists.",
+      "question_en": "What did the recent single-target scans add beyond the minimal example?",
+      "question_cn": "最近这几个月的单目标扫描，新增了什么信息？",
+      "evidence": {
+        "kind": "series",
+        "title_en": "Ring destination scan",
+        "title_cn": "Ring 终点扫描",
+        "caption_en": "Changing the shortcut destination reweights the early branch and shifts its visibility time.",
+        "caption_cn": "改变 shortcut 终点，会同时改写早峰权重和它出现的时间。",
+        "primary_series_id": "scan-probability-12",
+        "secondary_series_id": "scan-metric"
+      }
+    },
+    {
+      "id": "from-ring-to-2d",
+      "order": 6,
+      "start": "5:20",
+      "end": "6:35",
+      "title": "From a Ring to a 2D Geometry",
+      "sentence": "The same fast-slow logic survives, but geometry and boundaries now shape the branches.",
+      "question_en": "Does the same mechanism survive once the system becomes geometric?",
+      "question_cn": "系统变成真正的几何问题以后，这个机制还在吗？",
+      "evidence": {
+        "kind": "image",
+        "src": "/artifacts/grid2d_bimodality/figures/fig3_panels/candidate_B_fig3_panel.png",
+        "alt_en": "Grid2D candidate B panel showing geometry and time evolution",
+        "alt_cn": "Grid2D 候选 B 的几何与时间演化图",
+        "caption_en": "The 2D baseline already separates an early corridor-guided arrival from a delayed branch, but now the story lives in a spatial geometry instead of an abstract ring.",
+        "caption_cn": "二维基线中已经能分出早期 corridor-guided 到达和较晚分支，但现在这个故事发生在真实几何里，而不是抽象 ring 上。"
+      }
+    },
+    {
+      "id": "valley-budget",
+      "order": 7,
+      "start": "6:35",
+      "end": "8:35",
+      "title": "Valley Is a Budget Structure",
+      "sentence": "The valley is not just about crossing; it is about where time is spent.",
+      "question_en": "Why is “membrane crossing happened” still too coarse an explanation?",
+      "question_cn": "为什么“发生过膜穿越”这个说法仍然太粗？",
+      "animation": {
+        "kind": "valley-budget"
+      }
+    },
+    {
+      "id": "many-targets",
+      "order": 8,
+      "start": "8:35",
+      "end": "10:00",
+      "title": "From One Target to Many Potential Targets",
+      "sentence": "The next challenge is not just route competition, but target competition.",
+      "question_en": "Where does this research line go next?",
+      "question_cn": "这条研究线接下来最自然的方向是什么？",
+      "evidence": {
+        "kind": "outlook",
+        "image_src": "/artifacts/grid2d_one_two_target_gating/figures/gating_game_two_target_extension.png",
+        "image_alt_en": "Two-target extension schematic",
+        "image_alt_cn": "双目标扩展示意图",
+        "cards_en": [
+          "One hit-time curve may soon have to encode both route choice and target choice.",
+          "The next useful language is not only fast versus slow, but near-target versus far-target competition."
+        ],
+        "cards_cn": [
+          "以后的一条命中时间曲线，可能同时在编码“走哪条路”和“先打到哪个 target”。",
+          "所以下一步更关键的语言，不只是快和慢，还包括近目标与远目标之间的竞争。"
+        ]
+      }
+    }
+  ]
+}

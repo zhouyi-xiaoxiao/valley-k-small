@@ -2,17 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import type {
   AgentManifest,
+  BasicDemoPayload,
   BookBackbone,
   BookChapter,
   BookClaimCoverage,
   BookManifest,
   ContentMap,
+  GatingDemoPayload,
   FigureRecord,
   GlossaryPayload,
   Lang,
   RepoSyncPayload,
   ReportMeta,
   ReportNetwork,
+  RingDemoPayload,
+  SeriesPayload,
+  TalkDeckManifest,
+  TalkScriptPayload,
   TheoryMap,
   TranslationQC,
   WebIndex,
@@ -144,6 +150,30 @@ export function loadGlossary(): GlossaryPayload | null {
 
 export function loadTranslationQC(): TranslationQC | null {
   return readJson<TranslationQC>(path.join(DATA_ROOT, 'agent', 'translation_qc.json'));
+}
+
+export function loadTalkManifest(talkId: string): TalkDeckManifest | null {
+  return readJson<TalkDeckManifest>(path.join(DATA_ROOT, 'talks', talkId, 'manifest.json'));
+}
+
+export function loadTalkScript(talkId: string, lang: Lang): TalkScriptPayload | null {
+  return readJson<TalkScriptPayload>(path.join(DATA_ROOT, 'talks', talkId, `script.${lang}.json`));
+}
+
+export function loadBasicDemo(talkId: string): BasicDemoPayload | null {
+  return readJson<BasicDemoPayload>(path.join(DATA_ROOT, 'talks', talkId, 'basic_demo.json'));
+}
+
+export function loadRingDemo(talkId: string): RingDemoPayload | null {
+  return readJson<RingDemoPayload>(path.join(DATA_ROOT, 'talks', talkId, 'ring_demo.json'));
+}
+
+export function loadGatingDemo(talkId: string): GatingDemoPayload | null {
+  return readJson<GatingDemoPayload>(path.join(DATA_ROOT, 'talks', talkId, 'gating_demo.json'));
+}
+
+export function loadSeriesPayload(reportId: string, seriesId: string): SeriesPayload | null {
+  return readJson<SeriesPayload>(path.join(DATA_ROOT, 'reports', reportId, 'series', `${seriesId}.json`));
 }
 
 export function groupReports(index: WebIndex): Record<string, WebIndex['reports']> {

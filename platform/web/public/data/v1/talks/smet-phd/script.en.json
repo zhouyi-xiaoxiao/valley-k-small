@@ -1,0 +1,78 @@
+{
+  "talk_id": "smet-phd",
+  "lang": "en",
+  "blocks": [
+    {
+      "slide_id": "opening",
+      "start": "0:00",
+      "end": "0:45",
+      "title": "Hidden Routes in First-Passage Time",
+      "spoken_text": "In recent months, I have been developing a research line around one question: if a random walker can reach a target through more than one effective pathway, what can the hitting-time distribution tell us about those hidden routes? I am especially interested in distributions that do not stay single-peaked, but develop an early peak, a valley, and a later peak. My goal today is to show that this shape is not just visual texture. It is a mechanism clue. I will start from a very simple single-target ring, then move to a two-dimensional geometry, and finally explain why the next natural step is to move from one target to many potential targets.",
+      "speaker_notes": "",
+      "timing_prompt": "Open with the scientific question and the three-step roadmap: basic idea, single-target mechanism, many-target outlook."
+    },
+    {
+      "slide_id": "basic-idea",
+      "start": "0:45",
+      "end": "1:45",
+      "title": "What Is First-Passage Time?",
+      "spoken_text": "Let me first define the quantity, because not everyone here works on random walks. A random walk is simply a process that moves step by step with some stochastic rule. The first-passage time asks a very specific question: when does the walker hit the target for the first time? We then repeat the experiment many times and collect those first-hit times into a distribution. This is important because the distribution keeps information that one average value would erase. If most trajectories arrive through one characteristic route, we often see one main timescale. But if the system supports different ways of arriving, with different delays, then the full distribution can separate those possibilities. So the object I study is simple to define, but surprisingly rich as a mechanism diagnostic.",
+      "speaker_notes": "",
+      "timing_prompt": "Teach the quantity from zero background. Point to the animation: one path, one first hit, then repeated trials."
+    },
+    {
+      "slide_id": "why-double-peaks",
+      "start": "1:45",
+      "end": "2:40",
+      "title": "Why a Double Peak Matters",
+      "spoken_text": "Once we have the distribution, the next question is why its shape matters. A single peak usually means one dominant arrival scale, even if there is still noise around it. A double peak is more interesting. It suggests that the process is not organized by one timescale alone. Instead, there are at least two characteristic ways of reaching the target, or two classes of trajectories with visibly different delays. The valley between them is also informative. It means there is an intermediate time window where neither branch is dominating the statistics. So already at a qualitative level, the distribution is telling us something structural about the search process. This is the intuition that motivates the rest of the talk: the shape is not just output; it is compressed mechanism information.",
+      "speaker_notes": "",
+      "timing_prompt": "Keep this intuitive. The audience only needs to buy the idea that shape can encode route competition."
+    },
+    {
+      "slide_id": "ring-single-target",
+      "start": "2:40",
+      "end": "4:05",
+      "title": "Single Target on a Ring",
+      "spoken_text": "I begin with the simplest single-target model because it isolates the mechanism cleanly. On a ring, the walker starts at one site and tries to hit one target. If the effective motion only supports one relevant route, we get one broad arrival scale. But once a shortcut is available, while a slower detour is still possible, the distribution can split. In the animation, the early branch corresponds to trajectories that use the favorable route and reach the target quickly. The later branch corresponds to trajectories that still spend time in the slower circuit. What matters is not only that two path families exist, but that their timescales are sufficiently separated and neither branch is completely negligible. That is the first important result of this recent work: even a minimal single-target system can produce an interpretable fast branch, a slow branch, and a valley between them.",
+      "speaker_notes": "",
+      "timing_prompt": "This is the first mechanism page. Use the ring to make fast branch and slow detour feel obvious."
+    },
+    {
+      "slide_id": "recent-single-target",
+      "start": "4:05",
+      "end": "5:20",
+      "title": "Route Design Changes the Distribution",
+      "spoken_text": "The next step in the recent work was to ask what actually controls the second peak. The answer is more specific than simply saying that a shortcut exists. The way the shortcut is configured matters. In the ring scans, changing the shortcut destination can change the height of the first peak, the timing of the first peak, and whether the late structure stays visible at all. A shortcut that is too weak does not separate the branches enough. A shortcut that is too strong can make the fast route dominate so completely that the slower structure is flattened. This is why the figure matters: it is not a sensitivity plot for its own sake, but direct evidence that small route edits create qualitatively different arrival stories. So the message here is that route design is part of the physics. The distribution is responding not to a vague topological change, but to a concrete reweighting of branch timing and branch probability.",
+      "speaker_notes": "",
+      "timing_prompt": "This is your recent single-target contribution page. Emphasize configuration, not just existence."
+    },
+    {
+      "slide_id": "from-ring-to-2d",
+      "start": "5:20",
+      "end": "6:35",
+      "title": "From a Ring to a 2D Geometry",
+      "spoken_text": "After that, I asked whether the same fast-slow logic survives once the system becomes geometric. In two dimensions, the answer is yes, but the interpretation becomes richer. Now the branches are shaped by corridors, reflecting boundaries, outside regions, and gated structures. In the baseline 2D examples, geometry alone can already separate a relatively direct arrival from a delayed arrival. That matters because it shows the ring story was not a toy artifact. It was the minimal version of a mechanism that still survives in spatial models. The gain in two dimensions is that we can now talk about where trajectories spend time, where they leak, and how different regions support different branches. We also gain a better language for why one branch is robust in some parameter ranges and fragile in others. So this step upgrades the mechanism from an abstract route story into a spatially meaningful one.",
+      "speaker_notes": "",
+      "timing_prompt": "Sell the transfer: the same logic survives, but now it becomes physically and geometrically interpretable."
+    },
+    {
+      "slide_id": "valley-budget",
+      "start": "6:35",
+      "end": "8:35",
+      "title": "Valley Is a Budget Structure",
+      "spoken_text": "The most recent part of the work asks a more subtle question: what actually distinguishes the valley from the second peak in the 2D gated system? A very tempting explanation is to say that the second peak is just the set of trajectories that cross the membrane. But that turns out to be too coarse. Crossing probability alone does not explain the difference. I therefore separated several budget-style observables. How much time is spent in the corridor? How much time is spent outside? After a trajectory leaves the corridor, how much of its remaining budget is still in the delayed branch? And after a membrane event, how much time is still left before the hit? The main conclusion is that valley and peak two differ more clearly in time allocation than in a single yes-or-no event. The valley is therefore not just a gap between two peaks. It is its own mechanism window, where the process has partially entered the slow branch but has not yet accumulated the full delayed budget seen in the second peak.",
+      "speaker_notes": "",
+      "timing_prompt": "Slow down here. This is the deepest slide, and the audience only needs one key idea: valley is a budget structure."
+    },
+    {
+      "slide_id": "many-targets",
+      "start": "8:35",
+      "end": "10:00",
+      "title": "From One Target to Many Potential Targets",
+      "spoken_text": "I want to end with the direction that now feels most natural. So far, much of the mechanism language has been built in single-target systems. But the next challenge is not just route competition inside one search problem. It is target competition. If there are many potential targets, then the hitting-time distribution may need to encode two different kinds of choice at once: which route was taken, and which target was reached first. In that setting, a late branch might no longer mean only delayed transport. It might also mean that the walker has committed to a farther or less accessible destination. That would move the project from a one-target mechanism story to a richer competition problem. For me, this is why the recent single-target and 2D work matters. It builds a vocabulary for hidden pathways that can now be tested in a setting where multiple destinations are present and multiple latent decisions shape the final distribution.",
+      "speaker_notes": "",
+      "timing_prompt": "End with momentum. Do not add extra future directions; keep the finish on many potential targets."
+    }
+  ]
+}

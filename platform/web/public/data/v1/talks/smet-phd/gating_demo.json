@@ -1,0 +1,185 @@
+{
+  "geometry": {
+    "width": 58,
+    "height": 14,
+    "source": {
+      "x": 7,
+      "y": 7
+    },
+    "target": {
+      "x": 57,
+      "y": 7
+    },
+    "gate_x": 32,
+    "corridor_y_min": 5,
+    "corridor_y_max": 9
+  },
+  "windows": [
+    {
+      "id": "peak1",
+      "label_en": "Peak 1",
+      "label_cn": "Peak 1",
+      "summary_en": "Peak 1 stays overwhelmingly corridor-dominated, with only a small outside budget and almost no membrane-style late budget.",
+      "summary_cn": "Peak 1 基本被 corridor 支配，outside 预算很小，membrane 式晚预算几乎没有。",
+      "callout_en": "Early hits mainly stay on the direct corridor branch.",
+      "callout_cn": "早峰的命中主要还停留在直接 corridor 分支上。",
+      "window_lo": 524,
+      "window_hi": 576,
+      "mean_hit_time": 550.0050693228035,
+      "corridor_share": 0.9029259388561554,
+      "outside_share": 0.09707406114384465,
+      "tau_out_prob": 0.634066335824465,
+      "tau_out_post_share": 0.1350561432541986,
+      "tau_mem_prob": 0.008031988694742441,
+      "tau_mem_post_share": 0.004101936901731144,
+      "outside_steps": 53.39122572886634,
+      "tau_mem_post_steps": 2.2560860899944037,
+      "path": [
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 12,
+          "y": 7
+        },
+        {
+          "x": 18,
+          "y": 7
+        },
+        {
+          "x": 26,
+          "y": 7
+        },
+        {
+          "x": 40,
+          "y": 7
+        },
+        {
+          "x": 50,
+          "y": 7
+        },
+        {
+          "x": 57,
+          "y": 7
+        }
+      ]
+    },
+    {
+      "id": "valley",
+      "label_en": "Valley",
+      "label_cn": "Valley",
+      "summary_en": "The valley has already entered the slow branch strongly in outside time, but it has not yet accumulated the full delayed budget of peak 2.",
+      "summary_cn": "Valley 已经明显进入慢分支，outside 时间很大，但还没积累出 peak 2 那么完整的延迟预算。",
+      "callout_en": "The valley is a partial slow-branch state, not an empty gap.",
+      "callout_cn": "Valley 是一种“部分进入慢分支”的状态，不是空白地带。",
+      "window_lo": 1463,
+      "window_hi": 1515,
+      "mean_hit_time": 1488.9997203929938,
+      "corridor_share": 0.5264889986379137,
+      "outside_share": 0.47351100136208635,
+      "tau_out_prob": 0.9913346145906548,
+      "tau_out_post_share": 0.840540785586959,
+      "tau_mem_prob": 0.18313922696532528,
+      "tau_mem_post_share": 0.14323072914157567,
+      "outside_steps": 705.0577486311531,
+      "tau_mem_post_steps": 213.2705156434908,
+      "path": [
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 14,
+          "y": 7
+        },
+        {
+          "x": 20,
+          "y": 7
+        },
+        {
+          "x": 22,
+          "y": 4
+        },
+        {
+          "x": 28,
+          "y": 2
+        },
+        {
+          "x": 36,
+          "y": 4
+        },
+        {
+          "x": 42,
+          "y": 6
+        },
+        {
+          "x": 50,
+          "y": 7
+        },
+        {
+          "x": 57,
+          "y": 7
+        }
+      ]
+    },
+    {
+      "id": "peak2",
+      "label_en": "Peak 2",
+      "label_cn": "Peak 2",
+      "summary_en": "Peak 2 is the full delayed branch: more outside residence, almost certain corridor exit, and a larger post-event budget before the hit.",
+      "summary_cn": "Peak 2 是完整的慢分支：outside 停留更长，几乎必然 exit corridor，而且事件之后还保留更大的后续预算。",
+      "callout_en": "Peak 2 is not defined by crossing alone; it is defined by sustained delayed budget.",
+      "callout_cn": "Peak 2 不是由 crossing 本身定义的，而是由持续的延迟预算定义的。",
+      "window_lo": 2267,
+      "window_hi": 2319,
+      "mean_hit_time": 2293.000014507188,
+      "corridor_share": 0.4381867347442929,
+      "outside_share": 0.5618132652557071,
+      "tau_out_prob": 0.9999723470687845,
+      "tau_out_post_share": 0.8577610257194518,
+      "tau_mem_prob": 0.19671689569852063,
+      "tau_mem_post_share": 0.14644876619843664,
+      "outside_steps": 1288.237825381667,
+      "tau_mem_post_steps": 335.807023017575,
+      "path": [
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 14,
+          "y": 7
+        },
+        {
+          "x": 18,
+          "y": 9
+        },
+        {
+          "x": 21,
+          "y": 12
+        },
+        {
+          "x": 28,
+          "y": 13
+        },
+        {
+          "x": 36,
+          "y": 11
+        },
+        {
+          "x": 44,
+          "y": 9
+        },
+        {
+          "x": 50,
+          "y": 8
+        },
+        {
+          "x": 57,
+          "y": 7
+        }
+      ]
+    }
+  ]
+}

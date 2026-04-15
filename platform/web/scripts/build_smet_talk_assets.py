@@ -506,8 +506,35 @@ def build_slide7() -> str:
 
 
 def build_slide8() -> str:
-    geom = asset_data_uri("two_target_clear_geometry.png")
     split = asset_data_uri("two_target_rep_window_split.png")
+    two_target_companion = "".join(
+        [
+            *[
+                f'<line x1="{112 + i*22}" y1="416" x2="{112 + i*22}" y2="594" stroke="{GRID}" stroke-width="1"/>'
+                for i in range(0, 29)
+            ],
+            *[
+                f'<line x1="112" y1="{416 + j*22}" x2="744" y2="{416 + j*22}" stroke="{GRID}" stroke-width="1"/>'
+                for j in range(0, 9)
+            ],
+            '<rect x="112" y="430" width="88" height="152" fill="#ef6d24" opacity="0.96"/>',
+            '<rect x="200" y="430" width="544" height="152" fill="#43bea0" opacity="0.96"/>',
+            '<rect x="200" y="476" width="486" height="60" fill="#a7a4a4" opacity="0.98"/>',
+            '<line x1="200" y1="476" x2="686" y2="476" stroke="#5d6866" stroke-width="4" stroke-dasharray="16 10"/>',
+            '<line x1="200" y1="536" x2="686" y2="536" stroke="#5d6866" stroke-width="4" stroke-dasharray="16 10"/>',
+            text(132, 456, "left side", 16, 700, CARD),
+            text(398, 456, "outer / right side", 16, 700, CARD),
+            text(402, 516, "corridor", 22, 700, INK),
+            f'<rect x="220" y="500" width="16" height="16" fill="{RED}"/>',
+            text(204, 548, "start", 18, 600, RED),
+            f'<polygon points="340,490 356,506 340,522 324,506" fill="{BLUE}"/>',
+            text(294, 466, "near target", 16, 600, BLUE),
+            f'<circle cx="680" cy="458" r="13" fill="{AMBER}"/>',
+            text(630, 430, "far target", 16, 600, AMBER),
+            f'<path d="M 238 508 C 274 508 294 508 324 506" stroke="{BLUE}" stroke-width="5" fill="none" stroke-linecap="round"/>',
+            f'<path d="M 238 508 C 330 452 490 432 664 458" stroke="{AMBER}" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="16 10"/>',
+        ]
+    )
     many_targets = "".join(
         [
             *[
@@ -528,8 +555,8 @@ def build_slide8() -> str:
         card(828, 332, 688, 492),
         text(122, 382, "two-target mechanism", 28, 700, INK),
         text(866, 382, "many-target outlook", 28, 700, INK),
-        f'<image href="{geom}" x="112" y="414" width="632" height="182" preserveAspectRatio="xMidYMid meet"/>',
-        f'<image href="{split}" x="178" y="588" width="500" height="284" preserveAspectRatio="xMidYMid meet"/>',
+        two_target_companion,
+        f'<image href="{split}" x="142" y="570" width="572" height="258" preserveAspectRatio="xMidYMid meet"/>',
         many_targets,
         card(874, 648, 598, 150, 18, "#f5efe4"),
         text(906, 696, "Two targets: which route wins, and which target wins first?", 18, 500, SOFT),

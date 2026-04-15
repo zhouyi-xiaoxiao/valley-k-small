@@ -274,7 +274,7 @@ def smooth_curve_path(single: bool = False) -> str:
 
 
 def build_slide1() -> str:
-    ring = draw_ring_schematic(430, 604, 198, detailed=True)
+    ring = draw_ring_schematic(430, 592, 188, detailed=True)
     body = [
         text(92, 104, "10-minute research talk", 24, 500, SOFT),
         multiline(
@@ -303,6 +303,10 @@ def build_slide1() -> str:
         text(112, 360, "Realistic 1D ring geometry", 26, 700, INK),
         text(112, 394, "Periodic ring, absorbing target, and one straight shortcut from u to v.", 18, 400, SOFT),
         ring,
+        f'<path d="M 124 794 L 204 794" stroke="{TEAL}" stroke-width="8" fill="none" stroke-linecap="round"/>',
+        text(218, 801, "shortcut-assisted route", 18, 500, SOFT),
+        f'<path d="M 470 794 L 550 794" stroke="{AMBER_SOFT}" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="16 10"/>',
+        text(564, 801, "long ring route", 18, 500, SOFT),
         text(786, 360, "Distribution-level picture", 26, 700, INK),
         multiline(
             786,
@@ -316,17 +320,17 @@ def build_slide1() -> str:
             400,
             SOFT,
         ),
-        '<path d="M 798 740 L 1476 740" stroke="#b9c0bf" stroke-width="3"/>',
-        '<path d="M 798 740 L 798 478" stroke="#b9c0bf" stroke-width="3"/>',
-        f'<path d="{smooth_curve_path(False)}" transform="translate(720,-70)" stroke="{INK}" stroke-width="9" fill="none" stroke-linecap="round"/>',
-        f'<circle cx="1085" cy="490" r="8" fill="{TEAL}"/>',
-        f'<circle cx="1355" cy="575" r="8" fill="{AMBER}"/>',
-        f'<circle cx="1490" cy="475" r="8" fill="{AMBER}"/>',
-        text(1046, 474, "peak1", 20, 600, TEAL),
-        text(1320, 615, "valley", 20, 600, SOFT),
-        text(1452, 458, "peak2", 20, 600, AMBER),
-        text(794, 464, "density", 18, 500, SOFT),
-        text(1448, 778, "time", 18, 500, SOFT),
+        '<path d="M 824 746 L 1456 746" stroke="#b9c0bf" stroke-width="3"/>',
+        '<path d="M 824 746 L 824 478" stroke="#b9c0bf" stroke-width="3"/>',
+        f'<path d="M 862 650 C 920 548 980 500 1038 516 C 1096 532 1144 630 1198 652 C 1262 678 1340 572 1416 552" stroke="{INK}" stroke-width="9" fill="none" stroke-linecap="round"/>',
+        f'<circle cx="1038" cy="516" r="8" fill="{TEAL}"/>',
+        f'<circle cx="1198" cy="652" r="8" fill="{AMBER}"/>',
+        f'<circle cx="1416" cy="552" r="8" fill="{AMBER}"/>',
+        text(998, 500, "peak1", 20, 600, TEAL),
+        text(1158, 694, "valley", 20, 600, SOFT),
+        text(1378, 536, "peak2", 20, 600, AMBER),
+        text(820, 466, "density", 18, 500, SOFT),
+        text(1428, 780, "time", 18, 500, SOFT),
     ]
     return svg_doc("".join(body))
 

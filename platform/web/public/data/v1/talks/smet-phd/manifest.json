@@ -54,7 +54,12 @@
       "question_en": "Why look at the whole distribution instead of one average time?",
       "question_cn": "为什么要看整条分布，而不是只看一个平均时间？",
       "evidence": {
-        "kind": "comparison"
+        "kind": "image",
+        "src": "/talk-assets/smet-phd/slide3-single-vs-double.svg",
+        "alt_en": "Single peak versus double peak explanation slide",
+        "alt_cn": "单峰与双峰对比解释页",
+        "caption_en": "The shape of the distribution already hints at whether one route family dominates or whether two route families remain visible.",
+        "caption_cn": "分布形状本身就能提示：系统是由单一路径族主导，还是仍然保留了两个可见路径族。"
       }
     },
     {
@@ -66,8 +71,13 @@
       "sentence": "In the simplest model, fast and slow branches already separate.",
       "question_en": "How does a minimal single-target system produce two visible branches?",
       "question_cn": "最小单目标系统是怎样长出两个可见分支的？",
-      "animation": {
-        "kind": "ring-branches"
+      "evidence": {
+        "kind": "image",
+        "src": "/talk-assets/smet-phd/slide4-ring-cases.svg",
+        "alt_en": "Single-peak and double-peak ring cases shown side by side",
+        "alt_cn": "并排展示的单峰与双峰 ring 情形",
+        "caption_en": "A single target on a ring can produce either one broad arrival scale or two separated branches, depending on how clearly the shortcut and detour are split.",
+        "caption_cn": "单目标 ring 既可能只有一个宽峰，也可能分成两个分支；关键在于 shortcut 与 detour 是否被清楚分开。"
       }
     },
     {
@@ -81,9 +91,9 @@
       "question_cn": "最近这几个月的单目标扫描，新增了什么信息？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide5-peak2-vs-dst.png",
-        "alt_en": "Peak-two weight versus shortcut destination in the ring model",
-        "alt_cn": "ring 模型中第二峰权重随 shortcut 终点变化的图",
+        "src": "/talk-assets/smet-phd/slide5-route-config.svg",
+        "alt_en": "Route-configuration slide explaining how the late branch changes across destinations",
+        "alt_cn": "解释不同 route 配置如何改变晚分支的示意图",
         "caption_en": "Changing the shortcut destination can strengthen, weaken, or nearly erase the late branch, so route design matters as much as route existence.",
         "caption_cn": "改变 shortcut 终点会增强、削弱，甚至几乎抹去晚分支，所以关键不只是有没有 shortcut，而是怎样配置它。"
       }
@@ -93,10 +103,10 @@
       "order": 6,
       "start": "5:20",
       "end": "6:35",
-      "title": "From a Ring to a 2D Geometry",
-      "sentence": "The same fast-slow logic survives, but geometry and boundaries now shape the branches.",
-      "question_en": "Does the same mechanism survive once the system becomes geometric?",
-      "question_cn": "系统变成真正的几何问题以后，这个机制还在吗？",
+      "title": "Which 2D Configurations Create a Double Peak?",
+      "sentence": "In two dimensions, geometry determines whether one route family dominates or whether two visible timescales survive.",
+      "question_en": "What kinds of spatial configuration can actually produce a double peak?",
+      "question_cn": "什么样的空间 configuration 才会真正产生 double peak？",
       "evidence": {
         "kind": "image",
         "src": "/talk-assets/smet-phd/slide6-2d-targets.svg",
@@ -133,8 +143,8 @@
       "order": 8,
       "start": "8:35",
       "end": "10:00",
-      "title": "Two-Target and Multi-Target Mechanisms",
-      "sentence": "The next step is to understand how route competition and target competition combine.",
+      "title": "Two-Target and Many-Target Open Questions",
+      "sentence": "The next step is to separate route competition from target competition, and then understand how they combine.",
       "question_en": "Where does this research line go next?",
       "question_cn": "这条研究线接下来最自然的方向是什么？",
       "evidence": {

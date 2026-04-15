@@ -1,90 +1,73 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f7f3ec"/>
-      <stop offset="100%" stop-color="#f1eee7"/>
+      <stop offset="0%" stop-color="#f8f5ee"/>
+      <stop offset="100%" stop-color="#f1ede5"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="42%" r="62%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#fffefb"/>
-      <stop offset="100%" stop-color="#fbf8f1"/>
+      <stop offset="100%" stop-color="#fbf7ef"/>
     </linearGradient>
-    <linearGradient id="curveFill" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#0f766e" stop-opacity="0.16"/>
-      <stop offset="50%" stop-color="#d7c7ab" stop-opacity="0.06"/>
-      <stop offset="100%" stop-color="#d48324" stop-opacity="0.18"/>
-    </linearGradient>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 H 0 V 40" fill="none" stroke="#d9ded8" stroke-opacity="0.34" stroke-width="1"/>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 H 0 V 36" fill="none" stroke="#d9ddd7" stroke-width="1" stroke-opacity="0.45"/>
     </pattern>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#a9aaab" flood-opacity="0.14"/>
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#b6aea1" flood-opacity="0.16"/>
     </filter>
   </defs>
 
   <rect width="1600" height="900" fill="url(#bg)"/>
-  <ellipse cx="800" cy="365" rx="720" ry="430" fill="url(#glow)"/>
+  <g transform="translate(72,54)">
+    <rect width="1456" height="792" rx="40" fill="url(#card)" stroke="#ddd7ca" filter="url(#shadow)"/>
+    <text x="46" y="70" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#75807a">10-minute research talk</text>
+    <text x="46" y="138" font-size="66" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#101826">Hidden routes in first-passage time</text>
+    <text x="46" y="186" font-size="30" font-family="Helvetica, Arial, sans-serif" fill="#556070">One target can still generate a fast branch, a valley, and a late branch.</text>
 
-  <g transform="translate(76,54)">
-    <rect width="1448" height="792" rx="40" fill="url(#panel)" stroke="#ddd7ca" filter="url(#shadow)"/>
+    <g transform="translate(46,238)">
+      <rect width="1364" height="474" rx="32" fill="#fffefb" stroke="#e3ddd2"/>
 
-    <text x="42" y="60" font-size="22" font-family="Helvetica, Arial, sans-serif" fill="#73807b">10-minute research talk</text>
-    <text x="42" y="128" font-size="64" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">Hidden routes in first-passage time</text>
-    <text x="42" y="176" font-size="28" font-family="Helvetica, Arial, sans-serif" fill="#556070">One target can still generate a fast branch, a valley, and a late branch.</text>
+      <g transform="translate(44,40)">
+        <text x="0" y="0" font-size="22" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#24303d">A geometry-level picture</text>
+        <text x="0" y="30" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#5f6976">The same target can be reached by a direct branch and by a delayed detour.</text>
 
-    <g transform="translate(42,230)">
-      <rect width="1364" height="500" rx="34" fill="#fffefb" stroke="#dce1da"/>
-      <rect width="1364" height="500" rx="34" fill="url(#grid)" opacity="0.35"/>
-
-      <g transform="translate(80,34)">
-        <text x="0" y="34" font-size="26" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#1f2937">A hidden-route picture</text>
-        <text x="0" y="68" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#667085">The walker can reach the same target through two route families with different timescales.</text>
-
-        <g transform="translate(8,88)">
-          <circle cx="270" cy="180" r="158" fill="none" stroke="#c4ccc5" stroke-width="9" opacity="0.45"/>
-          <path d="M 160 292 C 214 238, 245 198, 278 116 C 302 58, 356 38, 426 74" fill="none" stroke="#d5ddd7" stroke-width="10" stroke-linecap="round" opacity="0.55"/>
-          <path d="M 160 292 C 218 270, 282 230, 338 180 C 400 125, 454 98, 528 96" fill="none" stroke="#0f8c82" stroke-width="10" stroke-linecap="round"/>
-          <path d="M 160 292 C 196 214, 204 134, 238 86 C 280 28, 356 18, 430 56 C 492 88, 528 94, 528 96" fill="none" stroke="#d48324" stroke-width="9" stroke-linecap="round" stroke-dasharray="18 12"/>
-          <path d="M 160 292 C 214 294, 282 286, 342 254 C 410 220, 470 170, 528 96" fill="none" stroke="#9ca3af" stroke-width="5" stroke-linecap="round" opacity="0.38"/>
-
-          <circle cx="160" cy="292" r="18" fill="#111827"/>
-          <circle cx="528" cy="96" r="18" fill="#2563eb"/>
-          <circle cx="160" cy="292" r="34" fill="none" stroke="#111827" stroke-opacity="0.12" stroke-width="8"/>
-          <circle cx="528" cy="96" r="34" fill="none" stroke="#2563eb" stroke-opacity="0.14" stroke-width="8"/>
-
-          <text x="128" y="346" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111827">start</text>
-          <text x="498" y="52" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#2563eb">target</text>
-          <text x="348" y="210" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#0f766e">fast route</text>
-          <text x="314" y="26" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#d48324">slow route</text>
+        <g transform="translate(10,78)">
+          <circle cx="240" cy="180" r="150" fill="none" stroke="#c8cec7" stroke-width="10"/>
+          <path d="M 134 286 C 186 256, 232 220, 272 184 C 322 138, 374 114, 476 106" fill="none" stroke="#16837b" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 134 286 C 164 190, 186 114, 238 70 C 292 24, 378 22, 446 70 C 478 92, 496 102, 476 106" fill="none" stroke="#d58927" stroke-width="9" stroke-linecap="round" stroke-dasharray="18 12"/>
+          <path d="M 134 286 C 188 300, 258 298, 320 274 C 390 246, 446 198, 494 138" fill="none" stroke="#aab1b8" stroke-width="6" stroke-linecap="round" opacity="0.42"/>
+          <circle cx="134" cy="286" r="18" fill="#111827"/>
+          <circle cx="476" cy="106" r="18" fill="#2563eb"/>
+          <circle cx="134" cy="286" r="32" fill="none" stroke="#111827" stroke-opacity="0.12" stroke-width="8"/>
+          <circle cx="476" cy="106" r="32" fill="none" stroke="#2563eb" stroke-opacity="0.14" stroke-width="8"/>
+          <text x="108" y="342" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#283340">start</text>
+          <text x="450" y="70" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#2563eb">target</text>
+          <text x="306" y="210" font-size="18" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#16837b">fast route</text>
+          <text x="262" y="42" font-size="18" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#d58927">slow route</text>
         </g>
       </g>
 
-      <g transform="translate(774,72)">
-        <text x="0" y="32" font-size="26" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#1f2937">What the distribution remembers</text>
-        <text x="0" y="66" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#667085">If the two route families stay separated in time, the first-hit curve develops structure.</text>
+      <g transform="translate(780,52)">
+        <text x="0" y="0" font-size="22" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#24303d">A distribution-level picture</text>
+        <text x="0" y="30" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#5f6976">The measured hit-time curve separates the two route families into two timescales.</text>
 
-        <g transform="translate(0,96)">
-          <rect width="490" height="250" rx="28" fill="#fdfcf7" stroke="#e4e1d7"/>
-          <path d="M 42 202 L 42 58 L 116 134 L 184 140 L 246 196 L 326 112 L 396 82 L 448 128" fill="url(#curveFill)" stroke="none"/>
-          <path d="M 42 202 L 42 60" fill="none" stroke="#d7ddd6" stroke-width="2"/>
-          <path d="M 42 202 L 450 202" fill="none" stroke="#d7ddd6" stroke-width="2"/>
-          <path d="M 42 202 C 76 176, 96 138, 116 134 C 136 130, 164 136, 184 140 C 208 144, 226 176, 246 196 C 270 164, 302 116, 326 112 C 348 108, 372 82, 396 82 C 420 82, 438 116, 448 128" fill="none" stroke="#32414b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="116" cy="134" r="8" fill="#0f766e"/>
-          <circle cx="246" cy="196" r="8" fill="#8b95a4"/>
-          <circle cx="396" cy="82" r="8" fill="#d48324"/>
-          <text x="92" y="110" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#0f766e">peak 1</text>
-          <text x="220" y="228" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#6b7280">valley</text>
-          <text x="372" y="58" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#d48324">late peak</text>
-          <text x="42" y="232" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#98a2b3">early</text>
-          <text x="414" y="232" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#98a2b3">late</text>
+        <g transform="translate(0,74)">
+          <rect width="520" height="320" rx="26" fill="#fdfbf6" stroke="#e5e1d8"/>
+          <rect width="520" height="320" rx="26" fill="url(#grid)" opacity="0.35"/>
+          <line x1="52" y1="266" x2="470" y2="266" stroke="#d0d6d0" stroke-width="3"/>
+          <line x1="52" y1="266" x2="52" y2="48" stroke="#d0d6d0" stroke-width="3"/>
+          <path d="M 52 264 C 78 250, 102 194, 132 162 C 168 124, 204 118, 238 156 C 270 192, 302 224, 336 224 C 368 224, 394 172, 424 126 C 448 92, 460 82, 470 82" fill="none" stroke="#202936" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="132" cy="162" r="8" fill="#16837b"/>
+          <circle cx="424" cy="126" r="8" fill="#d58927"/>
+          <text x="102" y="146" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#16837b">peak 1</text>
+          <text x="246" y="236" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#6b7280">valley</text>
+          <text x="392" y="108" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#d58927">late peak</text>
+          <text x="16" y="60" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#6b7280">density</text>
+          <text x="402" y="300" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#6b7280">time</text>
         </g>
 
-        <g transform="translate(0,374)">
-          <rect width="490" height="66" rx="20" fill="#f7f4ee" stroke="#e5ddd0"/>
-          <text x="22" y="40" font-size="21" font-family="Helvetica, Arial, sans-serif" fill="#475467">One clean figure is enough to introduce the whole talk.</text>
+        <g transform="translate(0,420)">
+          <rect width="520" height="40" rx="18" fill="#f6f1e7" stroke="#e2dacd"/>
+          <text x="18" y="26" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#4f5b67">The talk asks what mechanism makes this split appear and persist.</text>
         </g>
       </g>
     </g>

@@ -2,72 +2,71 @@
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#f7f4ee"/>
-      <stop offset="100%" stop-color="#f2efe7"/>
+      <stop offset="100%" stop-color="#f1ede5"/>
     </linearGradient>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 H 0 V 40" fill="none" stroke="#d8ddd7" stroke-opacity="0.55" stroke-width="1"/>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#faf7f0"/>
+    </linearGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M 34 0 H 0 V 34" fill="none" stroke="#d7ddd8" stroke-width="1" stroke-opacity="0.55"/>
     </pattern>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#a8aaab" flood-opacity="0.13"/>
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#aea89a" flood-opacity="0.14"/>
     </filter>
   </defs>
-
   <rect width="1600" height="900" fill="url(#bg)"/>
   <g transform="translate(72,54)">
-    <rect width="1456" height="792" rx="40" fill="#fffefb" stroke="#ddd7ca" filter="url(#shadow)"/>
+    <rect width="1456" height="792" rx="40" fill="url(#card)" stroke="#ddd7ca" filter="url(#shadow)"/>
+    <text x="44" y="68" font-size="22" font-family="Helvetica, Arial, sans-serif" fill="#75807a">2D configurations</text>
+    <text x="44" y="126" font-size="56" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">Which spatial configurations can create a double peak?</text>
+    <text x="44" y="170" font-size="28" font-family="Helvetica, Arial, sans-serif" fill="#556070">In two dimensions, geometry decides whether one route family dominates or whether two visible timescales survive.</text>
 
-    <text x="42" y="62" font-size="22" font-family="Helvetica, Arial, sans-serif" fill="#74807c">2D transition</text>
-    <text x="42" y="126" font-size="54" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">From one target to two targets</text>
-    <text x="42" y="170" font-size="27" font-family="Helvetica, Arial, sans-serif" fill="#556070">The lattice stays simple, but the mechanism expands from route competition to route-plus-target competition.</text>
-
-    <g transform="translate(42,222)">
-      <g transform="translate(0,0)">
-        <rect width="616" height="484" rx="34" fill="#ffffff" stroke="#e4e0d6"/>
-        <text x="34" y="54" font-size="32" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">One target</text>
-        <text x="34" y="88" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#556070">A single target already supports a fast route and a slow detour.</text>
-
-        <g transform="translate(34,126)">
-          <rect width="548" height="266" rx="24" fill="#fbfaf6" stroke="#ddd8cc"/>
-          <rect width="548" height="266" rx="24" fill="url(#grid)" opacity="0.72"/>
-          <circle cx="86" cy="188" r="15" fill="#111827"/>
-          <circle cx="458" cy="82" r="16" fill="#2563eb"/>
-          <path d="M 86 188 C 156 192, 240 172, 310 142 C 368 116, 412 98, 458 82" fill="none" stroke="#0f8c82" stroke-width="10" stroke-linecap="round"/>
-          <path d="M 86 188 C 142 118, 192 58, 270 46 C 336 36, 398 56, 458 82" fill="none" stroke="#d48324" stroke-width="9" stroke-linecap="round" stroke-dasharray="18 12"/>
-          <text x="214" y="112" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#0f766e">preferred channel</text>
-          <text x="170" y="42" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#d48324">detour channel</text>
-          <text x="58" y="234" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#4b5563">start</text>
-          <text x="428" y="52" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#2563eb">target</text>
+    <g transform="translate(44,228)">
+      <g>
+        <rect width="652" height="476" rx="32" fill="#fff" stroke="#e3ddd2"/>
+        <text x="34" y="52" font-size="30" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#17202d">One target in a corridor</text>
+        <text x="34" y="84" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#5d6672">A double peak is possible only when the walker can either stay in the corridor or leak into the wider region and return later.</text>
+        <g transform="translate(34,118)">
+          <rect width="576" height="250" rx="24" fill="#fbfaf6" stroke="#ddd8cc"/>
+          <rect width="576" height="250" rx="24" fill="url(#grid)" opacity="0.75"/>
+          <rect x="80" y="86" width="416" height="78" rx="18" fill="#d9eee8" stroke="#bdd9d0"/>
+          <circle cx="110" cy="126" r="14" fill="#c0392b"/>
+          <circle cx="470" cy="126" r="14" fill="#2563eb"/>
+          <path d="M 110 126 C 200 126, 286 126, 470 126" fill="none" stroke="#0f8c82" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 110 126 C 176 208, 258 220, 332 196 C 398 176, 444 154, 470 126" fill="none" stroke="#d58927" stroke-width="8" stroke-linecap="round"/>
+          <text x="98" y="154" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#4b5563">start</text>
+          <text x="438" y="154" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#2563eb">target</text>
+          <text x="248" y="112" font-size="18" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#0f8c82">direct corridor branch</text>
+          <text x="242" y="214" font-size="18" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#d58927">outside-and-return branch</text>
         </g>
-
-        <g transform="translate(34,420)">
-          <rect width="548" height="40" rx="16" fill="#f7f4ee" stroke="#e3ddd4"/>
-          <text x="18" y="26" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#475467">Question: how long until the walker first hits the target?</text>
+        <g transform="translate(34,396)">
+          <rect width="576" height="46" rx="18" fill="#f7f4ee" stroke="#e3ddd4"/>
+          <text x="18" y="30" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#4f5b67">A double peak needs both a direct corridor route and a delayed return route.</text>
         </g>
       </g>
 
-      <g transform="translate(740,0)">
-        <rect width="612" height="484" rx="34" fill="#ffffff" stroke="#e4e0d6"/>
-        <text x="34" y="54" font-size="32" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">Two targets</text>
-        <text x="34" y="88" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#556070">Now the same walk can also choose which target wins first.</text>
-
-        <g transform="translate(34,126)">
-          <rect width="544" height="266" rx="24" fill="#fbfaf6" stroke="#ddd8cc"/>
-          <rect width="544" height="266" rx="24" fill="url(#grid)" opacity="0.72"/>
-          <circle cx="82" cy="188" r="15" fill="#111827"/>
-          <circle cx="396" cy="106" r="16" fill="#2563eb"/>
-          <circle cx="468" cy="196" r="16" fill="#f97316"/>
-          <path d="M 82 188 C 156 184, 232 162, 396 106" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
-          <path d="M 82 188 C 176 188, 284 190, 468 196" fill="none" stroke="#f97316" stroke-width="10" stroke-linecap="round"/>
-          <path d="M 82 188 C 152 124, 234 78, 418 64" fill="none" stroke="#7c3aed" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 10"/>
-          <text x="318" y="84" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#2563eb">near target</text>
-          <text x="430" y="234" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#f97316">far target</text>
-          <text x="320" y="42" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#7c3aed">late branch</text>
-          <text x="54" y="234" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#4b5563">start</text>
+      <g transform="translate(716,0)">
+        <rect width="652" height="476" rx="32" fill="#fff" stroke="#e3ddd2"/>
+        <text x="34" y="52" font-size="30" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#17202d">Two targets in the same space</text>
+        <text x="34" y="84" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#5d6672">Now the configuration can create two timescales through both route choice and target choice.</text>
+        <g transform="translate(34,118)">
+          <rect width="576" height="250" rx="24" fill="#fbfaf6" stroke="#ddd8cc"/>
+          <rect width="576" height="250" rx="24" fill="url(#grid)" opacity="0.75"/>
+          <rect x="82" y="86" width="412" height="78" rx="18" fill="#d9eee8" stroke="#bdd9d0"/>
+          <circle cx="112" cy="126" r="14" fill="#c0392b"/>
+          <circle cx="416" cy="102" r="14" fill="#2563eb"/>
+          <circle cx="470" cy="150" r="14" fill="#f97316"/>
+          <path d="M 112 126 C 192 120, 286 116, 416 102" fill="none" stroke="#2563eb" stroke-width="9" stroke-linecap="round"/>
+          <path d="M 112 126 C 224 136, 322 144, 470 150" fill="none" stroke="#f97316" stroke-width="9" stroke-linecap="round"/>
+          <path d="M 112 126 C 180 202, 280 218, 470 150" fill="none" stroke="#7c3aed" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 10"/>
+          <text x="382" y="82" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#2563eb">near target</text>
+          <text x="458" y="182" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#f97316">far target</text>
+          <text x="272" y="220" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#7c3aed">delayed branch</text>
         </g>
-
-        <g transform="translate(34,420)">
-          <rect width="544" height="40" rx="16" fill="#f7f4ee" stroke="#e3ddd4"/>
-          <text x="18" y="26" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#475467">Question: which target is hit first, and in which time window?</text>
+        <g transform="translate(34,396)">
+          <rect width="576" height="46" rx="18" fill="#f7f4ee" stroke="#e3ddd4"/>
+          <text x="18" y="30" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#4f5b67">With two targets, geometry can split the signal by both destination and delay.</text>
         </g>
       </g>
     </g>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Single peak versus double peak</title>
+  <desc id="desc">A polished 16:9 explanation slide showing one smooth single-peak curve and one smooth double-peak curve side by side.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7f4ee"/>
+      <stop offset="100%" stop-color="#f0ece4"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#fffefb" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#fffefb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fbf8f2"/>
+    </linearGradient>
+    <linearGradient id="singleFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f766e" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#0f766e" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="doubleFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d48324" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#d48324" stop-opacity="0.03"/>
+    </linearGradient>
+    <filter id="shadow" x="-18%" y="-18%" width="136%" height="136%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#99968d" flood-opacity="0.14"/>
+    </filter>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M 42 0 H 0 V 42" fill="none" stroke="#d8ddd6" stroke-opacity="0.22" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <ellipse cx="800" cy="310" rx="740" ry="420" fill="url(#halo)"/>
+
+  <g transform="translate(78,56)">
+    <rect width="1444" height="788" rx="40" fill="url(#panel)" stroke="#ddd7ca" filter="url(#shadow)"/>
+
+    <text x="44" y="60" font-size="22" font-family="Helvetica, Arial, sans-serif" fill="#77807b">Mechanism intuition</text>
+    <text x="44" y="132" font-size="60" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">Single peak versus double peak</text>
+    <text x="44" y="176" font-size="27" font-family="Helvetica, Arial, sans-serif" fill="#56616f">A single route family tends to give one mode; two competing families can split the distribution.</text>
+
+    <g transform="translate(44,234)">
+      <rect width="1356" height="500" rx="34" fill="#fffefb" stroke="#e4dfd4"/>
+      <rect width="1356" height="500" rx="34" fill="url(#grid)" opacity="0.28"/>
+
+      <g transform="translate(56,46)">
+        <rect width="588" height="406" rx="32" fill="#fcfbf7" stroke="#e8e2d8"/>
+        <text x="30" y="44" font-size="26" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#1f2937">Single peak</text>
+        <text x="30" y="74" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#69737f">One dominant timescale leaves one smooth mode.</text>
+
+        <g transform="translate(24,98)">
+          <path d="M 30 256 C 60 252, 92 232, 114 202 C 138 168, 156 132, 176 92 C 188 68, 206 56, 228 58 C 252 60, 268 82, 286 116 C 308 158, 330 202, 358 226 C 388 250, 424 258, 468 256" fill="url(#singleFill)" stroke="none"/>
+          <path d="M 30 256 C 60 252, 92 232, 114 202 C 138 168, 156 132, 176 92 C 188 68, 206 56, 228 58 C 252 60, 268 82, 286 116 C 308 158, 330 202, 358 226 C 388 250, 424 258, 468 256" fill="none" stroke="#0f766e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 30 256 L 30 42" fill="none" stroke="#d6ddd6" stroke-width="2"/>
+          <path d="M 30 256 L 468 256" fill="none" stroke="#d6ddd6" stroke-width="2"/>
+          <circle cx="228" cy="58" r="8" fill="#0f766e"/>
+          <text x="170" y="30" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#0f766e">one mode</text>
+          <text x="30" y="292" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#98a2b3">time</text>
+          <text x="438" y="292" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#98a2b3">time</text>
+        </g>
+      </g>
+
+      <g transform="translate(712,46)">
+        <rect width="588" height="406" rx="32" fill="#fcfbf7" stroke="#e8e2d8"/>
+        <text x="30" y="44" font-size="26" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#1f2937">Double peak</text>
+        <text x="30" y="74" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#69737f">Two separated route families can create two modes.</text>
+
+        <g transform="translate(24,98)">
+          <path d="M 30 256 C 58 246, 82 212, 104 162 C 122 120, 140 92, 162 92 C 184 92, 198 124, 210 152 C 220 174, 232 194, 248 206 C 264 218, 284 224, 302 224 C 328 224, 348 198, 366 154 C 382 114, 402 82, 428 82 C 452 82, 470 108, 484 136 C 496 160, 508 182, 526 196 C 544 210, 564 218, 588 224" fill="url(#doubleFill)" stroke="none"/>
+          <path d="M 30 256 C 58 246, 82 212, 104 162 C 122 120, 140 92, 162 92 C 184 92, 198 124, 210 152 C 220 174, 232 194, 248 206 C 264 218, 284 224, 302 224 C 328 224, 348 198, 366 154 C 382 114, 402 82, 428 82 C 452 82, 470 108, 484 136 C 496 160, 508 182, 526 196 C 544 210, 564 218, 588 224" fill="none" stroke="#d48324" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 30 256 L 30 42" fill="none" stroke="#d6ddd6" stroke-width="2"/>
+          <path d="M 30 256 L 588 256" fill="none" stroke="#d6ddd6" stroke-width="2"/>
+          <circle cx="162" cy="92" r="8" fill="#d48324"/>
+          <circle cx="428" cy="82" r="8" fill="#d48324"/>
+          <circle cx="302" cy="224" r="8" fill="#9aa3ad"/>
+          <text x="104" y="30" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#d48324">first mode</text>
+          <text x="404" y="56" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#d48324">second mode</text>
+          <text x="30" y="292" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#98a2b3">time</text>
+          <text x="558" y="292" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#98a2b3">time</text>
+        </g>
+      </g>
+
+      <g transform="translate(312,458)">
+        <rect x="0" y="0" width="732" height="54" rx="18" fill="#f6f1e8" stroke="#e6ddd0"/>
+        <text x="24" y="34" font-size="20" font-family="Helvetica, Arial, sans-serif" fill="#4b5563">The curve shape itself can already hint at whether one or two timescales are present.</text>
+      </g>
+    </g>
+  </g>
+</svg>

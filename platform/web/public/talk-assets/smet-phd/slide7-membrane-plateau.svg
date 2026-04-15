@@ -19,14 +19,20 @@
   <g transform="translate(72,54)">
     <rect width="1456" height="792" rx="40" fill="url(#card)" stroke="#ddd7ca" filter="url(#shadow)"/>
     <text x="44" y="68" font-size="22" font-family="Helvetica, Arial, sans-serif" fill="#75807a">permeability scan</text>
-    <text x="44" y="126" font-size="56" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">Membrane traffic grows, but it does not take over</text>
-    <text x="44" y="170" font-size="28" font-family="Helvetica, Arial, sans-serif" fill="#556070">In the 1-target corridor, higher permeability makes membrane-related trajectories more common, but the share saturates near 50%.</text>
+    <text x="44" y="120" font-size="50" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#121826">Membrane traffic grows, but it does not take over</text>
+    <text x="44" y="164" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#556070">
+      <tspan x="44" dy="0">In the 1-target corridor, higher permeability makes membrane-related trajectories more common,</tspan>
+      <tspan x="44" dy="32">but the share saturates near 50% instead of taking over the whole late branch.</tspan>
+    </text>
 
-    <g transform="translate(44,226)">
+    <g transform="translate(44,248)">
       <g>
         <rect width="934" height="478" rx="32" fill="#fff" stroke="#e3ddd2"/>
         <text x="34" y="48" font-size="28" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#17202d">Realistic corridor geometry</text>
-        <text x="34" y="78" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#5d6672">The semipermeable boundaries sit on the upper and lower sides of the corridor, so trajectories can leak out and return later.</text>
+        <text x="34" y="78" font-size="17" font-family="Helvetica, Arial, sans-serif" fill="#5d6672">
+          <tspan x="34" dy="0">The semipermeable boundaries sit on the upper and lower sides of the corridor,</tspan>
+          <tspan x="34" dy="24">so trajectories can leak out and return later.</tspan>
+        </text>
 
         <g transform="translate(24,118)">
           <g>
@@ -85,7 +91,10 @@
       <g transform="translate(972,0)">
         <rect width="396" height="478" rx="32" fill="#fff" stroke="#e3ddd2"/>
         <text x="30" y="48" font-size="28" font-weight="700" font-family="Helvetica, Arial, sans-serif" fill="#17202d">What the scan says</text>
-        <text x="30" y="78" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#5d6672">If membrane passage alone produced the late peak, the share would keep rising toward 100%. It does not.</text>
+        <text x="30" y="78" font-size="17" font-family="Helvetica, Arial, sans-serif" fill="#5d6672">
+          <tspan x="30" dy="0">If membrane passage alone produced the late peak,</tspan>
+          <tspan x="30" dy="24">the share would keep rising toward 100%. It does not.</tspan>
+        </text>
         <g transform="translate(28,116)">
           <rect width="340" height="236" rx="24" fill="#fdfbf6" stroke="#e5e1d8"/>
           <line x1="42" y1="192" x2="304" y2="192" stroke="#d0d6d0" stroke-width="3"/>
@@ -101,9 +110,12 @@
           <text x="268" y="214" font-size="16" font-family="Helvetica, Arial, sans-serif" fill="#6b7280">high</text>
         </g>
         <g transform="translate(28,378)">
-          <rect width="340" height="70" rx="20" fill="#f7f4ee" stroke="#e3ddd4"/>
+          <rect width="340" height="82" rx="20" fill="#f7f4ee" stroke="#e3ddd4"/>
           <text x="18" y="30" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#4f5b67">Conclusion:</text>
-          <text x="18" y="56" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#4f5b67">membrane traffic contributes, but it does not by itself define peak 2.</text>
+          <text x="18" y="54" font-size="17" font-family="Helvetica, Arial, sans-serif" fill="#4f5b67">
+            <tspan x="18" dy="0">membrane traffic contributes,</tspan>
+            <tspan x="18" dy="22">but it does not by itself define peak 2.</tspan>
+          </text>
         </g>
       </g>
     </g>

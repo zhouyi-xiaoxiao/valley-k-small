@@ -1,0 +1,81 @@
+{
+  "case": "sym_shared",
+  "display_name": "shared symmetric baseline",
+  "geometry": {
+    "Lx": 60,
+    "Wy": 15,
+    "start": [
+      7,
+      7
+    ],
+    "target": [
+      58,
+      7
+    ],
+    "wall_span": [
+      7,
+      5,
+      9,
+      5,
+      54
+    ],
+    "x_gate_star": 32
+  },
+  "region_formulas": {
+    "left_full": "x < 5",
+    "top_full": "5 <= x <= 54 and y > 9",
+    "bottom_full": "5 <= x <= 54 and y < 5"
+  },
+  "windows": [
+    {
+      "window": "peak1",
+      "t_lo": 369,
+      "t_hi": 421,
+      "hit_mass": 0.06484879703104941,
+      "flux_c2o": 0.0001506867485786933,
+      "flux_o2c": 0.0001607483142126202
+    },
+    {
+      "window": "valley",
+      "t_lo": 1054,
+      "t_hi": 1106,
+      "hit_mass": 0.005326542445014799,
+      "flux_c2o": 0.0011516680952382006,
+      "flux_o2c": 0.0005887515103574877
+    },
+    {
+      "window": "peak2",
+      "t_lo": 1660,
+      "t_hi": 1712,
+      "hit_mass": 0.012702182141560533,
+      "flux_c2o": 0.0011640974939843758,
+      "flux_o2c": 0.0004660340181603211
+    }
+  ],
+  "top_bottom_comparison": [
+    {
+      "case": "sym_shared",
+      "window": "peak1",
+      "top_share": 0.002551521316770689,
+      "bottom_share": 0.0025515213167706893,
+      "top_minus_bottom": -4.336808689942018e-19,
+      "selected_region_share": 0.016244596475911276
+    },
+    {
+      "case": "sym_shared",
+      "window": "valley",
+      "top_share": 0.08627940286241181,
+      "bottom_share": 0.08627940286241181,
+      "top_minus_bottom": 0.0,
+      "selected_region_share": 0.43444455203880933
+    },
+    {
+      "case": "sym_shared",
+      "window": "peak2",
+      "top_share": 0.17122551531641056,
+      "bottom_share": 0.17122551531641056,
+      "top_minus_bottom": 0.0,
+      "selected_region_share": 0.48574341484699907
+    }
+  ]
+}

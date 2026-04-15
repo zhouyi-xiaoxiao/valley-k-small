@@ -5,6 +5,7 @@ import csv
 import json
 import multiprocessing as mp
 import os
+import subprocess
 import sys
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
@@ -59,6 +60,7 @@ from vkcore.grid2d.one_two_target_gating import (
     plot_one_target_gate_schematic,
     plot_one_target_gate_scan_families,
     plot_one_target_gate_scan_totals,
+    plot_one_target_left_open_split_windows,
     plot_one_target_parameter_phase_map,
     plot_one_target_parameter_sep_map,
     plot_one_target_rollback_window_bars,
@@ -96,6 +98,7 @@ DATA_DIR = REPORT_ROOT / "artifacts" / "data"
 FIG_DIR = REPORT_ROOT / "artifacts" / "figures"
 TABLE_DIR = REPORT_ROOT / "artifacts" / "tables"
 OUT_DIR = REPORT_ROOT / "artifacts" / "outputs"
+SENSITIVITY_DIR = DATA_DIR / "sensitivity"
 
 RAW_ARCHIVE_FILES = [
     "1_2target_机制深化整包.zip",
@@ -210,6 +213,11 @@ def write_csv(path: Path, rows: Sequence[dict[str, Any]], fieldnames: Sequence[s
             writer.writerow(row)
 
 
+def read_csv(path: Path) -> list[dict[str, str]]:
+    with path.open("r", newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
 def cleanup_stale_outputs() -> None:
     for name in [
         "source_one_two_target_深化报告_cn.pdf",
@@ -292,10 +300,13 @@ def cleanup_stale_outputs() -> None:
         FIG_DIR / "one_target_directional_window_flux.png",
         FIG_DIR / "one_target_directional_window_occupancy_atlas.pdf",
         FIG_DIR / "one_target_directional_window_occupancy_atlas.png",
+        FIG_DIR / "one_target_left_open_vs_membrane_windows.pdf",
+        FIG_DIR / "one_target_left_open_vs_membrane_windows.png",
         TABLE_DIR / "one_target_xgate_peak2.tex",
         TABLE_DIR / "one_target_representative.tex",
         TABLE_DIR / "one_target_gate_scan_summary.tex",
         TABLE_DIR / "one_target_phase0_loss_summary.tex",
+        TABLE_DIR / "one_target_left_open_summary.tex",
     ]:
         if path.exists():
             path.unlink()
@@ -370,7 +381,7 @@ def first_true_index(mask: np.ndarray) -> int | None:
 
 ONE_TARGET_BASE_ARGS = dict(
     Lx=60,
-    Wy=16,
+    Wy=15,
     bx=-0.08,
     corridor_halfwidth=2,
     wall_margin=5,
@@ -410,7 +421,8 @@ ONE_TARGET_REP_ANCHORS = {
 
 
 def _base_start_target() -> tuple[tuple[int, int], tuple[int, int]]:
-    return (int(ONE_TARGET_BASE_ARGS["start_x"]), int(ONE_TARGET_BASE_ARGS["Wy"] // 2 - 1)), (int(ONE_TARGET_BASE_ARGS["target_x"]), int(ONE_TARGET_BASE_ARGS["Wy"] // 2 - 1))
+    y_mid = int((int(ONE_TARGET_BASE_ARGS["Wy"]) - 1) // 2)
+    return (int(ONE_TARGET_BASE_ARGS["start_x"]), y_mid), (int(ONE_TARGET_BASE_ARGS["target_x"]), y_mid)
 
 
 def _augment_one_target_case(case: dict[str, Any], *, case_name: str, case_style: str, display_name: str) -> dict[str, Any]:
@@ -467,17 +479,7 @@ def _build_one_target_case_from_spec(
 
 
 def build_one_target_cases() -> dict[str, dict[str, Any]]:
-    kwargs = dict(
-        Lx=60,
-        Wy=16,
-        bx=-0.08,
-        corridor_halfwidth=2,
-        wall_margin=5,
-        delta_core=1.0,
-        delta_open=0.55,
-        start_x=7,
-        target_x=58,
-    )
+    kwargs = dict(ONE_TARGET_BASE_ARGS)
     return {
         "sym": build_membrane_case(**kwargs, kappa_top=0.002, kappa_bottom=0.002),
         "asym": build_membrane_case(**kwargs, kappa_top=0.002, kappa_bottom=0.0),
@@ -1618,7 +1620,106 @@ def write_report_figures(one_target: dict[str, Any], two_target: dict[str, Any])
     plot_robustness_heatmap(two_target["robustness_rows"], FIG_DIR / "two_target_anchor_gate_robustness.pdf")
 
 
-def write_tables(one_target: dict[str, Any], two_target: dict[str, Any]) -> None:
+def run_auxiliary_script(script_name: str, *args: str) -> None:
+    cmd = [sys.executable, str(REPORT_ROOT / "code" / script_name), *args]
+    subprocess.run(cmd, cwd=str(REPORT_ROOT), check=True)
+
+
+def build_left_open_split_datasets() -> dict[str, Any]:
+    run_auxiliary_script("one_target_sensitivity_scan.py", "--scan", "all")
+    run_auxiliary_script("one_target_left_open_split.py")
+
+    cases_rows = read_csv(SENSITIVITY_DIR / "one_target_left_open_split_cases.csv")
+    window_rows_raw = read_csv(SENSITIVITY_DIR / "one_target_left_open_split_windows.csv")
+    event_rows = read_csv(SENSITIVITY_DIR / "one_target_left_open_split_events.csv")
+
+    case_labels = {
+        "width_h2_bx_m0p08": "baseline ($h=2$, $b_x=-0.08$)",
+        "width_h4_bx_m0p08": "wide corridor ($h=4$, $b_x=-0.08$)",
+        "width_h0_bx_m0p04": "narrow weak-drag ($h=0$, $b_x=-0.04$)",
+        "delta_core_p1p00_open_p0p80": r"strong corridor push ($\delta_c=1.0$, $\delta_o=0.8$)",
+        "delta_core_p0p80_open_p0p00": r"weak corridor push ($\delta_c=0.8$, $\delta_o=0.0$)",
+    }
+    table_labels = {
+        "width_h2_bx_m0p08": "baseline",
+        "width_h4_bx_m0p08": "wide corridor",
+        "width_h0_bx_m0p04": "narrow weak-drag",
+        "delta_core_p1p00_open_p0p80": "strong corridor push",
+        "delta_core_p0p80_open_p0p00": "weak corridor push",
+    }
+    figure_case_ids = [
+        "width_h2_bx_m0p08",
+        "width_h4_bx_m0p08",
+        "delta_core_p0p80_open_p0p00",
+    ]
+    summary_case_ids = [
+        "width_h2_bx_m0p08",
+        "width_h4_bx_m0p08",
+        "width_h0_bx_m0p04",
+        "delta_core_p1p00_open_p0p80",
+        "delta_core_p0p80_open_p0p00",
+    ]
+
+    def _f(row: dict[str, str], key: str) -> float:
+        return float(row[key])
+
+    def _i(row: dict[str, str], key: str) -> int:
+        return int(row[key])
+
+    window_rows: list[dict[str, Any]] = []
+    for row in window_rows_raw:
+        payload = dict(row)
+        payload["display_name"] = case_labels.get(str(row["case_id"]), str(row["case_id"]))
+        window_rows.append(payload)
+
+    phase_summary: dict[str, dict[str, float]] = {}
+    for phase in sorted({int(row["phase"]) for row in cases_rows}):
+        phase_rows = [row for row in cases_rows if int(row["phase"]) == phase]
+        if not phase_rows:
+            continue
+        phase_summary[str(phase)] = {
+            "count": float(len(phase_rows)),
+            "late_left_only_mean": float(np.mean([_f(row, "late_left_only") for row in phase_rows])),
+            "late_mem_only_mean": float(np.mean([_f(row, "late_mem_only") for row in phase_rows])),
+            "late_both_mean": float(np.mean([_f(row, "late_both") for row in phase_rows])),
+            "late_none_mean": float(np.mean([_f(row, "late_none") for row in phase_rows])),
+            "late_tau_left_prob_mean": float(np.mean([_f(row, "late_tau_left_prob") for row in phase_rows])),
+            "late_tau_mem_prob_mean": float(np.mean([_f(row, "late_tau_mem_prob") for row in phase_rows])),
+        }
+
+    baseline_window_rows = [row for row in window_rows if str(row["case_id"]) == "width_h2_bx_m0p08"]
+    summary_rows = []
+    for case_id in summary_case_ids:
+        row = next(row for row in cases_rows if str(row["case_id"]) == case_id)
+        summary_rows.append(
+            {
+                "case_id": case_id,
+                "display_name": case_labels.get(case_id, case_id),
+                "table_name": table_labels.get(case_id, case_id),
+                "phase": _i(row, "phase"),
+                "sep_peaks": _f(row, "sep_peaks"),
+                "t_peak2": _i(row, "t_peak2"),
+                "late_left_only": _f(row, "late_left_only"),
+                "late_mem_only": _f(row, "late_mem_only"),
+                "late_both": _f(row, "late_both"),
+                "late_tau_left_prob": _f(row, "late_tau_left_prob"),
+                "late_tau_mem_prob": _f(row, "late_tau_mem_prob"),
+            }
+        )
+
+    return {
+        "cases_rows": cases_rows,
+        "window_rows": window_rows,
+        "event_rows": event_rows,
+        "figure_rows": [row for row in window_rows if str(row["case_id"]) in figure_case_ids],
+        "figure_case_ids": figure_case_ids,
+        "summary_rows": summary_rows,
+        "baseline_window_rows": baseline_window_rows,
+        "phase_summary": phase_summary,
+    }
+
+
+def write_tables(one_target: dict[str, Any], two_target: dict[str, Any], left_open: dict[str, Any]) -> None:
     def _param_text(row: dict[str, Any]) -> str:
         if str(row["style"]) == "tb":
             return rf"$(\kappa_{{top}},\kappa_{{bottom}})=({fmt_num(row['kappa_top'],4)},{fmt_num(row['kappa_bottom'],4)})$"
@@ -1752,6 +1853,26 @@ def write_tables(one_target: dict[str, Any], two_target: dict[str, Any]) -> None
             for row in one_target["verification_rows"]
         ],
         "lrrrrrr",
+    )
+
+    write_tabular(
+        TABLE_DIR / "one_target_left_open_summary.tex",
+        ["case", "phase", "sep", "$t_{p2}$", "left", "mem", "both", "$\\Pr(\\tau_l)$", "$\\Pr(\\tau_m)$"],
+        [
+            [
+                row["table_name"],
+                latex_escape(row["phase"]),
+                fmt_num(row["sep_peaks"]),
+                latex_escape(row["t_peak2"]),
+                fmt_pct(row["late_left_only"]),
+                fmt_pct(row["late_mem_only"]),
+                fmt_pct(row["late_both"]),
+                fmt_pct(row["late_tau_left_prob"]),
+                fmt_pct(row["late_tau_mem_prob"]),
+            ]
+            for row in left_open["summary_rows"]
+        ],
+        "lrrrrrrrr",
     )
 
     write_tabular(
@@ -2093,15 +2214,33 @@ def build_report() -> None:
 
     one_target = build_one_target_datasets()
     two_target = build_two_target_datasets()
+    left_open = build_left_open_split_datasets()
 
     analysis_summary = {
         "one_target": one_target["summary"],
+        "one_target_left_open_vs_membrane": {
+            "phase_summary": left_open["phase_summary"],
+            "baseline_peak_windows": {
+                str(row["window"]): {
+                    "none": float(row["none"]),
+                    "left_only": float(row["left_only"]),
+                    "mem_only": float(row["mem_only"]),
+                    "both": float(row["both"]),
+                }
+                for row in left_open["baseline_window_rows"]
+            },
+        },
         "two_target": two_target["summary"],
     }
 
     write_flat_data_exports(one_target, two_target)
     write_report_figures(one_target, two_target)
-    write_tables(one_target, two_target)
+    plot_one_target_left_open_split_windows(
+        left_open["figure_rows"],
+        FIG_DIR / "one_target_left_open_vs_membrane_windows.pdf",
+        case_order=left_open["figure_case_ids"],
+    )
+    write_tables(one_target, two_target, left_open)
     write_outputs(one_target, two_target, analysis_summary)
 
 

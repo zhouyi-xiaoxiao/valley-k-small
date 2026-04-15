@@ -43,8 +43,11 @@ def test_unified_benchmark_assets_exist() -> None:
         TABLES / "unified_workload_inventory_cn.tex",
         TABLES / "unified_appendix_fairness_en.tex",
         TABLES / "unified_appendix_fairness_cn.tex",
+        TABLES / "unified_audit_appendix_en.tex",
+        TABLES / "unified_audit_appendix_cn.tex",
         MANUSCRIPT / "luca_vs_recursion_unified_benchmark_en.tex",
         MANUSCRIPT / "luca_vs_recursion_unified_benchmark_cn.tex",
+        REPORT / "notes" / "theory_audit_2026-04-15.md",
         REPORT / "README.md",
     ]
     for path in required:
@@ -71,6 +74,14 @@ def test_unified_benchmark_summary_consistency() -> None:
     assert len(curve) == 6
     assert any(row["recommended_family"] == "luca_gf" for row in summary["pair_rows"])
     assert any(row["recommended_family"] == "time_recursion" for row in summary["pair_rows"])
+    for row in summary["pair_rows"]:
+        assert row["math_object_en"]
+        assert row["math_object_cn"]
+        assert row["theory_basis_en"]
+        assert row["theory_basis_cn"]
+        assert row["implementation_anchor_en"]
+        assert row["implementation_anchor_cn"]
+        assert json.loads(row["primary_refs_json"])
 
     readme = (REPORT / "README.md").read_text(encoding="utf-8")
     report_en = (MANUSCRIPT / "luca_vs_recursion_unified_benchmark_en.tex").read_text(encoding="utf-8")
@@ -79,6 +90,8 @@ def test_unified_benchmark_summary_consistency() -> None:
     assert "Appendix F" in readme
     assert "Appendix B: Detailed GF Derivations" in report_en
     assert "附录 B：GF 家族完整推导" in report_cn
+    assert "What Luca/GF Means Here" in report_en
+    assert "这份报告里的 Luca/GF 到底指什么" in report_cn
     assert "cross_luca_regime_map" not in readme
     assert "cross_luca_regime_map" not in report_en
     assert "cross_luca_regime_map" not in report_cn

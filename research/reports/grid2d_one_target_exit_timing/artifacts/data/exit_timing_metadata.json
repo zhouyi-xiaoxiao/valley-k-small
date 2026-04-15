@@ -1,0 +1,75 @@
+{
+  "case_title": "One-target corridor-only soft-bias membrane-timing continuation",
+  "geometry": {
+    "Lx": 60,
+    "Wy": 15,
+    "start": [
+      7,
+      7
+    ],
+    "target": [
+      58,
+      7
+    ],
+    "wall_span": [
+      7,
+      5,
+      9,
+      5,
+      54
+    ],
+    "bx": -0.08,
+    "delta_core": 0.8,
+    "delta_open": 0.0,
+    "t_max": 40000
+  },
+  "kappa_values": [
+    0.0,
+    0.00025,
+    0.0005,
+    0.00075,
+    0.001,
+    0.00125,
+    0.0015,
+    0.00175,
+    0.002,
+    0.0025,
+    0.003,
+    0.004,
+    0.005,
+    0.006
+  ],
+  "representative_kappas": [
+    0.0,
+    0.014,
+    0.0152
+  ],
+  "critical_kappa_values": [
+    0.012,
+    0.013,
+    0.014,
+    0.0145,
+    0.0148,
+    0.0149,
+    0.015,
+    0.0151,
+    0.0152,
+    0.0153
+  ],
+  "critical_curve_kappas": [
+    0.014,
+    0.0152,
+    0.0153
+  ],
+  "timing_observables": {
+    "tau_out": "first time the walker leaves the corridor band and enters any outside state",
+    "tau_mem": "first time the walker crosses a membrane c->o edge"
+  },
+  "early_late_rule": "early if \\tau \\le 0.5 E[T | T \\in W], late otherwise",
+  "fully_reflective_survival_tail": 0.008531964090896972,
+  "critical_band": {
+    "takeover_threshold_kappa": 0.014,
+    "collapse_threshold_kappa": 0.0153,
+    "definition": "takeover = first phase-1 kappa with P(tau_mem < T | T in peak2) >= 0.5; collapse = first kappa with phase = 0"
+  }
+}

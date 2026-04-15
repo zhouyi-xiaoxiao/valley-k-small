@@ -3,8 +3,8 @@
 \usepackage{amsmath,amssymb,mathtools,booktabs,graphicx,float,hyperref,enumitem,longtable,array,pdflscape}
 \hypersetup{hidelinks}
 \setlength{\emergencystretch}{2em}
-\newcommand{\FigDir}{../figures}
-\newcommand{\TabDir}{../tables}
+\newcommand{\FigDir}{../artifacts/figures}
+\newcommand{\TabDir}{../artifacts/tables}
 \title{Unified Computational Benchmark for First-Passage Problems\\Luca / Generating-Function Family vs. Time-Domain Recursion Family}
 \author{valley-k-small automated report}
 \date{\today}
@@ -13,16 +13,17 @@
 \begin{abstract}
 This document is the single active computational-method comparison report in the repository. 
 It keeps the scientific reports separate, but collapses the comparison line into one bilingual benchmark with six workloads. 
+The transform-domain side is treated explicitly as a \emph{family} rooted in the propagator, renewal, and bounded-heterogeneity formalisms developed by Giuggioli, Sarvaharman, and collaborators, rather than as one monolithic single-paper method \cite{pre102_062124_2020,prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023}. 
 The benchmark rule is \emph{practical native-task fairness}: each report is timed on the task it actually needed to complete, rather than on an artificially synchronized full-tail horizon. 
-Under the diagnostic protocol the median ratio $t_{\mathrm{time}}/t_{\mathrm{Luca}}$ is 0.0866; 
+Under the diagnostic protocol the median ratio $t_{\mathrm{time}}/t_{\mathrm{Luca}}$ is 0.0490; 
 time recursion wins on ENC-FIXED, ENC-ANY, TT-C1, REF-S0, while Luca/GF wins on RING-1T-paper, TT-LF1. 
-Under the curve protocol the median ratio is 0.0671; 
+Under the curve protocol the median ratio is 0.0398; 
 time recursion wins on ENC-FIXED, ENC-ANY, TT-C1, REF-S0, while Luca/GF wins on RING-1T-paper, TT-LF1.
 \end{abstract}
 \section{Goal and Comparison Rule}
 We compare only two families.
 \begin{itemize}[leftmargin=1.4em]
-\item \textbf{Luca / generating-function family}: closed-form propagators, defect-reduced resolvent recovery, renewal in transform space, and AW/Cauchy-FFT inversion.
+\item \textbf{Luca / generating-function family}: closed-form or defect-free propagators, finite-support heterogeneity corrections, renewal in transform space, and AW/Cauchy-FFT inversion.
 \item \textbf{Time-domain recursion family}: exact propagation on the transient state space, including sparse absorbing recursion and absorbed pair-distribution updates.
 \end{itemize}
 The main benchmark is not a forced full-tail comparison. It is a report-production comparison: how much time does each family need to deliver the quantity that the scientific report actually required?
@@ -40,6 +41,15 @@ For single-target problems, renewal closes immediately:
 \end{align}
 For multiple targets, renewal becomes a small linear system on target-to-target propagators. 
 All timings use single-thread BLAS, one warm-up run, three measured runs, and the median wall time as the reported benchmark value.
+\section{What Luca/GF Means Here}
+Throughout this report, `Luca/GF' is a family label rather than the name of one single solver. The family bundles four layers that appear in different proportions across the six workloads \cite{pre102_062124_2020,prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023}:
+\begin{enumerate}[leftmargin=1.5em]
+\item a closed-form or defect-free propagator;
+\item a finite-dimensional defect or heterogeneity correction on a selected support;
+\item a one-target or multi-target renewal closure;
+\item AW/Cauchy-FFT coefficient recovery of the FPT generating function \cite{abate_whitt_2006}.
+\end{enumerate}
+This distinction matters because not every workload uses all four layers equally. In particular, the two-target C1 and LF1 benchmarks use selected-propagator recovery rather than a dense global inverse over every transient state, while ENC-FIXED is a $\beta=0$ control that tests the pair-propagator layer without a shortcut-defect correction.
 \section{Luca / Generating-Function Family: Mathematical Spine}
 The common transform-domain workflow is:
 \begin{enumerate}[leftmargin=1.5em]
@@ -53,7 +63,7 @@ The inversion step evaluates
 f(t) = [z^t]\widetilde f(z) = \frac{1}{2\pi i}\oint_{|z|=r} \frac{\widetilde f(z)}{z^{t+1}}\,dz
 \approx \frac{r^{-t}}{m}\sum_{k=0}^{m-1}\widetilde f\!\left(re^{2\pi i k/m}\right)e^{-2\pi i kt/m}.
 \end{align}
-This is the shared numerical shell behind the ring, encounter, two-target, and reflecting GF workloads.
+This is the shared numerical shell behind the ring, encounter, two-target, and reflecting GF workloads \cite{abate_whitt_2006}.
 \subsection{Encounter-Specific GF Route}
 For the two-walker shortcut encounter, the defect-free pair propagator is
 \begin{align}
@@ -79,7 +89,7 @@ f_{\mathrm{enc}}(t+1) &= \operatorname{tr}(J_{t+1}),
 with the diagonal or designated encounter site zeroed after each step to enforce absorption. 
 No asymptotic approximation is used here; the family name refers only to the domain in which the update is carried out.
 \section{Workload Instantiations and Configuration Figures}
-Each workload is now documented inside this unified report, with its own detailed configuration figure and an explicit formula-level specialization of the two method families.
+Each workload is documented here with a detailed configuration figure, a workload-specific specialization of the two solver families, and a provenance-aware description of what the transform-domain route really means in that case.
 \begin{table}[H]
 \centering\small
 \resizebox{\linewidth}{!}{%
@@ -88,13 +98,13 @@ Each workload is now documented inside this unified report, with its own detaile
 \caption{The six benchmark workloads kept in the unified comparison.}
 \end{table}
 \subsection{RING-1T-paper}
-This workload is the analytic single-target ring benchmark. The resolvent family starts from the closed-form single-walker propagator
+This workload is the analytic single-target ring benchmark. In this case the Giuggioli-style transform-domain family really is the clean closed-form route: a defect-free ring propagator, a rank-one shortcut-column correction, and scalar renewal to the target \cite{pre102_062124_2020,abate_whitt_2006}. The specialized formulas are
 \begin{align}
 \widetilde P_{n_0\to n}(u) &= \sum_{k=0}^{N-1} \frac{h_k(n,n_0)}{1-u\alpha_k},\\
 \widetilde F_{n_0\to m}(u) &= \frac{\widetilde P_{n_0\to m}(u)}{\widetilde P_{m\to m}(u)},
 \end{align}
-followed by an AW/Cauchy inversion on a radius-$r$ circle. The time solver instead iterates the absorbing chain directly.
-Direct speed mapping for the configuration figure: the diagnostic task is faster with Luca/GF (time=0.007163s, luca=0.0006995s, 10.2x separation). The curve task keeps the same winner (time=0.01769s, luca=0.002326s).
+followed by AW/Cauchy coefficient recovery \cite{pre102_062124_2020,abate_whitt_2006}. The time solver instead iterates the absorbing chain directly and serves as the exact baseline for the same observable.
+Direct speed mapping for the configuration figure: the diagnostic task is faster with Luca/GF (time=0.007141s, luca=0.0006551s, 10.9x separation). The curve task keeps the same winner (time=0.01741s, luca=0.002149s).
 \begin{figure}[p]
 \centering
 \includegraphics[width=0.97\linewidth]{\FigDir/RING-1T-paper_config_detailed.pdf}
@@ -102,13 +112,13 @@ Direct speed mapping for the configuration figure: the diagnostic task is faster
 \end{figure}
 \clearpage
 \subsection{ENC-FIXED}
-The fixed-site encounter workload is a single-target first-passage problem on the pair chain. The GF family evaluates the defect-free pair propagator and closes a one-target renewal equation:
+The fixed-site encounter workload is a single-target first-passage problem on the pair chain. The benchmark configuration here is a control with $\beta=0$, so this is \emph{not} a shortcut-defect production case. The correct family-level description is: defect-free pair propagator plus one-target renewal on the pair torus \cite{pre102_062124_2020,abate_whitt_2006}. The benchmark formulas are therefore
 \begin{align}
 G_0\big((n_0,m_0)\to(x,y);z\big) &= \frac{1}{N^2}\sum_{k_1,k_2}\frac{h_{k_1}(x,n_0)h_{k_2}(y,m_0)}{1-z\lambda^{(1)}_{k_1}\lambda^{(2)}_{k_2}},\\
 \widetilde f_{\delta}(z) &= \frac{G\big((n_0,m_0)\to(\delta,\delta);z\big)}{G\big((\delta,\delta)\to(\delta,\delta);z\big)}.
 \end{align}
-The time family evolves the absorbed pair density exactly on the $N^2$ state space.
-Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.006232s, luca=0.3488s, 56.0x separation). The curve task keeps the same winner (time=0.005959s, luca=0.3508s).
+The time family evolves the absorbed pair density exactly on the $N^2$ state space. This workload tests the pair-propagator layer of the family, not the finite-defect shortcut correction layer.
+Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.006613s, luca=0.3216s, 48.6x separation). The curve task keeps the same winner (time=0.006537s, luca=0.3167s).
 \begin{figure}[p]
 \centering
 \includegraphics[width=0.97\linewidth]{\FigDir/ENC-FIXED_config_detailed.pdf}
@@ -116,14 +126,14 @@ Direct speed mapping for the configuration figure: the diagnostic task is faster
 \end{figure}
 \clearpage
 \subsection{ENC-ANY}
-The anywhere-encounter workload promotes the target from one pair-state to the full diagonal set $D=\{(x,x):x\in\mathbb Z_N\}$. The GF family uses the same defect-free pair propagator but now closes a multi-target renewal system:
+The anywhere-encounter workload promotes the target from one pair-state to the full diagonal set $D=\{(x,x):x\in\mathbb Z_N\}$. Here the shortcut becomes a line defect on the pair torus, so the transform-domain route is: defect-free pair propagator, finite-dimensional defect restoration, and multi-target renewal on the diagonal set \cite{pre102_062124_2020,review_2311_00464_2023,abate_whitt_2006}. The benchmark formulas are
 \begin{align}
 G(z) &= G_0(z) + z\,G_0(z)U\left(I-zV^{\top}G_0(z)U\right)^{-1}V^{\top}G_0(z),\\
 \widetilde{\mathbf f}_D(z) &= G_{DD}(z)^{-1}G_{Ds}(z),\\
 \widetilde f_{\mathrm{enc}}(z) &= \mathbf 1^{\top}\widetilde{\mathbf f}_D(z).
 \end{align}
-Here the shortcut acts as a line defect on the pair torus, so the Woodbury correction is the bridge between the defect-free pair spectrum and the actual encounter PGF.
-Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.0123s, luca=2.317s, 188.3x separation). The curve task keeps the same winner (time=0.02134s, luca=4.664s).
+This is the proper place in the report to talk about a shortcut-induced defect line and a finite-dimensional resolvent correction.
+Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.04208s, luca=3.282s, 78.0x separation). The curve task keeps the same winner (time=0.07917s, luca=6.586s).
 \begin{figure}[p]
 \centering
 \includegraphics[width=0.97\linewidth]{\FigDir/ENC-ANY_config_detailed.pdf}
@@ -131,14 +141,13 @@ Direct speed mapping for the configuration figure: the diagnostic task is faster
 \end{figure}
 \clearpage
 \subsection{TT-C1}
-C1 is the practical two-target corridor benchmark. The GF family uses a defect-reduced resolvent instead of a full dense transient solve:
+C1 is the practical two-target corridor benchmark. The transform-domain solver used in the benchmark is intentionally narrower than a full dense resolvent solve: it recovers only the selected propagators needed by the two-target renewal closure, with the heterogeneity compressed to the local support \cite{prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023,abate_whitt_2006}. To avoid overstating the method, the benchmark should therefore be described by
 \begin{align}
-Q &= Q_0 + U\Delta V^{\top},\\
-(I-zQ)^{-1} &= (I-zQ_0)^{-1} + z(I-zQ_0)^{-1}U\left(I-zV^{\top}(I-zQ_0)^{-1}U\Delta\right)^{-1}V^{\top}(I-zQ_0)^{-1},\\
-\widetilde{\mathbf f}(z) &= G_{TT}(z)^{-1}G_{Ts}(z),
+G_{sT}(z) &= G^{(0)}_{sT}(z) + \text{defect-reduced correction on the selected support},\\
+\widetilde{\mathbf f}(z) &= G_{TT}(z)^{-1}G_{Ts}(z),\qquad T=\{m_1,m_2\},
 \end{align}
-where $T=\{m_1,m_2\}$. The time solver is the sparse exact absorbing recursion on the transient graph, continued to the long horizon actually needed by the scientific claim.
-Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.01313s, luca=41.19s, 3137.2x separation). The curve task keeps the same winner (time=0.06642s, luca=41.03s).
+rather than by a claim that the benchmark forms the full matrix $(I-zQ)^{-1}$ over every transient state. The time solver is the sparse exact absorbing recursion on the transient graph, continued to the long horizon actually needed by the scientific claim.
+Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.01337s, luca=74.54s, 5575.7x separation). The curve task keeps the same winner (time=0.06406s, luca=74.17s).
 \begin{figure}[p]
 \centering
 \includegraphics[width=0.97\linewidth]{\FigDir/TT-C1_config_detailed.pdf}
@@ -146,8 +155,8 @@ Direct speed mapping for the configuration figure: the diagnostic task is faster
 \end{figure}
 \clearpage
 \subsection{TT-LF1}
-TT-LF1 keeps the same two-target mathematics but collapses the defect support to an ultra-sparse local perturbation. This is the in-repo positive anchor where the defect-reduced GF route can beat long-horizon sparse recursion.
-Direct speed mapping for the configuration figure: the diagnostic task is faster with Luca/GF (time=0.1901s, luca=0.01725s, 11.0x separation). The curve task keeps the same winner (time=0.1904s, luca=0.01719s).
+TT-LF1 keeps the same two-target selected-propagator mathematics as C1, but collapses the heterogeneity support to an ultra-sparse perturbation \cite{prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023,abate_whitt_2006}. It is therefore the in-repo positive anchor where the defect-reduced transform-domain route can beat long-horizon sparse recursion, not because it uses a different theory, but because the same theory is operating in a much smaller support regime.
+Direct speed mapping for the configuration figure: the diagnostic task is faster with Luca/GF (time=0.1881s, luca=0.01722s, 10.9x separation). The curve task keeps the same winner (time=0.1882s, luca=0.01771s).
 \begin{figure}[p]
 \centering
 \includegraphics[width=0.97\linewidth]{\FigDir/TT-LF1_config_detailed.pdf}
@@ -155,13 +164,13 @@ Direct speed mapping for the configuration figure: the diagnostic task is faster
 \end{figure}
 \clearpage
 \subsection{REF-S0}
-REF-S0 is the reflecting low-defect control. The GF family remains a single-target resolvent solve, but here the full AW route is still numerically feasible because the defect count is deliberately kept small:
+REF-S0 is the reflecting low-defect control. The transform-domain route remains a single-target reflecting-lattice renewal, and the full AW inversion is still numerically feasible only because the defect count is deliberately kept small \cite{prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023,abate_whitt_2006}:
 \begin{align}
 \widetilde F_{s\to m}(z) &= \frac{G_{sm}(z)}{G_{mm}(z)},\\
 f(t) &= [z^t]\widetilde F_{s\to m}(z).
 \end{align}
-The time family is the standard exact absorbing recursion on the reflecting lattice.
-Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.006363s, luca=0.04098s, 6.4x separation). The curve task keeps the same winner (time=0.01758s, luca=0.15s).
+The time family is the standard exact absorbing recursion on the reflecting lattice. The role of this workload is to mark the low-defect edge of feasibility; it should not be described as evidence that full AW remains the default method for generic 2D heterogeneous cases.
+Direct speed mapping for the configuration figure: the diagnostic task is faster with Time recursion (time=0.005605s, luca=0.0724s, 12.9x separation). The curve task keeps the same winner (time=0.01666s, luca=0.2829s).
 \begin{figure}[p]
 \centering
 \includegraphics[width=0.97\linewidth]{\FigDir/REF-S0_config_detailed.pdf}
@@ -212,6 +221,14 @@ Direct speed mapping for the configuration figure: the diagnostic task is faster
 }
 \caption{Curve-task runtime table.}
 \end{table}
+\section{Method Boundaries}
+The benchmark supports a narrower claim than a generic `Luca/GF versus exact recursion' slogan. What it actually resolves is where the transform-domain family remains a practical production route once the right mathematical layer is identified. The boundary lines are:
+\begin{itemize}[leftmargin=1.4em]
+\item use the transform-domain family aggressively when a clean closed form already exists (RING-1T-paper),
+\item keep it as a valid but usually slower validation route when the pair-propagator formalism is correct but the defect support is no longer tiny (ENC-ANY),
+\item describe it carefully as selected-propagator recovery, not full dense resolvent inversion, in bounded heterogeneous two-target problems (TT-C1 and TT-LF1),
+\item treat low-defect full AW controls as feasibility markers rather than default production solvers for generic 2D heterogeneous cases (REF-S0).
+\end{itemize}
 \section{Recommendation Matrix}
 \begin{table}[H]
 \centering\small
@@ -254,10 +271,17 @@ S(t+1) &= u_{t+1}\mathbf 1.
 \end{align}
 For two-target problems, let $R=[r^{(1)}\;r^{(2)}]$ and then $f_1(t+1)=u_tr^{(1)}$, $f_2(t+1)=u_tr^{(2)}$. 
 For pair encounters, the matrix recursion form is numerically convenient because the encounter condition is a structured absorbing set on the pair torus.
-\section{Appendix D: Per-Workload Formula Specialization}
+\section{Appendix D: Per-Workload Formula Specialization and Audit Map}
 RING-1T-paper uses a scalar renewal. ENC-FIXED uses a single-target renewal on the pair chain. ENC-ANY uses a diagonal target-set renewal on the pair torus. 
 TT-C1 and TT-LF1 use a two-target renewal after defect-reduced selected-propagator recovery. REF-S0 uses the single-target reflecting resolvent. 
 These are exactly the formulas instantiated in Section 5 alongside the detailed configuration figures.
+\begin{table}[H]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\input{\TabDir/unified_audit_appendix_en.tex}
+}
+\caption{Audit appendix: actual solver pair, mathematical object, paper provenance, and implementation anchor for each workload.}
+\end{table}
 \section{Appendix E: Complexity, Memory, Error Metrics, and Benchmark Protocol}
 The runtime comparison is accepted only after a same-window numerical agreement check between the two families. 
 For each workload, the overlap window is reported through $L^1$, $L^{\infty}$, and a peak-location consistency flag. 
@@ -272,4 +296,13 @@ Instead, the historical note is embedded here so that the active comparison line
 }
 \caption{Embedded historical fairness note retained inside the unified report.}
 \end{table}
+\clearpage
+\section*{References}
+\begin{thebibliography}{9}
+\bibitem{pre102_062124_2020} Sarvaharman \& Giuggioli, Phys. Rev. E 102, 062124 (2020). Available at \url{https://research-information.bris.ac.uk/ws/files/267741195/PhysRevE.102.062124.pdf}.
+\bibitem{prr5_043281_2023} Das, Giuggioli et al., Phys. Rev. Research 5, 043281 (2023). Available at \url{https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.5.043281}.
+\bibitem{jstat_013201_2023} Das \& Giuggioli, J. Stat. Mech. 013201 (2023). Available at \url{https://arxiv.org/abs/2211.12388}.
+\bibitem{review_2311_00464_2023} Giuggioli, Sarvaharman, Das, Marris \& Kay, arXiv:2311.00464 (2023). Available at \url{https://research-information.bris.ac.uk/en/publications/multi-target-search-in-bounded-and-heterogeneous-environments-a-l/}.
+\bibitem{abate_whitt_2006} Abate \& Whitt, INFORMS J. Comput. 18(4), 408-421 (2006). Available at \url{https://pubsonline.informs.org/doi/10.1287/ijoc.1050.0137}.
+\end{thebibliography}
 \end{document}

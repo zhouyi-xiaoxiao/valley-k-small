@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>3MT Try-outs 2026 Slide</title>
+    <style>
+      @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+      }
+
+      :root {
+        --bg: #f6f1e8;
+        --panel: #fffcf6;
+        --panel-soft: #fbf6ee;
+        --ink: #162520;
+        --muted: #60716b;
+        --line: #d9ddd6;
+        --teal: #127a72;
+        --teal-soft: #dcefeb;
+        --blue: #2e6cb4;
+        --blue-soft: #dce7f7;
+        --gold: #c9892c;
+        --gold-soft: #f6e8cd;
+        --band: #213b39;
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(18, 122, 114, 0.06) 0 18%, transparent 18% 82%, rgba(46, 108, 180, 0.06) 82% 100%),
+          var(--bg);
+        color: var(--ink);
+        font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+      }
+
+      body {
+        position: relative;
+      }
+
+      .slide {
+        width: 1280px;
+        height: 720px;
+        padding: 24px 26px 18px;
+        display: grid;
+        grid-template-columns: 1.06fr 0.94fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 16px;
+      }
+
+      .panel {
+        position: relative;
+        border: 1.5px solid rgba(22, 37, 32, 0.08);
+        border-radius: 26px;
+        background: linear-gradient(180deg, var(--panel), var(--panel-soft));
+        overflow: hidden;
+      }
+
+      .visual-panel {
+        padding: 24px 24px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .story-panel {
+        padding: 20px 20px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .eyebrow,
+      .mini-label,
+      .metric-label,
+      .section-kicker,
+      .source-note,
+      .story-chip {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--teal);
+      }
+
+      .figure-heading {
+        margin: 0;
+        max-width: 18ch;
+        font-size: 32px;
+        line-height: 1.02;
+        font-weight: 750;
+      }
+
+      .figure-caption {
+        margin: 0;
+        max-width: 46ch;
+        font-size: 16px;
+        line-height: 1.42;
+        color: var(--muted);
+      }
+
+      .figure-frame {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        border-radius: 24px;
+        border: 1px solid rgba(22, 37, 32, 0.1);
+        background: #fffdfa;
+        overflow: hidden;
+      }
+
+      .figure-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .figure-badge {
+        position: absolute;
+        padding: 10px 12px 11px;
+        border-radius: 16px;
+        font-size: 14px;
+        line-height: 1.28;
+        font-weight: 600;
+        background: rgba(255, 252, 246, 0.98);
+        border: 1px solid rgba(22, 37, 32, 0.12);
+      }
+
+      .figure-badge strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .badge-start {
+        top: 96px;
+        left: 22px;
+        max-width: 180px;
+      }
+
+      .badge-funnel {
+        right: 20px;
+        bottom: 22px;
+        max-width: 170px;
+        background: rgba(228, 238, 252, 0.98);
+        border-color: rgba(46, 108, 180, 0.2);
+      }
+
+      .story-chip {
+        align-self: flex-start;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--teal-soft);
+        color: var(--teal);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .story-panel h1 {
+        margin: 0;
+        max-width: 10ch;
+        font-size: 60px;
+        line-height: 0.94;
+        font-weight: 780;
+      }
+
+      .dek {
+        margin: 0;
+        max-width: 31ch;
+        font-size: 16px;
+        line-height: 1.3;
+        color: var(--muted);
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .metric-card {
+        padding: 12px 12px 10px;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 8px;
+        min-height: 104px;
+        border: 1px solid rgba(22, 37, 32, 0.08);
+      }
+
+      .metric-card.visit {
+        background: #e9f0f8;
+      }
+
+      .metric-card.occupancy {
+        background: #fbefda;
+      }
+
+      .metric-label {
+        font-size: 11px;
+        font-weight: 800;
+        color: rgba(22, 37, 32, 0.68);
+      }
+
+      .metric-value {
+        font-size: 46px;
+        line-height: 0.92;
+        font-weight: 820;
+      }
+
+      .metric-note {
+        font-size: 13px;
+        line-height: 1.24;
+        color: rgba(22, 37, 32, 0.82);
+      }
+
+      .metric-divider {
+        align-self: center;
+        font-size: 26px;
+        font-weight: 800;
+        color: rgba(22, 37, 32, 0.34);
+      }
+
+      .window-block {
+        padding: 10px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(22, 37, 32, 0.08);
+      }
+
+      .window-grid {
+        margin-top: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .window-card {
+        padding: 10px 10px 8px;
+        border-radius: 16px;
+        background: rgba(255, 252, 246, 0.95);
+        border: 1px solid rgba(22, 37, 32, 0.07);
+      }
+
+      .window-value {
+        margin-top: 8px;
+        font-size: 25px;
+        line-height: 0.94;
+        font-weight: 820;
+      }
+
+      .window-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .distinction-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .distinction-card {
+        padding: 9px 10px 10px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(22, 37, 32, 0.08);
+      }
+
+      .section-kicker {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 10px;
+        font-weight: 800;
+        color: rgba(22, 37, 32, 0.6);
+      }
+
+      .distinction-title {
+        display: block;
+        margin-bottom: 3px;
+        font-size: 15px;
+        line-height: 1;
+        font-weight: 760;
+      }
+
+      .distinction-copy {
+        margin: 0;
+        font-size: 11px;
+        line-height: 1.18;
+        color: var(--muted);
+      }
+
+      .takeaway-band {
+        grid-column: 1 / -1;
+        border-radius: 22px;
+        background: var(--band);
+        color: #f7f2ea;
+      }
+
+      .takeaway-inner {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr) 240px;
+        gap: 16px;
+        align-items: center;
+        padding: 16px 20px;
+      }
+
+      .takeaway-label {
+        font-size: 12px;
+        font-weight: 820;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(247, 242, 234, 0.78);
+      }
+
+      .takeaway-copy {
+        margin: 0;
+        font-size: 21px;
+        line-height: 1.2;
+        font-weight: 700;
+      }
+
+      .source-note {
+        text-align: right;
+        font-size: 10px;
+        line-height: 1.5;
+        color: rgba(247, 242, 234, 0.78);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="slide">
+      <section class="panel visual-panel">
+        <span class="eyebrow">Mechanism Geometry</span>
+        <h2 class="figure-heading">A narrow corridor feeds every successful path into the same final bottleneck.</h2>
+        <p class="figure-caption">
+          This exact model separates the corridor, the outer reservoir, and the target funnel so we can ask not just
+          where paths go, but where they actually spend time before the first hit.
+        </p>
+
+        <div class="figure-frame">
+          <svg class="figure-svg" viewBox="0 0 720 398" xmlns="http://www.w3.org/2000/svg" aria-label="One-target mechanism geometry">
+            <defs>
+              <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+                <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.1"/>
+              </pattern>
+              <linearGradient id="outerGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#6fc8c0"/>
+                <stop offset="100%" stop-color="#2faba2"/>
+              </linearGradient>
+              <linearGradient id="corridorGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#b8b8b8"/>
+                <stop offset="100%" stop-color="#a8a8a8"/>
+              </linearGradient>
+              <linearGradient id="funnelGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#80b2ee"/>
+                <stop offset="100%" stop-color="#4f88d1"/>
+              </linearGradient>
+            </defs>
+
+            <rect x="0" y="0" width="720" height="398" rx="24" fill="#fffdfa"/>
+            <rect x="0" y="0" width="720" height="398" rx="24" fill="url(#grid)"/>
+
+            <rect x="0" y="0" width="668" height="132" fill="url(#outerGrad)"/>
+            <rect x="0" y="132" width="668" height="132" fill="url(#corridorGrad)"/>
+            <rect x="0" y="264" width="668" height="134" fill="url(#outerGrad)"/>
+            <rect x="668" y="0" width="52" height="398" fill="url(#funnelGrad)"/>
+
+            <line x1="0" y1="132" x2="668" y2="132" stroke="#263836" stroke-width="4" stroke-dasharray="24 16"/>
+            <line x1="0" y1="264" x2="668" y2="264" stroke="#263836" stroke-width="4" stroke-dasharray="24 16"/>
+
+            <rect x="10" y="137" width="22" height="22" fill="#ef4d4d" stroke="#fffdfa" stroke-width="3"/>
+            <rect x="85" y="28" width="158" height="36" rx="10" fill="#fffdfa" stroke="#a9cfc9" stroke-width="1.5"/>
+            <text x="164" y="51" text-anchor="middle" font-size="17" font-weight="650" fill="#5a6f68">outer reservoir</text>
+
+            <rect x="327" y="178" width="108" height="36" rx="10" fill="#fffdfa" stroke="#b9bfba" stroke-width="1.5"/>
+            <text x="381" y="201" text-anchor="middle" font-size="17" font-weight="650" fill="#4f5d58">corridor</text>
+
+            <rect x="80" y="336" width="162" height="36" rx="10" fill="#fffdfa" stroke="#a9cfc9" stroke-width="1.5"/>
+            <text x="161" y="359" text-anchor="middle" font-size="17" font-weight="650" fill="#5a6f68">outer reservoir</text>
+
+            <rect x="592" y="166" width="102" height="56" rx="16" fill="#fffdfa" stroke="#7ea7db" stroke-width="2"/>
+            <text x="643" y="189" text-anchor="middle" font-size="14" font-weight="800" letter-spacing="1.2" fill="#2f6eb7">TARGET</text>
+            <path d="M 695 194 l 13 13 l -13 13 l -13 -13 Z" fill="none" stroke="#fffdfa" stroke-width="3"/>
+          </svg>
+
+          <div class="figure-badge badge-start">
+            <strong>Start basin</strong>
+            Walkers leave from the left, search through the corridor, and may leak into the reservoir before returning.
+          </div>
+
+          <div class="figure-badge badge-funnel">
+            <strong>Target funnel</strong>
+            The last approach is unavoidable, but it is also very short.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel story-panel">
+        <span class="story-chip">Three representative arrival windows</span>
+        <h1>Unavoidable does not mean dominant.</h1>
+        <p class="dek">
+          Every successful trajectory enters the target funnel, but the funnel accounts for only a small slice of the
+          time budget before absorption.
+        </p>
+
+        <div class="metrics">
+          <article class="metric-card visit">
+            <span class="metric-label">Path event</span>
+            <span class="metric-value">100%</span>
+            <span class="metric-note">of trajectories ever visit the target funnel before the first hit</span>
+          </article>
+          <div class="metric-divider">vs</div>
+          <article class="metric-card occupancy">
+            <span class="metric-label">Time budget</span>
+            <span class="metric-value">3.8-7.7%</span>
+            <span class="metric-note">of pre-hit time is spent there across the exact early, middle, and late windows</span>
+          </article>
+        </div>
+
+        <section class="window-block">
+          <span class="section-kicker">Target funnel occupancy share</span>
+          <div class="window-grid">
+            <article class="window-card">
+              <span class="mini-label">Early arrivals</span>
+              <div class="window-value">7.7%</div>
+              <div class="window-sub">visit rate stays at 100%</div>
+            </article>
+            <article class="window-card">
+              <span class="mini-label">Middle window</span>
+              <div class="window-value">4.3%</div>
+              <div class="window-sub">visit rate stays at 100%</div>
+            </article>
+            <article class="window-card">
+              <span class="mini-label">Late arrivals</span>
+              <div class="window-value">3.8%</div>
+              <div class="window-sub">visit rate stays at 100%</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="distinction-grid">
+          <article class="distinction-card">
+            <span class="section-kicker">Observable 1</span>
+            <span class="distinction-title">Passing through</span>
+            <p class="distinction-copy">Path event: did the walker ever enter the funnel before absorption?</p>
+          </article>
+          <article class="distinction-card">
+            <span class="section-kicker">Observable 2</span>
+            <span class="distinction-title">Staying there</span>
+            <p class="distinction-copy">Time-weighted share: how much of the pre-hit journey was spent in that region?</p>
+          </article>
+        </section>
+      </section>
+
+      <section class="takeaway-band">
+        <div class="takeaway-inner">
+          <div class="takeaway-label">Takeaway</div>
+          <p class="takeaway-copy">
+            Search-time bottlenecks can be unavoidable without dominating where time is spent, and that distinction
+            helps explain how geometry shapes first-passage dynamics.
+          </p>
+          <div class="source-note">
+            exact values from<br />
+            <strong>grid2d_one_target_window_measures</strong><br />
+            valley-k-small
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

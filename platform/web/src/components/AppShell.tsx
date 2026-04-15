@@ -23,6 +23,9 @@ export function AppShell({
             <Link href={prefixPath(prefix, '/book')}>{localizedText(lang, 'Book', '书籍')}</Link>
             <Link href={prefixPath(prefix, '/book/continuous')}>{localizedText(lang, 'Read Through', '通读')}</Link>
             <Link href={prefixPath(prefix, '/reports')}>{localizedText(lang, 'Reports', '报告')}</Link>
+            <Link href={prefixPath(prefix, '/talk/smet-phd')}>
+              {localizedText(lang, 'SMET Talk', 'SMET 汇报')}
+            </Link>
             <Link href={prefixPath(prefix, '/theory')}>
               {localizedText(lang, 'Theory', '理论')}
             </Link>

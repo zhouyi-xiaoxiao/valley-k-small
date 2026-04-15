@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List
 
-from common import REPORT_DIR, workload_order, workload_specs
+from common import DATA_DIR, REPORT_DIR, bibliography_entries, workload_order, workload_specs
 
 
 def _load_summary(path: Path) -> Dict[str, Any]:
@@ -53,6 +53,33 @@ def _pair_map(summary: Dict[str, Any]) -> Dict[str, Dict[str, Dict[str, Any]]]:
     for row in summary["pair_rows"]:
         out.setdefault(str(row["workload_id"]), {})[str(row["task_kind"])] = row
     return out
+
+
+def _cite_keys(row: Dict[str, Any]) -> str:
+    refs = json.loads(str(row.get("primary_refs_json", "[]")))
+    keys = [str(ref.get("key", "")).strip() for ref in refs if str(ref.get("key", "")).strip()]
+    return "\\cite{" + ",".join(keys) + "}" if keys else ""
+
+
+def _workload_row(pair_map: Dict[str, Dict[str, Dict[str, Any]]], workload_id: str) -> Dict[str, Any]:
+    rows = pair_map.get(workload_id, {})
+    return rows.get("diagnostic") or rows.get("curve") or {}
+
+
+def _bibliography_lines() -> List[str]:
+    def _latex_escape(text: str) -> str:
+        return text.replace("&", "\\&")
+
+    lines = [
+        "\\begin{thebibliography}{9}",
+    ]
+    for ref in bibliography_entries():
+        lines.append(
+            f"\\bibitem{{{ref['key']}}} {_latex_escape(ref['short_en'])}. "
+            f"Available at \\url{{{ref['url']}}}."
+        )
+    lines.append("\\end{thebibliography}")
+    return lines
 
 
 def _short_family_en(family: str) -> str:
@@ -132,10 +159,15 @@ def _verdict_text_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]], workload_id
 
 
 def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List[str]:
-    specs = {spec.workload_id: spec for spec in workload_specs()}
+    ring_row = _workload_row(pair_map, "RING-1T-paper")
+    enc_fixed_row = _workload_row(pair_map, "ENC-FIXED")
+    enc_any_row = _workload_row(pair_map, "ENC-ANY")
+    c1_row = _workload_row(pair_map, "TT-C1")
+    lf1_row = _workload_row(pair_map, "TT-LF1")
+    ref_row = _workload_row(pair_map, "REF-S0")
     lines: List[str] = [
         "\\section{Workload Instantiations and Configuration Figures}",
-        "Each workload is now documented inside this unified report, with its own detailed configuration figure and an explicit formula-level specialization of the two method families.",
+        "Each workload is documented here with a detailed configuration figure, a workload-specific specialization of the two solver families, and a provenance-aware description of what the transform-domain route really means in that case.",
         "\\begin{table}[H]",
         "\\centering\\small",
     ]
@@ -150,12 +182,16 @@ def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
     lines.extend(
         [
             "\\subsection{RING-1T-paper}",
-            "This workload is the analytic single-target ring benchmark. The resolvent family starts from the closed-form single-walker propagator",
+            "This workload is the analytic single-target ring benchmark. In this case the Giuggioli-style transform-domain family really is the clean closed-form route: a defect-free ring propagator, a rank-one shortcut-column correction, and scalar renewal to the target "
+            + _cite_keys(ring_row)
+            + ". The specialized formulas are",
             "\\begin{align}",
             "\\widetilde P_{n_0\\to n}(u) &= \\sum_{k=0}^{N-1} \\frac{h_k(n,n_0)}{1-u\\alpha_k},\\\\",
             "\\widetilde F_{n_0\\to m}(u) &= \\frac{\\widetilde P_{n_0\\to m}(u)}{\\widetilde P_{m\\to m}(u)},",
             "\\end{align}",
-            "followed by an AW/Cauchy inversion on a radius-$r$ circle. The time solver instead iterates the absorbing chain directly.",
+            "followed by AW/Cauchy coefficient recovery "
+            + _cite_keys(ring_row)
+            + ". The time solver instead iterates the absorbing chain directly and serves as the exact baseline for the same observable.",
             _verdict_text_en(pair_map, "RING-1T-paper"),
         ]
     )
@@ -165,12 +201,14 @@ def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{ENC-FIXED}",
-            "The fixed-site encounter workload is a single-target first-passage problem on the pair chain. The GF family evaluates the defect-free pair propagator and closes a one-target renewal equation:",
+            "The fixed-site encounter workload is a single-target first-passage problem on the pair chain. The benchmark configuration here is a control with $\\beta=0$, so this is \\emph{not} a shortcut-defect production case. The correct family-level description is: defect-free pair propagator plus one-target renewal on the pair torus "
+            + _cite_keys(enc_fixed_row)
+            + ". The benchmark formulas are therefore",
             "\\begin{align}",
             "G_0\\big((n_0,m_0)\\to(x,y);z\\big) &= \\frac{1}{N^2}\\sum_{k_1,k_2}\\frac{h_{k_1}(x,n_0)h_{k_2}(y,m_0)}{1-z\\lambda^{(1)}_{k_1}\\lambda^{(2)}_{k_2}},\\\\",
             "\\widetilde f_{\\delta}(z) &= \\frac{G\\big((n_0,m_0)\\to(\\delta,\\delta);z\\big)}{G\\big((\\delta,\\delta)\\to(\\delta,\\delta);z\\big)}.",
             "\\end{align}",
-            "The time family evolves the absorbed pair density exactly on the $N^2$ state space.",
+            "The time family evolves the absorbed pair density exactly on the $N^2$ state space. This workload tests the pair-propagator layer of the family, not the finite-defect shortcut correction layer.",
             _verdict_text_en(pair_map, "ENC-FIXED"),
         ]
     )
@@ -180,13 +218,15 @@ def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{ENC-ANY}",
-            "The anywhere-encounter workload promotes the target from one pair-state to the full diagonal set $D=\\{(x,x):x\\in\\mathbb Z_N\\}$. The GF family uses the same defect-free pair propagator but now closes a multi-target renewal system:",
+            "The anywhere-encounter workload promotes the target from one pair-state to the full diagonal set $D=\\{(x,x):x\\in\\mathbb Z_N\\}$. Here the shortcut becomes a line defect on the pair torus, so the transform-domain route is: defect-free pair propagator, finite-dimensional defect restoration, and multi-target renewal on the diagonal set "
+            + _cite_keys(enc_any_row)
+            + ". The benchmark formulas are",
             "\\begin{align}",
             "G(z) &= G_0(z) + z\\,G_0(z)U\\left(I-zV^{\\top}G_0(z)U\\right)^{-1}V^{\\top}G_0(z),\\\\",
             "\\widetilde{\\mathbf f}_D(z) &= G_{DD}(z)^{-1}G_{Ds}(z),\\\\",
             "\\widetilde f_{\\mathrm{enc}}(z) &= \\mathbf 1^{\\top}\\widetilde{\\mathbf f}_D(z).",
             "\\end{align}",
-            "Here the shortcut acts as a line defect on the pair torus, so the Woodbury correction is the bridge between the defect-free pair spectrum and the actual encounter PGF.",
+            "This is the proper place in the report to talk about a shortcut-induced defect line and a finite-dimensional resolvent correction.",
             _verdict_text_en(pair_map, "ENC-ANY"),
         ]
     )
@@ -196,13 +236,14 @@ def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{TT-C1}",
-            "C1 is the practical two-target corridor benchmark. The GF family uses a defect-reduced resolvent instead of a full dense transient solve:",
+            "C1 is the practical two-target corridor benchmark. The transform-domain solver used in the benchmark is intentionally narrower than a full dense resolvent solve: it recovers only the selected propagators needed by the two-target renewal closure, with the heterogeneity compressed to the local support "
+            + _cite_keys(c1_row)
+            + ". To avoid overstating the method, the benchmark should therefore be described by",
             "\\begin{align}",
-            "Q &= Q_0 + U\\Delta V^{\\top},\\\\",
-            "(I-zQ)^{-1} &= (I-zQ_0)^{-1} + z(I-zQ_0)^{-1}U\\left(I-zV^{\\top}(I-zQ_0)^{-1}U\\Delta\\right)^{-1}V^{\\top}(I-zQ_0)^{-1},\\\\",
-            "\\widetilde{\\mathbf f}(z) &= G_{TT}(z)^{-1}G_{Ts}(z),",
+            "G_{sT}(z) &= G^{(0)}_{sT}(z) + \\text{defect-reduced correction on the selected support},\\\\",
+            "\\widetilde{\\mathbf f}(z) &= G_{TT}(z)^{-1}G_{Ts}(z),\\qquad T=\\{m_1,m_2\\},",
             "\\end{align}",
-            "where $T=\\{m_1,m_2\\}$. The time solver is the sparse exact absorbing recursion on the transient graph, continued to the long horizon actually needed by the scientific claim.",
+            "rather than by a claim that the benchmark forms the full matrix $(I-zQ)^{-1}$ over every transient state. The time solver is the sparse exact absorbing recursion on the transient graph, continued to the long horizon actually needed by the scientific claim.",
             _verdict_text_en(pair_map, "TT-C1"),
         ]
     )
@@ -212,7 +253,9 @@ def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{TT-LF1}",
-            "TT-LF1 keeps the same two-target mathematics but collapses the defect support to an ultra-sparse local perturbation. This is the in-repo positive anchor where the defect-reduced GF route can beat long-horizon sparse recursion.",
+            "TT-LF1 keeps the same two-target selected-propagator mathematics as C1, but collapses the heterogeneity support to an ultra-sparse perturbation "
+            + _cite_keys(lf1_row)
+            + ". It is therefore the in-repo positive anchor where the defect-reduced transform-domain route can beat long-horizon sparse recursion, not because it uses a different theory, but because the same theory is operating in a much smaller support regime.",
             _verdict_text_en(pair_map, "TT-LF1"),
         ]
     )
@@ -222,12 +265,14 @@ def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{REF-S0}",
-            "REF-S0 is the reflecting low-defect control. The GF family remains a single-target resolvent solve, but here the full AW route is still numerically feasible because the defect count is deliberately kept small:",
+            "REF-S0 is the reflecting low-defect control. The transform-domain route remains a single-target reflecting-lattice renewal, and the full AW inversion is still numerically feasible only because the defect count is deliberately kept small "
+            + _cite_keys(ref_row)
+            + ":",
             "\\begin{align}",
             "\\widetilde F_{s\\to m}(z) &= \\frac{G_{sm}(z)}{G_{mm}(z)},\\\\",
             "f(t) &= [z^t]\\widetilde F_{s\\to m}(z).",
             "\\end{align}",
-            "The time family is the standard exact absorbing recursion on the reflecting lattice.",
+            "The time family is the standard exact absorbing recursion on the reflecting lattice. The role of this workload is to mark the low-defect edge of feasibility; it should not be described as evidence that full AW remains the default method for generic 2D heterogeneous cases.",
             _verdict_text_en(pair_map, "REF-S0"),
         ]
     )
@@ -236,9 +281,15 @@ def _workload_section_en(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
 
 
 def _workload_section_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List[str]:
+    ring_row = _workload_row(pair_map, "RING-1T-paper")
+    enc_fixed_row = _workload_row(pair_map, "ENC-FIXED")
+    enc_any_row = _workload_row(pair_map, "ENC-ANY")
+    c1_row = _workload_row(pair_map, "TT-C1")
+    lf1_row = _workload_row(pair_map, "TT-LF1")
+    ref_row = _workload_row(pair_map, "REF-S0")
     lines: List[str] = [
         "\\section{六个 Workload 的实例化与详细配置图}",
-        "六个 workload 现在都在这份统一报告里直接说明：每个案例都给出详细配置图，并把两大家族在该案例上的公式实例化写清楚。",
+        "六个 workload 现在都在这份统一报告里直接说明：每个案例都给出详细配置图、工作负载级公式特化，以及它在 Giuggioli/Sarvaharman 方法家族中的准确层次。",
         "\\begin{table}[H]",
         "\\centering\\small",
         "\\resizebox{\\linewidth}{!}{%",
@@ -247,12 +298,16 @@ def _workload_section_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         "\\caption{统一比较里保留的六个 workload。}",
         "\\end{table}",
         "\\subsection{RING-1T-paper}",
-        "这是解析单目标 ring benchmark。生成函数家族从闭式单 walker 传播子出发：",
+        "这是解析单目标 ring benchmark。在这个 workload 里，Giuggioli 风格的变换域路线确实就是最标准的闭式路径：先有 defect-free ring propagator，再做单列 shortcut 的秩一修正，最后通过单目标 renewal 闭合 "
+        + _cite_keys(ring_row)
+        + "：",
         "\\begin{align}",
         "\\widetilde P_{n_0\\to n}(u) &= \\sum_{k=0}^{N-1} \\frac{h_k(n,n_0)}{1-u\\alpha_k},\\\\",
         "\\widetilde F_{n_0\\to m}(u) &= \\frac{\\widetilde P_{n_0\\to m}(u)}{\\widetilde P_{m\\to m}(u)},",
         "\\end{align}",
-        "再沿半径 $r$ 的圆周做 AW/Cauchy 反演。时域家族则直接推进吸收链。",
+        "再沿半径 $r$ 的圆周做 AW/Cauchy 系数恢复 "
+        + _cite_keys(ring_row)
+        + "。时域家族则直接推进吸收链，并作为同一观测量的精确基线。",
         _verdict_text_cn(pair_map, "RING-1T-paper"),
     ]
     lines.extend(_figure_block("RING-1T-paper", "paper-like 单目标 shortcut benchmark 的详细 ring 几何。"))
@@ -261,12 +316,14 @@ def _workload_section_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{ENC-FIXED}",
-            "fixed-site encounter 在 pair chain 上是一个单 target 首达问题。GF 家族先写 defect-free pair propagator，再闭合单 target renewal：",
+            "fixed-site encounter 在 pair chain 上是一个单 target 首达问题。这里当前 benchmark 配置是 $\\beta=0$ 的控制例，因此它\\emph{不是}一个 shortcut defect 主求解案例。正确的 family 表述应当是：defect-free pair propagator 加单目标 renewal "
+            + _cite_keys(enc_fixed_row)
+            + "：",
             "\\begin{align}",
             "G_0\\big((n_0,m_0)\\to(x,y);z\\big) &= \\frac{1}{N^2}\\sum_{k_1,k_2}\\frac{h_{k_1}(x,n_0)h_{k_2}(y,m_0)}{1-z\\lambda^{(1)}_{k_1}\\lambda^{(2)}_{k_2}},\\\\",
             "\\widetilde f_{\\delta}(z) &= \\frac{G\\big((n_0,m_0)\\to(\\delta,\\delta);z\\big)}{G\\big((\\delta,\\delta)\\to(\\delta,\\delta);z\\big)}.",
             "\\end{align}",
-            "时域家族则在 $N^2$ 状态空间上精确推进吸收 pair density。",
+            "时域家族则在 $N^2$ 状态空间上精确推进吸收 pair density。这个 workload 检查的是 pair-propagator 这一层，不应该被写成实际 shortcut defect 主例。",
             _verdict_text_cn(pair_map, "ENC-FIXED"),
         ]
     )
@@ -276,13 +333,15 @@ def _workload_section_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{ENC-ANY}",
-            "anywhere encounter 把 target 从单点提升成整条对角线 $D=\\{(x,x):x\\in\\mathbb Z_N\\}$。GF 家族仍从 defect-free pair propagator 出发，但需要多 target renewal：",
+            "anywhere encounter 把 target 从单点提升成整条对角线 $D=\\{(x,x):x\\in\\mathbb Z_N\\}$。在这个 workload 里，shortcut 在 pair torus 上对应一条 defect line，所以变换域路线应准确写成：defect-free pair propagator、有限维 defect 恢复、再加对角集合上的多目标 renewal "
+            + _cite_keys(enc_any_row)
+            + "：",
             "\\begin{align}",
             "G(z) &= G_0(z) + z\\,G_0(z)U\\left(I-zV^{\\top}G_0(z)U\\right)^{-1}V^{\\top}G_0(z),\\\\",
             "\\widetilde{\\mathbf f}_D(z) &= G_{DD}(z)^{-1}G_{Ds}(z),\\\\",
             "\\widetilde f_{\\mathrm{enc}}(z) &= \\mathbf 1^{\\top}\\widetilde{\\mathbf f}_D(z).",
             "\\end{align}",
-            "shortcut 在 pair torus 上对应一条 defect line，因此 Woodbury 修正就是把 defect-free 频谱恢复成真实 encounter PGF 的关键步骤。",
+            "也就是说，真正适合谈“shortcut defect line”的是这个 workload，而不是上面的 fixed-site 控制例。",
             _verdict_text_cn(pair_map, "ENC-ANY"),
         ]
     )
@@ -292,13 +351,14 @@ def _workload_section_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{TT-C1}",
-            "C1 是最重要的 two-target 实务 benchmark。GF 家族不是去做完整 dense transient solve，而是做 defect-reduced resolvent：",
+            "C1 是最重要的 two-target 实务 benchmark。这里的 GF 家族并不是去做完整 dense transient solve，而是只恢复双目标 renewal 真正需要的 selected propagators，并把 heterogeneity 压到局部 support 上 "
+            + _cite_keys(c1_row)
+            + "：",
             "\\begin{align}",
-            "Q &= Q_0 + U\\Delta V^{\\top},\\\\",
-            "(I-zQ)^{-1} &= (I-zQ_0)^{-1} + z(I-zQ_0)^{-1}U\\left(I-zV^{\\top}(I-zQ_0)^{-1}U\\Delta\\right)^{-1}V^{\\top}(I-zQ_0)^{-1},\\\\",
-            "\\widetilde{\\mathbf f}(z) &= G_{TT}(z)^{-1}G_{Ts}(z),",
+            "G_{sT}(z) &= G^{(0)}_{sT}(z) + \\text{selected-support correction},\\\\",
+            "\\widetilde{\\mathbf f}(z) &= G_{TT}(z)^{-1}G_{Ts}(z),\\qquad T=\\{m_1,m_2\\},",
             "\\end{align}",
-            "其中 $T=\\{m_1,m_2\\}$。时域家族则是在瞬态图上做 sparse exact recursion，并延伸到支撑科学结论所需的长时窗。",
+            "因此正文不应把它泛化成“直接形成全体瞬态态空间上的 $(I-zQ)^{-1}$”。时域家族则是在瞬态图上做 sparse exact recursion，并延伸到支撑科学结论所需的长时窗。",
             _verdict_text_cn(pair_map, "TT-C1"),
         ]
     )
@@ -308,7 +368,9 @@ def _workload_section_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{TT-LF1}",
-            "TT-LF1 复用相同的 two-target 数学，但把 defect support 压到极稀疏，因此成为本仓库里 Luca/GF 占优的正锚点。",
+            "TT-LF1 复用与 C1 相同的双目标 selected-propagator 数学，只是把 heterogeneity support 压到极稀疏区间 "
+            + _cite_keys(lf1_row)
+            + "。它之所以成为本仓库里 Luca/GF 占优的正锚点，不是因为换了另一套理论，而是因为同一套理论工作在了更小的 support regime。",
             _verdict_text_cn(pair_map, "TT-LF1"),
         ]
     )
@@ -318,12 +380,14 @@ def _workload_section_cn(pair_map: Dict[str, Dict[str, Dict[str, Any]]]) -> List
         [
             "\\clearpage",
             "\\subsection{REF-S0}",
-            "REF-S0 是 reflecting 低缺陷控制例。GF 家族仍然是单 target resolvent + 反演，但在这个案例里 full AW 还保持可行：",
+            "REF-S0 是 reflecting 低缺陷控制例。GF 家族仍然是单 target reflecting-lattice renewal，而 full AW 之所以还能完整跑通，只是因为这里故意把 defect 数压得很小 "
+            + _cite_keys(ref_row)
+            + "：",
             "\\begin{align}",
             "\\widetilde F_{s\\to m}(z) &= \\frac{G_{sm}(z)}{G_{mm}(z)},\\\\",
             "f(t) &= [z^t]\\widetilde F_{s\\to m}(z).",
             "\\end{align}",
-            "时域家族则是标准的 reflecting 吸收递推。",
+            "时域家族则是标准的 reflecting 吸收递推。这个 workload 的角色是标出低缺陷控制下的可行边界，而不是把结论外推到一般二维 heterogeneous case。",
             _verdict_text_cn(pair_map, "REF-S0"),
         ]
     )
@@ -346,8 +410,8 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
         "\\usepackage{amsmath,amssymb,mathtools,booktabs,graphicx,float,hyperref,enumitem,longtable,array,pdflscape}",
         "\\hypersetup{hidelinks}",
         "\\setlength{\\emergencystretch}{2em}",
-        "\\newcommand{\\FigDir}{../figures}",
-        "\\newcommand{\\TabDir}{../tables}",
+        "\\newcommand{\\FigDir}{../artifacts/figures}",
+        "\\newcommand{\\TabDir}{../artifacts/tables}",
         "\\title{Unified Computational Benchmark for First-Passage Problems\\\\Luca / Generating-Function Family vs. Time-Domain Recursion Family}",
         "\\author{valley-k-small automated report}",
         "\\date{\\today}",
@@ -356,6 +420,7 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
         "\\begin{abstract}",
         "This document is the single active computational-method comparison report in the repository. ",
         "It keeps the scientific reports separate, but collapses the comparison line into one bilingual benchmark with six workloads. ",
+        "The transform-domain side is treated explicitly as a \\emph{family} rooted in the propagator, renewal, and bounded-heterogeneity formalisms developed by Giuggioli, Sarvaharman, and collaborators, rather than as one monolithic single-paper method \\cite{pre102_062124_2020,prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023}. ",
         "The benchmark rule is \\emph{practical native-task fairness}: each report is timed on the task it actually needed to complete, rather than on an artificially synchronized full-tail horizon. ",
         f"Under the diagnostic protocol the median ratio $t_{{\\mathrm{{time}}}}/t_{{\\mathrm{{Luca}}}}$ is {_fmt(diag.get('median_speedup_time_over_luca', 0.0), 4)}; ",
         f"time recursion wins on {time_diag}, while Luca/GF wins on {luca_diag}. ",
@@ -365,7 +430,7 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
         "\\section{Goal and Comparison Rule}",
         "We compare only two families.",
         "\\begin{itemize}[leftmargin=1.4em]",
-        "\\item \\textbf{Luca / generating-function family}: closed-form propagators, defect-reduced resolvent recovery, renewal in transform space, and AW/Cauchy-FFT inversion.",
+        "\\item \\textbf{Luca / generating-function family}: closed-form or defect-free propagators, finite-support heterogeneity corrections, renewal in transform space, and AW/Cauchy-FFT inversion.",
         "\\item \\textbf{Time-domain recursion family}: exact propagation on the transient state space, including sparse absorbing recursion and absorbed pair-distribution updates.",
         "\\end{itemize}",
         "The main benchmark is not a forced full-tail comparison. It is a report-production comparison: how much time does each family need to deliver the quantity that the scientific report actually required?",
@@ -383,6 +448,15 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
         "\\end{align}",
         "For multiple targets, renewal becomes a small linear system on target-to-target propagators. ",
         "All timings use single-thread BLAS, one warm-up run, three measured runs, and the median wall time as the reported benchmark value.",
+        "\\section{What Luca/GF Means Here}",
+        "Throughout this report, `Luca/GF' is a family label rather than the name of one single solver. The family bundles four layers that appear in different proportions across the six workloads \\cite{pre102_062124_2020,prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023}:",
+        "\\begin{enumerate}[leftmargin=1.5em]",
+        "\\item a closed-form or defect-free propagator;",
+        "\\item a finite-dimensional defect or heterogeneity correction on a selected support;",
+        "\\item a one-target or multi-target renewal closure;",
+        "\\item AW/Cauchy-FFT coefficient recovery of the FPT generating function \\cite{abate_whitt_2006}.",
+        "\\end{enumerate}",
+        "This distinction matters because not every workload uses all four layers equally. In particular, the two-target C1 and LF1 benchmarks use selected-propagator recovery rather than a dense global inverse over every transient state, while ENC-FIXED is a $\\beta=0$ control that tests the pair-propagator layer without a shortcut-defect correction.",
         "\\section{Luca / Generating-Function Family: Mathematical Spine}",
         "The common transform-domain workflow is:",
         "\\begin{enumerate}[leftmargin=1.5em]",
@@ -396,7 +470,7 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
         "f(t) = [z^t]\\widetilde f(z) = \\frac{1}{2\\pi i}\\oint_{|z|=r} \\frac{\\widetilde f(z)}{z^{t+1}}\\,dz",
         "\\approx \\frac{r^{-t}}{m}\\sum_{k=0}^{m-1}\\widetilde f\\!\\left(re^{2\\pi i k/m}\\right)e^{-2\\pi i kt/m}.",
         "\\end{align}",
-        "This is the shared numerical shell behind the ring, encounter, two-target, and reflecting GF workloads.",
+        "This is the shared numerical shell behind the ring, encounter, two-target, and reflecting GF workloads \\cite{abate_whitt_2006}.",
         "\\subsection{Encounter-Specific GF Route}",
         "For the two-walker shortcut encounter, the defect-free pair propagator is",
         "\\begin{align}",
@@ -470,6 +544,14 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
             "}",
             "\\caption{Curve-task runtime table.}",
             "\\end{table}",
+            "\\section{Method Boundaries}",
+            "The benchmark supports a narrower claim than a generic `Luca/GF versus exact recursion' slogan. What it actually resolves is where the transform-domain family remains a practical production route once the right mathematical layer is identified. The boundary lines are:",
+            "\\begin{itemize}[leftmargin=1.4em]",
+            "\\item use the transform-domain family aggressively when a clean closed form already exists (RING-1T-paper),",
+            "\\item keep it as a valid but usually slower validation route when the pair-propagator formalism is correct but the defect support is no longer tiny (ENC-ANY),",
+            "\\item describe it carefully as selected-propagator recovery, not full dense resolvent inversion, in bounded heterogeneous two-target problems (TT-C1 and TT-LF1),",
+            "\\item treat low-defect full AW controls as feasibility markers rather than default production solvers for generic 2D heterogeneous cases (REF-S0).",
+            "\\end{itemize}",
             "\\section{Recommendation Matrix}",
             "\\begin{table}[H]",
             "\\centering\\small",
@@ -512,10 +594,17 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
             "\\end{align}",
             "For two-target problems, let $R=[r^{(1)}\\;r^{(2)}]$ and then $f_1(t+1)=u_tr^{(1)}$, $f_2(t+1)=u_tr^{(2)}$. ",
             "For pair encounters, the matrix recursion form is numerically convenient because the encounter condition is a structured absorbing set on the pair torus.",
-            "\\section{Appendix D: Per-Workload Formula Specialization}",
+            "\\section{Appendix D: Per-Workload Formula Specialization and Audit Map}",
             "RING-1T-paper uses a scalar renewal. ENC-FIXED uses a single-target renewal on the pair chain. ENC-ANY uses a diagonal target-set renewal on the pair torus. ",
             "TT-C1 and TT-LF1 use a two-target renewal after defect-reduced selected-propagator recovery. REF-S0 uses the single-target reflecting resolvent. ",
             "These are exactly the formulas instantiated in Section 5 alongside the detailed configuration figures.",
+            "\\begin{table}[H]",
+            "\\centering\\small",
+            "\\resizebox{\\linewidth}{!}{%",
+            "\\input{\\TabDir/unified_audit_appendix_en.tex}",
+            "}",
+            "\\caption{Audit appendix: actual solver pair, mathematical object, paper provenance, and implementation anchor for each workload.}",
+            "\\end{table}",
             "\\section{Appendix E: Complexity, Memory, Error Metrics, and Benchmark Protocol}",
             "The runtime comparison is accepted only after a same-window numerical agreement check between the two families. ",
             "For each workload, the overlap window is reported through $L^1$, $L^{\\infty}$, and a peak-location consistency flag. ",
@@ -530,9 +619,16 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
             "}",
             "\\caption{Embedded historical fairness note retained inside the unified report.}",
             "\\end{table}",
-            "\\end{document}",
         ]
     )
+    lines.extend(
+        [
+            "\\clearpage",
+            "\\section*{References}",
+        ]
+    )
+    lines.extend(_bibliography_lines())
+    lines.extend(["\\end{document}"])
     return "\n".join(lines) + "\n"
 
 
@@ -551,8 +647,8 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
         "\\usepackage{amsmath,amssymb,mathtools,booktabs,graphicx,float,hyperref,enumitem,longtable,array,pdflscape}",
         "\\hypersetup{hidelinks}",
         "\\setlength{\\emergencystretch}{2em}",
-        "\\newcommand{\\FigDir}{../figures}",
-        "\\newcommand{\\TabDir}{../tables}",
+        "\\newcommand{\\FigDir}{../artifacts/figures}",
+        "\\newcommand{\\TabDir}{../artifacts/tables}",
         "\\title{统一计算方法比较主稿\\\\Luca / 生成函数家族 vs. 时域递推家族}",
         "\\author{valley-k-small 自动化报告}",
         "\\date{\\today}",
@@ -560,6 +656,7 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
         "\\maketitle",
         "\\begin{abstract}",
         "这份文稿是仓库里唯一活跃的计算方法比较报告。科学主报告继续各自独立，但方法比较线统一收敛到这里，并固定保留六个 workload。 ",
+        "文中所谓的 Luca/GF 不被当成“同一篇论文里的单一方法”，而是明确指向 Giuggioli、Sarvaharman 及合作者发展出来的一整类 propagator、renewal 与 bounded-heterogeneity formalism \\cite{pre102_062124_2020,prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023}。 ",
         "主公平口径采用\\emph{实务 native-task}：每份科学报告实际需要完成什么任务，就按那个任务去计时，而不是强行统一 full-tail。 ",
         f"在 diagnostic 协议下，中位比值 $t_{{\\mathrm{{time}}}}/t_{{\\mathrm{{Luca}}}}={_fmt(diag.get('median_speedup_time_over_luca', 0.0), 4)}$；",
         f"时域递推赢在 {time_diag}，Luca/GF 赢在 {luca_diag}。 ",
@@ -569,7 +666,7 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
         "\\section{研究目标与比较口径}",
         "这里只比较两大家族：",
         "\\begin{itemize}[leftmargin=1.4em]",
-        "\\item \\textbf{Luca / 生成函数家族}：闭式传播子、defect-reduced resolvent、变换域 renewal、AW/Cauchy-FFT 反演。",
+        "\\item \\textbf{Luca / 生成函数家族}：闭式或 defect-free 传播子、有限支撑上的 heterogeneity 修正、变换域 renewal、AW/Cauchy-FFT 反演。",
         "\\item \\textbf{时域递推家族}：在瞬态状态空间上做精确推进，包括 sparse exact recursion 与 absorbed pair-distribution update。",
         "\\end{itemize}",
         "主 benchmark 不是强制 full-tail 公平，而是“为了交付当前科学结论，哪个家族更合适”。",
@@ -587,6 +684,15 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
         "\\end{align}",
         "多 target 情况则在 target-to-target propagator 上变成一个小线性系统。 ",
         "全部 runtime 均采用单线程 BLAS、1 次 warm-up、3 次 measured，再取中位 wall time。",
+        "\\section{这份报告里的 Luca/GF 到底指什么}",
+        "全文里的 `Luca/GF' 是 family label，而不是单一 solver 的名字。这里统一把它拆成四层 \\cite{pre102_062124_2020,prr5_043281_2023,jstat_013201_2023,review_2311_00464_2023}：",
+        "\\begin{enumerate}[leftmargin=1.5em]",
+        "\\item 闭式或 defect-free propagator；",
+        "\\item 有限支撑上的 defect / heterogeneity 修正；",
+        "\\item 单目标或多目标 renewal 闭合；",
+        "\\item 对 FPT generating function 的 AW/Cauchy-FFT 系数恢复 \\cite{abate_whitt_2006}。",
+        "\\end{enumerate}",
+        "这个区分很重要，因为六个 workload 对这四层的使用强度并不一样。尤其是 TT-C1 与 TT-LF1 用的是 selected-propagator recovery，而不是完整 dense inverse；ENC-FIXED 则是 $\\beta=0$ 控制例，只检验 pair-propagator 这一层。",
         "\\section{Luca / 生成函数家族：完整数学主线}",
         "变换域家族的统一流程是：",
         "\\begin{enumerate}[leftmargin=1.5em]",
@@ -600,6 +706,7 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
         "f(t)=[z^t]\\widetilde f(z)=\\frac{1}{2\\pi i}\\oint_{|z|=r}\\frac{\\widetilde f(z)}{z^{t+1}}\\,dz",
         "\\approx \\frac{r^{-t}}{m}\\sum_{k=0}^{m-1}\\widetilde f\\!\\left(re^{2\\pi i k/m}\\right)e^{-2\\pi i kt/m}.",
         "\\end{align}",
+        "这就是 ring、encounter、two-target 与 reflecting 各 workload 共用的数值外壳 \\cite{abate_whitt_2006}。",
         "\\subsection{Encounter 的 GF 路线}",
         "对于 two-walker shortcut encounter，defect-free pair propagator 为",
         "\\begin{align}",
@@ -672,6 +779,14 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
             "}",
             "\\caption{curve-task runtime 表。}",
             "\\end{table}",
+            "\\section{方法边界}",
+            "这份 benchmark 支撑的是一个比“Luca/GF 对 exact recursion”更窄、更精确的结论：当先把 transform-domain solver 所在的数学层次讲清楚之后，它在什么区间仍然是实务上合适的生产路线。边界可以概括为：",
+            "\\begin{itemize}[leftmargin=1.4em]",
+            "\\item 当闭式 already exists 时，变换域路线最有优势（RING-1T-paper）；",
+            "\\item 当 pair-propagator 形式是对的、但 defect support 不再极小，GF 可以继续做验证，但通常不是主生产器（ENC-ANY）；",
+            "\\item 在有界 heterogeneous two-target 问题里，应把它准确表述为 selected-propagator recovery，而不是 full dense resolvent（TT-C1, TT-LF1）；",
+            "\\item 低缺陷 full AW 控制例只能当作 feasibility marker，不能外推成一般二维 heterogeneous case 的默认方法（REF-S0）。",
+            "\\end{itemize}",
             "\\section{推荐矩阵}",
             "\\begin{table}[H]",
             "\\centering\\small",
@@ -713,8 +828,15 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
             "S(t+1) &= u_{t+1}\\mathbf 1.",
             "\\end{align}",
             "对 two-target 问题，让 $R=[r^{(1)}\\;r^{(2)}]$，于是 $f_1(t+1)=u_tr^{(1)}$、$f_2(t+1)=u_tr^{(2)}$。对 pair encounter，则矩阵递推形式更方便，因为吸收集在 pair torus 上具有结构。",
-            "\\section{附录 D：六个 workload 的逐例公式展开}",
+            "\\section{附录 D：六个 workload 的逐例公式展开与核查映射}",
             "RING-1T-paper 是标量 renewal；ENC-FIXED 是 pair chain 上的单 target renewal；ENC-ANY 是 pair torus 对角集上的多 target renewal；TT-C1 与 TT-LF1 是 defect-reduced selected-propagator 恢复之后的两目标 renewal；REF-S0 是 reflecting 单 target resolvent。正文第五节已经把它们与详细配置图一一对应。",
+            "\\begin{table}[H]",
+            "\\centering\\small",
+            "\\resizebox{\\linewidth}{!}{%",
+            "\\input{\\TabDir/unified_audit_appendix_cn.tex}",
+            "}",
+            "\\caption{核查附录：逐 workload 列出实际 solver 配对、数学对象、论文来源与仓库实现锚点。}",
+            "\\end{table}",
             "\\section{附录 E：复杂度、内存、误差与数值协议}",
             "runtime 比较只有在共同比较窗口内通过数值一致性检查后才会进入主表。对每个 workload，都报告 $L^1$、$L^{\\infty}$ 与峰位一致性标志，因此 wall time 从不脱离数值 sanity check 单独汇报。",
             "\\section{附录 F：内嵌历史 full-FPT 口径说明}",
@@ -726,9 +848,16 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
             "}",
             "\\caption{统一报告内部保留的历史公平口径说明。}",
             "\\end{table}",
-            "\\end{document}",
         ]
     )
+    lines.extend(
+        [
+            "\\clearpage",
+            "\\section*{参考文献}",
+        ]
+    )
+    lines.extend(_bibliography_lines())
+    lines.extend(["\\end{document}"])
     return "\n".join(lines) + "\n"
 
 
@@ -744,6 +873,7 @@ def _build_readme(summary: Dict[str, Any]) -> str:
         "- Compare only two families: `luca_gf` and `time_recursion`.",
         "- Keep all scientific reports separate; centralize only the computational comparison line here.",
         "- Use practical native-task fairness as the main benchmark rule.",
+        "- Treat `Luca/GF` as a Giuggioli/Sarvaharman method family with workload-specific layers, not as a single monolithic solver.",
         "- Embed the historical full-tail note inside Appendix F instead of maintaining a separate active compare report.",
         "",
         "## Snapshot",
@@ -754,6 +884,8 @@ def _build_readme(summary: Dict[str, Any]) -> str:
         "- Data: `artifacts/data/manifest.csv`, `artifacts/data/runtime_raw.csv`, `artifacts/data/runtime_summary.json`",
         "- Runtime figures: `artifacts/figures/unified_runtime_diagnostic.pdf`, `artifacts/figures/unified_runtime_curve.pdf`, `artifacts/figures/unified_speedup_by_workload.pdf`",
         "- Detailed workload configuration figures: `artifacts/figures/<workload_id>_config_detailed.pdf` for all six workloads",
+        "- Audit note: `notes/theory_audit_2026-04-15.md`",
+        "- Appendix tables: `artifacts/tables/unified_audit_appendix_en.tex`, `artifacts/tables/unified_audit_appendix_cn.tex`",
         "- Manuscripts: `manuscript/luca_vs_recursion_unified_benchmark_en.tex`, `manuscript/luca_vs_recursion_unified_benchmark_cn.tex`",
         "",
         "## Reproduce",
@@ -775,7 +907,7 @@ def main() -> None:
     parser.add_argument(
         "--summary",
         type=str,
-        default=str(REPORT_DIR / "data" / "runtime_summary.json"),
+        default=str(DATA_DIR / "runtime_summary.json"),
     )
     args = parser.parse_args()
 

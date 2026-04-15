@@ -494,3 +494,194 @@ export type TranslationQC = {
     message: string;
   }>;
 };
+
+export type ChartReference = {
+  id: string;
+  title_en: string;
+  title_cn: string;
+  caption_en: string;
+  caption_cn: string;
+  report_id: string;
+  dataset: DatasetMeta;
+};
+
+export type TalkFigureReference = {
+  src: string;
+  alt_en: string;
+  alt_cn: string;
+  caption_en: string;
+  caption_cn: string;
+};
+
+export type TalkAnimationSpec = {
+  kind: 'basic-walk' | 'ring-branches' | 'valley-budget';
+};
+
+export type TalkEvidenceSpec =
+  | {
+      kind: 'comparison';
+    }
+  | ({
+      kind: 'image';
+    } & TalkFigureReference)
+  | {
+      kind: 'series';
+      title_en: string;
+      title_cn: string;
+      caption_en: string;
+      caption_cn: string;
+      primary_series_id: string;
+      secondary_series_id?: string;
+    }
+  | {
+      kind: 'outlook';
+      image_src?: string;
+      image_alt_en?: string;
+      image_alt_cn?: string;
+      cards_en: string[];
+      cards_cn: string[];
+    };
+
+export type TalkSlide = {
+  id: string;
+  order: number;
+  start: string;
+  end: string;
+  title: string;
+  sentence: string;
+  question_en: string;
+  question_cn: string;
+  animation?: TalkAnimationSpec;
+  evidence?: TalkEvidenceSpec;
+};
+
+export type TalkDeckManifest = {
+  talk_id: string;
+  title_en: string;
+  title_cn: string;
+  subtitle_en: string;
+  subtitle_cn: string;
+  audience_en: string;
+  audience_cn: string;
+  duration_minutes: number;
+  theme_en: string;
+  theme_cn: string;
+  slides: TalkSlide[];
+};
+
+export type TalkSlideNote = {
+  slide_id: string;
+  start: string;
+  end: string;
+  title: string;
+  spoken_text: string;
+  speaker_notes: string;
+  timing_prompt: string;
+};
+
+export type TalkScriptPayload = {
+  talk_id: string;
+  lang: Lang;
+  blocks: TalkSlideNote[];
+};
+
+export type BasicDemoPayload = {
+  grid_width: number;
+  grid_height: number;
+  source: {
+    x: number;
+    y: number;
+  };
+  target: {
+    x: number;
+    y: number;
+  };
+  walks: Array<{
+    id: string;
+    steps: Array<{
+      x: number;
+      y: number;
+    }>;
+    hit_step: number;
+  }>;
+};
+
+export type RingDemoPayload = {
+  ring_size: number;
+  source: number;
+  target: number;
+  shortcut_from: number;
+  scan: {
+    dst: number[];
+    h1: number[];
+    t1: number[];
+    bimodal: boolean[];
+  };
+  presets: Array<{
+    id: string;
+    label_en: string;
+    label_cn: string;
+    summary_en: string;
+    summary_cn: string;
+    callout_en: string;
+    callout_cn: string;
+    dst: number;
+    t1: number;
+    h1: number;
+    t2: number | null;
+    h2: number | null;
+    bimodal: boolean;
+    window: [number, number] | null;
+    fast_weight: number;
+    slow_weight: number;
+    in_window: number;
+    fast_path: number[];
+    slow_path: number[];
+    curve: {
+      times: number[];
+      density: number[];
+    };
+  }>;
+};
+
+export type GatingDemoPayload = {
+  geometry: {
+    width: number;
+    height: number;
+    source: {
+      x: number;
+      y: number;
+    };
+    target: {
+      x: number;
+      y: number;
+    };
+    gate_x: number;
+    corridor_y_min: number;
+    corridor_y_max: number;
+  };
+  windows: Array<{
+    id: string;
+    label_en: string;
+    label_cn: string;
+    summary_en: string;
+    summary_cn: string;
+    callout_en: string;
+    callout_cn: string;
+    window_lo: number;
+    window_hi: number;
+    mean_hit_time: number;
+    corridor_share: number;
+    outside_share: number;
+    tau_out_prob: number;
+    tau_out_post_share: number;
+    tau_mem_prob: number;
+    tau_mem_post_share: number;
+    outside_steps: number;
+    tau_mem_post_steps: number | null;
+    path: Array<{
+      x: number;
+      y: number;
+    }>;
+  }>;
+};

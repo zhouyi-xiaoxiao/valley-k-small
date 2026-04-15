@@ -1,0 +1,150 @@
+{
+  "scans": {
+    "width_bx": {
+      "scan_name": "width_bx",
+      "count": 2,
+      "elapsed_seconds": 2.358257293701172,
+      "parameter_ranges": {
+        "width_bx": {
+          "corridor_halfwidth": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "bx": [
+            -0.16,
+            -0.12,
+            -0.08,
+            -0.04,
+            0.0,
+            0.04,
+            0.08
+          ]
+        },
+        "delta": {
+          "delta_core": [
+            0.4,
+            0.6,
+            0.8,
+            1.0,
+            1.2
+          ],
+          "delta_open": [
+            0.0,
+            0.2,
+            0.4,
+            0.55,
+            0.8
+          ]
+        }
+      },
+      "baseline_parameters": {
+        "corridor_halfwidth": 2,
+        "bx": -0.08,
+        "delta_core": 1.0,
+        "delta_open": 0.55,
+        "kappa_c2o": 0.002,
+        "kappa_o2c": 0.002,
+        "t_max_total": 5000
+      },
+      "notes": {
+        "late_window_name": "peak2 when a detected second peak exists; otherwise the final fallback window returned by window_ranges().",
+        "tau_out": "first time the chain enters any outside state",
+        "tau_mem": "first time the chain crosses a membrane corridor-to-outside edge",
+        "kappa_protocol": {
+          "kappa_c2o": 0.002,
+          "kappa_o2c": 0.002,
+          "interpretation": "hold the already-scanned symmetric directional permeability fixed while sweeping unswept geometry/bias parameters"
+        }
+      },
+      "phase_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "outputs": {
+        "cases": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_width_bx_smoke_cases.csv",
+        "windows": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_width_bx_smoke_windows.csv",
+        "events": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_width_bx_smoke_events.csv",
+        "regions": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_width_bx_smoke_regions.csv",
+        "highlights": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_width_bx_smoke_highlights.csv",
+        "metadata": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_width_bx_smoke_metadata.json"
+      }
+    },
+    "delta": {
+      "scan_name": "delta",
+      "count": 2,
+      "elapsed_seconds": 1.950517177581787,
+      "parameter_ranges": {
+        "width_bx": {
+          "corridor_halfwidth": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "bx": [
+            -0.16,
+            -0.12,
+            -0.08,
+            -0.04,
+            0.0,
+            0.04,
+            0.08
+          ]
+        },
+        "delta": {
+          "delta_core": [
+            0.4,
+            0.6,
+            0.8,
+            1.0,
+            1.2
+          ],
+          "delta_open": [
+            0.0,
+            0.2,
+            0.4,
+            0.55,
+            0.8
+          ]
+        }
+      },
+      "baseline_parameters": {
+        "corridor_halfwidth": 2,
+        "bx": -0.08,
+        "delta_core": 1.0,
+        "delta_open": 0.55,
+        "kappa_c2o": 0.002,
+        "kappa_o2c": 0.002,
+        "t_max_total": 5000
+      },
+      "notes": {
+        "late_window_name": "peak2 when a detected second peak exists; otherwise the final fallback window returned by window_ranges().",
+        "tau_out": "first time the chain enters any outside state",
+        "tau_mem": "first time the chain crosses a membrane corridor-to-outside edge",
+        "kappa_protocol": {
+          "kappa_c2o": 0.002,
+          "kappa_o2c": 0.002,
+          "interpretation": "hold the already-scanned symmetric directional permeability fixed while sweeping unswept geometry/bias parameters"
+        }
+      },
+      "phase_counts": {
+        "0": 2
+      },
+      "outputs": {
+        "cases": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_delta_smoke_cases.csv",
+        "windows": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_delta_smoke_windows.csv",
+        "events": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_delta_smoke_events.csv",
+        "regions": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_delta_smoke_regions.csv",
+        "highlights": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_delta_smoke_highlights.csv",
+        "metadata": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_delta_smoke_metadata.json"
+      }
+    }
+  },
+  "generated_at_root": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity"
+}

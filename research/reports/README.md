@@ -49,6 +49,10 @@ research/reports/<report_id>/
 - `grid2d_rect_bimodality`
 - `grid2d_membrane_near_target`
 - `grid2d_one_two_target_gating`
+- `grid2d_one_target_window_measures`
+- `grid2d_one_target_exit_timing`
+- `grid2d_one_target_valley_peak_budget`
+- `exact_recursion_method_guide`
 - `luca_vs_recursion_unified_benchmark`
 
 ## Computational Comparison Line
@@ -58,6 +62,10 @@ research/reports/<report_id>/
 ## Current Mechanism Integration
 - `grid2d_one_two_target_gating` is the canonical repo-native integration point for the March 16 gating line.
 - Its raw zips and PDFs remain archived under `notes/source_imports/2026-03-16/raw/`, but the report build now regenerates figures, tables, scans, representative-case bundles, and PDFs from shared code under `packages/vkcore/src/vkcore/grid2d/one_two_target_gating/`; the one-target main text now fixes a shared symmetric baseline, separates top/bottom asymmetry from same-membrane directional asymmetry, uses gate-free rollback `L0R0/L0R1/L1R0/L1R1` as the main discrete mechanism, keeps the real-set x-gate `G_{X_g}={x=X_g}` only as a timing anchor for `N/P/Q`, and keeps committor only as appendix control.
+- `grid2d_one_target_window_measures` is a focused explainer companion for that baseline. It reuses the symmetric one-target case to distinguish window-conditioned occupancy share from ever-visit probability, keeps geometry and the first occupancy figure in a single overview panel for quicker reading, and now ships synchronized Chinese/English manuscripts.
+- `grid2d_one_target_exit_timing` is the mechanism-oriented timing companion for that same baseline. It fixes the symmetric soft-corridor geometry, scans the symmetric membrane permeability continuation, and contrasts `\tau_out` (first corridor exit) with `\tau_mem` (first membrane crossing) using exact CDFs, relative timing ratios, and early/late/no-exit splits.
+- `grid2d_one_target_valley_peak_budget` is a short valley-vs-peak2 follow-up for that same baseline. It keeps the geometry panel, now pairs a merged two-curve comparison with a full stacked budget panel for `\kappa=0` and `\kappa=0.0040`, folds `target funnel` into a merged outer/right-side share, and adds exact outside-time budgets together with membrane post-crossing time-budget proxies, with `peak1` restored as a control in the timing panels.
+- `exact_recursion_method_guide` is a Chinese teaching companion that explains the time-domain exact recursion used across the repo, contrasts it with AW inversion and the Luca/GF family, and anchors the exposition on the `grid2d_one_two_target_gating` shared symmetric one-target baseline.
 
 ## Common Commands
 - `python3 scripts/reportctl.py list`

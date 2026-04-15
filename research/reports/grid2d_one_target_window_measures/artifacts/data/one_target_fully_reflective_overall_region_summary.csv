@@ -1,0 +1,7 @@
+case,display_name,region,region_label,region_formula,cell_count,occupancy_share,mean_cell_occupancy,max_cell_occupancy
+fully_reflective,fully reflective control,left_core,Left core,x < 5 and |y-7| <= 1,15,0.08692054874298669,0.005794703249532446,0.011398870546012973
+fully_reflective,fully reflective control,left_shoulders,Left shoulders,x < 5 and 5 <= y <= 9 and |y-7| > 1,10,0.058881250772425044,0.005888125077242504,0.011483351364180081
+fully_reflective,fully reflective control,left_outer,Left outer,x < 5 and (y < 5 or y > 9),50,0.31079978230767075,0.006215995646153415,0.011969152446649176
+fully_reflective,fully reflective control,corridor,Corridor,5 <= x <= 54 and 5 <= y <= 9,250,0.27974178169931074,0.001118967126797243,0.0015525166446560105
+fully_reflective,fully reflective control,outer_reservoir,Outer reservoir,5 <= x <= 54 and (y < 5 or y > 9),500,0.23903206965681506,0.0004780641393136301,0.0018221045506841083
+fully_reflective,fully reflective control,target_funnel,Target funnel,x > 54,75,0.024624566820791716,0.0003283275576105562,0.0014721324584766528

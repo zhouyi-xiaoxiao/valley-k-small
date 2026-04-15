@@ -19,6 +19,9 @@ python3 scripts/reportctl.py build --report grid2d_one_two_target_gating --lang 
 python3 scripts/reportctl.py build --report grid2d_one_two_target_gating --lang en
 ```
 
+The canonical report run also regenerates the one-target sensitivity sweeps and the
+left-open-vs-membrane exit split under `artifacts/data/sensitivity/`.
+
 ## Canonical Paths
 - Shared implementation: `packages/vkcore/src/vkcore/grid2d/one_two_target_gating/`
 - Data: `research/reports/grid2d_one_two_target_gating/artifacts/data/`
@@ -28,8 +31,10 @@ python3 scripts/reportctl.py build --report grid2d_one_two_target_gating --lang 
 - PDFs: `research/reports/grid2d_one_two_target_gating/manuscript/grid2d_one_two_target_gating_cn.pdf`, `research/reports/grid2d_one_two_target_gating/manuscript/grid2d_one_two_target_gating_en.pdf`
 
 ## Coverage
-- one-target gate anchor families `N/P/Q`
-- gate-free rollback only as an auxiliary post-gate diagnostic
+- one-target shared-symmetric baseline with gate-free rollback as the main discrete mechanism
+- one-target gate anchor families `N/P/Q` as membrane first-leak timing diagnostics
+- one-target left-open vs membrane exit decomposition for peak1 / valley / peak2
+- one-target sensitivity scans over corridor width, global bias, and corridor push strengths
 - full integer `X_g` scan and `(x_s, y_s)` start-position scans
 - top/bottom first-leak splitting at the canonical `X_g^*`
 - two-target coarse 4-family / fine 5-family decomposition

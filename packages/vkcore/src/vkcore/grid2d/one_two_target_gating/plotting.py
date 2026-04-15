@@ -60,6 +60,13 @@ ROLLBACK_CLASS_COLORS = {
     "L1R1": "#6a1b9a",
 }
 
+LEFT_OPEN_SPLIT_COLORS = {
+    "none": "#9e9e9e",
+    "left_only": "#1565c0",
+    "mem_only": "#ef6c00",
+    "both": "#7b1fa2",
+}
+
 
 def _hide_axes(ax: plt.Axes) -> None:
     ax.set_xticks([])
@@ -1475,6 +1482,49 @@ def plot_one_target_window_occupancy_atlas(
     save_fig(fig, out_path)
 
 
+def plot_one_target_left_open_split_windows(
+    rows: Sequence[dict],
+    out_path: Path,
+    *,
+    case_order: Sequence[str] | None = None,
+    window_order: Sequence[str] = ("peak1", "valley", "peak2"),
+) -> None:
+    cases_present = {str(row["case_id"]) for row in rows}
+    if case_order is None:
+        cases = sorted(cases_present)
+    else:
+        cases = [case_id for case_id in case_order if case_id in cases_present]
+    if not cases:
+        raise ValueError("no rows available for left-open split plotting")
+
+    fig, axes = plt.subplots(1, len(cases), figsize=(5.2 * len(cases), 4.0), sharey=True)
+    axes_list = [axes] if len(cases) == 1 else list(axes)
+    labels = ["none", "left_only", "mem_only", "both"]
+    for ax, case_id in zip(axes_list, cases):
+        case_rows = [row for row in rows if str(row["case_id"]) == case_id]
+        x = np.arange(len(window_order), dtype=np.int64)
+        bottom = np.zeros(len(window_order), dtype=np.float64)
+        for label in labels:
+            vals = np.asarray(
+                [float(next(row[label] for row in case_rows if str(row["window"]) == window)) for window in window_order],
+                dtype=np.float64,
+            )
+            ax.bar(x, vals, bottom=bottom, color=LEFT_OPEN_SPLIT_COLORS[label], label=label.replace("_", " "))
+            bottom += vals
+        title = next((str(row.get("display_name", case_id)) for row in case_rows), case_id)
+        ax.set_xticks(x)
+        ax.set_xticklabels(list(window_order))
+        ax.set_ylim(0, 1.0)
+        ax.set_title(title, fontsize=10)
+        ax.grid(axis="y", alpha=0.22)
+    axes_list[0].set_ylabel("window fraction")
+    handles, legend_labels = axes_list[0].get_legend_handles_labels()
+    fig.legend(handles, legend_labels, loc="upper center", bbox_to_anchor=(0.5, 1.06), ncol=4, frameon=False, fontsize=8)
+    fig.suptitle("Left-open versus membrane-assisted exits across peak/valley windows", fontsize=11)
+    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    save_fig(fig, out_path)
+
+
 __all__ = [
     "plot_branch_fpt",
     "plot_family_fpt",
@@ -1488,6 +1538,7 @@ __all__ = [
     "plot_one_target_gate_schematic",
     "plot_one_target_gate_scan_families",
     "plot_one_target_gate_scan_totals",
+    "plot_one_target_left_open_split_windows",
     "plot_one_target_parameter_phase_map",
     "plot_one_target_parameter_sep_map",
     "plot_one_target_realset_gate_geometry",

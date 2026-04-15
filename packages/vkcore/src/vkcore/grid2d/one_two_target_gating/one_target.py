@@ -252,6 +252,127 @@ def compute_one_target_window_path_statistics(
     return out
 
 
+def compute_one_target_first_event_statistics(
+    case: dict[str, Any],
+    *,
+    Lx: int,
+    windows: list[tuple[str, int, int]],
+    event_state_mask: np.ndarray | None = None,
+    event_edge_pairs: set[tuple[int, int]] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Exact first-event timing conditioned on hitting inside each window.
+
+    Exactly one of `event_state_mask` or `event_edge_pairs` must be provided.
+    - `event_state_mask`: first time the chain enters the marked states.
+    - `event_edge_pairs`: first time the chain traverses one of the directed edges.
+    """
+    if bool(event_state_mask is None) == bool(event_edge_pairs is None):
+        raise ValueError("provide exactly one of event_state_mask or event_edge_pairs")
+    if not windows:
+        return {}
+
+    max_hi = max(int(hi) for _, _, hi in windows)
+    history, src_nonhit, dst_nonhit, prob_nonhit, hit_prob = compute_one_target_forward_history(
+        case,
+        Lx=Lx,
+        max_t=max_hi,
+    )
+    n_states = int(Lx) * int(case["Wy"])
+    start_idx = idx(case["start"][0], case["start"][1], Lx)
+
+    event_state_flat: np.ndarray | None = None
+    if event_state_mask is not None:
+        event_state_flat = np.asarray(event_state_mask, dtype=bool).reshape(n_states)
+
+    event_edge_mask: np.ndarray | None = None
+    if event_edge_pairs is not None:
+        edge_pairs = list(zip(src_nonhit.tolist(), dst_nonhit.tolist()))
+        event_edge_mask = np.asarray([pair in event_edge_pairs for pair in edge_pairs], dtype=bool)
+
+    p_no_event = np.zeros(n_states, dtype=np.float64)
+    first_event_at_zero = 0.0
+    if event_state_flat is not None and bool(event_state_flat[int(start_idx)]):
+        first_event_at_zero = 1.0
+    else:
+        p_no_event[int(start_idx)] = 1.0
+
+    history_no_event: list[np.ndarray] = [p_no_event.copy()]
+    if event_state_flat is not None:
+        stay_mask = ~event_state_flat[dst_nonhit]
+    else:
+        stay_mask = ~np.asarray(event_edge_mask, dtype=bool)
+    for _ in range(int(max_hi)):
+        p_next = np.zeros_like(p_no_event)
+        if np.any(stay_mask):
+            np.add.at(p_next, dst_nonhit[stay_mask], p_no_event[src_nonhit[stay_mask]] * prob_nonhit[stay_mask])
+        history_no_event.append(p_next.copy())
+        p_no_event = p_next
+
+    out: dict[str, dict[str, Any]] = {}
+    t_idx = np.arange(max_hi + 1, dtype=np.float64)
+    for window_name, lo, hi in windows:
+        lo_i = max(1, int(lo))
+        hi_i = min(int(max_hi), int(hi))
+        if hi_i < lo_i:
+            continue
+        total_hit = float(np.sum(case["f_total"][lo_i : hi_i + 1]))
+        if total_hit <= 0.0:
+            out[window_name] = {
+                "joint_mass": np.zeros(max_hi + 1, dtype=np.float64),
+                "conditional_density": np.zeros(max_hi + 1, dtype=np.float64),
+                "conditional_cdf": np.zeros(max_hi + 1, dtype=np.float64),
+                "event_probability": 0.0,
+                "mean_event_time_given_event": float("nan"),
+                "mean_hit_time_in_window": float("nan"),
+                "consistency_gap": 0.0,
+            }
+            continue
+
+        b_next = np.zeros(n_states, dtype=np.float64)
+        joint = np.zeros(max_hi + 1, dtype=np.float64)
+        if first_event_at_zero > 0.0:
+            # If the initial state is already inside the event set, the first event
+            # happens at t=0 and the remaining hit probability is just the window mass.
+            joint[0] = total_hit
+        for t in range(hi_i - 1, -1, -1):
+            if event_state_flat is not None:
+                event_src = src_nonhit[event_state_flat[dst_nonhit]]
+                event_dst = dst_nonhit[event_state_flat[dst_nonhit]]
+                event_pr = prob_nonhit[event_state_flat[dst_nonhit]]
+            else:
+                assert event_edge_mask is not None
+                event_src = src_nonhit[event_edge_mask]
+                event_dst = dst_nonhit[event_edge_mask]
+                event_pr = prob_nonhit[event_edge_mask]
+            if event_src.size > 0:
+                joint[t + 1] = float(np.sum(history_no_event[t][event_src] * event_pr * b_next[event_dst]))
+
+            b_t = np.zeros(n_states, dtype=np.float64)
+            np.add.at(b_t, src_nonhit, prob_nonhit * b_next[dst_nonhit])
+            if lo_i <= (t + 1) <= hi_i:
+                b_t += hit_prob
+            b_next = b_t
+
+        conditional_density = joint / total_hit
+        conditional_cdf = np.cumsum(conditional_density)
+        event_probability = float(conditional_cdf[-1]) if conditional_cdf.size else 0.0
+        mean_event_time = float("nan")
+        if event_probability > 0.0:
+            mean_event_time = float(np.sum(t_idx * conditional_density) / event_probability)
+        hit_weights = np.asarray(case["f_total"][lo_i : hi_i + 1], dtype=np.float64)
+        mean_hit_time = float(np.sum(np.arange(lo_i, hi_i + 1, dtype=np.float64) * hit_weights) / total_hit)
+        out[window_name] = {
+            "joint_mass": joint,
+            "conditional_density": conditional_density,
+            "conditional_cdf": conditional_cdf,
+            "event_probability": event_probability,
+            "mean_event_time_given_event": mean_event_time,
+            "mean_hit_time_in_window": mean_hit_time,
+            "consistency_gap": float(abs(float(b_next[int(start_idx)]) - total_hit)),
+        }
+    return out
+
+
 def membrane_edges_to_idx(
     *,
     membrane_edges: set[tuple[tuple[int, int], tuple[int, int]]],
@@ -1500,6 +1621,7 @@ __all__ = [
     "build_start_basin_mask",
     "build_x_gate_mask",
     "compute_one_target_forward_history",
+    "compute_one_target_first_event_statistics",
     "compute_one_target_window_path_statistics",
     "exact_gate_anchor_family_fpt",
     "exact_gate_anchor_npq_fpt",

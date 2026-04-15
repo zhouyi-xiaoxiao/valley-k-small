@@ -38,6 +38,8 @@ but the one-target branch has now been reset onto a more stable configuration lo
 \begin{itemize}
   \item the \textbf{standard configuration} is the shared symmetric baseline \texttt{sym\_shared}, not an extreme asymmetric point;
   \item the manuscript separates two distinct notions of asymmetry: \textbf{top/bottom membrane asymmetry} and \textbf{same-membrane directional asymmetry};
+  \item the \textbf{first peak} can now be stated more sharply as the corridor fast branch;
+  \item the \textbf{second peak} is not a pure membrane-crossing peak; its dominant mass comes from left-open detour/rollback paths, with membrane crossing acting as a secondary modifier;
   \item \textbf{rollback} is retained as the main one-target discrete mechanism, but now in a \emph{gate-free} form: after leaving the start basin $A$, does the trajectory later re-enter $A$;
   \item the real-set \textbf{x-gate} remains, but only as a time-anchor line for the $N/P/Q$ mechanism;
   \item \textbf{loss of bimodality} is defined strictly as \texttt{phase=0}; \texttt{phase=1} means weakening, not disappearance of the second peak.
@@ -253,6 +255,58 @@ Under the present canonical rebuild, the stronger one-target discrete mechanism 
   \input{../artifacts/tables/verification_one_target.tex}
 \end{table}
 
+\section{Left-open versus membrane exits: a direct two-peak decomposition}
+\paragraph{Why this section is needed.}
+The earlier $N/P/Q$ line answers a narrower question: when does the \emph{first membrane leak} happen relative to the canonical x-gate? But in the present reflective-wall + semipermeable-corridor geometry there is another genuine way to leave the corridor: a trajectory can exit through the left mouth without crossing a membrane. So if the scientific question is ``which trajectories support peak1 and peak2,'' left-open exits and membrane crossings have to be counted separately.
+
+\paragraph{How the hitting trajectories are split.}
+We partition target-hitting trajectories into four mutually exclusive classes,
+\[
+\texttt{none},\qquad
+\texttt{left\_only},\qquad
+\texttt{mem\_only},\qquad
+\texttt{both},
+\]
+where \texttt{left\_only} means at least one left-mouth corridor-to-outside exit but no membrane corridor-to-outside crossing, \texttt{mem\_only} means the reverse, and \texttt{both} means that both route types occurred before absorption.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{../artifacts/figures/one_target_left_open_vs_membrane_windows.pdf}
+  \caption{Three-window decomposition for selected one-target sensitivity cases. Peak1 is almost entirely supported by \texttt{none}; by the valley and peak2 windows the mass shifts mainly into \texttt{left\_only}, while \texttt{mem\_only} remains small.}
+\end{figure}
+
+\begin{table}[!htbp]
+  \centering
+  \caption{Left-open versus membrane summary. The table reports the peak2 composition for selected sensitivity cases together with the late-window probabilities of having left through the left mouth or crossed a membrane before absorption.}
+  \input{../artifacts/tables/one_target_left_open_summary.tex}
+\end{table}
+
+\paragraph{What the baseline now says explicitly.}
+For the shared symmetric baseline, the \texttt{peak1} window is
+\texttt{none}=93.2\%,
+\texttt{left\_only}=6.6\%,
+\texttt{mem\_only}=0.18\%,
+\texttt{both}=0.06\%.
+By contrast, the \texttt{peak2} window becomes
+\texttt{left\_only}=77.5\%,
+\texttt{mem\_only}=0.6\%,
+\texttt{both}=8.1\%,
+\texttt{none}=13.7\%.
+So peak1 really is the corridor fast branch, whereas peak2 is not a pure membrane branch; it is mainly a delayed branch built from left-open detours followed by rollback / renewed forward motion.
+
+\paragraph{What remains stable across the new scans.}
+Pooling all newly added \texttt{phase=2} sensitivity cases, the mean \texttt{peak2} composition is approximately
+\texttt{left\_only}=75.2\%,
+\texttt{mem\_only}=0.7\%,
+\texttt{both}=7.2\%,
+\texttt{none}=17.0\%,
+while
+\[
+\Pr(\tau_{\rm left}<\tau_{\rm hit}\mid \texttt{peak2})\approx 82.3\%,\qquad
+\Pr(\tau_{\rm mem}<\tau_{\rm hit}\mid \texttt{peak2})\approx 7.9\%.
+\]
+The updated one-target message is therefore sharper: membrane permeability still modifies the slow branch, especially its timing and purity, but the dominant late-peak mass is supplied by left-open detour/rollback trajectories rather than by membrane-only crossings.
+
 \section{Two-target: the gate-lifted family line stays unchanged}
 The two-target branch is numerically unchanged by this one-target rewrite. Its canonical conclusion remains that the late coarse family is stably \texttt{F\_no\_return}, not \texttt{F\_rollback}. This section therefore keeps the canonical figures, scan slices, and verification tables without changing the underlying mechanism language.
 
@@ -332,7 +386,7 @@ The new \texttt{artifacts/} and \texttt{manuscript/} trees are rebuilt directly 
 \paragraph{The final one-target language of this version.}
 The one-target final language can now be summarized in one sentence:
 \begin{quote}
-the standard configuration is the shared symmetric baseline; rollback is the main discrete mechanism; the x-gate is a timing anchor; bimodality loss means \texttt{phase=0}; and extreme $\kappa=0$ points are controls rather than main representatives.
+the standard configuration is the shared symmetric baseline; peak1 is the corridor fast branch; peak2 is mainly a left-open detour/rollback branch; membrane crossing is a secondary modifier of the slow branch; the x-gate only timestamps membrane first-leak events; bimodality loss means \texttt{phase=0}; and extreme $\kappa=0$ points are controls rather than main representatives.
 \end{quote}
 
 \section{Appendix: committor control}

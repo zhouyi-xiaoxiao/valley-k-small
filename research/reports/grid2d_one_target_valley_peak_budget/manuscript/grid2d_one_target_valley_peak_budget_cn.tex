@@ -1,0 +1,49 @@
+\documentclass[11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\captionsetup[figure]{hypcap=false}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+\pagestyle{empty}
+
+本节中，\(\kappa\) 表示膜通透性，\(T\) 表示命中 target 的时间，\(\tau_{\mathrm{out}}\) 表示首次离开 corridor band 的时间，\(\tau_{\mathrm{mem}}\) 表示首次真正穿膜的时间。我们在 \texttt{peak1}、\texttt{valley} 和 \texttt{peak2} 三个窗口上比较两类互补的量：一类是按 \(T\) 归一化后的比值或百分比，另一类是以期望步数表示的绝对预算。更具体地说，对任意事件时间 \(\tau\)，relative timing ratio 指 \(E[\tau \mid \tau < T,\ T \in W]/E[T \mid T \in W]\)，也就是事件平均发生时刻占窗口 \(W\) 内平均命中时间的比例；outside-time share 指命中时间落在相应窗口内的轨道中，停留在 corridor band 外部的时间占 \(T\) 的比例；outside budget 指命中之前停留在 corridor band 外部的期望步数；post-crossing budget 则指首次穿膜之后到命中之前剩余的期望步数。
+
+\begin{center}
+  \includegraphics[width=0.99\linewidth,height=0.46\textheight,keepaspectratio]{../artifacts/figures/fig1_geometry_curve_budget.pdf}
+  \captionof{figure}{上图给出对称 one-target baseline 的空间分区。下图把 \(\kappa=0\) 与 \(\kappa=0.0040\) 的 \(f(t)\) 画在同一时间轴上，并对曲线上标出的 \texttt{peak1}、\texttt{valley} 与 \texttt{peak2} 三个窗口嵌入堆叠预算柱；三段分别表示 left side、corridor 与 merged outer/right side 的归一化时间份额。曲线上的 \(t_1\)、\(t_v\) 与 \(t_2\) 标记给出真实窗口中心，堆叠柱仅为保证可读性而做横向错位。}
+  \label{fig:overview-cn}
+\end{center}
+图~\ref{fig:overview-cn} 给出了 valley 与第二峰窗口比较所需的几何基线。无论在 \(\kappa=0\) 还是在 \(\kappa=0.0040\) 下，以 \texttt{peak2} 为中心的命中时间窗口分配到 merged outer/right-side 区域的预命中预算都高于 valley：outside share 在 control 中由约 \(48\%\) 升到 \(56\%\)，在 \(\kappa=0.0040\) 时由约 \(47\%\) 升到 \(56\%\)。也就是说，valley 与第二峰窗口的分离在显式讨论膜穿越观测量之前，就已经体现在空间预算结构上。
+
+\clearpage
+\begin{center}
+  \includegraphics[width=0.99\linewidth,height=0.60\textheight,keepaspectratio]{../artifacts/figures/fig2_tau_out_budget.pdf}
+  \captionof{figure}{\(\tau_{\mathrm{out}}\) 的 relative timing ratio，其中 \(E[\tau_{\mathrm{out}}\mid \tau_{\mathrm{out}}<T,\ T\in W]/E[T\mid T\in W]\) 为主量，也就是事件平均发生时刻占窗口 \(W\) 内平均命中时间的比例。柱顶黑字给出 relative timing ratio，柱底同色百分比给出 outside-time share，右上角注记给出对应的 outside budget，也就是命中之前停留在 corridor band 外部的期望步数。三组数据分别对应 \(\kappa=0\)、\(\kappa=0.0040\) 与边界点 \(\kappa=0.0152\)。}
+  \label{fig:tau-out-budget-cn}
+\end{center}
+图~\ref{fig:tau-out-budget-cn} 表明，\texttt{peak1} 在三种 \(\kappa\) 下都保持 direct-corridor 型特征：其 ratio 约为 \(0.76\sim0.79\)，而 outside share 约为 \(9\%\sim10\%\)。相比之下，valley 与 \texttt{peak2} 的 exit ratio 都较小，因此只看归一化 exit 时刻本身并不能很好地区分两者。两者之间的差别更清楚地体现在 outside budget 上。在 \(\kappa=0\) 时，这个 outside budget 由 valley 的约 \(718\) 步增加到 \texttt{peak2} 的约 \(1311\) 步；在 \(\kappa=0.0040\) 时，则由约 \(705\) 步增加到约 \(1288\) 步。这些比较说明，在当前参数下，第二峰窗口主要对应更长的 outside excursion。
+
+\clearpage
+\begin{center}
+  \includegraphics[width=0.99\linewidth,height=0.60\textheight,keepaspectratio]{../artifacts/figures/fig3_tau_mem_budget.pdf}
+  \captionof{figure}{\(\tau_{\mathrm{mem}}\) 的 relative timing ratio，也就是首次穿膜平均发生时刻占窗口 \(W\) 内平均命中时间的比例。柱顶黑字给出 relative timing ratio，柱底同色百分比给出膜穿越概率 \(P(\tau_{\mathrm{mem}}<T\mid T\in W)\)，右上角注记给出 post-crossing budget，也就是首次穿膜之后到命中之前剩余的期望步数。图中的 `n/a' 表示在命中之前没有发生 crossing，因此该 ratio 不定义。三组数据分别对应 \(\kappa=0\)、\(\kappa=0.0040\) 与边界点 \(\kappa=0.0152\)。}
+  \label{fig:tau-mem-budget-cn}
+\end{center}
+图~\ref{fig:tau-mem-budget-cn} 则把膜通透性带来的修正单独抽离出来。在 \(\kappa=0\) 时，所有 crossing probability 和 post-crossing budget 都为零。当 \(\kappa>0\) 后，valley 与 \texttt{peak2} 的 crossing probability 仍然比较接近，例如在 \(\kappa=0.0040\) 时约为 \(18\%\) 对 \(20\%\)，因此只看 crossing probability 本身也只能提供有限区分；但两者在首次穿膜之后剩余的演化时间上分得更开，约为 \(213\) 步对 \(336\) 步。到边界点 \(\kappa=0.0152\) 时，这两个 post-crossing budget 进一步增至约 \(604\) 步与 \(785\) 步。这一比较表明，膜通透性的主要作用并不只是提高穿膜发生的概率，而是增大首次穿膜之后到命中之前剩余的期望步数。
+
+\end{document}

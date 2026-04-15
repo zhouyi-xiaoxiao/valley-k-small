@@ -7,6 +7,7 @@ import json
 import os
 import platform
 import statistics
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -381,6 +382,13 @@ def _write_runtime_raw(path: Path, rows: List[Dict[str, Any]]) -> None:
         "title_cn",
         "note_en",
         "note_cn",
+        "math_object_en",
+        "math_object_cn",
+        "theory_basis_en",
+        "theory_basis_cn",
+        "implementation_anchor_en",
+        "implementation_anchor_cn",
+        "primary_refs_json",
         "config_figure_id",
         "historical_source",
         "display_params_json",
@@ -433,6 +441,13 @@ def _summarize_pair(
         "title_cn": rows[0]["title_cn"],
         "note_en": rows[0]["note_en"],
         "note_cn": rows[0]["note_cn"],
+        "math_object_en": rows[0]["math_object_en"],
+        "math_object_cn": rows[0]["math_object_cn"],
+        "theory_basis_en": rows[0]["theory_basis_en"],
+        "theory_basis_cn": rows[0]["theory_basis_cn"],
+        "implementation_anchor_en": rows[0]["implementation_anchor_en"],
+        "implementation_anchor_cn": rows[0]["implementation_anchor_cn"],
+        "primary_refs_json": rows[0]["primary_refs_json"],
         "config_figure_id": rows[0]["config_figure_id"],
         "historical_source": rows[0]["historical_source"],
         "display_params_json": rows[0]["display_params_json"],

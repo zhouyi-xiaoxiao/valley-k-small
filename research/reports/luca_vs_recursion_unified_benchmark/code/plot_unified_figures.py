@@ -6,13 +6,10 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
 
 from common import (
+    DATA_DIR,
     FIG_DIR,
     TABLE_DIR,
     FAMILY_LABELS,
@@ -25,6 +22,15 @@ from common import (
 )
 from vkcore.comparison import render_workload_config_figure
 from vkcore.comparison import render_runtime_config_overview_figure
+
+try:
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+except ModuleNotFoundError:  # pragma: no cover - table generation still works without plotting deps
+    matplotlib = None
+    plt = None
 
 
 def _load_summary(path: Path) -> Dict[str, Any]:
@@ -43,6 +49,8 @@ def _pair_map(summary: Dict[str, Any]) -> Dict[str, Dict[str, Dict[str, Any]]]:
 
 
 def _plot_runtime_bars(rows: List[Dict[str, Any]], out_path: Path, *, title: str) -> None:
+    if plt is None:
+        return
     labels = [row["workload_id"] for row in rows]
     luca = np.asarray([float(row["median_seconds_luca"]) for row in rows], dtype=np.float64)
     time_family = np.asarray([float(row["median_seconds_time"]) for row in rows], dtype=np.float64)
@@ -65,6 +73,8 @@ def _plot_runtime_bars(rows: List[Dict[str, Any]], out_path: Path, *, title: str
 
 
 def _plot_speedup(rows: List[Dict[str, Any]], out_path: Path) -> None:
+    if plt is None:
+        return
     order = {wid: idx for idx, wid in enumerate(workload_order())}
     rows = sorted(rows, key=lambda row: (order.get(row["workload_id"], 999), row["task_kind"]))
     x = np.arange(len(rows), dtype=np.float64)
@@ -285,9 +295,56 @@ def _write_appendix_fairness_note(summary: Dict[str, Any], out_en: Path, out_cn:
     out_cn.write_text("\n".join(cn) + "\n", encoding="utf-8")
 
 
+def _primary_ref_labels(row: Dict[str, Any], *, cn: bool) -> str:
+    refs = json.loads(str(row.get("primary_refs_json", "[]")))
+    if not refs:
+        return "---"
+    key = "short_cn" if cn else "short_en"
+    return "; ".join(_tex_escape(ref.get(key, "")) for ref in refs)
+
+
+def _write_audit_appendix_table(summary: Dict[str, Any], out_en: Path, out_cn: Path) -> None:
+    rows = sorted(_pair_rows(summary, "diagnostic"), key=lambda row: workload_order().index(row["workload_id"]))
+
+    def _build(cn: bool) -> str:
+        headers = (
+            ("workload", "solver pair", "mathematical object", "paper source", "implementation anchor")
+            if not cn
+            else ("workload", "求解器配对", "数学对象", "论文来源", "仓库实现锚点")
+        )
+        lines = [
+            "\\begin{tabular}{lp{0.18\\linewidth}p{0.20\\linewidth}p{0.20\\linewidth}p{0.20\\linewidth}}",
+            "\\toprule",
+            " {} & {} & {} & {} & {} \\\\".format(*headers),
+            "\\midrule",
+        ]
+        for row in rows:
+            solver_pair = (
+                f"{row['solver_variant_luca']} vs {row['solver_variant_time']}"
+                if not cn
+                else f"{row['solver_variant_luca']} 对 {row['solver_variant_time']}"
+            )
+            math_object = row["math_object_cn"] if cn else row["math_object_en"]
+            impl = row["implementation_anchor_cn"] if cn else row["implementation_anchor_en"]
+            lines.append(
+                "{} & {} & {} & {} & {} \\\\".format(
+                    _tex_escape(row["workload_id"]),
+                    _tex_escape(solver_pair),
+                    _tex_escape(math_object),
+                    _primary_ref_labels(row, cn=cn),
+                    _tex_escape(impl),
+                )
+            )
+        lines.extend(["\\bottomrule", "\\end{tabular}"])
+        return "\n".join(lines) + "\n"
+
+    out_en.write_text(_build(False), encoding="utf-8")
+    out_cn.write_text(_build(True), encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Plot figures and tables for unified benchmark report.")
-    parser.add_argument("--summary", type=str, default=str(FIG_DIR.parent / "data" / "runtime_summary.json"))
+    parser.add_argument("--summary", type=str, default=str(DATA_DIR / "runtime_summary.json"))
     args = parser.parse_args()
 
     ensure_dirs()
@@ -297,22 +354,23 @@ def main() -> None:
     curve_rows = sorted(_pair_rows(summary, "curve"), key=lambda row: order.get(row["workload_id"], 999))
     pair_map = _pair_map(summary)
 
-    _plot_runtime_bars(diagnostic_rows, FIG_DIR / "unified_runtime_diagnostic.pdf", title="Diagnostic-task runtime")
-    _plot_runtime_bars(curve_rows, FIG_DIR / "unified_runtime_curve.pdf", title="Curve-task runtime")
-    _plot_speedup(summary["pair_rows"], FIG_DIR / "unified_speedup_by_workload.pdf")
-    render_runtime_config_overview_figure(
-        [{"workload_id": spec.workload_id, "config": spec.config} for spec in workload_specs()],
-        diagnostic_rows,
-        FIG_DIR / "unified_runtime_config_overview.pdf",
-    )
-
-    for spec in workload_specs():
-        render_workload_config_figure(
-            spec.workload_id,
-            spec.config,
-            FIG_DIR / f"{spec.workload_id}_config_detailed.pdf",
-            speed_info=pair_map.get(spec.workload_id),
+    if plt is not None:
+        _plot_runtime_bars(diagnostic_rows, FIG_DIR / "unified_runtime_diagnostic.pdf", title="Diagnostic-task runtime")
+        _plot_runtime_bars(curve_rows, FIG_DIR / "unified_runtime_curve.pdf", title="Curve-task runtime")
+        _plot_speedup(summary["pair_rows"], FIG_DIR / "unified_speedup_by_workload.pdf")
+        render_runtime_config_overview_figure(
+            [{"workload_id": spec.workload_id, "config": spec.config} for spec in workload_specs()],
+            diagnostic_rows,
+            FIG_DIR / "unified_runtime_config_overview.pdf",
         )
+
+        for spec in workload_specs():
+            render_workload_config_figure(
+                spec.workload_id,
+                spec.config,
+                FIG_DIR / f"{spec.workload_id}_config_detailed.pdf",
+                speed_info=pair_map.get(spec.workload_id),
+            )
 
     _write_runtime_table(diagnostic_rows, TABLE_DIR / "unified_runtime_diagnostic_en.tex", cn=False)
     _write_runtime_table(curve_rows, TABLE_DIR / "unified_runtime_curve_en.tex", cn=False)
@@ -323,6 +381,7 @@ def main() -> None:
     _write_recommendation_table(summary, TABLE_DIR / "unified_recommendation_en.tex", TABLE_DIR / "unified_recommendation_cn.tex")
     _write_workload_inventory(workload_specs(), TABLE_DIR / "unified_workload_inventory_en.tex", TABLE_DIR / "unified_workload_inventory_cn.tex")
     _write_appendix_fairness_note(summary, TABLE_DIR / "unified_appendix_fairness_en.tex", TABLE_DIR / "unified_appendix_fairness_cn.tex")
+    _write_audit_appendix_table(summary, TABLE_DIR / "unified_audit_appendix_en.tex", TABLE_DIR / "unified_audit_appendix_cn.tex")
 
     print(
         json.dumps(
@@ -341,6 +400,7 @@ def main() -> None:
                     str(TABLE_DIR / "unified_solver_map.tex"),
                     str(TABLE_DIR / "unified_workload_inventory_en.tex"),
                     str(TABLE_DIR / "unified_appendix_fairness_en.tex"),
+                    str(TABLE_DIR / "unified_audit_appendix_en.tex"),
                 ],
             },
             ensure_ascii=False,

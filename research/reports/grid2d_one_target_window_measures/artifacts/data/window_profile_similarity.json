@@ -1,0 +1,38 @@
+{
+  "window_order": [
+    "peak1",
+    "valley",
+    "peak2"
+  ],
+  "region_order": [
+    "target_funnel",
+    "outer_reservoir",
+    "left_outer",
+    "left_shoulders",
+    "left_core"
+  ],
+  "visit_profile_normalization": {
+    "raw_overlap_sums": {
+      "peak1": 1.5911516851571315,
+      "valley": 4.558471611962679,
+      "peak2": 4.963273510469677
+    }
+  },
+  "rows": [
+    {
+      "window": "peak1",
+      "cosine_similarity": 0.9837721608630777,
+      "total_variation_distance": 0.1727964174123989
+    },
+    {
+      "window": "valley",
+      "cosine_similarity": 0.8269656580560361,
+      "total_variation_distance": 0.2757737266130038
+    },
+    {
+      "window": "peak2",
+      "cosine_similarity": 0.8153041676180057,
+      "total_variation_distance": 0.346064600380339
+    }
+  ]
+}

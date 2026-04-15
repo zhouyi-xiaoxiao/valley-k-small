@@ -1,0 +1,81 @@
+{
+  "case": "corridor_only_soft",
+  "display_name": "corridor-only soft bias",
+  "geometry": {
+    "Lx": 60,
+    "Wy": 15,
+    "start": [
+      7,
+      7
+    ],
+    "target": [
+      58,
+      7
+    ],
+    "wall_span": [
+      7,
+      5,
+      9,
+      5,
+      54
+    ]
+  },
+  "windows": [
+    {
+      "window": "peak1",
+      "t_lo": 528,
+      "t_hi": 580,
+      "hit_mass": 0.01770578314665283,
+      "flux_c2o": 6.031739240041678e-05,
+      "flux_o2c": 8.35897695257799e-05,
+      "region_mass_total": 1.0
+    },
+    {
+      "window": "valley",
+      "t_lo": 1464,
+      "t_hi": 1516,
+      "hit_mass": 0.0033825353833496254,
+      "flux_c2o": 0.000349856574238061,
+      "flux_o2c": 0.00030235746382723915,
+      "region_mass_total": 1.0
+    },
+    {
+      "window": "peak2",
+      "t_lo": 2301,
+      "t_hi": 2353,
+      "hit_mass": 0.004489990712372687,
+      "flux_c2o": 0.0004807149285424488,
+      "flux_o2c": 0.00025172141722862843,
+      "region_mass_total": 1.0000000000000002
+    }
+  ],
+  "region_formulas": {
+    "left_core": "x < 5 and |y-7| <= 1",
+    "left_shoulders": "x < 5 and 5 <= y <= 9 and |y-7| > 1",
+    "left_outer": "x < 5 and (y < 5 or y > 9)",
+    "corridor": "5 <= x <= 54 and 5 <= y <= 9",
+    "outer_reservoir": "5 <= x <= 54 and (y < 5 or y > 9)",
+    "target_funnel": "x > 54"
+  },
+  "region_labels": {
+    "left_core": "Left core",
+    "left_shoulders": "Left shoulders",
+    "left_outer": "Left outer",
+    "corridor": "Corridor",
+    "outer_reservoir": "Outer reservoir",
+    "target_funnel": "Target funnel"
+  },
+  "region_order": [
+    "left_core",
+    "left_shoulders",
+    "left_outer",
+    "corridor",
+    "outer_reservoir",
+    "target_funnel"
+  ],
+  "window_order": [
+    "peak1",
+    "valley",
+    "peak2"
+  ]
+}

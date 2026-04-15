@@ -50,6 +50,46 @@ reports:
     languages: [cn, en]
     archive_policy: latest_only_archive_runs
     status: active
+  - id: grid2d_one_target_window_measures
+    aliases: []
+    path: research/reports/grid2d_one_target_window_measures
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_one_target_window_measures_cn.tex, grid2d_one_target_window_measures_en.tex]
+    entry_scripts: [code/build_window_measures_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_one_target_exit_timing
+    aliases: []
+    path: research/reports/grid2d_one_target_exit_timing
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_one_target_exit_timing_cn.tex, grid2d_one_target_exit_timing_en.tex]
+    entry_scripts: [code/build_exit_timing_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: grid2d_one_target_valley_peak_budget
+    aliases: []
+    path: research/reports/grid2d_one_target_valley_peak_budget
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [grid2d_one_target_valley_peak_budget_cn.tex, grid2d_one_target_valley_peak_budget_en.tex]
+    entry_scripts: [code/build_valley_peak_budget_report.py]
+    languages: [cn, en]
+    archive_policy: latest_only_archive_runs
+    status: active
+  - id: exact_recursion_method_guide
+    aliases: []
+    path: research/reports/exact_recursion_method_guide
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [exact_recursion_method_guide_cn.tex]
+    entry_scripts: []
+    languages: [cn]
+    archive_policy: keep
+    status: active
   - id: grid2d_reflecting_bimodality
     aliases: []
     path: research/reports/grid2d_reflecting_bimodality

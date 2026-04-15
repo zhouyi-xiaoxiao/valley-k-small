@@ -4,7 +4,7 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Sequence
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -13,10 +13,21 @@ if str(PACKAGE_SRC) not in sys.path:
     sys.path.insert(0, str(PACKAGE_SRC))
 
 REPORT_DIR = Path(__file__).resolve().parents[1]
-DATA_DIR = REPORT_DIR / "data"
-FIG_DIR = REPORT_DIR / "figures"
-TABLE_DIR = REPORT_DIR / "tables"
-OUT_DIR = REPORT_DIR / "outputs"
+
+
+def _report_surface_path(name: str) -> Path:
+    path = REPORT_DIR / name
+    if path.is_file():
+        target = path.read_text(encoding="utf-8").strip()
+        if target:
+            return (REPORT_DIR / target).resolve()
+    return path
+
+
+DATA_DIR = _report_surface_path("data")
+FIG_DIR = _report_surface_path("figures")
+TABLE_DIR = _report_surface_path("tables")
+OUT_DIR = _report_surface_path("outputs")
 
 FAMILY_LUCA = "luca_gf"
 FAMILY_TIME = "time_recursion"
@@ -50,6 +61,13 @@ class WorkloadSpec:
     title_cn: str
     note_en: str
     note_cn: str
+    math_object_en: str
+    math_object_cn: str
+    theory_basis_en: str
+    theory_basis_cn: str
+    implementation_anchor_en: str
+    implementation_anchor_cn: str
+    primary_refs: List[Dict[str, str]]
     state_size: int
     defect_pairs: int
     target_count: int
@@ -60,6 +78,66 @@ class WorkloadSpec:
     config_figure_id: str
     historical_source: str
     methods: Dict[str, MethodSpec]
+
+
+def _ref(key: str, short_en: str, short_cn: str, url: str) -> Dict[str, str]:
+    return {
+        "key": key,
+        "short_en": short_en,
+        "short_cn": short_cn,
+        "url": url,
+    }
+
+
+REF_PRE102 = _ref(
+    "pre102_062124_2020",
+    "Sarvaharman & Giuggioli, Phys. Rev. E 102, 062124 (2020)",
+    "Sarvaharman 与 Giuggioli，Phys. Rev. E 102, 062124 (2020)",
+    "https://research-information.bris.ac.uk/ws/files/267741195/PhysRevE.102.062124.pdf",
+)
+
+REF_PRR2023 = _ref(
+    "prr5_043281_2023",
+    "Das, Giuggioli et al., Phys. Rev. Research 5, 043281 (2023)",
+    "Das、Giuggioli 等，Phys. Rev. Research 5, 043281 (2023)",
+    "https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.5.043281",
+)
+
+REF_JSTAT2023 = _ref(
+    "jstat_013201_2023",
+    "Das & Giuggioli, J. Stat. Mech. 013201 (2023)",
+    "Das 与 Giuggioli，J. Stat. Mech. 013201 (2023)",
+    "https://arxiv.org/abs/2211.12388",
+)
+
+REF_REVIEW2023 = _ref(
+    "review_2311_00464_2023",
+    "Giuggioli, Sarvaharman, Das, Marris & Kay, arXiv:2311.00464 (2023)",
+    "Giuggioli、Sarvaharman、Das、Marris 与 Kay，arXiv:2311.00464 (2023)",
+    "https://research-information.bris.ac.uk/en/publications/multi-target-search-in-bounded-and-heterogeneous-environments-a-l/",
+)
+
+REF_AW2006 = _ref(
+    "abate_whitt_2006",
+    "Abate & Whitt, INFORMS J. Comput. 18(4), 408-421 (2006)",
+    "Abate 与 Whitt，INFORMS J. Comput. 18(4), 408-421 (2006)",
+    "https://pubsonline.informs.org/doi/10.1287/ijoc.1050.0137",
+)
+
+REFERENCE_CATALOG = {
+    ref["key"]: ref
+    for ref in (
+        REF_PRE102,
+        REF_PRR2023,
+        REF_JSTAT2023,
+        REF_REVIEW2023,
+        REF_AW2006,
+    )
+}
+
+
+def bibliography_entries() -> Sequence[Dict[str, str]]:
+    return tuple(REFERENCE_CATALOG.values())
 
 
 def ensure_dirs() -> None:
@@ -78,6 +156,13 @@ def workload_specs() -> List[WorkloadSpec]:
             title_cn="1D paper-like 单目标 shortcut",
             note_en="Selfloop shortcut, paper-like geometry, AW vs exact time propagation.",
             note_cn="selfloop shortcut 的 paper-like 几何，比较 AW 与时域精确推进。",
+            math_object_en="Single-target renewal from a closed-form defect-free ring propagator with a rank-one shortcut-column correction.",
+            math_object_cn="由闭式 defect-free ring propagator 加单列 shortcut 秩一修正闭合出的单目标 renewal。",
+            theory_basis_en="This workload is the cleanest in-repo example of the Giuggioli/Sarvaharman propagator-plus-renewal route: a closed-form ring propagator, a finite-rank shortcut correction, and AW coefficient recovery for the FPT PGF.",
+            theory_basis_cn="这是仓库里最干净的 Giuggioli/Sarvaharman propagator-plus-renewal 路线示例：先有闭式 ring propagator，再做有限秩 shortcut 修正，最后对 FPT 的 PGF 做 AW 系数恢复。",
+            implementation_anchor_en="`vkcore.ring.jumpover_pipeline.aw_first_absorption_pmf` implements the transform-domain route; `exact_first_absorption_pmf` is the absorbing-chain baseline.",
+            implementation_anchor_cn="`vkcore.ring.jumpover_pipeline.aw_first_absorption_pmf` 实现变换域路线；`exact_first_absorption_pmf` 提供吸收链时域基线。",
+            primary_refs=[REF_PRE102, REF_AW2006],
             state_size=100,
             defect_pairs=1,
             target_count=1,
@@ -116,6 +201,13 @@ def workload_specs() -> List[WorkloadSpec]:
             title_cn="1D fixed-site 相遇 parity 案例",
             note_en="Fixed-site C1 drift example from the encounter report; no shortcut defect in this branch.",
             note_cn="来自 encounter 报告的 fixed-site C1 漂移案例；该分支本身不含 shortcut 缺陷。",
+            math_object_en="Single-target renewal on the pair torus, specialized to the fixed encounter site $(\\delta,\\delta)$.",
+            math_object_cn="pair torus 上的单目标 renewal，并特化到固定相遇点 $(\\delta,\\delta)$。",
+            theory_basis_en="This workload checks the pair-propagator layer of the family rather than the shortcut-defect layer: the benchmark configuration is a control with `beta=0`, so the correct description is a defect-free pair propagator closed by one-target renewal.",
+            theory_basis_cn="这个 workload 核查的是 family 的 pair-propagator 层，而不是 shortcut-defect 层：当前 benchmark 配置里 `beta=0`，因此正确表述应是 defect-free pair propagator 加单目标 renewal 的控制例。",
+            implementation_anchor_en="`vkcore.ring.encounter.encounter_gf_fixed_site` evaluates the fixed-site transform-domain solver; `encounter_time_fixed_site` is the exact absorbed pair recursion.",
+            implementation_anchor_cn="`vkcore.ring.encounter.encounter_gf_fixed_site` 实现 fixed-site 变换域求解；`encounter_time_fixed_site` 是精确吸收 pair recursion。",
+            primary_refs=[REF_PRE102, REF_AW2006],
             state_size=30 * 30,
             defect_pairs=0,
             target_count=1,
@@ -157,6 +249,13 @@ def workload_specs() -> List[WorkloadSpec]:
             title_cn="1D anywhere 相遇代表性 shortcut 案例",
             note_en="Representative bimodal case from the ring encounter report.",
             note_cn="来自 ring encounter 报告的代表性双峰案例。",
+            math_object_en="Diagonal-target renewal on the pair torus with a shortcut-induced defect line.",
+            math_object_cn="带 shortcut-induced defect line 的 pair torus 对角 target-set renewal。",
+            theory_basis_en="This workload uses the pair propagator plus finite-dimensional heterogeneity correction viewpoint: the shortcut becomes a line defect on the pair torus, and the FPT PGF is recovered through multi-target renewal on the diagonal set.",
+            theory_basis_cn="这个 workload 使用的是 pair propagator 加有限维异质性修正的视角：shortcut 在 pair torus 上变成一条 defect line，再通过对角集合上的多目标 renewal 恢复 FPT 的 PGF。",
+            implementation_anchor_en="`vkcore.ring.encounter.encounter_gf_anywhere` builds the pair-kernel, restores the defected selected propagators, and closes diagonal-target renewal; `encounter_time_anywhere` is the exact absorbed pair recursion.",
+            implementation_anchor_cn="`vkcore.ring.encounter.encounter_gf_anywhere` 先构造 pair-kernel，再恢复 defected selected propagators，并闭合对角 target renewal；`encounter_time_anywhere` 是精确吸收 pair recursion。",
+            primary_refs=[REF_PRE102, REF_REVIEW2023, REF_AW2006],
             state_size=101 * 101,
             defect_pairs=101,
             target_count=101,
@@ -197,6 +296,13 @@ def workload_specs() -> List[WorkloadSpec]:
             title_cn="2D two-target C1 实务双峰案例",
             note_en="The native C1 comparison uses sparse recursion on a long horizon and Luca on the AW horizon only.",
             note_cn="C1 的原生比较口径是 sparse 走长时窗，而 Luca 只跑 AW 反演时窗。",
+            math_object_en="Two-target renewal from defect-reduced selected propagators in a bounded heterogeneous lattice, not a full dense resolvent of all transient states.",
+            math_object_cn="有界异质二维格子里由 defect-reduced selected propagators 闭合出的双目标 renewal，而不是全体瞬态态空间的完整 dense resolvent。",
+            theory_basis_en="This workload belongs to the heterogeneous-lattice formalism summarized in the Giuggioli review: compute only the start/target propagators needed by the two-target renewal closure, and reduce the heterogeneity to a small support instead of forming a dense global inverse.",
+            theory_basis_cn="这个 workload 属于 Giuggioli review 总结的 heterogeneous-lattice formalism：只计算双目标 renewal 真正需要的 start/target propagators，并把 heterogeneity 压缩到小支撑上，而不是去形成全局 dense inverse。",
+            implementation_anchor_en="`vkcore.comparison.run_two_target_defect_reduced_aw` performs selected-propagator recovery plus AW inversion; `run_exact_two_target` is the sparse absorbing recursion on the transient graph.",
+            implementation_anchor_cn="`vkcore.comparison.run_two_target_defect_reduced_aw` 负责 selected-propagator recovery 与 AW 反演；`run_exact_two_target` 是瞬态图上的 sparse absorbing recursion。",
+            primary_refs=[REF_PRR2023, REF_JSTAT2023, REF_REVIEW2023, REF_AW2006],
             state_size=1679,
             defect_pairs=632,
             target_count=2,
@@ -231,6 +337,13 @@ def workload_specs() -> List[WorkloadSpec]:
             title_cn="2D Luca-fast 构造稀疏缺陷案例",
             note_en="This anchor keeps the original asymmetric native task definition from the LF1 note.",
             note_cn="这个锚点保留 LF1 说明文中的原生非对称任务定义。",
+            math_object_en="The same two-target selected-propagator renewal as C1, but in an ultra-sparse heterogeneity regime where the reduced support is genuinely tiny.",
+            math_object_cn="与 C1 相同的双目标 selected-propagator renewal，只是处在 ultra-sparse heterogeneity regime，下采样后的支撑非常小。",
+            theory_basis_en="TT-LF1 is not a different theory from C1; it is the same bounded-heterogeneity formalism pushed into an ultra-sparse support regime, which is why the transform-domain route becomes the positive in-repo anchor for the Luca/GF family.",
+            theory_basis_cn="TT-LF1 不是与 C1 不同的理论，而是同一 bounded-heterogeneity formalism 被推进到了 ultra-sparse support 区间，这也是它会成为仓库内 Luca/GF family 正锚点的原因。",
+            implementation_anchor_en="The same code path as C1 (`run_two_target_defect_reduced_aw` versus `run_exact_two_target`), but with the LF1 sparse support geometry from `build_luca_fast_geometry`.",
+            implementation_anchor_cn="与 C1 共用同一条代码路径（`run_two_target_defect_reduced_aw` 对 `run_exact_two_target`），只是几何换成 `build_luca_fast_geometry` 定义的 LF1 sparse support。",
+            primary_refs=[REF_PRR2023, REF_JSTAT2023, REF_REVIEW2023, REF_AW2006],
             state_size=1679,
             defect_pairs=2,
             target_count=2,
@@ -265,6 +378,13 @@ def workload_specs() -> List[WorkloadSpec]:
             title_cn="2D reflecting 低缺陷 S0 控制案例",
             note_en="Low-defect control where full AW is still feasible and historically close to exact recursion.",
             note_cn="full AW 仍可行、且历史上与精确递推较接近的低缺陷控制案例。",
+            math_object_en="Single-target reflecting-lattice renewal in a low-defect control where the full AW route is still numerically feasible.",
+            math_object_cn="低缺陷控制情形下的单目标 reflecting-lattice renewal，此时 full AW 路线仍然数值上可行。",
+            theory_basis_en="This workload is a low-defect control for the heterogeneous-lattice formalism, not a claim that full AW remains practical for generic 2D heterogeneous cases. Its role is to mark the edge of feasibility, not the default production regime.",
+            theory_basis_cn="这个 workload 是 heterogeneous-lattice formalism 的低缺陷控制例，不代表 full AW 对一般二维 heterogeneous case 仍然实用。它的作用是标出可行性边界，而不是声明默认生产区间。",
+            implementation_anchor_en="`vkcore.comparison.run_reflecting_full_aw` is the low-defect transform-domain control, while `run_reflecting_exact_recursion` is the exact absorbing recursion baseline.",
+            implementation_anchor_cn="`vkcore.comparison.run_reflecting_full_aw` 是低缺陷变换域控制实现，`run_reflecting_exact_recursion` 则是精确吸收递推基线。",
+            primary_refs=[REF_PRR2023, REF_JSTAT2023, REF_REVIEW2023, REF_AW2006],
             state_size=840,
             defect_pairs=9,
             target_count=1,
@@ -317,6 +437,13 @@ def manifest_rows() -> List[Dict[str, Any]]:
                     "title_cn": spec.title_cn,
                     "note_en": spec.note_en,
                     "note_cn": spec.note_cn,
+                    "math_object_en": spec.math_object_en,
+                    "math_object_cn": spec.math_object_cn,
+                    "theory_basis_en": spec.theory_basis_en,
+                    "theory_basis_cn": spec.theory_basis_cn,
+                    "implementation_anchor_en": spec.implementation_anchor_en,
+                    "implementation_anchor_cn": spec.implementation_anchor_cn,
+                    "primary_refs_json": json.dumps(spec.primary_refs, ensure_ascii=False, sort_keys=True, separators=(",", ":")),
                     "config_figure_id": spec.config_figure_id,
                     "historical_source": spec.historical_source,
                     "display_params_json": json.dumps(spec.display_params, ensure_ascii=False, sort_keys=True, separators=(",", ":")),

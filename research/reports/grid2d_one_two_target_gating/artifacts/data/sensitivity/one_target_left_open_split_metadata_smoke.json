@@ -1,0 +1,17 @@
+{
+  "generated_at_epoch": 1774973621.4614882,
+  "duration_seconds": 2.3317012786865234,
+  "case_count": 3,
+  "class_labels": [
+    "none",
+    "left_only",
+    "mem_only",
+    "both"
+  ],
+  "notes": {
+    "left_open_only": "trajectory reaches target after at least one left-mouth corridor-to-outside exit and no membrane corridor-to-outside crossing",
+    "mem_only": "trajectory reaches target after at least one membrane corridor-to-outside crossing and no left-mouth corridor-to-outside exit",
+    "both": "trajectory uses both left-mouth and membrane corridor-to-outside exits before hitting the target",
+    "none": "trajectory hits the target without any corridor-to-outside exit of either type"
+  }
+}

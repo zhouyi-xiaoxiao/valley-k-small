@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{microtype}
+
+\setlist{nosep}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\captionsetup[figure]{hypcap=false}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+\pagestyle{empty}
+
+Throughout this section, \(\kappa\) denotes the membrane permeability, \(T\) the target-hit time, \(\tau_{\mathrm{out}}\) the first exit time from the corridor band, and \(\tau_{\mathrm{mem}}\) the first genuine membrane crossing. The three windows \texttt{peak1}, \texttt{valley}, and \texttt{peak2} are compared using two complementary descriptions: normalized observables, reported as ratios or percentages of \(T\), and absolute budgets, reported in expected step counts. More specifically, for an event time \(\tau\), the relative timing ratio is \(E[\tau \mid \tau < T,\ T \in W]/E[T \mid T \in W]\), i.e., the mean event time expressed as a fraction of the mean hit time in window \(W\); the outside-time share is the fraction of \(T\) spent outside the corridor band among trajectories whose hit times fall in the corresponding window; the outside budget is the expected number of pre-hit steps spent outside the corridor band; and the post-crossing budget is the expected number of steps remaining after the first membrane crossing and before target hit.
+
+\begin{center}
+  \includegraphics[width=0.99\linewidth,height=0.46\textheight,keepaspectratio]{../artifacts/figures/fig1_geometry_curve_budget.pdf}
+  \captionof{figure}{Top: spatial partition for the symmetric one-target baseline. Bottom: hit-time curves \(f(t)\) for \(\kappa=0\) and \(\kappa=0.0040\), with embedded stacked bars for the \texttt{peak1}, \texttt{valley}, and \texttt{peak2} windows marked on the curves. The three segments give the normalized time shares in the left side, corridor, and merged outer/right side. The \(t_1\), \(t_v\), and \(t_2\) markers indicate the true window centres; the bars are shifted horizontally only for legibility.}
+  \label{fig:overview}
+\end{center}
+Figure~\ref{fig:overview} provides the geometric baseline for the comparison between the valley and the second-peak window. For both \(\kappa=0\) and \(\kappa=0.0040\), the hit-time window centred on \texttt{peak2} allocates a larger fraction of its pre-hit budget to the merged outer/right-side region than the valley window does: the outside share increases from about \(48\%\) to \(56\%\) in the control and from about \(47\%\) to \(56\%\) at \(\kappa=0.0040\). The separation between the valley and the second-peak window is therefore already visible at the level of spatial budget allocation, before membrane-crossing observables are introduced.
+
+\clearpage
+\begin{center}
+  \includegraphics[width=0.99\linewidth,height=0.60\textheight,keepaspectratio]{../artifacts/figures/fig2_tau_out_budget.pdf}
+  \captionof{figure}{Relative timing ratio for \(\tau_{\mathrm{out}}\), defined as \(E[\tau_{\mathrm{out}}\mid \tau_{\mathrm{out}}<T,\ T\in W]/E[T\mid T\in W]\), that is, the mean exit time expressed as a fraction of the mean hit time in window \(W\). Black labels give the relative timing ratios, colour-matched percentages give the outside-time shares, and the top-right annotation gives the corresponding outside budgets, namely the expected numbers of pre-hit steps spent outside the corridor band, for the valley and \texttt{peak2} windows. The three series correspond to \(\kappa=0\), \(\kappa=0.0040\), and the boundary value \(\kappa=0.0152\).}
+  \label{fig:tau-out-budget}
+\end{center}
+Figure~\ref{fig:tau-out-budget} shows that \texttt{peak1} remains the direct-corridor benchmark across all three permeabilities: its ratio stays near \(0.76\) to \(0.79\), while the outside-time share stays near \(9\%\) to \(10\%\). By contrast, the valley and \texttt{peak2} windows both display small exit ratios, so the normalized exit time alone does not separate them well. Their difference is seen more clearly in the outside budget. At \(\kappa=0\), the outside budget increases from about \(718\) steps in the valley to about \(1311\) steps in \texttt{peak2}; at \(\kappa=0.0040\), it increases from about \(705\) to about \(1288\) steps. Under the present parameters, these comparisons indicate that the second-peak window is associated primarily with longer outside excursions.
+
+\clearpage
+\begin{center}
+  \includegraphics[width=0.99\linewidth,height=0.60\textheight,keepaspectratio]{../artifacts/figures/fig3_tau_mem_budget.pdf}
+  \captionof{figure}{Relative timing ratio for \(\tau_{\mathrm{mem}}\), i.e., the mean first-crossing time expressed as a fraction of the mean hit time in window \(W\). Black labels give the relative timing ratios, colour-matched percentages give the membrane-crossing probabilities \(P(\tau_{\mathrm{mem}}<T\mid T\in W)\), and the top-right annotation gives the post-crossing budgets, namely the expected numbers of steps remaining after the first crossing and before target hit. The label `n/a' denotes that the ratio is undefined when no crossing occurs before target hit. The three series correspond to \(\kappa=0\), \(\kappa=0.0040\), and the boundary value \(\kappa=0.0152\).}
+  \label{fig:tau-mem-budget}
+\end{center}
+Figure~\ref{fig:tau-mem-budget} isolates the membrane contribution to this picture. At \(\kappa=0\), all crossing probabilities and post-crossing budgets vanish, as expected. For \(\kappa>0\), the valley and \texttt{peak2} windows remain relatively close in crossing probability, about \(18\%\) versus \(20\%\) at \(\kappa=0.0040\), so crossing probability by itself again provides only limited separation. The difference is more evident in the time that remains after the first crossing, about \(213\) versus \(336\) steps. At the boundary value \(\kappa=0.0152\), these post-crossing budgets increase further to about \(604\) and \(785\) steps. This comparison indicates that permeability acts primarily by enlarging the post-crossing budget, rather than merely by increasing the probability of crossing.
+
+\end{document}

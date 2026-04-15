@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "case": "fully_reflective",
+      "display_name": "fully reflective control",
+      "kappa_c2o": 0.0,
+      "kappa_o2c": 0.0,
+      "delta_core": 0.8,
+      "delta_open": 0.0
+    },
+    {
+      "case": "corridor_only_soft",
+      "display_name": "corridor-only soft case",
+      "kappa_c2o": 0.002,
+      "kappa_o2c": 0.002,
+      "delta_core": 0.8,
+      "delta_open": 0.0
+    }
+  ],
+  "definition": {
+    "tau_mem": "first time the walker crosses a membrane c2o edge into the outside",
+    "window_conditioning": "condition on hitting the target with T in the named window"
+  }
+}

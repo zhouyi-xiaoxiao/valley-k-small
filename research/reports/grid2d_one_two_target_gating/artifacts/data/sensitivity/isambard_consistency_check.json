@@ -1,0 +1,48 @@
+{
+  "remote_jobs": {
+    "width_bx": {
+      "job_id": 2027138,
+      "state": "COMPLETED",
+      "elapsed": "00:01:08"
+    },
+    "delta": {
+      "job_id": 2027139,
+      "state": "COMPLETED",
+      "elapsed": "00:00:45"
+    }
+  },
+  "remote_setup": {
+    "repo_clone": "https://github.com/zhouyi-xiaoxiao/valley-k-small.git",
+    "remote_python": "python3.11.9",
+    "remote_venv": "~/valley-k-small/.venv311",
+    "note": "Canonical report code and vkcore/grid2d subtree were rsynced because remote origin was stale and lacked the gating report."
+  },
+  "consistency": {
+    "width_bx": {
+      "local_csv": "research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_width_bx_cases.csv",
+      "remote_csv": "research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/isambard_remote/ot_width_bx/one_target_width_bx_remote_cases.csv",
+      "row_count_local": 42,
+      "row_count_remote": 42,
+      "max_abs_diff": {
+        "value": 5.551115123125783e-17,
+        "case_id": "width_h2_bx_m0p12",
+        "field": "valley_over_max",
+        "local": 0.2553635849229889,
+        "remote": 0.25536358492298894
+      }
+    },
+    "delta": {
+      "local_csv": "research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/one_target_delta_cases.csv",
+      "remote_csv": "research/reports/grid2d_one_two_target_gating/artifacts/data/sensitivity/isambard_remote/ot_delta/one_target_delta_remote_cases.csv",
+      "row_count_local": 25,
+      "row_count_remote": 25,
+      "max_abs_diff": {
+        "value": 2.7755575615628914e-17,
+        "case_id": "delta_core_p0p80_open_p0p00",
+        "field": "valley_over_max",
+        "local": 0.1904336622762435,
+        "remote": 0.19043366227624353
+      }
+    }
+  }
+}

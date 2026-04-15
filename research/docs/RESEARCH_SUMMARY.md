@@ -1,6 +1,6 @@
 # RESEARCH SUMMARY
 
-最后更新: 2026-03-21
+最后更新: 2026-04-15
 
 ## 仓库定位
 - 本仓库研究随机游走首达时间分布中的双峰、谷值、shortcut 机制与跨模型对比。
@@ -44,10 +44,14 @@
 - `python3 scripts/reportctl.py agent-pack`
 
 ## 最新进展（手动追加）
+- 已新增 `exact_recursion_method_guide` 中文教学主稿，作为新的独立 report，系统讲解仓库主线所用的 Exact Recursion / time recursion，并用 `grid2d_one_two_target_gating` 的 shared symmetric one-target baseline 贯穿说明，同时对照 AW 数值反演与 Luca/GF 路线。
+- `grid2d_one_target_valley_peak_budget` 已加入为 `grid2d_one_target_exit_timing` 的短 companion note：它保留配置图，但把主图改成单轴 ring-style 的 co-located bar-on-curve 结构，只叠 `\kappa=0` 与 `\kappa=0.0040` 两条曲线，不再单独拆 `target funnel`，并新增 valley-vs-peak2 的 exact outside-time share 与膜相关 post-first-crossing remaining-time budget proxy，同时把 `peak1` 放回 timing 图里做对照。
 - 仓库已收敛为 canonical 结构：`research/`、`platform/`、`packages/`、`scripts/`、`tests/`。
 - 根目录兼容入口正在被移除，agent handoff 改为通过生成包输出到 `.local/deliverables/agent_pack/v1`。
 - 文档、测试与 CLI 正在同步切换到单一 `reportctl` 表面。
 - `grid2d_one_two_target_gating` 已升级为 March 16 gating 机制线的 repo-native canonical 子系统：共享代码位于 `vkcore.grid2d.one_two_target_gating.*`，报告与 artifacts 全部由仓库代码重建，6 个原始下载文件继续仅作为 `notes/source_imports/2026-03-16/raw/` 中的来源归档；其中 one-target 主文现固定共享对称基线 `sym_shared`，分开扫描 top/bottom 与 same-membrane directional 两种非对称，使用 gate-free rollback `L0R0/L0R1/L1R0/L1R1` 作为主要离散机制，把真实集合 x-gate `G_{X_g}={x=X_g}` 保留为 `N/P/Q` 时间锚点，并把双峰丢失统一按 `phase=0` 定义。
+- `grid2d_one_target_window_measures` 现为 one-target 对称基线的解释型 companion report：它复用 `grid2d_one_two_target_gating` 的共享基线与 exact 图，专门拆开 `occupancy share` 和 `ever-visit probability` 两个窗口量，现已同步提供中英文 manuscript，并把配置示意图与第一张 occupancy 主图并入同一个 overview figure，方便直接对照几何与窗口分布。
+- `grid2d_one_target_exit_timing` 现为同一对称基线下的 timing companion report：它固定 corridor-only soft-bias 几何，扫描对称膜通透率 continuation，精确区分 `\tau_out`（第一次离开 corridor band）与 `\tau_mem`（第一次 corridor-to-outside 膜穿越），并给出窗口条件 CDF、relative timing ratio 和 early / late / no-exit 三分解，用来判断第二峰到底是由 outside detour 还是 membrane-assisted branch 在贡献。
 
 ## 自动索引（由脚本生成）
 <!-- AUTO-INDEX:START -->
@@ -58,6 +62,10 @@
 | `research/reports/grid2d_rect_bimodality` | `research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_cn.pdf`, `research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_en.pdf` | `research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_cn.tex`, `research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_en.tex` |
 | `research/reports/grid2d_membrane_near_target` | `research/reports/grid2d_membrane_near_target/manuscript/grid2d_membrane_near_target_cn.pdf`, `research/reports/grid2d_membrane_near_target/manuscript/grid2d_membrane_near_target_en.pdf` | `research/reports/grid2d_membrane_near_target/manuscript/grid2d_membrane_near_target_cn.tex`, `research/reports/grid2d_membrane_near_target/manuscript/grid2d_membrane_near_target_en.tex` |
 | `research/reports/grid2d_one_two_target_gating` | `research/reports/grid2d_one_two_target_gating/manuscript/grid2d_one_two_target_gating_cn.pdf`, `research/reports/grid2d_one_two_target_gating/manuscript/grid2d_one_two_target_gating_en.pdf` | `research/reports/grid2d_one_two_target_gating/manuscript/grid2d_one_two_target_gating_cn.tex`, `research/reports/grid2d_one_two_target_gating/manuscript/grid2d_one_two_target_gating_en.tex` |
+| `research/reports/grid2d_one_target_window_measures` | `research/reports/grid2d_one_target_window_measures/manuscript/grid2d_one_target_window_measures_cn.pdf`, `research/reports/grid2d_one_target_window_measures/manuscript/grid2d_one_target_window_measures_en.pdf` | `research/reports/grid2d_one_target_window_measures/manuscript/grid2d_one_target_window_measures_cn.tex`, `research/reports/grid2d_one_target_window_measures/manuscript/grid2d_one_target_window_measures_en.tex` |
+| `research/reports/grid2d_one_target_exit_timing` | `research/reports/grid2d_one_target_exit_timing/manuscript/grid2d_one_target_exit_timing_cn.pdf`, `research/reports/grid2d_one_target_exit_timing/manuscript/grid2d_one_target_exit_timing_en.pdf` | `research/reports/grid2d_one_target_exit_timing/manuscript/grid2d_one_target_exit_timing_cn.tex`, `research/reports/grid2d_one_target_exit_timing/manuscript/grid2d_one_target_exit_timing_en.tex` |
+| `research/reports/grid2d_one_target_valley_peak_budget` | `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_cn.pdf`, `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_en.pdf` | `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_cn.tex`, `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_en.tex` |
+| `research/reports/exact_recursion_method_guide` | `research/reports/exact_recursion_method_guide/manuscript/exact_recursion_method_guide_cn.pdf` | `research/reports/exact_recursion_method_guide/manuscript/exact_recursion_method_guide_cn.tex` |
 | `research/reports/grid2d_reflecting_bimodality` | `research/reports/grid2d_reflecting_bimodality/manuscript/grid2d_reflecting_bimodality_cn.pdf`, `research/reports/grid2d_reflecting_bimodality/manuscript/grid2d_reflecting_bimodality_en.pdf` | `research/reports/grid2d_reflecting_bimodality/manuscript/grid2d_reflecting_bimodality_cn.tex`, `research/reports/grid2d_reflecting_bimodality/manuscript/grid2d_reflecting_bimodality_en.tex` |
 | `research/reports/grid2d_two_target_double_peak` | `research/reports/grid2d_two_target_double_peak/manuscript/grid2d_two_target_double_peak_cn.pdf`, `research/reports/grid2d_two_target_double_peak/manuscript/grid2d_two_target_double_peak_en.pdf` | `research/reports/grid2d_two_target_double_peak/manuscript/grid2d_two_target_double_peak_cn.tex`, `research/reports/grid2d_two_target_double_peak/manuscript/grid2d_two_target_double_peak_en.tex` |
 | `research/reports/grid2d_two_walker_encounter_shortcut` | `research/reports/grid2d_two_walker_encounter_shortcut/manuscript/grid2d_two_walker_encounter_shortcut_cn.pdf`, `research/reports/grid2d_two_walker_encounter_shortcut/manuscript/grid2d_two_walker_encounter_shortcut_en.pdf` | `research/reports/grid2d_two_walker_encounter_shortcut/manuscript/grid2d_two_walker_encounter_shortcut_cn.tex`, `research/reports/grid2d_two_walker_encounter_shortcut/manuscript/grid2d_two_walker_encounter_shortcut_en.tex` |

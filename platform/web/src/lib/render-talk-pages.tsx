@@ -1,7 +1,6 @@
-import { TalkDeck } from '@/components/TalkDeck';
+import { TalkRevealDeck } from '@/components/TalkRevealDeck';
 import {
   loadBasicDemo,
-  loadRingDemo,
   loadTalkManifest,
   loadTalkScript,
   localizedText,
@@ -13,9 +12,8 @@ export function renderTalkPage(lang: Lang, prefix: string, talkId: string) {
   const scriptEn = loadTalkScript(talkId, 'en');
   const scriptCn = loadTalkScript(talkId, 'cn');
   const basicDemo = loadBasicDemo(talkId);
-  const ringDemo = loadRingDemo(talkId);
 
-  if (!manifest || !scriptEn || !scriptCn || !basicDemo || !ringDemo) {
+  if (!manifest || !scriptEn || !scriptCn || !basicDemo) {
     return (
       <main className="talk-deck-fallback">
         <section className="talk-fallback-card">
@@ -27,13 +25,12 @@ export function renderTalkPage(lang: Lang, prefix: string, talkId: string) {
   }
 
   return (
-    <TalkDeck
+    <TalkRevealDeck
       lang={lang}
       manifest={manifest}
       scriptEn={scriptEn}
       scriptCn={scriptCn}
       basicDemo={basicDemo}
-      ringDemo={ringDemo}
     />
   );
 }

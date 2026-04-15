@@ -12,6 +12,19 @@ function localize(lang: Lang, en: string, cn: string) {
   return lang === 'cn' ? cn : en;
 }
 
+function normalizeWalk(
+  walk: BasicDemoPayload['walks'][number],
+  target: BasicDemoPayload['target'],
+) {
+  const firstHitIndex = walk.steps.findIndex((step) => step.x === target.x && step.y === target.y);
+  const hitStep = firstHitIndex >= 0 ? firstHitIndex : walk.steps.length - 1;
+  return {
+    id: walk.id,
+    frames: walk.steps.slice(0, hitStep + 1),
+    hitStep,
+  };
+}
+
 export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
   const [trialIndex, setTrialIndex] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
@@ -19,9 +32,13 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
   const [paused, setPaused] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 
+  const normalizedWalks = useMemo(
+    () => payload.walks.map((walk) => normalizeWalk(walk, payload.target)),
+    [payload.target, payload.walks],
+  );
   const hits = useMemo(
-    () => payload.walks.map((walk) => walk.hit_step).sort((a, b) => a - b),
-    [payload.walks],
+    () => normalizedWalks.map((walk) => walk.hitStep).sort((a, b) => a - b),
+    [normalizedWalks],
   );
   const bins = useMemo(() => Array.from(new Set(hits)), [hits]);
 
@@ -43,8 +60,8 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
         finalCounts[hit] = (finalCounts[hit] ?? 0) + 1;
       }
       setCounts(finalCounts);
-      setTrialIndex(payload.walks.length - 1);
-      setStepIndex(payload.walks[payload.walks.length - 1]?.hit_step ?? 0);
+      setTrialIndex(normalizedWalks.length - 1);
+      setStepIndex(normalizedWalks[normalizedWalks.length - 1]?.hitStep ?? 0);
       return;
     }
 
@@ -54,7 +71,7 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
         return;
       }
 
-      const walk = payload.walks[trialIndex];
+      const walk = normalizedWalks[trialIndex];
       if (!walk) {
         setCounts({});
         setTrialIndex(0);
@@ -63,14 +80,14 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
         return;
       }
 
-      if (stepIndex < walk.hit_step) {
+      if (stepIndex < walk.hitStep) {
         setStepIndex((value) => value + 1);
         return;
       }
 
       setCounts((current) => ({
         ...current,
-        [walk.hit_step]: (current[walk.hit_step] ?? 0) + 1,
+        [walk.hitStep]: (current[walk.hitStep] ?? 0) + 1,
       }));
       setTrialIndex((value) => value + 1);
       setStepIndex(0);
@@ -78,10 +95,10 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
     }, 180);
 
     return () => window.clearInterval(timer);
-  }, [hits, paused, payload.walks, reducedMotion, stepIndex, trialIndex]);
+  }, [hits, normalizedWalks, paused, reducedMotion, stepIndex, trialIndex]);
 
-  const currentWalk = payload.walks[Math.min(trialIndex, payload.walks.length - 1)];
-  const currentSteps = currentWalk?.steps.slice(0, Math.min(stepIndex + 1, currentWalk.steps.length)) ?? [];
+  const currentWalk = normalizedWalks[Math.min(trialIndex, normalizedWalks.length - 1)];
+  const currentSteps = currentWalk?.frames.slice(0, Math.min(stepIndex + 1, currentWalk.frames.length)) ?? [];
   const currentPoint = currentSteps[currentSteps.length - 1] ?? payload.source;
   const maxCount = Math.max(...bins.map((bin) => counts[bin] ?? 0), 1);
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { TalkBasicIdeaDemo } from '@/components/TalkBasicIdeaDemo';
+import { TalkFormulaSlide } from '@/components/TalkFormulaSlide';
 import { withBasePath } from '@/lib/url';
 import type {
   BasicDemoPayload,
@@ -132,6 +133,8 @@ function SlideViewport({
     <div className="talk-reveal-stage-inner">
       {slide.animation?.kind === 'basic-walk' ? (
         <BasicIdeaSlide slide={slide} basicDemo={basicDemo} lang={lang} />
+      ) : slide.animation?.kind === 'formula-foundations' ? (
+        <TalkFormulaSlide slide={slide} />
       ) : (
         <FigureSlide slide={slide} lang={lang} />
       )}
@@ -151,6 +154,7 @@ export function TalkRevealDeck({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [presenterMode, setPresenterMode] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [immersiveMode, setImmersiveMode] = useState(false);
   const englishById = useMemo(
     () => new Map(scriptEn.blocks.map((block) => [block.slide_id, block])),
     [scriptEn.blocks],
@@ -175,10 +179,17 @@ export function TalkRevealDeck({
   }, [currentIndex]);
 
   useEffect(() => {
-    const syncFullscreen = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    const syncFullscreen = () => {
+      const doc = document as Document & { webkitFullscreenElement?: Element | null };
+      setIsFullscreen(Boolean(document.fullscreenElement || doc.webkitFullscreenElement));
+    };
     syncFullscreen();
     document.addEventListener('fullscreenchange', syncFullscreen);
-    return () => document.removeEventListener('fullscreenchange', syncFullscreen);
+    document.addEventListener('webkitfullscreenchange', syncFullscreen as EventListener);
+    return () => {
+      document.removeEventListener('fullscreenchange', syncFullscreen);
+      document.removeEventListener('webkitfullscreenchange', syncFullscreen as EventListener);
+    };
   }, []);
 
   useEffect(() => {
@@ -203,22 +214,44 @@ export function TalkRevealDeck({
   const english = currentSlide ? englishById.get(currentSlide.id) : undefined;
   const chinese = currentSlide ? chineseById.get(currentSlide.id) : undefined;
   const progressPercent = ((currentIndex + 1) / slides.length) * 100;
+  const fullscreenLike = immersiveMode || isFullscreen;
 
   const toggleFullscreen = async () => {
     if (!rootRef.current) {
       return;
     }
-    if (document.fullscreenElement) {
-      await document.exitFullscreen();
+    const doc = document as Document & {
+      webkitFullscreenElement?: Element | null;
+      webkitExitFullscreen?: () => Promise<void> | void;
+    };
+    const el = rootRef.current as HTMLDivElement & {
+      webkitRequestFullscreen?: () => Promise<void> | void;
+    };
+    if (fullscreenLike) {
+      setImmersiveMode(false);
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else if (doc.webkitFullscreenElement && doc.webkitExitFullscreen) {
+        await doc.webkitExitFullscreen();
+      }
       return;
     }
-    await rootRef.current.requestFullscreen();
+    setImmersiveMode(true);
+    try {
+      if (el.requestFullscreen) {
+        await el.requestFullscreen();
+      } else if (el.webkitRequestFullscreen) {
+        await el.webkitRequestFullscreen();
+      }
+    } catch {
+      // Keep the immersive layout even if the browser declines the fullscreen request.
+    }
   };
 
   return (
     <div
       ref={rootRef}
-      className={`talk-reveal-page${isFullscreen ? ' is-fullscreen' : ''}${presenterMode ? ' is-presenter' : ''}`}
+      className={`talk-reveal-page${fullscreenLike ? ' is-fullscreen' : ''}${presenterMode ? ' is-presenter' : ''}`}
     >
       <div className="talk-reveal-toolbar">
         <div className="talk-reveal-toolbar-brand">
@@ -232,7 +265,7 @@ export function TalkRevealDeck({
         </div>
         <div className="talk-reveal-toolbar-actions">
           <button type="button" onClick={toggleFullscreen}>
-            {isFullscreen ? 'Exit full screen' : 'Full screen'}
+            {fullscreenLike ? 'Exit full screen' : 'Full screen'}
           </button>
           <button type="button" onClick={() => setPresenterMode((value) => !value)}>
             {presenterMode ? 'Audience mode' : 'Presenter mode'}

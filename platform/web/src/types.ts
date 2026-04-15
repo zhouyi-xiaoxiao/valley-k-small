@@ -516,7 +516,7 @@ export type TalkFigureReference = {
 };
 
 export type TalkAnimationSpec = {
-  kind: 'basic-walk' | 'ring-branches' | 'valley-budget';
+  kind: 'basic-walk' | 'ring-branches' | 'valley-budget' | 'formula-foundations';
 };
 
 export type TalkEvidenceSpec =

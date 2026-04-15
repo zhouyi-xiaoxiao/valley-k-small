@@ -5,74 +5,83 @@
     {
       "slide_id": "opening",
       "start": "0:00",
-      "end": "0:45",
+      "end": "0:40",
       "title": "Hidden Routes in First-Passage Time",
       "spoken_text": "",
-      "speaker_notes": "直接正面开场：最近几个月，我在推进一条研究线，问题是如果随机游走到 target 有不止一种有效路径，命中时间分布能不能反推出这些隐藏路径。点明今天只讲三步：先定义 first-passage time，再讲单目标 ring 和二维几何里的机制，最后落到 many potential targets。",
-      "timing_prompt": "开场先立问题，不要先解释仓库结构。"
+      "speaker_notes": "开场直接说最近几个月的问题：同一个 target 能否通过不同路径族命中，而这些隐藏路径能否从首达时间分布的形状里读出来。",
+      "timing_prompt": "问题、路线图、三步结构。"
     },
     {
       "slide_id": "basic-idea",
-      "start": "0:45",
-      "end": "1:45",
+      "start": "0:40",
+      "end": "1:35",
       "title": "What Is First-Passage Time?",
       "spoken_text": "",
-      "speaker_notes": "这一页是给 broad audience 补背景。随机游走一句话带过：step by step 的 stochastic motion。重点是 first-passage time 只看第一次碰到 target 的时刻。指着动画讲：每次 trial 只记一次 first hit，然后很多次试验叠起来形成分布。这里不要上公式，不要讲太多模型细节。",
-      "timing_prompt": "一定要让不懂 random walk 的人也能在这一页跟上。"
+      "speaker_notes": "给非本方向听众补定义。强调 first hit，一旦碰到 target 轨迹就停止，右边统计的是 many trials 的 first-hit histogram。",
+      "timing_prompt": "从零解释 first-passage。"
     },
     {
       "slide_id": "why-double-peaks",
-      "start": "1:45",
-      "end": "2:40",
+      "start": "1:35",
+      "end": "2:20",
       "title": "Why a Double Peak Matters",
       "spoken_text": "",
-      "speaker_notes": "核心句子：单峰通常对应一个主导时间尺度，双峰提示至少有两类 characteristic arrivals。谷值不是空白，而是一个 neither branch dominates 的时间区间。这里的目标只是让听众接受“分布形状有机制含义”，不要把 valley 的深层解释抢到这页讲。",
-      "timing_prompt": "这页只讲 intuition，不进入正式证据。"
+      "speaker_notes": "这里只讲直觉：单峰对应一个主导时间尺度，双峰对应两个仍然可见的路径族，中间 valley 是两边都不占优的窗口。",
+      "timing_prompt": "只讲 shape = mechanism clue。"
     },
     {
       "slide_id": "ring-single-target",
-      "start": "2:40",
-      "end": "4:05",
+      "start": "2:20",
+      "end": "3:35",
       "title": "Single Target on a Ring",
       "spoken_text": "",
-      "speaker_notes": "先强调为什么用 ring：它是最干净的 mechanism testbed。动画里指 fast branch 和 slow detour。讲清楚双峰出现需要两个条件：时间尺度真的分开，而且两边权重都不能太小。这里的 take-home message 是：即便在最小单目标系统里，快分支、慢分支和 valley 也已经可以被看见并解释。",
-      "timing_prompt": "把 ring 讲成最小机制，不要讲成 toy example。"
+      "speaker_notes": "左边是真实 ring shortcut 几何，右边是真实 one-peak vs two-peak figure。重点不是每个 shortcut 都双峰，而是两条路径族必须在时间上分开且权重都保留下来。",
+      "timing_prompt": "把最小机制讲清楚。"
     },
     {
       "slide_id": "recent-single-target",
-      "start": "4:05",
-      "end": "5:20",
+      "start": "3:35",
+      "end": "4:50",
       "title": "Route Design Changes the Distribution",
       "spoken_text": "",
-      "speaker_notes": "这是“最近几个月推进了什么”的第一张证据页。要强调 shortcut 不是有没有的问题，而是怎么配的问题。改变 destination 会同时改 h1 和 t1；shortcut 太弱不够分支分离，太强又会把结构压塌。结论要说成 route design controls branch weights and timing，而不是 shortcut causes bimodality。",
-      "timing_prompt": "把 recent progress 落在 configuration sensitivity 上。"
+      "speaker_notes": "强调最近结果：不是有没有 shortcut，而是 shortcut destination 改了以后，late branch 的高度和时间位置都会变，而且不是单调变化。",
+      "timing_prompt": "突出 recent contribution。"
     },
     {
       "slide_id": "from-ring-to-2d",
-      "start": "5:20",
-      "end": "6:35",
-      "title": "From a Ring to a 2D Geometry",
+      "start": "4:50",
+      "end": "6:05",
+      "title": "Which Spatial Configurations Create a Double Peak?",
       "spoken_text": "",
-      "speaker_notes": "这一页做迁移：ring 里的快慢逻辑到了二维还在，但现在是由 corridor、boundary、outside region 这些几何因素来塑形。要让听众感到这一步不是“换个图”，而是从抽象路径竞争升级成空间上可解释的机制。也就是说，ring 提供最小机制，2D 提供更物理的语境。",
-      "timing_prompt": "关键词是 survive and upgrade。"
+      "speaker_notes": "左边 one-target partition，右边 two-target companion。这里讲的是 1D 的快慢路径逻辑怎么在 2D 里变成 geometry-controlled 的机制。",
+      "timing_prompt": "把 1D 到 2D 的桥搭起来。"
     },
     {
-      "slide_id": "valley-budget",
-      "start": "6:35",
-      "end": "8:35",
-      "title": "Valley Is a Budget Structure",
+      "slide_id": "outside-vs-membrane",
+      "start": "6:05",
+      "end": "7:35",
+      "title": "Outside Excursion or Membrane Crossing?",
       "spoken_text": "",
-      "speaker_notes": "这是全场最重要也最容易过量的一页。先说 tempting but too coarse 的解释：second peak 不是简单等于 membrane crossing happened。然后马上转到真正区分 valley 和 peak2 的量：corridor share、outside share、tau_out post share、tau_mem post share。核心结论只保留一句：valley 和 peak2 更主要地差在 how time is allocated，而不是差在单个事件是否发生。",
-      "timing_prompt": "这里语速放慢，只保留一个核心 insight。"
+      "speaker_notes": "这一页只保留一个核心点：peak2 和 valley 的差别，更强地体现在 outside budget，而不是 membrane probability 本身。",
+      "timing_prompt": "最深的一页，结论只讲一句。"
     },
     {
       "slide_id": "many-targets",
-      "start": "8:35",
-      "end": "10:00",
+      "start": "7:35",
+      "end": "8:50",
       "title": "From One Target to Many Potential Targets",
       "spoken_text": "",
-      "speaker_notes": "收尾不要再发散。只讲一个自然下一步：从 one target 到 many potential targets。强调以后曲线可能同时编码两件事：先走哪条 route，以及先 hit 哪个 target。这样就把 open question 从抽象方法论，变成了一个大家都能理解的科学问题。最后一句把前面工作价值收回来：前面的单目标和二维机制分析，是为多目标竞争建立 vocabulary。",
-      "timing_prompt": "最后一页要给人“研究线在往前走”的感觉。"
+      "speaker_notes": "展望从 one target 到 two/many targets。双峰机制以后不只是在讲 route competition，也在讲 target competition。",
+      "timing_prompt": "自然收束到 open question。"
+    },
+    {
+      "slide_id": "formula-foundations",
+      "start": "8:50",
+      "end": "10:00",
+      "title": "Minimal Mathematical Backbone",
+      "spoken_text": "",
+      "speaker_notes": "最后用最小数学骨架收尾：2D lattice 上的差分更新，first-hit time T，survival S(t)，以及 f(t)=S(t-1)-S(t)。不要推导，只讲骨架。",
+      "timing_prompt": "用公式收尾，稳住数学感。"
     }
   ]
 }

@@ -1325,7 +1325,7 @@ button:hover {
 .talk-reveal-page {
   position: relative;
   min-height: 100vh;
-  padding: 20px;
+  padding: 12px;
   background:
     radial-gradient(circle at 14% 8%, rgba(15, 118, 110, 0.08), transparent 36%),
     radial-gradient(circle at 86% 12%, rgba(217, 119, 6, 0.08), transparent 30%),
@@ -1333,6 +1333,9 @@ button:hover {
 }
 
 .talk-reveal-page.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   padding: 0;
   background: #ece6db;
 }
@@ -1340,9 +1343,9 @@ button:hover {
 .talk-reveal-toolbar {
   position: relative;
   z-index: 12;
-  width: min(1440px, calc(100vw - 40px));
-  margin: 0 auto 12px;
-  padding: 10px 14px;
+  width: min(1600px, calc(100vw - 24px));
+  margin: 0 auto 8px;
+  padding: 8px 12px;
   display: grid;
   grid-template-columns: auto minmax(180px, 1fr) auto;
   gap: 14px;
@@ -1355,12 +1358,15 @@ button:hover {
 
 .talk-reveal-page.is-fullscreen .talk-reveal-toolbar {
   position: absolute;
-  top: 12px;
+  top: 10px;
   left: 12px;
   right: 12px;
   width: auto;
   margin: 0;
   backdrop-filter: blur(8px);
+  background: rgba(255, 253, 248, 0.72);
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(17, 37, 30, 0.08);
 }
 
 .talk-reveal-toolbar-brand {
@@ -1432,22 +1438,27 @@ button:hover {
 }
 
 .talk-reveal-layout {
-  width: min(1440px, calc(100vw - 40px));
-  height: calc(100vh - 100px);
+  width: min(1600px, calc(100vw - 24px));
+  height: calc(100vh - 72px);
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
+  gap: 12px;
+  align-items: center;
+  justify-items: center;
 }
 
 .talk-reveal-page.is-presenter .talk-reveal-layout {
   grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: stretch;
+  justify-items: stretch;
 }
 
 .talk-reveal-page.is-fullscreen .talk-reveal-layout {
   width: 100vw;
   height: 100vh;
   padding: 0;
+  margin: 0;
 }
 
 .talk-reveal-page.is-fullscreen.is-presenter .talk-reveal-layout {
@@ -1455,18 +1466,26 @@ button:hover {
 }
 
 .talk-reveal-stage {
-  min-width: 0;
-  min-height: 0;
-  height: 100%;
+  width: 100%;
+  max-width: min(100%, calc((100vh - 72px) * 16 / 9));
+  height: min(calc(100vh - 72px), calc((100vw - 24px) * 9 / 16));
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 0 18px 46px rgba(17, 37, 30, 0.12);
   background: #f6f1e7;
 }
 
+.talk-reveal-page.is-presenter .talk-reveal-stage {
+  max-width: min(100%, calc((100vh - 72px) * 16 / 9));
+}
+
 .talk-reveal-page.is-fullscreen .talk-reveal-stage {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
   border-radius: 0;
   box-shadow: none;
+  background: #f4efe4;
 }
 
 .talk-reveal-stage-inner {
@@ -1492,6 +1511,7 @@ button:hover {
 
 .talk-reveal-slide-shell,
 .talk-reveal-basic-shell,
+.talk-formula-shell,
 .talk-reveal-unsupported {
   width: 100%;
   height: 100%;
@@ -1580,6 +1600,74 @@ button:hover {
   min-height: 240px;
 }
 
+.talk-formula-shell {
+  padding: 54px 62px;
+  background:
+    radial-gradient(circle at 14% 8%, rgba(15, 118, 110, 0.08), transparent 34%),
+    radial-gradient(circle at 84% 16%, rgba(217, 119, 6, 0.08), transparent 28%),
+    linear-gradient(180deg, #fbf8f1 0%, #f5efe3 100%);
+}
+
+.talk-formula-head {
+  margin-bottom: 22px;
+}
+
+.talk-formula-head h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 4.6vw, 4rem);
+  line-height: 1.05;
+}
+
+.talk-formula-head p {
+  margin: 12px 0 0;
+  max-width: 48ch;
+  font-size: 1.18rem;
+  line-height: 1.5;
+  color: #45515c;
+}
+
+.talk-formula-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  min-height: calc(100% - 168px);
+}
+
+.talk-formula-card {
+  padding: 24px 26px;
+  border-radius: 26px;
+  background: rgba(255, 253, 248, 0.9);
+  border: 1px solid rgba(224, 216, 200, 0.92);
+  box-shadow: 0 10px 28px rgba(17, 37, 30, 0.08);
+}
+
+.talk-formula-label {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7c5d24;
+}
+
+.talk-formula-math {
+  min-height: 110px;
+  display: grid;
+  align-items: center;
+}
+
+.talk-formula-math .katex-display {
+  margin: 0;
+}
+
+.talk-formula-card p {
+  margin: 12px 0 0;
+  font-size: 1rem;
+  line-height: 1.56;
+  color: #52606d;
+}
+
 .talk-reveal-notes {
   overflow: auto;
   padding: 18px;
@@ -1641,7 +1729,7 @@ button:hover {
   .talk-reveal-page.is-fullscreen.is-presenter .talk-reveal-layout {
     width: calc(100vw - 24px);
     height: auto;
-    min-height: calc(100vh - 88px);
+    min-height: calc(100vh - 72px);
     grid-template-columns: 1fr;
   }
 
@@ -1651,7 +1739,9 @@ button:hover {
   }
 
   .talk-reveal-stage {
-    height: min(72vw, calc(100vh - 190px));
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 
   .talk-reveal-basic-shell {
@@ -1663,6 +1753,14 @@ button:hover {
   }
 
   .talk-reveal-basic-card .talk-basic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .talk-formula-shell {
+    padding: 32px 24px;
+  }
+
+  .talk-formula-grid {
     grid-template-columns: 1fr;
   }
 

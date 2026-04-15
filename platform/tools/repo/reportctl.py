@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import py_compile
 import subprocess
 import sys
@@ -18,8 +19,19 @@ TOOL_ROOT = REPO_ROOT / "platform" / "tools"
 
 def _preferred_python() -> str:
     repo_python = REPO_ROOT / ".venv" / "bin" / "python"
-    if repo_python.exists():
-        return str(repo_python)
+    if repo_python.exists() and os.access(repo_python, os.X_OK):
+        try:
+            proc = subprocess.run(
+                [str(repo_python), "--version"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=3,
+                check=False,
+            )
+            if proc.returncode == 0:
+                return str(repo_python)
+        except (OSError, subprocess.SubprocessError):
+            pass
     return sys.executable or "python3"
 
 

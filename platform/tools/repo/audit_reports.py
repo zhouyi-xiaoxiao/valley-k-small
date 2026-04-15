@@ -9,6 +9,7 @@ import py_compile
 import re
 import shutil
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -44,8 +45,19 @@ WARN_PATTERNS = {
 
 def preferred_python() -> str:
     repo_python = REPO_ROOT / ".venv" / "bin" / "python"
-    if repo_python.exists():
-        return str(repo_python)
+    if repo_python.exists() and repo_python.is_file():
+        try:
+            proc = subprocess.run(
+                [str(repo_python), "--version"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=3,
+                check=False,
+            )
+            if proc.returncode == 0:
+                return str(repo_python)
+        except (OSError, subprocess.SubprocessError):
+            pass
     return sys.executable or "python3"
 
 

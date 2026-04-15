@@ -274,59 +274,59 @@ def smooth_curve_path(single: bool = False) -> str:
 
 
 def build_slide1() -> str:
-    ring = draw_ring_schematic(430, 608, 188, detailed=True)
+    ring = draw_ring_schematic(430, 604, 198, detailed=True)
     body = [
-        text(96, 112, "10-minute research talk", 28, 500, SOFT),
+        text(92, 104, "10-minute research talk", 24, 500, SOFT),
         multiline(
-            96,
-            192,
+            92,
+            166,
             ["Hidden routes in first-passage time"],
-            70,
+            62,
             1.1,
             700,
             INK,
         ),
         multiline(
-            98,
-            278,
+            94,
+            240,
             [
-                "A one-target 1D ring can still split into a fast route,",
-                "a valley, and a delayed route once one directed shortcut is present.",
+                "A one-target 1D ring can still split into a fast route, a valley,",
+                "and a delayed route once one directed shortcut is present.",
             ],
-            28,
+            24,
             1.3,
             400,
             SOFT,
         ),
-        '<rect x="74" y="348" width="648" height="468" rx="40" fill="#f8f4ea"/>',
-        '<rect x="812" y="348" width="706" height="468" rx="40" fill="#f8f4ea"/>',
-        text(120, 396, "Realistic 1D ring geometry", 28, 700, INK),
-        text(120, 430, "Periodic ring, absorbing target, and one straight shortcut from u to v.", 20, 400, SOFT),
+        '<rect x="68" y="308" width="646" height="534" rx="38" fill="#f8f4ea"/>',
+        '<rect x="742" y="308" width="792" height="534" rx="38" fill="#f8f4ea"/>',
+        text(112, 360, "Realistic 1D ring geometry", 26, 700, INK),
+        text(112, 394, "Periodic ring, absorbing target, and one straight shortcut from u to v.", 18, 400, SOFT),
         ring,
-        text(856, 396, "Distribution-level picture", 28, 700, INK),
+        text(786, 360, "Distribution-level picture", 26, 700, INK),
         multiline(
-            856,
-            430,
+            786,
+            394,
             [
                 "The same target can still generate an early peak, a valley,",
                 "and a delayed branch once both route families stay visible.",
             ],
-            22,
+            20,
             1.3,
             400,
             SOFT,
         ),
-        '<path d="M 876 714 L 1456 714" stroke="#b9c0bf" stroke-width="3"/>',
-        '<path d="M 876 714 L 876 502" stroke="#b9c0bf" stroke-width="3"/>',
-        f'<path d="M 906 686 C 962 546 1030 500 1098 544 C 1144 574 1186 654 1238 644 C 1300 632 1338 520 1408 540 C 1440 550 1458 574 1488 612" stroke="{INK}" stroke-width="8" fill="none" stroke-linecap="round"/>',
-        f'<circle cx="1016" cy="556" r="8" fill="{TEAL}"/>',
-        f'<circle cx="1232" cy="644" r="8" fill="{AMBER}"/>',
-        f'<circle cx="1412" cy="540" r="8" fill="{AMBER}"/>',
-        text(978, 540, "peak1", 22, 600, TEAL),
-        text(1202, 684, "valley", 22, 600, SOFT),
-        text(1376, 524, "peak2", 22, 600, AMBER),
-        text(874, 490, "density", 20, 500, SOFT),
-        text(1428, 752, "time", 20, 500, SOFT),
+        '<path d="M 798 740 L 1476 740" stroke="#b9c0bf" stroke-width="3"/>',
+        '<path d="M 798 740 L 798 478" stroke="#b9c0bf" stroke-width="3"/>',
+        f'<path d="{smooth_curve_path(False)}" transform="translate(720,-70)" stroke="{INK}" stroke-width="9" fill="none" stroke-linecap="round"/>',
+        f'<circle cx="1085" cy="490" r="8" fill="{TEAL}"/>',
+        f'<circle cx="1355" cy="575" r="8" fill="{AMBER}"/>',
+        f'<circle cx="1490" cy="475" r="8" fill="{AMBER}"/>',
+        text(1046, 474, "peak1", 20, 600, TEAL),
+        text(1320, 615, "valley", 20, 600, SOFT),
+        text(1452, 458, "peak2", 20, 600, AMBER),
+        text(794, 464, "density", 18, 500, SOFT),
+        text(1448, 778, "time", 18, 500, SOFT),
     ]
     return svg_doc("".join(body))
 
@@ -417,52 +417,52 @@ def build_slide6() -> str:
     partition = asset_data_uri("fig1_partition.png")
     left_panel = "".join(
         [
-            card(104, 420, 664, 324, 22, "#f8f4ea"),
-            f'<image href="{partition}" x="118" y="434" width="636" height="296" preserveAspectRatio="xMidYMid meet"/>',
+            card(100, 392, 668, 352, 22, "#f8f4ea"),
+            f'<image href="{partition}" x="118" y="410" width="632" height="316" preserveAspectRatio="xMidYMid meet"/>',
         ]
     )
     right_panel = "".join(
         [
-            card(830, 396, 688, 384, 24, "#f8f4ea"),
+            card(832, 392, 684, 352, 24, "#f8f4ea"),
             # grid
             *[
-                f'<line x1="{840 + i*24}" y1="428" x2="{840 + i*24}" y2="748" stroke="{GRID}" stroke-width="1"/>'
+                f'<line x1="{846 + i*24}" y1="424" x2="{846 + i*24}" y2="720" stroke="{GRID}" stroke-width="1"/>'
                 for i in range(0, 24)
             ],
             *[
-                f'<line x1="840" y1="{428 + j*24}" x2="1492" y2="{428 + j*24}" stroke="{GRID}" stroke-width="1"/>'
+                f'<line x1="846" y1="{424 + j*24}" x2="1492" y2="{424 + j*24}" stroke="{GRID}" stroke-width="1"/>'
                 for j in range(0, 13)
             ],
-            '<rect x="840" y="430" width="92" height="316" fill="#ef6d24" opacity="0.96"/>',
-            '<rect x="932" y="430" width="560" height="316" fill="#43bea0" opacity="0.96"/>',
-            '<rect x="932" y="520" width="516" height="100" fill="#a7a4a4" opacity="0.96"/>',
-            '<line x1="932" y1="520" x2="1448" y2="520" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            '<line x1="932" y1="620" x2="1448" y2="620" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            text(858, 460, "left basin", 18, 700, CARD),
-            text(1128, 460, "outside / right side", 18, 700, CARD),
-            text(1162, 582, "corridor", 26, 700, INK),
-            f'<rect x="980" y="562" width="18" height="18" fill="{RED}"/>',
-            text(972, 608, "start", 22, 600, RED),
-            f'<polygon points="1088,542 1112,566 1088,590 1064,566" fill="{BLUE}"/>',
-            text(1032, 514, "near target", 20, 600, BLUE),
-            f'<circle cx="1392" cy="570" r="14" fill="{AMBER}"/>',
-            text(1324, 514, "far target", 20, 600, AMBER),
-            f'<path d="M 1000 570 C 1030 566 1050 566 1070 566" stroke="{BLUE}" stroke-width="4" fill="none" stroke-linecap="round"/>',
-            f'<path d="M 1002 570 C 1138 576 1260 576 1374 570" stroke="{AMBER}" stroke-width="4" fill="none" stroke-linecap="round"/>',
+            '<rect x="846" y="424" width="104" height="296" fill="#ef6d24" opacity="0.96"/>',
+            '<rect x="950" y="424" width="542" height="296" fill="#43bea0" opacity="0.96"/>',
+            '<rect x="950" y="514" width="492" height="112" fill="#a7a4a4" opacity="0.96"/>',
+            '<line x1="950" y1="514" x2="1442" y2="514" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
+            '<line x1="950" y1="626" x2="1442" y2="626" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
+            text(866, 456, "left side", 18, 700, CARD),
+            text(1160, 456, "outer / right side", 18, 700, CARD),
+            text(1138, 580, "corridor", 24, 700, INK),
+            f'<rect x="984" y="564" width="18" height="18" fill="{RED}"/>',
+            text(970, 606, "start", 20, 600, RED),
+            f'<polygon points="1090,548 1114,572 1090,596 1066,572" fill="{BLUE}"/>',
+            text(1038, 500, "near target", 18, 600, BLUE),
+            f'<circle cx="1386" cy="572" r="14" fill="{AMBER}"/>',
+            text(1332, 500, "far target", 18, 600, AMBER),
+            f'<path d="M 1002 572 C 1036 572 1052 572 1070 572" stroke="{BLUE}" stroke-width="5" fill="none" stroke-linecap="round"/>',
+            f'<path d="M 1002 572 C 1144 582 1262 580 1370 572" stroke="{AMBER}" stroke-width="5" fill="none" stroke-linecap="round"/>',
         ]
     )
     body = [
         text(96, 110, "From one target to two targets in 2D", 28, 500, SOFT),
         multiline(96, 172, ["What 2D layouts can", "keep two timescales visible?"], 46, 1.08, 700, INK),
-        text(98, 284, "One target shows the partition clearly. Two targets reuse the same grammar, but add target competition.", 20, 400, SOFT),
-        card(84, 332, 706, 500),
-        card(810, 332, 706, 500),
+        text(98, 284, "One target shows the partition clearly. Two targets reuse the same geometry grammar, but add target competition.", 20, 400, SOFT),
+        card(84, 332, 706, 462),
+        card(810, 332, 706, 462),
         text(126, 380, "one-target partition", 28, 700, INK),
         left_panel,
         text(852, 380, "two-target companion", 28, 700, INK),
         right_panel,
-        card(112, 792, 1378, 68, 18, "#f5efe4"),
-        text(140, 834, "The one-target case asks whether two route families stay visible. The two-target case asks the same question again, now with target competition added on top.", 20, 500, SOFT),
+        card(120, 810, 1368, 54, 18, "#f5efe4"),
+        text(146, 844, "Two route families can stay visible in both cases; the two-target geometry adds the question of which target wins first.", 18, 500, SOFT),
     ]
     return svg_doc("".join(body))
 
@@ -485,49 +485,22 @@ def build_slide7() -> str:
         outside_series.append((label, color, [float(matching[w]["outside_share"]) for w in windows]))
         membrane_series.append((label, color, [float(matching[w]["tau_mem_prob"]) if matching[w]["tau_mem_prob"] != "nan" else 0.0 for w in windows]))
 
-    left_geom = "".join(
-        [
-            card(100, 404, 390, 398, 22, "#f8f4ea"),
-            *[
-                f'<line x1="{112 + i*24}" y1="428" x2="{112 + i*24}" y2="768" stroke="{GRID}" stroke-width="1"/>'
-                for i in range(0, 16)
-            ],
-            *[
-                f'<line x1="112" y1="{428 + j*22}" x2="488" y2="{428 + j*22}" stroke="{GRID}" stroke-width="1"/>'
-                for j in range(0, 16)
-            ],
-            '<rect x="112" y="522" width="376" height="120" fill="#d9edf2" opacity="0.86"/>',
-            '<line x1="112" y1="522" x2="488" y2="522" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            '<line x1="112" y1="642" x2="488" y2="642" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            f'<rect x="150" y="574" width="18" height="18" fill="{RED}"/>',
-            text(132, 616, "start", 22, 600, RED),
-            f'<polygon points="448,566 472,590 448,614 424,590" fill="{BLUE}"/>',
-            text(406, 552, "target", 22, 600, BLUE),
-            text(220, 502, "upper outside", 18, 500, SOFT),
-            text(232, 694, "lower outside", 18, 500, SOFT),
-            text(236, 596, "corridor", 24, 600, INK),
-            text(270, 516, "upper membrane", 17, 500, SOFT),
-            text(272, 664, "lower membrane", 17, 500, SOFT),
-            f'<path d="M 170 584 C 212 548 240 512 268 476" stroke="{AMBER}" stroke-width="4" fill="none" stroke-linecap="round"/>',
-            f'<path d="M 170 584 C 212 620 240 652 270 688" stroke="{AMBER}" stroke-width="4" fill="none" stroke-linecap="round"/>',
-            f'<path d="M 170 584 L 430 590" stroke="{TEAL}" stroke-width="5" fill="none" stroke-linecap="round"/>',
-        ]
-    )
+    membrane_geom = asset_data_uri("membrane_rep_sym_geometry.png")
     body = [
         text(96, 110, "One-target corridor mechanism", 28, 500, SOFT),
         multiline(96, 172, ["Is peak2 mainly outside time,", "or mainly the membrane crossing?"], 44, 1.08, 700, INK),
         text(98, 286, "The geometry is upper/lower symmetric, so the mechanism test is between outside-budget evidence and membrane-linked evidence.", 20, 400, SOFT),
-        card(84, 322, 430, 520),
-        card(536, 322, 954, 246),
-        card(536, 586, 954, 246),
+        card(84, 322, 478, 520),
+        card(586, 322, 904, 246),
+        card(586, 586, 904, 246),
         text(118, 378, "symmetric corridor geometry", 28, 700, INK),
-        left_geom,
-        text(570, 378, "outside-budget evidence", 26, 700, INK),
-        text(570, 642, "membrane-linked evidence", 26, 700, INK),
-        grouped_bar_chart(566, 392, 904, 154, windows, outside_series, 0.65, "share"),
-        grouped_bar_chart(566, 656, 904, 154, windows, membrane_series, 0.6, "prob."),
+        f'<image href="{membrane_geom}" x="110" y="412" width="424" height="364" preserveAspectRatio="xMidYMid meet"/>',
+        text(620, 378, "outside-budget evidence", 26, 700, INK),
+        text(620, 642, "membrane-linked evidence", 26, 700, INK),
+        grouped_bar_chart(616, 392, 844, 154, windows, outside_series, 0.65, "share"),
+        grouped_bar_chart(616, 656, 844, 154, windows, membrane_series, 0.6, "prob."),
         card(108, 794, 1380, 70, 18, "#f5efe4"),
-        text(138, 836, "The late branch is better separated from the valley by outside-time budget than by the membrane event alone.", 20, 600, SOFT),
+        text(132, 836, "Peak2 separates from the valley more clearly through outside-time budget than through membrane probability alone.", 19, 600, SOFT),
     ]
     return svg_doc("".join(body))
 
@@ -550,18 +523,18 @@ def build_slide8() -> str:
     body = [
         text(96, 110, "Open questions beyond one target", 28, 500, SOFT),
         multiline(96, 170, ["Next step:", "from two targets to many"], 42, 1.08, 700, INK),
-        text(98, 276, "Beyond one target, the distribution can encode both route competition and target competition.", 20, 400, SOFT),
+        text(98, 276, "Beyond one target, the distribution can encode both route competition and target competition.", 19, 400, SOFT),
         card(84, 332, 688, 492),
         card(828, 332, 688, 492),
         text(122, 382, "two-target mechanism", 28, 700, INK),
         text(866, 382, "many-target outlook", 28, 700, INK),
-        f'<image href="{geom}" x="114" y="422" width="628" height="172" preserveAspectRatio="xMidYMid meet"/>',
-        f'<image href="{split}" x="126" y="612" width="604" height="156" preserveAspectRatio="xMidYMid meet"/>',
+        f'<image href="{geom}" x="114" y="422" width="628" height="164" preserveAspectRatio="xMidYMid meet"/>',
+        f'<image href="{split}" x="126" y="604" width="604" height="152" preserveAspectRatio="xMidYMid meet"/>',
         many_targets,
-        card(874, 660, 598, 138, 18, "#f5efe4"),
-        text(906, 704, "Two targets: which route wins, and which target wins first?", 20, 500, SOFT),
-        text(906, 738, "Many targets: screening, crowding, and rare late winners", 20, 500, SOFT),
-        text(906, 772, "from distant target classes.", 20, 500, SOFT),
+        card(874, 648, 598, 150, 18, "#f5efe4"),
+        text(906, 696, "Two targets: which route wins, and which target wins first?", 18, 500, SOFT),
+        text(906, 728, "Many targets: screening, crowding, and rare late winners.", 18, 500, SOFT),
+        text(906, 760, "Can one late peak correspond to a distant target class?", 18, 500, SOFT),
     ]
     return svg_doc("".join(body))
 

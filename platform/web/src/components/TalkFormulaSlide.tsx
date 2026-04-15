@@ -25,11 +25,6 @@ const EQUATIONS = [
     copy: 'The target is absorbing because the process stops when this event first happens.',
   },
   {
-    label: 'Survival probability',
-    latex: String.raw`S(t)=\mathbb{P}(T>t)`,
-    copy: 'This is the probability that the walker has not yet reached the target by time t.',
-  },
-  {
     label: 'First-passage distribution',
     latex: String.raw`f(t)=\mathbb{P}(T=t)=S(t-1)-S(t)`,
     copy: 'The hitting-time curve is the step-by-step loss of survival probability.',

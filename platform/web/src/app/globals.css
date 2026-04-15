@@ -1358,15 +1358,16 @@ button:hover {
 
 .talk-reveal-page.is-fullscreen .talk-reveal-toolbar {
   position: absolute;
-  top: 10px;
-  left: 12px;
-  right: 12px;
+  top: 8px;
+  left: 10px;
+  right: 10px;
   width: auto;
   margin: 0;
   backdrop-filter: blur(8px);
-  background: rgba(255, 253, 248, 0.72);
-  border-radius: 18px;
-  box-shadow: 0 10px 24px rgba(17, 37, 30, 0.08);
+  background: rgba(255, 253, 248, 0.6);
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(17, 37, 30, 0.06);
+  padding: 6px 10px;
 }
 
 .talk-reveal-toolbar-brand {
@@ -1628,7 +1629,7 @@ button:hover {
 
 .talk-formula-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
   min-height: calc(100% - 168px);
 }
@@ -1652,7 +1653,7 @@ button:hover {
 }
 
 .talk-formula-math {
-  min-height: 110px;
+  min-height: 132px;
   display: grid;
   align-items: center;
 }

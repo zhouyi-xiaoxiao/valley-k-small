@@ -155,6 +155,7 @@ export function TalkRevealDeck({
   const [presenterMode, setPresenterMode] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [immersiveMode, setImmersiveMode] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(true);
   const englishById = useMemo(
     () => new Map(scriptEn.blocks.map((block) => [block.slide_id, block])),
     [scriptEn.blocks],
@@ -216,6 +217,34 @@ export function TalkRevealDeck({
   const progressPercent = ((currentIndex + 1) / slides.length) * 100;
   const fullscreenLike = immersiveMode || isFullscreen;
 
+  useEffect(() => {
+    if (!fullscreenLike) {
+      setControlsVisible(true);
+      return;
+    }
+    let timeout: number | null = null;
+    const revealControls = () => {
+      setControlsVisible(true);
+      if (timeout) {
+        window.clearTimeout(timeout);
+      }
+      timeout = window.setTimeout(() => setControlsVisible(false), 2200);
+    };
+    revealControls();
+    const events: Array<keyof WindowEventMap> = ['mousemove', 'mousedown', 'touchstart', 'keydown'];
+    for (const eventName of events) {
+      window.addEventListener(eventName, revealControls, { passive: true });
+    }
+    return () => {
+      if (timeout) {
+        window.clearTimeout(timeout);
+      }
+      for (const eventName of events) {
+        window.removeEventListener(eventName, revealControls);
+      }
+    };
+  }, [fullscreenLike, currentIndex]);
+
   const toggleFullscreen = async () => {
     if (!rootRef.current) {
       return;
@@ -251,9 +280,13 @@ export function TalkRevealDeck({
   return (
     <div
       ref={rootRef}
-      className={`talk-reveal-page${fullscreenLike ? ' is-fullscreen' : ''}${presenterMode ? ' is-presenter' : ''}`}
+      className={`talk-reveal-page${fullscreenLike ? ' is-fullscreen' : ''}${presenterMode ? ' is-presenter' : ''}${fullscreenLike && !controlsVisible ? ' is-toolbar-hidden' : ''}`}
     >
-      <div className="talk-reveal-toolbar">
+      <div
+        className="talk-reveal-toolbar"
+        onMouseEnter={() => fullscreenLike && setControlsVisible(true)}
+        onFocus={() => fullscreenLike && setControlsVisible(true)}
+      >
         <div className="talk-reveal-toolbar-brand">
           <strong>{manifest.title_en}</strong>
           <span>

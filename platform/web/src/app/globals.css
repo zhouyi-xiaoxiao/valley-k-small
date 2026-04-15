@@ -1368,6 +1368,15 @@ button:hover {
   border-radius: 14px;
   box-shadow: 0 8px 18px rgba(17, 37, 30, 0.06);
   padding: 6px 10px;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.talk-reveal-page.is-fullscreen.is-toolbar-hidden .talk-reveal-toolbar {
+  opacity: 0.06;
+  transform: translateY(-6px);
 }
 
 .talk-reveal-toolbar-brand {

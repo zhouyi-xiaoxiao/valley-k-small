@@ -35,6 +35,18 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def _expected_start_positions(rows: list[dict[str, str]]) -> set[tuple[int, int]]:
+    x_values = {int(row["start_x"]) for row in rows}
+    y_values = {int(row["start_y"]) for row in rows}
+    target = (int(rows[0]["target_x"]), int(rows[0]["target_y"]))
+    return {
+        (x, y)
+        for x in range(max(x_values) + 1)
+        for y in range(max(y_values) + 1)
+        if (x, y) != target
+    }
+
+
 def test_gating_report_assets_exist() -> None:
     required = [
         DATA / "analysis_summary.json",
@@ -144,11 +156,16 @@ def test_one_target_representatives_and_scans_are_consistent() -> None:
 def test_one_target_start_scan_and_phase0_examples_exist() -> None:
     start_rows = _read_csv(DATA / "one_target_start_scan.csv")
     assert {row["case"] for row in start_rows} == CANONICAL_CASES
-    assert len(start_rows) == 4 * (60 * 16 - 1)
+    expected_positions = _expected_start_positions(start_rows)
+    assert len(start_rows) == len(CANONICAL_CASES) * len(expected_positions)
     for case_name in CANONICAL_CASES:
         case_rows = [row for row in start_rows if row["case"] == case_name]
-        assert len(case_rows) == (60 * 16 - 1)
+        assert len(case_rows) == len(expected_positions)
         assert {int(row["x_gate"]) for row in case_rows} == {32}
+        assert {
+            (int(row["start_x"]), int(row["start_y"]))
+            for row in case_rows
+        } == expected_positions
         for row in case_rows:
             assert 0 <= int(row["phase"]) <= 2
             assert float(row["sep_peaks"]) >= 0.0
@@ -169,6 +186,7 @@ def test_one_target_start_scan_and_phase0_examples_exist() -> None:
 def test_one_target_summary_and_manuscripts_match_new_language() -> None:
     summary = json.loads((DATA / "analysis_summary.json").read_text(encoding="utf-8"))
     one_target = summary["one_target"]
+    expected_start_count = len(_expected_start_positions(_read_csv(DATA / "one_target_start_scan.csv")))
     assert one_target["standard_case"] == "sym_shared"
     assert set(one_target["comparison_cases"]) == {
         "tb_asym_balanced",
@@ -180,7 +198,7 @@ def test_one_target_summary_and_manuscripts_match_new_language() -> None:
     assert one_target["dir_phase0_count"] >= 0
     for case_name, counts in one_target["start_phase_counts"].items():
         assert case_name in CANONICAL_CASES
-        assert sum(int(v) for v in counts.values()) == (60 * 16 - 1)
+        assert sum(int(v) for v in counts.values()) == expected_start_count
 
     for path in (
         MANUSCRIPT / "grid2d_one_two_target_gating_cn.tex",

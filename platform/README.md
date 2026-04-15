@@ -19,8 +19,7 @@
 - agent 读取生成包，而不是依赖仓库中的第二套镜像目录
 
 ## Generated State
-- 站点预计算输出: `platform/web/public/data/v1/`
-- 站点公开静态资产: `platform/web/public/artifacts/`
+- 站点预计算输出与公开静态资产会写入被 `.gitignore` 忽略的 web public 生成目录
 - 本地隐藏状态:
   - `.local/checks/`
   - `.local/deliverables/`

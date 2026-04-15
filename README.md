@@ -70,6 +70,6 @@ python3 scripts/reportctl.py doctor
 - 对外公开时，根目录只保留 canonical 表面：`research/`、`platform/`、`packages/`、`scripts/`、`tests/` 与 4 个根文件。
 
 ## Local State
-- `platform/web/public/data/v1/` 和 `platform/web/public/artifacts/` 是站点预计算输出
+- 站点预计算输出与公开静态资产会写入被 `.gitignore` 忽略的 web public 生成目录，不属于 canonical 仓库树
 - `.local/checks/`、`.local/deliverables/`、`.local/keepalive/`、`.local/loop/` 是隐藏本地状态
 - 这些路径都不属于人工主阅读面

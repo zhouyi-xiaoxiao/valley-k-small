@@ -424,31 +424,30 @@ def build_slide6() -> str:
     right_panel = "".join(
         [
             card(832, 392, 684, 352, 24, "#f8f4ea"),
-            # grid
             *[
-                f'<line x1="{846 + i*24}" y1="424" x2="{846 + i*24}" y2="720" stroke="{GRID}" stroke-width="1"/>'
-                for i in range(0, 24)
+                f'<line x1="{850 + i*24}" y1="422" x2="{850 + i*24}" y2="714" stroke="{GRID}" stroke-width="1"/>'
+                for i in range(0, 28)
             ],
             *[
-                f'<line x1="846" y1="{424 + j*24}" x2="1492" y2="{424 + j*24}" stroke="{GRID}" stroke-width="1"/>'
+                f'<line x1="850" y1="{422 + j*24}" x2="1498" y2="{422 + j*24}" stroke="{GRID}" stroke-width="1"/>'
                 for j in range(0, 13)
             ],
-            '<rect x="846" y="424" width="104" height="296" fill="#ef6d24" opacity="0.96"/>',
-            '<rect x="950" y="424" width="542" height="296" fill="#43bea0" opacity="0.96"/>',
-            '<rect x="950" y="514" width="492" height="112" fill="#a7a4a4" opacity="0.96"/>',
-            '<line x1="950" y1="514" x2="1442" y2="514" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            '<line x1="950" y1="626" x2="1442" y2="626" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            text(866, 456, "left side", 18, 700, CARD),
-            text(1160, 456, "outer / right side", 18, 700, CARD),
-            text(1138, 580, "corridor", 24, 700, INK),
-            f'<rect x="984" y="564" width="18" height="18" fill="{RED}"/>',
-            text(970, 606, "start", 20, 600, RED),
-            f'<polygon points="1090,548 1114,572 1090,596 1066,572" fill="{BLUE}"/>',
-            text(1038, 500, "near target", 18, 600, BLUE),
-            f'<circle cx="1386" cy="572" r="14" fill="{AMBER}"/>',
-            text(1332, 500, "far target", 18, 600, AMBER),
-            f'<path d="M 1002 572 C 1036 572 1052 572 1070 572" stroke="{BLUE}" stroke-width="5" fill="none" stroke-linecap="round"/>',
-            f'<path d="M 1002 572 C 1144 582 1262 580 1370 572" stroke="{AMBER}" stroke-width="5" fill="none" stroke-linecap="round"/>',
+            '<rect x="850" y="438" width="88" height="244" fill="#ef6d24" opacity="0.96"/>',
+            '<rect x="938" y="438" width="560" height="244" fill="#43bea0" opacity="0.96"/>',
+            '<rect x="938" y="514" width="504" height="92" fill="#a7a4a4" opacity="0.98"/>',
+            '<line x1="938" y1="514" x2="1442" y2="514" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
+            '<line x1="938" y1="606" x2="1442" y2="606" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
+            text(872, 466, "Left side", 18, 700, CARD),
+            text(1124, 466, "Outer / right side", 18, 700, CARD),
+            text(1118, 568, "Corridor", 24, 700, INK),
+            f'<rect x="962" y="552" width="18" height="18" fill="{RED}"/>',
+            text(946, 598, "start", 20, 600, RED),
+            f'<polygon points="1102,542 1120,560 1102,578 1084,560" fill="{BLUE}"/>',
+            text(1056, 506, "near target", 18, 600, BLUE),
+            f'<circle cx="1438" cy="484" r="14" fill="{AMBER}"/>',
+            text(1388, 446, "far target", 18, 600, AMBER),
+            f'<path d="M 980 560 C 1026 560 1054 560 1084 560" stroke="{BLUE}" stroke-width="5" fill="none" stroke-linecap="round"/>',
+            f'<path d="M 980 560 C 1090 482 1260 456 1422 484" stroke="{AMBER}" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="18 10"/>',
         ]
     )
     body = [
@@ -459,10 +458,10 @@ def build_slide6() -> str:
         card(810, 332, 706, 462),
         text(126, 380, "one-target partition", 28, 700, INK),
         left_panel,
-        text(852, 380, "two-target companion", 28, 700, INK),
+        text(852, 380, "two-target geometry", 28, 700, INK),
         right_panel,
         card(120, 810, 1368, 54, 18, "#f5efe4"),
-        text(146, 844, "Two route families can stay visible in both cases; the two-target geometry adds the question of which target wins first.", 18, 500, SOFT),
+        text(146, 844, "The same spatial grammar can keep two route families visible; two targets add the question of which target wins first.", 18, 500, SOFT),
     ]
     return svg_doc("".join(body))
 

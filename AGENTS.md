@@ -1,5 +1,13 @@
 # Repository Guidelines
 
+## Quickstart
+
+1. Read `CLAUDE.md` (router) and this file (contract).
+2. Run `python3 scripts/reportctl.py --help` to see the CLI surface.
+3. Read `platform/skills/valley-k-small-continuation/SKILL.md` for the operational playbook.
+4. Health check: `python3 scripts/reportctl.py doctor`.
+5. Then start work — refresh `research/docs/RESEARCH_SUMMARY.md` (`reportctl.py summary`) after any inventory change.
+
 ## Repo Contract
 - The repository is agent-first: agents are the primary operators and maintainers.
 - Human involvement is mainly natural-language direction, debugging help, and directional feedback on PDF outputs.

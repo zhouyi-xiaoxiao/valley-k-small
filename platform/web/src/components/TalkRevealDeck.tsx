@@ -1,5 +1,8 @@
 'use client';
 
+// Custom React deck — NOT reveal.js. Do not import reveal.js APIs.
+// Slide navigation is internal React state, driven by URL hash (#slide-N).
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { TalkBasicIdeaDemo } from '@/components/TalkBasicIdeaDemo';
 import { TalkFormulaSlide } from '@/components/TalkFormulaSlide';

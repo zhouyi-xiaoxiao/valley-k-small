@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "research" / "reports"
 
-ALLOWED_ROOT_FILES = {"README.md", "AGENTS.md", "pyproject.toml", "requirements.txt"}
+ALLOWED_ROOT_FILES = {"README.md", "AGENTS.md", "CLAUDE.md", "pyproject.toml", "requirements.txt"}
 ALLOWED_ROOT_DIRS = {"research", "platform", "packages", "scripts", "tests"}
 ALLOWED_REPORT_DIRS = {"code", "notes", "manuscript", "artifacts"}
 

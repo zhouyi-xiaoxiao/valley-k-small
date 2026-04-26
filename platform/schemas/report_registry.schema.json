@@ -33,7 +33,6 @@
           "artifact_dir": {"type": "string", "const": "artifacts"},
           "main_tex": {
             "type": "array",
-            "minItems": 1,
             "items": {"type": "string", "pattern": "^[a-zA-Z0-9_.\\-/]+\\.tex$"}
           },
           "entry_scripts": {
@@ -49,7 +48,7 @@
             "type": "string",
             "enum": ["latest_only_archive_runs", "keep"]
           },
-          "status": {"type": "string", "enum": ["active", "deprecated", "archived"]}
+          "status": {"type": "string", "enum": ["active", "deprecated", "archived", "wip"]}
         },
         "additionalProperties": false
       }

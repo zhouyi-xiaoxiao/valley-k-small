@@ -1,6 +1,6 @@
 # Grid2D One Target — Base
 
-**Status: WIP scaffold (not yet started).** This is the **mother report** for the `grid2d_one_target_*` sub-series. It defines the shared problem setup, notation, and conventions used by the four sibling reports listed below.
+**Status: WIP scaffold (not yet started).** Tracking: [#4](https://github.com/zhouyi-xiaoxiao/valley-k-small/issues/4) This is the **mother report** for the `grid2d_one_target_*` sub-series. It defines the shared problem setup, notation, and conventions used by the four sibling reports listed below.
 
 ## Why this exists
 

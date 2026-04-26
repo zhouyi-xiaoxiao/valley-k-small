@@ -1,6 +1,6 @@
 # Exact Recursion — Method Guide
 
-**Status: WIP scaffold (not yet started).** Directory layout is in place; no code, manuscript, or notes have been written.
+**Status: WIP scaffold (not yet started).** Tracking: [#9](https://github.com/zhouyi-xiaoxiao/valley-k-small/issues/9) Directory layout is in place; no code, manuscript, or notes have been written.
 
 ## Intended scope
 

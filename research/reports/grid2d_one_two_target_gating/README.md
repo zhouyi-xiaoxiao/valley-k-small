@@ -1,6 +1,6 @@
 # Grid2D One vs Two Target — Gating
 
-**Status: WIP scaffold (not yet started).** Directory layout is in place; no code, manuscript, or notes have been written.
+**Status: WIP scaffold (not yet started).** Tracking: [#8](https://github.com/zhouyi-xiaoxiao/valley-k-small/issues/8) Directory layout is in place; no code, manuscript, or notes have been written.
 
 ## Sub-series
 

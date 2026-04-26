@@ -1,6 +1,6 @@
 # Grid2D One Target — Exit Timing
 
-**Status: WIP scaffold (not yet started).** Directory layout is in place; no code, manuscript, or notes have been written.
+**Status: WIP scaffold (not yet started).** Tracking: [#5](https://github.com/zhouyi-xiaoxiao/valley-k-small/issues/5) Directory layout is in place; no code, manuscript, or notes have been written.
 
 ## Sub-series
 

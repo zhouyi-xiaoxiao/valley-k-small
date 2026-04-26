@@ -1,6 +1,6 @@
 # Grid2D One Target — Valley/Peak Budget
 
-**Status: WIP scaffold (not yet started).** Directory layout is in place; no code, manuscript, or notes have been written.
+**Status: WIP scaffold (not yet started).** Tracking: [#6](https://github.com/zhouyi-xiaoxiao/valley-k-small/issues/6) Directory layout is in place; no code, manuscript, or notes have been written.
 
 ## Sub-series
 

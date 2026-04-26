@@ -57,7 +57,9 @@ while IFS= read -r sha; do
   for pat in "${patterns[@]}"; do
     name="${pat%%|*}"
     rx="${pat#*|}"
-    hits=$(echo "$diff" | grep -E "$rx" | head -3)
+    # `--` ends grep option parsing so patterns whose text begins with
+    # a literal dash (e.g. PEM key headers) are not mistaken for flags.
+    hits=$(printf '%s\n' "$diff" | grep -E -- "$rx" | head -3)
     if [ -n "$hits" ]; then
       found=1
       short=$(git rev-parse --short "$sha")

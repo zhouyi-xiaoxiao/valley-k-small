@@ -30,6 +30,11 @@ research/reports/<report_id>/
 - 报告根目录不再保留 loose `*.tex` or `*.pdf`
 
 ## Active Report IDs
+
+The list below is the **canonical order** — `report_registry.yaml`, `RESEARCH_SUMMARY.md` AUTO-INDEX, and downstream consumers all follow it (Ring → Grid2D → Cross).
+
+### Ring series
+
 - `ring_lazy_jump`
 - `ring_lazy_jump_ext`
 - `ring_lazy_jump_ext_rev2`
@@ -39,6 +44,9 @@ research/reports/<report_id>/
 - `ring_deriv_k2`
 - `ring_two_target`
 - `ring_two_walker_encounter_shortcut`
+
+### Grid2D series
+
 - `grid2d_bimodality`
 - `grid2d_reflecting_bimodality`
 - `grid2d_blackboard_bimodality`
@@ -46,7 +54,21 @@ research/reports/<report_id>/
 - `grid2d_two_walker_encounter_shortcut`
 - `grid2d_rect_bimodality`
 - `grid2d_membrane_near_target`
+
+### Cross-method
+
 - `cross_luca_regime_map`
+
+## WIP Scaffold Report IDs
+
+Scope defined, no manuscript yet (registered with `status: wip` in `report_registry.yaml`). Promote to `status: active` when the first `.tex` lands.
+
+- `grid2d_one_target_base` — mother report for the one_target sub-series
+- `grid2d_one_target_exit_timing`
+- `grid2d_one_target_valley_peak_budget`
+- `grid2d_one_target_window_measures`
+- `grid2d_one_two_target_gating`
+- `exact_recursion_method_guide`
 
 ## Common Commands
 - `python3 scripts/reportctl.py list`

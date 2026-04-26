@@ -4,7 +4,7 @@ Use this map to jump directly to the correct entry script and build command fami
 
 | report_id | folder | primary entry | build notes |
 | --- | --- | --- | --- |
-| `ring_valley` | `research/reports/ring_valley` | `python3 code/valley_study.py` | single-language TeX (`manuscript/ring_valley.tex`) |
+| `ring_valley` | `research/reports/ring_valley` | `python3 code/valley_study.py` | single-language TeX (`manuscript/ring_valley_en.tex`); cn version not yet written |
 | `ring_valley_dst` | `research/reports/ring_valley_dst` | `python3 code/bimodality_flux_scan.py` / `python3 code/dst_shortcut_usage_mc.py` | CN uses `xelatex`; EN uses `pdf` |
 | `ring_lazy_flux` | `research/reports/ring_lazy_flux` | report-specific scripts under `code/` (see report README) | CN/EN pair in `manuscript/` |
 | `ring_lazy_jump` | `research/reports/ring_lazy_jump` | `python3 code/jumpover_bimodality_pipeline.py` | CN/EN pair |

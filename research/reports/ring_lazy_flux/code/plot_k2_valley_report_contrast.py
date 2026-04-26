@@ -40,12 +40,12 @@ def main() -> None:
     # -----------------------
     # Left: valley_report model (non-lazy K-neighbour ring, add one directed edge and renormalize at source)
     # -----------------------
-    # Paper convention in valley/ring_valley.tex: even N, start n0=1, target n=N/2, directed shortcut (n0+5)->(n+1).
+    # Paper convention in valley/ring_valley_en.tex: even N, start n0=1, target n=N/2, directed shortcut (n0+5)->(n+1).
     N_v = 100
     K_v = 2
     g = build_graph(N=N_v, K=K_v, directed_shortcut=True, shortcut_offset=5)
     A = exact_first_absorption_aw(g, rho=1.0, max_steps=2000)
-    A_c = coarsegrain_two_steps(A)  # parity fix for K=2 in valley/ring_valley.tex
+    A_c = coarsegrain_two_steps(A)  # parity fix for K=2 in valley/ring_valley_en.tex
     peaks_c = detect_peaks_fig3(A_c, min_height=1e-7, second_rel_height=0.01)
 
     # -----------------------

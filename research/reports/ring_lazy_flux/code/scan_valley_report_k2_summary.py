@@ -32,7 +32,7 @@ def write_tex_table(rows: list[dict[str, str]], *, outpath: Path, caption: str, 
 
 
 def main() -> None:
-    # valley/ring_valley.tex scan setup: non-lazy ring with K neighbours, add directed shortcut (n0+5)->(target+1),
+    # valley/ring_valley_en.tex scan setup: non-lazy ring with K neighbours, add directed shortcut (n0+5)->(target+1),
     # and for K=2 coarse-grain by 2 steps before peak detection.
     Ns = [10, 20, 50, 100, 160]
     K = 2

@@ -171,6 +171,16 @@ reports:
     archive_policy: latest_only_archive_runs
     status: active
   # ---- WIP scaffolds: scope defined, no manuscript yet. Promote to status: active when first .tex lands. ----
+  - id: grid2d_one_target_base
+    aliases: []
+    path: research/reports/grid2d_one_target_base
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: []
+    entry_scripts: []
+    languages: [en]
+    archive_policy: keep
+    status: wip
   - id: exact_recursion_method_guide
     aliases: []
     path: research/reports/exact_recursion_method_guide

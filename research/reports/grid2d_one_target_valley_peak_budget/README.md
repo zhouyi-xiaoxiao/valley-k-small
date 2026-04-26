@@ -2,6 +2,10 @@
 
 **Status: WIP scaffold (not yet started).** Directory layout is in place; no code, manuscript, or notes have been written.
 
+## Sub-series
+
+Part of the `grid2d_one_target_*` sub-series. See `grid2d_one_target_base` for shared problem setup, notation, and conventions; this report focuses on valley/peak budget observables specifically.
+
 ## Intended scope (working title; refine when work begins)
 
 Valley/peak "budget" analysis for the single-target 2D-grid FPT distribution — quantifying the mass and width of bimodality features as a function of geometry and start position. Adjacent to the existing `grid2d_bimodality` line; this report would isolate the budget-counting protocol.

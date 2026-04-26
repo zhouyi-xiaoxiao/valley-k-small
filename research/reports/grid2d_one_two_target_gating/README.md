@@ -2,6 +2,10 @@
 
 **Status: WIP scaffold (not yet started).** Directory layout is in place; no code, manuscript, or notes have been written.
 
+## Sub-series
+
+Builds on the `grid2d_one_target_*` sub-series — uses `grid2d_one_target_base` as the single-target reference setup, then extends to two-target configurations. Direct companion to `grid2d_two_target_double_peak`.
+
 ## Intended scope (working title; refine when work begins)
 
 Gating-mechanism comparison between one-target and two-target configurations on the 2D grid — identifying when adding a second target gates (suppresses or reroutes) FPT mass that would otherwise reach the original target. Companion to `grid2d_two_target_double_peak`.

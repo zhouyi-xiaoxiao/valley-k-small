@@ -69,6 +69,7 @@
 | `research/reports/ring_two_target` | `research/reports/ring_two_target/manuscript/ring_two_target_cn.pdf`, `research/reports/ring_two_target/manuscript/ring_two_target_en.pdf` | `research/reports/ring_two_target/manuscript/ring_two_target_cn.tex`, `research/reports/ring_two_target/manuscript/ring_two_target_en.tex` |
 | `research/reports/ring_valley` | `research/reports/ring_valley/manuscript/ring_valley_en.pdf` | `research/reports/ring_valley/manuscript/ring_valley_en.tex` |
 | `research/reports/ring_valley_dst` | `research/reports/ring_valley_dst/manuscript/ring_valley_dst_cn.pdf`, `research/reports/ring_valley_dst/manuscript/ring_valley_dst_en.pdf` | `research/reports/ring_valley_dst/manuscript/ring_valley_dst_cn.tex`, `research/reports/ring_valley_dst/manuscript/ring_valley_dst_en.tex` |
+| `research/reports/grid2d_one_target_base` | - | - |
 | `research/reports/exact_recursion_method_guide` | - | - |
 | `research/reports/grid2d_one_target_exit_timing` | - | - |
 | `research/reports/grid2d_one_target_valley_peak_budget` | - | - |

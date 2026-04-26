@@ -374,7 +374,7 @@ def build_local_snapshot(repo_root: Path) -> dict[str, Any]:
         }
 
     plot_panel = repo_root / "site" / "src" / "components" / "ReportPlotPanel.tsx"
-    validate_script = repo_root / "scripts" / "validate_web_data.py"
+    validate_script = repo_root / "platform" / "tools" / "web" / "validate_web_data.py"
     if plot_panel.exists():
         source = plot_panel.read_text(encoding="utf-8", errors="ignore")
         snapshot["interaction_ui"] = {

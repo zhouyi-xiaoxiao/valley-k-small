@@ -51,7 +51,7 @@ jobs:
           python3 scripts/reportctl.py book-data
           python3 scripts/reportctl.py translation-qc
           python3 scripts/reportctl.py agent-sync
-          python3 scripts/validate_web_data.py
+          python3 scripts/reportctl.py validate-web-data
 
       - name: Build static site
         working-directory: platform/web

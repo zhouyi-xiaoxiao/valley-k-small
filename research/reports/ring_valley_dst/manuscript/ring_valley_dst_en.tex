@@ -63,8 +63,7 @@ I aim to:
   \item If I focus on Case A, the first/second peaks are typically smoother late-time features (as opposed to the near-delta early peaks in Case B), and the conditional crossing fractions are correspondingly more informative and stable across $\mathrm{dst}$ (with visibly nontrivial mass at $C=0$, $C=1$, and sometimes $C\ge2$).
 \end{itemize}
 
-\section{Methods}
-\subsection{Second-peak identification and MC conditioning}
+\section{Second-peak identification and MC conditions}
 \begin{itemize}
   \item I use the peak-selection rule from the caption of Fig.~3 in the manuscript: local maxima with $A(t)>10^{-7}$; the second peak must reach at least $1\%$ of the global maximum.
   \item $A(t)$ is a discrete-time first-passage-time probability mass function, so the plotted polyline is not expected to be smooth.
@@ -75,7 +74,7 @@ I aim to:
   In MC I retain only trajectories with absorption time $T\in W$ and record their shortcut crossing count $C$ (0, 1, or $\ge 2$).
 \end{itemize}
 
-\subsection{Estimands and Monte Carlo estimators}
+\section{Statistics and ratio definitions}
 Each trajectory yields a pair $(T,C)$:
 \begin{itemize}
   \item $T$: first-passage absorption time (the number of steps until first hitting $\mathrm{target}$).

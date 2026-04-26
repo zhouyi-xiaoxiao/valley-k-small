@@ -142,7 +142,8 @@ t_v=\arg\min_{t_1<t<t_2}f(t).
   \item 4 类 (A/B/C/D) 的比例。
 \end{itemize}
 
-\paragraph{精确 $f(t)$：AW 反演（主模型）}
+\section{精确 $f(t)$ 计算：AW 反演与时间域迭代}
+\subsection{AW 反演（主模型）}
 为对齐本仓库既有报告中 ``解析精确曲线'' 的口径（例如 \texttt{valley\_dst\_report}），
 本文在主模型（允许 jump-over、$\mathrm{jumpover\_absorbs}=0$）下绘图所用的精确 $f(t)$ 采用 Abate--Whitt（AW）反演从生成函数得到。
 思路是：先在复平面上计算首吸收分布的生成函数，再用离散 Cauchy 反演（FFT 实现）恢复系数。
@@ -182,7 +183,7 @@ f(t)\approx r^{-t}\frac{1}{L}\sum_{m=0}^{L-1}\tilde f(z_m)\,e^{-2\pi i mt/L},\qq
 \]
 本文默认取 $r=10^{-4/T_{\max}}$、$L$ 为略大于 $T_{\max}$ 的 2 的幂（与仓库内其他 AW 脚本一致），并在代表点上取 $T_{\max}=4000$ 以覆盖两处主峰与谷底的时间尺度。
 
-\paragraph{时间域 master-equation（扫描与对照）}
+\subsection{时间域 master-equation 迭代（扫描与非局部对照）}
 层 A 的大规模扫描需要把尾部质量压到很低（例如 survival $\lesssim 10^{-14}$），
 因此我们用时间域 master-equation 迭代（吸收通量法）得到数值精确的 $f(t)$ 并用于双峰判据。
 同理，``jump-over$\to$吸收'' 的反事实对照中，吸收事件由 ``落点'' 扩展为 ``跨过''（非局部事件），无法直接套用上面的点吸收 AW 公式，因此该对照也使用时间域迭代。

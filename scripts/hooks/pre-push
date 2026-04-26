@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Pre-push secret scanner.
+# Scans the commits about to be pushed for common secret patterns.
+# To bypass intentionally: git push --no-verify
+
+set -u
+
+remote="${1:-origin}"
+zero=$(git hash-object --stdin </dev/null 2>/dev/null || echo "0000000000000000000000000000000000000000")
+
+# Patterns: name|regex (POSIX ERE, anchored where useful)
+patterns=(
+  "Anthropic API key|sk-ant-[A-Za-z0-9_-]{20,}"
+  "OpenAI project key|sk-proj-[A-Za-z0-9_-]{20,}"
+  "OpenAI legacy key|sk-[A-Za-z0-9]{32,}"
+  "AWS access key|AKIA[0-9A-Z]{16}"
+  "AWS secret key|aws_secret_access_key[[:space:]]*=[[:space:]]*[A-Za-z0-9/+=]{40}"
+  "GCP service account|\"private_key\":[[:space:]]*\"-----BEGIN PRIVATE KEY-----"
+  "GitHub PAT (classic)|ghp_[A-Za-z0-9]{36}"
+  "GitHub fine-grained PAT|github_pat_[A-Za-z0-9_]{82}"
+  "Slack token|xox[abposr]-[A-Za-z0-9-]{10,}"
+  "Generic private key|-----BEGIN (RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----"
+  "JWT-shaped string|eyJ[A-Za-z0-9_-]{10,}\\.eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}"
+)
+
+# Collect commit ranges to scan from stdin (git provides: <local_ref> <local_sha> <remote_ref> <remote_sha>)
+ranges=()
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ -z "$local_sha" ] && continue
+  if [ "$local_sha" = "$zero" ]; then
+    continue  # branch deletion
+  fi
+  if [ "$remote_sha" = "$zero" ] || [ -z "$remote_sha" ]; then
+    # New branch — scan a bounded slice (last 50 commits) to avoid scanning whole history.
+    ranges+=("$local_sha" "--not" "--remotes=$remote" "-n" "50")
+  else
+    ranges+=("$remote_sha..$local_sha")
+  fi
+done
+
+if [ ${#ranges[@]} -eq 0 ]; then
+  exit 0
+fi
+
+# Get commits in those ranges
+commits=$(git rev-list "${ranges[@]}" 2>/dev/null | sort -u)
+if [ -z "$commits" ]; then
+  exit 0
+fi
+
+found=0
+echo "[pre-push] scanning $(echo "$commits" | wc -l | tr -d ' ') commit(s) for secrets..." >&2
+
+while IFS= read -r sha; do
+  diff=$(git show --no-color --unified=0 --pretty=format: "$sha" 2>/dev/null | grep -E '^\+' | grep -vE '^\+\+\+')
+  [ -z "$diff" ] && continue
+  for pat in "${patterns[@]}"; do
+    name="${pat%%|*}"
+    rx="${pat#*|}"
+    hits=$(echo "$diff" | grep -E "$rx" | head -3)
+    if [ -n "$hits" ]; then
+      found=1
+      short=$(git rev-parse --short "$sha")
+      echo "" >&2
+      echo "  ✗ $name in commit $short" >&2
+      echo "$hits" | sed 's/^/      /' | cut -c1-120 >&2
+    fi
+  done
+done <<<"$commits"
+
+if [ "$found" -eq 1 ]; then
+  echo "" >&2
+  echo "[pre-push] BLOCKED: secrets detected in commits to be pushed." >&2
+  echo "[pre-push] Rotate the secret(s), rewrite history (git filter-repo / interactive rebase)," >&2
+  echo "[pre-push] then push again. To bypass intentionally: git push --no-verify" >&2
+  exit 1
+fi
+
+echo "[pre-push] no secrets detected." >&2
+exit 0

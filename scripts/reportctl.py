@@ -2,8 +2,18 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import sys
 from pathlib import Path
+
+
+# Re-exec into .venv/bin/python when invoked via a different interpreter.
+# Subcommands like `doctor` shell out via sys.executable; if the user's
+# `python3` resolves to a system Python without project deps (pytest, numpy,
+# ...), those subcommands fail. The project's .venv is the canonical env.
+_VENV_PY = Path(__file__).resolve().parents[1] / ".venv" / "bin" / "python"
+if _VENV_PY.exists() and Path(sys.executable).resolve() != _VENV_PY.resolve():
+    os.execv(str(_VENV_PY), [str(_VENV_PY), *sys.argv])
 
 
 IMPL_PATH = (

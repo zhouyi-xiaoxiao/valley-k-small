@@ -1,6 +1,6 @@
 # Luca Regime Map
 
-Standalone cross-report benchmark for fixed-horizon full-FPT fairness.
+Standalone cross-report benchmark for fixed-horizon full-FPT fairness. This is the **canonical Luca-vs-recursion comparison** for the project; future scope expansions (additional metrics, lattices, fairness regimes) extend this report rather than spawning new ones.
 
 ## Key policy
 - Main full-FPT winner metric: `Sparse exact` vs `Luca defect-reduced`.

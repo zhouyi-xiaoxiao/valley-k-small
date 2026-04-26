@@ -46,7 +46,6 @@ REPO_SYNC_INCLUDE_GLOBS = [
     "platform/README.md",
     "platform/tools/**/*.py",
     "platform/skills/**/*.md",
-    "platform/agent/**/*.md",
     "scripts/README.md",
     "scripts/reportctl.py",
     "packages/vkcore/src/**/*.py",

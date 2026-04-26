@@ -9,7 +9,6 @@
 - `platform/tools/automation/`: keepalive、review、content iteration、自动化辅助
 - `platform/schemas/`: 数据契约与 schema
 - `platform/skills/`: continuation skill 与参考材料
-- `platform/agent/`: agent 引导文档
 
 ## Principles
 - `scripts/` 是唯一公开脚本表面；真正实现都在 `platform/tools/`

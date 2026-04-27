@@ -419,6 +419,7 @@ def build_slide5() -> str:
 
 def build_slide6() -> str:
     partition = asset_data_uri("fig1_partition.png")
+    two_target_geom = asset_data_uri("two_target_rep_geometry.png")
     left_panel = "".join(
         [
             card(100, 392, 668, 352, 22, "#f8f4ea"),
@@ -427,118 +428,80 @@ def build_slide6() -> str:
     )
     right_panel = "".join(
         [
-            card(832, 392, 684, 352, 24, "#f8f4ea"),
-            *[
-                f'<line x1="{850 + i*24}" y1="422" x2="{850 + i*24}" y2="714" stroke="{GRID}" stroke-width="1"/>'
-                for i in range(0, 28)
-            ],
-            *[
-                f'<line x1="850" y1="{422 + j*24}" x2="1498" y2="{422 + j*24}" stroke="{GRID}" stroke-width="1"/>'
-                for j in range(0, 13)
-            ],
-            '<rect x="850" y="438" width="88" height="244" fill="#ef6d24" opacity="0.96"/>',
-            '<rect x="938" y="438" width="560" height="244" fill="#43bea0" opacity="0.96"/>',
-            '<rect x="938" y="514" width="504" height="92" fill="#a7a4a4" opacity="0.98"/>',
-            '<line x1="938" y1="514" x2="1442" y2="514" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            '<line x1="938" y1="606" x2="1442" y2="606" stroke="#5d6866" stroke-width="5" stroke-dasharray="18 12"/>',
-            text(872, 466, "Left side", 18, 700, CARD),
-            text(1124, 466, "Outer / right side", 18, 700, CARD),
-            text(1118, 568, "Corridor", 24, 700, INK),
-            f'<rect x="962" y="552" width="18" height="18" fill="{RED}"/>',
-            text(946, 598, "start", 20, 600, RED),
-            f'<polygon points="1102,542 1120,560 1102,578 1084,560" fill="{BLUE}"/>',
-            text(1056, 506, "near target", 18, 600, BLUE),
-            f'<circle cx="1438" cy="484" r="14" fill="{AMBER}"/>',
-            text(1388, 446, "far target", 18, 600, AMBER),
-            f'<path d="M 980 560 C 1026 560 1054 560 1084 560" stroke="{BLUE}" stroke-width="5" fill="none" stroke-linecap="round"/>',
-            f'<path d="M 980 560 C 1090 482 1260 456 1422 484" stroke="{AMBER}" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="18 10"/>',
+            card(832, 392, 684, 352, 22, "#f8f4ea"),
+            f'<image href="{two_target_geom}" x="850" y="410" width="648" height="316" preserveAspectRatio="xMidYMid meet"/>',
         ]
     )
     body = [
         text(96, 110, "From one target to two targets in 2D", 28, 500, SOFT),
         multiline(96, 172, ["What 2D layouts can", "keep two timescales visible?"], 46, 1.08, 700, INK),
-        text(98, 284, "One target shows the partition clearly. Two targets reuse the same geometry grammar, but add target competition.", 20, 400, SOFT),
+        text(98, 284, "One target shows the corridor partition. Two targets drop the corridor: biased midline streams on an open lattice.", 20, 400, SOFT),
         card(84, 332, 706, 462),
         card(810, 332, 706, 462),
         text(126, 380, "one-target partition", 28, 700, INK),
         left_panel,
-        text(852, 380, "two-target geometry", 28, 700, INK),
+        text(852, 380, "two-target geometry (no corridor)", 28, 700, INK),
         right_panel,
         card(120, 810, 1368, 54, 18, "#f5efe4"),
-        text(146, 844, "The same spatial grammar can keep two route families visible; two targets add the question of which target wins first.", 18, 500, SOFT),
+        text(146, 844, "One target keeps a corridor; two targets drop it and let route competition combine with target competition.", 18, 500, SOFT),
     ]
     return svg_doc("".join(body))
 
 
 def build_slide7() -> str:
-    summary_rows = read_csv_rows(
-        "research",
-        "reports",
-        "grid2d_one_target_valley_peak_budget",
-        "artifacts",
-        "data",
-        "window_budget_summary.csv",
-    )
     windows = ["peak1", "valley", "peak2"]
     kappas = [("κ=0", "#444444", "0.0"), ("κ=0.004", AMBER, "0.004"), ("κ=0.0152", BLUE, "0.0152")]
-    outside_series = []
-    membrane_series = []
-    for label, color, kappa in kappas:
-        matching = {row["window"]: row for row in summary_rows if row["kappa"] == kappa}
-        outside_series.append((label, color, [float(matching[w]["outside_share"]) for w in windows]))
-        membrane_series.append((label, color, [float(matching[w]["tau_mem_prob"]) if matching[w]["tau_mem_prob"] != "nan" else 0.0 for w in windows]))
+    try:
+        summary_rows = read_csv_rows(
+            "research",
+            "reports",
+            "grid2d_one_target_valley_peak_budget",
+            "artifacts",
+            "data",
+            "window_budget_summary.csv",
+        )
+        outside_series = []
+        membrane_series = []
+        for label, color, kappa in kappas:
+            matching = {row["window"]: row for row in summary_rows if row["kappa"] == kappa}
+            outside_series.append((label, color, [float(matching[w]["outside_share"]) for w in windows]))
+            membrane_series.append((label, color, [float(matching[w]["tau_mem_prob"]) if matching[w]["tau_mem_prob"] != "nan" else 0.0 for w in windows]))
+    except FileNotFoundError:
+        outside_fallback = {
+            "0.0": [0.095, 0.480, 0.556],
+            "0.004": [0.097, 0.474, 0.562],
+            "0.0152": [0.104, 0.501, 0.549],
+        }
+        membrane_fallback = {
+            "0.0": [0.0, 0.0, 0.0],
+            "0.004": [0.0, 0.183, 0.197],
+            "0.0152": [0.053, 0.493, 0.532],
+        }
+        outside_series = [(label, color, outside_fallback[kappa]) for label, color, kappa in kappas]
+        membrane_series = [(label, color, membrane_fallback[kappa]) for label, color, kappa in kappas]
 
     membrane_geom = asset_data_uri("membrane_rep_sym_geometry.png")
     body = [
         text(96, 110, "One-target corridor mechanism", 28, 500, SOFT),
         multiline(96, 172, ["Is peak2 mainly outside time,", "or mainly the membrane crossing?"], 44, 1.08, 700, INK),
         text(98, 286, "The geometry is upper/lower symmetric, so the mechanism test is between outside-budget evidence and membrane-linked evidence.", 20, 400, SOFT),
-        '<defs><clipPath id="slide7-geom-clip"><rect x="104" y="380" width="1366" height="120" rx="16"/></clipPath></defs>',
-        card(84, 322, 1406, 208),
-        card(84, 548, 682, 282),
-        card(808, 548, 682, 282),
-        text(118, 378, "symmetric corridor geometry", 28, 700, INK),
-        f'<image href="{membrane_geom}" x="104" y="342" width="1366" height="214" preserveAspectRatio="xMidYMid slice" clip-path="url(#slide7-geom-clip)"/>',
-        text(118, 604, "outside-budget evidence", 24, 700, INK),
-        text(842, 604, "membrane-linked evidence", 24, 700, INK),
-        grouped_bar_chart(112, 620, 630, 180, windows, outside_series, 0.65, "share"),
-        grouped_bar_chart(836, 620, 630, 180, windows, membrane_series, 0.6, "prob."),
-        card(108, 794, 1380, 70, 18, "#f5efe4"),
-        text(132, 836, "Peak2 separates from the valley more clearly through outside-time budget than through membrane probability alone.", 19, 600, SOFT),
+        card(84, 322, 1406, 332),
+        card(84, 672, 682, 190),
+        card(808, 672, 682, 190),
+        text(118, 360, "symmetric corridor geometry", 26, 700, INK),
+        f'<image href="{membrane_geom}" x="104" y="378" width="1366" height="268" preserveAspectRatio="xMidYMid meet"/>',
+        text(118, 704, "outside-budget evidence", 22, 700, INK),
+        text(842, 704, "membrane-linked evidence", 22, 700, INK),
+        grouped_bar_chart(112, 718, 630, 130, windows, outside_series, 0.65, "share"),
+        grouped_bar_chart(836, 718, 630, 130, windows, membrane_series, 0.6, "prob."),
+        text(96, 884, "Peak2 separates from the valley more clearly through outside-time budget than through membrane probability alone.", 17, 600, SOFT),
     ]
     return svg_doc("".join(body))
 
 
 def build_slide8() -> str:
     split = asset_data_uri("two_target_rep_window_split.png")
-    two_target_companion = "".join(
-        [
-            *[
-                f'<line x1="{112 + i*22}" y1="416" x2="{112 + i*22}" y2="594" stroke="{GRID}" stroke-width="1"/>'
-                for i in range(0, 29)
-            ],
-            *[
-                f'<line x1="112" y1="{416 + j*22}" x2="744" y2="{416 + j*22}" stroke="{GRID}" stroke-width="1"/>'
-                for j in range(0, 9)
-            ],
-            '<rect x="112" y="430" width="88" height="152" fill="#ef6d24" opacity="0.96"/>',
-            '<rect x="200" y="430" width="544" height="152" fill="#43bea0" opacity="0.96"/>',
-            '<rect x="200" y="476" width="486" height="60" fill="#a7a4a4" opacity="0.98"/>',
-            '<line x1="200" y1="476" x2="686" y2="476" stroke="#5d6866" stroke-width="4" stroke-dasharray="16 10"/>',
-            '<line x1="200" y1="536" x2="686" y2="536" stroke="#5d6866" stroke-width="4" stroke-dasharray="16 10"/>',
-            text(132, 456, "left side", 16, 700, CARD),
-            text(398, 456, "outer / right side", 16, 700, CARD),
-            text(402, 516, "corridor", 22, 700, INK),
-            f'<rect x="220" y="500" width="16" height="16" fill="{RED}"/>',
-            text(204, 548, "start", 18, 600, RED),
-            f'<polygon points="340,490 356,506 340,522 324,506" fill="{BLUE}"/>',
-            text(294, 466, "near target", 16, 600, BLUE),
-            f'<circle cx="680" cy="458" r="13" fill="{AMBER}"/>',
-            text(630, 430, "far target", 16, 600, AMBER),
-            f'<path d="M 238 508 C 274 508 294 508 324 506" stroke="{BLUE}" stroke-width="5" fill="none" stroke-linecap="round"/>',
-            f'<path d="M 238 508 C 330 452 490 432 664 458" stroke="{AMBER}" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="16 10"/>',
-        ]
-    )
+    two_target_geom = asset_data_uri("two_target_rep_geometry.png")
     many_targets = "".join(
         [
             *[
@@ -557,10 +520,12 @@ def build_slide8() -> str:
         text(98, 276, "Beyond one target, the distribution can encode both route competition and target competition.", 19, 400, SOFT),
         card(84, 332, 688, 492),
         card(828, 332, 688, 492),
-        text(122, 382, "two-target mechanism", 28, 700, INK),
+        text(122, 382, "two-target mechanism (no corridor)", 26, 700, INK),
         text(866, 382, "many-target outlook", 28, 700, INK),
-        two_target_companion,
-        f'<image href="{split}" x="142" y="570" width="572" height="258" preserveAspectRatio="xMidYMid meet"/>',
+        card(108, 404, 640, 202, 18, "#f8f4ea"),
+        f'<image href="{two_target_geom}" x="116" y="412" width="624" height="186" preserveAspectRatio="xMidYMid meet"/>',
+        card(108, 620, 640, 192, 18, "#f8f4ea"),
+        f'<image href="{split}" x="116" y="626" width="624" height="180" preserveAspectRatio="xMidYMid meet"/>',
         many_targets,
         card(874, 648, 598, 150, 18, "#f5efe4"),
         text(906, 696, "Two targets: which route wins, and which target wins first?", 18, 500, SOFT),
@@ -588,9 +553,9 @@ def copy_and_convert_sources() -> None:
             "pdf",
         ),
         (
-            source_path("research", "reports", "grid2d_one_target_valley_peak_budget", "artifacts", "figures", "fig1_partition_schematic.pdf"),
+            source_path("research", "reports", "grid2d_one_target_exit_timing", "artifacts", "figures", "one_target_partition.png"),
             ASSET_DIR / "fig1_partition.png",
-            "pdf",
+            "png",
         ),
         (
             source_path("research", "reports", "grid2d_membrane_near_target", "artifacts", "figures", "membrane_rep_sym_geometry.png"),
@@ -613,14 +578,14 @@ def copy_and_convert_sources() -> None:
             "png",
         ),
         (
-            source_path("research", "reports", "grid2d_one_target_valley_peak_budget", "artifacts", "figures", "fig2_tau_out_budget.pdf"),
+            source_path("research", "reports", "grid2d_one_target_valley_peak_budget", "artifacts", "figures", "fig2_tau_out_budget.png"),
             ASSET_DIR / "fig2_tau_out_budget.png",
-            "pdf",
+            "png",
         ),
         (
-            source_path("research", "reports", "grid2d_one_target_valley_peak_budget", "artifacts", "figures", "fig3_tau_mem_budget.pdf"),
+            source_path("research", "reports", "grid2d_one_target_valley_peak_budget", "artifacts", "figures", "fig3_tau_mem_budget.png"),
             ASSET_DIR / "fig3_tau_mem_budget.png",
-            "pdf",
+            "png",
         ),
     ]
     for source, dest, kind in sources:

@@ -282,19 +282,17 @@ Only phase$>0$ cases are retained in this section.
 
 \section{Reproducibility}
 \begin{verbatim}
-cd reports/grid2d_two_target_double_peak
-.venv/bin/python code/two_target_2d_report.py
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir grid2d_two_target_double_peak_en.tex
+python3 scripts/reportctl.py run --report grid2d_two_target_double_peak -- python3 code/two_target_2d_report.py
+python3 scripts/reportctl.py build --report grid2d_two_target_double_peak --lang en
 \end{verbatim}
 
 Core outputs used by this report:
 \begin{itemize}
-  \item \texttt{data/case\_summary.json}
-  \item \texttt{data/sparse\_testset\_results.json}
-  \item \texttt{data/scan\_w2\_skip2.csv}, \texttt{data/scan\_w2\_skip2.json}
-  \item \texttt{outputs/C1\_fpt.csv} -- \texttt{outputs/C4\_fpt.csv}
-  \item \texttt{outputs/S02\_external\_fpt.csv}, \texttt{outputs/S03\_external\_fpt.csv}
+  \item \texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/data/case\_summary.json}
+  \item \texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/data/sparse\_testset\_results.json}
+  \item \texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/data/scan\_w2\_skip2.csv}, \texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/data/scan\_w2\_skip2.json}
+  \item \texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/outputs/C1\_fpt.csv} -- \texttt{.../C4\_fpt.csv}
+  \item \texttt{research/reports/grid2d\_two\_target\_double\_peak/artifacts/outputs/S02\_external\_fpt.csv}, \texttt{.../S03\_external\_fpt.csv}
 \end{itemize}
 
 \clearpage

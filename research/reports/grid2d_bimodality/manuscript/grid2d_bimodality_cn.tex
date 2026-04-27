@@ -608,7 +608,7 @@ Exact 递推在 transient 空间计算 $f(t)=r^\top Q^{t-1} p_0$（式~\ref{eq:e
 \end{itemize}
 
 \section{数据与代码可得性}
-本文所用脚本与数据已整理在仓库 \url{reports/grid2d_bimodality/}。图形输出位于 \url{figures/}，数值指标与中间结果保存在 \url{data/} 与 \url{outputs/}。本文 PDF 由 \LaTeX{} 编译生成。需要复现时，可运行主脚本并按上述目录结构获取对应图表与指标。
+本文所用脚本与数据已整理在仓库 \url{research/reports/grid2d_bimodality/}。图形输出位于 \url{research/reports/grid2d_bimodality/artifacts/figures/}，数值指标与中间结果保存在 \url{research/reports/grid2d_bimodality/artifacts/data/} 与 \url{research/reports/grid2d_bimodality/artifacts/outputs/}。本文 PDF 由 \LaTeX{} 编译生成。需要复现时，可运行 \path{python3 scripts/reportctl.py run --report grid2d_bimodality -- python3 code/bimodality_2d_pipeline.py}，然后通过 \path{python3 scripts/reportctl.py build --report grid2d_bimodality --lang cn} 与 \path{... --lang en} 重建主文稿。
 
 \begin{thebibliography}{9}
   \bibitem{PRE102} S. Condamin et al., \emph{Phys. Rev. E} \textbf{102}, 062124 (2020).

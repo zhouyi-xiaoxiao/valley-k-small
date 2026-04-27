@@ -604,7 +604,7 @@ The shared mechanism can be summarized as follows:
 \end{itemize}
 
 \section{Data and Code Availability}
-Scripts and data used in this study are organized under \url{reports/grid2d_bimodality/}. Figure outputs are stored in \url{figures/}, and numerical metrics and intermediate artifacts are stored in \url{data/} and \url{outputs/}. The PDF is compiled from the \LaTeX{} source; running the main pipeline reproduces all figures and metrics following the same directory structure.
+Scripts and data used in this study are organized under \url{research/reports/grid2d_bimodality/}. Figure outputs are stored in \url{research/reports/grid2d_bimodality/artifacts/figures/}, and numerical metrics and intermediate artifacts are stored in \url{research/reports/grid2d_bimodality/artifacts/data/} and \url{research/reports/grid2d_bimodality/artifacts/outputs/}. The PDF is compiled from the \LaTeX{} source; reproduce the pipeline with \path{python3 scripts/reportctl.py run --report grid2d_bimodality -- python3 code/bimodality_2d_pipeline.py}, then rebuild the manuscripts with \path{python3 scripts/reportctl.py build --report grid2d_bimodality --lang cn} and \path{... --lang en}.
 
 \begin{thebibliography}{9}
   \bibitem{PRE102} S. Condamin et al., \emph{Phys. Rev. E} \textbf{102}, 062124 (2020).

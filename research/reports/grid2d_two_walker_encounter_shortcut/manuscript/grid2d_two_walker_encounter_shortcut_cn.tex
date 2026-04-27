@@ -147,13 +147,13 @@ f_{\mathrm{enc}}(t+1)=\mathrm{tr}(J_{t+1}),
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.78\linewidth]{\FigDir/encounter_beta_phase.pdf}
-  \caption{$\beta$ 扫描的 peak ratio / valley ratio 及 phase 标签。}
+  \caption{$\beta$ 扫描的峰分离度，以及作为 secondary diagnostics 的 peak ratio / valley ratio 与 phase 标签。}
   \label{fig:phase}
 \end{figure}
 
 \begin{table}[H]
   \centering
-  \caption{shortcut 扫描指标与 phase。}
+  \caption{shortcut 扫描指标与 phase，其中峰分离度是主要 phase 诊断量。}
   \label{tab:scan}
   \input{\TabDir/encounter_scan_table.tex}
 \end{table}
@@ -168,13 +168,9 @@ f_{\mathrm{enc}}(t+1)=\mathrm{tr}(J_{t+1}),
 
 \section{复现命令}
 \begin{verbatim}
-python3 reports/grid2d_two_walker_encounter_shortcut/code/two_walker_encounter_report.py
-
-cd reports/grid2d_two_walker_encounter_shortcut
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir grid2d_two_walker_encounter_shortcut_cn.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir grid2d_two_walker_encounter_shortcut_en.tex
+python3 scripts/reportctl.py run --report grid2d_two_walker_encounter_shortcut -- python3 code/two_walker_encounter_report.py
+python3 scripts/reportctl.py build --report grid2d_two_walker_encounter_shortcut --lang cn
+python3 scripts/reportctl.py build --report grid2d_two_walker_encounter_shortcut --lang en
 \end{verbatim}
 
 \end{document}

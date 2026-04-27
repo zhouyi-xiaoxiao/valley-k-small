@@ -163,13 +163,13 @@ Configuration (representative): $N=11$, $q=0.72$, starts $(2,2)$ and $(8,8)$, op
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.78\linewidth]{\FigDir/encounter_beta_phase.pdf}
-  \caption{Peak-ratio/valley-ratio trends and phase labels across $\beta$.}
+  \caption{Peak separation together with secondary peak-ratio/valley-ratio diagnostics and phase labels across $\beta$.}
   \label{fig:phase}
 \end{figure}
 
 \begin{table}[H]
   \centering
-  \caption{Shortcut scan metrics and phase labels.}
+  \caption{Shortcut scan metrics, including peak separation as the primary phase diagnostic, and phase labels.}
   \label{tab:scan}
   \input{\TabDir/encounter_scan_table.tex}
 \end{table}
@@ -184,13 +184,9 @@ Configuration (representative): $N=11$, $q=0.72$, starts $(2,2)$ and $(8,8)$, op
 
 \section{Reproducibility}
 \begin{verbatim}
-python3 reports/grid2d_two_walker_encounter_shortcut/code/two_walker_encounter_report.py
-
-cd reports/grid2d_two_walker_encounter_shortcut
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir grid2d_two_walker_encounter_shortcut_cn.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build \
-  -emulate-aux-dir grid2d_two_walker_encounter_shortcut_en.tex
+python3 scripts/reportctl.py run --report grid2d_two_walker_encounter_shortcut -- python3 code/two_walker_encounter_report.py
+python3 scripts/reportctl.py build --report grid2d_two_walker_encounter_shortcut --lang cn
+python3 scripts/reportctl.py build --report grid2d_two_walker_encounter_shortcut --lang en
 \end{verbatim}
 
 \end{document}

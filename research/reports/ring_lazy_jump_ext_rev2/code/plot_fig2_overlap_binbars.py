@@ -23,6 +23,22 @@ import numpy as np
 import pandas as pd
 from matplotlib.patches import Patch, Rectangle
 
+# Global readability defaults: enlarge axis labels, ticks, legend, titles so
+# the PDF figure stays legible at A4 100% zoom. Hard-coded `fontsize=...` calls
+# below also enlarged in tandem; this rcParams pass covers everything that
+# wasn't given an explicit fontsize (xlabel, ylabel, tick labels, axis title).
+plt.rcParams.update({
+    "font.size": 13,
+    "axes.labelsize": 14,
+    "axes.titlesize": 15,
+    "xtick.labelsize": 12,
+    "ytick.labelsize": 12,
+    "legend.fontsize": 12,
+    "figure.titlesize": 16,
+    "lines.linewidth": 2.0,
+    "savefig.dpi": 600,
+})
+
 
 WINDOW_ORDER = ["peak1", "valley", "peak2"]
 CLASS_ORDER = ["C0J0", "C1pJ0", "C0J1p", "C1pJ1p"]
@@ -180,7 +196,7 @@ def _annotate_windows(
             transform=trans,
             ha=halign[idx],
             va="bottom",
-            fontsize=8,
+            fontsize=12,
             color="0.2",
             clip_on=False,
             bbox=dict(facecolor="white", alpha=0.7, edgecolor="none", pad=1.0),
@@ -197,7 +213,7 @@ def _annotate_windows(
             transform=trans,
             ha="center",
             va="bottom",
-            fontsize=7,
+            fontsize=11,
             color="0.2",
             bbox=dict(facecolor="white", alpha=0.75, edgecolor="none", pad=0.6),
         )
@@ -224,7 +240,7 @@ def _annotate_line_label(
         y_text,
         label,
         color=color,
-        fontsize=8,
+        fontsize=12,
         ha="left",
         va="bottom",
         bbox=dict(facecolor="white", alpha=0.6, edgecolor="none", pad=0.8),
@@ -432,8 +448,9 @@ def _plot(
                     transform=ax.transAxes,
                     ha="left",
                     va="center",
-                    fontsize=8,
+                    fontsize=13,
                     color="0.2",
+                    fontweight="bold",
                 )
         for k_idx, k_label in enumerate(bar_labels):
             y0 = band_y0 + (n_k - 1 - k_idx) * (row_h + row_gap)
@@ -477,7 +494,7 @@ def _plot(
                 frac,
             )
 
-        legend_classes = ax.legend(handles=class_handles, loc="upper right", fontsize=8, frameon=True)
+        legend_classes = ax.legend(handles=class_handles, loc="upper right", fontsize=12, frameon=True)
         ax.add_artist(legend_classes)
         ax.set_title("f(t) + windowed class composition bars")
         fig.tight_layout(rect=[0, 0, 1, 0.95])
@@ -510,16 +527,20 @@ def _plot(
         ax.set_ylabel("f(t)")
         if idx == nrows - 1:
             ax.set_xlabel("t (time steps)")
+        # Mode label placed ABOVE the plot area (in the panel-title region) so
+        # it never overlaps with the peak1 window bar or its [tL,tR] label.
         ax.text(
-            0.01,
-            0.92,
+            0.012,
+            1.04,
             k_label,
             transform=ax.transAxes,
             ha="left",
-            va="center",
-            fontsize=9,
+            va="bottom",
+            fontsize=14,
+            fontweight="bold",
             color=line_color,
-            bbox=dict(facecolor="white", alpha=0.6, edgecolor="none", pad=0.6),
+            zorder=10,
+            clip_on=False,
         )
 
         panel_intervals = _get_bin_intervals(data, k_label)
@@ -542,8 +563,13 @@ def _plot(
         )
         ax.label_outer()
 
-    axes[0].legend(handles=class_handles, loc="upper right", fontsize=8, frameon=True)
-    fig.suptitle("f(t) + windowed class composition bars", fontsize=11)
+    # Place the class legend on the LAST panel (typically K=4) where the peak2
+    # window sits in the lower-x region, leaving the upper-right corner free.
+    # In the previous layout the legend lived on axes[0] and overlapped K=2's
+    # peak2 bar at t~1100.
+    legend_ax = axes[-1] if len(axes) > 1 else axes[0]
+    legend_ax.legend(handles=class_handles, loc="upper right", fontsize=12, frameon=True)
+    fig.suptitle("f(t) + windowed class composition bars", fontsize=16)
     fig.tight_layout(rect=[0, 0, 1, 0.95])
     outpath.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(outpath, bbox_inches="tight")

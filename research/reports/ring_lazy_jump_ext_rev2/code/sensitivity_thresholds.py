@@ -22,6 +22,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+# Global readability defaults (matches plot_fig2_overlap_binbars.py).
+plt.rcParams.update({
+    "font.size": 13,
+    "axes.labelsize": 13,
+    "axes.titlesize": 14,
+    "xtick.labelsize": 12,
+    "ytick.labelsize": 12,
+    "legend.fontsize": 12,
+    "figure.titlesize": 16,
+    "savefig.dpi": 600,
+})
+
 
 @dataclass
 class Metrics:
@@ -259,34 +271,34 @@ def main() -> None:
 
         mat_hv = _heatmap_avg(out_df, k_label, "hv_over_max_thresh", hv_thresholds, "second_frac", second_fracs)
         im0 = ax0.imshow(mat_hv, origin="lower", cmap="Blues", vmin=0, vmax=1)
-        ax0.set_title(f"{k_label}: hv_over_max vs second_frac", fontsize=10)
+        ax0.set_title(f"{k_label}: hv_over_max vs second_frac", fontsize=14)
         ax0.set_xticks(range(len(hv_thresholds)))
         ax0.set_xticklabels([f"{v:.2f}" for v in hv_thresholds])
         ax0.set_yticks(range(len(second_fracs)))
         ax0.set_yticklabels([f"{v:.3f}" for v in second_fracs])
-        ax0.set_xlabel("hv_over_max", fontsize=9)
-        ax0.set_ylabel("second_frac", fontsize=9)
-        ax0.tick_params(labelsize=8)
+        ax0.set_xlabel("hv_over_max", fontsize=13)
+        ax0.set_ylabel("second_frac", fontsize=13)
+        ax0.tick_params(labelsize=12)
 
         mat_t = _heatmap_avg(out_df, k_label, "t2_over_t1", thresholds_t2_over_t1, "h_min", thresholds_h_min)
         im1 = ax1.imshow(mat_t, origin="lower", cmap="Blues", vmin=0, vmax=1)
-        ax1.set_title(f"{k_label}: t2/t1 vs h_min", fontsize=10)
+        ax1.set_title(f"{k_label}: t2/t1 vs h_min", fontsize=14)
         ax1.set_xticks(range(len(thresholds_t2_over_t1)))
         ax1.set_xticklabels([str(v) for v in thresholds_t2_over_t1])
         ax1.set_yticks(range(len(thresholds_h_min)))
         ax1.set_yticklabels([f"{v:.0e}" for v in thresholds_h_min])
-        ax1.set_xlabel("t2/t1", fontsize=9)
-        ax1.set_ylabel("h_min", fontsize=9)
-        ax1.tick_params(labelsize=8)
+        ax1.set_xlabel("t2/t1", fontsize=13)
+        ax1.set_ylabel("h_min", fontsize=13)
+        ax1.tick_params(labelsize=12)
 
         for i in range(mat_hv.shape[0]):
             for j in range(mat_hv.shape[1]):
                 val = mat_hv[i, j]
-                ax0.text(j, i, f"{val:.2f}", ha="center", va="center", fontsize=7, color="white" if val > 0.5 else "black")
+                ax0.text(j, i, f"{val:.2f}", ha="center", va="center", fontsize=12, fontweight="bold", color="white" if val > 0.5 else "black")
         for i in range(mat_t.shape[0]):
             for j in range(mat_t.shape[1]):
                 val = mat_t[i, j]
-                ax1.text(j, i, f"{val:.2f}", ha="center", va="center", fontsize=7, color="white" if val > 0.5 else "black")
+                ax1.text(j, i, f"{val:.2f}", ha="center", va="center", fontsize=12, fontweight="bold", color="white" if val > 0.5 else "black")
 
     fig.subplots_adjust(wspace=0.3, hspace=0.35, right=0.9)
     cax = fig.add_axes([0.92, 0.16, 0.02, 0.68])

@@ -19,6 +19,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+# Global readability defaults (matches plot_fig2_overlap_binbars.py).
+plt.rcParams.update({
+    "font.size": 13,
+    "axes.labelsize": 13,
+    "axes.titlesize": 14,
+    "xtick.labelsize": 12,
+    "ytick.labelsize": 12,
+    "legend.fontsize": 12,
+    "figure.titlesize": 16,
+    "savefig.dpi": 600,
+})
+
 WINDOWS = ["peak1", "valley", "peak2"]
 CLASSES = ["C0J0", "C1pJ0", "C0J1p", "C1pJ1p"]
 CLASS_COLORS = {
@@ -237,7 +249,7 @@ def main() -> None:
             if r == 0:
                 ax.set_title(window)
             ax.set_xticks(x)
-            ax.set_xticklabels(CLASSES, rotation=35, ha="right", fontsize=7)
+            ax.set_xticklabels(CLASSES, rotation=35, ha="right", fontsize=11)
             if c == 0:
                 ax.set_ylabel(f"{k_label}\nprop")
             ax.set_ylim(0, y_max)

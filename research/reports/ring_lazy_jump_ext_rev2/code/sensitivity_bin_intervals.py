@@ -18,6 +18,18 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
+# Global readability defaults (matches plot_fig2_overlap_binbars.py).
+plt.rcParams.update({
+    "font.size": 13,
+    "axes.labelsize": 13,
+    "axes.titlesize": 14,
+    "xtick.labelsize": 12,
+    "ytick.labelsize": 12,
+    "legend.fontsize": 12,
+    "figure.titlesize": 16,
+    "savefig.dpi": 600,
+})
+
 WINDOWS = ["peak1", "valley", "peak2"]
 CLASSES = ["C0J0", "C1pJ0", "C0J1p", "C1pJ1p"]
 CLASS_COLORS = {
@@ -248,8 +260,9 @@ def _plot_delta(out_df: pd.DataFrame, out_fig: Path) -> None:
                     0.92,
                     f"max|Δ|={sub['delta_prop'].abs().max():.3g}",
                     transform=ax.transAxes,
-                    fontsize=7,
+                    fontsize=11,
                     color="0.25",
+                    bbox=dict(facecolor="white", alpha=0.8, edgecolor="none", pad=1.5),
                 )
     class_handles = [plt.Line2D([0], [0], color=CLASS_COLORS[c], lw=2, label=c) for c in CLASSES]
     mode_handles = [

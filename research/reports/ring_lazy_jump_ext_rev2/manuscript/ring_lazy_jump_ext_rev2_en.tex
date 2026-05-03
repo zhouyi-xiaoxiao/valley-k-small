@@ -115,6 +115,52 @@ the plot falls back to window-level aggregates and records this in the JSON meta
   \label{fig:fig1-overlap-en}
 \end{figure}
 
+\subsection*{What the windowed bars say about the bimodality mechanism}
+
+\textbf{Phenomenon.} The two panels of Figure~\ref{fig:fig1-overlap-en} show
+that $f(t)$ has an early hump near $t_1$, a valley near $t_v$, and a late
+hump near $t_2$, with $t_2 \gg t_1$ (here $t_2/t_1\approx 21$ for $K=2$ and
+$\approx 15$ for $K=4$). Bimodality is not a numerical artefact: the
+windowed class composition above each bar tells us \emph{which kind of
+trajectory contributes to each peak}.
+
+\textbf{Evidence.} Reading the bars from peak1 to peak2 in either panel,
+the class composition flips. In the $K=2$ panel, peak1 is essentially a
+pure $\texttt{C1pJ0}$ population (walker used the shortcut at least once,
+no jump-over); peak2 is essentially a pure $\texttt{C0J0}$ population
+(walker never used the shortcut and never jumped over the target). The
+valley window sits in the transition between the two compositions. The
+$K=4$ panel shows the same handover but with a second axis: the peak1
+window picks up a sizeable $\texttt{C1pJ1p}$ (shortcut + jump-over) share,
+and the peak2 window picks up a sizeable $\texttt{C0J1p}$ (no shortcut +
+jump-over) share. The MC uncertainty bars in
+Figure~\ref{fig:mc-uncertainty-en} confirm that these compositional
+differences are well outside the 95\% CIs, so the handover is statistical
+fact rather than sampling fluctuation.
+
+\textbf{Mechanism.} The early peak is a \emph{fast channel}: walkers that
+encounter the directed shortcut soon after starting take a near-direct
+path to the target and absorb at small $t$. The late peak is a \emph{slow
+channel}: walkers that never trigger the shortcut have to traverse the
+ring the long way around, and their first-passage time is governed by the
+diffusion timescale on the unmodified ring. The valley is the time
+interval where neither channel deposits much probability mass, because
+the fast channel has already finished and the slow channel has not yet
+begun to arrive. For $K=4$, the wider step $r=\lfloor K/2\rfloor=2$ adds a
+second separation axis: a walker can step \emph{over} the target without
+absorbing (jump-over), which delays absorption and inflates the slow
+channel further. This explains why $K=4$ is more reliably bimodal than
+$K=2$: it has two independent timescale-separating mechanisms (shortcut
+and jump-over), whereas $K=2$ has only one.
+
+\textbf{Conclusion.} The bimodality of $f(t)$ in the lazy ring +
+shortcut model is a superposition of two trajectory populations with
+different first-passage timescales --- it is structural, not stochastic.
+The peak1/peak2 windows are not just ``where the curve is high''; they are
+\emph{the parameter regions where each population dominates}, and the
+windowed class proportions are the direct evidence for that
+interpretation.
+
 \section{Sensitivity Analyses}
 \subsection{Threshold Sensitivity}
 We scan $h_{\min}\in\{10^{-8},10^{-7},10^{-6}\}$, second\_frac$\in\{0.005,0.01,0.02\}$,
@@ -170,8 +216,32 @@ These intervals are still smaller than class differences and do not change the m
 \end{figure}
 
 \section*{Conclusion}
-This report presents a co-located Fig.~1 (stacked bars replacing colored window bands) and three sensitivity analyses.
-The conclusions are stable under threshold and window perturbations, and MC confidence intervals support the robustness
-of jump-over-related proportions. For model derivations and full sweeps, see \texttt{reports/lazy\_jump\_ext/}.
+The bimodality of $f(t)$ in the lazy ring + directed shortcut model is the
+signature of two distinct trajectory populations: a \emph{fast channel}
+(\texttt{C1p}\,\(\cdot\)) of walkers that take the shortcut, contributing to peak1
+near $t_1$, and a \emph{slow channel} (\texttt{C0}\,\(\cdot\)) of walkers
+that traverse the ring the long way, contributing to peak2 near $t_2$.
+The valley between the two peaks is the temporal gap where neither channel
+contributes substantial mass. Figure~\ref{fig:fig1-overlap-en} makes this
+mechanism directly visible: the peak1/peak2 bars are dominated by
+\texttt{C1p}/\texttt{C0} respectively in both $K=2$ and $K=4$, and the
+$K=4$ panel reveals a second separation axis (\texttt{J1p} jump-over)
+which explains its stronger bimodality.
+
+This interpretation is robust along three axes: (i)~threshold sensitivity
+keeps the ``$K=4$ more bimodal than $K=2$'' verdict over a wide grid of
+detection parameters, with only \texttt{hv\_over\_max} producing
+non-negligible variation; (ii)~window placement and width perturbations
+($\Delta=\pm 1,2,5$) change the windowed class proportions by less than
+$1\%$, so the channel-handover narrative does not depend on the precise
+window edges; (iii)~MC confidence intervals are smaller than the
+between-class differences in every window, so the dominant class in each
+peak is statistically well-separated from the others.
+
+For model derivations, the full $\beta$ sweep, and broader $K,N,q$
+ranges, see \texttt{reports/lazy\_jump\_ext/}. The companion report
+\texttt{ring\_lazy\_flux/} gives an alternative diagnostic via the
+shortcut flux, and \texttt{ring\_valley/} treats the valley structure
+without the shortcut.
 
 \end{document}

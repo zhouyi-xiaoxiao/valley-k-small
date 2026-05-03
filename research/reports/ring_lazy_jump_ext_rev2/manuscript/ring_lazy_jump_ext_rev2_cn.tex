@@ -112,10 +112,39 @@ $P(\text{class}\mid T\in\text{window})$；上下两幅分别对应各自的 $K$ 
   \includegraphics[width=0.95\linewidth]{figures/fig2_overlap_binbars_beta0.01_x1350.pdf}
   \caption{$f(t)$ 与窗口内四类比例的同轴叠加（栈叠 bar 替代窗口底色），上下两幅分别为 $K=2$（深蓝/黑）与 $K=4$（红色）。
   $t$ 为离散时间步（横轴展示 $t=1\ldots 1350$ 以增强可读性）；标注的 $t_1,t_v,t_2$ 为各自 $K$ 的两峰一谷中心位置；
-  三段栈叠条对应 peak1/valley/peak2 窗口，区间由各自 $(t_1,t_v,t_2)$ 检测并按固定规则宽度 $\Delta$ 构造，
+  三段栈叠条对应 peak1/valley/peak2 窗口，区间由各自 $(t_1,t_v,t_2)$ 检测并按固定规则宽度 $\Delta$ 构造,
   条内颜色为 $P(\text{class}\mid T\in\text{window})$（对应各自 $K$）。}
   \label{fig:fig1-overlap-cn}
 \end{figure}
+
+\subsection*{窗口栈叠条揭示的双峰机制}
+
+\textbf{现象。} 图~\ref{fig:fig1-overlap-cn} 两幅都显示 $f(t)$ 在 $t_1$ 附近有早峰、
+$t_v$ 附近有谷底、$t_2$ 附近有晚峰，且 $t_2 \gg t_1$（$K=2$ 时 $t_2/t_1\approx 21$,
+$K=4$ 时 $\approx 15$）。双峰不是数值假象：每条窗口栈叠条上的类别组成
+\emph{告诉我们哪类轨迹在贡献哪一个峰}。
+
+\textbf{证据。} 在两幅中沿 peak1 $\to$ peak2 阅读各栈叠条,类别组成发生反转。
+$K=2$ 那一幅 peak1 几乎是单一的 $\texttt{C1pJ0}$ 群体（至少用过一次 shortcut、
+未跨过 target);peak2 几乎是单一的 $\texttt{C0J0}$ 群体（从未用 shortcut、
+也未 jump-over）;valley 窗口正好位于这两种组成的过渡带。$K=4$ 那一幅显示同样
+的换班,但多了一个轴:peak1 内出现可观比例的 $\texttt{C1pJ1p}$（用 shortcut +
+jump-over）,peak2 内出现可观比例的 $\texttt{C0J1p}$（无 shortcut + jump-over)。
+图~\ref{fig:mc-uncertainty-cn} 的 MC 置信区间确认这些组成差异显著大于 95\% CI,
+所以这种反转是统计事实而非采样波动。
+
+\textbf{机制。} 早峰是\emph{快通道}:walker 在出发不久便遭遇单向 shortcut,
+近似直达 target,在小 $t$ 处吸收。晚峰是\emph{慢通道}:walker 始终未触发 shortcut,
+只能沿环走"远路",其首达时间由未受扰动 ring 上的扩散时标决定。Valley 是两通道
+质量都很少的时段——快通道已经吸收完毕、慢通道尚未开始大规模到达。对 $K=4$ 而言,
+更宽的步长 $r=\lfloor K/2\rfloor=2$ 引入第二个分离轴:walker 可能\emph{跨过} target
+而不被吸收(jump-over),从而推迟吸收、加重慢通道的尾部。这就是 $K=4$ 比 $K=2$
+更稳定地呈现双峰的原因——它有两条独立的时标分离机制(shortcut 与 jump-over),
+而 $K=2$ 只有一条。
+
+\textbf{结论。} Lazy ring + shortcut 模型中 $f(t)$ 的双峰是\emph{两类首达时标
+不同的轨迹群体的叠加},是结构性而非随机性的。peak1/peak2 窗口不是单纯的"曲线高处",
+而是\emph{每一种群体占主导的参数区间};窗口内的类别比例正是这种解释的直接证据。
 
 \section{敏感性分析（正文）}
 \subsection{阈值敏感性}
@@ -176,9 +205,22 @@ $K=4$ 的 CI 平均宽度约 $0.029$，最大约 $0.063$。
 \end{figure}
 
 \section*{小结}
-本报告提供了图1的同轴叠加实现（栈叠条替代窗口底色）与三类敏感性分析。
-结论在阈值、窗口位置与宽度扰动下保持一致，
-并通过 MC 置信区间验证了 jump-over 相关比例的稳定性。
-原模型推导与更完整的扫描结果请参阅 \texttt{reports/lazy\_jump\_ext/}。
+Lazy ring + 单向 shortcut 模型中 $f(t)$ 的双峰是两类首达时标不同的轨迹群体的叠加:
+\emph{快通道}(\texttt{C1p}\,$\cdot$,使用过 shortcut)贡献 $t_1$ 附近的早峰；
+\emph{慢通道}(\texttt{C0}\,$\cdot$,从未使用 shortcut、沿环走远路)贡献 $t_2$ 附近的晚峰；
+两峰之间的 valley 是两通道都不显著贡献质量的时段。图~\ref{fig:fig1-overlap-cn} 把这
+个机制直接画了出来：peak1/peak2 的栈叠条在 $K=2$ 与 $K=4$ 都分别由 \texttt{C1p} /
+\texttt{C0} 主导;$K=4$ 那一幅还多出一个分离轴(\texttt{J1p}, jump-over),
+解释了它更稳定双峰的原因。
+
+这一解读在三个维度上都稳健：(i)~阈值敏感性下,"$K=4$ 比 $K=2$ 更易双峰"的结论
+跨越广泛的检测参数网格依然成立,只有 \texttt{hv\_over\_max} 引入不可忽略的变化;
+(ii)~窗口位置与宽度扰动 $\Delta=\pm 1,2,5$ 仅引起 $<1\%$ 的比例变化,因此通道换班的
+说法不依赖窗口边界的精确位置;(iii)~MC 置信区间在每个窗口内都明显小于类间差异,
+所以"哪一类主导哪一峰"是统计上良好分离的事实。
+
+模型推导、完整 $\beta$ 扫描以及更广 $K,N,q$ 范围请参阅 \texttt{reports/lazy\_jump\_ext/}。
+姊妹报告 \texttt{ring\_lazy\_flux/} 通过 shortcut 通量给出另一种诊断,
+\texttt{ring\_valley/} 则讨论无 shortcut 时的 valley 结构。
 
 \end{document}

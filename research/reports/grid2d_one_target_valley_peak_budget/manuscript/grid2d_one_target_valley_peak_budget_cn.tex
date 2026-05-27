@@ -25,7 +25,8 @@ $\tau_{\mathrm{out}}$ 表示首次离开 corridor band 的时间,$\tau_{\mathrm{
 也就是事件平均发生时刻占窗口 $W$ 内平均命中时间的比例;outside-time share 指命中时间
 落在相应窗口内的轨道中,停留在 corridor band 外部的时间占 $T$ 的比例;outside budget
 指命中之前停留在 corridor band 外部的期望步数;post-crossing budget 则指首次穿膜之后到
-命中之前剩余的期望步数。
+命中之前剩余的期望步数。本文中的 outside 指 corridor band 外部的并集,即 left-side
+pocket 与 merged outer/right-side bulk。
 
 \begin{figure}[!htbp]
   \centering
@@ -40,9 +41,13 @@ $\tau_{\mathrm{out}}$ 表示首次离开 corridor band 的时间,$\tau_{\mathrm{
 
 图~\ref{fig:fig1-geometry-curve-budget-cn} 给出了 valley 与第二峰窗口比较所需的几何
 基线。无论在 $\kappa=0$ 还是在 $\kappa=0.0040$ 下,以 \texttt{peak2} 为中心的命中时间
-窗口分配到 merged outer/right-side 区域的预命中预算都高于 valley:outside share 在
-control 中由约 $48\%$ 升到 $56\%$,在 $\kappa=0.0040$ 时由约 $47\%$ 升到 $56\%$。也就
-是说,valley 与第二峰窗口的分离在显式讨论膜穿越观测量之前,就已经体现在空间预算结构上。
+窗口分配到 corridor band 外部的预命中预算都高于 valley:outside share 在 control 中由
+约 $48\%$ 升到 $56\%$,在 $\kappa=0.0040$ 时由约 $47\%$ 升到 $56\%$。堆叠柱进一步显示,
+这个差异主要来自 left-side share 的上升:第二峰窗口中 left-side share 约为 $30\%$,而
+merged outer/right-side share 反而低于 valley。这一分解表明,第二峰对应的延迟到达主要
+来自命中前 corridor 外停留的增加,且主要由 left-side pocket 承担。
+
+\clearpage
 
 \begin{figure}[!htbp]
   \centering
@@ -57,12 +62,14 @@ control 中由约 $48\%$ 升到 $56\%$,在 $\kappa=0.0040$ 时由约 $47\%$ 升�
 \end{figure}
 
 图~\ref{fig:fig2-tau-out-budget-cn} 表明,\texttt{peak1} 在三种 $\kappa$ 下都保持
-direct-corridor 型特征:其 ratio 约为 $0.76\sim 0.79$,而 outside share 约为
-$9\%\sim 10\%$。相比之下,\texttt{valley} 与 \texttt{peak2} 的 exit ratio 都较小,因此
-只看归一化 exit 时刻本身并不能很好地区分两者。两者之间的差别更清楚地体现在 outside
-budget 上。在 $\kappa=0$ 时,这个 outside budget 由 valley 的约 $718$ 步增加到
-\texttt{peak2} 的约 $1311$ 步;在 $\kappa=0.0040$ 时,则由约 $705$ 步增加到约 $1288$
-步。这些比较说明,在当前参数下,第二峰窗口主要对应更长的 outside excursion。
+direct-corridor 型特征:ratio 约为 $0.76\sim0.79$,outside share 约为 $9\%\sim10\%$。
+相比之下,\texttt{valley} 与 \texttt{peak2} 的 exit ratio 都较小,仅凭归一化 exit 时刻
+并不能区分两者;差别主要体现在 outside budget 上。在 $\kappa=0$ 时,outside budget 由
+约 $718$ 步增至约 $1311$ 步;在 $\kappa=0.0040$ 时由约 $705$ 步增至约 $1288$ 步。这说明
+第二峰并非简单的几何 timing effect,而与命中前累积的 outside excursion 有关;结合图~1,
+该对比在当前 case 中主要由 left-side pocket 承担。
+
+\clearpage
 
 \begin{figure}[!htbp]
   \centering
@@ -76,13 +83,12 @@ budget 上。在 $\kappa=0$ 时,这个 outside budget 由 valley 的约 $718$ �
   \includegraphics[width=0.85\linewidth]{figures/fig3_tau_mem_budget}
 \end{figure}
 
-图~\ref{fig:fig3-tau-mem-budget-cn} 则把膜通透性带来的修正单独抽离出来。在
-$\kappa=0$ 时,所有 crossing probability 和 post-crossing budget 都为零。当
-$\kappa>0$ 后,valley 与 \texttt{peak2} 的 crossing probability 仍然比较接近,例如在
-$\kappa=0.0040$ 时约为 $18\%$ 对 $20\%$,因此只看 crossing probability 本身也只能提供
-有限区分;但两者在首次穿膜之后剩余的演化时间上分得更开,约为 $213$ 步对 $336$ 步。
-到边界点 $\kappa=0.0152$ 时,这两个 post-crossing budget 进一步增至约 $604$ 步与
-$785$ 步。这一比较表明,膜通透性的主要作用并不只是提高穿膜发生的概率,而是增大首次
-穿膜之后到命中之前剩余的期望步数。
+图~\ref{fig:fig3-tau-mem-budget-cn} 把膜通透性的修正单独抽离出来。在 $\kappa=0$ 时,
+crossing probability 和 post-crossing budget 均为零。$\kappa>0$ 后,valley 与
+\texttt{peak2} 的 crossing probability 仍较接近,例如在 $\kappa=0.0040$ 时约为
+$18\%$ 对 $20\%$;更明显的差异出现在首次穿膜后的剩余演化时间上,约为 $213$ 步对
+$336$ 步。到边界点 $\kappa=0.0152$ 时,post-crossing budget 进一步增至约 $604$ 步与
+$785$ 步。这说明膜通透性主要增大首次穿膜之后到命中之前的期望步数,从而放大晚时间
+shoulder/second-peak 的贡献;crossing probability 本身不足以解释第二峰。
 
 \end{document}

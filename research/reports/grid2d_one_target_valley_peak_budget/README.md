@@ -32,13 +32,13 @@ post-crossing budget rather than by raising the crossing probability.
 
 - Manuscript: `manuscript/grid2d_one_target_valley_peak_budget_{en,cn}.tex`
   (+ PDFs, 3 pages each).
-- Figures: `artifacts/figures/fig{1,2,3}_*.{pdf,png}` (3 figures).
+- Figures: `artifacts/figures/fig{1,2,3}_*.{pdf,png}` (3 figures;
+  PDFs are vector-first regenerated outputs).
 - Build artefacts: `manuscript/build/` (auxiliary; not committed).
 
 ## Layout
 
-- `code/` — generation scripts (currently absent; the `__pycache__` traces
-  the prior pipeline that produced the figures, source not yet recommitted).
+- `code/` — generation scripts for the current vector-first figure set.
 - `manuscript/` — `.tex` sources + compiled PDFs (en/cn).
 - `notes/` — empty.
 - `artifacts/` — `figures/` (PNG + PDF) and the `_fig1_vector_build/`
@@ -60,8 +60,7 @@ latexmk -xelatex -interaction=nonstopmode -auxdir=build -emulate-aux-dir \
 
 ## TODO
 
-- [ ] Recover or rewrite the figure-generation scripts under `code/`.
-- [ ] Replace `figures/fig*.pdf` (currently sips-rasterised from PNG) with
-      vector PDFs from the original matplotlib pipeline.
+- [ ] Recover the original full simulation pipeline if exact Fig. 1 raw curve
+      regeneration is needed beyond the current vector-first reconstruction.
 - [ ] Cross-reference the related sub-series: `grid2d_one_target_exit_timing`,
       `grid2d_one_target_window_measures`, `grid2d_one_two_target_gating`.

@@ -1,6 +1,6 @@
 # RESEARCH SUMMARY
 
-最后更新: 2026-04-27
+最后更新: 2026-05-27
 
 ## 仓库定位
 - 本仓库研究随机游走首达时间分布中的双峰、谷值、shortcut 机制与跨模型对比。
@@ -71,7 +71,7 @@
 | `research/reports/cross_luca_regime_map` | `research/reports/cross_luca_regime_map/manuscript/cross_luca_regime_map_cn.pdf`, `research/reports/cross_luca_regime_map/manuscript/cross_luca_regime_map_en.pdf`, `research/reports/cross_luca_regime_map/manuscript/extras/cross_luca_regime_map_cn_smoke.pdf`, `research/reports/cross_luca_regime_map/manuscript/extras/cross_luca_regime_map_en_smoke.pdf` | `research/reports/cross_luca_regime_map/manuscript/cross_luca_regime_map_cn.tex`, `research/reports/cross_luca_regime_map/manuscript/cross_luca_regime_map_en.tex`, `research/reports/cross_luca_regime_map/manuscript/extras/cross_luca_regime_map_cn_smoke.tex`, `research/reports/cross_luca_regime_map/manuscript/extras/cross_luca_regime_map_en_smoke.tex` |
 | `research/reports/grid2d_one_target_base` | - | - |
 | `research/reports/grid2d_one_target_exit_timing` | - | - |
-| `research/reports/grid2d_one_target_valley_peak_budget` | - | - |
+| `research/reports/grid2d_one_target_valley_peak_budget` | `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_cn.pdf`, `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_en.pdf` | `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_cn.tex`, `research/reports/grid2d_one_target_valley_peak_budget/manuscript/grid2d_one_target_valley_peak_budget_en.tex` |
 | `research/reports/grid2d_one_target_window_measures` | - | - |
 | `research/reports/grid2d_one_two_target_gating` | - | - |
 | `research/reports/exact_recursion_method_guide` | - | - |

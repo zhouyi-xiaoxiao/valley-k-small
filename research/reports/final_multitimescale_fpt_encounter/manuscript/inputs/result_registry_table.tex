@@ -1,0 +1,14 @@
+\begin{tabular}{p{0.18\linewidth}p{0.16\linewidth}p{0.18\linewidth}p{0.40\linewidth}}
+\toprule
+Module & Output & Mechanism & Supported claim \\
+\midrule
+luca\_shortcut & K2\_K4\_beta001 & budget decomposition & In the Luca shortcut-ring configuration, bimodality is a fast shortcut channel plus a slow non-shortcut/jump-over budget split. \\
+ring\_two\_target & channel\_decomp & target-channel decomposition & The total two-target FPT distribution is decomposed into target-specific channels. \\
+ring\_two\_target & shape\_scan & target-channel decomposition & Classifier-confirmed ring double-peak cases exist and remain tied to target-channel budgets. \\
+grid2d\_bias\_radius & heatmap & target-channel decomposition & The 2D heatmap identifies classifier-confirmed cases as near/far target-channel competition varies with radius and bias. \\
+grid2d\_bias\_radius & fpt\_decomp & target-channel decomposition & Representative 2D cases show how near and far absorbing channels contribute to total FPT shape. \\
+encounter\_mean & mean\_validation & diagonal-position decomposition & Mean validation checks the encounter computation but does not determine full distribution shape. \\
+encounter\_diagonal & ratio\_scan & diagonal-position decomposition & The encounter ratio and initial-position scan is currently unimodal across all recorded cases. \\
+encounter\_diagonal & diag\_heatmap & diagonal-position decomposition & Diagonal-position heterogeneity is read from f\_k(t) windows rather than from the mean alone. \\
+\bottomrule
+\end{tabular}

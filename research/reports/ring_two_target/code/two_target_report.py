@@ -7,9 +7,24 @@ import csv
 import json
 from dataclasses import dataclass, asdict
 from pathlib import Path
-from typing import List
+import sys
+from typing import List, Tuple
 
 import numpy as np
+
+
+def _ensure_vkcore_on_path() -> None:
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        candidate = parent / "packages" / "vkcore" / "src"
+        if candidate.exists():
+            sys.path.insert(0, str(candidate))
+            return
+
+
+_ensure_vkcore_on_path()
+
+from vkcore.ring.two_target import RingTwoTargetConfig, exact_two_target_fpt  # noqa: E402
 
 
 @dataclass(frozen=True)
@@ -90,53 +105,23 @@ def apply_shortcut(
 def fpt_two_targets(
     cfg: CaseConfig,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    N = cfg.N
-    p = np.zeros(N, dtype=float)
-    p[cfg.start % N] = 1.0
-
-    f_total: List[float] = [0.0]
-    f_t1: List[float] = [0.0]
-    f_t2: List[float] = [0.0]
-    surv: List[float] = [1.0]
-
-    t1 = cfg.target1 % N
-    t2 = cfg.target2 % N
-
-    for _t in range(1, cfg.max_steps + 1):
-        p_next = step_lazy_ring(p, K=cfg.K, q=cfg.q, drift=cfg.drift)
-        p_next = apply_shortcut(
-            p,
-            p_next,
+    result = exact_two_target_fpt(
+        RingTwoTargetConfig(
+            L=cfg.N,
+            start=cfg.start,
+            target1=cfg.target1,
+            target2=cfg.target2,
+            K=cfg.K,
             q=cfg.q,
+            drift=cfg.drift,
             beta=cfg.beta,
-            src=cfg.src,
-            dst=cfg.dst,
+            shortcut_src=cfg.src,
+            shortcut_dst=cfg.dst,
+            max_steps=cfg.max_steps,
+            eps_survival=cfg.eps_surv,
         )
-
-        hit1 = p_next[t1]
-        hit2 = p_next[t2]
-        hit_total = hit1 + hit2
-
-        f_total.append(float(hit_total))
-        f_t1.append(float(hit1))
-        f_t2.append(float(hit2))
-
-        # Absorb at both targets
-        p_next[t1] = 0.0
-        p_next[t2] = 0.0
-        p = p_next
-
-        s = float(p.sum())
-        surv.append(s)
-        if s < cfg.eps_surv:
-            break
-
-    return (
-        np.asarray(f_total, dtype=float),
-        np.asarray(f_t1, dtype=float),
-        np.asarray(f_t2, dtype=float),
-        np.asarray(surv, dtype=float),
     )
+    return result.f_total, result.f_target1, result.f_target2, result.survival
 
 
 def detect_peaks(f: np.ndarray, *, h_min: float = 1e-12) -> List[PeakInfo]:

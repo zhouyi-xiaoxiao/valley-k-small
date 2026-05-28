@@ -1,0 +1,38 @@
+{
+  "case": {
+    "Lx": 9,
+    "Ly": 7,
+    "q": 0.7,
+    "bias_strength": 0.08,
+    "bias_direction": "E",
+    "start": [
+      2,
+      3
+    ],
+    "far_target": [
+      7,
+      3
+    ],
+    "near_radius": 2.0,
+    "near_theta": 1.5707963267948966,
+    "t_max": 120,
+    "near_target": [
+      2,
+      5
+    ],
+    "near_radius_actual": 2.0,
+    "near_theta_actual": 1.5707963267948966,
+    "bias_rule": "global absolute stay-to-direction shift: p_dir=q/4+b, p_stay=1-q-b",
+    "boundary_rule": "reflecting attempted-outside-stays"
+  },
+  "validation": {
+    "nonnegative_min_probability": 0.175,
+    "row_stochasticity_error": 0.0,
+    "mass_balance_error": 3.3306690738754696e-16,
+    "decomposition_error": 1.3010426069826053e-18
+  },
+  "outputs": {
+    "csv": "research/reports/grid2d_two_target_bias_radius/artifacts/outputs/smoke_fpt_channels.csv",
+    "figure": "research/reports/grid2d_two_target_bias_radius/artifacts/figures/smoke_fpt_channels.pdf"
+  }
+}

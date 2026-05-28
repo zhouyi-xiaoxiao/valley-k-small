@@ -39,13 +39,13 @@ pocket 与 merged outer/right-side bulk。
   \includegraphics[width=0.95\linewidth]{figures/fig1_geometry_curve_budget}
 \end{figure}
 
-图~\ref{fig:fig1-geometry-curve-budget-cn} 给出了 valley 与第二峰窗口比较所需的几何
-基线。无论在 $\kappa=0$ 还是在 $\kappa=0.0040$ 下,以 \texttt{peak2} 为中心的命中时间
-窗口分配到 corridor band 外部的预命中预算都高于 valley:outside share 在 control 中由
-约 $48\%$ 升到 $56\%$,在 $\kappa=0.0040$ 时由约 $47\%$ 升到 $56\%$。堆叠柱进一步显示,
-这个差异主要来自 left-side share 的上升:第二峰窗口中 left-side share 约为 $30\%$,而
-merged outer/right-side share 反而低于 valley。这一分解表明,第二峰对应的延迟到达主要
-来自命中前 corridor 外停留的增加,且主要由 left-side pocket 承担。
+图~\ref{fig:fig1-geometry-curve-budget-cn} 先把晚时间结构放回空间图像中理解。
+\texttt{peak1} 对应较直接的到达,随后出现 valley 和较晚的 \texttt{peak2} 窗口;但
+\texttt{double\_peak} 不能凭视觉判定,较弱情形应保留为 shoulder 或 local bump。预算柱
+说明晚时间窗口为何被推迟:outside share 在 $\kappa=0$ 时约由 $48\%$ 升到 $56\%$,在
+$\kappa=0.0040$ 时约由 $47\%$ 升到 $56\%$,且 left-side pocket 约达 $30\%$。因此,
+第二峰窗口不是绘图假象,而是富集了命中前在 corridor 外、尤其在 left-side pocket 中
+多停留后才返回 target 的轨道;这个额外 residence time 给出了晚时间结构的主要机制。
 
 \clearpage
 
@@ -61,13 +61,14 @@ merged outer/right-side share 反而低于 valley。这一分解表明,第二峰
   \includegraphics[width=0.85\linewidth]{figures/fig2_tau_out_budget}
 \end{figure}
 
-图~\ref{fig:fig2-tau-out-budget-cn} 表明,\texttt{peak1} 在三种 $\kappa$ 下都保持
-direct-corridor 型特征:ratio 约为 $0.76\sim0.79$,outside share 约为 $9\%\sim10\%$。
-相比之下,\texttt{valley} 与 \texttt{peak2} 的 exit ratio 都较小,仅凭归一化 exit 时刻
-并不能区分两者;差别主要体现在 outside budget 上。在 $\kappa=0$ 时,outside budget 由
-约 $718$ 步增至约 $1311$ 步;在 $\kappa=0.0040$ 时由约 $705$ 步增至约 $1288$ 步。这说明
-第二峰并非简单的几何 timing effect,而与命中前累积的 outside excursion 有关;结合图~1,
-该对比在当前 case 中主要由 left-side pocket 承担。
+图~\ref{fig:fig2-tau-out-budget-cn} 说明首次离开 corridor 的时间本身并不足以解释晚
+时间结构。\texttt{peak1} 是 direct-corridor benchmark,ratio 约为 $0.76\sim0.79$,
+outside share 约为 $9\%\sim10\%$。valley 与 \texttt{peak2} 的 exit ratio 都较小,
+归一化 exit time 因而不能说明哪个窗口更晚;真正分开二者的是绝对 outside budget:
+$\kappa=0$ 时由 $718$ 增至 $1311$ 步,$\kappa=0.0040$ 时由 $705$ 增至 $1288$ 步。
+机制不是简单的 early exit,而是 exit 后在 corridor 外停留得更久;结合图~1,这部分额外
+residence 主要指向 left-side pocket。因此这里解释的是完整 first-passage distribution
+中的晚时间概率质量,不是 mean first-passage time alone。
 
 \clearpage
 
@@ -83,12 +84,13 @@ direct-corridor 型特征:ratio 约为 $0.76\sim0.79$,outside share 约为 $9\%\
   \includegraphics[width=0.85\linewidth]{figures/fig3_tau_mem_budget}
 \end{figure}
 
-图~\ref{fig:fig3-tau-mem-budget-cn} 把膜通透性的修正单独抽离出来。在 $\kappa=0$ 时,
-crossing probability 和 post-crossing budget 均为零。$\kappa>0$ 后,valley 与
-\texttt{peak2} 的 crossing probability 仍较接近,例如在 $\kappa=0.0040$ 时约为
-$18\%$ 对 $20\%$;更明显的差异出现在首次穿膜后的剩余演化时间上,约为 $213$ 步对
-$336$ 步。到边界点 $\kappa=0.0152$ 时,post-crossing budget 进一步增至约 $604$ 步与
-$785$ 步。这说明膜通透性主要增大首次穿膜之后到命中之前的期望步数,从而放大晚时间
-shoulder/second-peak 的贡献;crossing probability 本身不足以解释第二峰。
+图~\ref{fig:fig3-tau-mem-budget-cn} 则把 membrane-mediated 部分单独拿出来看。
+$\kappa=0$ 时 crossing 和 post-crossing budget 都为零。$\kappa>0$ 后,valley 与
+\texttt{peak2} 的 crossing probability 仍很接近,例如 $\kappa=0.0040$ 时约为
+$18\%$ 对 $20\%$;更明显的差异在首次 crossing 后的剩余时间:$213$ 对 $336$ 步,到
+$\kappa=0.0152$ 时增至 $604$ 对 $785$ 步。因此膜通透性并不主要通过提高 crossing
+probability 起作用,而是放大 crossing 之后的剩余吸收路径。进入该 channel 的轨道仍需
+更长时间才被吸收,从而增强 shoulder 或 second-peak 贡献;是否达到
+\texttt{double\_peak},仍应交给 classifier 判断。
 
 \end{document}

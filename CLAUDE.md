@@ -4,7 +4,18 @@ Cold-start router for AI agents (Claude Code, Codex, Cursor, etc.).
 
 ## What this repo is
 
-`valley-k-small` — a PhD research repo on first-passage time distributions of random walks (bimodality, valley/peak criteria, shortcut mechanisms, cross-model comparison). Hybrid Python (analysis + automation) + Next.js (talk site, interactive report browsing). The repo is **agent-first**: agents are the primary operators; humans give natural-language direction and feedback on PDF outputs.
+`valley-k-small` is a PhD research repo on first-passage and first-encounter
+time distributions in structured lattice random walks. It studies shoulders,
+local bumps, second peaks, double-peak-like structures, shortcut mechanisms,
+target-channel decompositions, and encounter-position decompositions. Hybrid
+Python (analysis + automation) + Next.js (talk site, interactive report
+browsing). The repo is **agent-first**: agents are the primary operators;
+humans give natural-language direction and feedback on PDF outputs.
+
+The remaining work is to revise current reports and figures, extend 1D and 2D
+two-target first-passage models, validate reflecting-boundary two-walker
+encounters, and decompose encounter distributions by diagonal encounter
+position.
 
 ## Read these in order
 
@@ -23,6 +34,72 @@ python3 scripts/reportctl.py --help     # master CLI: list, resolve, build, vali
 ```
 
 Health check: `python3 scripts/reportctl.py doctor`.
+
+## General development rules
+
+- Keep changes scoped to the requested report, document, or tool.
+- Do not modify scientific code for guardrail, roadmap, or documentation-only
+  tasks.
+- Do not run large scans unless the prompt explicitly asks for them.
+- Do not modify unrelated reports.
+- Use `reportctl.py` for public repository operations.
+- Keep generated outputs deterministic when practical and inside the owning
+  report's `artifacts/` or `manuscript/` tree.
+
+## Mathematical guardrails
+
+- Transition probabilities must be nonnegative.
+- Discrete-time transition matrices must be row-stochastic unless a report
+  explicitly documents another convention.
+- Absorbing targets must stop the process immediately.
+- Mass balance must hold.
+- Two-target decomposition must satisfy `f_total(t)=f_target1(t)+f_target2(t)`.
+- Encounter decomposition must satisfy `f_E(t)=sum_k f_k(t)`.
+- Do not confuse mean first-passage time with the full first-passage
+  distribution.
+- Do not call a curve `double_peak` unless the classifier criteria are met.
+- Do not overclaim double peaks from visual inspection; use `shoulder` or
+  `local_bump` for weaker structures.
+
+## Boundary-condition conventions
+
+- Reflecting boundary means attempted-outside-stays unless stated otherwise.
+- State periodic, reflecting, absorbing, mixed, lazy, and non-lazy conventions
+  before comparing results across reports or models.
+- Absorbing targets have priority over subsequent transition choices.
+- Do not state that the 2D encounter walker always has eight directions unless
+  synchronous lazy update is explicitly used.
+
+## Plotting rules
+
+- Make figures readable at report scale: clear axes, units, legends, parameter
+  payload, boundary mode, and target/encounter labels.
+- If a plot highlights peaks or bumps, include classifier labels or a nearby
+  diagnostic artifact with thresholds.
+- Use vector figures for manuscript inclusion where possible.
+- Do not title or caption a curve as `double_peak` unless the classifier output
+  says `double_peak`.
+
+## Testing expectations
+
+- For documentation and guardrail changes: run `python3 scripts/reportctl.py
+  check-docs-paths` and `python3 scripts/reportctl.py validate-science-rules`.
+- For code changes: run focused pytest tests plus the relevant `reportctl`
+  validation or build.
+- For transition kernels: test nonnegativity, row sums, absorbing-state
+  stopping, and mass balance.
+- For two-target and encounter decompositions: test `f_total(t)=f_target1(t)+f_target2(t)`
+  and `f_E(t)=sum_k f_k(t)`.
+
+## Report output conventions
+
+- Report code goes in `research/reports/<id>/code/`.
+- Figures, tables, data, and outputs go in `research/reports/<id>/artifacts/`.
+- Manuscripts, extras, and build directories go in
+  `research/reports/<id>/manuscript/`.
+- Notes and reproducibility logs go in `research/reports/<id>/notes/`.
+- Final handoffs must list changed files, commands run, generated outputs,
+  validation errors, and remaining risks.
 
 ## Gotchas (read before touching code)
 

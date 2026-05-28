@@ -1,11 +1,24 @@
 from __future__ import annotations
 
 from pathlib import Path
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "research" / "reports"
+REPO_TOOLS = ROOT / "platform" / "tools" / "repo"
+if str(REPO_TOOLS) not in sys.path:
+    sys.path.insert(0, str(REPO_TOOLS))
 
-ALLOWED_ROOT_FILES = {"README.md", "AGENTS.md", "CLAUDE.md", "pyproject.toml", "requirements.txt"}
+from report_registry import load_registry  # noqa: E402
+
+ALLOWED_ROOT_FILES = {
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "pyproject.toml",
+    "requirements.txt",
+    "uv.lock",
+}
 ALLOWED_ROOT_DIRS = {"research", "platform", "packages", "scripts", "tests"}
 ALLOWED_REPORT_DIRS = {"code", "notes", "manuscript", "artifacts"}
 
@@ -30,8 +43,8 @@ def test_root_has_no_legacy_symlinks() -> None:
     assert legacy == [], f"legacy root symlinks should be removed: {legacy}"
 
 
-def test_real_report_dirs_follow_v2_layout() -> None:
-    dirs = [p for p in REPORTS.iterdir() if p.is_dir() and not p.is_symlink()]
+def test_registered_report_dirs_follow_v2_layout() -> None:
+    dirs = [ROOT / item["path"] for item in load_registry()]
     assert dirs
     for d in dirs:
         assert (d / "README.md").exists(), f"missing README.md: {d}"

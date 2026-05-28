@@ -15,6 +15,7 @@
 - `validate-registry`
 - `validate-archives`
 - `check-docs-paths`
+- `validate-science-rules`
 - `audit`
 - `doctor`
 - `web-data`

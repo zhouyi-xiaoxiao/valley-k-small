@@ -146,7 +146,7 @@ def _annotate_top_labels(ax, ratios, centres, offsets, n_per):
             v = ratios[w][j]
             x = centres[i] + offsets[j]
             if v is None:
-                ax.text(x, 0.012, "n/a", ha="center", va="bottom",
+                ax.text(x, 0.045, "n/a", ha="center", va="bottom",
                         fontsize=13, color="0.2")
             else:
                 ax.text(x, v + 0.012, f"{v:.2f}", ha="center", va="bottom",

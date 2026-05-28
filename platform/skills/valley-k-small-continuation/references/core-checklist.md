@@ -17,6 +17,7 @@
 - `python3 scripts/reportctl.py validate-registry`
 - `python3 scripts/reportctl.py validate-archives`
 - `python3 scripts/reportctl.py check-docs-paths`
+- `python3 scripts/reportctl.py validate-science-rules`
 - Optional:
   - `python3 scripts/reportctl.py audit --fast`
   - `python3 scripts/reportctl.py doctor`

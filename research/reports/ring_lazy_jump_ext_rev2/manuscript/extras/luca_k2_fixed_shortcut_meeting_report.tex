@@ -1,0 +1,244 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=0.72in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{array}
+
+\setlist{nosep,leftmargin=*}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\textfloatsep}{7pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{\vspace{-1.2cm}K=2 Lazy Ring with One Directed Shortcut: Beta Sweep for the Double Peak}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.2cm}
+
+\section*{Conclusion}
+For the tested case
+$N=100$, $q=2/3$, $u=6$, $v=56$, and $n_0=1,\ldots,6$, the proposed boundary is
+\[
+  \beta_c=\frac{2q}{(1-q)N}=0.04.
+\]
+I use R3 as the main criterion for a visually resolved double peak.  Let
+$t_1<t_2$ be the first two filtered local-maximum times, with
+$h_1=f(t_1)$ and $h_2=f(t_2)$, and let $h_v=f(t_v)$ be the minimum value of
+$f(t)$ between those two peaks.  Define
+\[
+  \rho=\frac{h_v}{\min(h_1,h_2)}.
+\]
+
+The criteria used below are:
+\[
+\begin{array}{ll}
+\mathrm{R1}: & \text{two filtered local maxima, separated in time and with balanced heights},\\
+\mathrm{R2}: & \mathrm{R1}+h_v/\max(h_1,h_2)\leq0.9,\\
+\mathrm{R3}: & \mathrm{R1}+\rho=h_v/\min(h_1,h_2)\leq0.8,\\
+\mathrm{R4}: & \mathrm{R1}+\rho=h_v/\min(h_1,h_2)\leq0.6.
+\end{array}
+\]
+R2 is a permissive ``there is a dip'' diagnostic; R3 is the main visual
+double-peak criterion because it requires the valley to be clearly below the
+smaller peak.
+
+The assumption behind the proposed boundary is that the transition can be
+captured by an $n_0$-independent necessary condition in $\beta$.  The sweep
+supports this assumption only in the visual sense: under R3, no clear double
+peak remains at or above $\beta_c$.  The reference case $n_0=1$,
+$\beta=0.01$ does give a clear double peak, but at $\beta=0.04$ the observed
+values are already $\rho\simeq0.887$--$0.891$ for $n_0=1,2,3$, so the feature
+is better described as a shallow shoulder or marginal second peak.
+
+The proposed boundary is therefore supported as a cutoff for a visually clear
+double peak, but not as a strict cutoff for the existence of two mathematical
+local maxima.  Under the weaker R1/R2 rules, two local maxima can still be
+detected above $\beta_c$ for $n_0=1,2,3$, up to about
+$\beta=0.060$--$0.062$.  The starting point $n_0$ matters, so the expression
+cannot be the whole condition.
+
+\section*{Question}
+I test the proposed condition for the first-passage distribution on a lazy
+nearest-neighbour ring with one directed shortcut.  The model is
+\[
+  N=100,\qquad K=2,\qquad q=\frac23,\qquad u=6,\qquad v=56,
+\]
+with paper-indexed sites.  At the shortcut source, a fraction of the lazy
+self-loop probability is moved to the directed shortcut:
+\[
+  P(u\to v)=\beta(1-q), \qquad
+  P(u\to u)=(1-\beta)(1-q).
+\]
+The sweep uses start positions $n_0=1,\ldots,6$ and beta values from $0$ to
+$0.08$, with extra points at the reference values.  The default target is the
+named endpoint $v=56$; the script can be rerun with another target convention
+using \texttt{--target-paper}.
+
+The proposed boundary is
+\[
+  \beta_c=\frac{2q}{(1-q)N}=0.04.
+\]
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.55\linewidth]{../artifacts/figures/luca_k2_fixed_shortcut_ring_geometry.pdf}
+  \caption{Concrete geometry of the tested ring.  The grey circle is the
+  $N=100$, $K=2$ nearest-neighbour ring; yellow points show the swept starts
+  $n_0=1,\ldots,6$; the red curved arrow is the directed shortcut
+  $u=6\to v=56$, whose endpoint is also the absorbing target.}
+\end{figure}
+
+\section*{Framework}
+For each $(n_0,\beta)$ I compute $f(t)$ up to
+$t_{\max}=12000$.  Because the phrase ``double peak'' can mean either
+``two mathematical local maxima'' or ``two peaks clearly visible by eye'', I
+record several definitions.  The visual definitions use
+$h_v/\min(h_1,h_2)$ because a curve only looks like two peaks if the valley is
+below both peaks, especially the smaller one.
+
+The quantities used in the rules are:
+\[
+  t_1<t_2,\qquad h_1=f(t_1),\qquad h_2=f(t_2),\qquad
+  t_v=\arg\min_{t_1<t<t_2} f(t),\qquad h_v=f(t_v).
+\]
+Here $t_1$ and $t_2$ are the first two filtered local-maximum times, $t_v$ is
+the intervening valley time, $h_2/h_1$ measures the relative peak heights,
+$h_v/\max(h_1,h_2)$ measures whether there is any valley below the larger peak,
+and $h_v/\min(h_1,h_2)$ measures whether the valley is visibly below both
+peaks.
+
+The operational rules are:
+\begin{description}[style=nextline,leftmargin=1.3cm,labelwidth=1.1cm]
+  \item[R1] \textbf{Two local maxima}: two filtered local peaks with
+  $t_2-t_1\geq10$ and balanced peak heights
+  $0.1\leq h_2/h_1\leq10$.
+  \item[R2] \textbf{Permissive valley}: R1 plus
+  $h_v/\max(h_1,h_2)\leq0.9$.
+  \item[R3] \textbf{Visual double peak}: R1 plus
+  $\rho=h_v/\min(h_1,h_2)\leq0.8$.
+  \item[R4] \textbf{Strong visual double peak}: R1 plus
+  $\rho=h_v/\min(h_1,h_2)\leq0.6$.
+\end{description}
+
+The difference between R2 and R3 is intentional.  R2 uses
+$h_v/\max(h_1,h_2)$, so it only asks whether the curve has a dip below the
+larger of the two peaks.  This is a permissive diagnostic: it confirms that a
+valley exists, but it can still count cases where the valley is almost as high
+as the smaller peak.  Such cases may have two mathematical local maxima without
+looking like two clearly separated peaks.
+
+R3 uses $h_v/\min(h_1,h_2)$ instead.  This is the more relevant visual test
+because a double peak is only clearly resolved if the valley is below both
+peaks, especially below the smaller one.  The cutoff $\rho\leq0.8$ is therefore
+used as the main ``visible double peak'' rule: it requires a valley at least
+about 20\% below the smaller peak.  R4 keeps the same logic but uses the
+stricter cutoff $\rho\leq0.6$ to identify only strongly separated cases.
+
+This threshold should be read as a practical visual convention rather than an
+absolute mathematical constant.  If the visual rule were relaxed toward
+$\rho\leq0.9$, the boundary case $\beta=\beta_c$ would become borderline,
+because the measured values there are $\rho\simeq0.887$--$0.891$ for
+$n_0=1,2,3$.  If the rule is tightened to R4, the detected double-peak region
+shrinks to smaller beta values.  This sensitivity is why R1/R2, R3, and R4 are
+reported separately.
+
+\section*{Main Readout}
+\begin{table}[!htbp]
+  \centering
+  \caption{Summary of the fixed-shortcut sweep.  ``Double at/above
+  $\beta_c$'' counts grid points with a clear double peak and
+  $\beta\geq0.04$.}
+  \input{../artifacts/tables/luca_k2_fixed_shortcut_summary.tex}
+\end{table}
+
+For the reference point mentioned in the request, $n_0=1$ and $\beta=0.01$,
+the sweep gives a clear double peak with
+\[
+  t_1=37,\qquad t_v=226,\qquad t_2=1077,
+\]
+and peak-height ratio $h_2/h_1\approx1.73$.
+
+\section*{Observed Phenomenology}
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \caption{Observed behaviour under different double-peak definitions.
+  Here $\rho_c$ is $\rho=h_v/\min(h_1,h_2)$ at $\beta_c=0.04$ for
+  $n_0=1,2,3$.  The range $0.887$--$0.891$ means that the valley is already
+  close to the smaller peak at the proposed boundary.}
+  \input{../artifacts/tables/luca_k2_fixed_shortcut_definition_comparison.tex}
+\end{table}
+
+The different rules separate two effects.  Under local-maximum rules, two
+maxima can still be detected above $\beta_c$ for $n_0=1,2,3$.  Under the visual
+rules based on $h_v/\min(h_1,h_2)$, no clear double peak appears at or above
+$\beta_c$.  At $\beta=0.04$, the detector can still find two local maxima for
+$n_0=1,2,3$, but $h_v/\min(h_1,h_2)\approx0.89$, so the valley is shallow and
+the profile is visually closer to a shoulder or marginal second peak than to a
+clearly separated double peak.
+
+\clearpage
+\section*{Visual Evidence}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{../artifacts/figures/luca_k2_fixed_shortcut_annotated_double_peak.pdf}
+  \caption{The concrete double-peak curve for the reference case
+  $n_0=1$, $\beta=0.01$.  The first peak, valley, and second peak are marked
+  explicitly.}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../artifacts/figures/luca_k2_fixed_shortcut_double_peak_map.pdf}
+  \caption{Clear double-peak flag over the $(n_0,\beta)$ grid.  The dashed red
+  line is the proposed $\beta_c=0.04$.}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../artifacts/figures/luca_k2_fixed_shortcut_peak_times.pdf}
+  \caption{Detected peak locations across beta.  The late peak remains
+  separated from the early peak for $n_0=1,2,3$ beyond $\beta_c$ on this grid.}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../artifacts/figures/luca_k2_fixed_shortcut_representative_fpt.pdf}
+  \caption{Representative first-passage distributions for selected beta
+  values.}
+\end{figure}
+
+\clearpage
+\section*{Interpretation}
+Under the literal target convention $target=v=56$, the sweep does not support
+the strong statement that $\beta>\beta_c$ rules out \emph{any two local
+maxima}.  In the default grid, local maxima can persist up to
+$\beta\approx0.062$ for $n_0=1$ and up to $\beta\approx0.060$ for $n_0=2,3$.
+However, under the more appropriate visual criterion
+$h_v/\min(h_1,h_2)\leq0.8$, no clear double peak survives at or above
+$\beta_c=0.04$.
+
+This agrees with the caveat that the expression cannot be the whole story:
+the starting point $n_0$ materially changes the outcome, so any complete
+condition must include the geometry of the start, shortcut source, shortcut
+destination, and target.
+
+\section*{Reproducibility}
+Run from the repository root:
+\begin{verbatim}
+.venv/bin/python research/reports/ring_lazy_jump_ext_rev2/code/\
+luca_k2_fixed_shortcut_sweep.py
+\end{verbatim}
+The run writes the config, metrics, summary table, selected curves, and all
+figures under this report's \texttt{artifacts/} directory.
+
+\end{document}

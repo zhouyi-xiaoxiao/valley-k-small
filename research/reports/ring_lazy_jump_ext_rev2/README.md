@@ -21,6 +21,11 @@ Revision v2 of the lazy jump-over extension report.
 - Fig.1 (overlap bin-bars): `figures/fig2_overlap_binbars_beta0.01_x1350.pdf`
 - Fig.1 inputs: `data/fig2_bins_bars_beta0.01.json`, `data/ft_beta0.01.csv`, schema `data/fig2_bins_bars.schema.json`
 - Sensitivity: `outputs/sensitivity/{threshold_sweep,bin_shift,mc_uncertainty}_*.{csv,pdf}`
+- Luca K=2 fixed shortcut sweep:
+  `data/luca_k2_fixed_shortcut_{config,metrics,summary,selected_curves}.*`,
+  `tables/luca_k2_fixed_shortcut_summary.tex`,
+  `figures/luca_k2_fixed_shortcut_{ring_geometry,annotated_double_peak,double_peak_map,peak_times,representative_fpt}.pdf`,
+  and `manuscript/extras/luca_k2_fixed_shortcut_meeting_report.pdf`
 
 ## Reproduce
 
@@ -47,8 +52,19 @@ python3 code/plot_fig2_overlap_binbars.py \
 
 If real MC outputs (`outputs/mc_beta_sweep_N100/cases/*.{cond_by_t.csv,exact.npz,summary.json}`) are absent, the export script generates runnable example data — replace by rerunning after producing real cases.
 
+Luca fixed-shortcut K=2 sweep:
+
+```bash
+# From the repository root:
+.venv/bin/python research/reports/ring_lazy_jump_ext_rev2/code/luca_k2_fixed_shortcut_sweep.py
+```
+
+This checks the literal `u=6 -> v=56` setup for `n0=1..6`; see
+`notes/luca_k2_fixed_shortcut_sweep.md`.
+
 ## Companion docs
 
 - `notes/readme_rev.md` — full workflow + flag reference
 - `notes/changelog_v2.md` — v1 → v2 diff
 - `notes/revision_notes.md` — 10 numbered "issue → fix → verification" records driving this revision
+- `notes/luca_k2_fixed_shortcut_sweep.md` — meeting update for the K=2, `u=6 -> v=56`, beta/n0 scan

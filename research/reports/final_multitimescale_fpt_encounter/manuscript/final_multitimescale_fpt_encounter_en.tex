@@ -1,0 +1,321 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=0.75in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{microtype}
+\setlength{\emergencystretch}{4em}
+\graphicspath{{../artifacts/figures/}}
+\usetikzlibrary{arrows.meta,calc,positioning}
+
+\newcommand{\src}[1]{\texttt{\footnotesize\detokenize{#1}}}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Ring and 2D Two-Target Bimodality Brief}\\[0.35em]
+{\normalsize Focus: what was scanned, where double peaks appear, and which criteria should be used.}
+\end{center}
+
+\section*{Luca-Aligned Shortcut Ring}
+
+\textbf{Configuration used here.}
+The configuration is aligned with the Luca Outlook exchange: ring sites are
+labelled \(1,\ldots,N\), \(N=100\), start \(n_0=1\), absorbing target
+\(=51\), shortcut source \(=6=n_0+5\), and shortcut destination \(=52=51+1\).
+Thus the shortcut is one-way, \(6\to52\). Unless stated otherwise,
+\(q=2/3\), \(\rho=1\), lazy\_selfloop, and the displayed reference case uses
+\(\beta=0.01\).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.95,every node/.style={font=\scriptsize}]
+  \def\R{1.7}
+  \coordinate (C) at (0,0);
+  \coordinate (S0) at (90:\R);
+  \coordinate (Src) at (72:\R);
+  \coordinate (Target) at (-90:\R);
+  \coordinate (Dst) at (-93.6:\R);
+  \draw[gray!55,line width=1.05pt] (C) circle (\R);
+  \foreach \ang in {0,20,...,340} {
+    \fill[gray!45] (\ang:\R) circle (0.010);
+  }
+  \fill[red!75!black] (S0) circle (0.055);
+  \fill[orange!90!black] (Src) circle (0.055);
+  \fill[blue!70!black] (Target) circle (0.055);
+  \fill[orange!90!black] (Dst) circle (0.055);
+
+  \draw[red!75!black,line width=0.6pt] (S0) -- (-2.9,2.25)
+    node[left,align=right] {start\\$n_0=1$};
+  \draw[orange!90!black,line width=0.6pt] (Src) -- (2.95,1.95)
+    node[right,align=left] {source\\$6=n_0+5$};
+  \draw[blue!70!black,line width=0.6pt] (Target) -- (-2.9,-2.0)
+    node[left,align=right] {target\\$51=n_0+\lfloor N/2\rfloor$};
+  \draw[orange!90!black,line width=0.6pt] (Dst) -- (2.95,-2.0)
+    node[right,align=left] {destination\\$52=51+1$};
+  \draw[-{Latex[length=2.4mm]},orange!90!black,line width=1.05pt]
+    (Src) to[out=15,in=20,looseness=0.75] (Dst);
+  \node[orange!90!black,align=left] at (3.35,-0.05)
+    {one-way shortcut\\$6\to52$};
+\end{tikzpicture}
+
+\includegraphics[width=0.92\linewidth]{luca_ring_shortcut_k2_k4_beta001.pdf}
+\caption{Reference configuration and first-passage curves at \(\beta=0.01\).
+The early peak is shortcut-driven. The late peak is the slow non-shortcut
+budget; for \(K=4\), jump-over/overshoot trajectories add a delayed component.}
+\end{figure}
+
+\section*{What Was Scanned}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{0.24\linewidth}p{0.24\linewidth}p{0.21\linewidth}p{0.23\linewidth}}
+\toprule
+Scan & Parameters varied & Observed double-peak window & Readout \\
+\midrule
+Luca shortcut ring, fixed \(N=100\) &
+\(\beta\) for \(K=2,4\); \(q=2/3\), \(\rho=1\), \(6\to52\) &
+\(K=2:\ \beta=0.0005\)--\(0.05\);
+\(K=4:\ \beta=0.001\)--\(0.15\) &
+\(\beta=0\) gives no shortcut peak. Too-large \(\beta\) collapses the shape
+toward an early shortcut-dominated peak. \\
+\midrule
+Shortcut ring, fixed \(\beta=0.02\) &
+\(N=10,12,\ldots,200\), \(K=2,4\), antipodal target and shortcut just beyond target &
+\(K=2:\ N\ge58\);
+\(K=4:\ N\ge72\) &
+Small rings do not separate the fast and slow timescales enough. Larger \(N\)
+creates the late non-shortcut peak. \\
+\midrule
+Shortcut ring, fixed \(\beta=0.01\) &
+\(N=50,52,\ldots,300\), \(K=2,4\) &
+\(K=2:\ N\ge60\);
+\(K=4:\ N\ge74\) &
+The practical minimum size is roughly \(N\approx60\) for \(K=2\) and
+\(N\approx70\)--\(75\) for \(K=4\). \\
+\midrule
+Two-target 1D ring &
+\(L=31,51\), \(K=2\), drift \(g\in\{-0.6,-0.3,0,0.3,0.6\}\),
+\(\beta\in\{0,0.03\}\), starts and two target locations &
+34 classifier-confirmed \(\texttt{double\_peak}\) cases out of 240;
+14 without shortcut, 20 with shortcut &
+Double peaks can occur from target-channel competition alone. The shortcut
+is helpful but not necessary. \\
+\midrule
+Two-target \(N\)-\(\beta\) scan &
+\(N=30,35,\ldots,80\), \(\beta=0,0.01,\ldots,0.08\), \(K=2,4\) &
+\(K=2:\ N=45\)--\(80\), \(\beta=0.01\)--\(0.08\);
+\(K=4:\ N=50\)--\(80\), \(\beta=0.01\)--\(0.08\) &
+The two-target mechanism needs enough spatial separation and a channel split;
+otherwise the result is unimodal, shoulder, or local bump. \\
+\bottomrule
+\end{tabular}
+\caption{Existing 1D ring scans already present in the repository.}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.49\linewidth]{luca_scan_beta_N100_bimodality.pdf}
+\includegraphics[width=0.49\linewidth]{luca_scan_N_beta002_bimodality.pdf}
+\caption{Left: \(\beta\)-scan at \(N=100\). Right: \(N\)-scan at
+\(\beta=0.02\). These figures show where the shortcut-ring classifier finds
+two separated peaks.}
+\end{figure}
+
+\section*{2D Near/Far Target Bias-Radius Scan}
+
+\textbf{Configuration.}
+This part has also been done, but only as a bounded \(\theta=0\) slice rather
+than a full angular scan. The grid is \(15\times9\), the start is fixed at
+\((2,4)\), the far target is fixed at \((12,4)\), and the near target is placed
+east of the start at radius \(r\). The boundary is reflecting
+attempted-outside-stays. The global east bias moves probability mass from stay
+to the east step:
+\[
+  p_E = q/4+b,\qquad p_N=p_S=p_W=q/4,\qquad p_{\mathrm{stay}}=1-q-b,
+\]
+with \(q=0.7\). The scan uses \(r=2,3,4,5\) and
+\(b=0,0.04,0.08,0.12,0.16\), giving 20 cases.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.43, every node/.style={font=\scriptsize}]
+  \draw[step=1, gray!35, very thin] (0,0) grid (15,9);
+  \draw[black!70, line width=0.7pt] (0,0) rectangle (15,9);
+  \foreach \r/\x in {2/4,3/5,4/6,5/7} {
+    \draw[green!50!black, line width=0.55pt] (2.5,4.5) circle (\r);
+    \fill[green!50!black] (\x+0.5,4.5) circle (0.12);
+    \node[green!35!black, above] at (\x+0.5,4.75) {$r=\r$};
+  }
+  \fill[red!75!black] (2.5,4.5) circle (0.18);
+  \node[red!75!black, below] at (2.5,4.15) {start $(2,4)$};
+  \fill[blue!75!black] (12.5,4.5) circle (0.18);
+  \node[blue!75!black, below] at (12.5,4.15) {far $(12,4)$};
+  \draw[-{Latex[length=3mm]}, orange!90!black, line width=1.4pt] (2.5,7.6) -- (6.3,7.6);
+  \node[orange!90!black, above] at (4.4,7.75) {east bias $b$};
+  \node[align=left, anchor=west] at (8.0,7.7)
+    {near targets: $\theta=0$ slice\\reflecting boundary\\scan axes: $b$ vs. $r$};
+\end{tikzpicture}
+\caption{2D scan geometry. The near target moves eastward from the start, while
+the far target stays fixed. The heatmap below is therefore a fixed-angle
+bias-radius slice, not a full angular phase diagram.}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{0.24\linewidth}p{0.32\linewidth}p{0.34\linewidth}}
+\toprule
+Scan & Parameters varied & Readout \\
+\midrule
+2D near/far target, \(\theta=0\) &
+\(r=2,3,4,5\), \(b=0,0.04,0.08,0.12,0.16\);
+start \((2,4)\), far \((12,4)\) &
+Double peaks appear when near-target hits and delayed far-target hits both
+retain visible mass. Intermediate/strong east bias often helps, but distance
+alone is not sufficient. \\
+\bottomrule
+\end{tabular}
+\caption{Existing 2D bias-radius scan. Positive claims require the stored
+classifier label to be exactly \(\texttt{double\_peak}\).}
+\end{table}
+
+\textbf{Classifier-confirmed 2D double-peak cases.}
+The scan found 7 \(\texttt{double\_peak}\) cases out of 20:
+\[
+  (r,b)=(2,0.16),\ (3,0),\ (3,0.16),\ (4,0.08),\
+  (4,0.12),\ (5,0.12),\ (5,0.16).
+\]
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.72\linewidth]{grid2d_bias_radius_heatmap_theta0.pdf}
+\caption{2D heatmap for the fixed \(\theta=0\) slice. Color is the classifier
+score, not by itself a double-peak claim. The actual positive cases are the
+seven rows labelled \(\texttt{double\_peak}\) in the metrics table.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\linewidth]{grid2d_typical_double_peak_cases.pdf}
+\caption{Two clearer 2D double-peak examples from a targeted \(\theta\)-expanded
+search, displayed as 4-step binned probability mass for readability. The
+classifier labels and peak times still come from the raw exact discrete-time
+PMF. In both cases the near target is off the east-bias line, so the early peak
+is a near-target channel and the late peak is dominated by delayed arrival at
+the far target. These examples are illustrative, not a full angular phase
+diagram.}
+\end{figure}
+
+\textbf{Why the display is binned.}
+The exact computation gives a raw discrete-time PMF on a small grid, so the raw
+curves contain parity and path-length oscillations, especially near the close
+target. To avoid a jagged presentation figure, Figure 5 bins probability mass
+into 4-step windows:
+\[
+  F_k=\sum_{t=4k}^{4k+3} f(t).
+\]
+This preserves probability mass and is only a display transform. The scientific
+claims still use the raw classifier, raw peak times, and near/far channel
+decomposition.
+
+\section*{Useful Double-Peak Criteria}
+
+\textbf{Do not use ``two local maxima'' alone.}
+That criterion is too permissive: it counts tiny numerical bumps and visually
+weak shoulders. I would use a two-stage rule.
+
+\begin{enumerate}[leftmargin=1.5em,itemsep=0.25em]
+\item \textbf{Candidate screen:} two filtered local maxima above numerical
+noise, with an inter-peak valley. This corresponds to the existing
+\(\texttt{paper\_bimodal}\) or \(\texttt{double\_peak}\) classifier rows.
+\item \textbf{Presentation claim:} report a double peak only when
+\[
+  t_2/t_1 \ge 10,\qquad h_2/h_1 \ge 0.05,\qquad
+  h_v/\max(h_1,h_2) \le 0.6,
+\]
+and the peak pair has a mechanism explanation: shortcut/non-shortcut budget
+split or target-channel split.
+\item \textbf{Strict visual claim:} if the audience may challenge the shape,
+use \(h_v/\max(h_1,h_2)\le0.3\). This is stricter and turns some weak
+``double peak'' candidates into shoulders or local bumps.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.72\linewidth]{luca_threshold_sweep_heatmap.pdf}
+\caption{Threshold sensitivity scan. The scan varied the minimum peak height,
+second-peak fraction, \(t_2/t_1\), and valley-depth threshold. This is why the
+report should distinguish candidate bimodality from visually clear
+bimodality.}
+\end{figure}
+
+\section*{What Helps or Blocks Double Peaks}
+
+\textbf{Helps.}
+Double peaks are easiest to see when the system creates two arrival budgets
+with separated timescales. In the Luca shortcut ring this is the fast shortcut
+budget versus the slow non-shortcut budget. In the two-target ring this is the
+near/early target channel versus the far/late target channel. In the 2D scan,
+the same logic becomes a near-target channel versus a far-target channel under
+eastward bias.
+
+\textbf{Blocks or weakens.}
+Too small \(N\) compresses the two timescales into one peak. Too small
+\(\beta\) removes the shortcut-driven early budget. Too large \(\beta\)
+overweights the shortcut route and can erase the late component as a visible
+second peak. In the two-target scan, weak channel separation gives shoulder or
+local-bump labels rather than \(\texttt{double\_peak}\).
+In the 2D scan, \(r=2\) needs stronger bias to show a labelled double peak,
+while some larger-radius cases fail if the near and far channels do not both
+remain visible.
+The clearer near-vs-far examples found by the targeted \(\theta\)-expanded
+search place the near target away from the east-bias line, e.g. near
+\((2,7)\) or \((5,7)\) with \(b=0.24\). This lets the far target keep enough
+probability mass to form a delayed second peak.
+
+\textbf{Role of \(K\).}
+For the Luca shortcut ring, \(K=4\) is more robust over \(\beta\) than \(K=2\):
+the sampled bimodal interval expands from \(\beta\le0.05\) for \(K=2\) to
+\(\beta\le0.15\) for \(K=4\). The mechanism is that \(K=4\) has jump-over or
+overshoot classes that add a delayed contribution to the slow side of the
+distribution.
+
+\section*{Previously Done but Keep Separate}
+
+There is also an older Luca meeting scan for \(K=2\) with fixed shortcut
+\(6\to56\) and target \(56\). That was a useful threshold check, but it is not
+the same as the later Outlook configuration \(6\to52\) with target \(51\).
+Under that older \(6\to56\) convention, Luca's
+\(\beta_c=2q/((1-q)N)=0.04\) is not an exact boundary for the existence of any
+two local maxima, but it works as a practical boundary for visually meaningful
+double peaks: above \(\beta_c\), the valley becomes too shallow for a clear
+two-peak claim.
+
+\section*{Source Files}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=0.2em]
+\item Luca shortcut scans: \src{ring_lazy_jump_ext/artifacts/data/scan_beta_N100_K2.csv},
+\src{scan_beta_N100_K4.csv}, \src{scan_N_K2_beta002.csv},
+\src{scan_N_K4_beta002.csv}.
+\item Larger \(N\)-scan at \(\beta=0.01\):
+\src{ring_lazy_jump_ext/artifacts/outputs/N_sweep_beta_selected/}
+\src{N_sweep_metrics_beta0.01.csv}.
+\item Threshold sensitivity:
+\src{ring_lazy_jump_ext_rev2/artifacts/outputs/sensitivity/threshold_sweep.csv}.
+\item Two-target ring: \src{ring_two_target/artifacts/data/small_scan_metrics.csv},
+\src{scan_bimodality_K2.csv}, and \src{scan_bimodality_K4.csv}.
+\item 2D two-target bias-radius scan:
+\src{grid2d_two_target_bias_radius/artifacts/data/grid2d_bias_radius_scan_metrics.csv},
+\src{grid2d_double_peak_candidates.csv}, and
+\src{grid2d_bias_radius_heatmap_theta0.pdf}.
+\item 2D targeted examples:
+\src{final_multitimescale_fpt_encounter/artifacts/data/grid2d_typical_double_peak_cases.csv}
+and \src{grid2d_typical_double_peak_cases.pdf}.
+\end{itemize}
+
+\end{document}

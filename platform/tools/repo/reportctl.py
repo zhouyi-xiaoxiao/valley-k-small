@@ -204,6 +204,16 @@ def cmd_check_docs_paths() -> int:
     ).returncode
 
 
+def cmd_validate_science_rules(*, json_output: bool) -> int:
+    args: list[str] = []
+    if json_output:
+        args.append("--json")
+    return subprocess.run(
+        _tool_cmd(_repo_tool("validate_science_rules.py"), *args),
+        cwd=REPO_ROOT,
+    ).returncode
+
+
 def cmd_audit(fast: bool, full: bool) -> int:
     args: list[str] = []
     if fast:
@@ -235,6 +245,7 @@ def cmd_doctor(*, full: bool, skip_pytest: bool) -> int:
         ("validate-registry", _tool_cmd(_repo_tool("validate_registry.py"))),
         ("validate-archives", _tool_cmd(_repo_tool("validate_archives.py"))),
         ("check-docs-paths", _tool_cmd(_repo_tool("check_docs_paths.py"))),
+        ("validate-science-rules", _tool_cmd(_repo_tool("validate_science_rules.py"))),
     ]
     for name, cmd in steps:
         rc = _run_cmd(name, cmd, scope="doctor")
@@ -561,6 +572,11 @@ def parse_args() -> argparse.Namespace:
     sub.add_parser("validate-registry", help="Validate report registry")
     sub.add_parser("validate-archives", help="Validate archive metadata")
     sub.add_parser("check-docs-paths", help="Validate active documentation path references")
+    p_science = sub.add_parser(
+        "validate-science-rules",
+        help="Validate scientific guardrail wiring",
+    )
+    p_science.add_argument("--json", action="store_true")
 
     p_audit = sub.add_parser("audit", help="Run repository audit")
     p_audit.add_argument("--fast", action="store_true")
@@ -674,6 +690,8 @@ def main() -> int:
         return cmd_validate_archives()
     if args.subcmd == "check-docs-paths":
         return cmd_check_docs_paths()
+    if args.subcmd == "validate-science-rules":
+        return cmd_validate_science_rules(json_output=bool(args.json))
     if args.subcmd == "audit":
         return cmd_audit(bool(args.fast), bool(args.full))
     if args.subcmd == "archive":

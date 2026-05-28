@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Sequence, Tuple
@@ -13,10 +14,24 @@ from typing import Any, Dict, List, Sequence, Tuple
 import matplotlib
 
 matplotlib.use("Agg")
+
+REPO_ROOT = Path(__file__).resolve().parents[4]
+VKCORE_SRC = REPO_ROOT / "packages" / "vkcore" / "src"
+if str(VKCORE_SRC) not in sys.path:
+    sys.path.insert(0, str(VKCORE_SRC))
+
+try:
+    from vkcore.plot_style import apply_research_plot_style
+except Exception:  # pragma: no cover - direct report execution fallback
+    apply_research_plot_style = None
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
 from matplotlib.patches import Rectangle
+
+if apply_research_plot_style is not None:
+    apply_research_plot_style()
 
 Coord = Tuple[int, int]
 
@@ -53,6 +68,27 @@ C_SHORTCUT = "#7b1fa2"
 MARK_START = "s"
 MARK_M1 = "D"
 MARK_M2 = "o"
+
+AX_LABEL_SIZE = 14
+TICK_LABEL_SIZE = 11
+LEGEND_SIZE = 11
+CBAR_LABEL_SIZE = 14
+TITLE_SIZE = 14
+ANNOTATION_SIZE = 11
+CURVE_LW = 1.8
+GUIDE_LW = 1.8
+
+plt.rcParams.update(
+    {
+        "axes.labelsize": AX_LABEL_SIZE,
+        "axes.titlesize": TITLE_SIZE,
+        "xtick.labelsize": TICK_LABEL_SIZE,
+        "ytick.labelsize": TICK_LABEL_SIZE,
+        "legend.fontsize": LEGEND_SIZE,
+        "lines.linewidth": CURVE_LW,
+        "savefig.dpi": 300,
+    }
+)
 
 PEAK_SMOOTH_W = 7
 PEAK_MIN_REL_HEIGHT = 0.01
@@ -821,7 +857,7 @@ def _draw_path_arrows(ax: plt.Axes, path: Sequence[Coord], *, start_idx: int, co
     for i in range(i0, len(path) - 1):
         a = path[i]
         b = path[i + 1]
-        ax.plot([a[0], b[0]], [a[1], b[1]], color=color, lw=1.6, alpha=0.90, zorder=6)
+        ax.plot([a[0], b[0]], [a[1], b[1]], color=color, lw=GUIDE_LW, alpha=0.90, zorder=6)
 
     step = 3
     for i in range(i0, len(path) - 1, step):
@@ -831,7 +867,7 @@ def _draw_path_arrows(ax: plt.Axes, path: Sequence[Coord], *, start_idx: int, co
             "",
             xy=(b[0], b[1]),
             xytext=(a[0], a[1]),
-            arrowprops=dict(arrowstyle="->", lw=1.3, color=color, shrinkA=6, shrinkB=6),
+            arrowprops=dict(arrowstyle="->", lw=GUIDE_LW, color=color, shrinkA=6, shrinkB=6),
             zorder=8,
         )
 
@@ -914,9 +950,9 @@ def _draw_environment_panel(
     ax.scatter([m2[0]], [m2[1]], c=C_M2, s=72, marker=MARK_M2, label="m2", zorder=10)
 
     if annotate_nodes:
-        ax.text(start[0] + 0.8, start[1] + 0.8, "start", color=C_TEXT_START, fontsize=8, weight="bold", zorder=11)
-        ax.text(m1[0] + 0.8, m1[1] + 0.8, "m1", color=C_TEXT_M1, fontsize=8, weight="bold", zorder=11)
-        ax.text(m2[0] + 0.8, m2[1] + 0.8, "m2", color=C_TEXT_M2, fontsize=8, weight="bold", zorder=11)
+        ax.text(start[0] + 0.8, start[1] + 0.8, "start", color=C_TEXT_START, fontsize=ANNOTATION_SIZE, weight="bold", zorder=11)
+        ax.text(m1[0] + 0.8, m1[1] + 0.8, "m1", color=C_TEXT_M1, fontsize=ANNOTATION_SIZE, weight="bold", zorder=11)
+        ax.text(m2[0] + 0.8, m2[1] + 0.8, "m2", color=C_TEXT_M2, fontsize=ANNOTATION_SIZE, weight="bold", zorder=11)
 
     ax.set_xlim(-0.5, N - 0.5)
     ax.set_ylim(-0.5, N - 0.5)
@@ -930,7 +966,7 @@ def _draw_environment_panel(
     for s in ax.spines.values():
         s.set_linewidth(2.2)
         s.set_color("black")
-    ax.set_title(title, fontsize=10, pad=6)
+    ax.set_title(title, fontsize=TITLE_SIZE, pad=6)
 
 
 def plot_case_arrowfield(
@@ -996,7 +1032,7 @@ def plot_case_arrowfield(
         sel_h = [hl[k] for k in wanted if k in hl]
         sel_l = [k for k in wanted if k in hl]
         if sel_h:
-            ax.legend(sel_h, sel_l, loc="upper right", fontsize=9, frameon=True)
+            ax.legend(sel_h, sel_l, loc="upper right", fontsize=LEGEND_SIZE, frameon=True)
     fig.tight_layout()
     fig.savefig(out_path)
     plt.close(fig)
@@ -1040,12 +1076,12 @@ def _draw_fpt(ax: plt.Axes, f_any: np.ndarray, f_m1: np.ndarray, f_m2: np.ndarra
     f_m1_s = _moving_average(f_m1, PEAK_SMOOTH_W)
     f_m2_s = _moving_average(f_m2, PEAK_SMOOTH_W)
 
-    ax.plot(t, f_any, color=C_ANY, lw=0.8, alpha=0.30)
-    ax.plot(t, f_m1, color=C_SPLIT1, lw=0.7, alpha=0.25)
-    ax.plot(t, f_m2, color=C_SPLIT2, lw=0.7, alpha=0.25)
-    ax.plot(t, f_any_s, color=C_ANY, lw=1.8, label="F_any (smooth)")
-    ax.plot(t, f_m1_s, color=C_SPLIT1, lw=1.3, label="F_m1|m2 (smooth)")
-    ax.plot(t, f_m2_s, color=C_SPLIT2, lw=1.3, label="F_m2|m1 (smooth)")
+    ax.plot(t, f_any, color=C_ANY, lw=CURVE_LW, alpha=0.30)
+    ax.plot(t, f_m1, color=C_SPLIT1, lw=CURVE_LW, alpha=0.25)
+    ax.plot(t, f_m2, color=C_SPLIT2, lw=CURVE_LW, alpha=0.25)
+    ax.plot(t, f_any_s, color=C_ANY, lw=CURVE_LW, label="F_any (smooth)")
+    ax.plot(t, f_m1_s, color=C_SPLIT1, lw=CURVE_LW, label="F_m1|m2 (smooth)")
+    ax.plot(t, f_m2_s, color=C_SPLIT2, lw=CURVE_LW, label="F_m2|m1 (smooth)")
 
     if result.t_peak1 is not None and result.t_peak2 is not None:
         ax.scatter(
@@ -1061,7 +1097,7 @@ def _draw_fpt(ax: plt.Axes, f_any: np.ndarray, f_m1: np.ndarray, f_m2: np.ndarra
     ax.set_title(
         f"{result.config.case_id}: w2={result.config.w2}, skip2={result.config.skip2}, "
         f"P(m1)={result.p_m1:.3f}, P(m2)={result.p_m2:.3f}",
-        fontsize=9,
+        fontsize=TITLE_SIZE,
     )
     ax.grid(alpha=0.25)
 
@@ -1101,7 +1137,7 @@ def plot_case_geometry(
         sel_h = [hl[k] for k in wanted if k in hl]
         sel_l = [k for k in wanted if k in hl]
         if sel_h:
-            ax.legend(sel_h, sel_l, loc="upper right", fontsize=8, frameon=True)
+            ax.legend(sel_h, sel_l, loc="upper right", fontsize=LEGEND_SIZE, frameon=True)
     fig.tight_layout()
     fig.savefig(out_path)
     plt.close(fig)
@@ -1110,7 +1146,7 @@ def plot_case_geometry(
 def plot_case_fpt(out_path: Path, f_any: np.ndarray, f_m1: np.ndarray, f_m2: np.ndarray, result: CaseResult) -> None:
     fig, ax = plt.subplots(figsize=(6.0, 3.8))
     _draw_fpt(ax, f_any, f_m1, f_m2, result)
-    ax.legend(loc="upper right", fontsize=8)
+    ax.legend(loc="upper right", fontsize=LEGEND_SIZE)
     fig.tight_layout()
     fig.savefig(out_path)
     plt.close(fig)
@@ -1162,7 +1198,7 @@ def plot_fpt_grid(
         _draw_fpt(ax, f_any, f_m1, f_m2, results_map[case.case_id])
         ax.set_xlim(0, 900)
     handles, labels = axes[0, 0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper center", ncol=3, fontsize=10, frameon=False, bbox_to_anchor=(0.5, 1.01))
+    fig.legend(handles, labels, loc="upper center", ncol=3, fontsize=LEGEND_SIZE, frameon=False, bbox_to_anchor=(0.5, 1.01))
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(out_path)
     plt.close(fig)
@@ -1196,19 +1232,19 @@ def plot_hazard_grid(
     for ax, case in zip(axes.flatten(), cases):
         f_any, f_m1, f_m2, surv = series_map[case.case_id]
         t, h_any, h1, h2 = _hazard_components(f_any, f_m1, f_m2, surv)
-        ax.plot(t, h_any, color=C_ANY, lw=1.6, label="h_any")
-        ax.plot(t, h1, color=C_SPLIT1, lw=1.2, label="h_m1")
-        ax.plot(t, h2, color=C_SPLIT2, lw=1.2, label="h_m2")
+        ax.plot(t, h_any, color=C_ANY, lw=CURVE_LW, label="h_any")
+        ax.plot(t, h1, color=C_SPLIT1, lw=CURVE_LW, label="h_m1")
+        ax.plot(t, h2, color=C_SPLIT2, lw=CURVE_LW, label="h_m2")
         res = results_map[case.case_id]
         if res.t_valley is not None and res.t_valley > 0 and res.t_valley < len(h_any):
-            ax.axvline(res.t_valley, color="#444444", lw=1.0, ls="--", alpha=0.65)
+            ax.axvline(res.t_valley, color="#444444", lw=GUIDE_LW, ls="--", alpha=0.65)
         ax.set_xlim(1, min(len(t), 900))
         ax.set_xlabel("t")
         ax.set_ylabel("hazard")
-        ax.set_title(f"{case.case_id}: hazard decomposition", fontsize=9)
+        ax.set_title(f"{case.case_id}: hazard decomposition", fontsize=TITLE_SIZE)
         ax.grid(alpha=0.25)
     handles, labels = axes[0, 0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper center", ncol=3, fontsize=10, frameon=False, bbox_to_anchor=(0.5, 1.01))
+    fig.legend(handles, labels, loc="upper center", ncol=3, fontsize=LEGEND_SIZE, frameon=False, bbox_to_anchor=(0.5, 1.01))
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(out_path)
     plt.close(fig)
@@ -1224,8 +1260,8 @@ def plot_symbol_legend_panel(out_path: Path) -> None:
     dy = 0.105
 
     def row(y: float, label: str, desc: str) -> None:
-        ax.text(0.08, y, label, ha="left", va="center", fontsize=10, color="black")
-        ax.text(0.34, y, desc, ha="left", va="center", fontsize=10, color="black")
+        ax.text(0.08, y, label, ha="left", va="center", fontsize=ANNOTATION_SIZE, color="black")
+        ax.text(0.34, y, desc, ha="left", va="center", fontsize=ANNOTATION_SIZE, color="black")
 
     # Corridor fills
     ax.add_patch(Rectangle((0.02, y0 - 0.03), 0.045, 0.06, facecolor=C_FAST, edgecolor="black", lw=0.6))
@@ -1255,20 +1291,20 @@ def plot_symbol_legend_panel(out_path: Path) -> None:
     row(y0, "Target m2", "absorbing target m2")
 
     # Curves
-    ax.plot([0.60, 0.68], [0.83, 0.83], color=C_ANY, lw=1.7)
-    ax.text(0.70, 0.83, r"$F_{\mathrm{any}}(t)$", va="center", fontsize=10)
-    ax.plot([0.60, 0.68], [0.71, 0.71], color=C_SPLIT1, lw=1.4)
-    ax.text(0.70, 0.71, r"$F_{m_1|m_2}(t)$", va="center", fontsize=10)
-    ax.plot([0.60, 0.68], [0.59, 0.59], color=C_SPLIT2, lw=1.4)
-    ax.text(0.70, 0.59, r"$F_{m_2|m_1}(t)$", va="center", fontsize=10)
+    ax.plot([0.60, 0.68], [0.83, 0.83], color=C_ANY, lw=CURVE_LW)
+    ax.text(0.70, 0.83, r"$F_{\mathrm{any}}(t)$", va="center", fontsize=ANNOTATION_SIZE)
+    ax.plot([0.60, 0.68], [0.71, 0.71], color=C_SPLIT1, lw=CURVE_LW)
+    ax.text(0.70, 0.71, r"$F_{m_1|m_2}(t)$", va="center", fontsize=ANNOTATION_SIZE)
+    ax.plot([0.60, 0.68], [0.59, 0.59], color=C_SPLIT2, lw=CURVE_LW)
+    ax.text(0.70, 0.59, r"$F_{m_2|m_1}(t)$", va="center", fontsize=ANNOTATION_SIZE)
 
     # Phase colors
     ax.add_patch(Rectangle((0.60, 0.38), 0.04, 0.07, facecolor=C_PHASE0, edgecolor="black", lw=0.6))
-    ax.text(0.66, 0.415, "0: single", va="center", fontsize=9)
+    ax.text(0.66, 0.415, "0: single", va="center", fontsize=ANNOTATION_SIZE)
     ax.add_patch(Rectangle((0.60, 0.28), 0.04, 0.07, facecolor=C_PHASE1, edgecolor="black", lw=0.6))
-    ax.text(0.66, 0.315, "1: weak double", va="center", fontsize=9)
+    ax.text(0.66, 0.315, "1: weak double", va="center", fontsize=ANNOTATION_SIZE)
     ax.add_patch(Rectangle((0.60, 0.18), 0.04, 0.07, facecolor=C_PHASE2, edgecolor="black", lw=0.6))
-    ax.text(0.66, 0.215, "2: clear double", va="center", fontsize=9)
+    ax.text(0.66, 0.215, "2: clear double", va="center", fontsize=ANNOTATION_SIZE)
 
     fig.tight_layout()
     fig.savefig(out_path)
@@ -1323,13 +1359,13 @@ def plot_case_environment_heatmaps(
             arr = np.zeros((N, N), dtype=np.float64)
         heat_im = _draw_heatmap_panel(ax, arr=arr, t=int(t), m1=m1, m2=m2, vmax=vmax)
         if k == 0:
-            ax.set_title("Conditional occupancy heatmap", color="white", fontsize=10)
+            ax.set_title("Conditional occupancy heatmap", color="white", fontsize=TITLE_SIZE)
 
     if heat_im is not None:
         cbar = fig.colorbar(heat_im, ax=[axes[0, 1], axes[1, 0], axes[1, 1]], fraction=0.03, pad=0.02)
-        cbar.ax.tick_params(labelsize=8, colors="black")
+        cbar.ax.tick_params(labelsize=TICK_LABEL_SIZE, colors="black")
         cbar.outline.set_edgecolor("black")
-        cbar.set_label(r"$P(X_t=n\mid T>t)$", color="black", fontsize=9)
+        cbar.set_label(r"$P(X_t=n\mid T>t)$", color="black", fontsize=CBAR_LABEL_SIZE)
 
     fig.savefig(out_path)
     plt.close(fig)
@@ -1342,6 +1378,211 @@ def make_cases() -> List[CaseConfig]:
         CaseConfig("C3", "strong slow capture", w1=1, w2=2, skip2=0),
         CaseConfig("C4", "largest peak separation", w1=1, w2=1, skip2=1),
     ]
+
+
+def _base_problem() -> tuple[int, float, Coord, Coord, Coord, list[Coord], list[Coord], list[CaseConfig]]:
+    N = 31
+    q = 0.2
+    start = to0((15, 15))
+    m1 = to0((22, 15))
+    m2 = to0((7, 7))
+    fast_nodes = [to0((15, 15)), to0((22, 15))]
+    slow_nodes = [to0((15, 15)), to0((15, 27)), to0((3, 27)), to0((3, 7)), to0((7, 7))]
+    return N, q, start, m1, m2, polyline_points(fast_nodes), polyline_points(slow_nodes), make_cases()
+
+
+def _read_fpt_csv(path: Path) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    rows: list[dict[str, str]] = []
+    with path.open(newline="", encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
+    return (
+        np.array([float(r["f_any"]) for r in rows], dtype=np.float64),
+        np.array([float(r["f_m1_first"]) for r in rows], dtype=np.float64),
+        np.array([float(r["f_m2_first"]) for r in rows], dtype=np.float64),
+        np.array([float(r["survival"]) for r in rows], dtype=np.float64),
+    )
+
+
+def _case_result_from_summary(row: dict[str, Any]) -> CaseResult:
+    cfg = CaseConfig(
+        case_id=str(row["case_id"]),
+        title=str(row.get("title", row["case_id"])),
+        w1=int(row["w1"]),
+        w2=int(row["w2"]),
+        skip2=int(row["skip2"]),
+        delta=float(row.get("delta", 0.2)),
+    )
+    return CaseResult(
+        config=cfg,
+        steps=int(row["steps"]),
+        t_peak1=None if row.get("t_peak1") is None else int(row["t_peak1"]),
+        t_peak2=None if row.get("t_peak2") is None else int(row["t_peak2"]),
+        h_peak1=None if row.get("h_peak1") is None else float(row["h_peak1"]),
+        h_peak2=None if row.get("h_peak2") is None else float(row["h_peak2"]),
+        t_valley=None if row.get("t_valley") is None else int(row["t_valley"]),
+        h_valley=None if row.get("h_valley") is None else float(row["h_valley"]),
+        peak_ratio=None if row.get("peak_ratio") is None else float(row["peak_ratio"]),
+        valley_over_max=None if row.get("valley_over_max") is None else float(row["valley_over_max"]),
+        p_m1=float(row["p_m1"]),
+        p_m2=float(row["p_m2"]),
+        t_mode_m1=int(row["t_mode_m1"]),
+        t_mode_m2=int(row["t_mode_m2"]),
+        h_mode_m1=float(row["h_mode_m1"]),
+        h_mode_m2=float(row["h_mode_m2"]),
+        hw_m1=float(row["hw_m1"]),
+        hw_m2=float(row["hw_m2"]),
+        sep_mode_width=float(row["sep_mode_width"]),
+        absorbed_mass=float(row["absorbed_mass"]),
+        survival_tail=float(row["survival_tail"]),
+    )
+
+
+def regenerate_figures_from_existing(report_dir: Path) -> list[Path]:
+    data_dir = report_dir / "data"
+    fig_dir = report_dir / "figures"
+    out_dir = report_dir / "outputs"
+    ensure_dir(fig_dir)
+
+    summary_path = data_dir / "case_summary.json"
+    if not summary_path.exists():
+        raise FileNotFoundError(f"missing existing case summary: {summary_path}")
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+    N, q, start, m1, m2, fast_path, slow_path, default_cases = _base_problem()
+    by_case_id = {case.case_id: case for case in default_cases}
+    result_rows = [row for row in summary["cases"] if str(row.get("case_id", "")).startswith("C")]
+    cases: list[CaseConfig] = []
+    results_map: dict[str, CaseResult] = {}
+    layouts: dict[str, tuple[dict[Coord, str], set[Coord], set[Coord]]] = {}
+    series_map: dict[str, tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]] = {}
+    written: list[Path] = []
+
+    for row in result_rows:
+        result = _case_result_from_summary(row)
+        case = by_case_id.get(result.config.case_id, result.config)
+        cases.append(case)
+        results_map[case.case_id] = result
+        series_map[case.case_id] = _read_fpt_csv(out_dir / f"{case.case_id}_fpt.csv")
+
+        arrow_map, fast_cells, slow_cells = build_case_layout(
+            N=N,
+            fast_path=fast_path,
+            slow_path=slow_path,
+            w1=case.w1,
+            w2=case.w2,
+            skip2=case.skip2,
+        )
+        layouts[case.case_id] = (arrow_map, fast_cells, slow_cells)
+
+        out = fig_dir / f"case_{case.case_id}_geometry.pdf"
+        plot_case_geometry(
+            out,
+            N=N,
+            start=start,
+            m1=m1,
+            m2=m2,
+            fast_cells=fast_cells,
+            slow_cells=slow_cells,
+            fast_path=fast_path,
+            slow_path=slow_path,
+            slow_skip=case.skip2,
+            title=f"{case.case_id}: w2={case.w2}, skip2={case.skip2}",
+        )
+        written.append(out)
+
+        out = fig_dir / f"case_{case.case_id}_fpt.pdf"
+        f_any, f_m1, f_m2, _surv = series_map[case.case_id]
+        plot_case_fpt(out, f_any, f_m1, f_m2, result)
+        written.append(out)
+
+        out = fig_dir / f"case_{case.case_id}_arrowfield.pdf"
+        plot_case_arrowfield(
+            out,
+            N=N,
+            start=start,
+            m1=m1,
+            m2=m2,
+            arrow_map=arrow_map,
+            fast_cells=fast_cells,
+            slow_cells=slow_cells,
+            fast_path=fast_path,
+            slow_path=slow_path,
+            slow_skip=case.skip2,
+            title=f"{case.case_id}: full local-bias arrow field (w2={case.w2}, skip2={case.skip2})",
+        )
+        written.append(out)
+
+        src_idx, dst_idx, probs = build_transition_arrays(N=N, q=q, delta=case.delta, arrow_map=arrow_map)
+        heat_times = [int(t) for t in row.get("heat_times", [])] or choose_heat_times(result)
+        snaps = conditional_snapshots_two_target(
+            N=N,
+            start=start,
+            target1=m1,
+            target2=m2,
+            src_idx=src_idx,
+            dst_idx=dst_idx,
+            probs=probs,
+            times=heat_times,
+        )
+        out = fig_dir / f"case_{case.case_id}_env_heatmap.pdf"
+        plot_case_environment_heatmaps(
+            out,
+            N=N,
+            start=start,
+            m1=m1,
+            m2=m2,
+            fast_cells=fast_cells,
+            slow_cells=slow_cells,
+            fast_path=fast_path,
+            slow_path=slow_path,
+            slow_skip=case.skip2,
+            case_title=f"{case.case_id}: w2={case.w2}, skip2={case.skip2}",
+            snapshots=snaps,
+            heat_times=heat_times,
+        )
+        written.append(out)
+
+    out = fig_dir / "geometry_grid.pdf"
+    plot_geometry_grid(
+        out,
+        N=N,
+        start=start,
+        m1=m1,
+        m2=m2,
+        fast_path=fast_path,
+        slow_path=slow_path,
+        cases=cases,
+        layouts=layouts,
+    )
+    written.append(out)
+
+    out = fig_dir / "fpt_grid.pdf"
+    plot_fpt_grid(out, cases=cases, results_map=results_map, series_map=series_map)
+    written.append(out)
+
+    out = fig_dir / "hazard_grid.pdf"
+    plot_hazard_grid(out, cases=cases, series_map=series_map, results_map=results_map)
+    written.append(out)
+
+    out = fig_dir / "symbol_legend_panel.pdf"
+    plot_symbol_legend_panel(out)
+    written.append(out)
+
+    phase_path = data_dir / "scan_w2_skip2.json"
+    if phase_path.exists():
+        phase_payload = json.loads(phase_path.read_text(encoding="utf-8"))
+        w2_values = [int(v) for v in phase_payload["w2_values"]]
+        skip_values = [int(v) for v in phase_payload["skip_values"]]
+        phase = np.array(phase_payload["phase_grid"], dtype=np.int64)
+        sep = np.array(phase_payload["sep_grid"], dtype=np.float64)
+        out = fig_dir / "phase_w2_skip2.pdf"
+        plot_phase_category_map(out, phase=phase, w2_values=w2_values, skip_values=skip_values)
+        written.append(out)
+        out = fig_dir / "phase_sep_w2_skip2.pdf"
+        plot_phase_sep_map(out, sep=sep, w2_values=w2_values, skip_values=skip_values)
+        written.append(out)
+
+    return written
 
 
 def choose_heat_times(result: CaseResult) -> List[int]:
@@ -1501,12 +1742,12 @@ def plot_external_sparse_fpt_grid(
         f_any_s = _moving_average(f_any, PEAK_SMOOTH_W)
         f_m1_s = _moving_average(f_m1, PEAK_SMOOTH_W)
         f_m2_s = _moving_average(f_m2, PEAK_SMOOTH_W)
-        ax.plot(t, f_any, color=C_ANY, lw=0.7, alpha=0.30)
-        ax.plot(t, f_m1, color=C_SPLIT1, lw=0.6, alpha=0.25)
-        ax.plot(t, f_m2, color=C_SPLIT2, lw=0.6, alpha=0.25)
-        ax.plot(t, f_any_s, color=C_ANY, lw=1.2)
-        ax.plot(t, f_m1_s, color=C_SPLIT1, lw=0.9)
-        ax.plot(t, f_m2_s, color=C_SPLIT2, lw=0.9)
+        ax.plot(t, f_any, color=C_ANY, lw=CURVE_LW, alpha=0.30)
+        ax.plot(t, f_m1, color=C_SPLIT1, lw=CURVE_LW, alpha=0.25)
+        ax.plot(t, f_m2, color=C_SPLIT2, lw=CURVE_LW, alpha=0.25)
+        ax.plot(t, f_any_s, color=C_ANY, lw=CURVE_LW)
+        ax.plot(t, f_m1_s, color=C_SPLIT1, lw=CURVE_LW)
+        ax.plot(t, f_m2_s, color=C_SPLIT2, lw=CURVE_LW)
         rp = er.result
         peak_marks_x: List[int] = []
         peak_marks_y: List[float] = []
@@ -1525,9 +1766,9 @@ def plot_external_sparse_fpt_grid(
         ax.grid(alpha=0.20)
         ax.set_title(
             f"{er.spec.case_id} ({er.spec.type_name}) phase={er.phase}",
-            fontsize=8,
+            fontsize=TITLE_SIZE,
         )
-        ax.tick_params(labelsize=7)
+        ax.tick_params(labelsize=TICK_LABEL_SIZE)
 
     fig.tight_layout()
     fig.savefig(out_path)
@@ -1646,9 +1887,9 @@ def _draw_external_config_panel(
     ax.scatter([start[0]], [start[1]], c=C_START, s=62, marker=MARK_START, zorder=10)
     ax.scatter([m1[0]], [m1[1]], c=C_M1, s=76, marker=MARK_M1, zorder=10)
     ax.scatter([m2[0]], [m2[1]], c=C_M2, s=76, marker=MARK_M2, zorder=10)
-    ax.text(start[0] + 0.8, start[1] + 0.8, "start", color=C_TEXT_START, fontsize=8, weight="bold", zorder=11)
-    ax.text(m1[0] + 0.8, m1[1] + 0.8, "m1", color=C_TEXT_M1, fontsize=8, weight="bold", zorder=11)
-    ax.text(m2[0] + 0.8, m2[1] + 0.8, "m2", color=C_TEXT_M2, fontsize=8, weight="bold", zorder=11)
+    ax.text(start[0] + 0.8, start[1] + 0.8, "start", color=C_TEXT_START, fontsize=ANNOTATION_SIZE, weight="bold", zorder=11)
+    ax.text(m1[0] + 0.8, m1[1] + 0.8, "m1", color=C_TEXT_M1, fontsize=ANNOTATION_SIZE, weight="bold", zorder=11)
+    ax.text(m2[0] + 0.8, m2[1] + 0.8, "m2", color=C_TEXT_M2, fontsize=ANNOTATION_SIZE, weight="bold", zorder=11)
 
     ax.set_xlim(-0.5, N - 0.5)
     ax.set_ylim(-0.5, N - 0.5)
@@ -1660,14 +1901,14 @@ def _draw_external_config_panel(
     for s in ax.spines.values():
         s.set_linewidth(2.2)
         s.set_color("black")
-    ax.set_title(title, fontsize=10, pad=6)
+    ax.set_title(title, fontsize=TITLE_SIZE, pad=6)
 
     if show_legend:
         items = [
             Rectangle((0, 0), 1, 1, facecolor=C_SLOW, edgecolor="none", label="local bias cells"),
             Rectangle((0, 0), 1, 1, facecolor=C_STICKY, edgecolor="none", label="sticky cells"),
             Rectangle((0, 0), 1, 1, facecolor=C_OVERLAP, edgecolor="none", label="bias+sticky"),
-            Line2D([0], [0], color=C_ARROW, lw=1.6, label="local bias arrows"),
+            Line2D([0], [0], color=C_ARROW, lw=CURVE_LW, label="local bias arrows"),
             Line2D([0], [0], color="black", lw=2.0, label="reflecting barrier"),
             Line2D([0], [0], color=C_BARRIER_PERM, lw=2.0, ls="--", label="permeable barrier"),
             Line2D([0], [0], color=C_SHORTCUT, lw=1.8, label="long-range shortcut"),
@@ -1675,7 +1916,7 @@ def _draw_external_config_panel(
             Line2D([0], [0], marker=MARK_M1, color="w", markerfacecolor=C_M1, markeredgecolor="black", markersize=7, label="m1"),
             Line2D([0], [0], marker=MARK_M2, color="w", markerfacecolor=C_M2, markeredgecolor="black", markersize=7, label="m2"),
         ]
-        ax.legend(handles=items, loc="upper right", fontsize=8, frameon=True)
+        ax.legend(handles=items, loc="upper right", fontsize=LEGEND_SIZE, frameon=True)
 
 
 def plot_external_case_detailed_config(
@@ -1742,13 +1983,13 @@ def plot_external_case_heatmaps(
             arr = np.zeros((N, N), dtype=np.float64)
         heat_im = _draw_heatmap_panel(ax, arr=arr, t=int(t), m1=m1, m2=m2, vmax=vmax)
         if k == 0:
-            ax.set_title("Conditional occupancy heatmap", color="white", fontsize=10)
+            ax.set_title("Conditional occupancy heatmap", color="white", fontsize=TITLE_SIZE)
 
     if heat_im is not None:
         cbar = fig.colorbar(heat_im, ax=[axes[0, 1], axes[1, 0], axes[1, 1]], fraction=0.03, pad=0.02)
-        cbar.ax.tick_params(labelsize=8, colors="black")
+        cbar.ax.tick_params(labelsize=TICK_LABEL_SIZE, colors="black")
         cbar.outline.set_edgecolor("black")
-        cbar.set_label(r"$P(X_t=n\mid T>t)$", color="black", fontsize=9)
+        cbar.set_label(r"$P(X_t=n\mid T>t)$", color="black", fontsize=CBAR_LABEL_SIZE)
 
     fig.savefig(out_path)
     plt.close(fig)
@@ -1773,10 +2014,12 @@ def plot_phase_category_map(
     ax.set_title("Phase Map: single / weak-double / clear-double")
     for i in range(len(w2_values)):
         for j in range(len(skip_values)):
-            ax.text(j, i, f"{int(phase[i,j])}", ha="center", va="center", fontsize=8, color="black")
+            ax.text(j, i, f"{int(phase[i,j])}", ha="center", va="center", fontsize=ANNOTATION_SIZE, color="black")
     cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.02)
     cbar.set_ticks([0, 1, 2])
     cbar.set_ticklabels(["single", "weak double", "clear double"])
+    cbar.ax.tick_params(labelsize=TICK_LABEL_SIZE)
+    cbar.set_label("phase class", fontsize=CBAR_LABEL_SIZE)
     fig.tight_layout()
     fig.savefig(out_path)
     plt.close(fig)
@@ -1799,7 +2042,8 @@ def plot_phase_sep_map(
     ax.set_ylabel("w2")
     ax.set_title(r"Separation Heatmap: $|\Delta t^*|/(w_{1/2}^{(1)}+w_{1/2}^{(2)})$")
     cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.02)
-    cbar.set_label("separation score")
+    cbar.ax.tick_params(labelsize=TICK_LABEL_SIZE)
+    cbar.set_label("separation score", fontsize=CBAR_LABEL_SIZE)
     fig.tight_layout()
     fig.savefig(out_path)
     plt.close(fig)
@@ -1807,6 +2051,11 @@ def plot_phase_sep_map(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate 2D two-target double-peak report assets.")
+    parser.add_argument(
+        "--figures-only",
+        action="store_true",
+        help="Regenerate figures from existing data/outputs without rewriting data, tables, or scans.",
+    )
     parser.add_argument("--t-max", type=int, default=6000)
     parser.add_argument("--surv-tol", type=float, default=1e-13)
     parser.add_argument("--scan-t-max", type=int, default=2500)
@@ -1829,23 +2078,16 @@ def main() -> None:
     out_dir = report_dir / "outputs"
     table_dir = report_dir / "tables"
 
+    if args.figures_only:
+        written = regenerate_figures_from_existing(report_dir)
+        for path in written:
+            print(f"[figures-only] wrote {path.relative_to(report_dir)}")
+        return
+
     for d in (data_dir, fig_dir, out_dir, table_dir):
         ensure_dir(d)
 
-    N = 31
-    q = 0.2
-
-    start = to0((15, 15))
-    m1 = to0((22, 15))
-    m2 = to0((7, 7))
-
-    fast_nodes = [to0((15, 15)), to0((22, 15))]
-    slow_nodes = [to0((15, 15)), to0((15, 27)), to0((3, 27)), to0((3, 7)), to0((7, 7))]
-
-    fast_path = polyline_points(fast_nodes)
-    slow_path = polyline_points(slow_nodes)
-
-    cases = make_cases()
+    N, q, start, m1, m2, fast_path, slow_path, cases = _base_problem()
 
     results: List[CaseResult] = []
     layouts: Dict[str, Tuple[Dict[Coord, str], set[Coord], set[Coord]]] = {}

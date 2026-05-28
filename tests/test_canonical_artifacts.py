@@ -17,6 +17,7 @@ ALLOWED_EXTRA_PDF_PATTERNS = (
     "method_comparison*.pdf",
     "fig*_description*.pdf",
     "*_smoke.pdf",
+    "*_meeting_report.pdf",
 )
 
 

@@ -223,6 +223,97 @@ This preserves probability mass and is only a display transform. The scientific
 claims still use the raw classifier, raw peak times, and near/far channel
 decomposition.
 
+\section*{2D Local-Bias Basin Test}
+
+\textbf{Question.}
+The fixed global-bias two-target scan can produce classifier-confirmed
+\(\texttt{double\_peak}\) cases, but the visual shape is often weak because
+the near target is hit by a small number of short paths. I therefore tested a
+plain 2D rectangle with no corridor geometry, adding only a local bias basin
+around the near target. The aim is to create a broader near-target residence
+budget while keeping a delayed far-target budget alive.
+
+\textbf{Configuration.}
+The grid is a reflecting \(23\times13\) rectangle. The start is \((3,6)\), the
+far target is \((19,6)\), and the far target is aligned with a global east
+bias. The near target is moved off the east-bias line, e.g. \((5,9)\) or
+\((5,3)\). Around the near target, a local basin of radius \(R_b\) is added.
+Inside this basin there are two local effects:
+\begin{enumerate}[leftmargin=1.5em,itemsep=0.2em]
+\item a weak inward bias pointing toward the near target;
+\item a local holding/slowing term that increases residence in the basin.
+\end{enumerate}
+Absorbing targets still take precedence: once either target is hit, the process
+stops.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.36, every node/.style={font=\scriptsize}]
+  \draw[step=1, gray!30, very thin] (0,0) grid (23,13);
+  \draw[black!70, line width=0.7pt] (0,0) rectangle (23,13);
+  \fill[red!75!black] (3.5,6.5) circle (0.22);
+  \node[red!75!black, below] at (3.5,6.05) {start $(3,6)$};
+  \fill[blue!75!black] (19.5,6.5) circle (0.22);
+  \node[blue!75!black, below] at (19.5,6.05) {far $(19,6)$};
+  \fill[green!45!black] (5.5,9.5) circle (0.22);
+  \node[green!35!black, above] at (5.5,9.9) {near $(5,9)$};
+  \draw[green!50!black, line width=0.8pt] (5.5,9.5) circle (2.5);
+  \node[green!35!black, align=center] at (8.6,11.7) {local basin\\radius $R_b$};
+  \draw[-{Latex[length=2.6mm]}, orange!90!black, line width=1.3pt] (3.5,3.0) -- (8.0,3.0);
+  \node[orange!90!black, above] at (5.75,3.18) {global east bias $g$};
+  \foreach \x/\y in {4.5/9.5,5.5/8.5,6.5/9.5,5.5/10.5} {
+    \draw[-{Latex[length=1.7mm]}, green!45!black, line width=0.8pt] (\x,\y) -- ($(5.5,9.5)!0.35!(\x,\y)$);
+  }
+  \node[align=left, anchor=west] at (12.2,10.7)
+    {local basin rule:\\weak inward bias $\ell$\\local holding $h$\\no corridor walls};
+\end{tikzpicture}
+\caption{Configuration for the local-bias basin test. The geometry remains a
+plain reflecting rectangle. The added mechanism is a local near-target basin,
+not a corridor.}
+\end{figure}
+
+\textbf{Small scan.}
+The first local-bias scan used:
+\[
+  R_b\in\{2.5,3.5,4.5\},\quad
+  g\in\{0.08,0.12,0.16,0.20\},\quad
+  \ell\in\{0,0.04,0.08,0.12\},\quad
+  h\in\{0,0.25,0.45\}.
+\]
+The near targets scanned were \((5,9),(7,9),(5,3),(7,3)\). This gives 576
+cases. The raw exact PMF classifier found 210
+\(\texttt{double\_peak}\) cases. Restricting to actual local inward bias
+\(\ell>0\), it found 126 \(\texttt{double\_peak}\) cases.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\linewidth]{grid2d_local_bias_basin_heatmap.pdf}
+\caption{Local-bias basin scan. Left: number of raw classifier-confirmed
+\(\texttt{double\_peak}\) cases aggregated over near-target position, basin
+radius, and holding strength. Right: best smooth-channel score used to choose
+readable examples.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\linewidth]{grid2d_local_bias_basin_local_positive_best.pdf}
+\caption{Best local-bias-positive examples, displayed as 4-step binned
+probability mass. These are still classified using the raw exact PMF. A
+representative setting is near \((5,3)\) or \((5,9)\), \(R_b=2.5\),
+global east bias \(g=0.16\), local inward bias \(\ell=0.04\), and local hold
+\(h=0.25\). The early peak is near-channel dominated, while the later broad
+bump is far-channel dominated.}
+\end{figure}
+
+\textbf{Preliminary conclusion.}
+The useful mechanism is not strong local attraction by itself. Strong local
+bias tends to make near absorption too fast and sharp. The more promising
+design is a weak local capture basin plus moderate local residence:
+global east bias keeps the far-target channel alive, while the local basin
+broadens the near-target contribution. This produces smoother two-target
+double-peak-like curves without introducing corridor walls. This is still a
+pilot scan, not a full 2D local-bias phase diagram.
+
 \section*{Useful Double-Peak Criteria}
 
 \textbf{Do not use ``two local maxima'' alone.}
@@ -316,6 +407,11 @@ two-peak claim.
 \item 2D targeted examples:
 \src{final_multitimescale_fpt_encounter/artifacts/data/grid2d_typical_double_peak_cases.csv}
 and \src{grid2d_typical_double_peak_cases.pdf}.
+\item 2D local-bias basin pilot:
+\src{final_multitimescale_fpt_encounter/code/scan_grid2d_local_bias_basin.py},
+\src{final_multitimescale_fpt_encounter/artifacts/data/grid2d_local_bias_basin_scan.csv},
+\src{grid2d_local_bias_basin_heatmap.pdf}, and
+\src{grid2d_local_bias_basin_local_positive_best.pdf}.
 \end{itemize}
 
 \end{document}

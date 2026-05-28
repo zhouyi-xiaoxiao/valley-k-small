@@ -20,6 +20,70 @@
 {\normalsize Focus: what was scanned, where double peaks appear, and which criteria should be used.}
 \end{center}
 
+\section*{Final Conclusion}
+
+\textbf{Overall conclusion.}
+Across the current 1D and 2D tests, a visible double peak is best understood
+as competition between two first-passage arrival budgets:
+\[
+  \text{visible double peak}
+  \approx
+  \text{channel mass balance}
+  + \text{timescale separation}
+  + \text{resolved valley}.
+\]
+The strongest conclusion is therefore not that one parameter alone causes
+double peaks. The robust conclusion is that double peaks appear when two
+arrival channels both carry visible probability mass, arrive on separated
+timescales, and leave a valley satisfying the R3 visual rule
+\(\rho=h_v/\min(h_1,h_2)\le0.8\).
+
+\textbf{1D conclusion.}
+The 1D shortcut ring gives the cleanest mechanism. The shortcut creates the
+early arrival budget and the non-shortcut paths create the delayed budget.
+The dominant controls are \(N\), \(\beta\), \(K\), and shortcut/target
+placement. \(N\) controls whether the two timescales can separate at all.
+\(\beta\) controls the mass balance: too small gives no shortcut peak, while
+too large suppresses the delayed non-shortcut peak. \(K=4\) is more robust
+than \(K=2\) because overshoot or jump-over path classes keep delayed mass
+visible.
+
+\textbf{Two-target conclusion.}
+The two-target scans show that a shortcut is not necessary for double peaks.
+Target-channel competition can produce classifier-confirmed
+\(\texttt{double\_peak}\) cases when one target supplies an early channel and
+the other supplies a delayed channel. The central object is therefore the
+channel decomposition, not the shortcut itself.
+
+\textbf{2D conclusion.}
+The 2D scans support the same channel-competition mechanism, but the raw
+curves are less naturally smooth because small-grid, discrete-time paths to a
+near target create path-length and parity oscillations. The best current 2D
+design is a local-bias basin: global bias keeps the far-target channel alive,
+weak local inward bias captures a near-target channel, and moderate local
+holding broadens the near-channel residence. Strong local attraction alone is
+not the best mechanism because it makes near absorption too fast and sharp.
+This is a promising pilot mechanism rather than a complete 2D phase diagram.
+
+\textbf{Most influential factors.}
+The practical ranking from the current evidence is:
+\[
+\begin{array}{rl}
+1. & \text{channel mass balance},\\
+2. & \text{timescale separation},\\
+3. & \text{target/shortcut geometry},\\
+4. & \text{bias strength }(\beta\text{ in 1D, }g\text{ in 2D}),\\
+5. & \text{local residence/holding }h\text{ in 2D},\\
+6. & \text{jump range }K,\\
+7. & \text{visual/classifier threshold}.
+\end{array}
+\]
+The first two factors are the real bottleneck. The remaining parameters matter
+because they tune either the mass in each channel or the separation between
+their arrival times.
+
+\clearpage
+
 \section*{One-Page Readout}
 
 \textbf{Main message.}
@@ -502,68 +566,6 @@ the sampled bimodal interval expands from \(\beta\le0.05\) for \(K=2\) to
 \(\beta\le0.15\) for \(K=4\). The mechanism is that \(K=4\) has jump-over or
 overshoot classes that add a delayed contribution to the slow side of the
 distribution.
-
-\section*{Final Conclusion}
-
-\textbf{Overall conclusion.}
-Across the current 1D and 2D tests, a visible double peak is best understood
-as competition between two first-passage arrival budgets:
-\[
-  \text{visible double peak}
-  \approx
-  \text{channel mass balance}
-  + \text{timescale separation}
-  + \text{resolved valley}.
-\]
-The strongest conclusion is therefore not that one parameter alone causes
-double peaks. The robust conclusion is that double peaks appear when two
-arrival channels both carry visible probability mass, arrive on separated
-timescales, and leave a valley satisfying the R3 visual rule
-\(\rho=h_v/\min(h_1,h_2)\le0.8\).
-
-\textbf{1D conclusion.}
-The 1D shortcut ring gives the cleanest mechanism. The shortcut creates the
-early arrival budget and the non-shortcut paths create the delayed budget.
-The dominant controls are \(N\), \(\beta\), \(K\), and shortcut/target
-placement. \(N\) controls whether the two timescales can separate at all.
-\(\beta\) controls the mass balance: too small gives no shortcut peak, while
-too large suppresses the delayed non-shortcut peak. \(K=4\) is more robust
-than \(K=2\) because overshoot or jump-over path classes keep delayed mass
-visible.
-
-\textbf{Two-target conclusion.}
-The two-target scans show that a shortcut is not necessary for double peaks.
-Target-channel competition can produce classifier-confirmed
-\(\texttt{double\_peak}\) cases when one target supplies an early channel and
-the other supplies a delayed channel. The central object is therefore the
-channel decomposition, not the shortcut itself.
-
-\textbf{2D conclusion.}
-The 2D scans support the same channel-competition mechanism, but the raw
-curves are less naturally smooth because small-grid, discrete-time paths to a
-near target create path-length and parity oscillations. The best current 2D
-design is a local-bias basin: global bias keeps the far-target channel alive,
-weak local inward bias captures a near-target channel, and moderate local
-holding broadens the near-channel residence. Strong local attraction alone is
-not the best mechanism because it makes near absorption too fast and sharp.
-This is a promising pilot mechanism rather than a complete 2D phase diagram.
-
-\textbf{Most influential factors.}
-The practical ranking from the current evidence is:
-\[
-\begin{array}{rl}
-1. & \text{channel mass balance},\\
-2. & \text{timescale separation},\\
-3. & \text{target/shortcut geometry},\\
-4. & \text{bias strength }(\beta\text{ in 1D, }g\text{ in 2D}),\\
-5. & \text{local residence/holding }h\text{ in 2D},\\
-6. & \text{jump range }K,\\
-7. & \text{visual/classifier threshold}.
-\end{array}
-\]
-The first two factors are the real bottleneck. The remaining parameters matter
-because they tune either the mass in each channel or the separation between
-their arrival times.
 
 \section*{Older Shortcut Convention Kept Separate}
 

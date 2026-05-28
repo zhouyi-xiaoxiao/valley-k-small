@@ -31,38 +31,11 @@ lazy\_selfloop, and the displayed reference case uses \(\beta=0.01\).
 
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}[scale=0.95,every node/.style={font=\scriptsize}]
-  \def\R{1.7}
-  \coordinate (C) at (0,0);
-  \coordinate (S0) at (90:\R);
-  \coordinate (Src) at (72:\R);
-  \coordinate (Target) at (-90:\R);
-  \coordinate (Dst) at (-93.6:\R);
-  \draw[gray!55,line width=1.05pt] (C) circle (\R);
-  \foreach \ang in {0,20,...,340} {
-    \fill[gray!45] (\ang:\R) circle (0.010);
-  }
-  \fill[red!75!black] (S0) circle (0.055);
-  \fill[orange!90!black] (Src) circle (0.055);
-  \fill[blue!70!black] (Target) circle (0.055);
-  \fill[orange!90!black] (Dst) circle (0.055);
+\includegraphics[width=0.56\linewidth]{shortcut_ring_geometry_reference_6to52.pdf}
 
-  \draw[red!75!black,line width=0.6pt] (S0) -- (-2.9,2.25)
-    node[left,align=right] {start\\$n_0=1$};
-  \draw[orange!90!black,line width=0.6pt] (Src) -- (2.95,1.95)
-    node[right,align=left] {source\\$6=n_0+5$};
-  \draw[blue!70!black,line width=0.6pt] (Target) -- (-2.9,-2.0)
-    node[left,align=right] {target\\$51=n_0+\lfloor N/2\rfloor$};
-  \draw[orange!90!black,line width=0.6pt] (Dst) -- (2.95,-2.0)
-    node[right,align=left] {destination\\$52=51+1$};
-  \draw[-{Latex[length=2.4mm]},orange!90!black,line width=1.05pt]
-    (Src) to[out=15,in=20,looseness=0.75] (Dst);
-  \node[orange!90!black,align=left] at (3.35,-0.05)
-    {one-way shortcut\\$6\to52$};
-\end{tikzpicture}
-
-\includegraphics[width=0.92\linewidth]{shortcut_ring_k2_k4_beta001.pdf}
-\caption{Reference configuration and first-passage curves at \(\beta=0.01\).
+\vspace{0.4em}
+\includegraphics[width=0.88\linewidth]{shortcut_ring_k2_k4_beta001.pdf}
+\caption{Top: reference ring geometry. Bottom: first-passage curves at \(\beta=0.01\).
 The early peak is shortcut-driven. The late peak is the slow non-shortcut
 budget; for \(K=4\), jump-over/overshoot trajectories add a delayed component.}
 \end{figure}

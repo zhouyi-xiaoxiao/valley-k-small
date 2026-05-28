@@ -11,7 +11,7 @@
 \graphicspath{{../artifacts/figures/}}
 \usetikzlibrary{arrows.meta,calc,positioning}
 
-\newcommand{\src}[1]{\texttt{\footnotesize\detokenize{#1}}}
+\newcommand{\src}[1]{{\footnotesize\path{#1}}}
 
 \begin{document}
 
@@ -19,6 +19,78 @@
 {\Large\bfseries 1D Ring and 2D Two-Target Bimodality Brief}\\[0.35em]
 {\normalsize Focus: what was scanned, where double peaks appear, and which criteria should be used.}
 \end{center}
+
+\section*{One-Page Readout}
+
+\textbf{Main message.}
+The current evidence supports two routes to a visible double peak. In the 1D
+shortcut ring, the distribution splits into a fast shortcut-arrival budget and
+a slow non-shortcut budget. In the two-target problems, the split is a
+target-channel competition: an early near/shortcut-favoured channel and a
+delayed far/non-shortcut channel. A curve should be called a visual double peak
+only when the two budgets are both present, separated in time, and separated by
+a valley that is low relative to the smaller peak.
+
+\textbf{Criterion used in this brief.}
+I align the visual criterion with the fixed-shortcut report. Let \(t_1<t_2\)
+be the two filtered local-maximum times, \(h_i=f(t_i)\), and let \(h_v\) be
+the intervening valley height. Define
+\[
+  \rho=\frac{h_v}{\min(h_1,h_2)}.
+\]
+R1 means two filtered local maxima with enough time separation and balanced
+heights; R2 is a permissive dip test; R3 is the main visual double-peak rule
+\(\rho\le0.8\); R4 is the stronger visual rule \(\rho\le0.6\). The important
+point is that the visual rule uses \(h_v/\min(h_1,h_2)\), not
+\(h_v/\max(h_1,h_2)\), because the valley must be below the smaller peak to
+look like two resolved peaks.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{0.20\linewidth}p{0.25\linewidth}p{0.28\linewidth}p{0.19\linewidth}}
+\toprule
+Problem & Evidence in this brief & Mechanism & Practical conclusion \\
+\midrule
+1D shortcut ring &
+\(\beta\)- and \(N\)-scans; reference curves at \(\beta=0.01\) &
+\(\beta\) creates a fast shortcut budget; \(N\) controls separation from the
+slow non-shortcut budget &
+There is a middle window: no shortcut gives no early peak; too much shortcut
+mass suppresses the late peak. \\
+\midrule
+1D two-target ring &
+240-case scan; 34 classifier-confirmed \(\texttt{double\_peak}\) cases &
+Two absorbing targets compete as early and delayed channels &
+The shortcut is helpful but not required; channel balance and drift matter. \\
+\midrule
+2D baseline two-target scan &
+20-case fixed-angle heatmap; 7 labelled \(\texttt{double\_peak}\) cases &
+Near/far target competition under global east bias &
+The mechanism exists, but the visible shape can be jagged or weak on a small grid. \\
+\midrule
+2D local-bias basin pilot &
+576-case pilot; 210 raw labels, 126 with actual local inward bias &
+Weak local capture plus local holding broadens the near-channel budget while
+global bias keeps the far channel alive &
+Best smooth examples use weak local attraction and moderate residence, not
+strong capture alone. \\
+\bottomrule
+\end{tabular}
+\caption{Supervisor-facing summary: phenomenon, evidence, mechanism, and
+takeaway.}
+\end{table}
+
+\textbf{Most important parameter levers.}
+For 1D, the decisive parameters are \(N\), \(\beta\), \(K\), shortcut
+placement, target placement, and drift. For 2D, the decisive parameters are
+near-target position, global bias \(g\), basin radius \(R_b\), local inward
+bias \(\ell\), and local hold \(h\). The useful regime is not simply
+``larger bias''. It is a balance: enough early-channel mass to make the first
+peak, enough delayed-channel mass to keep the second peak, and enough residence
+or path-length spread to avoid a narrow spike.
+
+\clearpage
 
 \section*{1D Shortcut Ring}
 
@@ -91,56 +163,50 @@ otherwise the result is unimodal, shoulder, or local bump. \\
 
 \section*{1D Ring Parameters That Decide the Shape}
 
-\begin{table}[htbp]
-\centering
-\small
-\begin{tabular}{p{0.20\linewidth}p{0.25\linewidth}p{0.45\linewidth}}
-\toprule
-Parameter & Values scanned or fixed & Effect on double peaks \\
-\midrule
-Ring size \(N\) or \(L\) &
-\(N=10,\ldots,300\) in shortcut scans; \(L=31,51\) in two-target scans &
-Controls timescale separation. Small rings merge the fast and slow budgets
-into one peak. In the shortcut scan, visually useful double peaks start around
-\(N\approx60\) for \(K=2\) and \(N\approx70\)--\(75\) for \(K=4\). \\
-\midrule
-Shortcut strength \(\beta\) &
-\(\beta=0\) to \(0.15\) depending on scan &
-Controls the mass in the fast shortcut channel. \(\beta=0\) removes the
-shortcut peak. Too-large \(\beta\) overweights the early channel and weakens
-the late peak. At \(N=100\), the observed window is roughly
-\(\beta=0.0005\)--\(0.05\) for \(K=2\) and
-\(\beta=0.001\)--\(0.15\) for \(K=4\). \\
-\midrule
-Jump range \(K\) &
-\(K=2,4\) &
-Controls path classes and overshoot/jump-over delays. \(K=4\) keeps
-double peaks over a wider \(\beta\) interval because delayed non-shortcut or
-overshoot trajectories remain visible. \\
-\midrule
-Shortcut placement &
-Reference: \(6\to52\), target \(51\) &
-Controls whether the shortcut creates a separate early arrival budget. If the
-shortcut lands too close to the target or dominates too strongly, the late
-budget can disappear as a visible second peak. \\
-\midrule
-Target locations and start &
-Two-target ring scans over multiple starts and target pairs &
-Controls target-channel competition. Double peaks can occur even without a
-shortcut when one target contributes an early channel and the other contributes
-a delayed channel. \\
-\midrule
-Drift \(g\) &
-\(g\in\{-0.6,-0.3,0,0.3,0.6\}\) in the two-target ring scan &
-Tilts probability mass toward one target channel. Moderate drift can improve
-channel separation; strong drift can suppress one channel and turn the curve
-into a single peak or shoulder. \\
-\bottomrule
-\end{tabular}
-\caption{Concrete 1D parameters and what each one decides. The report should
-claim \(\texttt{double\_peak}\) only when the classifier label supports it;
-otherwise use shoulder or local bump.}
-\end{table}
+\textbf{Best format here: parameter cards, not a wide table.}
+The important point is not only what was scanned, but which failure mode each
+parameter controls. A wide table becomes hard to read, so the report states
+each parameter as a small decision rule.
+
+\begin{description}[style=nextline,leftmargin=2.0cm,labelwidth=1.7cm,itemsep=0.35em]
+\item[\(N\) or \(L\)]
+Controls timescale separation. If the ring is too small, fast and slow arrival
+budgets merge into one peak. In the shortcut scan, visually useful cases start
+around \(N\approx60\) for \(K=2\) and \(N\approx70\)--\(75\) for \(K=4\).
+
+\item[\(\beta\)]
+Controls how much mass enters the fast shortcut channel. If \(\beta=0\), the
+shortcut-driven early peak is absent. If \(\beta\) is too large, shortcut
+arrivals dominate and the late non-shortcut peak becomes a shoulder or
+disappears. At \(N=100\), the useful window is about \(0.0005\)--\(0.05\) for
+\(K=2\), and \(0.001\)--\(0.15\) for \(K=4\).
+
+\item[\(K\)]
+Controls path classes and overshoot/jump-over delays. \(K=4\) keeps a wider
+\(\beta\) window than \(K=2\) because delayed non-shortcut or overshoot
+trajectories remain visible. This is a mechanism statement, so \(K\) should
+always be interpreted together with target and shortcut geometry.
+
+\item[Shortcut placement]
+Controls whether the shortcut creates a separate early arrival budget. If it
+does not route mass into the target region, there is no early shortcut peak.
+If it routes mass too efficiently into the absorbing region, the early channel
+overwhelms the late channel. The reference \(6\to52\) with target \(51\)
+creates an early budget without making every trajectory immediate.
+
+\item[Targets and start]
+Control channel competition. If the targets are too similar in effective
+distance, they behave like one combined absorbing set. If one target dominates
+all mass, the other channel leaves only a shoulder. Double peaks occur when
+one target contributes an early channel and the other contributes a delayed
+channel.
+
+\item[Drift \(g\)]
+Tilts probability mass between target channels. With no useful tilt, the
+channel split may be weak. With strong drift, one channel is suppressed and
+the curve becomes a single peak or shoulder. Moderate drift can improve
+channel separation while keeping both channels visible.
+\end{description}
 
 \begin{figure}[htbp]
 \centering
@@ -235,9 +301,9 @@ decomposition.
 The fixed global-bias two-target scan can produce classifier-confirmed
 \(\texttt{double\_peak}\) cases, but the visual shape is often weak because
 the near target is hit by a small number of short paths. I therefore tested a
-plain 2D rectangle with no corridor geometry, adding only a local bias basin
-around the near target. The aim is to create a broader near-target residence
-budget while keeping a delayed far-target budget alive.
+plain 2D rectangle with a local bias basin around the near target. The aim is
+to create a broader near-target residence budget while keeping a delayed
+far-target budget alive.
 
 \textbf{Configuration.}
 The grid is a reflecting \(23\times13\) rectangle. The start is \((3,6)\), the
@@ -271,11 +337,10 @@ stops.
     \draw[-{Latex[length=1.7mm]}, green!45!black, line width=0.8pt] (\x,\y) -- ($(5.5,9.5)!0.35!(\x,\y)$);
   }
   \node[align=left, anchor=west] at (12.2,10.7)
-    {local basin rule:\\weak inward bias $\ell$\\local holding $h$\\no corridor walls};
+    {local basin rule:\\weak inward bias $\ell$\\local holding $h$};
 \end{tikzpicture}
 \caption{Configuration for the local-bias basin test. The geometry remains a
-plain reflecting rectangle. The added mechanism is a local near-target basin,
-not a corridor.}
+plain reflecting rectangle. The added mechanism is a local near-target basin.}
 \end{figure}
 
 \textbf{Small scan.}
@@ -291,53 +356,47 @@ cases. The raw exact PMF classifier found 210
 \(\texttt{double\_peak}\) cases. Restricting to actual local inward bias
 \(\ell>0\), it found 126 \(\texttt{double\_peak}\) cases.
 
-\begin{table}[htbp]
-\centering
-\small
-\begin{tabular}{p{0.18\linewidth}p{0.25\linewidth}p{0.47\linewidth}}
-\toprule
-Parameter & Values scanned or selected & Effect on the 2D shape \\
-\midrule
-Global east bias \(g\) &
-\(0.08,0.12,0.16,0.20\); representative local-bias case uses \(g=0.16\) &
-Keeps the far-target channel alive and shifts mass toward the delayed far
-arrival. Too little global bias weakens the far-channel bump; too much can
-overweight the far route and reduce near/far balance. \\
-\midrule
-Near-target position &
-\((5,9),(7,9),(5,3),(7,3)\); best readable examples use \((5,9)\) or \((5,3)\) &
-Moves the near target off the east-bias line. This prevents the near target
-from absorbing the main eastward stream immediately and leaves enough mass for
-the far target to form a delayed contribution. \\
-\midrule
-Basin radius \(R_b\) &
-\(2.5,3.5,4.5\); representative local-bias case uses \(R_b=2.5\) &
-Sets the size of the near-target capture region. A basin that is too small
-looks like a short-path spike; a very broad basin can flatten the distinction.
-The current local-bias-positive example works best at \(R_b=2.5\). \\
-\midrule
-Local inward bias \(\ell\) &
-\(0,0.04,0.08,0.12\); representative local-bias case uses \(\ell=0.04\) &
-Creates a weak capture drift toward the near target. Strong local attraction is
-not ideal: it makes near absorption too fast and sharp. A weak value
-\(\ell=0.04\) gives a clearer near channel while preserving the far channel. \\
-\midrule
-Local hold \(h\) &
-\(0,0.25,0.45\); representative local-bias case uses \(h=0.25\) &
-Broadens residence inside the near basin. This is the key smoothing mechanism:
-it turns the near contribution from a short-path spike into a wider early
-budget. \\
-\midrule
-Classifier and display &
-Raw exact PMF for labels; 4-step binned mass for plots &
-The \(\texttt{double\_peak}\) label is not assigned from the binned plot. The
-binned plot only makes the discrete-time curve readable at report scale. \\
-\bottomrule
-\end{tabular}
-\caption{Parameters that control the new 2D local-bias-basin configuration.
-The strongest visual result is not strong local bias; it is weak capture plus
-moderate local residence, while global bias maintains the delayed far channel.}
-\end{table}
+\textbf{2D parameter cards.}
+The 2D result is more sensitive to presentation because the raw exact PMF on a
+small grid has path-length oscillations. The parameters below should therefore
+be read as mechanism levers, with the raw classifier retained for formal
+labels and binned plots used only for readability.
+
+\begin{description}[style=nextline,leftmargin=2.0cm,labelwidth=1.7cm,itemsep=0.35em]
+\item[Global bias \(g\)]
+Scanned \(0.08,0.12,0.16,0.20\). This keeps the far-target channel alive and
+shifts mass toward delayed far arrival. If \(g\) is too small, the far bump is
+weak. If \(g\) is too large, the far route can dominate and reduce near/far
+balance. Representative readable cases use \(g=0.16\).
+
+\item[Near position]
+Scanned \((5,9),(7,9),(5,3),(7,3)\). This decides whether the near target
+captures a side channel or absorbs the main eastward stream. Readable examples
+place the near target off the main east-bias line, especially \((5,9)\) or
+\((5,3)\).
+
+\item[\(R_b\)]
+Scanned \(2.5,3.5,4.5\). This sets the spatial width of local capture and
+residence. Too small behaves like a short-path spike; too broad can flatten
+the near/far distinction. The clearest local-bias-positive example uses
+\(R_b=2.5\).
+
+\item[\(\ell\)]
+Scanned \(0,0.04,0.08,0.12\). This creates inward drift toward the near
+target. Too small gives little basin effect; too large makes near absorption
+too fast and sharp. The useful displayed value is weak, \(\ell=0.04\).
+
+\item[\(h\)]
+Scanned \(0,0.25,0.45\). This is the main smoothing lever because it broadens
+residence inside the near basin. Too small leaves a jagged short-path
+contribution; too large can make the near-channel timing too diffuse. The
+clearest displayed value is \(h=0.25\).
+\end{description}
+
+\textbf{2D parameter conclusion.}
+The useful setting is a balance: weak local capture plus moderate residence
+broadens the near channel, while global bias maintains the delayed far
+channel. Stronger local attraction alone is not the answer.
 
 \begin{figure}[htbp]
 \centering
@@ -365,30 +424,42 @@ bias tends to make near absorption too fast and sharp. The more promising
 design is a weak local capture basin plus moderate local residence:
 global east bias keeps the far-target channel alive, while the local basin
 broadens the near-target contribution. This produces smoother two-target
-double-peak-like curves without introducing corridor walls. This is still a
-pilot scan, not a full 2D local-bias phase diagram.
+double-peak-like curves. This is still a pilot scan, not a full 2D local-bias
+phase diagram.
 
-\section*{Useful Double-Peak Criteria}
+\section*{Double-Peak Criteria Aligned With the Fixed-Shortcut Report}
 
 \textbf{Do not use ``two local maxima'' alone.}
 That criterion is too permissive: it counts tiny numerical bumps and visually
-weak shoulders. I would use a two-stage rule.
+weak shoulders. I use the same R1--R4 language as the fixed-shortcut report so
+that the two reports do not apply different standards to the same phenomenon.
 
-\begin{enumerate}[leftmargin=1.5em,itemsep=0.25em]
-\item \textbf{Candidate screen:} two filtered local maxima above numerical
-noise, with an inter-peak valley. This corresponds to the existing
-\(\texttt{paper\_bimodal}\) or \(\texttt{double\_peak}\) classifier rows.
-\item \textbf{Presentation claim:} report a double peak only when
+Let \(t_1<t_2\) be the two filtered local-maximum times, \(h_i=f(t_i)\), and
+let \(h_v\) be the minimum value between the two peaks. Define
 \[
-  t_2/t_1 \ge 10,\qquad h_2/h_1 \ge 0.05,\qquad
-  h_v/\max(h_1,h_2) \le 0.6,
+  \rho=\frac{h_v}{\min(h_1,h_2)}.
 \]
-and the peak pair has a mechanism explanation: shortcut/non-shortcut budget
-split or target-channel split.
-\item \textbf{Strict visual claim:} if the audience may challenge the shape,
-use \(h_v/\max(h_1,h_2)\le0.3\). This is stricter and turns some weak
-``double peak'' candidates into shoulders or local bumps.
-\end{enumerate}
+
+\begin{description}[style=nextline,leftmargin=1.4cm,labelwidth=1.1cm,itemsep=0.25em]
+\item[R1] \textbf{Two local maxima}: two filtered local peaks with enough time
+separation and balanced heights.
+\item[R2] \textbf{Permissive valley}: R1 plus
+\(h_v/\max(h_1,h_2)\le0.9\). This only says that a dip exists.
+\item[R3] \textbf{Visual double peak}: R1 plus
+\(\rho=h_v/\min(h_1,h_2)\le0.8\). This is the main rule for saying that a
+curve visibly has two resolved peaks.
+\item[R4] \textbf{Strong visual double peak}: R1 plus
+\(\rho=h_v/\min(h_1,h_2)\le0.6\). This is reserved for strongly separated
+cases.
+\end{description}
+
+The reason for using \(h_v/\min(h_1,h_2)\) in R3/R4 is simple: if the valley
+is close to the smaller peak, the curve may contain two mathematical local
+maxima but still look like a shoulder. Therefore, in this brief,
+\(\texttt{double\_peak}\) labels from stored classifiers are treated as the
+formal data labels, while R3 is the preferred visual presentation rule. R2 is
+only a diagnostic for ``there is some dip'' and should not be used as the main
+visual claim.
 
 \begin{figure}[htbp]
 \centering
@@ -450,6 +521,9 @@ two-peak claim.
 \src{ring_lazy_jump_ext/artifacts/data/scan_beta_N100_K2.csv},
 \src{scan_beta_N100_K4.csv}, \src{scan_N_K2_beta002.csv},
 \src{scan_N_K4_beta002.csv}.
+\item Aligned shortcut-ring schematics:
+\src{final_multitimescale_fpt_encounter/code/plot_aligned_shortcut_ring_geometry.py}
+and \src{shortcut_ring_geometry_reference_6to52.pdf}.
 \item Larger \(N\)-scan at \(\beta=0.01\):
 \src{ring_lazy_jump_ext/artifacts/outputs/N_sweep_beta_selected/}
 \src{N_sweep_metrics_beta0.01.csv}.

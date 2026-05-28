@@ -16,19 +16,18 @@
 \begin{document}
 
 \begin{center}
-{\Large\bfseries Ring and 2D Two-Target Bimodality Brief}\\[0.35em]
+{\Large\bfseries 1D Ring and 2D Two-Target Bimodality Brief}\\[0.35em]
 {\normalsize Focus: what was scanned, where double peaks appear, and which criteria should be used.}
 \end{center}
 
-\section*{Luca-Aligned Shortcut Ring}
+\section*{1D Shortcut Ring}
 
-\textbf{Configuration used here.}
-The configuration is aligned with the Luca Outlook exchange: ring sites are
-labelled \(1,\ldots,N\), \(N=100\), start \(n_0=1\), absorbing target
-\(=51\), shortcut source \(=6=n_0+5\), and shortcut destination \(=52=51+1\).
-Thus the shortcut is one-way, \(6\to52\). Unless stated otherwise,
-\(q=2/3\), \(\rho=1\), lazy\_selfloop, and the displayed reference case uses
-\(\beta=0.01\).
+\textbf{Reference configuration.}
+Ring sites are labelled \(1,\ldots,N\). The reference case uses \(N=100\),
+start \(n_0=1\), absorbing target \(51\), shortcut source
+\(6=n_0+5\), and shortcut destination \(52=51+1\). Thus the shortcut is
+one-way, \(6\to52\). Unless stated otherwise, \(q=2/3\), \(\rho=1\),
+lazy\_selfloop, and the displayed reference case uses \(\beta=0.01\).
 
 \begin{figure}[htbp]
 \centering
@@ -62,7 +61,7 @@ Thus the shortcut is one-way, \(6\to52\). Unless stated otherwise,
     {one-way shortcut\\$6\to52$};
 \end{tikzpicture}
 
-\includegraphics[width=0.92\linewidth]{luca_ring_shortcut_k2_k4_beta001.pdf}
+\includegraphics[width=0.92\linewidth]{shortcut_ring_k2_k4_beta001.pdf}
 \caption{Reference configuration and first-passage curves at \(\beta=0.01\).
 The early peak is shortcut-driven. The late peak is the slow non-shortcut
 budget; for \(K=4\), jump-over/overshoot trajectories add a delayed component.}
@@ -77,7 +76,7 @@ budget; for \(K=4\), jump-over/overshoot trajectories add a delayed component.}
 \toprule
 Scan & Parameters varied & Observed double-peak window & Readout \\
 \midrule
-Luca shortcut ring, fixed \(N=100\) &
+Shortcut ring, fixed \(N=100\) &
 \(\beta\) for \(K=2,4\); \(q=2/3\), \(\rho=1\), \(6\to52\) &
 \(K=2:\ \beta=0.0005\)--\(0.05\);
 \(K=4:\ \beta=0.001\)--\(0.15\) &
@@ -117,16 +116,69 @@ otherwise the result is unimodal, shoulder, or local bump. \\
 \caption{Existing 1D ring scans already present in the repository.}
 \end{table}
 
+\section*{1D Ring Parameters That Decide the Shape}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{0.20\linewidth}p{0.25\linewidth}p{0.45\linewidth}}
+\toprule
+Parameter & Values scanned or fixed & Effect on double peaks \\
+\midrule
+Ring size \(N\) or \(L\) &
+\(N=10,\ldots,300\) in shortcut scans; \(L=31,51\) in two-target scans &
+Controls timescale separation. Small rings merge the fast and slow budgets
+into one peak. In the shortcut scan, visually useful double peaks start around
+\(N\approx60\) for \(K=2\) and \(N\approx70\)--\(75\) for \(K=4\). \\
+\midrule
+Shortcut strength \(\beta\) &
+\(\beta=0\) to \(0.15\) depending on scan &
+Controls the mass in the fast shortcut channel. \(\beta=0\) removes the
+shortcut peak. Too-large \(\beta\) overweights the early channel and weakens
+the late peak. At \(N=100\), the observed window is roughly
+\(\beta=0.0005\)--\(0.05\) for \(K=2\) and
+\(\beta=0.001\)--\(0.15\) for \(K=4\). \\
+\midrule
+Jump range \(K\) &
+\(K=2,4\) &
+Controls path classes and overshoot/jump-over delays. \(K=4\) keeps
+double peaks over a wider \(\beta\) interval because delayed non-shortcut or
+overshoot trajectories remain visible. \\
+\midrule
+Shortcut placement &
+Reference: \(6\to52\), target \(51\) &
+Controls whether the shortcut creates a separate early arrival budget. If the
+shortcut lands too close to the target or dominates too strongly, the late
+budget can disappear as a visible second peak. \\
+\midrule
+Target locations and start &
+Two-target ring scans over multiple starts and target pairs &
+Controls target-channel competition. Double peaks can occur even without a
+shortcut when one target contributes an early channel and the other contributes
+a delayed channel. \\
+\midrule
+Drift \(g\) &
+\(g\in\{-0.6,-0.3,0,0.3,0.6\}\) in the two-target ring scan &
+Tilts probability mass toward one target channel. Moderate drift can improve
+channel separation; strong drift can suppress one channel and turn the curve
+into a single peak or shoulder. \\
+\bottomrule
+\end{tabular}
+\caption{Concrete 1D parameters and what each one decides. The report should
+claim \(\texttt{double\_peak}\) only when the classifier label supports it;
+otherwise use shoulder or local bump.}
+\end{table}
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.49\linewidth]{luca_scan_beta_N100_bimodality.pdf}
-\includegraphics[width=0.49\linewidth]{luca_scan_N_beta002_bimodality.pdf}
+\includegraphics[width=0.49\linewidth]{shortcut_scan_beta_N100_bimodality.pdf}
+\includegraphics[width=0.49\linewidth]{shortcut_scan_N_beta002_bimodality.pdf}
 \caption{Left: \(\beta\)-scan at \(N=100\). Right: \(N\)-scan at
 \(\beta=0.02\). These figures show where the shortcut-ring classifier finds
 two separated peaks.}
 \end{figure}
 
-\section*{2D Near/Far Target Bias-Radius Scan}
+\section*{2D Baseline Near/Far Target Bias-Radius Scan}
 
 \textbf{Configuration.}
 This part has also been done, but only as a bounded \(\theta=0\) slice rather
@@ -141,29 +193,10 @@ to the east step:
 with \(q=0.7\). The scan uses \(r=2,3,4,5\) and
 \(b=0,0.04,0.08,0.12,0.16\), giving 20 cases.
 
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}[scale=0.43, every node/.style={font=\scriptsize}]
-  \draw[step=1, gray!35, very thin] (0,0) grid (15,9);
-  \draw[black!70, line width=0.7pt] (0,0) rectangle (15,9);
-  \foreach \r/\x in {2/4,3/5,4/6,5/7} {
-    \draw[green!50!black, line width=0.55pt] (2.5,4.5) circle (\r);
-    \fill[green!50!black] (\x+0.5,4.5) circle (0.12);
-    \node[green!35!black, above] at (\x+0.5,4.75) {$r=\r$};
-  }
-  \fill[red!75!black] (2.5,4.5) circle (0.18);
-  \node[red!75!black, below] at (2.5,4.15) {start $(2,4)$};
-  \fill[blue!75!black] (12.5,4.5) circle (0.18);
-  \node[blue!75!black, below] at (12.5,4.15) {far $(12,4)$};
-  \draw[-{Latex[length=3mm]}, orange!90!black, line width=1.4pt] (2.5,7.6) -- (6.3,7.6);
-  \node[orange!90!black, above] at (4.4,7.75) {east bias $b$};
-  \node[align=left, anchor=west] at (8.0,7.7)
-    {near targets: $\theta=0$ slice\\reflecting boundary\\scan axes: $b$ vs. $r$};
-\end{tikzpicture}
-\caption{2D scan geometry. The near target moves eastward from the start, while
-the far target stays fixed. The heatmap below is therefore a fixed-angle
-bias-radius slice, not a full angular phase diagram.}
-\end{figure}
+The old radius-scan schematic is not used as the main configuration figure in
+this brief. It is kept only as a baseline heatmap: a fixed-angle
+\(\theta=0\) scan of near-target radius and global bias. The main 2D design
+used below is the local-bias basin configuration.
 
 \begin{table}[htbp]
 \centering
@@ -223,7 +256,7 @@ This preserves probability mass and is only a display transform. The scientific
 claims still use the raw classifier, raw peak times, and near/far channel
 decomposition.
 
-\section*{2D Local-Bias Basin Test}
+\section*{2D Main Configuration: Local-Bias Basin}
 
 \textbf{Question.}
 The fixed global-bias two-target scan can produce classifier-confirmed
@@ -285,6 +318,54 @@ cases. The raw exact PMF classifier found 210
 \(\texttt{double\_peak}\) cases. Restricting to actual local inward bias
 \(\ell>0\), it found 126 \(\texttt{double\_peak}\) cases.
 
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{0.18\linewidth}p{0.25\linewidth}p{0.47\linewidth}}
+\toprule
+Parameter & Values scanned or selected & Effect on the 2D shape \\
+\midrule
+Global east bias \(g\) &
+\(0.08,0.12,0.16,0.20\); representative local-bias case uses \(g=0.16\) &
+Keeps the far-target channel alive and shifts mass toward the delayed far
+arrival. Too little global bias weakens the far-channel bump; too much can
+overweight the far route and reduce near/far balance. \\
+\midrule
+Near-target position &
+\((5,9),(7,9),(5,3),(7,3)\); best readable examples use \((5,9)\) or \((5,3)\) &
+Moves the near target off the east-bias line. This prevents the near target
+from absorbing the main eastward stream immediately and leaves enough mass for
+the far target to form a delayed contribution. \\
+\midrule
+Basin radius \(R_b\) &
+\(2.5,3.5,4.5\); representative local-bias case uses \(R_b=2.5\) &
+Sets the size of the near-target capture region. A basin that is too small
+looks like a short-path spike; a very broad basin can flatten the distinction.
+The current local-bias-positive example works best at \(R_b=2.5\). \\
+\midrule
+Local inward bias \(\ell\) &
+\(0,0.04,0.08,0.12\); representative local-bias case uses \(\ell=0.04\) &
+Creates a weak capture drift toward the near target. Strong local attraction is
+not ideal: it makes near absorption too fast and sharp. A weak value
+\(\ell=0.04\) gives a clearer near channel while preserving the far channel. \\
+\midrule
+Local hold \(h\) &
+\(0,0.25,0.45\); representative local-bias case uses \(h=0.25\) &
+Broadens residence inside the near basin. This is the key smoothing mechanism:
+it turns the near contribution from a short-path spike into a wider early
+budget. \\
+\midrule
+Classifier and display &
+Raw exact PMF for labels; 4-step binned mass for plots &
+The \(\texttt{double\_peak}\) label is not assigned from the binned plot. The
+binned plot only makes the discrete-time curve readable at report scale. \\
+\bottomrule
+\end{tabular}
+\caption{Parameters that control the new 2D local-bias-basin configuration.
+The strongest visual result is not strong local bias; it is weak capture plus
+moderate local residence, while global bias maintains the delayed far channel.}
+\end{table}
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.86\linewidth]{grid2d_local_bias_basin_heatmap.pdf}
@@ -338,7 +419,7 @@ use \(h_v/\max(h_1,h_2)\le0.3\). This is stricter and turns some weak
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.72\linewidth]{luca_threshold_sweep_heatmap.pdf}
+\includegraphics[width=0.72\linewidth]{threshold_sweep_heatmap.pdf}
 \caption{Threshold sensitivity scan. The scan varied the minimum peak height,
 second-peak fraction, \(t_2/t_1\), and valley-depth threshold. This is why the
 report should distinguish candidate bimodality from visually clear
@@ -349,11 +430,13 @@ bimodality.}
 
 \textbf{Helps.}
 Double peaks are easiest to see when the system creates two arrival budgets
-with separated timescales. In the Luca shortcut ring this is the fast shortcut
+with separated timescales. In the shortcut ring this is the fast shortcut
 budget versus the slow non-shortcut budget. In the two-target ring this is the
 near/early target channel versus the far/late target channel. In the 2D scan,
 the same logic becomes a near-target channel versus a far-target channel under
-eastward bias.
+eastward bias. In the new 2D local-bias design, global bias maintains the far
+channel, while weak local capture plus local holding broadens the near-channel
+budget.
 
 \textbf{Blocks or weakens.}
 Too small \(N\) compresses the two timescales into one peak. Too small
@@ -370,18 +453,18 @@ search place the near target away from the east-bias line, e.g. near
 probability mass to form a delayed second peak.
 
 \textbf{Role of \(K\).}
-For the Luca shortcut ring, \(K=4\) is more robust over \(\beta\) than \(K=2\):
+For the shortcut ring, \(K=4\) is more robust over \(\beta\) than \(K=2\):
 the sampled bimodal interval expands from \(\beta\le0.05\) for \(K=2\) to
 \(\beta\le0.15\) for \(K=4\). The mechanism is that \(K=4\) has jump-over or
 overshoot classes that add a delayed contribution to the slow side of the
 distribution.
 
-\section*{Previously Done but Keep Separate}
+\section*{Older Shortcut Convention Kept Separate}
 
-There is also an older Luca meeting scan for \(K=2\) with fixed shortcut
-\(6\to56\) and target \(56\). That was a useful threshold check, but it is not
-the same as the later Outlook configuration \(6\to52\) with target \(51\).
-Under that older \(6\to56\) convention, Luca's
+There is also an older shortcut convention for \(K=2\) with fixed shortcut
+\(6\to56\) and target \(56\). That scan is useful as a threshold check, but it
+is not the same as the current reference configuration \(6\to52\) with target
+\(51\). Under the older \(6\to56\) convention,
 \(\beta_c=2q/((1-q)N)=0.04\) is not an exact boundary for the existence of any
 two local maxima, but it works as a practical boundary for visually meaningful
 double peaks: above \(\beta_c\), the valley becomes too shallow for a clear
@@ -390,7 +473,8 @@ two-peak claim.
 \section*{Source Files}
 
 \begin{itemize}[leftmargin=1.5em,itemsep=0.2em]
-\item Luca shortcut scans: \src{ring_lazy_jump_ext/artifacts/data/scan_beta_N100_K2.csv},
+\item Shortcut-ring beta and \(N\) scans:
+\src{ring_lazy_jump_ext/artifacts/data/scan_beta_N100_K2.csv},
 \src{scan_beta_N100_K4.csv}, \src{scan_N_K2_beta002.csv},
 \src{scan_N_K4_beta002.csv}.
 \item Larger \(N\)-scan at \(\beta=0.01\):

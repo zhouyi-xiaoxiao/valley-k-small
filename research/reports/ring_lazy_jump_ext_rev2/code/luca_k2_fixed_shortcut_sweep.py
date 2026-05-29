@@ -88,14 +88,19 @@ def analyze_curve(
     hv = float(f[tv - 1]) if tv is not None else math.nan
     peak_sep = (int(t2) - int(t1)) if (t1 is not None and t2 is not None) else math.nan
     hmax = max(h1, h2) if (not math.isnan(h1) and not math.isnan(h2)) else math.nan
+    hmin_peak = min(h1, h2) if (not math.isnan(h1) and not math.isnan(h2)) else math.nan
+    h2_over_h1 = (h2 / h1) if (not math.isnan(h1) and h1 > 0.0 and not math.isnan(h2)) else math.nan
     valley_ratio = (hv / hmax) if (not math.isnan(hv) and hmax > 0.0) else math.nan
+    visual_rho = (hv / hmin_peak) if (not math.isnan(hv) and hmin_peak > 0.0) else math.nan
     paper_double_peak = len(peaks) >= 2
     clear_double_peak = bool(
         paper_double_peak
         and not math.isnan(peak_sep)
         and peak_sep >= int(min_peak_separation)
-        and not math.isnan(valley_ratio)
-        and valley_ratio <= float(max_valley_ratio)
+        and not math.isnan(h2_over_h1)
+        and 0.1 <= h2_over_h1 <= 10.0
+        and not math.isnan(visual_rho)
+        and visual_rho <= 0.8
     )
     return {
         "n_peaks": int(len(peaks)),
@@ -107,8 +112,9 @@ def analyze_curve(
         "h1": h1,
         "hv": hv,
         "h2": h2,
-        "h2_over_h1": (h2 / h1) if (not math.isnan(h1) and h1 > 0.0 and not math.isnan(h2)) else math.nan,
+        "h2_over_h1": h2_over_h1,
         "valley_ratio": valley_ratio,
+        "visual_rho": visual_rho,
         "peak_separation": peak_sep,
     }
 
@@ -376,7 +382,7 @@ def plot_double_peak_map(rows: list[dict[str, object]], outpath: Path) -> None:
     ax.axvline(beta_c, color="#b00020", linewidth=1.4, linestyle="--", label=rf"proposed $\beta_c={beta_c:.3f}$")
     ax.set_xlabel(r"$\beta$")
     ax.set_ylabel(r"$n_0$ (paper index)")
-    ax.set_title("Clear double-peak flag for fixed shortcut 6 -> 56")
+    ax.set_title("R3 visual double-peak flag for fixed shortcut 6 -> 56")
     ax.set_yticks(n0s)
     ax.legend(loc="upper right", fontsize=8)
     cbar = fig.colorbar(im, ax=ax, ticks=[0, 1], pad=0.02)
@@ -412,24 +418,42 @@ def plot_peak_times(rows: list[dict[str, object]], outpath: Path) -> None:
 
 
 def plot_representative_curves(rows: list[dict[str, object]], outpath: Path) -> None:
-    fig, axes = plt.subplots(2, 3, figsize=(11, 6), dpi=180, sharex=True, sharey=True)
+    fig, axes = plt.subplots(2, 3, figsize=(11, 6.2), dpi=180, sharex=True, sharey=True)
     max_t = max(int(r["t"]) for r in rows)
+    palette = {
+        0.0: "#8d99ae",
+        0.01: "#2a9d8f",
+        0.04: "#b00020",
+        0.06: "#e76f51",
+    }
     for ax, n0 in zip(axes.flat, sorted({int(r["n0_paper"]) for r in rows})):
         g0 = [r for r in rows if int(r["n0_paper"]) == n0]
         for beta in sorted({float(r["beta"]) for r in g0}):
             g = sorted([r for r in g0 if float(r["beta"]) == beta], key=lambda r: int(r["t"]))
+            t_vals = np.asarray([int(r["t"]) for r in g], dtype=float)
+            f_vals = np.asarray([float(r["f_t"]) for r in g], dtype=float)
+            scale = float(np.max(f_vals)) if len(f_vals) else math.nan
+            if not math.isfinite(scale) or scale <= 0.0:
+                continue
             label = rf"$\beta={float(beta):.3g}$"
-            ax.plot([int(r["t"]) for r in g], [float(r["f_t"]) for r in g], linewidth=0.9, label=label)
+            ax.plot(
+                t_vals,
+                f_vals / scale,
+                color=palette.get(round(float(beta), 2), None),
+                linewidth=1.25,
+                alpha=0.92,
+                label=label,
+            )
         ax.set_title(rf"$n_0={int(n0)}$", fontsize=9)
-        ax.set_yscale("log")
-        ax.set_xlim(1, min(3000, max_t))
-        ax.grid(True, which="both", linewidth=0.35, alpha=0.35)
+        ax.set_xlim(1, min(1800, max_t))
+        ax.set_ylim(0.0, 1.06)
+        ax.grid(True, linewidth=0.35, alpha=0.35)
     for ax in axes[-1, :]:
         ax.set_xlabel("t")
     for ax in axes[:, 0]:
-        ax.set_ylabel(r"$f(t)$")
-    axes[0, 0].legend(fontsize=7)
-    fig.suptitle("Representative first-passage curves", y=0.995, fontsize=11)
+        ax.set_ylabel(r"$f(t)/\max_t f(t)$")
+    axes[0, 0].legend(fontsize=7, loc="lower right")
+    fig.suptitle("Shape comparison of representative first-passage curves", y=0.995, fontsize=11)
     fig.tight_layout()
     fig.savefig(outpath)
     plt.close(fig)

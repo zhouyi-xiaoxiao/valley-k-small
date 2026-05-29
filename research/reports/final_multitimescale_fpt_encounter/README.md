@@ -18,6 +18,9 @@ The final report connects:
   for reflecting encounter mean validation,
 - [`encounter_reflecting_diagonal_decomp`](../encounter_reflecting_diagonal_decomp/)
   for ratio and initial-position scans with diagonal-position decomposition.
+- the report-local exact 1D encounter pilot under
+  [`code/encounter_search/`](code/encounter_search/) and
+  [`artifacts/encounter_search/`](artifacts/encounter_search/).
 
 ## Consistency Build
 
@@ -54,8 +57,7 @@ its accepted outputs, rerun the consistency script before rebuilding the PDF.
 
 ## Build
 
-The report is not currently registered in `reportctl.py list`, so the direct
-build command is:
+The report is registered in `reportctl.py list`; the direct build command is:
 
 ```bash
 cd research/reports/final_multitimescale_fpt_encounter/manuscript
@@ -73,3 +75,49 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error \
   budget decomposition, target-channel decomposition, and diagonal-position
   decomposition.
 
+## Exact Encounter Analysis Package
+
+This repository contains an exact Markov-chain pilot for first encounter of two
+lazy random walkers on a finite reflecting one-dimensional lattice. The final
+analysis package uses Stage 1, Stage 2, and Stage 2b outputs and does not launch
+a new broad search.
+
+Install:
+
+```bash
+python3.11 -m venv .local/encounter-py311
+.local/encounter-py311/bin/python -m pip install -r requirements.txt
+```
+
+Reproduce the final package from the existing Stage 1/2/2b inputs:
+
+```bash
+PYTHONPATH=research/reports/final_multitimescale_fpt_encounter/code .local/encounter-py311/bin/python -m encounter_search.finalize
+```
+
+Full upstream regeneration, if needed:
+
+```bash
+PYTHONPATH=research/reports/final_multitimescale_fpt_encounter/code .local/encounter-py311/bin/python -m encounter_search.run --pilot
+PYTHONPATH=research/reports/final_multitimescale_fpt_encounter/code .local/encounter-py311/bin/python -m encounter_search.stage2
+PYTHONPATH=research/reports/final_multitimescale_fpt_encounter/code .local/encounter-py311/bin/python -m encounter_search.stage2b
+PYTHONPATH=research/reports/final_multitimescale_fpt_encounter/code .local/encounter-py311/bin/python -m encounter_search.finalize
+```
+
+Validation:
+
+```bash
+PYTHONPATH=research/reports/final_multitimescale_fpt_encounter/code .local/encounter-py311/bin/python -m pytest tests/test_encounter_search.py tests/test_encounter_reflecting_mean_validation.py tests/test_encounter_green_formula_comparison.py -q
+python3 scripts/reportctl.py check-docs-paths
+python3 scripts/reportctl.py validate-science-rules
+```
+
+Final outputs:
+
+- `research/reports/final_multitimescale_fpt_encounter/artifacts/encounter_search/results/final_report.md`
+- `research/reports/final_multitimescale_fpt_encounter/artifacts/encounter_search/results/final_tables/`
+- `research/reports/final_multitimescale_fpt_encounter/artifacts/encounter_search/figures/final/`
+
+Final conclusion: no robust F2 double peak was found in the current reflecting
+synchronous co-location model; observed unusual shapes are parity artifacts,
+same-target long tails, or weak target-shift shoulders.

@@ -36,6 +36,7 @@
 - 研究总览: `research/docs/RESEARCH_SUMMARY.md`
 - 研究文档索引: `research/docs/README.md`
 - 报告目录索引: `research/reports/README.md`
+- 最终多时间尺度与 exact encounter 汇总: `research/reports/final_multitimescale_fpt_encounter/README.md`
 - 平台与工具说明: `platform/README.md`
 
 ## Agent Entry Points

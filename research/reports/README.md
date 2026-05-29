@@ -31,7 +31,7 @@ research/reports/<report_id>/
 
 ## Active Report IDs
 
-The list below is the **canonical order** — `report_registry.yaml`, `RESEARCH_SUMMARY.md` AUTO-INDEX, and downstream consumers all follow it (Ring → Grid2D → Cross).
+The list below is the **canonical order** — `report_registry.yaml`, `RESEARCH_SUMMARY.md` AUTO-INDEX, and downstream consumers all follow it (Ring → Grid2D → Cross → Final).
 
 ### Ring series
 
@@ -58,6 +58,10 @@ The list below is the **canonical order** — `report_registry.yaml`, `RESEARCH_
 ### Cross-method
 
 - `cross_luca_regime_map`
+
+### Final synthesis
+
+- `final_multitimescale_fpt_encounter`
 
 ## WIP Scaffold Report IDs
 

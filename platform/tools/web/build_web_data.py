@@ -42,7 +42,7 @@ REPO_SYNC_INCLUDE_GLOBS = [
     "research/reports/**/*.tex",
     "research/reports/**/README.md",
     "research/reports/**/notes/*.md",
-    "research/reports/**/code/*.py",
+    "research/reports/**/code/**/*.py",
     "platform/README.md",
     "platform/tools/**/*.py",
     "platform/skills/**/*.md",
@@ -2669,10 +2669,10 @@ def classify_repo_sync_category(rel_path: str) -> str:
         return "root"
     if head in {"README.md", "AGENTS.md", "requirements.txt", "pyproject.toml"}:
         return "root"
-    if head == "docs":
+    if head == "research" and len(parts) >= 2 and parts[1] == "docs":
         return "docs"
-    if head == "reports":
-        if len(parts) >= 4 and parts[2] == "code" and parts[-1].endswith(".py"):
+    if head == "research" and len(parts) >= 2 and parts[1] == "reports":
+        if "code" in parts and parts[-1].endswith(".py"):
             return "report_code"
         return "report_docs"
     if head == "scripts":

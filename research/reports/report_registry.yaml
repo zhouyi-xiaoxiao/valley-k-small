@@ -180,6 +180,19 @@ reports:
     archive_policy: latest_only_archive_runs
     status: active
   # ============================================================================
+  # Final synthesis / web-facing integration layer
+  # ============================================================================
+  - id: final_multitimescale_fpt_encounter
+    aliases: [final_multitimescale, exact_encounter_pilot]
+    path: research/reports/final_multitimescale_fpt_encounter
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: [final_multitimescale_fpt_encounter_en.tex]
+    entry_scripts: [code/build_consistency_layer.py, code/encounter_search/finalize.py]
+    languages: [en]
+    archive_policy: keep
+    status: active
+  # ============================================================================
   # WIP scaffolds: scope defined, no manuscript yet.
   # Promote to status: active when first .tex lands.
   # ============================================================================

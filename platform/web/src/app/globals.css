@@ -1790,6 +1790,211 @@ button:hover {
   line-height: 1.5;
 }
 
+.talk-grid-hop-lab {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 32px 42px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 16px;
+  background: linear-gradient(135deg, #f8f8f4 0%, #edf1ec 100%);
+  color: #15202a;
+}
+
+.talk-grid-hop-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(310px, 0.42fr);
+  gap: 22px;
+  align-items: end;
+}
+
+.talk-grid-hop-head h1 {
+  grid-column: 1;
+  margin: 0;
+  font-size: clamp(1.9rem, 3.2vw, 3.05rem);
+  line-height: 1.03;
+  overflow-wrap: anywhere;
+}
+
+.talk-grid-hop-head p {
+  grid-column: 2;
+  margin: 0;
+  color: #43505a;
+  font-size: clamp(0.92rem, 1.15vw, 1.02rem);
+  line-height: 1.38;
+}
+
+.talk-grid-hop-body {
+  height: auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(320px, 0.55fr);
+  gap: 18px;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.talk-grid-hop-board {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #f8faf7;
+  border: 1px solid rgba(200, 205, 196, 0.9);
+}
+
+.talk-grid-hop-board svg {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.talk-grid-hop-lines line {
+  stroke: #d8ded6;
+  stroke-width: 2.4;
+}
+
+.talk-grid-hop-target {
+  fill: #b91c1c;
+}
+
+.talk-grid-hop-target.is-secondary {
+  fill: #d97706;
+}
+
+.talk-grid-hop-source {
+  fill: #0f766e;
+  stroke: #f8faf7;
+  stroke-width: 5;
+}
+
+.talk-grid-hop-trail {
+  fill: none;
+  stroke: rgba(15, 118, 110, 0.62);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.talk-grid-hop-trace-dot {
+  fill: rgba(15, 118, 110, 0.34);
+}
+
+.talk-grid-hop-walker {
+  fill: #123b38;
+  stroke: #ffffff;
+  stroke-width: 7;
+  transition:
+    cx 120ms linear,
+    cy 120ms linear;
+}
+
+.talk-grid-hop-neighbours circle {
+  fill: #d97706;
+  opacity: 0.72;
+}
+
+.talk-grid-hop-panel {
+  min-width: 0;
+  min-height: 0;
+  padding: 14px;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 12px;
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(200, 205, 196, 0.9);
+}
+
+.talk-grid-hop-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.talk-grid-hop-stats div {
+  padding: 9px;
+  background: #f8faf7;
+  border: 1px solid #d6ded8;
+}
+
+.talk-grid-hop-stats span {
+  display: block;
+  color: #67727b;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.talk-grid-hop-stats strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 1.22rem;
+  line-height: 1;
+}
+
+.talk-grid-hop-controls {
+  display: grid;
+  gap: 8px;
+}
+
+.talk-grid-hop-button-row,
+.talk-grid-hop-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.talk-grid-hop-button-row button,
+.talk-grid-hop-segments button,
+.talk-grid-hop-toggle button {
+  appearance: none;
+  min-height: 34px;
+  border: 1px solid #c9d1ca;
+  background: #f8faf7;
+  color: #25313b;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.talk-grid-hop-segments {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.talk-grid-hop-segments button.is-active,
+.talk-grid-hop-toggle button.is-active {
+  background: #123b38;
+  border-color: #123b38;
+  color: #ffffff;
+}
+
+.talk-grid-hop-slider {
+  display: grid;
+  gap: 6px;
+  color: #43505a;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+}
+
+.talk-grid-hop-slider input {
+  width: 100%;
+}
+
+.talk-grid-hop-reading {
+  margin: 0;
+  align-self: end;
+  color: #43505a;
+  font-size: 0.86rem;
+  line-height: 1.42;
+}
+
 .talk-reveal-basic-shell {
   padding: 54px 68px;
   background:
@@ -2065,6 +2270,38 @@ button:hover {
 
   .talk-mechanism-visual {
     min-height: 300px;
+  }
+
+  .talk-grid-hop-lab {
+    padding: 28px 24px;
+    overflow: auto;
+  }
+
+  .talk-grid-hop-head {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .talk-grid-hop-head h1,
+  .talk-grid-hop-head p {
+    grid-column: 1;
+  }
+
+  .talk-grid-hop-body {
+    height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .talk-grid-hop-board {
+    min-height: 360px;
+  }
+
+  .talk-grid-hop-panel {
+    grid-template-rows: auto;
+  }
+
+  .talk-grid-hop-segments {
+    grid-template-columns: 1fr;
   }
 
   .talk-formula-shell {

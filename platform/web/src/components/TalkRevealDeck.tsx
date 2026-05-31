@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { TalkBasicIdeaDemo } from '@/components/TalkBasicIdeaDemo';
 import { TalkFormulaSlide } from '@/components/TalkFormulaSlide';
+import { TalkGridHopLab } from '@/components/TalkGridHopLab';
 import { TalkMechanismLab } from '@/components/TalkMechanismLab';
 import { withBasePath } from '@/lib/url';
 import type {
@@ -198,6 +199,8 @@ function SlideViewport({
         <TalkFormulaSlide slide={slide} lang={lang} />
       ) : slide.animation?.kind === 'mechanism-lab' ? (
         <TalkMechanismLab slide={slide} lang={lang} />
+      ) : slide.animation?.kind === 'grid-hop-lab' ? (
+        <TalkGridHopLab slide={slide} lang={lang} />
       ) : (
         <FigureSlide slide={slide} lang={lang} />
       )}

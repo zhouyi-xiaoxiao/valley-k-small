@@ -517,7 +517,13 @@ export type TalkFigureReference = {
 };
 
 export type TalkAnimationSpec = {
-  kind: 'basic-walk' | 'ring-branches' | 'valley-budget' | 'formula-foundations' | 'mechanism-lab';
+  kind:
+    | 'basic-walk'
+    | 'ring-branches'
+    | 'valley-budget'
+    | 'formula-foundations'
+    | 'mechanism-lab'
+    | 'grid-hop-lab';
 };
 
 export type TalkEvidenceLink = {

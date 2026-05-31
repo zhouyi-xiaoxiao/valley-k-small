@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { TalkBasicIdeaDemo } from '@/components/TalkBasicIdeaDemo';
 import { TalkFormulaSlide } from '@/components/TalkFormulaSlide';
+import { TalkMechanismLab } from '@/components/TalkMechanismLab';
 import { withBasePath } from '@/lib/url';
 import type {
   BasicDemoPayload,
@@ -18,11 +19,28 @@ import type {
 
 type TalkRevealDeckProps = {
   lang: Lang;
+  prefix: string;
   manifest: TalkDeckManifest;
   scriptEn: TalkScriptPayload;
   scriptCn: TalkScriptPayload;
   basicDemo: BasicDemoPayload;
 };
+
+function localized(lang: Lang, en: string, cn: string) {
+  return lang === 'cn' ? cn : en;
+}
+
+function slideTitle(lang: Lang, slide: TalkSlide) {
+  return localized(lang, slide.title_en ?? slide.title, slide.title_cn ?? slide.title);
+}
+
+function slideSentence(lang: Lang, slide: TalkSlide) {
+  return localized(lang, slide.sentence_en ?? slide.sentence, slide.sentence_cn ?? slide.sentence);
+}
+
+function manifestTitle(lang: Lang, manifest: TalkDeckManifest) {
+  return localized(lang, manifest.title_en, manifest.title_cn);
+}
 
 function readSlideIndex(hash: string, slideCount: number) {
   const match = hash.match(/slide-(\d+)/);
@@ -38,40 +56,48 @@ function readSlideIndex(hash: string, slideCount: number) {
 
 function imageAlt(lang: Lang, slide: TalkSlide) {
   if (slide.evidence?.kind !== 'image') {
-    return slide.title;
+    return slideTitle(lang, slide);
   }
   return lang === 'cn' ? slide.evidence.alt_cn : slide.evidence.alt_en;
 }
 
 function PresenterPanel({
+  lang,
   slide,
   english,
   chinese,
 }: {
+  lang: Lang;
   slide: TalkSlide;
   english?: TalkSlideNote;
   chinese?: TalkSlideNote;
 }) {
+  const active = lang === 'cn' ? chinese : english;
+  const secondary = lang === 'cn' ? english : chinese;
   return (
     <aside className="talk-reveal-notes" aria-label="Presenter notes">
       <div className="talk-reveal-notes-block">
-        <span className="talk-reveal-notes-label">Timing</span>
+        <span className="talk-reveal-notes-label">{localized(lang, 'Timing', '时间')}</span>
         <strong>
           {slide.start} - {slide.end}
         </strong>
-        <p>{english?.timing_prompt ?? ''}</p>
+        <p>{active?.timing_prompt ?? english?.timing_prompt ?? ''}</p>
       </div>
       <div className="talk-reveal-notes-block">
-        <span className="talk-reveal-notes-label">Audience question</span>
-        <p>{slide.question_en}</p>
+        <span className="talk-reveal-notes-label">{localized(lang, 'Audience question', '听众问题')}</span>
+        <p>{localized(lang, slide.question_en, slide.question_cn)}</p>
       </div>
       <div className="talk-reveal-notes-block">
-        <span className="talk-reveal-notes-label">English script</span>
-        <p>{english?.spoken_text ?? ''}</p>
+        <span className="talk-reveal-notes-label">
+          {localized(lang, 'Speaker script', '演讲稿')}
+        </span>
+        <p>{active?.spoken_text ?? ''}</p>
       </div>
       <div className="talk-reveal-notes-block">
-        <span className="talk-reveal-notes-label">中文提示</span>
-        <p>{chinese?.speaker_notes ?? ''}</p>
+        <span className="talk-reveal-notes-label">
+          {localized(lang, 'Other-language note', '另一语言提示')}
+        </span>
+        <p>{secondary?.speaker_notes ?? secondary?.spoken_text ?? ''}</p>
       </div>
     </aside>
   );
@@ -83,6 +109,38 @@ function FigureSlide({ slide, lang }: { slide: TalkSlide; lang: Lang }) {
       <div className="talk-reveal-unsupported">
         <h2>{slide.title}</h2>
         <p>{slide.sentence}</p>
+      </div>
+    );
+  }
+
+  if (slide.evidence.show_overlay) {
+    return (
+      <div className="talk-claim-slide">
+        <div className="talk-claim-copy">
+          <span className="talk-reveal-kicker">
+            {slide.start} - {slide.end}
+          </span>
+          <h1>{slideTitle(lang, slide)}</h1>
+          <p>{slideSentence(lang, slide)}</p>
+          {slide.links?.length ? (
+            <div className="talk-claim-links">
+              {slide.links.map((link) => (
+                <a key={link.href} href={withBasePath(link.href)}>
+                  {localized(lang, link.label_en, link.label_cn)}
+                </a>
+              ))}
+            </div>
+          ) : null}
+        </div>
+        <figure className="talk-claim-visual">
+          <img
+            src={withBasePath(slide.evidence.src)}
+            alt={imageAlt(lang, slide)}
+          />
+          {slide.evidence.hide_caption ? null : (
+            <figcaption>{localized(lang, slide.evidence.caption_en, slide.evidence.caption_cn)}</figcaption>
+          )}
+        </figure>
       </div>
     );
   }
@@ -113,8 +171,8 @@ function BasicIdeaSlide({
         <span className="talk-reveal-kicker">
           {slide.start} - {slide.end}
         </span>
-        <h1>{slide.title}</h1>
-        <p>{slide.sentence}</p>
+        <h1>{slideTitle(lang, slide)}</h1>
+        <p>{slideSentence(lang, slide)}</p>
       </div>
       <div className="talk-reveal-basic-card">
         <TalkBasicIdeaDemo lang={lang} payload={basicDemo} />
@@ -137,7 +195,9 @@ function SlideViewport({
       {slide.animation?.kind === 'basic-walk' ? (
         <BasicIdeaSlide slide={slide} basicDemo={basicDemo} lang={lang} />
       ) : slide.animation?.kind === 'formula-foundations' ? (
-        <TalkFormulaSlide slide={slide} />
+        <TalkFormulaSlide slide={slide} lang={lang} />
+      ) : slide.animation?.kind === 'mechanism-lab' ? (
+        <TalkMechanismLab slide={slide} lang={lang} />
       ) : (
         <FigureSlide slide={slide} lang={lang} />
       )}
@@ -147,6 +207,7 @@ function SlideViewport({
 
 export function TalkRevealDeck({
   lang,
+  prefix: _prefix,
   manifest,
   scriptEn,
   scriptCn,
@@ -219,6 +280,9 @@ export function TalkRevealDeck({
   const chinese = currentSlide ? chineseById.get(currentSlide.id) : undefined;
   const progressPercent = ((currentIndex + 1) / slides.length) * 100;
   const fullscreenLike = immersiveMode || isFullscreen;
+  const languageHref = withBasePath(
+    `${lang === 'cn' ? '' : '/cn'}/talk/${manifest.talk_id}/#slide-${currentIndex + 1}`,
+  );
 
   useEffect(() => {
     if (!fullscreenLike) {
@@ -291,7 +355,7 @@ export function TalkRevealDeck({
         onFocus={() => fullscreenLike && setControlsVisible(true)}
       >
         <div className="talk-reveal-toolbar-brand">
-          <strong>{manifest.title_en}</strong>
+          <strong>{manifestTitle(lang, manifest)}</strong>
           <span>
             {currentIndex + 1} / {slides.length}
           </span>
@@ -300,20 +364,27 @@ export function TalkRevealDeck({
           <span style={{ width: `${progressPercent}%` }} />
         </div>
         <div className="talk-reveal-toolbar-actions">
+          <a className="talk-reveal-lang-link" href={languageHref}>
+            {lang === 'cn' ? 'EN' : '中文'}
+          </a>
           <button type="button" onClick={toggleFullscreen}>
-            {fullscreenLike ? 'Exit full screen' : 'Full screen'}
+            {fullscreenLike
+              ? localized(lang, 'Exit full screen', '退出全屏')
+              : localized(lang, 'Full screen', '全屏')}
           </button>
           <button type="button" onClick={() => setPresenterMode((value) => !value)}>
-            {presenterMode ? 'Audience mode' : 'Presenter mode'}
+            {presenterMode
+              ? localized(lang, 'Audience mode', '观众模式')
+              : localized(lang, 'Presenter mode', '演讲者模式')}
           </button>
           <button type="button" onClick={() => setCurrentIndex((value) => Math.max(0, value - 1))}>
-            Prev
+            {localized(lang, 'Prev', '上一页')}
           </button>
           <button
             type="button"
             onClick={() => setCurrentIndex((value) => Math.min(slides.length - 1, value + 1))}
           >
-            Next
+            {localized(lang, 'Next', '下一页')}
           </button>
         </div>
       </div>
@@ -324,7 +395,7 @@ export function TalkRevealDeck({
         </div>
 
         {presenterMode && currentSlide ? (
-          <PresenterPanel slide={currentSlide} english={english} chinese={chinese} />
+          <PresenterPanel lang={lang} slide={currentSlide} english={english} chinese={chinese} />
         ) : null}
       </div>
     </div>

@@ -513,10 +513,17 @@ export type TalkFigureReference = {
   caption_cn: string;
   full_bleed?: boolean;
   hide_caption?: boolean;
+  show_overlay?: boolean;
 };
 
 export type TalkAnimationSpec = {
-  kind: 'basic-walk' | 'ring-branches' | 'valley-budget' | 'formula-foundations';
+  kind: 'basic-walk' | 'ring-branches' | 'valley-budget' | 'formula-foundations' | 'mechanism-lab';
+};
+
+export type TalkEvidenceLink = {
+  label_en: string;
+  label_cn: string;
+  href: string;
 };
 
 export type TalkEvidenceSpec =
@@ -550,11 +557,16 @@ export type TalkSlide = {
   start: string;
   end: string;
   title: string;
+  title_en?: string;
+  title_cn?: string;
   sentence: string;
+  sentence_en?: string;
+  sentence_cn?: string;
   question_en: string;
   question_cn: string;
   animation?: TalkAnimationSpec;
   evidence?: TalkEvidenceSpec;
+  links?: TalkEvidenceLink[];
 };
 
 export type TalkDeckManifest = {

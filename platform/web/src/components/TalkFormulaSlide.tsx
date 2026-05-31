@@ -2,7 +2,7 @@
 
 import katex from 'katex';
 import { KATEX_MACROS } from '@/lib/latex';
-import type { TalkSlide } from '@/types';
+import type { Lang, TalkSlide } from '@/types';
 
 function renderLatex(latex: string) {
   return katex.renderToString(latex, {
@@ -31,15 +31,27 @@ const EQUATIONS = [
   },
 ];
 
-export function TalkFormulaSlide({ slide }: { slide: TalkSlide }) {
+function localized(lang: Lang, en: string, cn: string) {
+  return lang === 'cn' ? cn : en;
+}
+
+function slideTitle(lang: Lang, slide: TalkSlide) {
+  return localized(lang, slide.title_en ?? slide.title, slide.title_cn ?? slide.title);
+}
+
+function slideSentence(lang: Lang, slide: TalkSlide) {
+  return localized(lang, slide.sentence_en ?? slide.sentence, slide.sentence_cn ?? slide.sentence);
+}
+
+export function TalkFormulaSlide({ slide, lang }: { slide: TalkSlide; lang: Lang }) {
   return (
     <div className="talk-formula-shell">
       <div className="talk-formula-head">
         <span className="talk-reveal-kicker">
           {slide.start} - {slide.end}
         </span>
-        <h1>{slide.title}</h1>
-        <p>{slide.sentence}</p>
+        <h1>{slideTitle(lang, slide)}</h1>
+        <p>{slideSentence(lang, slide)}</p>
       </div>
 
       <div className="talk-formula-grid">

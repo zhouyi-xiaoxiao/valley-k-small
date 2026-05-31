@@ -27,6 +27,7 @@ export function renderTalkPage(lang: Lang, prefix: string, talkId: string) {
   return (
     <TalkRevealDeck
       lang={lang}
+      prefix={prefix}
       manifest={manifest}
       scriptEn={scriptEn}
       scriptCn={scriptCn}

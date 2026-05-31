@@ -26,6 +26,9 @@ export function AppShell({
             <Link href={prefixPath(prefix, '/theory')}>
               {localizedText(lang, 'Theory', '理论')}
             </Link>
+            <Link href={prefixPath(prefix, '/talk/multitimescale-encounter')}>
+              {localizedText(lang, 'Talk', '演讲')}
+            </Link>
             <Link href={prefixPath(prefix, '/agent-sync')}>Agent Sync</Link>
             <Link href={prefixPath(prefix, '/repo-sync')}>{localizedText(lang, 'Repo Sync', '仓库同步')}</Link>
             <Link href={prefixPath(prefix, '/about')}>{localizedText(lang, 'About', '关于')}</Link>

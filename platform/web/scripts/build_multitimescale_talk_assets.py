@@ -348,7 +348,7 @@ def build_talk_data() -> None:
             "question_cn": "第二峰来自路径、target，还是两者都有？",
             "evidence": {
                 "kind": "image",
-                "src": "/talk-assets/multitimescale-encounter/slide4-grid2d-targets.svg?v=20260531a",
+                "src": "/talk-assets/multitimescale-encounter/slide4-grid2d-targets.svg?v=20260531b",
                 "alt_en": "Nearest-neighbour lattice hop plus one-target and two-target Grid2D mechanism sketches",
                 "alt_cn": "最近邻二维格点跳动，以及 one-target 与 two-target Grid2D 机制草图",
                 "caption_en": "Grid2D starts from nearest-neighbour hops, then turns route competition into spatial and target competition.",

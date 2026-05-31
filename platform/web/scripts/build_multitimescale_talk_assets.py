@@ -140,10 +140,35 @@ def build_svgs() -> None:
                 <rect x="1194" y="544" width="42" height="42" fill="#b91c1c"/>
                 <path d="M914 404 C1034 236 1170 236 1285 285" stroke="#0f766e" stroke-width="16" stroke-linecap="round"/>
                 <path d="M914 404 C1034 620 1166 646 1215 565" stroke="#d97706" stroke-width="16" stroke-linecap="round"/>
+                <g transform="translate(546 682)">
+                  <rect width="508" height="178" rx="24" fill="#fffdf8" stroke="#9aa8a2" stroke-width="3"/>
+                  <g transform="translate(32 30)">
+                    <g stroke="#d8ded6" stroke-width="3">
+                      <path d="M0 42 H168"/><path d="M0 84 H168"/><path d="M0 126 H168"/>
+                      <path d="M42 0 V126"/><path d="M84 0 V126"/><path d="M126 0 V126"/>
+                    </g>
+                    <circle cx="84" cy="84" r="15" fill="#0f766e"/>
+                    <circle cx="84" cy="42" r="9" fill="#d97706"/><circle cx="126" cy="84" r="9" fill="#d97706"/>
+                    <circle cx="84" cy="126" r="9" fill="#d97706"/><circle cx="42" cy="84" r="9" fill="#d97706"/>
+                    <path d="M84 74 V50" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M94 84 H118" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M84 94 V118" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M74 84 H50" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M84 38 L75 52 H93 Z" fill="#25313b"/>
+                    <path d="M130 84 L116 75 V93 Z" fill="#25313b"/>
+                    <path d="M84 130 L75 116 H93 Z" fill="#25313b"/>
+                    <path d="M38 84 L52 75 V93 Z" fill="#25313b"/>
+                  </g>
+                  <text x="230" y="62" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="700" fill="#25313b">2D lattice hop</text>
+                  <text x="230" y="102" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="500" fill="#5b6670">nearest-neighbour jumps</text>
+                  <text x="230" y="134" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="500" fill="#5b6670">come before target logic</text>
+                </g>
                 """
             )
-            + label(186, 746, "one target: outside budget")
-            + label(900, 746, "two targets: route-target pairs")
+            + label(154, 176, "one target", 30)
+            + small(154, 216, "outside budget")
+            + label(878, 176, "two targets", 30)
+            + small(878, 216, "route-target pairs")
         ),
     )
 
@@ -316,18 +341,18 @@ def build_talk_data() -> None:
             "title": "In Grid2D, route competition becomes geometry",
             "title_en": "In Grid2D, route competition becomes geometry",
             "title_cn": "在 Grid2D 中，路径竞争变成几何问题",
-            "sentence": "The same double-peak language must now separate route families from target families.",
-            "sentence_en": "The same double-peak language must now separate route families from target families.",
-            "sentence_cn": "同样的双峰语言，现在必须区分路径族和 target 族。",
+            "sentence": "The walker still makes local lattice hops; the double-peak claim must separate routes from targets.",
+            "sentence_en": "The walker still makes local lattice hops; the double-peak claim must separate routes from targets.",
+            "sentence_cn": "walker 仍是在二维格点上局部跳动；双峰 claim 必须区分路径和 target。",
             "question_en": "Is the second peak a route, a target, or both?",
             "question_cn": "第二峰来自路径、target，还是两者都有？",
             "evidence": {
                 "kind": "image",
                 "src": "/talk-assets/multitimescale-encounter/slide4-grid2d-targets.svg?v=20260531a",
-                "alt_en": "One-target and two-target Grid2D mechanism sketches",
-                "alt_cn": "one-target 与 two-target Grid2D 机制草图",
-                "caption_en": "Grid2D turns route competition into spatial and target competition.",
-                "caption_cn": "Grid2D 把路径竞争转化为空间和 target 竞争。",
+                "alt_en": "Nearest-neighbour lattice hop plus one-target and two-target Grid2D mechanism sketches",
+                "alt_cn": "最近邻二维格点跳动，以及 one-target 与 two-target Grid2D 机制草图",
+                "caption_en": "Grid2D starts from nearest-neighbour hops, then turns route competition into spatial and target competition.",
+                "caption_cn": "Grid2D 从最近邻格点跳动开始，再把路径竞争转化为空间和 target 竞争。",
                 "show_overlay": True,
                 "hide_caption": True,
             },
@@ -509,8 +534,8 @@ def build_talk_data() -> None:
                 "start": "3:05",
                 "end": "4:25",
                 "title": "In Grid2D, route competition becomes geometry",
-                "spoken_text": "In two dimensions, the same language becomes richer. A second feature can represent a route, a target, or a route-target pair. This is why the Grid2D work keeps geometry and target count visible instead of collapsing everything into one curve.",
-                "speaker_notes": "Bridge from ring intuition to spatial mechanisms.",
+                "spoken_text": "In two dimensions, I do not want to lose the basic picture: the walker is still hopping locally on a lattice. Once that primitive is clear, the same double-peak language becomes richer. A second feature can represent a route, a target, or a route-target pair, so the Grid2D work keeps geometry and target count visible instead of collapsing everything into one curve.",
+                "speaker_notes": "Keep the lattice-hop schematic visible before moving to spatial mechanisms.",
                 "timing_prompt": "Explain route versus target competition.",
             },
             {
@@ -586,8 +611,8 @@ def build_talk_data() -> None:
                 ),
                 (
                     script_en["blocks"][3],
-                    "到了二维，同样的语言会变复杂。第二个特征可能代表路径，也可能代表 target，或者是 route-target pair。所以 Grid2D 工作不能只看一条曲线，必须保留几何和 target count。",
-                    "从环直觉过渡到空间机制。",
+                    "到了二维，最基本的图不能丢：walker 仍然是在二维格点上做局部最近邻跳动。这个 primitive 讲清楚之后，同样的双峰语言才会变复杂：第二个特征可能代表路径，也可能代表 target，或者是 route-target pair。所以 Grid2D 工作不能只看一条曲线，必须保留几何和 target count。",
+                    "先保留二维格子跳动示意，再从环直觉过渡到空间机制。",
                     "解释 route competition 和 target competition。",
                 ),
                 (

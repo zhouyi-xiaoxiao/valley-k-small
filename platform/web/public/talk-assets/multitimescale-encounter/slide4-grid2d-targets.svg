@@ -18,5 +18,28 @@
 <rect x="1194" y="544" width="42" height="42" fill="#b91c1c"/>
 <path d="M914 404 C1034 236 1170 236 1285 285" stroke="#0f766e" stroke-width="16" stroke-linecap="round"/>
 <path d="M914 404 C1034 620 1166 646 1215 565" stroke="#d97706" stroke-width="16" stroke-linecap="round"/>
-<text x="186" y="746" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#25313b">one target: outside budget</text><text x="900" y="746" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#25313b">two targets: route-target pairs</text>
+<g transform="translate(546 682)">
+  <rect width="508" height="178" rx="24" fill="#fffdf8" stroke="#9aa8a2" stroke-width="3"/>
+  <g transform="translate(32 30)">
+    <g stroke="#d8ded6" stroke-width="3">
+      <path d="M0 42 H168"/><path d="M0 84 H168"/><path d="M0 126 H168"/>
+      <path d="M42 0 V126"/><path d="M84 0 V126"/><path d="M126 0 V126"/>
+    </g>
+    <circle cx="84" cy="84" r="15" fill="#0f766e"/>
+    <circle cx="84" cy="42" r="9" fill="#d97706"/><circle cx="126" cy="84" r="9" fill="#d97706"/>
+    <circle cx="84" cy="126" r="9" fill="#d97706"/><circle cx="42" cy="84" r="9" fill="#d97706"/>
+    <path d="M84 74 V50" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M94 84 H118" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M84 94 V118" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M74 84 H50" stroke="#25313b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M84 38 L75 52 H93 Z" fill="#25313b"/>
+    <path d="M130 84 L116 75 V93 Z" fill="#25313b"/>
+    <path d="M84 130 L75 116 H93 Z" fill="#25313b"/>
+    <path d="M38 84 L52 75 V93 Z" fill="#25313b"/>
+  </g>
+  <text x="230" y="62" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="700" fill="#25313b">2D lattice hop</text>
+  <text x="230" y="102" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="500" fill="#5b6670">nearest-neighbour jumps</text>
+  <text x="230" y="134" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="500" fill="#5b6670">come before target logic</text>
+</g>
+<text x="154" y="176" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#25313b">one target</text><text x="154" y="216" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="500" fill="#5b6670">outside budget</text><text x="878" y="176" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#25313b">two targets</text><text x="878" y="216" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="500" fill="#5b6670">route-target pairs</text>
         </svg>

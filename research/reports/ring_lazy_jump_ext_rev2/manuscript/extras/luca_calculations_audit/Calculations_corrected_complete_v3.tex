@@ -1,0 +1,1332 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise]{cleveref}
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\one}{\mathbf 1}
+\DeclareMathOperator{\Res}{Res}
+
+\title{Audited Corrected Analytical Derivation\\
+Nearest-neighbour ring walk with one absorbing site and one shortcut}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Purpose and final conclusions}
+
+This document is a detailed audit and correction of the analytical calculation for a
+nearest-neighbour discrete-time random walk on a ring with one absorbing site and one directed
+shortcut into the absorbing site.  The main conclusion is that the absorbing-ring part of the
+calculation can be made correct after several index, sign, and orthogonality corrections, but the
+shortcut-to-target part must be changed more substantially.
+
+The key point is the following.  If a shortcut from $u$ to the absorbing target $v$ replaces a
+fraction $\beta$ of the stay-put probability $1-q$, then in the transient state space the shortcut is
+an extra killing channel at $u$.  Writing
+\begin{equation}
+  \lambda=\beta(1-q),\qquad 0\leq \beta\leq 1,
+\end{equation}
+the corrected resolvent is
+\begin{equation}
+  \boxed{
+  \wt S_{n_0}(n,z)=\wt W_{n_0}(n,z)
+  -\frac{z\lambda\,\wt W_{n_0}(u,z)\wt W_u(n,z)}
+  {1+z\lambda\,\wt W_u(u,z)}.}
+  \label{eq:main-corrected-resolvent}
+\end{equation}
+The minus sign and the plus sign in the denominator are both forced by the stochastic
+interpretation: the shortcut moves probability mass from the transient site $u$ to the absorbing
+site $v$.
+
+Consequently, the first-passage generating function is
+\begin{equation}
+  \boxed{
+  \wt F_{n_0}(v,z)=\wt F^{(0)}_{n_0}(v,z)+
+  \frac{z\lambda\,\wt W_{n_0}(u,z)\bigl[1-\wt F^{(0)}_u(v,z)\bigr]}
+  {1+z\lambda\,\wt W_u(u,z)}.}
+  \label{eq:main-corrected-F}
+\end{equation}
+Here the superscript $(0)$ means ``without the shortcut but with the absorbing target present.''
+This formula also gives a useful monotonicity check: the shortcut contribution to
+$\wt F_{n_0}(v,z)$ has non-negative coefficients for $z\in[0,1)$, so adding a shortcut to the
+target cannot decrease the probability of having hit the target by any fixed time.
+
+In the symmetric case
+\begin{equation}
+  N=2L,
+  \qquad v=0,
+  \qquad u=L,
+\end{equation}
+and for an initial site at distance $\rho$ from $v$ along either half-ring,
+$0\leq\rho\leq L$, the corrected first-passage generating function reduces to the closed form
+\begin{equation}
+  \boxed{
+  \wt F_{\rho}(z)=
+  \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+  {aT_L(y)+U_{L-1}(y)},
+  \qquad
+  a=\frac{q}{\beta(1-q)},
+  \qquad
+  y=1+\frac{1}{q}\left(\frac1z-1\right).}
+  \label{eq:main-symmetric-F}
+\end{equation}
+We use the convention $U_{-1}=0$.  Formula \eqref{eq:main-symmetric-F} is the cleanest corrected
+analytical answer.
+
+The poles are the roots of
+\begin{equation}
+  \boxed{aT_L(y_s)+U_{L-1}(y_s)=0,
+  \qquad y_s=1+\frac{s-1}{q}.}
+  \label{eq:main-pole-equation-y}
+\end{equation}
+Equivalently, if $y_s=\cos\theta$, the roots satisfy
+\begin{equation}
+  \boxed{\tan(L\theta)=-a\sin\theta.}
+  \label{eq:main-pole-equation-theta}
+\end{equation}
+The largest positive root $s_1$ lies in
+\begin{equation}
+  \boxed{\gamma_1<s_1<\alpha_1,}
+  \qquad
+  \gamma_1=1-q+q\cos\frac{2\pi}{N},
+  \qquad
+  \alpha_1=1-q+q\cos\frac{\pi}{N}.
+  \label{eq:s1-between}
+\end{equation}
+Thus the shortcut-to-target makes the long-time tail decay faster than the no-shortcut
+absorbing-ring tail.  The original condition
+\begin{equation}
+  \beta\leq \frac{2q}{(1-q)N}
+\end{equation}
+is not a valid corrected condition for bimodality or pole dominance.  The corrected long-time
+decay is
+\begin{equation}
+  \boxed{F_\rho(t)\sim B_{\rho 1}s_1^{t-1},
+  \qquad t\to\infty,}
+  \label{eq:main-tail}
+\end{equation}
+not $t\alpha_1^t$.  For weak shortcuts,
+\begin{equation}
+  \boxed{
+  s_1=\alpha_1-\frac{2\beta(1-q)}{N}+O\bigl([\beta(1-q)]^2\bigr),}
+  \label{eq:weak-shortcut-s1}
+\end{equation}
+and therefore
+\begin{equation}
+  \boxed{
+  1-s_1=1-\alpha_1+\frac{2\beta(1-q)}{N}+O\bigl([\beta(1-q)]^2\bigr).}
+  \label{eq:weak-shortcut-gap}
+\end{equation}
+For large $N$ this becomes
+\begin{equation}
+  \boxed{
+  1-s_1\sim \frac{q\pi^2}{2N^2}+\frac{2\beta(1-q)}{N}.}
+  \label{eq:large-N-gap}
+\end{equation}
+Equation \eqref{eq:large-N-gap} is the most direct corrected decay-dependence statement for the
+right tail of the second peak, if a second peak is present.
+
+\section{Model and notation}
+\label{sec:model}
+
+The ring sites are $0,1,\ldots,N-1$, with all site labels understood modulo $N$.  The unmodified
+nearest-neighbour transition rule is
+\begin{equation}
+  X_{t+1}=\begin{cases}
+  X_t, & \text{with probability }1-q,\\
+  X_t+1, & \text{with probability }q/2,\\
+  X_t-1, & \text{with probability }q/2,
+  \end{cases}
+  \qquad 0<q<1.
+\end{equation}
+The absorbing target is denoted by $m$ or, in the shortcut section, by $v$.  If $m$ is absorbing,
+then once the walker reaches $m$ it is removed from the transient dynamics.  The killed propagator
+is
+\begin{equation}
+  W_{n_0}(n,t)=\Pr\{X_t=n,\; X_0=n_0,\; X_s\neq m\text{ for all }0\leq s\leq t\},
+\end{equation}
+for transient sites $n,n_0\neq m$.  The first-passage probability to $m$ is
+\begin{equation}
+  \mathcal F_{n_0}(m,t)=\Pr\{X_t=m,\; X_s\neq m\text{ for }0\leq s<t\},
+  \qquad t\geq 1,
+\end{equation}
+with $\mathcal F_{n_0}(m,0)=0$ when $n_0\neq m$.
+
+Generating functions are defined by
+\begin{equation}
+  \wt W_{n_0}(n,z)=\sum_{t=0}^{\infty}W_{n_0}(n,t)z^t,
+  \qquad
+  \wt F_{n_0}(m,z)=\sum_{t=0}^{\infty}\mathcal F_{n_0}(m,t)z^t.
+\end{equation}
+The frequently used change of variable is
+\begin{equation}
+  \boxed{y=y(z)=1+\frac1q\left(\frac1z-1\right).}
+  \label{eq:y-definition}
+\end{equation}
+It is useful because
+\begin{equation}
+  1-z\bigl[1-q+q\cos\theta\bigr]
+  =zq\bigl[y-\cos\theta\bigr].
+  \label{eq:denominator-y}
+\end{equation}
+
+When $N=2L$ is even, the odd-sector eigenvalues are
+\begin{equation}
+  \boxed{\alpha_\ell=1-q+q\cos\frac{(2\ell-1)\pi}{N},
+  \qquad \ell=1,\ldots,L,}
+  \label{eq:alpha-definition}
+\end{equation}
+and the even-sector ring eigenvalues are
+\begin{equation}
+  \boxed{\gamma_r=1-q+q\cos\frac{2\pi r}{N},
+  \qquad r=1,\ldots,N-1.}
+  \label{eq:gamma-definition}
+\end{equation}
+
+\section{Finite-sum identities with details}
+\label{sec:finite-identities}
+
+Let
+\begin{equation}
+  \theta_j=\frac{\pi j}{N},
+  \qquad
+  c_j=\cos\theta_j,
+  \qquad
+  A_j(d)=\bigl[1-(-1)^j\bigr]\sin(d\theta_j)\sin\theta_j,
+\end{equation}
+where $0<d<N$ is an integer.  The central identity is
+\begin{equation}
+  \boxed{
+  \frac1N\sum_{j=1}^{N-1}\frac{A_j(d)}{y-c_j}
+  =\frac{U_{N-d-1}(y)+U_{d-1}(y)}{U_{N-1}(y)}.}
+  \label{eq:central-identity}
+\end{equation}
+Here $T_n$ and $U_n$ are Chebyshev polynomials of the first and second kind, with
+\begin{equation}
+  T_n(\cos\theta)=\cos(n\theta),
+  \qquad
+  U_n(\cos\theta)=\frac{\sin((n+1)\theta)}{\sin\theta},
+  \qquad
+  U_{-1}(y)=0.
+\end{equation}
+
+\subsection{Proof of the central identity}
+
+The denominator $U_{N-1}(y)$ has the simple roots
+\begin{equation}
+  y=c_j=\cos\frac{\pi j}{N},
+  \qquad j=1,\ldots,N-1.
+\end{equation}
+Indeed,
+\begin{equation}
+  U_{N-1}(c_j)=\frac{\sin(N\theta_j)}{\sin\theta_j}
+  =\frac{\sin(\pi j)}{\sin\theta_j}=0.
+\end{equation}
+We compute the residue of the right-hand side of \eqref{eq:central-identity} at $y=c_j$.
+The numerator is
+\begin{align}
+  U_{N-d-1}(c_j)+U_{d-1}(c_j)
+  &=\frac{\sin((N-d)\theta_j)+\sin(d\theta_j)}{\sin\theta_j} \notag\\
+  &=\frac{\sin(N\theta_j-d\theta_j)+\sin(d\theta_j)}{\sin\theta_j}.\label{eq:num-res-step1}
+\end{align}
+Since $N\theta_j=\pi j$,
+\begin{align}
+  \sin(N\theta_j-d\theta_j)
+  &=\sin(\pi j)\cos(d\theta_j)-\cos(\pi j)\sin(d\theta_j)\notag\\
+  &=0-(-1)^j\sin(d\theta_j)
+  =-(-1)^j\sin(d\theta_j).
+\end{align}
+Substituting this into \eqref{eq:num-res-step1} gives
+\begin{equation}
+  U_{N-d-1}(c_j)+U_{d-1}(c_j)
+  =\frac{\bigl[1-(-1)^j\bigr]\sin(d\theta_j)}{\sin\theta_j}.
+  \label{eq:numerator-at-root}
+\end{equation}
+Next, differentiate $U_{N-1}(\cos\theta)=\sin(N\theta)/\sin\theta$ with respect to $y$.
+Because $y=\cos\theta$, $\dd y/\dd\theta=-\sin\theta$.  Thus
+\begin{equation}
+  \frac{\dd}{\dd y}U_{N-1}(\cos\theta)
+  =-\frac{1}{\sin\theta}\frac{\dd}{\dd\theta}
+  \left[\frac{\sin(N\theta)}{\sin\theta}\right].
+\end{equation}
+At $\theta=\theta_j$, $\sin(N\theta_j)=0$ and $\cos(N\theta_j)=(-1)^j$, so
+\begin{align}
+  U_{N-1}'(c_j)
+  &=-\frac{1}{\sin\theta_j}
+  \left[\frac{N\cos(N\theta_j)\sin\theta_j-
+  \sin(N\theta_j)\cos\theta_j}{\sin^2\theta_j}\right]\notag\\
+  &=-\frac{1}{\sin\theta_j}\left[\frac{N(-1)^j\sin\theta_j}{\sin^2\theta_j}\right]
+  =\frac{N(-1)^{j+1}}{\sin^2\theta_j}.
+  \label{eq:U-prime-root}
+\end{align}
+Therefore the residue of the right-hand side at $y=c_j$ is
+\begin{align}
+  \Res_{y=c_j}\frac{U_{N-d-1}(y)+U_{d-1}(y)}{U_{N-1}(y)}
+  &=\frac{U_{N-d-1}(c_j)+U_{d-1}(c_j)}{U_{N-1}'(c_j)}\notag\\
+  &=\frac{\bigl[1-(-1)^j\bigr]\sin(d\theta_j)}{\sin\theta_j}
+  \frac{\sin^2\theta_j}{N(-1)^{j+1}}.\label{eq:residue-rhs-before}
+\end{align}
+If $j$ is even, the factor $1-(-1)^j$ is zero.  If $j$ is odd, then
+$(-1)^{j+1}=1$.  Hence in all cases
+\begin{equation}
+  \Res_{y=c_j}\frac{U_{N-d-1}(y)+U_{d-1}(y)}{U_{N-1}(y)}
+  =\frac{1}{N}\bigl[1-(-1)^j\bigr]\sin(d\theta_j)\sin\theta_j
+  =\frac{A_j(d)}{N}.
+  \label{eq:residue-rhs-final}
+\end{equation}
+The left-hand side of \eqref{eq:central-identity} has exactly the same simple pole at $y=c_j$
+and exactly the same residue $A_j(d)/N$.  The difference between the two sides has no finite
+poles.  Both sides tend to zero as $y\to\infty$.  Therefore the difference is an entire rational
+function tending to zero at infinity, hence it is identically zero.  This proves
+\eqref{eq:central-identity}.
+
+\subsection{The \texorpdfstring{$y\to1$}{y to 1} identity}
+
+Set $y=1$ in \eqref{eq:central-identity}.  Since $U_n(1)=n+1$,
+\begin{equation}
+  U_{N-d-1}(1)+U_{d-1}(1)=(N-d)+d=N,
+  \qquad
+  U_{N-1}(1)=N.
+\end{equation}
+Thus
+\begin{equation}
+  \boxed{
+  \frac1N\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d\theta_j)\sin\theta_j}
+  {1-\cos\theta_j}=1.}
+  \label{eq:identity-y1}
+\end{equation}
+
+\subsection{The \texorpdfstring{$y=\cos(2\pi r/N)$}{y = cos(2pi r/N)} identity}
+
+For $r=0,1,\ldots,N-1$, set
+\begin{equation}
+  y=\cos\frac{2\pi r}{N}.
+\end{equation}
+If this value is not a pole, the substitution is direct.  If it is a zero of $U_{N-1}$, the value
+is the removable limit already determined by the residue calculation above.  Using the
+trigonometric form gives
+\begin{equation}
+  \boxed{
+  \frac1N\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d\theta_j)\sin\theta_j}
+  {\cos(2\pi r/N)-\cos\theta_j}
+  =\cos\frac{2\pi r d}{N}.}
+  \label{eq:identity-y-even}
+\end{equation}
+The case $r=0$ is the same as \eqref{eq:identity-y1} because
+$\cos(0)=1$ and $\cos(0\cdot d)=1$.
+
+\subsection{The reciprocal Fourier identity}
+
+For $j=1,\ldots,N-1$ and $0\leq d\leq N$, the second identity needed in the absorbing-propagator
+calculation is
+\begin{equation}
+  \boxed{
+  \frac1N\sum_{r=1}^{N-1}
+  \frac{\cos(2\pi r d/N)}{\cos\theta_j-\cos(2\pi r/N)}
+  =\frac{1}{N(1-\cos\theta_j)}-\frac{\sin(d\theta_j)}{\sin\theta_j}.}
+  \label{eq:reciprocal-identity}
+\end{equation}
+To see why this is the correct form, include temporarily the omitted $r=0$ term.  Since
+\begin{equation}
+  \frac{1}{N}\frac{1}{\cos\theta_j-1}
+  =-\frac{1}{N(1-\cos\theta_j)},
+\end{equation}
+\eqref{eq:reciprocal-identity} is equivalent to
+\begin{equation}
+  \boxed{
+  \frac1N\sum_{r=0}^{N-1}
+  \frac{\cos(2\pi r d/N)}{\cos\theta_j-\cos(2\pi r/N)}
+  =-\frac{\sin(d\theta_j)}{\sin\theta_j}.}
+  \label{eq:reciprocal-identity-full}
+\end{equation}
+The right-hand side satisfies the homogeneous second-order recurrence
+\begin{equation}
+  g_{d+1}-2\cos\theta_j\,g_d+g_{d-1}=0,
+  \qquad
+  g_d=-\frac{\sin(d\theta_j)}{\sin\theta_j},
+  \label{eq:g-recurrence}
+\end{equation}
+for $1\leq d\leq N-1$.  The Fourier sum on the left-hand side satisfies the same recurrence away
+from $d=0$ because multiplication by $2\cos(2\pi r/N)$ shifts the Fourier modes.  The boundary
+condition is also consistent because $N\theta_j=\pi j$ implies
+\begin{equation}
+  g_{N-d}=-\frac{\sin(N\theta_j-d\theta_j)}{\sin\theta_j}
+  =-\frac{-(-1)^j\sin(d\theta_j)}{\sin\theta_j}
+  =(-1)^j\frac{\sin(d\theta_j)}{\sin\theta_j}.
+\end{equation}
+In the only use below, this identity is multiplied by $1-(-1)^j$, so only odd $j$ contributes,
+and for odd $j$ the symmetry becomes $g_{N-d}=g_d$, as required by the cosine Fourier sum.  This
+establishes \eqref{eq:reciprocal-identity} in the sector used by the calculation.  Equivalently,
+one may derive it from the partial-fraction expansion of $[T_N(x)-1]^{-1}$.
+
+\section{Absorbing ring without shortcut}
+\label{sec:absorbing-ring}
+
+\subsection{Probability-conserving ring propagator}
+
+The probability-conserving ring propagator is
+\begin{equation}
+  Q_{n_0}(n,t)=\frac1N\sum_{r=0}^{N-1}
+  \cos\frac{2\pi r(n-n_0)}{N}\,
+  \gamma_r^t,
+  \label{eq:Q-full}
+\end{equation}
+where $\gamma_0=1$ and $\gamma_r$ for $r\geq1$ is given by
+\eqref{eq:gamma-definition}.  Separating the zero mode gives
+\begin{equation}
+  Q_{n_0}(n,t)=\frac1N+\frac1N\sum_{r=1}^{N-1}
+  \cos\frac{2\pi r(n-n_0)}{N}\,\gamma_r^t.
+  \label{eq:Q-separated}
+\end{equation}
+
+\subsection{First-passage probability to a single absorbing site}
+
+Let the absorbing site be $m$ and define
+\begin{equation}
+  d_0=\abs{n_0-m},\qquad 0<d_0<N.
+\end{equation}
+The first-passage probability to $m$ on the ring without shortcut is
+\begin{equation}
+  \boxed{
+  \mathcal F_{n_0}(m,t)=
+  \frac{q}{N}\sum_{j=1}^{N-1}
+  \bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j\,
+  \lambda_j^{t-1},
+  \qquad t\geq1,}
+  \label{eq:F0-time}
+\end{equation}
+where
+\begin{equation}
+  \lambda_j=1-q+q\cos\theta_j.
+\end{equation}
+If $N=2L$, only the odd $j$ values contribute, and \eqref{eq:F0-time} becomes
+\begin{equation}
+  \mathcal F_{n_0}(m,t)=\sum_{\ell=1}^{L}f_\ell(n_0,m)\alpha_\ell^{t-1},
+  \label{eq:F0-time-odd}
+\end{equation}
+with
+\begin{equation}
+  \boxed{
+  f_\ell(n_0,m)=\frac{2q}{N}
+  \sin\frac{(2\ell-1)\pi\abs{n_0-m}}{N}
+  \sin\frac{(2\ell-1)\pi}{N}.}
+  \label{eq:f-ell}
+\end{equation}
+
+The generating function follows directly from \eqref{eq:denominator-y}:
+\begin{align}
+  \wt{\mathcal F}_{n_0}(m,z)
+  &=z\frac{q}{N}\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j}
+  {1-z\lambda_j} \notag\\
+  &=\frac1N\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j}
+  {y-\cos\theta_j}\notag\\
+  &=\boxed{\frac{U_{N-d_0-1}(y)+U_{d_0-1}(y)}{U_{N-1}(y)}}.
+  \label{eq:F0-gen}
+\end{align}
+Setting $z=1$ gives $y=1$, and \eqref{eq:identity-y1} gives
+\begin{equation}
+  \wt{\mathcal F}_{n_0}(m,1)=1.
+\end{equation}
+Thus the absorbing target is eventually reached with probability one.
+
+\subsection{Survival probability}
+
+The survival probability up to and including time $t$ is
+\begin{equation}
+  R_{n_0}(t)=1-\sum_{s=0}^{t}\mathcal F_{n_0}(m,s).
+\end{equation}
+Using \eqref{eq:F0-time}, $\mathcal F_{n_0}(m,0)=0$, and the finite geometric sum
+\begin{equation}
+  \sum_{s=1}^{t}\lambda_j^{s-1}=\frac{1-\lambda_j^t}{1-\lambda_j}
+  =\frac{1-\lambda_j^t}{q(1-\cos\theta_j)},
+\end{equation}
+we get
+\begin{align}
+  \sum_{s=1}^{t}\mathcal F_{n_0}(m,s)
+  &=\frac1N\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j}
+  {1-\cos\theta_j}
+  \bigl(1-\lambda_j^t\bigr)\notag\\
+  &=1-\frac1N\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j}
+  {1-\cos\theta_j}\lambda_j^t,
+\end{align}
+where the last step used \eqref{eq:identity-y1}.  Hence
+\begin{equation}
+  \boxed{
+  R_{n_0}(t)=\frac1N\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j}
+  {1-\cos\theta_j}\lambda_j^t.}
+  \label{eq:survival}
+\end{equation}
+
+\subsection{Renewal equation and the killed propagator}
+
+For $t\geq1$, the killed propagator satisfies the renewal relation
+\begin{equation}
+  W_{n_0}(n,t)=Q_{n_0}(n,t)
+  -\sum_{s=1}^{t}\mathcal F_{n_0}(m,s)Q_m(n,t-s).
+  \label{eq:renewal}
+\end{equation}
+This subtracts all paths that first hit $m$ at time $s$ and then, in the unrestricted ring,
+continue from $m$ to $n$ in the remaining $t-s$ steps.
+
+Insert \eqref{eq:Q-separated} and \eqref{eq:F0-time}.  The zero Fourier mode of $Q_m$ gives
+\begin{equation}
+  \frac1N\sum_{s=1}^{t}\mathcal F_{n_0}(m,s)
+  =\frac1N\bigl[1-R_{n_0}(t)\bigr].
+\end{equation}
+This cancels the $1/N$ term in $Q_{n_0}(n,t)$ and leaves $R_{n_0}(t)/N$, which is precisely the
+second line in \eqref{eq:W-expanded}.  For the nonzero Fourier modes, we need
+\begin{align}
+  \sum_{s=1}^{t}\lambda_j^{s-1}\gamma_r^{t-s}
+  &=\gamma_r^{t-1}+\lambda_j\gamma_r^{t-2}+\cdots+\lambda_j^{t-1}\notag\\
+  &=\frac{\gamma_r^t-\lambda_j^t}{\gamma_r-\lambda_j}\notag\\
+  &=\frac{\gamma_r^t-\lambda_j^t}
+  {q\bigl[\cos(2\pi r/N)-\cos\theta_j\bigr]}.
+  \label{eq:time-convolution}
+\end{align}
+Because this convolution is subtracted in \eqref{eq:renewal}, the denominator can be rewritten as
+\[
+  \cos\theta_j-\cos(2\pi r/N),
+\]
+giving the fully expanded expression
+\begin{align}
+  W_{n_0}(n,t)
+  &=\frac1N\sum_{r=1}^{N-1}
+  \cos\frac{2\pi r(n-n_0)}{N}\,\gamma_r^t\notag\\
+  &\quad+\frac{1}{N^2}\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j}
+  {1-\cos\theta_j}\lambda_j^t\notag\\
+  &\quad+\frac{1}{N^2}\sum_{j=1}^{N-1}\sum_{r=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j
+  \cos\frac{2\pi r(n-m)}{N}}
+  {\cos\theta_j-\cos(2\pi r/N)}
+  \bigl(\gamma_r^t-\lambda_j^t\bigr).
+  \label{eq:W-expanded}
+\end{align}
+The sign of the last bracket is important.  It must be $\gamma_r^t-\lambda_j^t$ when the
+denominator is $\cos\theta_j-\cos(2\pi r/N)$.
+
+Now reduce the double sum.  The part proportional to $\gamma_r^t$ uses
+\eqref{eq:identity-y-even} with $d=d_0$:
+\begin{align}
+  &\sum_{j=1}^{N-1}
+  \frac{\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j}
+  {\cos\theta_j-\cos(2\pi r/N)}\notag\\
+  &\qquad =-N\cos\frac{2\pi r d_0}{N}.
+\end{align}
+Therefore the $\gamma_r^t$ part of the double sum is
+\begin{equation}
+  -N\sum_{r=1}^{N-1}
+  \cos\frac{2\pi r d_0}{N}
+  \cos\frac{2\pi r(n-m)}{N}\,\gamma_r^t.
+  \label{eq:double-gamma-part}
+\end{equation}
+The part proportional to $-\lambda_j^t$ uses \eqref{eq:reciprocal-identity} with
+$d=\abs{n-m}$:
+\begin{align}
+  &-\sum_{j=1}^{N-1}\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j\,
+  \lambda_j^t
+  \sum_{r=1}^{N-1}\frac{\cos(2\pi r(n-m)/N)}
+  {\cos\theta_j-\cos(2\pi r/N)}\notag\\
+  &=-\sum_{j=1}^{N-1}\bigl[1-(-1)^j\bigr]\sin(d_0\theta_j)\sin\theta_j\,
+  \lambda_j^t
+  \left[\frac{1}{1-\cos\theta_j}
+  -N\frac{\sin(d\theta_j)}{\sin\theta_j}\right]\notag\\
+  &=-\sum_{j=1}^{N-1}\bigl[1-(-1)^j\bigr]
+  \left[\frac{\sin(d_0\theta_j)\sin\theta_j}{1-\cos\theta_j}
+  -N\sin(d_0\theta_j)\sin(d\theta_j)\right]\lambda_j^t.
+  \label{eq:double-lambda-part}
+\end{align}
+After substituting \eqref{eq:double-gamma-part} and \eqref{eq:double-lambda-part} into
+\eqref{eq:W-expanded}, the survival term cancels the first term inside the square brackets of
+\eqref{eq:double-lambda-part}.  The final killed propagator is
+\begin{equation}
+  \boxed{\begin{aligned}
+  W_{n_0}(n,t)
+  &=\frac1N\sum_{r=1}^{N-1}
+  \left[
+  \cos\frac{2\pi r(n-n_0)}{N}
+  -\cos\frac{2\pi r(n-m)}{N}\cos\frac{2\pi r(n_0-m)}{N}
+  \right]\gamma_r^t\\
+  &\quad+\frac1N\sum_{j=1}^{N-1}\bigl[1-(-1)^j\bigr]
+  \sin\frac{\pi j\abs{n_0-m}}{N}
+  \sin\frac{\pi j\abs{n-m}}{N}\,\lambda_j^t.
+  \end{aligned}}
+  \label{eq:W-final}
+\end{equation}
+
+\subsection{Boundary and initial-condition checks}
+
+If $n=m$, then the sine factor in the second line of \eqref{eq:W-final} is zero and the first-line
+bracket becomes
+\begin{equation}
+  \cos\frac{2\pi r(m-n_0)}{N}
+  -1\cdot\cos\frac{2\pi r(n_0-m)}{N}=0.
+\end{equation}
+So $W_{n_0}(m,t)=0$, as required for a killed propagator.  Similarly, if $n_0=m$, both lines
+vanish for transient $n$.
+
+At $t=0$, for transient $n,n_0\neq m$, \eqref{eq:W-final} gives the identity
+$W_{n_0}(n,0)=\delta_{n,n_0}$.  Here are the details.  Let
+\begin{equation}
+  d=\abs{n-m},\qquad d_0=\abs{n_0-m}.
+\end{equation}
+The basic Fourier identity is
+\begin{equation}
+  \frac1N\sum_{r=1}^{N-1}\cos\frac{2\pi r(n-n_0)}{N}
+  =\delta_{n,n_0}-\frac1N.
+\end{equation}
+The product-to-sum formula gives
+\begin{align}
+  \sum_{r=1}^{N-1}\cos\frac{2\pi r d}{N}\cos\frac{2\pi r d_0}{N}
+  &=\frac12\sum_{r=1}^{N-1}
+  \left[\cos\frac{2\pi r(d-d_0)}{N}+\cos\frac{2\pi r(d+d_0)}{N}\right]\notag\\
+  &=\frac{N}{2}\bigl(\delta_{d,d_0}+\delta_{d,N-d_0}\bigr)-1,
+  \label{eq:cos-orthogonality}
+\end{align}
+where the Kronecker deltas are interpreted modulo the ring.  The odd sine sum is
+\begin{align}
+  \sum_{j=1}^{N-1}\bigl[1-(-1)^j\bigr]\sin(d\theta_j)\sin(d_0\theta_j)
+  &=2\sum_{\substack{1\leq j\leq N-1\\j\;\mathrm{odd}}}\sin(d\theta_j)\sin(d_0\theta_j)\notag\\
+  &=\frac{N}{2}\bigl(\delta_{d,d_0}+\delta_{d,N-d_0}\bigr).
+  \label{eq:odd-sine-orthogonality}
+\end{align}
+Substituting \eqref{eq:cos-orthogonality} and \eqref{eq:odd-sine-orthogonality} into
+\eqref{eq:W-final} at $t=0$ cancels the distance-only terms and leaves
+$\delta_{n,n_0}$.
+
+\subsection{Generating-function form}
+
+Define
+\begin{align}
+  G^{(1)}_r(n_0,n,m)&=\frac{1}{N}
+  \left[
+  \cos\frac{2\pi r(n-n_0)}{N}
+  -\cos\frac{2\pi r(n-m)}{N}\cos\frac{2\pi r(n_0-m)}{N}
+  \right],\\
+  G^{(2)}_j(n_0,n,m)&=\frac{1}{N}\bigl[1-(-1)^j\bigr]
+  \sin\frac{\pi j\abs{n_0-m}}{N}
+  \sin\frac{\pi j\abs{n-m}}{N}.
+\end{align}
+Then
+\begin{equation}
+  W_{n_0}(n,t)=\sum_{r=1}^{N-1}G^{(1)}_r(n_0,n,m)\gamma_r^t
+  +\sum_{j=1}^{N-1}G^{(2)}_j(n_0,n,m)\lambda_j^t.
+  \label{eq:W-compact-full}
+\end{equation}
+If $N=2L$, the second sum can be written over odd modes only:
+\begin{equation}
+  W_{n_0}(n,t)=\sum_{r=1}^{N-1}G^{(1)}_r(n_0,n,m)\gamma_r^t
+  +\sum_{\ell=1}^{L}g^{(2)}_\ell(n_0,n,m)\alpha_\ell^t,
+  \label{eq:W-compact-odd}
+\end{equation}
+where
+\begin{equation}
+  g^{(2)}_\ell(n_0,n,m)=\frac{2}{N}
+  \sin\frac{(2\ell-1)\pi\abs{n_0-m}}{N}
+  \sin\frac{(2\ell-1)\pi\abs{n-m}}{N}.
+\end{equation}
+The generating function is therefore
+\begin{equation}
+  \wt W_{n_0}(n,z)=\sum_{r=1}^{N-1}\frac{G^{(1)}_r(n_0,n,m)}{1-z\gamma_r}
+  +\sum_{\ell=1}^{L}\frac{g^{(2)}_\ell(n_0,n,m)}{1-z\alpha_\ell}.
+  \label{eq:W-gen-compact}
+\end{equation}
+
+\subsection{Special symmetric return propagator}
+\label{sec:WLL}
+
+Let $N=2L$, $m=0$, and $n=n_0=L$.  Then the first line of \eqref{eq:W-final} vanishes because
+\begin{equation}
+  \cos\frac{2\pi r(L-L)}{N}=1,
+  \qquad
+  \cos\frac{2\pi rL}{N}\cos\frac{2\pi rL}{N}=\cos^2(\pi r)=1.
+\end{equation}
+The second line becomes
+\begin{equation}
+  W_L(L,t)=\frac1N\sum_{j=1}^{N-1}\bigl[1-(-1)^j\bigr]\sin^2\frac{\pi j}{2}\,\lambda_j^t.
+\end{equation}
+Only odd $j=2\ell-1$ contribute.  For odd $j$, $1-(-1)^j=2$ and
+$\sin^2(\pi j/2)=1$, so
+\begin{equation}
+  W_L(L,t)=\frac{2}{N}\sum_{\ell=1}^{L}\alpha_\ell^t.
+  \label{eq:WLL-time}
+\end{equation}
+Hence
+\begin{align}
+  \wt W_L(L,z)
+  &=\frac{2}{N}\sum_{\ell=1}^{L}\frac{1}{1-z\alpha_\ell}
+  =\frac{2}{N}\frac{1}{zq}
+  \sum_{\ell=1}^{L}\frac{1}{y-\cos\frac{(2\ell-1)\pi}{2L}}.\label{eq:WLL-gen-step1}
+\end{align}
+The zeros of $T_L(y)$ are exactly $\cos[(2\ell-1)\pi/(2L)]$, so
+\begin{equation}
+  \frac{T_L'(y)}{T_L(y)}=\sum_{\ell=1}^{L}
+  \frac{1}{y-\cos\frac{(2\ell-1)\pi}{2L}}.
+\end{equation}
+Since $T_L'(y)=L U_{L-1}(y)$ and $N=2L$, \eqref{eq:WLL-gen-step1} gives
+\begin{equation}
+  \wt W_L(L,z)=\frac{2}{2L}\frac1{zq}\frac{L U_{L-1}(y)}{T_L(y)}
+  =\frac{U_{L-1}(y)}{zq\,T_L(y)}.
+\end{equation}
+Using $U_{2L-1}(y)=2T_L(y)U_{L-1}(y)$, this is also
+\begin{equation}
+  \boxed{
+  \wt W_L(L,z)=\frac{2U_{L-1}^2(y)}{zq\,U_{2L-1}(y)}.}
+  \label{eq:WLL-gen}
+\end{equation}
+At $z=1$, $y=1$, so
+\begin{equation}
+  \wt W_L(L,1)=\frac{U_{L-1}(1)}{qT_L(1)}=\frac{L}{q}=\frac{N}{2q}.
+\end{equation}
+
+\section{Shortcut into the absorbing site}
+\label{sec:shortcut}
+
+\subsection{Transient matrix derivation of the sign}
+
+Let $K_0$ be the transient transition matrix for the ring with absorbing target $v$, but without
+the shortcut.  Its resolvent is
+\begin{equation}
+  R_0(z)=(I-zK_0)^{-1},
+  \qquad
+  [R_0(z)]_{n,n_0}=\wt W_{n_0}(n,z).
+\end{equation}
+A shortcut from $u$ to the absorbing target $v$ that replaces probability
+$\lambda=\beta(1-q)$ of the stay-put move at $u$ removes that probability from the transient
+state $u$.  Therefore, in the transient subspace,
+\begin{equation}
+  K=K_0-\lambda |u\rangle\langle u|.
+  \label{eq:K-with-killing}
+\end{equation}
+The resolvent with the shortcut is
+\begin{equation}
+  R(z)=(I-zK)^{-1}=\bigl[I-zK_0+z\lambda |u\rangle\langle u|\bigr]^{-1}.
+\end{equation}
+Set
+\begin{equation}
+  A=I-zK_0.
+\end{equation}
+Then
+\begin{equation}
+  R(z)=\bigl[A+z\lambda |u\rangle\langle u|\bigr]^{-1}.
+\end{equation}
+Use the Sherman--Morrison identity
+\begin{equation}
+  (A+|p\rangle\langle q|)^{-1}
+  =A^{-1}-\frac{A^{-1}|p\rangle\langle q|A^{-1}}
+  {1+\langle q|A^{-1}|p\rangle}.
+\end{equation}
+Here $|p\rangle=z\lambda |u\rangle$ and $\langle q|=\langle u|$.  Thus
+\begin{align}
+  R(z)&=R_0(z)-\frac{z\lambda R_0(z)|u\rangle\langle u|R_0(z)}
+  {1+z\lambda\langle u|R_0(z)|u\rangle}.
+\end{align}
+Taking the $(n,n_0)$ matrix element gives the corrected propagator
+\begin{equation}
+  \boxed{
+  \wt S_{n_0}(n,z)=\wt W_{n_0}(n,z)-
+  \frac{z\lambda\,\wt W_{n_0}(u,z)\wt W_u(n,z)}
+  {1+z\lambda\,\wt W_u(u,z)}.}
+  \label{eq:S-corrected}
+\end{equation}
+This is the same as \eqref{eq:main-corrected-resolvent}.  The sign is not a convention: it is fixed
+by the fact that the target state $v$ is absorbing and therefore absent from the transient
+subspace.
+
+\subsection{First-passage generating function}
+
+Sum \eqref{eq:S-corrected} over all transient sites $n\neq v$.  For the baseline killed walk,
+\begin{equation}
+  \sum_{n\neq v}\wt W_r(n,z)=\frac{1-\wt F^{(0)}_r(v,z)}{1-z}.
+  \label{eq:survival-gen-relation}
+\end{equation}
+Therefore
+\begin{align}
+  \sum_{n\neq v}\wt S_{n_0}(n,z)
+  &=\frac{1-\wt F^{(0)}_{n_0}(v,z)}{1-z}
+  -\frac{z\lambda\,\wt W_{n_0}(u,z)}{1+z\lambda\wt W_u(u,z)}
+  \frac{1-\wt F^{(0)}_u(v,z)}{1-z}.
+\end{align}
+But the left-hand side is also $(1-\wt F_{n_0}(v,z))/(1-z)$.  Multiplying by $1-z$ and rearranging
+gives
+\begin{equation}
+  \boxed{
+  \wt F_{n_0}(v,z)=\wt F^{(0)}_{n_0}(v,z)+
+  \frac{z\lambda\,\wt W_{n_0}(u,z)\bigl[1-\wt F^{(0)}_u(v,z)\bigr]}
+  {1+z\lambda\,\wt W_u(u,z)}.}
+  \label{eq:F-corrected-shortcut}
+\end{equation}
+
+\subsection{Why the sign is also forced physically}
+
+For $0\leq z<1$, all coefficients of $\wt W_{n_0}(u,z)$ and
+$1-\wt F^{(0)}_u(v,z)$ are non-negative, and $1+z\lambda\wt W_u(u,z)>0$.  Hence the shortcut term
+in \eqref{eq:F-corrected-shortcut} is non-negative.  Thus adding a shortcut into the absorbing
+site increases the first-passage generating function, as it should.
+
+By contrast, a formula with
+\begin{equation}
+  +\frac{z\lambda\wt W_{n_0}(u,z)\wt W_u(n,z)}{1-z\lambda\wt W_u(u,z)}
+\end{equation}
+in the propagator would increase transient survival and decrease the hitting generating function.
+It can also produce a positive real singularity when
+\begin{equation}
+  z\lambda\wt W_u(u,z)=1.
+\end{equation}
+In the symmetric case, $\wt W_L(L,1)=N/(2q)$, so the denominator at $z=1$ would be
+\begin{equation}
+  1-\frac{\beta(1-q)N}{2q},
+\end{equation}
+which is exactly the source of the original threshold.  Such a singularity is an artefact of the
+wrong sign; it is not present in the corrected stochastic shortcut-to-target model.
+
+\section{Symmetric shortcut: exact corrected first-passage generating function}
+\label{sec:symmetric-shortcut}
+
+We now set
+\begin{equation}
+  N=2L,
+  \qquad v=0,
+  \qquad u=L.
+\end{equation}
+Let $F_\rho(z)$ be the first-passage generating function to $0$ from a site at distance
+$\rho$ from $0$ along either half-ring, where $0\leq\rho\leq L$.  By symmetry,
+$F_{L+k}=F_{L-k}$.
+
+\subsection{Difference equation}
+
+For $1\leq\rho\leq L-1$, the first step gives
+\begin{equation}
+  F_\rho(z)=z\left[(1-q)F_\rho(z)+\frac q2F_{\rho-1}(z)+\frac q2F_{\rho+1}(z)\right].
+\end{equation}
+Move all terms to one side and divide by $zq/2$:
+\begin{equation}
+  F_{\rho+1}(z)-2yF_\rho(z)+F_{\rho-1}(z)=0,
+  \qquad
+  y=1+\frac1q\left(\frac1z-1\right).
+  \label{eq:interior-recurrence}
+\end{equation}
+The absorbing boundary is
+\begin{equation}
+  F_0(z)=1.
+\end{equation}
+At $\rho=L$, the shortcut replaces probability $\lambda=\beta(1-q)$ of the stay-put probability by
+an immediate jump to the target.  Therefore
+\begin{equation}
+  F_L(z)=z\left[\lambda+(1-q-\lambda)F_L(z)+qF_{L-1}(z)\right].
+\end{equation}
+Using $1-q-\lambda=(1-\beta)(1-q)$ and writing
+\begin{equation}
+  h=\frac{\lambda}{q}=\frac{\beta(1-q)}{q},
+  \qquad a=\frac1h=\frac{q}{\beta(1-q)},
+\end{equation}
+the boundary equation becomes
+\begin{equation}
+  \boxed{(y+h)F_L(z)-F_{L-1}(z)=h.}
+  \label{eq:L-boundary}
+\end{equation}
+
+\subsection{Solving the recurrence}
+
+The recurrence \eqref{eq:interior-recurrence} is the Chebyshev recurrence.  The solution satisfying
+$F_0=1$ can be written as
+\begin{equation}
+  F_\rho=T_\rho(y)+C\,U_{\rho-1}(y),
+  \label{eq:F-rho-general}
+\end{equation}
+because $T_0=1$ and $U_{-1}=0$.  Hence
+\begin{equation}
+  F_L=T_L+C U_{L-1},
+  \qquad
+  F_{L-1}=T_{L-1}+C U_{L-2}.
+\end{equation}
+Substitute these into \eqref{eq:L-boundary}:
+\begin{align}
+  h&=(y+h)(T_L+C U_{L-1})-(T_{L-1}+C U_{L-2})\notag\\
+  &=\bigl(yT_L-T_{L-1}\bigr)
+  +C\bigl(yU_{L-1}-U_{L-2}\bigr)
+  +hT_L+hC U_{L-1}.
+  \label{eq:C-equation-step1}
+\end{align}
+The needed Chebyshev identities are
+\begin{equation}
+  yU_{L-1}-U_{L-2}=T_L,
+  \qquad
+  yT_L-T_{L-1}=(y^2-1)U_{L-1}.
+  \label{eq:cheb-identities-boundary}
+\end{equation}
+Using them in \eqref{eq:C-equation-step1} gives
+\begin{equation}
+  h=(y^2-1)U_{L-1}+C T_L+hT_L+hC U_{L-1}.
+\end{equation}
+Therefore
+\begin{equation}
+  C\bigl(T_L+hU_{L-1}\bigr)=h(1-T_L)-(y^2-1)U_{L-1},
+\end{equation}
+and
+\begin{equation}
+  C=\frac{h(1-T_L)-(y^2-1)U_{L-1}}{T_L+hU_{L-1}}.
+  \label{eq:C-value}
+\end{equation}
+Substitution into \eqref{eq:F-rho-general} gives one correct form of the answer:
+\begin{equation}
+  F_\rho=T_\rho+U_{\rho-1}
+  \frac{h(1-T_L)-(y^2-1)U_{L-1}}{T_L+hU_{L-1}}.
+  \label{eq:F-rho-form1}
+\end{equation}
+Multiplying numerator and denominator by $a=1/h$ gives
+\begin{equation}
+  F_\rho=\frac{aT_\rho T_L+T_\rho U_{L-1}+U_{\rho-1}(1-T_L)
+  -a(y^2-1)U_{\rho-1}U_{L-1}}{aT_L+U_{L-1}}.
+  \label{eq:F-rho-form2}
+\end{equation}
+Now use the two product identities
+\begin{align}
+  T_\rho T_L-(y^2-1)U_{\rho-1}U_{L-1}&=T_{L-\rho},
+  \label{eq:product-id1}\\
+  T_\rho U_{L-1}+U_{\rho-1}(1-T_L)&=U_{L-\rho-1}+U_{\rho-1}.
+  \label{eq:product-id2}
+\end{align}
+For example, if $y=\cos\theta$, then \eqref{eq:product-id1} reads
+\begin{equation}
+  \cos(\rho\theta)\cos(L\theta)+\sin(\rho\theta)\sin(L\theta)
+  =\cos((L-\rho)\theta),
+\end{equation}
+and \eqref{eq:product-id2} follows from
+\begin{equation}
+  \cos(\rho\theta)\frac{\sin(L\theta)}{\sin\theta}
+  +\frac{\sin(\rho\theta)}{\sin\theta}\bigl[1-\cos(L\theta)\bigr]
+  =\frac{\sin((L-\rho)\theta)+\sin(\rho\theta)}{\sin\theta}.
+\end{equation}
+Thus \eqref{eq:F-rho-form2} becomes
+\begin{equation}
+  \boxed{
+  \wt F_\rho(z)=
+  \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+  {aT_L(y)+U_{L-1}(y)}.}
+  \label{eq:F-rho-final}
+\end{equation}
+This is the same as \eqref{eq:main-symmetric-F}.
+
+\subsection{Checks on the symmetric formula}
+
+First, $\rho=0$ gives
+\begin{equation}
+  \wt F_0(z)=\frac{aT_L+U_{-1}+U_{L-1}}{aT_L+U_{L-1}}=1,
+\end{equation}
+as required for a walker already at the absorbing site.  Second, in the no-shortcut limit
+$\beta\to0$, we have $a\to\infty$, so
+\begin{equation}
+  \wt F_\rho(z)\to\frac{T_{L-\rho}(y)}{T_L(y)}.
+\end{equation}
+This agrees with the absorbing-ring formula \eqref{eq:F0-gen}.  Indeed, for $N=2L$,
+\begin{equation}
+  \frac{U_{2L-\rho-1}+U_{\rho-1}}{U_{2L-1} }
+  =\frac{T_{L-\rho}}{T_L},
+\end{equation}
+which follows from the same trigonometric product identities.
+
+Third, when $\rho=L$,
+\begin{equation}
+  \wt F_L(z)=\frac{a+U_{L-1}(y)}{aT_L(y)+U_{L-1}(y)}.
+\end{equation}
+At $z=1$, $y=1$, so $T_L(1)=1$ and $U_{L-1}(1)=L$, giving
+\begin{equation}
+  \wt F_L(1)=\frac{a+L}{a+L}=1.
+\end{equation}
+Thus absorption remains certain.
+
+\section{Poles, tail decay, and the corrected dependence on \texorpdfstring{$\beta$}{beta}}
+\label{sec:poles-tail}
+
+\subsection{Pole equation}
+
+Write $s=1/z$, so
+\begin{equation}
+  y_s=1+\frac{s-1}{q}.
+\end{equation}
+The poles of \eqref{eq:F-rho-final} are roots of
+\begin{equation}
+  D(y_s)=aT_L(y_s)+U_{L-1}(y_s)=0.
+  \label{eq:D-y}
+\end{equation}
+If $y_s=\cos\theta$, then
+\begin{equation}
+  T_L(y_s)=\cos(L\theta),
+  \qquad
+  U_{L-1}(y_s)=\frac{\sin(L\theta)}{\sin\theta}.
+\end{equation}
+Therefore \eqref{eq:D-y} becomes
+\begin{equation}
+  a\cos(L\theta)+\frac{\sin(L\theta)}{\sin\theta}=0.
+\end{equation}
+Multiplying by $\sin\theta$ and dividing by $\cos(L\theta)$ away from the asymptotes gives
+\begin{equation}
+  \boxed{\tan(L\theta)=-a\sin\theta.}
+  \label{eq:theta-root}
+\end{equation}
+The corresponding pole value is
+\begin{equation}
+  \boxed{s=1-q+q\cos\theta.}
+  \label{eq:s-theta}
+\end{equation}
+
+\subsection{Location of the largest pole}
+
+The no-shortcut largest odd-sector eigenvalue is
+\begin{equation}
+  \alpha_1=1-q+q\cos\frac{\pi}{2L}=1-q+q\cos\frac{\pi}{N}.
+\end{equation}
+The largest even-sector nontrivial eigenvalue is
+\begin{equation}
+  \gamma_1=1-q+q\cos\frac{\pi}{L}=1-q+q\cos\frac{2\pi}{N}.
+\end{equation}
+Consider the interval
+\begin{equation}
+  \frac{\pi}{2L}<\theta<\frac{\pi}{L}.
+\end{equation}
+In this interval,
+\begin{equation}
+  \cos(L\theta)<0,
+  \qquad
+  \sin(L\theta)>0,
+  \qquad
+  \sin\theta>0.
+\end{equation}
+Hence $D(\cos\theta)=a\cos(L\theta)+\sin(L\theta)/\sin\theta$ tends to $U_{L-1}>0$ at the left
+endpoint $\theta=\pi/(2L)$, while it equals $a\cos\pi=-a<0$ at the right endpoint
+$\theta=\pi/L$.  By continuity there is a root $\theta_1$ in this interval.  This root gives
+\begin{equation}
+  \cos\frac{\pi}{L}<\cos\theta_1<\cos\frac{\pi}{2L},
+\end{equation}
+and therefore
+\begin{equation}
+  \boxed{\gamma_1<s_1<\alpha_1.}
+\end{equation}
+Since the transient transition matrix is non-negative and primitive for $0<q<1$, its spectral
+radius is the unique positive dominant eigenvalue.  Thus $s_1$ controls the long-time tail.
+
+\subsection{Partial fractions and the exact tail coefficient}
+
+Let
+\begin{equation}
+  N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y),
+  \qquad
+  D(y)=aT_L(y)+U_{L-1}(y).
+\end{equation}
+Let $y_k$ be a simple root of $D(y)$ and define
+\begin{equation}
+  s_k=1-q+qy_k.
+\end{equation}
+Near $s=s_k$,
+\begin{equation}
+  \wt F_\rho(1/s)=\frac{N_\rho(y_s)}{D(y_s)}
+  =\frac{N_\rho(y_k)}{D'(y_k)(y_s-y_k)}+\text{regular terms}.
+\end{equation}
+Since $y_s-y_k=(s-s_k)/q$, the residue in the $s$-plane is
+\begin{equation}
+  \Res_{s=s_k}\wt F_\rho(1/s)=\frac{qN_\rho(y_k)}{D'(y_k)}.
+\end{equation}
+The partial-fraction term corresponding to a pole $s_k$ is
+\begin{equation}
+  \frac{B_{\rho k}}{1-zs_k},
+\end{equation}
+whose $s=1/z$ form is
+\begin{equation}
+  \frac{B_{\rho k}}{1-s_k/s}=\frac{B_{\rho k}s}{s-s_k}.
+\end{equation}
+Its residue at $s=s_k$ is $B_{\rho k}s_k$.  Hence the coefficient multiplying
+$s_k^t$ is
+\begin{equation}
+  B_{\rho k}^{(z^t)}=\frac{qN_\rho(y_k)}{s_kD'(y_k)}.
+\end{equation}
+Equivalently, if we write the time dependence as $s_k^{t-1}$ for $t\geq1$, then
+\begin{equation}
+  \boxed{
+  F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1},
+  \qquad
+  B_{\rho k}=\frac{qN_\rho(y_k)}{D'(y_k)}.}
+  \label{eq:partial-fraction-B}
+\end{equation}
+In particular,
+\begin{equation}
+  \boxed{
+  F_\rho(t)\sim B_{\rho1}s_1^{t-1},
+  \qquad
+  B_{\rho1}=\frac{qN_\rho(y_1)}{D'(y_1)}.}
+  \label{eq:tail-coefficient}
+\end{equation}
+The decay time can be reported as
+\begin{equation}
+  \boxed{\tau_\beta=-\frac{1}{\log s_1}.}
+  \label{eq:tau-beta}
+\end{equation}
+
+\subsection{Weak-shortcut expansion}
+
+For small $\beta$, equivalently large
+\begin{equation}
+  a=\frac{q}{\beta(1-q)},
+\end{equation}
+the largest root lies close to
+\begin{equation}
+  \theta_0=\frac{\pi}{2L}.
+\end{equation}
+Write
+\begin{equation}
+  \theta_1=\theta_0+\delta,
+  \qquad 0<\delta\ll1.
+\end{equation}
+Then
+\begin{equation}
+  L\theta_1=\frac{\pi}{2}+L\delta,
+  \qquad
+  \tan(L\theta_1)=\tan\left(\frac\pi2+L\delta\right)
+  =-\cot(L\delta).
+\end{equation}
+For small $\delta$,
+\begin{equation}
+  -\cot(L\delta)=-\frac{1}{L\delta}+O(L\delta).
+\end{equation}
+The root equation \eqref{eq:theta-root} gives
+\begin{equation}
+  -\frac{1}{L\delta}+O(\delta)=-a\sin(\theta_0+\delta).
+\end{equation}
+To leading order,
+\begin{equation}
+  \delta=\frac{1}{aL\sin\theta_0}+O(a^{-2}).
+\end{equation}
+Now expand $s_1=1-q+q\cos(\theta_0+\delta)$:
+\begin{align}
+  s_1
+  &=1-q+q\left[\cos\theta_0-\delta\sin\theta_0+O(\delta^2)\right]\notag\\
+  &=\alpha_1-q\sin\theta_0\frac{1}{aL\sin\theta_0}+O(a^{-2})\notag\\
+  &=\alpha_1-\frac{q}{aL}+O(a^{-2}).
+\end{align}
+Since $q/a=\beta(1-q)$ and $L=N/2$,
+\begin{equation}
+  \boxed{s_1=\alpha_1-\frac{2\beta(1-q)}{N}
+  +O\bigl([\beta(1-q)]^2\bigr).}
+\end{equation}
+Thus
+\begin{equation}
+  \boxed{1-s_1=1-\alpha_1+\frac{2\beta(1-q)}{N}
+  +O\bigl([\beta(1-q)]^2\bigr).}
+\end{equation}
+For large $N$,
+\begin{equation}
+  1-\alpha_1=q\left[1-\cos\frac{\pi}{N}\right]
+  =\frac{q\pi^2}{2N^2}+O(N^{-4}),
+\end{equation}
+so
+\begin{equation}
+  \boxed{1-s_1\sim \frac{q\pi^2}{2N^2}+\frac{2\beta(1-q)}{N}.}
+\end{equation}
+
+\subsection{Strong-shortcut endpoint expansion}
+
+When $a$ is small, the largest root approaches the zero of $U_{L-1}$ at
+$\theta=\pi/L$.  Write
+\begin{equation}
+  \theta_1=\frac{\pi}{L}-\varepsilon,
+  \qquad 0<\varepsilon\ll1.
+\end{equation}
+Then
+\begin{equation}
+  \tan(L\theta_1)=\tan(\pi-L\varepsilon)=-L\varepsilon+O(\varepsilon^3),
+\end{equation}
+and
+\begin{equation}
+  -a\sin\theta_1=-a\sin\frac{\pi}{L}+O(a\varepsilon).
+\end{equation}
+Thus
+\begin{equation}
+  \varepsilon=\frac{a}{L}\sin\frac{\pi}{L}+O(a^2).
+\end{equation}
+Consequently
+\begin{align}
+  s_1&=1-q+q\cos\left(\frac{\pi}{L}-\varepsilon\right)\notag\\
+  &=\gamma_1+q\varepsilon\sin\frac{\pi}{L}+O(\varepsilon^2)\notag\\
+  &=\gamma_1+\frac{qa}{L}\sin^2\frac{\pi}{L}+O(a^2).
+\end{align}
+This shows explicitly how the dominant pole moves from $\alpha_1$ toward $\gamma_1$ as the
+shortcut strength increases.
+
+\section{Consequences for the bimodality discussion}
+\label{sec:bimodality}
+
+The existence of a second peak is a finite-time shape question.  It is not determined solely by
+which pole is asymptotically largest.  In the corrected formula, if
+\begin{equation}
+  F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1},
+\end{equation}
+then local extrema are controlled exactly by the finite difference
+\begin{equation}
+  F_\rho(t+1)-F_\rho(t)=\sum_k B_{\rho k}(s_k-1)s_k^{t-1}.
+  \label{eq:finite-difference-bimodality}
+\end{equation}
+A second peak at time $t_*$ requires
+\begin{equation}
+  F_\rho(t_*)-F_\rho(t_*-1)>0,
+  \qquad
+  F_\rho(t_*+1)-F_\rho(t_*)<0.
+\end{equation}
+These inequalities can be checked exactly from \eqref{eq:finite-difference-bimodality}.  They do
+not reduce to the original threshold $\beta\leq2q/[(1-q)N]$.
+
+What can be stated analytically and cleanly is the decay of the right tail of a second peak if it
+is present:
+\begin{equation}
+  \boxed{F_\rho(t)\sim B_{\rho1}s_1^{t-1},
+  \qquad \frac{F_\rho(t+1)}{F_\rho(t)}\to s_1.}
+\end{equation}
+Thus the referee-facing corrected decay dependence is
+\begin{equation}
+  \boxed{\tau_\beta^{-1}=-\log s_1,\qquad
+  aT_L\left(1+\frac{s_1-1}{q}\right)+U_{L-1}\left(1+\frac{s_1-1}{q}\right)=0.}
+\end{equation}
+For weak shortcuts this gives
+\begin{equation}
+  \boxed{\tau_\beta^{-1}
+  =-\log\left[\alpha_1-\frac{2\beta(1-q)}{N}+O\bigl([\beta(1-q)]^2\bigr)\right].}
+\end{equation}
+Equivalently, in gap form,
+\begin{equation}
+  \boxed{1-s_1\sim \frac{q\pi^2}{2N^2}+\frac{2\beta(1-q)}{N}.}
+\end{equation}
+The shortcut contribution to the decay gap is the term
+\begin{equation}
+  \boxed{\frac{2\beta(1-q)}{N}.}
+\end{equation}
+
+\section{Audit notes: issues found in the original calculation}
+\label{sec:audit-notes}
+
+This section records the mathematical and typographical issues identified during the audit.
+
+\subsection{Substantive mathematical issues}
+
+\begin{enumerate}
+\item The shortcut-to-target resolvent sign is wrong for the stochastic interpretation in which a
+fraction $\beta(1-q)$ of the stay-put probability at $u$ is replaced by a jump to absorbing $v$.
+The corrected transient perturbation is negative killing at $u$, giving
+\eqref{eq:S-corrected}.
+
+\item The original denominator $1-z\beta(1-q)\wt W_u(u,z)$ must be replaced by
+$1+z\beta(1-q)\wt W_u(u,z)$.  This changes the pole equation from a positive horizontal-line
+intersection to a negative one, or equivalently from $a-\phi=0$ to $a+\phi=0$.
+
+\item The original first-passage correction has the wrong monotonicity: it decreases the hitting
+generating function after adding a shortcut to the target.  The corrected formula
+\eqref{eq:F-corrected-shortcut} increases it.
+
+\item The original beta condition
+\begin{equation}
+  \beta\leq\frac{2q}{(1-q)N}
+\end{equation}
+comes from the wrong-sign denominator and is not a valid corrected condition for the stochastic
+shortcut-to-target model.
+
+\item The original $t\alpha_1^t$ conclusion comes from an artificial collision between an
+uncorrected shortcut pole and an absorbing-ring pole.  In the corrected model the dominant pole is
+simple and equals $s_1<\alpha_1$, so the tail is $B_{\rho1}s_1^{t-1}$.
+
+\item The reduction of the absorbing-ring double sum contains a sign inconsistency in the
+intermediate line: with denominator $\cos(\pi j/N)-\cos(2\pi r/N)$, the bracket must be
+$\gamma_r^t-\lambda_j^t$.  The final killed propagator is nevertheless correct after this sign is
+fixed.
+
+\item The initial-condition check following the killed propagator uses incorrect individual
+orthogonality claims.  The correct cosine and odd-sine sums are \eqref{eq:cos-orthogonality} and
+\eqref{eq:odd-sine-orthogonality}; only their combination gives $\delta_{n,n_0}$.
+
+\item In the long convolution formula corresponding to the original Eq. (41), the first
+no-shortcut term should involve $f_\ell(n_0,v)$, not $f_\ell(n_0,u)$.  The baseline term in
+$F_{n_0}(v,t)$ is the first-passage probability to $v$.
+
+\item In the same long convolution formula, terms involving the odd-sector propagator
+$g^{(2)}_r$ should carry $\alpha_r$, not $\gamma_r$.  The displayed use of $\gamma_r$ in the last
+line is an index/eigenvalue mismatch.
+
+\item The residue coefficient formula for the uncorrected $c_k$ contains bracket mismatches and an
+apparently incorrect derivative factor.  Since that coefficient belongs to the wrong-sign pole
+problem, it should be replaced rather than repaired.
+\end{enumerate}
+
+\subsection{Typographical and presentation issues}
+
+\begin{enumerate}
+\item The document class option \texttt{idelinks} should be \texttt{hidelinks}.
+\item The source depends on local style files such as \texttt{customcolours.sty},
+\texttt{customcommands.sty}, and \texttt{globalplotconfig.sty}; a portable derivation should avoid
+these dependencies or include them.
+\item A label of the form \verb|\label{eq:}| is not useful and can create reference problems.
+\item Several expressions write $G^{(1)}_k(n_0,n,,m)$ and $G^{(2)}_k(n_0,n,,m)$ with a double
+comma.
+\item The text says $Q_{n_0}(n,0)=\delta_{n,n_0}$ and $Q_{n_0}(n,t)=0$ in places where it means
+$W_{n_0}(n,0)$ and $W_{n_0}(n,t)$.
+\item The compact odd-sector sums require $N$ even.  This assumption should be stated before using
+$\sum_{\ell=1}^{N/2}$.
+\item The figure caption says ``given the requirement $q>1$''; the stochastic model requires
+$0<q<1$, and a nonzero shortcut probability requires $q<1$ if the shortcut probability is
+proportional to $1-q$.
+\item The phrase ``poles in the dominator'' should be ``poles in the denominator.''
+\item The contour statement after $z=1/s$ should specify orientation and which singularities are
+enclosed.  The corrected derivation avoids this ambiguity by using partial fractions directly in
+$s$.
+\end{enumerate}
+
+\section{Optional numerical check for the figure parameters}
+
+For the original figure parameters
+\begin{equation}
+  N=10,
+  \qquad L=5,
+  \qquad q=\frac23,
+  \qquad \beta=\frac27,
+\end{equation}
+we have
+\begin{equation}
+  a=\frac{q}{\beta(1-q)}=7.
+\end{equation}
+The corrected largest root solves
+\begin{equation}
+  \tan(5\theta)=-7\sin\theta,
+  \qquad \frac{\pi}{10}<\theta<\frac{\pi}{5}.
+\end{equation}
+Numerically,
+\begin{equation}
+  \theta_1\approx0.3865953134,
+  \qquad
+  s_1=1-\frac23+\frac23\cos\theta_1\approx0.9507987460.
+\end{equation}
+The no-shortcut largest odd eigenvalue is
+\begin{equation}
+  \alpha_1=1-\frac23+\frac23\cos\frac{\pi}{10}\approx0.9673710109,
+\end{equation}
+so indeed
+\begin{equation}
+  s_1<\alpha_1.
+\end{equation}
+The corrected tail gap is
+\begin{equation}
+  1-s_1\approx0.0492012540.
+\end{equation}
+
+\end{document}

@@ -1,0 +1,567 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise]{cleveref}
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\Original}[1]{\textcolor{red!70!black}{#1}}
+\newcommand{\Corrected}[1]{\textcolor{blue!65!black}{#1}}
+\newcommand{\Issue}[1]{\par\medskip\noindent\textbf{Issue.} #1\par}
+\newcommand{\Fix}[1]{\par\noindent\textbf{Correction.} #1\par}
+\newcommand{\Reason}[1]{\par\noindent\textbf{Reason.} #1\par\medskip}
+\newcommand{\dd}{\mathrm{d}}
+
+\title{Marked Changes, Audit Trail, and Referee-Oriented Notes\\
+for the ring-with-shortcut first-passage calculation}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{How to read this audit file}
+
+This file is not merely a shorter duplicate of the corrected derivation.  It records what changed,
+why it changed, which parts of the original calculation can be retained, which parts should be
+replaced, and what the corrected analytical answer says about the bimodality/decay question.  Red
+formulae labelled ``original'' are formulae or logical steps that should not be used in the revised
+argument under the stochastic interpretation stated below.  Blue formulae labelled ``corrected'' are
+replacement formulae.  The accompanying file
+\texttt{Calculations\_corrected\_complete\_v3.tex} contains the fully expanded derivation with the
+intermediate algebra left in.
+
+The stochastic interpretation used for the correction is the one that appears to be intended by the
+wording ``a shortcut from $u$ to the absorbing site $v$'': at a visit to $u$, a probability
+\begin{equation}
+  \lambda=\beta(1-q)
+\end{equation}
+is diverted to the target $v$.  Since $v$ is absorbing, this diverted probability exits the
+transient state space immediately.  If the intended model is instead a probability-conserving
+shortcut on a ring before imposing absorption, or a reverse shortcut, then the model statement must
+be rewritten explicitly because the algebra describes a different Markov chain.
+
+\section{Executive audit result}
+
+The absorbing-ring calculation is mostly salvageable, but it needs several local corrections:
+index ranges, odd/even mode notation, a sign convention in the double sum, corrected orthogonality
+checks, and several typos.  The shortcut-to-target calculation requires a substantive correction.
+The original shortcut section uses the denominator
+\begin{equation}
+  \Original{1-z\beta(1-q)\wt W_u(u,z)}
+\end{equation}
+and consequently introduces
+\begin{equation}
+  \Original{
+  \wt H_{N,N/2}(z)=\frac{1}{\dfrac{q}{\beta(1-q)}-\phi(z)}.}
+\end{equation}
+Under the stochastic shortcut-to-absorbing-target interpretation, the transient dynamics instead
+contains an additional killing channel at $u$, and the corrected denominator is
+\begin{equation}
+  \Corrected{1+z\beta(1-q)\wt W_u(u,z)}.
+\end{equation}
+Thus the symmetric-case auxiliary factor is
+\begin{equation}
+  \Corrected{
+  \wt H^{\rm corr}_{N,N/2}(z)=\frac{1}{\dfrac{q}{\beta(1-q)}+\phi(z)}.}
+\end{equation}
+Equivalently, if the same plotted function $\phi(1/s)$ is retained, the horizontal line must be
+$-q/[\beta(1-q)]$, not $+q/[\beta(1-q)]$.
+
+Therefore the original threshold
+\begin{equation}
+  \Original{\beta\leq \frac{2q}{(1-q)N}}
+\end{equation}
+is not a valid analytical condition for the corrected stochastic model.  The corrected long-time
+right-tail decay is
+\begin{equation}
+  \Corrected{F_\rho(t)\sim B_{\rho 1}s_1^{t-1}},
+\end{equation}
+where $s_1$ is determined implicitly by
+\begin{equation}
+  \Corrected{aT_L(y_s)+U_{L-1}(y_s)=0,
+  \qquad a=\frac{q}{\beta(1-q)},\qquad y_s=1+\frac{s-1}{q}.}
+\end{equation}
+It is not generically $t\alpha_1^t$.  For weak shortcut strength,
+\begin{equation}
+  \Corrected{s_1=\alpha_1-\frac{2\beta(1-q)}{N}+O([\beta(1-q)]^2),}
+\end{equation}
+so the corrected decay gap is
+\begin{equation}
+  \Corrected{1-s_1=1-\alpha_1+\frac{2\beta(1-q)}{N}+O([\beta(1-q)]^2).}
+\end{equation}
+For large $N$,
+\begin{equation}
+  \Corrected{1-s_1\sim \frac{q\pi^2}{2N^2}+\frac{2\beta(1-q)}{N}.}
+\end{equation}
+This last line is the cleanest referee-facing decay-dependence statement.
+
+\section{Audit item 1: the model must be stated before using the defect formula}
+
+\Issue{The original derivation starts from a shortcut defect formula for a probability-conserving
+ring propagator and then states that one may replace the probability-conserving propagator by the
+absorbing propagator.  This replacement is not innocuous when the shortcut endpoint is itself the
+absorbing site.}
+
+\Fix{State the transient-space transition matrix explicitly.  Let $P_0$ be the transition matrix
+for the ring with absorbing site $v$ removed from the transient state space.  If the shortcut from
+$u$ to $v$ replaces probability $\lambda=\beta(1-q)$ of staying at $u$, then the transient matrix is
+\begin{equation}
+  P=P_0-\lambda |u\rangle\langle u|.
+\end{equation}
+The sign is negative because probability leaves the transient set at $u$.}
+
+\Reason{The resolvent is
+\begin{align}
+  (I-zP)^{-1}
+  &=\bigl(I-zP_0+z\lambda |u\rangle\langle u|\bigr)^{-1}.
+\end{align}
+Using the rank-one Sherman--Morrison identity gives
+\begin{equation}
+  \Corrected{
+  \wt S_{n_0}(n,z)=\wt W_{n_0}(n,z)
+  -\frac{z\lambda\wt W_{n_0}(u,z)\wt W_u(n,z)}{1+z\lambda\wt W_u(u,z)}.}
+\end{equation}
+The original plus correction would increase transient occupation, which is the opposite of a
+shortcut into an absorbing target.}
+
+\section{Audit item 2: corrected first-passage generating function}
+
+\Issue{The original first-passage generating function has the shortcut correction with the wrong
+sign inherited from the transient propagator.}
+
+\Fix{For the killed process, survival and first-passage are related by
+\begin{equation}
+  \wt R_{n_0}(z)=\sum_{n\neq v}\wt S_{n_0}(n,z)=\frac{1-\wt F_{n_0}(v,z)}{1-z}.
+\end{equation}
+Using the corrected $\wt S$ and the identity
+\begin{equation}
+  \sum_{n\neq v}\wt W_a(n,z)=\frac{1-\wt F_a^{(0)}(v,z)}{1-z},
+\end{equation}
+we obtain
+\begin{equation}
+  \Corrected{
+  \wt F_{n_0}(v,z)=\wt F^{(0)}_{n_0}(v,z)+
+  \frac{z\lambda\wt W_{n_0}(u,z)[1-\wt F_u^{(0)}(v,z)]}
+  {1+z\lambda\wt W_u(u,z)}.}
+\end{equation}}
+
+\Reason{This correction is positive for $0\leq z<1$ because $\wt W$ and $1-\wt F$ have
+non-negative coefficients.  It passes the probabilistic monotonicity check: adding an absorbing
+shortcut cannot postpone absorption in the stochastic coupling where paths are identical until the
+first time a shortcut event occurs.}
+
+\section{Audit item 3: symmetric case and replacement for the original Fig. 1 analysis}
+
+Let $N=2L$, $v=0$, $u=L$, and let $\rho$ denote the starting distance from the target along either
+half-ring.  Define
+\begin{equation}
+  a=\frac{q}{\lambda}=\frac{q}{\beta(1-q)},
+  \qquad
+  y=1+\frac{1}{q}\left(\frac1z-1\right).
+\end{equation}
+The fully expanded derivation gives
+\begin{equation}
+  \Corrected{
+  \wt F_\rho(z)=
+  \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+  {aT_L(y)+U_{L-1}(y)}.}
+  \label{eq:marked-main-F}
+\end{equation}
+This formula should replace the original pole analysis based on
+\begin{equation}
+  \Original{\frac{1}{a-\phi(z)}}.
+\end{equation}
+The denominator of \eqref{eq:marked-main-F} is
+\begin{equation}
+  D(y)=aT_L(y)+U_{L-1}(y).
+\end{equation}
+Using the Chebyshev identity
+\begin{equation}
+  T_L(y)=\frac12\left[U_L(y)-U_{L-2}(y)\right]
+\end{equation}
+and, for $N=2L$,
+\begin{equation}
+  U_{2L-1}(y)=2T_L(y)U_{L-1}(y),
+\end{equation}
+we can also write the corrected denominator as a shifted version of the original plotted object:
+\begin{equation}
+  a+\frac{U_{L-1}(y)}{T_L(y)}=a+\phi(z).
+\end{equation}
+Thus the same curve $\phi(1/s)$ may be kept only if the horizontal line is moved to $-a$.
+
+\section{Audit item 4: corrected pole ordering and the missing physical check}
+
+Set $y_s=1+(s-1)/q$.  The corrected pole equation is
+\begin{equation}
+  aT_L(y_s)+U_{L-1}(y_s)=0.
+\end{equation}
+For the largest root put $y_s=\cos\theta$.  Since
+\begin{equation}
+  T_L(\cos\theta)=\cos(L\theta),
+  \qquad
+  U_{L-1}(\cos\theta)=\frac{\sin(L\theta)}{\sin\theta},
+\end{equation}
+the pole equation is
+\begin{equation}
+  a\cos(L\theta)+\frac{\sin(L\theta)}{\sin\theta}=0,
+  \qquad\text{or}\qquad
+  \Corrected{\tan(L\theta)=-a\sin\theta.}
+\end{equation}
+The largest root lies in
+\begin{equation}
+  \frac{\pi}{L}<L\theta_1<\frac{\pi}{2}
+  \quad\text{is false, whereas}\quad
+  \Corrected{\frac{\pi}{2}<L\theta_1<\pi}
+\end{equation}
+for the first interval relevant to the largest positive $s$.  Equivalently,
+\begin{equation}
+  \Corrected{\frac{\pi}{2L}<\theta_1<\frac{\pi}{L}.}
+\end{equation}
+Therefore
+\begin{equation}
+  \Corrected{1-q+q\cos\frac{\pi}{L}<s_1<1-q+q\cos\frac{\pi}{2L},}
+\end{equation}
+that is
+\begin{equation}
+  \Corrected{\gamma_1<s_1<\alpha_1,}
+  \qquad
+  \gamma_1=1-q+q\cos\frac{2\pi}{N},
+  \qquad
+  \alpha_1=1-q+q\cos\frac{\pi}{N}.
+\end{equation}
+This inequality is a necessary physical sanity check.  A shortcut into the target must accelerate
+the ultimate tail relative to the no-shortcut absorbing ring; hence $s_1$ should be below
+$\alpha_1$, not above it.
+
+\section{Audit item 5: the beta condition and the right-tail decay}
+
+\Issue{The original conclusion compares $s_1$ with $\alpha_1$ using the incorrect Fig. 1 geometry
+and obtains a threshold $\beta\le 2q/[(1-q)N]$.}
+
+\Fix{There is no such corrected pole-dominance transition.  The corrected leading pole satisfies
+$\gamma_1<s_1<\alpha_1$ for all admissible $\beta>0$, so the asymptotic tail is controlled by
+$s_1$ rather than by a competition between $s_1$ and $\alpha_1$.}
+
+\Reason{The corrected finite partial-fraction expansion is
+\begin{equation}
+  F_\rho(t)=\sum_{j=1}^{L}B_{\rho j}s_j^{t-1},
+\end{equation}
+where the nonzero coefficients are residues:
+\begin{equation}
+  B_{\rho j}=\frac{qN_\rho(y_j)}{D'(y_j)},
+  \quad
+  N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y),
+  \quad
+  D(y)=aT_L(y)+U_{L-1}(y).
+\end{equation}
+Thus
+\begin{equation}
+  \Corrected{F_\rho(t)=B_{\rho 1}s_1^{t-1}+O(\sigma_2^{t-1}),
+  \qquad \sigma_2=\max_{j\ge2}|s_j|<s_1.}
+\end{equation}
+The decay time is
+\begin{equation}
+  \Corrected{\tau_\beta=-\frac{1}{\log s_1}.}
+\end{equation}}
+
+\section{Audit item 6: perturbative dependence of the decay on beta}
+
+For a referee asking specifically about the decay dependence of the second peak's right tail, the
+most useful analytical dependence is obtained by perturbing the pole equation at weak shortcut
+strength.  Let
+\begin{equation}
+  \lambda=\beta(1-q),
+  \qquad a=\frac{q}{\lambda},
+  \qquad \varepsilon=\frac{1}{a}=\frac{\lambda}{q}.
+\end{equation}
+Divide the pole equation by $a$:
+\begin{equation}
+  T_L(y)+\varepsilon U_{L-1}(y)=0.
+\end{equation}
+At $\varepsilon=0$ the largest root is
+\begin{equation}
+  y_0=\cos\frac{\pi}{2L}=\cos\frac{\pi}{N},
+  \qquad
+  s_0=1-q+qy_0=\alpha_1.
+\end{equation}
+Let $y=y_0+\varepsilon y_1+O(\varepsilon^2)$.  Substituting and retaining first order gives
+\begin{equation}
+  T_L'(y_0)y_1+U_{L-1}(y_0)=0,
+  \qquad
+  y_1=-\frac{U_{L-1}(y_0)}{T_L'(y_0)}.
+\end{equation}
+With $y_0=\cos\theta_0$, $\theta_0=\pi/(2L)$,
+\begin{equation}
+  U_{L-1}(y_0)=\frac{\sin(L\theta_0)}{\sin\theta_0}=\frac{1}{\sin\theta_0},
+  \qquad
+  T_L'(y_0)=L\frac{\sin(L\theta_0)}{\sin\theta_0}=\frac{L}{\sin\theta_0}.
+\end{equation}
+Hence $y_1=-1/L$ and
+\begin{equation}
+  s_1=1-q+qy=\alpha_1-q\frac{\lambda}{q}\frac{1}{L}+O(\lambda^2)
+  =\alpha_1-\frac{\lambda}{L}+O(\lambda^2).
+\end{equation}
+Since $L=N/2$ and $\lambda=\beta(1-q)$,
+\begin{equation}
+  \Corrected{s_1=\alpha_1-\frac{2\beta(1-q)}{N}+O([\beta(1-q)]^2).}
+\end{equation}
+Therefore
+\begin{equation}
+  \Corrected{1-s_1=1-\alpha_1+\frac{2\beta(1-q)}{N}+O([\beta(1-q)]^2).}
+\end{equation}
+For large $N$,
+\begin{equation}
+  1-\alpha_1=q\left(1-\cos\frac{\pi}{N}\right)
+  \sim \frac{q\pi^2}{2N^2},
+\end{equation}
+so
+\begin{equation}
+  \Corrected{1-s_1\sim \frac{q\pi^2}{2N^2}+\frac{2\beta(1-q)}{N}.}
+\end{equation}
+This is the requested decay-dependence item.
+
+\section{Audit item 7: bimodality is not determined by tail dominance alone}
+
+\Issue{The original text treats the long-time dominant eigenvalue comparison as an analytical
+condition for the presence of a second peak.  That inference is too strong even aside from the sign
+correction.}
+
+\Fix{Use the exact finite-time expression to test local maxima.  If
+\begin{equation}
+  F_\rho(t)=\sum_{j=1}^{L}B_{\rho j}s_j^{t-1},
+\end{equation}
+then a local maximum at time $t_*$ requires
+\begin{equation}
+  \Delta F_\rho(t_*-1)>0,
+  \qquad
+  \Delta F_\rho(t_*)<0,
+\end{equation}
+where
+\begin{equation}
+  \Corrected{
+  \Delta F_\rho(t)=F_\rho(t+1)-F_\rho(t)
+  =\sum_{j=1}^{L}B_{\rho j}(s_j-1)s_j^{t-1}.}
+\end{equation}
+The existence of two sign changes in this discrete derivative is the direct analytical criterion
+for two peaks.}
+
+\Reason{The long-time tail answers how the right flank of a late peak decays if such a peak is
+present.  It does not, by itself, prove that the finite-time curve has two local maxima.  The
+correct referee response should separate these two questions: finite-time peak formation versus
+right-tail decay.}
+
+\section{Audit item 8: absorbing-ring convolution sign around the double sum}
+
+\Issue{In the absorbing-ring section, the displayed double sum uses one bracket ordering, but the
+next line effectively uses the opposite ordering.  The final compact formula can be made correct,
+but the intermediate step must be aligned.}
+
+\Fix{Let
+\begin{equation}
+  \lambda_j=1-q+q\cos\frac{\pi j}{N},
+  \qquad
+  \gamma_r=1-q+q\cos\frac{2\pi r}{N}.
+\end{equation}
+The time convolution
+\begin{equation}
+  \sum_{s=1}^{t} \lambda_j^{s-1}\gamma_r^{t-s}
+\end{equation}
+produces
+\begin{equation}
+  \frac{\gamma_r^t-\lambda_j^t}{\gamma_r-\lambda_j}
+\end{equation}
+when the denominator is written as $\gamma_r-\lambda_j$.  If one writes the denominator as
+$\cos(\pi j/N)-\cos(2\pi r/N)$, the same expression must be arranged consistently.}
+
+\Reason{This is a sign-bookkeeping issue rather than a conceptual failure of the absorbing-ring
+calculation.  In the corrected derivation I spell out the convolution and keep the denominator and
+numerator signs matched.}
+
+\section{Audit item 9: initial-condition and boundary checks for the killed propagator}
+
+\Issue{The original text gives oversimplified orthogonality statements after the compact killed
+propagator.  They are not valid as written for all $n,n_0$.}
+
+\Fix{The correct identities are, for $1\le d,d_0\le N-1$,
+\begin{equation}
+  \sum_{r=1}^{N-1}\cos\frac{2\pi rd}{N}\cos\frac{2\pi rd_0}{N}
+  =\frac{N}{2}\bigl(\delta_{d,d_0}+\delta_{d,N-d_0}\bigr)-1,
+\end{equation}
+and
+\begin{equation}
+  \sum_{j=1}^{N-1}[1-(-1)^j]\sin\frac{\pi jd}{N}\sin\frac{\pi jd_0}{N}
+  =\frac{N}{2}\bigl(\delta_{d,d_0}+\delta_{d,N-d_0}\bigr).
+\end{equation}
+Substituting these into the compact formula proves $W_{n_0}(n,0)=\delta_{n,n_0}$ for transient
+sites.}
+
+\Reason{The killed propagator also satisfies $W_{n_0}(m,t)=0$ and $W_m(n,t)=0$ once the convention
+for an initially absorbing particle is fixed.  The original line says $Q$ where it should say $W$.}
+
+\section{Audit item 10: first-passage generating function notation in the no-shortcut ring}
+
+\Issue{The compact odd-mode notation is introduced for $k=1,
+\ldots,N/2$ with
+\begin{equation}
+  \alpha_k=1-q+q\cos\frac{(2k-1)\pi}{N}.
+\end{equation}
+Immediately afterwards, the generating function is displayed with a sum $k=1,\ldots,N-1$ while
+using the compact $f_k,\alpha_k$ notation.}
+
+\Fix{Use either the full $j$-sum
+\begin{equation}
+  \wt F^{(0)}_{n_0}(m,z)=
+  \frac{qz}{N}\sum_{j=1}^{N-1}
+  \frac{[1-(-1)^j]\sin\bigl(|m-n_0|\pi j/N\bigr)\sin(\pi j/N)}
+  {1-z[1-q+q\cos(\pi j/N)]},
+\end{equation}
+or the odd-mode $\ell$-sum
+\begin{equation}
+  \wt F^{(0)}_{n_0}(m,z)=z\sum_{\ell=1}^{N/2}
+  \frac{f_\ell(n_0,m)}{1-z\alpha_\ell}.
+\end{equation}}
+
+\Reason{This avoids an ambiguity that becomes serious later when the symbols $\alpha_\ell$ and
+$\gamma_r$ are compared in pole arguments.}
+
+\section{Audit item 11: problems in the original convolution formula analogous to Eq. (41)}
+
+\Issue{The original final finite-time convolution formula contains additional issues beyond the
+shortcut sign.}
+
+\Fix{At least the following should be corrected or removed in the revised manuscript:
+\begin{enumerate}
+  \item The no-shortcut first term should involve first passage to $v$, not to $u$:
+  \begin{equation}
+    \Original{f_\ell(n_0,u)\alpha_\ell^{t-1}}
+    \quad\longrightarrow\quad
+    \Corrected{f_\ell(n_0,v)\alpha_\ell^{t-1}}.
+  \end{equation}
+  \item In the odd-sector terms involving $g^{(2)}_r$, the associated eigenvalue is $\alpha_r$, not
+  $\gamma_r$.  Any term where an odd-sector index is paired with $\gamma_r$ should be rederived.
+  \item The $t\alpha_\ell^t$ term is a repeated-pole artifact of the original uncorrected
+  convolution.  With the corrected denominator $aT_L+U_{L-1}$, there is no generic coincidence
+  between the shortcut poles and the no-shortcut $\alpha_\ell$ poles; hence no generic
+  $t\alpha_1^t$ long-time law.
+\end{enumerate}}
+
+\Reason{Because the entire Eq.-(41)-type expression is downstream of the wrong $H$ denominator, it
+is safer to replace it with the corrected closed-form generating function and its partial-fraction
+expansion rather than repairing the old convolution term by term.}
+
+\section{Audit item 12: residue coefficient replacing the original $c_k$ expression}
+
+\Issue{The old coefficient $c_k$ is tied to the denominator $a-\phi$, and the displayed formula has
+apparent bracket and derivative typos.  It also depends on the old pole geometry.}
+
+\Fix{The corrected residue coefficient follows directly from
+\begin{equation}
+  \wt F_\rho(z)=\frac{N_\rho(y)}{D(y)},
+  \qquad
+  y=1+\frac1q\left(\frac1z-1\right),
+\end{equation}
+where
+\begin{equation}
+  N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y),
+  \qquad
+  D(y)=aT_L(y)+U_{L-1}(y).
+\end{equation}
+Since $z=1/[1+q(y-1)]$, a simple pole at $y_j$ corresponds to
+\begin{equation}
+  s_j=1-q+qy_j.
+\end{equation}
+The coefficient of $s_j^{t-1}$ is
+\begin{equation}
+  \Corrected{B_{\rho j}=\frac{qN_\rho(y_j)}{D'(y_j)}.}
+\end{equation}}
+
+\Reason{This expression is shorter, less error-prone, and tied directly to the corrected pole
+equation.}
+
+\section{Audit item 13: figure caption and textual typos}
+
+The following non-exhaustive typo list should be fixed in any revision:
+\begin{enumerate}
+  \item Document option \Original{idelinks} should be \Corrected{hidelinks}.
+  \item The original source uses unavailable local style files; the revised files are standalone.
+  \item A label such as \Original{\texttt{\textbackslash label\{eq:\}}} should be replaced by a
+  meaningful label or removed.
+  \item The notation \Original{$G^{(1)}_k(n_0,n,,m)$} should be
+  \Corrected{$G^{(1)}_k(n_0,n,m)$}.
+  \item The text ``when either $n=m$ or $n_0=m$, one has that $Q_{n_0}(n,t)=0$'' should use $W$, not
+  $Q$.
+  \item The Fig. 1 caption contains a logically impossible phrase equivalent to requiring $q>1$ for
+  a nonzero shortcut probability.  The stochastic setting is $0<q<1$, with nonzero shortcut
+  probability requiring $\beta(1-q)>0$.
+  \item Several source brackets around $s_k-1$ in the old $c_k$ formula appear mismatched.
+\end{enumerate}
+
+\section{Alternative interpretations that should be ruled out explicitly}
+
+The sign correction is forced only after the model is fixed.  The manuscript should rule out the
+following alternatives:
+\begin{enumerate}
+  \item \textbf{Shortcut to target as killing.}  This is the corrected model used here.  The walker
+  at $u$ jumps to absorbing $v$ with probability $\lambda=\beta(1-q)$ and exits the transient
+  system.  Denominator: $1+z\lambda\wt W_u(u,z)$.
+  \item \textbf{Probability-conserving shortcut on a nonabsorbing ring.}  A directed edge $u\to v$
+  may be a rank-one probability-conserving perturbation before absorption is imposed.  If $v$ is
+  later made absorbing, the transient reduction still creates killing at $u$ when the shortcut lands
+  at $v$.
+  \item \textbf{Reverse shortcut or removed killing.}  A formula with denominator
+  $1-z\lambda\wt W_u(u,z)$ would correspond to a different perturbation, for example adding
+  persistence in the transient state space rather than removing it.  It should not be described as
+  a shortcut into an absorbing target.
+\end{enumerate}
+
+\section{Suggested referee-facing response}
+
+A concise response to the referee's decay question could be:
+
+\begin{quote}
+We have rederived the symmetric shortcut-to-target problem using the transient-state transition
+matrix.  The shortcut from $u$ to the absorbing target $v$ is an additional killing channel at $u$,
+so the corrected resolvent contains the denominator $1+z\beta(1-q)\wt W_u(u,z)$ rather than
+$1-z\beta(1-q)\wt W_u(u,z)$.  Consequently, the pole equation in the symmetric case $N=2L$ is
+$aT_L(y)+U_{L-1}(y)=0$, with $a=q/[\beta(1-q)]$.  The right tail of the first-passage distribution,
+including the right tail of a second peak if present, obeys
+\begin{equation}
+  F_\rho(t)\sim B_{\rho1}s_1^{t-1},
+\end{equation}
+where $s_1=1-q+q\cos\theta_1$ and $\theta_1$ solves
+\begin{equation}
+  \tan(L\theta_1)=-\frac{q}{\beta(1-q)}\sin\theta_1,
+  \qquad
+  \frac{\pi}{2L}<\theta_1<\frac{\pi}{L}.
+\end{equation}
+For weak shortcuts,
+\begin{equation}
+  1-s_1=1-\alpha_1+\frac{2\beta(1-q)}{N}+O([\beta(1-q)]^2)
+  \sim \frac{q\pi^2}{2N^2}+\frac{2\beta(1-q)}{N}.
+\end{equation}
+Thus the earlier condition $\beta\le 2q/[(1-q)N]$ and the generic $t\alpha_1^t$ tail are not
+properties of the corrected stochastic shortcut-to-target model.  Bimodality itself is a finite-time
+shape property and should be checked from the exact finite difference of the corrected finite sum.
+\end{quote}
+
+\section{Checklist for the revised manuscript}
+
+Before submitting a revised analytical supplement, check the following:
+\begin{enumerate}
+  \item Define the transition probabilities at $u$ explicitly.
+  \item State whether the shortcut endpoint is absorbing at the instant of arrival.
+  \item Replace the old shortcut resolvent by the killed rank-one resolvent.
+  \item Replace the old $H$ denominator $a-\phi$ by $a+\phi$.
+  \item Redraw or remove Fig. 1; if redrawn with the same $\phi(1/s)$ curve, use the line $-a$.
+  \item Remove the threshold $\beta\le 2q/[(1-q)N]$ unless a separate finite-time bimodality proof
+  establishes a new threshold.
+  \item Replace the long-time statement by $F_\rho(t)\sim B_{\rho1}s_1^{t-1}$.
+  \item Add the weak-shortcut decay-gap expansion.
+  \item Separate the right-tail decay question from the finite-time two-peak-existence question.
+  \item Use the exact finite difference $\Delta F(t)$ for any rigorous second-peak criterion.
+\end{enumerate}
+
+\end{document}

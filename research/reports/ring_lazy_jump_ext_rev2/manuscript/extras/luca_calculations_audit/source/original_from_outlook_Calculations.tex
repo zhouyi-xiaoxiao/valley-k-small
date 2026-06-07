@@ -1,0 +1,762 @@
+\documentclass[idelinks, superscriptaddress, amsmath, amssymb, aps, pre]{revtex4-2}
+% \documentclass[
+%  reprint,
+%  hidelinks,
+% superscriptaddress,
+% %groupedaddress,
+% %unsortedaddress,
+% %runinaddress,
+% % frontmatterverbose, 
+% % preprint,
+% %preprintnumbers,
+% %nofootinbib,
+% %nobibnotes,
+% %bibnotes,
+% amsmath,
+% amssymb,
+%  aps,
+% %pra,
+% %prb,
+% %rmp,
+% %prstab,
+% %prstper,
+% pre,
+% % onecolumn,
+% ]{revtex4-2}
+
+\makeatletter
+\NewCommandCopy\@@pmod\pmod
+\DeclareRobustCommand{\pmod}{\@ifstar\@pmods\@@pmod}
+\def\@pmods#1{\mkern4mu({\operator@font mod}\mkern 6mu#1)}
+\makeatother
+
+
+\synctex=1 
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+% \usepackage{showframe}
+\usepackage{tcolorbox}
+\usepackage{grffile}
+\usepackage{fixme}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage[outline]{contour}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{xfrac}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{placeins}
+\usepackage{xr}
+
+\usepackage{algpseudocode}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{relsize}
+\usepackage[export]{adjustbox}
+\usepackage{lipsum}
+
+\usepackage{customcolours}
+\usepackage{customcommands}
+\usepackage{customcolours}
+\usepackage{globalplotconfig}
+
+\usepackage{bm}
+\usepackage{standalone}
+\usepackage{tikz}
+\newtcolorbox{mybox}[1]{colback=bright_red!5!,colframe=white!0, fonttitle=\bfseries,title=#1}
+
+\usepackage{ifthen}
+
+\usepackage{pgfmath}
+\usepackage{pgfplots}
+\usepackage{todonotes}
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{$#2$}}%
+\newcommand*{\Resize}[2]{\resizebox{#1}{!}{$#2$}}%
+
+\usepackage{xfp}
+
+
+% \input{customcommands.sty}
+
+\usepackage[capitalise]{cleveref}
+\newif\ifappMat
+\newif\ifsupMat
+\newif\ifmainText
+\mainTexttrue
+\appMattrue
+\supMatfalse
+
+
+
+\pgfplotsset{compat=newest}
+
+\synctex=1
+\usetikzlibrary{
+  shapes.geometric,
+  decorations,
+  calligraphy,
+  positioning,
+  calc,
+  math,
+  3d,
+  decorations.pathreplacing,
+  decorations,
+  patterns,
+}
+\usepgfplotslibrary{groupplots, fillbetween}
+\usepgfplotslibrary{external}
+\usetikzlibrary{pgfplots.external}
+\newcommand{\shreecolour}{\color{bright_red}}
+
+% \usetikzlibrary{external}
+% \tikzexternalize[optimize=true,prefix=figures/] 
+
+% \newcommand*\setmyname{%\
+%   \expandafter\tikzsetfigurename\expandafter{\currfilebase-}%
+%   % \tikzsetfigurename\currfilebase%
+% }
+% \AtBeginEnvironment{tikzpicture}{\setmyname}
+
+
+\newcommand{\qformalism}{Q-formalism}
+
+\newcommand{\thk}{2k - 1}
+\newcommand{\thnn}{2N - 1}
+\newcommand{\thn}{2N - 1}
+\newcommand{\thkk}{k}
+\newcommand{\thnnn}{N-1}
+
+\begin{document}
+\preprint{OPES/123-QED}
+\title{Calculations for network paper}
+%\title{Random Movement In A Heterogeneous Environment: Deadline}
+
+%\author{Seeralan Sarvaharman}
+ %\email{Email: s.sarvaharman@bristol.ac.uk}%Lines break automatically or can be forced with \\
+%\affiliation{Department of Engineering Mathematics, University of Bristol, BS8 1UB, UK}
+%\author{Luca Giuggioli}%
+ %\email{Email: Luca.Giuggioli@bristol.ac.uk}
+%\affiliation{Department of Engineering Mathematics, University of Bristol, BS8 1UB, UK}
+%\affiliation{Bristol Centre for Complexity Sciences, University of Bristol, BS8 1UB, UK}
+
+\date{\today}% It is always \today, today,
+
+\begin{abstract}
+  % \lipsum[1-1]
+\end{abstract}
+
+
+% \setlength \parindent{10pt}
+\maketitle
+% \begin{widetext}
+% {\let\clearpage\relax \tableofcontents}
+% \clearpage
+% \end{widetext}
+
+% \include{main_text}
+% \include{supplementary_material}
+
+\ifmainText\mainTexttrue
+
+\section*{Preliminaries}\label{sec:intro}
+
+
+These are preliminaries identities that can be derived by using the finite series identities in PRX. I have derived the following for $|m|<N$ and $m\not=0$
+
+\begin{align}
+\frac{1}{N}\sum_{k=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{1-\cos\left[\frac{\pi k}{N}\right]}=1
+\label{eq:id_1}
+\end{align}
+
+Another identity exploits the fact that 
+\begin{align}
+&\left[1-(-1)^k\right]\sin\left[\frac{|m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]=\frac{1}{2}\left\{\cos\left[\frac{(|m|-1)\pi k}{N}\right]-\cos\left[\frac{(|m|+1)\pi k}{N}\right]\right. \nonumber \\
+&\left.-\frac{1}{2}\Bigg[\cos\left[\frac{(N-|m|+1)\pi k}{N}\right]+\cos\left[\frac{(N+|m|-1)\pi k}{N}\right]-\cos\left[\frac{(N-|m|-1)\pi k}{N}\right]-\cos\left[\frac{(N+|m|+1)\pi k}{N}\right]\Bigg]\right\}
+\nonumber
+\end{align}
+for a generic $\sigma$ we have
+\begin{align}
+&\sum_{k=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{\sigma-\cos\left[\frac{\pi k}{N}\right]}=\frac{1}{2}\sum_{k=1}^N\frac{\cos\left[\frac{(|m|-1)\pi k}{N}\right]-\cos\left[\frac{(|m|+1)\pi k}{N}\right]}{\sigma-\cos\left[\frac{\pi k}{N}\right]}  \nonumber \\
+&-\frac{1}{4}\sum_{k=1}^{N-1}\frac{\cos\left[\frac{(N-|m|+1)\pi k}{N}\right]+\cos\left[\frac{(N+|m|-1)\pi k}{N}\right]-\cos\left[\frac{(N-|m|-1)\pi k}{N}\right]-\cos\left[\frac{(N+|m|+1)\pi k}{N}\right]}{\sigma-\cos\left[\frac{\pi k}{N}\right]} \nonumber \\
+&=\frac{N}{2(\sigma^2-1)U_{N-1}(\sigma)}\left\{T_{N-|m|+1}(\sigma)-T_{N-|m|-1}(\sigma)-T_{|m|-1}(\sigma)+T_{|m|+1}(\sigma)\right\}
+\label{eq:}
+\end{align}
+If $\sigma=\cos\left[\frac{2\pi r}{N}\right]$ one needs to use de l'Hospital rule to evaluate the expression above, which gives
+\begin{align}
+&\lim_{\sigma\to  \cos\left[\frac{2\pi r}{N}\right]}\frac{N}{2(\sigma^2-1)U_{N-1}(\sigma)}\left\{T_{N-|m|+1}(\sigma)-T_{N-|m|-1}(\sigma)-T_{|m|-1}(\sigma)+T_{|m|+1}(\sigma)\right\}\nonumber \\
+&=\cos\left[\frac{2\pi r |m|}{N}\right],
+\end{align}
+in other words we have the general identity for $0<|m|<N$ and $r=1,..,N-1$,
+\begin{align}
+\frac{1}{N}\sum_{k=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{\cos\left[\frac{2\pi r }{N}\right]-\cos\left[\frac{\pi k}{N}\right]}=\cos\left[\frac{2\pi r |m|}{N}\right],
+\label{eq:id_2}
+\end{align}
+
+The third relevant identity for $|m|\leq N$ and integer $k$ is given by
+\begin{align}
+\frac{1}{N}\sum_{r=1}^{N-1}\frac{\cos\Big[\frac{2\pi r m}{N}\Big]}{\cos\left[\frac{(2k-1)\pi}{N}\right]-\cos\Big[\frac{2\pi r}{N}\Big]}=\frac{1}{N\left\{1-\cos\left[\frac{(2k-1)\pi}{N}\right]\right\}}-\frac{\sin\left[\frac{(2k-1)\pi |m|}{N}\right]}{\sin\left[\frac{(2k-1)\pi }{N}\right]}
+\label{eq:id_3}
+\end{align}
+alternatively
+\begin{align}
+\frac{1}{N}\sum_{r=1}^{N-1}\left[1-(-1)^k\right]\frac{\cos\Big[\frac{2\pi r m}{N}\Big]}{\cos\left[\frac{k\pi}{N}\right]-\cos\Big[\frac{2\pi r}{N}\Big]}=\left[1-(-1)^k\right]\left\{\frac{1}{N\left\{1-\cos\left[\frac{\pi k}{N}\right]\right\}}-\frac{\sin\left[\frac{\pi k |m|}{N}\right]}{\sin\left[\frac{\pi k}{N}\right]}\right\}
+\label{eq:id_4}
+\end{align}
+
+\section*{Propagator in ring lattice with absorption site}
+
+The occupation probability for the periodic ring lattice with arbitrary $K$ and an absorption site at $n=m$ can be written via the general relation for any $t\geq 1$
+\begin{align}
+W_{n_0}(n,t)=Q^{(k)}_{n_0}(n,t)-\sum_{s=1}^{t}\mathcal{F}_{n_0\to m}(s)Q^{(k)}_{m}(n,t-s)
+\label{eq:Abs_prop_ring}
+\end{align}
+where $Q^{(k)}_{r}(n,t)$ is the propagator for the periodic ring lattice in the absence of any absorption site. Note that at $t=0$, by construction $F_{n_0\to m}(0)=0$) when $n_0\not= n$, and we have $W_{n_0}(n,0)=Q^{(k)}_{n_0}(n,0)$.
+
+More explicit expressions can be obtained for the case $K=2$, that is the nearest-neighbour lattice walk. We have that
+\begin{align}
+Q^{(1)}_{n_0}(n,t)=\frac{1}{N}\sum_{k=0}^{N-1}\cos\left[\frac{2\pi k (n-n_0)}{N}\right]\left[1-q+q\cos\left(\frac{2\pi k}{N}\right)\right]^t,
+\label{eq:Q1}
+\end{align}
+and for $t\geq 1$
+\begin{align}
+\mathcal{F}_{n_0}(m,t)=\frac{q}{N}\sum_{k=1}^{N-1}\left[1-(-1)^k\right]\sin\left[\frac{|m-n_0|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^{t-1}.
+\label{eq:fp_0}
+\end{align}
+with $\mathcal{F}_{n_0}(m,0)=0$.
+
+Given that in Eq. (\ref{eq:fp_0}) only odd $k$ terms are non-zero, the first-passage probability can be written in compact form as
+\begin{align}
+\mathcal{F}_{n_0}(m,t)=\sum_{k=1}^{\frac{N}{2}}f_{k}(n_0,m)\alpha_k^{t-1}.
+\label{eq:fp_0_b}
+\end{align}
+where
+\begin{align}
+f_k(n_0,m)=\frac{2q}{N}\sin\left[\frac{|m-n_0|\pi (2k-1)}{N}\right]\sin\left[\frac{\pi (2k-1)}{N}\right]\,
+\label{eq:fn0m}
+\end{align}
+and
+\begin{align}
+\alpha_{k}=1-q+q\cos\left[\frac{\pi(2k-1)}{N}\right].
+\label{eq:alpha_k}
+\end{align}
+The generating function of Eq. (\ref{eq:fp_0_b}) in compact form can be written as
+\begin{align}
+\widetilde{\mathcal{F}}_{n_0}(m,z)=z\sum_{k=1}^{N-1}\frac{f_k(n_0,m)}{1-z\alpha_k}=\frac{U_{N-|m-n_0|-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)+U_{|m-n_0|-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}{U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}.
+\label{eq:fp_0_z}
+\end{align}
+where $U_r(y)$ is the Chebyshev polynomial of the second kind.
+
+
+Also we note that using Eq. (\ref{eq:id_1}) one can show that the survival probability $$\sum_{s=1}^t \mathcal{F}_{n_0}(m,s)=1-\frac{1}{N}\sum_{k=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{1-\cos\left[\frac{\pi k}{N}\right]}\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^{t},$$ which provides the survival probability $$R_{n_0}(t)=1-\sum_{s=0}^t \mathcal{F}_{n_0}(m,s)=\frac{1}{N}\sum_{k=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{1-\cos\left[\frac{\pi k}{N}\right]}\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^{t}.$$
+
+Using the above expressions in Eq. (\ref{eq:Abs_prop_ring}) and evaluating the time summation, we obtain
+\begin{align}
+&W_{n_0}(n,t)=\frac{1}{N}\sum_{k=1}^{N-1}\cos\left[\frac{2\pi k (n-n_0)}{N}\right]\left[1-q+q\cos\left(\frac{2\pi k}{N}\right)\right]^t\nonumber \\
+&+\frac{1}{N^2}\sum_{k=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{1-\cos\left[\frac{\pi k}{N}\right]}\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^{t}\nonumber \\
+&+\frac{1}{N^2}\sum_{k=1}^{N-1}\sum_{r=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]\cos\Big[\frac{2\pi r (n-m)}{N}\Big]}{\cos\left[\frac{\pi k}{N}\right]-\cos\Big[\frac{2\pi r}{N}\Big]}\left\{\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t-\left[1-q+q\cos\left(\frac{2\pi r}{N}\right)\right]^t\right\}
+\end{align}
+
+Using the identities (\ref{eq:id_2}) and (\ref{eq:id_4}), we reduce the double summation to single summations as follows
+\begin{align}
+&\sum_{k=1}^{N-1}\sum_{r=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]\cos\Big[\frac{2\pi r (n-m)}{N}\Big]}{\cos\left[\frac{\pi k}{N}\right]-\cos\Big[\frac{2\pi r}{N}\Big]}\left\{\left[1-q+q\cos\left(\frac{2\pi r}{N}\right)\right]^t-\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t\right\} \nonumber \\
+&=-N\sum_{r=1}^{N-1}\cos\left[\frac{2\pi r|n_0-m|}{N}\right]\cos\Big[\frac{2\pi r (n-m)}{N}\Big]\left[1-q+q\cos\left(\frac{2\pi r}{N}\right)\right]^t \nonumber \\
+&-\sum_{k=1}^{N-1}\left[1-(-1)^k\right]\left\{\frac{\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{1-\cos\left[\frac{\pi k}{N}\right]}-N\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{|n-m|\pi k}{N}\right]\right\}\nonumber \\
+&\times \left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t\nonumber \\
+&=-N\sum_{r=1}^{N-1}\cos\left[\frac{2\pi r|n_0-m|}{N}\right]\cos\Big[\frac{2\pi r (n-m)}{N}\Big]\left[1-q+q\cos\left(\frac{2\pi r}{N}\right)\right]^t \nonumber \\
+&-\sum_{k=1}^{N-1}\left[1-(-1)^k\right]\left\{\frac{\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{1-\cos\left[\frac{\pi k}{N}\right]}\right. \nonumber \\
+&\left.-N\sin\left[\frac{|n_0-m|\pi k }{N}\right]\sin\left[\frac{|n-m|\pi k}{N}\right]\right\}\left[1-q+q\cos\left(\frac{\pi k }{N}\right)\right]^t
+\end{align}
+and we have
+\begin{align}
+&W_{n_0}(n,t)= \frac{1}{N}\sum_{k=1}^{N-1}\cos\left[\frac{2\pi k (n-n_0)}{N}\right]\left[1-q+q\cos\left(\frac{2\pi k}{N}\right)\right]^t \nonumber \\
+&-   \frac{1}{N}\sum_{k=1}^{N-1}\cos\left[\frac{2\pi k (n-m)}{N}\right]\cos\left[\frac{2\pi k (n_0-m)}{N}\right]\left[1-q+q\cos\left(\frac{2\pi k}{N}\right)\right]^t\    \nonumber \\
+&+\frac{1}{N}\sum_{k=1}^{N-1}\left[1-(-1)^k\right]\sin\left[\frac{\pi k |n_0-m|}{N}\right]\sin\left[\frac{\pi k |n-m|}{N}\right]\left\{1-q+q\cos\left[\frac{ \pi k}{N}\right]\right\}^t.
+\label{eq:prob-time}
+\end{align}
+As $\sum_{k=1}^{N-1}\cos\left[\frac{2\pi k (n-m)}{N}\right]\cos\left[\frac{2\pi k (n_0-m)}{N}\right]=-1$ and $\sum_{k=1}^{N-1}\left[1-(-1)^k\right]\sin\left[\frac{\pi k |n_0-m|}{N}\right]\sin\left[\frac{\pi k |n-m|}{N}\right]=0$, one can show that $Q_{n_0}(n,0)=\delta_{n,n_0}$. Furthermore when either $n=m$ or $n_0=m$, one has that $Q_{n_0}(n,t)=0$ for all $t$, and it is also easy to see that $Q_{n_0}(n,t\to \infty)=0$, which means that all random walks eventually reach the absorbing site $n=m$.
+
+
+We can rewrite Eq. (\ref{eq:prob-time}) as
+\begin{align}
+W_{n_0}(n,t)= \sum_{k=1}^{N-1}G^{(1)}_k(n_0,n,m)\left[1-q+q\cos\left(\frac{2 \pi k}{N}\right)\right]^t +G^{(2)}_k(n_0,n,m)\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t 
+\label{eq:compactprob_abs}
+\end{align}
+where $m$ is the absorbing site, and with
+\begin{align}
+G^{(1)}_k(n_0,n,,m)&= \frac{\cos\left[\frac{2\pi k (n-n_0)}{N}\right]-\cos\left[\frac{2\pi k (n-m)}{N}\right]\cos\left[\frac{2\pi k (n_0-m)}{N}\right]}{N} \nonumber \\
+G^{(2)}_k(n_0,n,,m)&=\frac{\left[1-(-1)^k\right]\sin\left[\frac{\pi k |n_0-m|}{N}\right]\!\sin\left[\frac{\pi k |n-m|}{N}\right]}{N}
+\label{eq:Gk}
+\end{align}
+%&=\frac{1}{N}\sum_{k=1}^{N-1}\left[\frac{1}{4}\left[1+(-1)^k\right]\left\{\cos\left[\frac{\pi k (n-n_0)}{N}\right]-\cos\left[\frac{\pi k (n+n_0-2v)}{N}\right]\right\}\right.\nonumber \\
+%&\left.+\left\{\left[1-(-1)^k\right]\sin\left[\frac{\pi k |n_0-v|}{N}\right]\sin\left[\frac{\pi k |n-v|}{N}\right]\right\}\right]\left\{1-q+q\cos\left[\frac{k \pi}{N}\right]\right\}^t
+%&=\frac{1}{2N}\sum_{k=1}^{N-1}\left\{\cos\left[\frac{2\pi k (n-n_0)}{N}\right]-\cos\left[\frac{2\pi k (n+n_0-2v)}{N}\right]\right\}\left[1-q+q\cos\left(\frac{2\pi k}{N}\right)\right]^t \nonumber \\
+%&+\frac{1}{2N}\sum_{k=1}^{N-1}\left\{\cos\left[\frac{\pi k (|n_0-v|-|n-v|)}{N}\right]-\cos\left[\frac{\pi k (|n_0-v|+|n-v|)}{N}\right]\right\}\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t \nonumber \\
+%&+\frac{1}{4N}\sum_{k=1}^{N-1}\left\{\cos\left[\frac{\pi k \left(N-|n_0-v|-|n-v|)\right)}{N}\right]+\cos\left[\frac{\pi k \left(N+|n_0-v|+|n-v|\right)}{N}\right]\right. \nonumber \\
+%&\left.-\cos\left[\frac{\pi k \left(N-|n_0-v|+|n-v|\right)}{N}\right]-\cos\left[\frac{\pi k \left(N+|n_0-v|-|n-v|\right)}{N}\right]\right\}\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t 
+%\label{eq:prob-time}
+%\end{align}
+In terms of generating functions one has
+\begin{align}
+\widetilde{W}_{n_0}(n,z)= \sum_{k=1}^{N-1}\frac{G^{(1)}_k(n_0,n,m)}{1-z\left[1-q+q\cos\left(\frac{2 \pi k}{N}\right)\right]} + \sum_{k=1}^{N-1}\frac{G^{(2)}_k(n_0,n,m)}{1-z\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]} 
+\label{eq:compactprob_abs_z}
+\end{align}
+or the equivalent form
+\begin{align}
+\widetilde{W}_{n_0}(n,z)= \sum_{k=1}^{N-1}\frac{G^{(1)}_k(n_0,n,m)}{1-z\gamma_k} + \sum_{k=1}^{\frac{N}{2}}\frac{g^{(2)}_k(n_0,n,m)}{1-z\alpha_k},
+\label{eq:compactprob_abs_z_b}
+\end{align}
+and its time-dependent version
+\begin{align}
+W_{n_0}(n,t)= \sum_{k=1}^{N-1}G^{(1)}_k(n_0,n,m) \gamma_k^t+ \sum_{k=1}^{\frac{N}{2}}g^{(2)}_k(n_0,n,m)\alpha_k^t,
+\label{eq:Wn0time}
+\end{align}
+where $\alpha_k$ is defined in Eq. (\ref{eq:alpha_k}),
+\begin{align}
+\gamma_k=1-q+q\cos\left(\frac{2\pi k}{N}\right),
+\label{eq:gamma_k}
+\end{align}
+and
+\begin{align}
+g^{(2)}_k(n_0,n,m)=\frac{2}{N}\sin\left[\frac{\pi (2k-1) |n_0-m|}{N}\right]\!\sin\left[\frac{\pi (2k-1) |n-m|}{N}\right].
+\label{eq:small_g}
+\end{align}
+
+The associated expressions in terms of Chebyshev polynomials of the first and second kind, respectively,  $T_r(y)$ and $U_r(y)$, are
+\begin{align}
+&\sum_{k=1}^{N-1}\frac{G^{(1)}_k(n_0,n,m)}{1-z\left[1-q+q\cos\left(\frac{2 \pi k}{N}\right)\right]}=\Bigg\{2\,T_{N-|n-n_0|}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)+2\,T_{|n-n_0|}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\Bigg. \nonumber \\
+&-T_{N-||n_0-m|-|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)-T_{||n_0-m|-|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right) \nonumber \\
+&\Bigg.-T_{N-[|n_0-m|+|n-m| \pmod* N] }\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)-T_{|n_0-m|+|n-m| \pmod* N }\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\Bigg\} \nonumber \\
+&\times\left[2zq\left\{\left[1+\frac{1}{q}\left(\frac{1}{z}-1\right)\right]^2-1\right\}U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\right]^{-1},
+\label{eq:Gk1_z}
+\end{align}
+and
+\begin{align}
+&\sum_{k=1}^{N-1}\!\frac{G^{(2)}_k(n_0,n,m)}{1-z\left[1-q+q\cos\left(\frac{ \pi k}{N}\right)\right]}\!=\!\Bigg\{\!T_{N-||n_0-m|-|n-m||}\!\left(\!1\!+\!\frac{1}{q}\left[\frac{1}{z}\!-\!1\right]\right)\!+\!T_{N-|N-|n_0-m|-|n-m||  }\!\left(\!1\!+\!\frac{1}{q}\left[\frac{1}{z}\!-\!1\right]\right)\Bigg. \nonumber \\
+&\Bigg.-T_{|N-|n_0-m|-|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right) -T_{||n_0-m|-|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\Bigg\} \nonumber \\
+&\times\left[2zq\left\{\left[1+\frac{1}{q}\left(\frac{1}{z}-1\right)\right]^2-1\right\}U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\right]^{-1},
+\label{eq:Gk2_z}
+\end{align}
+
+
+%zqN\left\{\left[1+\frac{1}{q}\left(\frac{1}{z}-1\right)\right]^2-1\right\}U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)
+
+
+When $n=n_0$ Eq. (\ref{eq:compactprob_abs}) reduces to
+\begin{align}
+W_{n}(n,t)&=\frac{1}{N} \sum_{k=1}^{N-1}\left\{\left(1-\cos^2\left[\frac{2\pi k (n-m)}{N}\right]\right)\left[1-q+q\cos\left(\frac{2 \pi k}{N}\right)\right]^t \right.\nonumber \\
+&\left.+\left[1-(-1)^k\right]\sin^2\left[\frac{\pi k |n-m|}{N}\right]\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t \right\},
+\label{eq:compactprob_abs_2}
+\end{align}
+whose generating function is given by the compact expression
+\begin{align}
+&\widetilde{W}_{n}(n,z)=\Bigg\{2\,T_{N}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)+T_{N-|N-2|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)-T_{|N-2|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)  \Bigg. \nonumber \\
+&\Bigg.-T_{N-[2|n-m|\pmod* N]}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)-T_{[2|n-m|\pmod* N]}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\Bigg\}\nonumber \\
+&\left\{2zq\,\left\{\left[1+\frac{1}{q}\left(\frac{1}{z}-1\right)\right]^2-1\right\}U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\right\}^{-1}
+\label{eq:Wuu_z}
+\end{align}
+
+Note that using Eqs. (\ref{eq:compactprob_abs_z}) with $n=n_0$ and (\ref{eq:Wuu_z}) when $|n-m|=N/2$ with $N$ even, one can show setting $z=1$ the following identities $$\sum_{k=1}^{N-1}\frac{1-(-1)^k}{1-\cos\left(\frac{\pi k}{N}\right)}=\frac{N^2}{2},\qquad \sum_{k=1}^{N-1}\frac{1}{1-\cos\left(\frac{\pi k}{N}\right)}=\frac{2N^2+1}{6},\qquad \sum_{k=1}^{N-1}\frac{(-1)^k}{1-\cos\left(\frac{\pi k}{N}\right)}=\frac{1-N^2}{6}.$$
+
+
+For the special case $|n-m|=N/2$ with $N$ even Eq. (\ref{eq:Wuu_z}) becomes
+\begin{align}
+\widetilde{\mathcal{W}}_{n}(n,z)=\frac{T_{N}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)-1}{
+zq\,\left\{\left[1+\frac{1}{q}\left(\frac{1}{z}-1\right)\right]^2-1\right\}U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}=\frac{2\,\left[U_{\frac{N}2{-1}}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\right]^2}{zq\,U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}
+\label{eq:Wuu_z_*}
+\end{align}
+
+%When $N$ is even and $|n-m|=N/2$ the generating function of Eq. (\ref{eq:compactprob_abs_2}) has the compact expression
+
+
+%\begin{align}
+%\widetilde{W}_{n}(n,z)=2\frac{T_{N}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)-T_{|N-2|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}{zq\,\left\{\left[1+\frac{1}{q}\left(\frac{1}{z}-1\right)\right]^2-1\right\}U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)} =\frac{2\,U_{N-|n-m|-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)U_{|n-m|-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}{zq\,U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}
+%\label{eq:Wuu_z}
+%\end{align}
+
+\section*{Propagator with one shortcut and one absorbing site}
+
+We start from the general propagator with a shortcut from $n=u$ to site $n=v$ and we have
+\begin{align}
+\widetilde{S}_{n_0}(n,z)=\widetilde{P}_{n_0}(n,z)+\frac{z\beta (1-q)\widetilde{P}_{n_0}(u,z)\left[\widetilde{P}_{u}(n,z)-\widetilde{P}_{v}(n,z)\right]}{1-z\beta(1-q)\left[\widetilde{P}_{u}(u,z)-\widetilde{P}_{v}(u,z)\right]},
+\label{eq:one_def_prop}
+\end{align}
+where $\widetilde{P}_{r}(n,z)$ is the ring propagator generating function without shortcuts. If the ring also has an absorbing site, the modularity of the defect technique allows to replace the (probability conserving) propagator $\widetilde{P}_{r}(n,z)$ with the propagator $\widetilde{W}_{r}(n,z)$ in Eq. (\ref{eq:compactprob_abs})
+\begin{align}
+\widetilde{S}_{n_0}(n,z)=\widetilde{W}_{n_0}(n,z)+\frac{z\beta (1-q)\widetilde{W}_{n_0}(u,z)\left[\widetilde{W}_{u}(n,z)-\widetilde{W}_{v}(n,z)\right]}{1-z\beta(1-q)\left[\widetilde{W}_{u}(u,z)-\widetilde{W}_{v}(u,z)\right]}.
+\label{eq:one_def_prop_abs}
+\end{align}
+
+When the absorbing site coincides with the shortcut site, i.e. $m=v$, $\widetilde{W}_{v}(n,z)=0$ and Eq. (\ref{eq:one_def_prop_abs}) simplifies further to
+\begin{align}
+\widetilde{S}_{n_0}(n,z)=\widetilde{W}_{n_0}(n,z)+\frac{z\beta (1-q)\widetilde{W}_{n_0}(u,z)\widetilde{W}_{u}(n,z)}{1-z\beta(1-q)\widetilde{W}_{u}(u,z)}.
+\label{eq:one_def_prop_abs_2}
+\end{align}
+After summing Eq. (\ref{eq:one_def_prop_abs}) over $n$ to obtain the survival probability $\widetilde{\mathcal{S}}_{n_0}(z)=\left[1-\widetilde{F}_{n_0}(v,z)\right]/(1-z)$, one expresses the generating function of the first-passage probability to site $v$ as
+\begin{align}
+\widetilde{F}_{n_0}(v,z)=\widetilde{\mathcal{F}}_{n_0}(v,z)-\frac{z\beta (1-q)\widetilde{W}_{n_0}(u,z)\left[1-\widetilde{\mathcal{F}}_{u}(v,z)\right]}{1-z\beta(1-q)\widetilde{W}_{u}(u,z)},
+\label{eq:first_pass_prob}
+\end{align}
+or more explicitly as
+\begin{align}
+\widetilde{F}_{n_0}(v,z)=\widetilde{\mathcal{F}}_{n_0}(v,z)-qz\widetilde{W}_{n_0}(u,z)\left[1-\widetilde{\mathcal{F}}_{u}(v,z)\right] \widetilde{H}_{N,|u-v|}(z),
+\label{eq:first_pass_prob_2}
+\end{align}
+with $\widetilde{W}_{n_0}(u,z)$ and $\widetilde{\mathcal{F}}_{r}(m,z)$ defined, respectively, in Eqs. (\ref{eq:compactprob_abs_z}) and (\ref{eq:fp_0_z}), and
+ \begin{align}
+  \widetilde{H}_{N,|u-v|}(z)=\frac{\beta(1-q)}{q}\frac{1}{1-z\beta(1-q)\widetilde{W}_{u}(u,z)}.
+\label{eq:HNuv}
+\end{align}
+
+We now consider  the symmetric case $|u-v|=N/2$ with $N$ even, and use $\widetilde{\mathcal{W}}_{u}(u,z)$ from Eq. (\ref{eq:Wuu_z_*}) in $\widetilde{W}_{u}(u,z)$, that allows to simplify Eq. (\ref{eq:HNuv}) to
+ \begin{align}
+ \widetilde{H}_{N,N/2}(z)=\frac{1}{\frac{q}{\beta(1-q)}-\phi(z)},
+\label{eq:HNN2_}
+\end{align}
+where
+\begin{align}
+\phi(z)=\frac{2\,U^2_{N/2-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}{U_{N-1}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)}.
+%\phi(s)=\frac{\tan\left\{\frac{N}{2}\arccos\left[1+\frac{1}{q}\left(s-1\right)\right]\right\}}{\sqrt{1-\left[1+\frac{1}{q}\left(s-1\right)\right]^2}}.
+\label{eq:phi_s}
+\end{align}
+whose time-dependence is $H_{N,N/2}(0)= \beta(1-q)/q$ and for $t\geq 1$ is given by the complex integral (after the change of integration variable $z=1/s$ and the region of integration becoming $|s|\leq 1$)
+\begin{align}
+ H_{N,N/2}(t)=\frac{1}{2\pi i}\oint_{|s|\leq 1}\frac{s^{t-1}}{\frac{q}{\beta(1-q)}-\phi\left(\frac{1}{s}\right)}.
+\label{eq:inv_z}
+\end{align}
+The denominator in the integrand of Eq. (\ref{eq:inv_z}) has $M$ real zeros $s_k$ ($k=1,2,..,M$) and are shown graphically in Fig. \ref{fig:phis} (see the figure caption for an explanation of when $M=N/2$ and $M=N/2-1$). 
+\begin{figure*}[ht]
+\includegraphics[width=\textwidth]{phifunction.pdf}
+\caption{Graphical representation of the poles of Eq. (\ref{eq:HNN2_}) for the case $N=10$, $q=2/3$ and $\beta=2/7$ which are the values of $s$ in the range $-1\leq s\leq 1$ where the horizontal dotted line $\frac{q}{\beta(1-q)}$ intercepts the function $\phi\left(s^{-1}\right)$. Depending on $N$, $\beta$ and $q$ ($N$ even, $0<\beta\leq 1$ and $0<q<1$) one may have $M=\frac{N}{2}-1$ poles, when $\frac{q}{\beta(1-q)}<\frac{N}{2}$, or $M=\frac{N}{2}$ poles, when $\frac{q}{\beta(1-q)}\geq \frac{N}{2}$, which is the case displayed above. The asymptotes of the $\phi\left(s^{-1}\right)$ function are given from right to left by, respectively, $\alpha_k$ in Eq. (\ref{eq:alpha_k}) with $k=1,2,...\frac{N}{2}$, and they are interlaced with the poles $s_k$ with $k=1,...,M$. We follow the same principle and order from right to left the poles $s_k$ with increasing $k$, thus with $s_1$ representing the largest positive pole. With $q=1$ the curves are symmetric around the origin, but given the requirement $q>1$ to have a non-zero probability to move from site $u$ to site $v$, the function $\phi\left(s^{-1}\right)$ is never symmetric around $s=0$, which implies that in magnitude one has $|s_{\frac{N}{2}}|<s_1$ for any $q<1$. The paired tick marks without numerical values on the top and bottom horizontal axes correspond, from right to left, to the values $\gamma_k$ in Eq. (\ref{eq:gamma_k}) with $k=1,2,...,\frac{N}{2}$, which are interlaced with the $\alpha_k$ (the values for $N/2+1\leq k\leq N-1$ repeat themselves).}
+\label{fig:phis}
+\end{figure*}
+ $s_{k}$ (real) poles in the integrand with $k=1,...,N/2-1$ in the dominator ($-1<s_k<1$) can be found numerically as
+\begin{align}
+ H_{N,N/2}(t)=\sum_{k=1}^{M}c_k \,s_k^{t-1}
+\label{eq:inv_z_t}
+\end{align}
+with
+\begin{align}
+c_k=\frac{2q}{N}\frac{\left\{\left(1+\frac{1}{q}\left[s_k-1\right]\right)^2-1\right\}\left\{T_{\frac{N}{2}}\left(1+\frac{1}{q}\left[s_k-1\right]\right)\right\}^2}{\left(1+\frac{1}{N}\right)\left(1+\frac{1}{q}\left[s_k-1\right]\right)U_{N-1}\left(1+\frac{1}{q}\left[s_k-1\right)]\right)-T_{N}\left(1+\frac{1}{q}\left[s_k-1\right)]\right)-U_{N-2}\left(1+\frac{1}{q}\left[s_k-1\right)]\right)-1}.
+\label{eq:ck}
+\end{align}
+Analysis of $c_k$ shows that $c_k\geq 0$ for any real $s_k$ and one may have $c_k=0$ only when $s_k=\alpha_k$. As $\alpha_k$ are the asymptotes of $\phi(1/s)$, then we conclude that $c_k>0$ for all $k$.
+
+
+The time dependence of Eq. (\ref{eq:first_pass_prob_2}) for $|u-v|=N/2$ is thus given by the time-convoluted expression for $t\geq 1$
+\begin{align}
+F_{n_0}(v,t)=\mathcal{F}_{n_0}(v,t)-q\sum_{t^{\prime}=0}^{t-1}W_{n_0}(u,t-1-t^{\prime})\sum_{t^{\prime\prime}=0}^{t^{\prime}}\left[\delta_{t^{\prime},t^{\prime\prime}}-\mathcal{F}_{u}(v,t^{\prime}-t^{\prime\prime})\right]H_{N,N/2}(t^{\prime\prime})
+\label{eq:fp_time}
+\end{align}
+and $F_{n_0}(v,0)=0$. Using Eqs. (\ref{eq:fp_0_b}), (\ref{eq:Wn0time}) and  (\ref{eq:inv_z_t}), after performing the various time convolutions, one obtains
+\begin{align}
+&F_{n_0}(v,t)=\sum_{\ell=1}^{\frac{N}{2}}f_{\ell}(n_0,u)\alpha_{\ell}^{t-1}-q\sum_{k=1}^{M}\left\{\sum_{r=1}^{N-1}\frac{c_kG^{(1)}_r(n_0,u,v)}{s_k(s_k-\gamma_r)}\left(s_k^t-\gamma_r^t\right)+\sum_{\ell=1}^{\frac{N}{2}}\frac{c_kg^{(2)}_{\ell}(n_0,u,v)}{s_k(s_k-\alpha_{\ell})}\left(s_k^t-\alpha_{\ell}^t\right)\right\} \nonumber \\
+&+q\sum_{k=1}^{M}\sum_{r=1}^{N-1}\sum_{\ell=1}^{\frac{N}{2}}\frac{c_kG^{(1)}_r(n_0,u,v)f_{\ell}(u,v)}{s_k-\alpha_{\ell}}\left[\frac{s_k^t-\gamma_r^t}{\alpha_{\ell}(s_k-\gamma_r)}-\frac{\alpha_{\ell}^t-\gamma_r^t}{s_k(\alpha_{\ell}-\gamma_r)}\right]-q\sum_{k=1}^{M}\sum_{\ell=1}^{\frac{N}{2}}\frac{c_kg^{(2)}_{\ell}(n_0,u,v)f_{\ell}(u,v)}{s_k\alpha_{\ell}(s_k-\alpha_{\ell})}\alpha_{\ell}^t\,t \nonumber \\
+&+q\sum_{k=1}^{M}\underbrace{\sum_{r=1}^{\frac{N}{2}}\sum_{\ell=1}^{\frac{N}{2}}}_{\ell\not= r}\frac{c_kg^{(2)}_r(n_0,u,v)f_{\ell}(u,v)}{s_k\alpha_{\ell}(s_k-\alpha_{\ell})}\left[s_k\frac{s_k^t-\gamma_r^t}{s_k-\gamma_r}-\alpha_{\ell}\frac{\alpha_{\ell}^t-\gamma_r^t}{\alpha_{\ell}-\gamma_r}\right].
+\label{eq:fp_time_2}
+\end{align}
+The exponentially decaying dominant term in the first-passage probability can now be evinced by finding the largest positive coefficient among $\alpha_k$, $\gamma_k$ and $s_k$ with $k=1$ identifying the largest value for each one. As $\alpha_1>\gamma_1$, it suffices to compare $\alpha_1$ and $s_1$. As graphically in Fig. \ref{fig:phis} we have observed that when $q/[\beta(1-q)]\geq N/2$, the largest coefficient is the pole $s_1$, whereas it is $\alpha_1$ if $q/[\beta(1-q)]< N/2$, we are able to identify analytically the necessary condition for the second peak to be present, and that is $\beta\leq \frac{2q}{(1-q)N}$. From the last term in the second line of Eq. (\ref{eq:fp_time_2}) one may also notice that when $\beta> \frac{2q}{(1-q)N}$ the long time dependence is dominated by $\alpha_1^t\,t$, which indicates a logarithmic correction that slows the exponential decay. In other words the introduction of the shortcut between $u$ and $v$ changes the long time dependence of the first-passage probability from $\alpha_1^t$ to  either $\alpha_1^t\,t$ when $\beta\geq \frac{2q}{(1-q)N}$ or to $s_1^t$ when $\beta < \frac{2q}{(1-q)N}$. While the case $\beta=\frac{2q}{(1-q)N}$ corresponds to the transition from $\alpha_1^t\,t$ to $s_1^t$, $s_1=1$ and thus it does not affect the long time dependence.
+
+
+\end{document}
+
+
+% LocalWords:  Mclaurin
+
+
+
+
+
+
+
+
+% \begin{equation}
+%   \label{eq:sum_eigs_cheby}
+% \mathcal{S}^{(2)}(k_1, k_2, N_1, N_2) = \sum_{k_1 = 1}^{N_1-1} 
+% \frac{2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}}{1 -
+%   \ls 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}  \rs^2} -
+% \frac{1}{1 - 
+% \ls 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb} \rs^2
+% }
+% \frac{N_2 T_{N_2}{\ls
+% 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}
+% \rs}}{U_{N_2-1}{\ls
+% 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb},
+%   \rs}}
+% \end{equation}
+% where $T_{N}(x)$, $U_{N}(x)$ are the $N^{\thh}$ order Chebyshev polynomials of the first and second
+% We then use the trigonemtric definitions of the Chebyshev polynomials to write
+% \begin{equation}
+% \begin{aligned}
+%   \label{}
+%   \frac{N_2 T_{N_2}{\lb 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb} \rb}}{U_{N_2-1}{\lb 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb} \rb}}
+% &= \frac{N_2 \sinh{\ls \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb} \rs} \cosh{\ls N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb} \rs}}{\sinh{\ls N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb} \rb} \rs}} \\
+% &= N_2 \sinh{\ls \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb} \rs}
+% \frac{ \e^{N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}} + \e^{- N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}}}{ \e^{N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}} - \e^{- N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}}}.
+% \end{aligned}
+% \end{equation}
+% In order to finding the leading order terms as $N_1, N_2 \to \infty$, we exploit the fact that
+% $1\leq 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb} \leq 3$ for all values of $N_1$ and $k_1$, and expand
+% the ratio of exponetial functions around
+% $\e^{- N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb} \rb}} = 0$ to give
+% \begin{equation}
+%   \label{}
+%   \begin{aligned}
+% N_2 &\sinh{\ls \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb} \rs}
+% \frac{ \e^{N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}} + \e^{- N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}}}{ \e^{N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}} - \e^{- N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}}} \\
+% &=  N_2 \sinh{\ls \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb} \rs}
+%   \lc
+%   1 + 2 \e^{-2N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}}
+%   + 2 \e^{-4 N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}} \dots
+%   \rc,
+%   \end{aligned}
+% \end{equation}
+% which in turn yeilds the asymptotic approximation for $N_2 \to \infty$, 
+% \begin{equation}
+%   \label{eq:asym_double_n2}
+%   \begin{aligned}
+% \mathcal{S}^{(2)}(k_1, k_2, N_1, N_2) \sim \sum_{k_1 = 1}^{N_1-1} 
+% \frac{1}{1 -
+%   \ls 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}  \rs^2}
+% &\Bigg\{ 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}  -  
+% N_2 \sinh{\ls \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb} \rs}  \rd  \\
+% &\ld + O{\ls
+% \e^{-2N_2 \acosh{\lb 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rb}}
+%   \rs}
+% \rc
+%   \end{aligned}.
+% \end{equation}
+% It is possible to sum expliclity
+% \begin{equation}
+%   \label{eq:asym_double_n2}
+%   \begin{aligned}
+% \sum_{k_1 = 1}^{N_1-1} 
+% \frac{2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}}{1 -
+%   \ls 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}  \rs^2}
+%   \end{aligned}
+% \end{equation}
+% by partial expanding the the denominator of the summand and then employing the identiy given by
+% Eq.~(E1) of \cref{giuggioli2020} to give
+% \begin{equation}
+%   \label{eq:asym_double_n2_p1}
+%   \begin{aligned}
+%  \sum_{k_1 = 1}^{N_1-1} 
+% \frac{2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}}{1 -
+%   \ls 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}  \rs^2}
+%     =  \frac{1}{6} (N_1 + 4) ( 1 - N_1)
+%     + \frac{1}{16} \lc  8N_1 - 2 N_1 \sqrt{2} \coth{\ls  N_1 \acosh{\lb 3\rb}\rs - 5}\rc.
+%   \end{aligned}
+% \end{equation}
+% The remaining contribution to the double sum comes from 
+% \begin{equation}
+%   \label{eq:asym_double_n2_p2}
+%   \begin{aligned}
+% -N_2 \sum_{k_1 = 1}^{N_1-1} 
+% {\sinh{\lc \acosh{\ls 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rs} \rc^{-1}}},
+%   \end{aligned}
+% \end{equation}
+% which one can expand the summand around $\cos{\ls \frac{k_1 \pi}{N_1}\rs } = 1$ as this gives the greatest contribution to the sum. After some algebra one obtains the expansion
+% \begin{equation}
+%   \label{}
+% {\sinh{\lc \acosh{\ls 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rs} \rc^{-1}}}
+% \sim
+% \frac{1}{\sqrt{2} \ls 1 -  \cos{\lb \frac{k_1 \pi}{N_1} \rb} \rs^{\frac{1}{2}}} 
+% + O{\ls 1 -  \cos{\lb \frac{k_1 \pi}{N_1} \rb} \rs^{\frac{1}{2}}}
+% \end{equation}
+% using which we obtain the approximation
+% \begin{equation}
+%   \label{}
+%   -N_2 \sum_{k_1 = 1}^{N_1-1} \frac{\sinh{\lc \acosh{\ls 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rs} \rc}}
+%   {1 - \ls 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}  \rs^2}
+%   \sim  
+% N_2 \sum_{k_1 = 1}^{N_1-1} 
+% \frac{1}{\sqrt{2} \ls 1 -  \cos{\lb \frac{k_1 \pi}{N_1} \rb} \rs^{\frac{1}{2}}} 
+% + O{\ls 2 -  \cos{\lb \frac{k_1 \pi}{N_1} \rb} \rs^{\frac{1}{2}}}.
+% \end{equation}
+% Neglecting the higher-order terms one can employ the Euler-Mclaurin summation formula to obtain 
+% % \begin{equation}
+% %   \label{}
+% %   \begin{aligned}
+% % N_2 \sum_{k_1 = 1}^{N_1-1} 
+% % \frac{1}{\sqrt{2} \ls 2 -  \cos{\lb \frac{k_1 \pi}{N_1} \rb} \rs^{\frac{1}{2}}} 
+% % &\sim   \int_{1}^{N-1} 
+% % {\mathrm{d}x}{\lc\sqrt{2} \ls 2 -  \cos{\lb \frac{x \pi}{N_1} \rb} \rs^{\frac{1}{2}} \rc}^{-1} \\
+% % &+ \frac{1}{2}
+% % \lb { \lc\sqrt{2} \ls 2 -  \cos{\lb \frac{1 \pi}{N_1} \rb} \rs^{\frac{1}{2}} \rc}^{-1}
+% % - {\lc\sqrt{2} \ls 2 -  \cos{\lb \frac{1 \pi}{N_1} \rb} \rs^{\frac{1}{2}} \rc}^{-1} \rb \\
+% % &+ \frac{1}{12}
+% % \lb { \lc\sqrt{2} \ls 2 -  \cos{\lb \frac{1 \pi}{N_1} \rb} \rs^{\frac{1}{2}} \rc}^{-1}
+% % - {\lc\sqrt{2} \ls 2 -  \cos{\lb \frac{1 \pi}{N_1} \rb} \rs^{\frac{1}{2}} \rc}^{-1} \rb
+% % \end{aligned}
+% % \end{equation}
+% \begin{equation}
+%   \label{}
+%   \begin{aligned}
+% \sum_{k_1 = 1}^{N_1-1} 
+% f(x)
+% \sim   \int_{1}^{N-1} 
+% {\mathrm{d}x}
+%  f(x)
+% &+ \frac{1}{2} \ls  f(1) - f(N-1) \rs 
+% + \frac{1}{12} \ls  f'(1) - f'(N-1) \rs \\
+% &+ \frac{1}{720} \ls  f'''(1) - f'''(N-1) \rs  
+%   + \cdots
+% \end{aligned}
+% \end{equation}
+% where $f(x) = {\ls 2 -  2\cos{\lb \frac{x \pi}{N_1} \rb} \rs}^{-\frac{1}{2}}$, which after evaluating the various terms we obtain
+% \begin{equation}
+%   \label{eq:asym_double_n2_p2_c}
+% \sum_{k_1 = 1}^{N_1-1} -\frac{\sinh{\lc \acosh{\ls 2 - \cos{\lb \frac{k_1 \pi}{N_1} \rb}  \rs} \rc}}
+%   {1 - \ls 2 - \cos{\lb  \frac{k_1 \pi}{N_1} \rb}  \rs^2}
+%   \sim  
+%  \frac{1} {\pi} N_1 \ln{\lb N_1 \rb} + N_1 \ls \frac{7}{12 \pi} + \frac{1}{\pi}\ln{\lb \frac{4}{\pi} \rb} \rs   - \frac{3}{4} - O\lb \frac{1}{N_1} \rb.
+% \end{equation}
+  
+% Combining \cref{eq:asym_double_n2_p2} with the explicitly summed terms such as \cref{eq:asym_double_n2_p2_c} and the two single series, we obtain
+% \begin{equation}
+%   \label{}
+%   \alpha \sim  \frac{2}{q} \lc
+%    \frac{1}{\pi}N^2 \ln{\lb N \rb}
+%  +  \ls \frac{7 + 8\pi}{12\pi}  + \frac{1}{\pi} \ln{\lb \frac{4}{\pi} \rb}\rs N^2
+%   + O(N) \rc
+% \end{equation}
+% where $N_1 = N_2 = N$
+
+
+
+
+
+
+
+
+% % Given a set $S$ of lattice sites and an initial condition $\novec$, the time taken for a random walker to visit all the sites in $S$ is the coverage time. In the literature, when the set $S$ contains a strict subset of all the sites in the domain, the process is referred to as partial coverage, whereas full coverage refers to the case when $S$ contains all of the sites in the domain\cite{chupeauetal2015}.
+
+
+
+% As $\tmzz{\rvec_k}{\novec}$ represents mutually exclusive probabilities for each $\rvec_k$ in $S$, one can sum over these probabilities to obtain the first-absorption probability to any of the sites in $S$, i.e. the ``or'' search type, giving
+% \begin{equation}
+%   \label{eq:trans_full}
+%   \tmzz[]{S}{\novec} = \sum_{k=1}^{m} \tmzz{\svec_k}{\novec} = 1 - \frac{\mdet{\acmat[0]}}{\mdet{\amat}},
+% \end{equation}
+% where 
+% \begin{equation}
+%   \label{eq:dcmat}
+%   \acmat[0]_{i, j} = \amat_{i, j}   -  \propzz{\svec_i}{\novec}.
+% \end{equation}
+
+% From \cref{eq:trans_split,eq:trans_full} it is possible to show that the generating function of the cover-time probability is governed by
+% \begin{equation}
+%   \label{eq:unconst_covz_full_with_abs}
+%       \covazz{\novec}=
+%       \sum_{\ell = 1}^{m} (-1)^{\ell+1} 
+%       \sum_{\ssites \in \assites{\ell}}
+%       \tmzz[]{\ssites}{\novec},
+% \end{equation}
+% where $\assites{k} = \lc {\omega : \omega \subseteq  S, |\omega| = k} \rc$, contains all unique subsets of $S$ with $k$ elements, and where $\tmzz[]{\ssites}{\novec}$ is the generating function of the first-absorption probability to any of the sites in $\omega$ starting from $\novec$. The details of the derivation are given in \cref{ap:cov_derivation}.
+
+
+
+
+
+% Given that the (unconstrained) coverage probability is the average over the final position, it suffices to restrict our interpretation to the constrained coverage probability. To that end, consider three cases with increasing complexity $S_1 = {\lc \rss[1] \rc}$, $S_2 = {\lc \rss[1], \rss[2] \rc}$ and $S_3 = {\lc \rss[1], \rss[2], \rss[3] \rc}$, where one is interested in the constrained coverage probability with the final site being $\rss[1]$. We start with the trivial $S_1$, expanding out the terms in \cref{eq:cov_f_sum_minors} reveals
+% \begin{equation}
+%   \label{}
+%   \covfzz[(S_1)]{\rss[1]}{\novec}= \fpzz{\rss[1]}{\novec},
+% \end{equation}
+% which unsurprisingly states that given only one site, $\rss[1]$, to
+% cover, the trajectories that cover and finish at $\rss[1]$ are those
+% that reach $\rss[1]$ for the first time. With $S_2$, the walker must
+% cover another site, $\rss[2]$, in addition to being at $\rss[1]$ for
+% the first time, from \cref{eq:cov_f_sum_minors} we find
+% \begin{equation}
+%   \begin{aligned}
+% \covfzz[(S_2)]{\rss[1]}{\novec}&=
+% \fpzz{\rss[1]}{\novec}
+% - \frac{\pmin[\lc 1, 2 \rc]{\dkmatb}}{\pmin[\lc 1, 2 \rc]{\dmatb}} \\
+% &=
+% \fpzz{\rss[1]}{\novec}
+% - \fpzz{\rss[1], \ntrans{\rss[2]} }{\novec},
+%   \end{aligned}
+% \label{eq:const_covz_two_minors}
+% \end{equation}
+% where the ratio of minors is the first-passage probability to $\rss[1]$ and having never visited $\rss[2]$ denoted by $\fpzz{\rss[1], \ntrans{\rss[2]} }{\novec}$ where the bar notation is used to indicate negation, that is, site $\rss[2]$ is never reached. From \cref{eq:const_covz_two_minors}, it is already apparent that the construction employs a counting procedure where one successively subtracts, from the trajectories that contribute to the first-passage probability, the trajectories that do not visit one or more sites. This notion becomes self-evident in case of $S_3$, where after expansion of \cref{eq:cov_f_sum_minors} one yields
+% \begin{equation}
+%   \begin{aligned}
+% \covfzz{\rss[1]}{\novec}&=
+% \fpzz{\rss[1]}{\novec}
+% - \frac{\pmin[\lc 1, 2 \rc]{\dkmatb}}{\pmin[\lc 1, 2 \rc]{\dmatb}}
+% - \frac{\pmin[\lc 1, 3 \rc]{\dkmatb}}{\pmin[\lc 1, 3 \rc]{\dmatb}} \\
+% &+ \frac{\pmin[\lc 1, 2, 3 \rc]{\dkmatb}}{\pmin[\lc 1, 2, 3 \rc]{\dmatb}}, \\ 
+% &= \fpzz{\rss[1]}{\novec} 
+% - \fpzz{\rss[1], \ntrans{\rss[2]} }{\novec} \\
+% &- \fpzz{\rss[1], \ntrans{\rss[3]} }{\novec}
+% + \fpzz{\rss[1], \ntrans{\rss[2]}, \ntrans{\rss[3]}}{\novec}.
+% \end{aligned}
+% \label{eq:const_covz_three_minors}
+% \end{equation}
+% This example is illustrated in \cref{fig:coverage_schematic}. In panel (a) the arrow represents
+% the trajectories of the constrained coverage, $\covfzz[(S_3)]{\rss[1]}{\novec}$, the arrows
+% representing the one site splitting probability, i.e.  $\fpzz{\rss[1], \ntrans{\rss[2]} }{\novec}$
+% and $\fpzz{\rss[1], \ntrans{\rss[3]} }{\novec}$ are shown, lastly panel (c) depicts the two site
+% splitting trajectories, i.e. those that contribute to
+% $\fpzz{\rss[1], \ntrans{\rss[2]}, \ntrans{\rss[3]}}{\novec}$. Notice that when we subtract,
+% $\fpzz{\rss[1], \ntrans{\rss[2]} }{\novec}$ and $\fpzz{\rss[1], \ntrans{\rss[3]} }{\novec}$, we have
+% double counted the trajectories of the two site splitting probability that visits neither $\rss[2]$ nor
+% $\rss[3]$. We correct this by adding back the trajectories via
+% $\fpzz{\rss[1], \ntrans{\nvec}_2, \ntrans{\nvec}_3 }{\novec}$.
+% \begin{figure*}[ht]
+%   \centering
+%   \includestandalone[width=\textwidth]{figures/coverage_schematic}
+%   \caption{A schematic representation of first-passage trajectories from $\novec$ to $\rss[1]$. The
+%     arrows are used to indicate that the sites have been visited before reaching $\rss[1]$, but they
+%     do not represent the order of visits to the intermediate sites. In panel (a) the constrained
+%     coverage trajectory to $\rss[1]$ from $\novec$ is indicated with the black arrow. The solid and
+%     dashed lines represent the two ordering of $\rss[2]$ and $\rss[3]$ that are possible. In panel
+%     (b) represents the trajectories that visit $\rss[1]$ at least once and having never visited $\rss[3]$
+%     before reaching $\rss[1]$ and vice versa. Lastly, panel (c) depicts the trajectories that reach
+%     $\rss[1]$ for the first time and having never visited any of the intermediate sites.}
+% \label{fig:coverage_schematic}
+% \end{figure*}
+% \subsection{Inefficient Coverage Probability}
+
+% One can readily extend the constrained coverage to the case when the efficiency of the walker is imperfect without going through the derivation of \cref{eq:cov_f_sum_minors}. In other words, one can exchange the splitting first-passage probabilities in \cref{eq:cov_f_sum_minors} with the splitting first-absorption probabilities to write
+% \begin{equation}
+% \label{eq:cov_f_sum_with_abs}
+% \covfazz{\rss[k]}{\novec}=
+% \sum_{k = 1}^{M} (-1)^{k+1} 
+% \sum_{\ssites \in \assites{k, {k}}}
+% \tmzz[(\ssites)]{\rss[k]}{\novec}  
+% \end{equation}
+% where the $\tmzz[(\ssites)]{\rss[k]}{\novec}$ is the probability of
+% being absorbed at $\rss[k]$ having started at $\novec$ and having not
+% been absorbed at any of the other sites in $\ssites$ given in
+% \cref{eq:trans_split}. Similarly, extending the unconstrained
+% coverage probability gives
+% \begin{equation}
+% \label{eq:unconst_covz_full_with_abs_ap}
+% \covazz{\novec}=
+% \sum_{k = 1}^{M} (-1)^{k+1} 
+% \sum_{\ssites \in \assites{k}}
+% \tmzz[(\ssites)]{\ssites}{\novec}.
+% \end{equation}
+
+% Either from \cref{eq:unconst_covz_full} or more generally from
+% \cref{eq:unconst_covz_full_with_abs} one can compute the mean
+% coverage time giving in the general case with $\rhos{\rss} \leq 1$ for
+% all $\rss \in S$
+% \begin{equation}
+% \label{eq:unconst_mct_full_with_abs_ap}
+% \mcovatt{\novec}=
+% \sum_{k = 1}^{M} (-1)^{k+1} 
+% \sum_{\ssites \in \assites{k}}
+% \mtmtt[(\ssites)]{\ssites}{\novec},
+% \end{equation}
+% where $\mtmtt[(\ssites)]{\ssites}{\novec}$ is the mean first
+% absorbtion at any of the sites in $\ssites$ given by
+% \cref{eq:trans_mean}.

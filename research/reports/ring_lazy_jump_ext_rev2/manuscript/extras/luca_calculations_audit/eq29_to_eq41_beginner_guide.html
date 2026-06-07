@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eq. (29) to Eq. (41) Beginner Guide</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172126;
+      --muted: #5f6b73;
+      --paper: #fafbfa;
+      --panel: #ffffff;
+      --line: #d7e0e3;
+      --blue: #1f5d8d;
+      --green: #24734f;
+      --red: #a23a2d;
+      --gold: #976a16;
+      --violet: #6650a4;
+      --soft-blue: #eaf4fb;
+      --soft-green: #eaf7ef;
+      --soft-red: #fff0ed;
+      --soft-gold: #fff7e5;
+      --soft-violet: #f2effc;
+      --shadow: 0 18px 40px rgba(23, 33, 38, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100vw - 36px));
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #f3f7f6;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 28px;
+      align-items: start;
+      padding: 38px 0 30px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 48px);
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin: 18px 0 8px;
+    }
+
+    p { margin: 10px 0 0; }
+
+    a {
+      color: var(--blue);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .dek {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 850px;
+      margin-top: 16px;
+    }
+
+    .status {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .status b { color: var(--green); }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(250, 251, 250, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    nav .wrap {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    main { padding: 26px 0 58px; }
+
+    section {
+      margin: 24px 0;
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    section, .grid-two > *, .formula, .note, .codebox, table {
+      min-width: 0;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .grid-three {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mini {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fcfefd;
+    }
+
+    .mini b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note {
+      border-left: 4px solid var(--blue);
+      padding: 12px 14px;
+      background: var(--soft-blue);
+      border-radius: 0 8px 8px 0;
+      color: #17384f;
+      margin-top: 14px;
+    }
+
+    .ok {
+      border-left-color: var(--green);
+      background: var(--soft-green);
+      color: #1d4d36;
+    }
+
+    .warning {
+      border-left-color: var(--red);
+      background: var(--soft-red);
+      color: #64241c;
+    }
+
+    .gold {
+      border-left-color: var(--gold);
+      background: var(--soft-gold);
+      color: #60420f;
+    }
+
+    .violet {
+      border-left-color: var(--violet);
+      background: var(--soft-violet);
+      color: #40326a;
+    }
+
+    .formula {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fcfefd;
+      padding: 12px 14px;
+      margin-top: 12px;
+    }
+
+    mjx-container[jax="SVG"] {
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 2px;
+    }
+
+    .codebox {
+      overflow-x: auto;
+      border: 1px solid #cbd7dc;
+      border-radius: 8px;
+      background: #101820;
+      color: #f6fbff;
+      padding: 14px;
+      margin-top: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      background: #f3f7f6;
+      font-weight: 700;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: #fff;
+      white-space: nowrap;
+    }
+
+    .pill.ok { color: var(--green); background: var(--soft-green); border-color: #b7dfc6; }
+    .pill.bad { color: var(--red); background: var(--soft-red); border-color: #efc0b8; }
+    .pill.warn { color: var(--gold); background: var(--soft-gold); border-color: #e5c477; }
+
+    .eq {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      color: #34434d;
+    }
+
+    .step-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fcfefd;
+    }
+
+    .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding: 22px 0 32px;
+    }
+
+    @media (max-width: 880px) {
+      .hero, .grid-two, .grid-three {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 18px;
+      }
+
+      .wrap {
+        width: min(100vw - 24px, 1180px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1>从 Eq. (29) 到 Eq. (41): Luca 新稿到底在做什么，哪里还没修对</h1>
+        <p class="dek">
+          这份说明从 Luca 2026-06-06 Outlook 附件里的新版 <span class="eq">Calculations.tex</span> 出发，
+          按原文顺序解释每一步。目标不是重写一篇论文，而是让你能看出：每个公式在干嘛，为什么符号错会传下去，
+          以及正确版本应该替换成什么。
+        </p>
+      </div>
+      <aside class="status">
+        <div><b>源文件</b>: <span class="eq">source/20260606_luca_updated/Calculations.tex</span></div>
+        <div><b>邮件状态</b>: 最新附件是 2026-06-06 Luca 发来的 updated version。</div>
+        <div><b>总判断</b>: Eq. (29)-(31) 已基本修正；Eq. (32), Eq. (33), Eq. (40), Eq. (41) 仍需修。</div>
+      </aside>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap">
+      <a href="#summary">一句话</a>
+      <a href="#symbols">符号</a>
+      <a href="#roadmap">Luca 路线</a>
+      <a href="#map">逐式地图</a>
+      <a href="#eq32">32 的硬错</a>
+      <a href="#eq33">33 和 H</a>
+      <a href="#eq40">40 的时域符号</a>
+      <a href="#eq41">41 正确形状</a>
+      <a href="#decay">decay</a>
+      <a href="#checks">验证</a>
+      <a href="#reply">可回 Luca</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="summary">
+      <h2>0. 一句话结论</h2>
+      <div class="note warning">
+        Luca 新稿不是全错，也不是全对。最前面的 stochastic shortcut sign 已经修到了 Eq. (29)-(31)，
+        但这个修正没有一致传到 first-passage 部分。第一个真正的硬错误在 Eq. (32):
+        分母应该是 \(1+z\beta(1-q)\widetilde W_u(u,z)\)，不是减号。
+      </div>
+      <p>
+        从这个错误往下，Eq. (33) 的整体符号、Eq. (40) 的卷积符号、Eq. (41) 的长展开和最后的
+        \(t\alpha_1^t\) tail 结论都会被影响。最干净的正确版本不是继续保留 Eq. (41) 那个长串，
+        而是把对称 antipodal 情形整理成一个 closed form。
+      </p>
+      <div class="formula">
+        \[
+        \boxed{
+        \widetilde F_\rho(z)=
+        \frac{
+        aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+        {aT_L(y)+U_{L-1}(y)}
+        }
+        \]
+        \[
+        N=2L,\qquad
+        a=\frac{q}{\beta(1-q)},\qquad
+        y=1+\frac{1/z-1}{q}.
+        \]
+      </div>
+      <p>
+        这条式子是 corrected Eq. (41) 最应该收敛到的形状。它直接告诉我们尾部 decay 由
+        \(aT_L(y)+U_{L-1}(y)=0\) 的最大正根 \(s_1=1-q+qy_1\) 控制。
+      </p>
+    </section>
+
+    <section id="symbols">
+      <h2>1. 先把符号翻译成人话</h2>
+      <div class="grid-three">
+        <div class="mini">
+          <b>\(P\)</b>
+          没有吸收点、没有 shortcut 的普通 ring propagator。此时 \(v\) 只是普通节点。
+        </div>
+        <div class="mini">
+          <b>\(W\)</b>
+          有吸收点 \(v\)、但还没有 shortcut 的 killed/absorbing propagator。此时 \(v\) 不再是普通节点。
+        </div>
+        <div class="mini">
+          <b>\(S\)</b>
+          加上 shortcut 后的 propagator。这里真正要比较的是 \(S\) 和 finite stochastic shortcut matrix。
+        </div>
+      </div>
+      <div class="grid-two">
+        <div>
+          <h3>为什么 \(v\) 不是普通节点？</h3>
+          <p>
+            因为这一段已经进入 “one absorbing site” 的问题。目标是 first passage to \(v\)。
+            一旦走到 \(v\)，first-passage event 已经发生，后面不继续在 transient space 里传播。
+          </p>
+          <p>
+            所以在 \(W\) 里，\(v\) 是 absorbing/killing boundary，而不是普通 ring 节点。
+            这就是原文 line 396 说 \(m=v\) 时 \(\widetilde W_v(n,z)=0\) 的背景。
+          </p>
+        </div>
+        <div>
+          <h3>shortcut 到 \(v\) 是什么？</h3>
+          <p>
+            概率守恒的原始 ring 里，shortcut 是把
+            \(\lambda=\beta(1-q)\) 从 \(u\to u\) self-loop 搬到 \(u\to v\)。
+          </p>
+          <p>
+            但如果 \(v\) 是 absorbing target，那么 \(u\to v\) 在 transient dynamics 中就是从
+            \(u\) 杀掉这部分概率。这不是“走到普通节点 \(v\) 后继续走”，而是“first passage 完成”。
+          </p>
+        </div>
+      </div>
+      <div class="note ok">
+        最小直觉: shortcut 增加了更早命中 \(v\) 的机会，所以 survival 应该减少，first-passage probability 应该增加。
+        这就是 Eq. (32) 最终应该出现正的 correction term 的原因。
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <h2>2. Luca 这段推导想做什么</h2>
+      <div class="step-list">
+        <div class="step">
+          <div class="num">1</div>
+          <div>
+            <b>Eq. (29)</b>: 用 rank-one defect 公式写 “有一个 shortcut 的 propagator”。
+            这是 resolvent/Sherman-Morrison 类型技巧。
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <div>
+            <b>Eq. (30)-(31)</b>: 把普通 ring propagator \(P\) 换成 absorbing propagator \(W\)，
+            再令 absorbing target 就是 shortcut destination: \(m=v\)。
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <div>
+            <b>Eq. (32)-(33)</b>: 对所有非吸收节点求和，把 propagator 变成 survival，
+            再用 survival 和 first passage 的关系得到 \(\widetilde F\)。
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <div>
+            <b>Eq. (34)-(35)</b>: 定义一个 \(H\)，把反复从 \(u\) 附近等待/shortcut 的部分打包。
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">5</div>
+          <div>
+            <b>Eq. (38)-(41)</b>: 把 \(H\)、\(W\)、\(\mathcal F\) 都展开成 mode，然后在时间域做卷积。
+            这一步会变成长串，也最容易把中间 pole 当成真正的最终 decay。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="map">
+      <h2>3. Eq. (29) 到 Eq. (41) 逐式地图</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>原文位置</th>
+              <th>Luca 在做什么</th>
+              <th>当前状态</th>
+              <th>正确理解</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Eq. (29), line 387</td>
+              <td>probability-conserving shortcut 的 defect formula。</td>
+              <td><span class="pill ok">OK</span></td>
+              <td>新版这里已经用了 stochastic shortcut sign。</td>
+            </tr>
+            <tr>
+              <td>Eq. (30), line 392</td>
+              <td>把 \(P\) 换成 absorbing \(W\)。</td>
+              <td><span class="pill ok">OK</span></td>
+              <td>作为形式替换可以继续用，但必须记住 \(v\) 已经不是普通节点。</td>
+            </tr>
+            <tr>
+              <td>Eq. (31), line 398</td>
+              <td>令 \(m=v\)，所以 \(\widetilde W_v(n,z)=0\)。</td>
+              <td><span class="pill ok">OK</span></td>
+              <td>这个式子是后续 first-passage 的出发点。</td>
+            </tr>
+            <tr>
+              <td>Eq. (32), line 403</td>
+              <td>从 survival 得到 first-passage generating function。</td>
+              <td><span class="pill bad">要改</span></td>
+              <td>分母必须是 \(1+z\beta(1-q)\widetilde W_u(u,z)\)。</td>
+            </tr>
+            <tr>
+              <td>Eq. (33), line 408</td>
+              <td>用 \(H\) 重写 Eq. (32)。</td>
+              <td><span class="pill bad">要改</span></td>
+              <td>前面应该是 \(+qz\)，不是 \(-qz\)。</td>
+            </tr>
+            <tr>
+              <td>Eq. (34)-(35), lines 413, 419</td>
+              <td>定义 \(H\)，并在 \(|u-v|=N/2\) 时写成 \(1/(a+\phi)\)。</td>
+              <td><span class="pill ok">基本 OK</span></td>
+              <td>这里的 plus denominator 与 corrected model 一致。</td>
+            </tr>
+            <tr>
+              <td>Eq. (38)-(39), lines 443, 448</td>
+              <td>把 \(H(t)\) 写成 pole expansion。</td>
+              <td><span class="pill warn">可用但脆弱</span></td>
+              <td>如果保留这条路线，\(c_k\) 应作为 corrected denominator 的 residue 重新定义。</td>
+            </tr>
+            <tr>
+              <td>Eq. (40), line 458</td>
+              <td>把 Eq. (33) 从 generating function 变回 time convolution。</td>
+              <td><span class="pill bad">要改</span></td>
+              <td>继承 Eq. (33)，卷积项前面应该是 plus。</td>
+            </tr>
+            <tr>
+              <td>Eq. (41), lines 463-465</td>
+              <td>把 \(W\)、\(\mathcal F\)、\(H\) 的 mode 全部卷起来。</td>
+              <td><span class="pill bad">不建议保留</span></td>
+              <td>更干净的正确版本是 closed form 加 partial fractions。</td>
+            </tr>
+            <tr>
+              <td>tail paragraph, line 468</td>
+              <td>比较 \(\alpha_1,\gamma_1,s_1\)，判断 long-time decay。</td>
+              <td><span class="pill bad">结论不对</span></td>
+              <td>最终 tail 是 \(B_{\rho1}s_1^{t-1}\)，不是 generic \(t\alpha_1^t\)。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="eq32">
+      <h2>4. 为什么 Eq. (32) 是第一个硬错误</h2>
+      <p>
+        从 corrected Eq. (31) 开始:
+      </p>
+      <div class="formula">
+        \[
+        \widetilde S_{n_0}(n,z)
+        =
+        \widetilde W_{n_0}(n,z)
+        -
+        \frac{z\lambda\widetilde W_{n_0}(u,z)\widetilde W_u(n,z)}
+        {1+z\lambda\widetilde W_u(u,z)},
+        \qquad
+        \lambda=\beta(1-q).
+        \]
+      </div>
+      <p>
+        对所有 transient 节点 \(n\) 求和。因为 \(\sum_n \widetilde W_r(n,z)\) 是 survival generating function，
+        所以
+      </p>
+      <div class="formula">
+        \[
+        \sum_n \widetilde W_r(n,z)
+        =
+        \frac{1-\widetilde{\mathcal F}_r(v,z)}{1-z}.
+        \]
+      </div>
+      <p>
+        代进去:
+      </p>
+      <div class="formula">
+        \[
+        \frac{1-\widetilde F_{n_0}(v,z)}{1-z}
+        =
+        \frac{1-\widetilde{\mathcal F}_{n_0}(v,z)}{1-z}
+        -
+        \frac{
+        z\lambda\widetilde W_{n_0}(u,z)}
+        {1+z\lambda\widetilde W_u(u,z)}
+        \frac{1-\widetilde{\mathcal F}_u(v,z)}{1-z}.
+        \]
+      </div>
+      <p>
+        两边乘以 \(1-z\)，再把 \(F\) 移到左边，就得到:
+      </p>
+      <div class="formula">
+        \[
+        \boxed{
+        \widetilde F_{n_0}(v,z)
+        =
+        \widetilde{\mathcal F}_{n_0}(v,z)
+        +
+        \frac{
+        z\beta(1-q)\widetilde W_{n_0}(u,z)
+        [1-\widetilde{\mathcal F}_u(v,z)]
+        }
+        {1+z\beta(1-q)\widetilde W_u(u,z)}
+        }.
+        \]
+      </div>
+      <div class="note warning">
+        注意两个 plus: correction term 是 plus，分母也是 plus。Luca 新稿 Eq. (32) 里 correction term 前面是 plus，
+        但分母仍写成了 \(1-z\beta(1-q)\widetilde W_u(u,z)\)，所以还没有完全从 Eq. (31) 传播过来。
+      </div>
+    </section>
+
+    <section id="eq33">
+      <h2>5. Eq. (33) 和 \(H\): 符号应该怎么跟</h2>
+      <p>
+        Luca 定义的 \(H\) 在新版里是:
+      </p>
+      <div class="formula">
+        \[
+        \widetilde H_{N,|u-v|}(z)
+        =
+        \frac{\beta(1-q)}{q}
+        \frac{1}{1+z\beta(1-q)\widetilde W_u(u,z)}.
+        \]
+      </div>
+      <p>
+        所以 Eq. (32) 里的系数可以直接换成
+      </p>
+      <div class="formula">
+        \[
+        \frac{z\beta(1-q)}
+        {1+z\beta(1-q)\widetilde W_u(u,z)}
+        =
+        qz\,\widetilde H_{N,|u-v|}(z).
+        \]
+      </div>
+      <p>
+        因此 Eq. (33) 必须是:
+      </p>
+      <div class="formula">
+        \[
+        \boxed{
+        \widetilde F_{n_0}(v,z)=
+        \widetilde{\mathcal F}_{n_0}(v,z)
+        +
+        qz\widetilde W_{n_0}(u,z)
+        [1-\widetilde{\mathcal F}_u(v,z)]
+        \widetilde H_{N,|u-v|}(z).
+        }
+        \]
+      </div>
+      <div class="note ok">
+        Eq. (35) 的 \(\widetilde H_{N,N/2}(z)=1/(q/[\beta(1-q)]+\phi(z))\) 与这个定义一致。
+        问题不是 \(H\) 本身，而是 Eq. (33) 使用 \(H\) 时前面的符号没有改过来。
+      </div>
+    </section>
+
+    <section id="eq40">
+      <h2>6. Eq. (40): 生成函数的 plus 到时域仍然是 plus</h2>
+      <p>
+        Eq. (33) 是三个 generating functions 的乘积:
+        \(z\widetilde W_{n_0}(u,z)\)、\(1-\widetilde{\mathcal F}_u(v,z)\)、\(\widetilde H(z)\)。
+        乘积变回 time domain 时就是卷积。符号不会在这一步自己翻转。
+      </p>
+      <div class="formula">
+        \[
+        \boxed{
+        F_{n_0}(v,t)=\mathcal F_{n_0}(v,t)
+        +q\sum_{t'=0}^{t-1}W_{n_0}(u,t-1-t')
+        \sum_{t''=0}^{t'}
+        [\delta_{t',t''}-\mathcal F_u(v,t'-t'')]
+        H_{N,N/2}(t'').
+        }
+        \]
+      </div>
+      <div class="note warning">
+        Luca 新稿 Eq. (40) 仍然写了 minus。这个 minus 是 Eq. (33) 旧符号的遗留。
+      </div>
+    </section>
+
+    <section id="eq41">
+      <h2>7. Eq. (41) 正确应该长什么样</h2>
+      <p>
+        Eq. (41) 的原路线是: 把 \(W\) 展开成 \(\alpha_\ell,\gamma_r\)，把 \(H\) 展开成 \(s_k\)，
+        再把所有卷积手算出来。这个路线不是不能走，但它会产生很多中间项，容易把中间 mode 当成最终 pole。
+      </p>
+      <div class="note violet">
+        对称 antipodal 情形最清楚的修正版，是直接写 closed form。这里令 \(N=2L\)，target \(v=0\)，
+        shortcut \(u=L\to0\)，\(\rho\) 是起点 \(n_0\) 到 target 的折叠距离，\(0\le\rho\le L\)。
+      </div>
+      <div class="formula">
+        \[
+        \boxed{
+        \widetilde F_\rho(z)=
+        \frac{
+        aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+        {aT_L(y)+U_{L-1}(y)}
+        },
+        \]
+        \[
+        a=\frac{q}{\beta(1-q)},\qquad
+        y=1+\frac{1/z-1}{q},\qquad U_{-1}(y)=0.
+        \]
+      </div>
+      <p>
+        如果要把它变成 time-domain 的 Eq. (41)，设
+      </p>
+      <div class="formula">
+        \[
+        D(y)=aT_L(y)+U_{L-1}(y),\qquad
+        N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y).
+        \]
+        \[
+        D(y_k)=0,\qquad s_k=1-q+qy_k.
+        \]
+      </div>
+      <p>
+        对 simple roots，partial fraction 给出:
+      </p>
+      <div class="formula">
+        \[
+        \boxed{
+        F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1},
+        \qquad
+        B_{\rho k}=
+        \frac{q\,N_\rho(y_k)}{D'(y_k)}
+        }
+        \qquad (t\ge1).
+        \]
+      </div>
+      <p>
+        这才是我建议替换 Eq. (41) 的“完整正确形状”。它没有 \(\alpha_\ell^t t\) 这种 generic 项，
+        因为这些 apparent \(\alpha,\gamma\) poles 在完整 closed form 里已经取消。
+      </p>
+
+      <h3>如果硬修 Luca 那条长串，会是什么样？</h3>
+      <p>
+        如果只是为了对应原来的长卷积结构，不能只把 minus 改成 plus。还必须把
+        \(H(0)=h_0\) 单独拿出来，因为 \(H\) 的 partial fraction 有一个常数项。
+        下面这个才是“走原路线”的完整硬修形状。它不是推荐最终稿，但可以帮助看出原来的 Eq. (41)
+        应该朝哪个方向改。
+      </p>
+      <div class="formula">
+        \[
+        h_0=H(0)=\frac{\beta(1-q)}{q}=\frac1a,\qquad
+        H(c)=\sum_k c_k s_k^{c-1}\quad(c\ge1)
+        \]
+        \[
+        A^{(+)}_t(x;s)=\frac{s^{t-1}-x^{t-1}}{s-x},\qquad
+        B^{(0)}_t(x,y)=\frac{x^{t-1}-y^{t-1}}{x-y}
+        \]
+        \[
+        B^{(+)}_t(x,y;s)=
+        [z^{t-3}]
+        \frac{1}{(1-zx)(1-zy)(1-zs)}.
+        \]
+      </div>
+      <div class="formula">
+        \[
+        \begin{aligned}
+        F_{n_0}(v,t)
+        &=
+        \sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1} \\
+        &\quad
+        +qh_0
+        \left[
+        \sum_r G^{(1)}_r(n_0,u,v)\gamma_r^{t-1}
+        +
+        \sum_r g^{(2)}_r(n_0,u,v)\alpha_r^{t-1}
+        \right] \\
+        &\quad
+        +q\sum_k c_k
+        \left[
+        \sum_r G^{(1)}_r(n_0,u,v)A^{(+)}_t(\gamma_r;s_k)
+        +
+        \sum_r g^{(2)}_r(n_0,u,v)A^{(+)}_t(\alpha_r;s_k)
+        \right] \\
+        &\quad
+        -qh_0\sum_\ell f_\ell(u,v)
+        \left[
+        \sum_r G^{(1)}_r(n_0,u,v)B^{(0)}_t(\gamma_r,\alpha_\ell)
+        +
+        \sum_r g^{(2)}_r(n_0,u,v)B^{(0)}_t(\alpha_r,\alpha_\ell)
+        \right] \\
+        &\quad
+        -q\sum_k c_k\sum_\ell f_\ell(u,v)
+        \left[
+        \sum_r G^{(1)}_r(n_0,u,v)B^{(+)}_t(\gamma_r,\alpha_\ell;s_k)
+        +
+        \sum_r g^{(2)}_r(n_0,u,v)B^{(+)}_t(\alpha_r,\alpha_\ell;s_k)
+        \right].
+        \end{aligned}
+        \]
+      </div>
+      <div class="note gold">
+        这条“硬修版”保留了 \(\alpha,\gamma,s\) 三套中间 modes，所以不适合作为 tail 结论的最终依据。
+        它应该能化简回上面的 closed form。最终 pole 只需要看 \(D(y)=0\)。
+      </div>
+    </section>
+
+    <section id="decay">
+      <h2>8. “互相取消”、closed form、最后 decay 到底是什么</h2>
+      <div class="grid-two">
+        <div>
+          <h3>什么叫互相取消？</h3>
+          <p>
+            长展开里会出现 \(\alpha_\ell\)、\(\gamma_r\)、\(s_k\) 的分母。
+            但这不代表它们都是真正的最终 decay。把所有项合起来以后，某些分母的 numerator 也有相同因子，
+            所以 pole 被约掉了。
+          </p>
+          <div class="formula">
+            \[
+            \frac{1-\alpha z}{(1-\alpha z)(1-sz)}
+            =
+            \frac{1}{1-sz}.
+            \]
+          </div>
+        </div>
+        <div>
+          <h3>closed form 是什么？</h3>
+          <p>
+            closed form 不是近似。它是把所有中间求和和卷积整理成一个明确的分子除以明确的分母。
+            一旦有 closed form，真正的 decay 就看这个最终分母的 roots。
+          </p>
+          <div class="formula">
+            \[
+            \widetilde F_\rho(z)=\frac{N_\rho(y)}{D(y)}.
+            \]
+          </div>
+        </div>
+      </div>
+      <p>
+        最后 long-time tail 是:
+      </p>
+      <div class="formula">
+        \[
+        \boxed{
+        F_\rho(t)\sim B_{\rho1}s_1^{t-1},
+        \qquad
+        \frac{F_\rho(t+1)}{F_\rho(t)}\to s_1.
+        }
+        \]
+        \[
+        \boxed{\tau_\beta^{-1}=-\log s_1.}
+        \]
+      </div>
+      <p>
+        这里确实有 beta 依赖。依赖方式是:
+      </p>
+      <div class="formula">
+        \[
+        aT_L(y_1)+U_{L-1}(y_1)=0,\qquad
+        s_1=1-q+qy_1,\qquad
+        a=\frac{q}{\beta(1-q)}.
+        \]
+      </div>
+      <p>
+        等价地，写 \(y_1=\cos\theta_1\):
+      </p>
+      <div class="formula">
+        \[
+        \tan(L\theta_1)=-a\sin\theta_1,
+        \qquad
+        s_1=1-q+q\cos\theta_1.
+        \]
+      </div>
+      <div class="note ok">
+        结论: decay 依赖 \(N,q,\beta\)。起点 \(\rho\) 主要影响振幅 \(B_{\rho1}\)，一般不改变主 decay rate \(s_1\)。
+        double peak 是 finite-time shape 问题，不是只看 tail decay 就能判定的。
+      </div>
+      <p>
+        弱 shortcut 时可以看得更直观:
+      </p>
+      <div class="formula">
+        \[
+        s_1=\alpha_1-\frac{2\beta(1-q)}{N}
+        +O([\beta(1-q)]^2),
+        \]
+        \[
+        1-s_1
+        \sim
+        \frac{q\pi^2}{2N^2}
+        +\frac{2\beta(1-q)}{N}.
+        \]
+      </div>
+    </section>
+
+    <section id="checks">
+      <h2>9. 数值验证: 为什么这些不是“看起来像”</h2>
+      <h3>first-passage sign benchmark</h3>
+      <p>
+        用 finite stochastic shortcut matrix 直接算 resolvent，参数是
+        \(N=100\), \(q=2/3\), \(\beta=0.04\), shortcut \(u=6\to v=56\)，target \(v=56\)。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>比较对象</th>
+              <th>对 direct stochastic matrix 的最大误差</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>correct plus/plus first-passage formula</td>
+              <td>\(2.08\times10^{-17}\)</td>
+              <td>到 roundoff，一致。</td>
+            </tr>
+            <tr>
+              <td>Luca 新稿 Eq. (32) denominator sign</td>
+              <td>\(3.29\times10^{-3}\)</td>
+              <td>不一致。</td>
+            </tr>
+            <tr>
+              <td>Luca 新稿 Eq. (33) minus prefactor</td>
+              <td>\(6.34\times10^{-2}\)</td>
+              <td>不一致。</td>
+            </tr>
+            <tr>
+              <td>closed form vs finite matrix</td>
+              <td>\(7.63\times10^{-17}\)</td>
+              <td>到 roundoff，一致。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>\(s_1=\gamma_1\) 的检查</h3>
+      <p>
+        对 \(N=100,q=2/3\):
+      </p>
+      <div class="formula">
+        \[
+        \alpha_1=0.9996710402,\qquad
+        \gamma_1=0.9986844856.
+        \]
+      </div>
+      <p>
+        corrected denominator 在 \(s=\gamma_1\) 时 \(\phi(1/s)=0\)，所以 denominator 是
+        \(q/[\beta(1-q)]>0\)。因此 finite positive beta 下不会有 \(s_1=\gamma_1\)。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>\(\beta\)</th>
+              <th>\(s_1\)</th>
+              <th>\(s_1-\gamma_1\)</th>
+              <th>\(\alpha_1-s_1\)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0.01</td><td>0.9996076314</td><td>\(9.23\times10^{-4}\)</td><td>\(6.34\times10^{-5}\)</td></tr>
+            <tr><td>0.03</td><td>0.9994983464</td><td>\(8.14\times10^{-4}\)</td><td>\(1.73\times10^{-4}\)</td></tr>
+            <tr><td>0.04</td><td>0.9994512449</td><td>\(7.67\times10^{-4}\)</td><td>\(2.20\times10^{-4}\)</td></tr>
+            <tr><td>0.06</td><td>0.9993694959</td><td>\(6.85\times10^{-4}\)</td><td>\(3.02\times10^{-4}\)</td></tr>
+            <tr><td>1.00</td><td>0.9987831951</td><td>\(9.87\times10^{-5}\)</td><td>\(8.88\times10^{-4}\)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>double peak 范围</h3>
+      <p>
+        对 Luca 问的 \(N=100,q=2/3\)，同一 fixed shortcut \(u=6\to v=56\)，target \(v=56\)。
+        用清晰视觉 double-peak 标准: 两个过滤后的峰、峰间距至少 10，且 valley ratio
+        \(h_v/\min(h_1,h_2)\le0.8\)。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>\(n_0\)</th>
+              <th>清晰 double peak?</th>
+              <th>最大 checked \(\beta\)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>yes</td><td>0.030</td></tr>
+            <tr><td>2</td><td>yes</td><td>0.030</td></tr>
+            <tr><td>3</td><td>yes</td><td>0.030</td></tr>
+            <tr><td>4</td><td>no</td><td>not found</td></tr>
+            <tr><td>5</td><td>no</td><td>not found</td></tr>
+            <tr><td>6</td><td>no</td><td>not found</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note gold">
+        仅仅数“两个局部极大值”太宽松，甚至会把峰距很近或 valley 不明显的形状也算进去。
+        所以给 Luca 的结论应该以 clear visual criterion 为主: beta 约到 0.03，\(\beta_c=0.04\) 时没有清晰 double peak。
+      </div>
+    </section>
+
+    <section id="reply">
+      <h2>10. 可直接转成给 Luca 的简短回复</h2>
+      <p>
+        如果要回邮件，可以不放太多公式，只说定位结果和附件。下面这段保持温和，但结论清楚。
+      </p>
+      <div class="codebox">Dear Luca,
+
+I went through the updated version and checked it against the finite stochastic shortcut matrix.
+
+My current reading is that the main shortcut resolvent sign has been corrected in the updated Eq. (29)-(31), but the correction has not yet been propagated consistently into the first-passage formula. In particular, the equation labelled first_pass_prob still has the old denominator sign, and the following equation written with H has the opposite overall sign. With the direct stochastic matrix as benchmark, the plus/plus version agrees to roundoff, while those two displayed forms do not.
+
+For the symmetric case, I think the safest corrected downstream expression is the closed-form generating function with denominator a T_L(y)+U_{L-1}(y), rather than the long mixed alpha/gamma/s convolution expression. In that form the tail is controlled by the dominant shortcut pole s_1, not by a generic t alpha_1^t term.
+
+For N=100 and q=2/3, I also checked the proposed s_1 = 1-q+q cos(2 pi/N) condition. It does not occur for finite positive beta in the admissible range: s_1 stays above gamma_1 and below alpha_1. The double-peak range also appears to be a finite-time shape issue rather than a tail-decay crossing. Under a clear visual double-peak criterion, I see clear double peaks up to about beta = 0.03 for n0=1,2,3, and no clear double peak at beta_c = 0.04.
+
+Best wishes,
+Xiaoxiao</div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Generated as an audit explainer for the local valley-k-small repo. Source checked against Luca's 2026-06-06 Outlook attachment and the local corrected v3 derivation.
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,592 @@
+\usepackage{xparse}
+\usepackage{dsfont}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{relsize}
+
+% \usepackage[T1]{fontenc}
+% \usepackage[sfdefault,scaled=.85]{FiraSans}
+% \usepackage{newtxsf}
+
+
+\usepackage{bm}
+
+\usepackage[outline]{contour}
+
+
+\DeclareSymbolFont{matha}{OML}{txmi}{m}{n}
+\DeclareSymbolFont{mathabold}{OML}{txmi}{b}{n}
+% \DeclareMathSymbol{\varvb}{\mathalpha}{mathabold}{118}
+% \DeclareMathSymbol{\varv}{\mathalpha}{matha}{118}
+
+\newcommand{\varvb}{\bm{v}}
+\renewcommand{\varv}{v}
+
+% \DeclareBoldMathCommand\varv{v}
+
+
+\makeatletter
+\def\widebreve{\mathpalette\wide@breve}
+\def\wide@breve#1#2{\sbox\z@{$#1#2$}%
+     \mathop{\vbox{\m@th\ialign{##\crcr
+\kern0.08em\brevefill#1{0.8\wd\z@}\crcr\noalign{\nointerlineskip}%
+                    $\hss#1#2\hss$\crcr}}}\limits}
+\def\brevefill#1#2{$\m@th\sbox\tw@{$#1($}%
+  \hss\resizebox{#2}{\wd\tw@}{\rotatebox[origin=c]{90}{\upshape(}}\hss$}
+\makeatletter
+
+
+\newcommand{\ee}{\mathrm{e}}
+% \newcommand{\acosh}{\mathrm{acosh}}
+\renewcommand{\acos}{\mathrm{acos}}
+\newcommand{\vphi}{\varphi}
+
+
+\newcommand{\lb}{\left(}
+\newcommand{\rb}{\right)}
+
+\newcommand{\ls}{\left[}
+\newcommand{\rs}{\right]}
+
+\newcommand{\lc}{\left\{}
+\newcommand{\rc}{\right\}}
+
+\newcommand{\ld}{\left.}
+\newcommand{\rd}{\right.}
+
+\newcommand{\vepsilon}{\varepsilon}
+\newcommand{\lp}{\left|}
+\newcommand{\rp}{\right|}
+\newcommand{\eeqref}[1]{Eq.~\eqref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\ffigref}[1]{Figure~\ref{#1}}
+
+\newcommand{\acosh}{\mathrm{acosh}}
+
+\newcommand{\ffrac}[2]{{#1}/{#2}}
+\newcommand{\carr}{\curvearrowright}
+\newcommand{\carl}{\curvearrowleft}
+\newcommand{\ztrans}[1]{\widetilde{#1}}
+\newcommand{\ftrans}[1]{\widehat{#1}}
+\newcommand{\wt}{\widetilde}
+\newcommand{\sgn}{\mathrm{sgn}}
+\renewcommand{\tr}{\mathrm{Tr}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\mmat}[1]{\underline{\bm{#1}}}
+%\newcommand{\mmat}[1]{\underline{\mathbf{#1}}}
+% \newcommand{\mmat}[1]{\mathbb{{ #1 }}}
+\newcommand{\mvec}[1]{\bm{#1}}
+% \newcommand{\mvec}[1]{\vec{#1}}
+\renewcommand{\mdet}[1]{\left|#1\right|}
+% \newcommand{\mdet}[1]{\ensuremath{\mathrm{det}\left( #1\right)}}
+\newcommand{\giv}{\,|\,}
+\newcommand{\matidx}[2]{{{#1}, {#2}}}
+
+\newcommand{\trans}{\ensuremath{\fontsize{6}{6}\mathsf{T}}}
+\newcommand{\thh}{{\ensuremath\mathrm{th}}}
+
+
+
+\newcommand{\apref}[1]{Appendix~\ref{#1}}
+\newcommand{\checked}{{\color{green}\textbf{CHECKED}}\\}
+\newcommand{\changed}{{\color{red}\textbf{DISCUSS}}\\}
+
+\newcommand{\fpsymbol}{F}
+\newcommand{\retsymbol}{R}
+\newcommand{\qdefsymbol}{Q}
+
+\newcommand{\vissymbol}{w}
+\newcommand{\abssymbol}{\sigma}
+\newcommand{\mfptsymbol}{T}
+\newcommand{\mexitsymbol}{\mathcal{E}}
+\newcommand{\mretsymbol}{R}
+\newcommand{\propsymbol}{P}
+\newcommand{\msdsymbol}{M}
+\newcommand{\smsdsymbol}{\mathcal{M}}
+
+\newcommand{\survsymbol}{S}
+\newcommand{\exitsymbol}{E}
+
+\newcommand{\rdsurvsymbol}{\mathbb{S}}
+\newcommand{\rdexitsymbol}{\mathbb{E}}
+
+
+
+\newcommand{\rdpropsymbol}{\mathbb{P}}
+
+\newcommand{\rdfpsymbol}{\mathbb{F}}
+\newcommand{\rdretsymbol}{\mathbb{R}}
+\newcommand{\rdmsdsymbol}{\mathbb{M}}
+
+\newcommand{\rdmfptsymbol}{\mathfrak{F}}
+\newcommand{\rdmretsymbol}{\mathfrak{R}}
+\newcommand{\rdsmsdsymbol}{\mathfrak{M}}
+\newcommand{\rdmexitsymbol}{\mathfrak{E}}
+
+
+
+\newcommand{\rdpropzsymbol}{\ztrans{\rdpropsymbol}}
+\newcommand{\rdfpzsymbol}{\ztrans{\rdfpsymbol}}
+\newcommand{\rdretzsymbol}{\ztrans{\rdretsymbol}}
+\newcommand{\rdmsdzsymbol}{\ztrans{\rdmsdsymbol}}
+
+
+\newcommand{\fpzsymbol}{\ztrans{\fpsymbol}}
+\newcommand{\retzsymbol}{\ztrans{\retsymbol}}
+
+\newcommand{\exitzsymbol}{\ztrans{\exitsymbol}}
+\newcommand{\survzsymbol}{\ztrans{\survsymbol}}
+
+\newcommand{\rdexitzsymbol}{\ztrans{\rdexitsymbol}}
+\newcommand{\rdsurvzsymbol}{\ztrans{\rdsurvsymbol}}
+
+\newcommand{\propzsymbol}{\ztrans{\propsymbol}}
+\newcommand{\proptsymbol}{\propsymbol}
+\newcommand{\qdefzsymbol}{\ztrans{\qdefsymbol}}
+\newcommand{\qdefzxsymbol}{\widebreve{\ztrans{\qdefsymbol}}}
+\newcommand{\qdefxsymbol}{\widebreve{\qdefsymbol}}
+
+\newcommand{\mipropsymbol}{\mathcal{P}}
+\newcommand{\mipropsymbolfinite}{P}
+\newcommand{\mipropzsymbol}{\ztrans{\mipropsymbol}}
+\newcommand{\mipropzsymbolfinite}{\ztrans{\mipropsymbolfinite}}
+
+\newcommand{\sypropsymbol}{Q}
+\newcommand{\sypropsymbolz}{\ztrans{\sypropsymbol}}
+\newcommand{\symfptsymbol}{\mathcal{Q}}
+
+
+\newcommand{\nvec}{\mvec{n}}
+\newcommand{\novec}{\mvec{n}_0}
+
+\newcommand{\drawbox}[2]{\draw[line width = 10pt] (#1, #1) -- (#1 + 1, #1 + 1)}
+
+
+
+\newcommand{\e}{\mathrm{e}}
+% \newcommand{\diff}[2]{\frac{\mathrm{d}^{#2}}{\mathrm{d} {#1}^{#2}}}
+\newcommand{\diff}[2][]{\ensuremath{\frac{\partial^{#1}}{\partial {#2}^{#1}}}}
+
+
+% \newcommand{\diffz}[2][]{\ensuremath{\ls \frac{\mathrm{d}^{#1}}{\mathrm{d} z^{#1}} \big. {#2} \rs }}
+%\newcommand{\diffz}[2][]{\ensuremath{\frac{\mathrm{d}^{#1}}{\mathrm{d} z^{#1}} \big. {#2} }}
+\newcommand{\diffz}[2][]{\ensuremath{\mathcal{D}_{z}^{\mathsmaller{#1}}\cdot #2}}
+
+
+\newcommand{\initdiff}[2]{\ensuremath{\left\langle #1  - #2 \right\rangle}}
+\newcommand{\msdzz}[1]{\ensuremath{\msdzsymbol}_{#1}(z)}
+\newcommand{\fpzz}[3][]{\ensuremath{\fpzsymbol^{{#1}}_{{#3}}{({#2}, z)}}}
+\newcommand{\fpt}{\fpsymbol}
+\newcommand{\rdfpt}{\rdfpsymbol}
+\newcommand{\fpz}{\fpzsymbol}
+\newcommand{\rett}{\retsymbol}
+
+\newcommand{\retzz}[1]{\ensuremath{\widetilde{R}{({#1}, z)}}}
+\newcommand{\fpzzdif}[3]{\ensuremath{\fpzsymbol_{\initdiff{#2}{#3}}{({#1}, z)}}}
+\newcommand{\fpzzdiffull}[3]{\ensuremath{\fpzz[]{#1}{#2} - \fpzz[]{#1}{#2}}}
+
+\newcommand{\mfptt}[2]{\ensuremath{\mfptsymbol_{{#2} \to {#1}}}}
+\newcommand{\mfpttdif}[3]{\ensuremath{\mfptsymbol_{\initdiff{#2}{#3} \to #1}}}
+\newcommand{\mfpttdiffull}[3]{\ensuremath{\mfptt{#1}{#2} - \mfptt{#1}{#2}}}
+
+\newcommand{\deltadif}[3]{\ensuremath{\delta_{\initdiff{#2}{#3}, {#1}}}}
+\newcommand{\deltadifful}[3]{\ensuremath{\delta_{{#2}, {#1}} - \delta_{{#3}, {#1}}}}
+\newcommand{\deltadiffulb}[3]{\ensuremath{\lb \delta_{{#1}, {#2}} - \delta_{{#1}, {#3}} \rb}}
+
+\newcommand{\propz}{\widetilde{\propsymbol}}
+
+%   ___
+%  / __|__ _ _ __  _ __  __ _
+% | (_ / _` | '  \| '  \/ _` |
+%  \___\__,_|_|_|_|_|_|_\__,_|
+% \newcommand{\propzz}[3][(\mvec{\gamma})]{\ensuremath{\propzsymbol^{\mathsmaller{#1}}_{{#3}}{({#2}, z)}}}
+% \newcommand{\propzzdif}[4][(\mvec{\gamma})]{\ensuremath{\propzsymbol^{\mathsmaller{#1}}_{\initdiff{#3}{#4}}{({#2}, z)}}}
+% \newcommand{\propzzdifful}[4][(\mvec{\gamma})]{\ensuremath{\propzz[#1]{#2}{#3} - \propzz[#1]{#2}{#4}}}
+
+%  _  _        ___
+% | \| |___   / __|__ _ _ __  _ __  __ _
+% | .` / _ \ | (_ / _` | '  \| '  \/ _` |
+% |_|\_\___/  \___\__,_|_|_|_|_|_|_\__,_|
+\newcommand{\propzz}[3][]{\ensuremath{\propzsymbol^{#1}_{{#3}}{({#2}, z)}}}
+\newcommand{\propzzdif}[4][]{\ensuremath{\propzsymbol^{#1}_{\initdiff{#3}{#4}}{({#2}, z)}}}
+\newcommand{\propzzdifful}[4][]{\ensuremath{\propzz[#1]{#2}{#3} - \propzz[#1]{#2}{#4}}}
+
+\newcommand{\rdpropt}{\rdpropsymbol}
+\newcommand{\rdproptt}[3][t]{\ensuremath{\rdpropsymbol_{{#3}}{({#2}, {#1})}}}
+\newcommand{\propt}{\propsymbol}
+\newcommand{\proptt}[3][t]{\ensuremath{\proptsymbol_{{#3}}{({#2}, {#1})}}}
+
+\newcommand{\survtt}[1]{\ensuremath{\survsymbol_{{#1}}{(t)}}}
+\newcommand{\survzz}[1]{\ensuremath{\survzsymbol_{{#1}}{(z)}}}
+\newcommand{\survzzdif}[2]{\ensuremath{\survzsymbol_{\initdiff{{#1}}{{#2}}}{(z)}}}
+
+\newcommand{\mret}{\ensuremath{\mretsymbol}}
+\newcommand{\mrett}[1]{\ensuremath{\mretsymbol_{#1}}}
+
+\newcommand{\mexit}{\ensuremath{\mexitsymbol}}
+\newcommand{\mexitt}[2][]{\ensuremath{\mexitsymbol^{#1}_{{#2}}}}
+
+\newcommand{\smsd}[1]{\ensuremath{\smsdsymbol_{#1}}}
+
+
+\newcommand{\rdpropz}{\rdpropzsymbol}
+\newcommand{\rdpropzz}[3][]{\ensuremath{\rdpropzsymbol^{#1}_{{#3}}{({#2}, z)}}}
+\newcommand{\rdmsdzz}[1]{\ensuremath{\rdmsdzsymbol_{{#1}}{(z)}}}
+\newcommand{\rdmsdt}[2]{\ensuremath{\rdmsdsymbol_{{#1}}{(t)}}}
+
+\newcommand{\rdfpz}{\rdfpzsymbol}
+\newcommand{\rdfpzz}[2]{\ensuremath{\rdfpzsymbol_{{#2}}{({#1}, z)}}}
+\newcommand{\rdfptt}[3][t]{\ensuremath{\rdfpsymbol_{{#3}}{({#2}, {#1})}}}
+\newcommand{\rdretz}{\ensuremath{\rdretzsymbol}}
+\newcommand{\rdretzz}[1]{\ensuremath{\rdretzsymbol{({#1}, z)}}}
+
+\newcommand{\sypropzz}[3][]{\ensuremath{\sypropsymbolz^{#1}_{{#3}}({#2}, z)}}
+\newcommand{\symfptt}[2]{\ensuremath{\symfptsymbol_{{#2}}{\lb {#1}\rb}}}
+
+
+\newcommand{\rdsurvtt}[1]{\ensuremath{\rdsurvsymbol_{{#1}}{(t)}}}
+\newcommand{\rdsurvzz}[1]{\ensuremath{\rdsurvzsymbol_{{#1}}{(z)}}}
+
+\newcommand{\rdexittt}[1]{\ensuremath{\rdexitsymbol_{{#1}}{(t)}}}
+\newcommand{\rdexitzz}[1]{\ensuremath{\rdexitzsymbol_{{#1}}{(z)}}}
+
+\newcommand{\rdmret}{\ensuremath{\rdmretsymbol}}
+
+\newcommand{\rdmfpt}{\ensuremath{\rdmfptsymbol}}
+\newcommand{\rdmfptt}[3][]{\ensuremath{\rdmfptsymbol^{#1}_{{#3} \to {#2}}}}
+
+\newcommand{\rdmexit}{\ensuremath{\rdmexitsymbol}}
+\newcommand{\rdmexitt}[2][]{\ensuremath{\rdmexitsymbol^{#1}_{{#2}}}}
+
+\newcommand{\rdmrett}[1]{\ensuremath{\rdmretsymbol_{#1}}}
+\newcommand{\rdsmsd}{\ensuremath{\rdsmsdsymbol}}
+
+
+\newcommand{\qdef}{\qdefsymbol}
+\newcommand{\qdefx}{\qdefxsymbol}
+\newcommand{\qdefz}{\qdefzsymbol}
+\newcommand{\qdefzx}{\qdefzxsymbol}
+
+\newcommand{\mipropz}{\mipropzsymbol}
+\newcommand{\mipropzz}[2]{\ensuremath{\mipropzsymbol_{{#2}}{({#1}, z)}}}
+
+\newcommand{\mipropzfinite}{\mipropzsymbolfinite}
+\newcommand{\mipropzzfinite}[2]{\ensuremath{\mipropzsymbolfinite_{{#2}}{({#1}, z)}}}
+
+
+\newcommand{\vs}[1][u]{\mvec{#1}}
+\newcommand{\vps}[1][\varvb]{\mvec{#1}}
+
+\newcommand{\vsc}[1][u]{\ensuremath{#1}}
+\newcommand{\vpsc}[1][\varv]{\ensuremath{#1}}
+
+\newcommand{\ws}[1][w]{\mvec{#1}}
+
+\newcommand{\wsl}[1][]{
+  \def\ArgI{{#1}}
+  \wslRelay
+}
+\newcommand\wslRelay[1][s]{
+  \mvec{w}^{(l_{#1})}_{\ArgI}
+}
+
+\newcommand{\wsr}[1][]{
+  \def\ArgI{{#1}}
+  \wsrRelay
+}
+\newcommand\wsrRelay[1][s]{
+  \mvec{w}^{(r_{#1})}_{\ArgI}
+}
+  
+% \newcommand{\wsr}[1][]{\mvec{#1}}
+
+\newcommand{\wspindex}[2]{\ensuremath{{{#1}}_{{#2}^{(r)}}}}
+\newcommand{\wsmindex}[2]{\ensuremath{{{#1}}_{{#2}^{(l)}}}}
+
+\newcommand{\wsm}[1][d]{\wsmindex{\mvec{w}}{#1}}
+\newcommand{\wsp}[1][d]{\wspindex{\mvec{w}}{#1}}
+
+\newcommand{\rss}[1][]{\ensuremath{{\mvec{r}}_{{#1}}}}
+\renewcommand{\abs}[1][]{\ensuremath{\abssymbol_{\rss_{{#1}}}}}
+\newcommand{\abss}[1][]{\ensuremath{\abssymbol_{{#1}}}}
+\newcommand{\visv}{\ensuremath{\mvec{\vissymbol}}}
+\newcommand{\vis}[1][]{\ensuremath{\vissymbol_{{#1}}}}
+\newcommand{\xk}[1]{\ensuremath{x_{\rss[#1]}}}
+
+\renewcommand{\dmat}{\mmat{G}}
+\newcommand{\dkmat}{\mmat{G}^{\mathsmaller{(k)}}}
+\newcommand{\dcmat}[1][]{\ensuremath{\mmat{G}^{\mathsmaller{(c_{\mvec{n}_{{#1}}})}}}}
+\newcommand{\dsmat}[1][]{\ensuremath{\mmat{G}^{\mathsmaller{(s_{\mvec{n}_{{#1}}})}}}}
+\newcommand{\dsmatd}[1][]{\ensuremath{\mmat{\mathcal{G}}^{\mathsmaller{({#1})}}}}
+\newcommand{\dmatd}{\mmat{\mathcal{G}}}
+
+
+% \newcommand{\hcmat}[1][]{\ensuremath{\mmat{H}^{\lb c_{\mathsmaller{\mvec{n}_{{#1}}}} \rb }}}
+% \newcommand{\hcnmat}[1][]{\ensuremath{\mmat{H}^{\lb c_{\mathsmaller{\mvec{n}_{{#1}}}} \rb }}}
+
+% \newcommand{\hcmat}[1][]{\ensuremath{\mmat{H}^{\lb {\mvec{n}_{{#1}}} \rb }}} % super notation
+% \newcommand{\hcnmat}[1][]{\ensuremath{\mmat{H}^{\lb % {\mvec{n}_{{#1}}} \rb }}} % super notation
+% \newcommand{\hsmat}[1][]{\ensuremath{\mmat{G}^{\lb {\mvec{n}_{{#1}}} \rb }}} % super notation
+
+
+\newcommand{\hcmat}[1][]{\ensuremath{\mmat{H}{\lb {\mvec{n}}, {\mvec{n}_{{#1}}} \rb }}} %function notaion
+\newcommand{\hcnmat}[1][]{\ensuremath{\mmat{H}{\lb {\mvec{n}}, {\mvec{n}_{{#1}}} \rb }}} %function notaion
+\newcommand{\hsmat}[1][]{\ensuremath{\mmat{G}{\lb {\mvec{n}}, {\mvec{n}_{{#1}}} \rb }}} %function notaion
+\newcommand{\hsmatfull}[2]{\ensuremath{\mmat{G}{\lb {{#1}}, {{#2}} \rb }}} %function notaion
+
+\newcommand{\hsurvmat}[1][0]{\ensuremath{\mmat{S}{\lb  {\mvec{n}_{{#1}}} \rb }}} %function notaion
+
+\newcommand{\hmat}{\ensuremath{\mmat{H}}}
+\newcommand{\hkmat}[1][k]{\ensuremath{\mmat{Y}}}
+
+\newcommand{\hmatf}{\ensuremath{\mmat{J}}}
+\newcommand{\hcmatf}[1][]{\ensuremath{\mmat{J}{\lb {\mvec{n}}, {\mvec{n}_{{#1}}} \rb }}} %function notaion
+\newcommand{\hcnmatf}[1][]{\ensuremath{\mmat{J}{\lb {\mvec{n}}, {\mvec{n}_{{#1}}} \rb }}} %function notaion
+\newcommand{\hsmatf}[1][]{\ensuremath{\mmat{G}{\lb {\mvec{n}}, {\mvec{n}_{{#1}}} \rb }}} %function notaion
+\newcommand{\hsmatfullf}[2]{\ensuremath{\mmat{G}{\lb {{#1}}, {{#2}} \rb }}} %function notaion
+
+\newcommand{\hmatd}{\mmat{\mathcal{H}}}
+\newcommand{\hsmatd}[1][]{\ensuremath{\mmat{\mathcal{H}}^{\mathsmaller{({#1})}}}}
+
+\newcommand{\hmatdf}{\mmat{\mathcal{J}}}
+\newcommand{\hsmatdf}[1][]{\ensuremath{\mmat{\mathcal{J}}^{\mathsmaller{({#1})}}}}
+
+
+\newcommand{\matjump}[2]{\mmat{A}_{{#1},{#2}}}
+\newcommand{\jqsymbol}{\lambda}
+\newcommand{\accsymbol}{\beta}
+\newcommand{\decsymbol}{\alpha}
+
+
+\newcommand{\rjqq}[1][]{%
+  \def\ArgI{{#1}}%
+  \rjqRelay
+}
+
+\newcommand{\rjq}[1][]{%
+  \def\ArgI{{#1}}%
+  \rjqqRelay
+}
+
+\newcommand\rjqqRelay[1][\vps]{%
+  % the first optional argument is now in
+  % \ArgI
+  % the second is in #1
+  % ...%
+  \def\ArgII{{#1}}
+  \rjqqRelayRelay
+}
+
+\newcommand\rjqqRelayRelay[1][\vs]{%
+  % the first optional argument is now in
+  % \ArgI
+  % the second is in #1
+  % ...%
+  \jqsymbol_{{\ArgII}_{\ArgI}, {{#1}}_{\ArgI}}
+}
+
+
+
+\newcommand{\ljqq}[1][]{%
+  \def\ArgI{{#1}}%
+  \ljqRelay
+}
+
+\newcommand{\ljq}[1][]{%
+  \def\ArgI{{#1}}%
+  \ljqqRelay
+}
+
+\newcommand\ljqqRelay[1][\vs]{%
+  % the first optional argument is now in
+  % \ArgI
+  % the second is in #1
+  % ...%
+  \def\ArgII{{#1}}
+  \ljqqRelayRelay
+}
+
+\newcommand\ljqqRelayRelay[1][\vps]{%
+  % the first optional argument is now in
+  % \ArgI
+  % the second is in #1
+  % ...%
+  \jqsymbol_{{\ArgII}_{\ArgI}, {{#1}}_{\ArgI}}
+}
+
+\newcommand\rjqRelay[1][u]{%
+  % the first optional argument is now in
+  % \ArgI
+  % the second is in #1
+  % ...%
+  \jqsymbol_{\mvec{#1}_{\ArgI}}
+}
+
+\newcommand\ljqRelay[1][\varvb]{%
+  \jqsymbol_{\mvec{#1}_{\ArgI}}
+}
+
+\newcommand{\colrjq}[1][]{%
+  \def\ArgI{{#1}}%
+  \colrjqRelay
+}
+
+\newcommand{\colljq}[1][]{%
+  \def\ArgI{{#1}}%
+  \colljqRelay
+}
+\newcommand\colrjqRelay[1][w]{%
+  % the first optional argument is now in
+  % \ArgI
+  % the second is in #1
+  % ...%
+  \widehat{\jqsymbol}_{\wspindex{\mvec{\ArgI}}{#1}}
+}
+
+\newcommand\colljqRelay[1][w]{%
+  \widehat{\jqsymbol}_{\wsmindex{\mvec{\ArgI}}{#1}}
+}
+
+\newcommand{\rdec}[1][]{%
+  \def\ArgI{{#1}}%
+  \rdecRelay
+}
+
+\newcommand{\ldec}[1][]{%
+  \def\ArgI{{#1}}%
+  \ldecRelay
+}
+\newcommand\rdecRelay[1][\varvb]{%
+  \decsymbol_{\mvec{#1}_{\ArgI}}
+}
+
+\newcommand\ldecRelay[1][u]{%
+  \decsymbol_{\mvec{#1}_{\ArgI}}
+}
+
+\newcommand{\racc}[1][]{%
+  \def\ArgI{{#1}}%
+  \raccRelay
+}
+
+\newcommand{\lacc}[1][]{%
+  \def\ArgI{{#1}}%
+  \laccRelay
+}
+
+\newcommand\raccRelay[1][\varvb]{%
+  \accsymbol_{\mvec{#1}_{\ArgI}}
+}
+
+\newcommand\laccRelay[1][u]{%
+  \accsymbol_{\mvec{#1}_{\ArgI}}
+}
+
+
+\newcommand{\rcolDec}[1][]{%
+  \def\ArgI{{#1}}%
+  \rcolDecRelay
+}
+
+\newcommand\rcolDecRelay[1][w]{%
+  \widehat{\decsymbol}_{\wsp}
+}
+
+\newcommand{\lcolDec}[1][]{%
+  \def\ArgI{{#1}}%
+  \lcolDecRelay
+}
+
+\newcommand\lcolDecRelay[1][w]{%
+  \widehat{\decsymbol}_{\wsm}
+}
+
+\newcommand{\rcolAcc}[1][]{%
+  \def\ArgI{{#1}}%
+  \rcolAccRelay
+}
+
+\newcommand\rcolAccRelay[1][w]{%
+  \widehat{\accsymbol}_{\wsp}
+}
+
+\newcommand{\lcolAcc}[1][]{%
+  \def\ArgI{{#1}}%
+  \lcolAccRelay
+}
+
+\newcommand\lcolAccRelay[1][w]{%
+  \widehat{\accsymbol}_{\wsm}
+}
+
+
+% \newcommand{\rjq}[1][u]{%
+%   \def\ArgI{{#1}}%
+%   \jqRelay
+% }
+
+% \newcommand{\ljq}[1][\varvb]{%
+%   \def\ArgI{{#1}}%
+%   \jqRelay
+% }
+% \newcommand\jqRelay[1][]{%
+%   % the first optional argument is now in
+%   % \ArgI
+%   % the second is in #1
+%   % ...%
+%   \jqsymbol_{\mvec{\ArgI}_{#1}}
+% }
+
+
+\newcommand{\rjqfull}[2]{%
+  \ensuremath{
+  \left(1 - \alpha_{{{#1},{#2}}}\right)
+  \mmat{A}_{{#1}}
+}
+}
+
+% \newcommand{\ljq}[1][v]{%
+%   \def\ArgI{{#1}}%
+%   \jqRelay
+% }
+% \newcommand\jqRelay[1][]{%
+%   % the first optional argument is now in
+%   % \ArgI
+%   % the second is in #1
+%   % ...%
+%   \lambda_{\mvec{\ArgI}_{#1}}
+% }
+
+% \newcommand{\rdmfpt}[1][]{
+%   \tikz[scale=1.05]{
+%     \pgfmathsetmacro\lw{0.7pt} 
+%     % \draw[line width=\lw](0,1.1ex) .. controls (0.5ex,2.05ex) and (0.8ex,0.875ex) .. (1.5ex,1.5ex);
+%     \draw[line width=\lw](-0.1ex,1.1ex) .. controls (0.3ex,1.6ex) and (0.8ex,1.75ex) .. (1.5ex,1.5ex);
+%     \draw[line width=\lw](0.4ex, 1.4ex) .. controls(0.8ex, 0.8ex) and (0.8ex, 0.25ex)  ..(0.2ex,-0.6ex);
+%     \draw[line width={\lw}](0.1ex, 1.4ex) .. controls(0.5ex, 0.8ex) and (0.5ex, 0.25ex)  ..(-0.1ex,-0.6ex);
+%     \draw[line width=\lw](0.1ex, 0.6ex) .. controls (0.5ex,1.0ex) and (0.8ex,0.575ex) .. (1.3ex,0.7ex);
+%     % \draw[line width=0.5 *\lw](0.2ex, 0.6ex) .. controls (0.5ex,1.0ex) and (0.8ex,0.575ex) .. (1.3ex,0.7ex);
+%     % \draw[line width=0.1pt](0ex, -0.25ex)  -- (1.5ex, -0.25ex);
+%     % \node at (5ex, -0.0ex) {\smaller \ensuremath{{#1}}};
+%   }
+% }
+
+% \newcommand{\rdmret}[1][]{
+%   \tikz[scale=1.05]{
+%     \pgfmathsetmacro\lw{0.7pt} 
+%     % \draw[line width=\lw](0,1.1ex) .. controls (0.5ex,2.05ex) and (0.8ex,0.875ex) .. (1.5ex,1.5ex);
+%     \draw[line width=\lw](-0.1ex,1.1ex) .. controls (0.3ex,1.6ex) and (0.8ex,1.75ex) .. (1.5ex,1.5ex);
+%     \draw[line width=\lw](0.4ex, 1.4ex) .. controls(0.8ex, 0.8ex) and (0.8ex, 0.25ex)  ..(0.2ex,-0.6ex);
+%     \draw[line width={\lw}](0.1ex, 1.4ex) .. controls(0.5ex, 0.8ex) and (0.5ex, 0.25ex)  ..(-0.1ex,-0.6ex);
+%     \draw[line width=\lw](0.1ex, 0.6ex) .. controls (0.5ex,1.0ex) and (0.8ex,0.575ex) .. (1.3ex,0.7ex);
+%     % \draw[line width=0.5 *\lw](0.2ex, 0.6ex) .. controls (0.5ex,1.0ex) and (0.8ex,0.575ex) .. (1.3ex,0.7ex);
+%     % \draw[line width=0.1pt](0ex, -0.25ex)  -- (1.5ex, -0.25ex);
+%     % \node at (5ex, -0.0ex) {\smaller \ensuremath{{#1}}};
+%   }
+% }
+
+\newcommand{\bcff}[1]{\ensuremath{{#1}}}
+\newcommand{\bchh}[1]{\ensuremath{{#1}_{s}}}
+\newcommand{\bcf}[1]{\ensuremath{(\bcff{#1})}}
+\newcommand{\bch}[1]{\ensuremath{(\bchh{#1})}}

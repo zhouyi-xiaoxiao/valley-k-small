@@ -1,0 +1,55 @@
+Dear Luca,
+
+I have gone through the updated calculation and put together a corrected,
+compile-ready version of the notes.
+
+The main changes are as follows. I propagated the corrected shortcut sign through
+the absorbing-site shortcut resolvent, the first-passage generating function, the
+antipodal H expression, and the final compact closed form. I also regenerated the
+pole-geometry figure using the corrected denominator, so the figure is now
+consistent with the corrected H-pole equation.
+
+I also added an appendix showing how the fully expanded time-convolution route
+reduces to the compact closed form. After substituting the four
+generating-function identities, the apparent T_L(y)-denominators cancel by the
+Chebyshev identity shown there, so the compact expression is the corrected form
+of the expanded calculation rather than an extra assumption. I also noted there
+how the Eq. (41)-style term-by-term partial fractions, including the apparent
+t alpha_l^t terms, are uncollected intermediate terms rather than separate final
+long-time contributions.
+
+I checked the corrected plus/plus formula and the compact closed form directly
+against the finite stochastic shortcut matrix; both agree to roundoff in the
+N=100, q=2/3 checks.
+
+I have also made the long-time dependence explicit in the corrected notes. In
+the corrected expression, the long-time decay is governed by the dominant root of
+
+D(y) = a T_L(y) + U_{L-1}(y),
+
+with a = q/[beta(1-q)]. Equivalently,
+
+F_rho(0,t) ~ B_{rho,1} s_1^{t-1},
+
+where s_1 = 1-q+q y_1 is the dominant root-induced pole. Thus the beta-dependence
+enters through a and hence through s_1; the corrected expression does not give a
+generic t alpha_1^t long-time factor.
+
+For the N=100, q=2/3 check, I used the fixed shortcut u=6 -> v=56 and checked
+n0=1,...,6. Under the clear visual double-peak criterion I used, clear double
+peaks appear for n0=1,2,3 up to about beta = 0.03. I do not see a clear double
+peak at beta = 0.04.
+
+I also checked the proposed condition s_1 = 1-q+q cos(2 pi/N). In the corrected
+pole equation, this crossing does not occur for finite positive beta; the
+dominant corrected pole satisfies gamma_1 < s_1 < alpha_1. So my current
+interpretation is that the one-peak/two-peak transition is a finite-time
+bimodality question, rather than something detected from the asymptotic tail or
+from an s_1 = gamma_1 crossing.
+
+I attached the compiled PDF for quick reading, and a zip file containing the TeX
+source and all local dependencies. I also checked that the zip compiles from a
+clean directory with latexmk.
+
+Best wishes,
+Xiaoxiao

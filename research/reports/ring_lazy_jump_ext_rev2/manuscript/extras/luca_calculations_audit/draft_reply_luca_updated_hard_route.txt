@@ -1,0 +1,37 @@
+Dear Luca,
+
+I went through the updated version in more detail and also worked through the
+calculation along the original time-convolution route.
+
+My current conclusion is that the corrected shortcut sign is now present in the
+updated resolvent step, but it has not yet been propagated consistently into the
+first-passage formula and the subsequent time-domain expression. In particular,
+the equation labelled first_pass_prob still has the old denominator sign, and
+the following equation written with H has the opposite overall sign.
+
+In the attached note I followed the original route explicitly: I expanded W,
+the no-shortcut first-passage term, and H into modes, performed the convolution,
+kept the H(0) contribution separate, and wrote the corrected long Eq.
+(41)-style expression using the resulting convolution kernels. I then
+recompressed the same expression in the antipodal case and it reduces to the
+closed form with denominator
+
+    a T_L(y) + U_{L-1}(y).
+
+This is why I think the closed form is the safer downstream replacement: it is
+the simplified form of the original convolution calculation, after the
+intermediate alpha/gamma/s terms have been recombined.
+
+The figure in the updated PDF is still meaningful if interpreted narrowly as a
+plot of the H-poles, i.e. the intersections with the corrected horizontal line
+-q/[beta(1-q)]. But I do not think it can be used to infer a finite transition
+at s_1 = 1 - q + q cos(2 pi/N). For the corrected denominator, the dominant
+pole satisfies gamma_1 < s_1 < alpha_1 for finite admissible beta, so that
+crossing does not occur.
+
+For N=100 and q=2/3, the direct numerical checks are also included in the same
+packet. Under the clear visual double-peak criterion, I see clear double peaks
+up to about beta = 0.03 for n0=1,2,3, and no clear double peak at beta_c = 0.04.
+
+Best wishes,
+Xiaoxiao

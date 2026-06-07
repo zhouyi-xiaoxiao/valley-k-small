@@ -1,0 +1,30 @@
+Dear Luca,
+
+I went through the updated version and ran the finite-matrix checks for the
+same stochastic shortcut interpretation.
+
+My current reading is that the main resolvent sign has been corrected, but the
+correction has not yet been propagated consistently into the first-passage
+formula immediately after it. In particular, the equation labelled
+first_pass_prob still has the old denominator sign, and the following equation
+written using H has the opposite overall sign. Using the direct stochastic
+matrix as the benchmark, the plus/plus version agrees to roundoff, while those
+two updated displayed forms do not.
+
+For the beta question with N=100 and q=2/3, I checked the fixed shortcut
+u=6 -> v=56 with target v=56 and n0=1,...,6. With a clear visual double-peak
+criterion, the double peaks occur for n0=1,2,3 up to about beta=0.03; I do not
+see clear double peaks at beta_c = 0.04. If one only counts two local maxima,
+the boundary is less strict, around beta=0.060--0.062 for n0=1,2,3, but the
+valley is already very shallow.
+
+I also checked the proposed condition s_1 = 1-q+q cos(2 pi/N). For the corrected
+H expression, this equality does not seem to occur for finite positive beta in
+the admissible range. At that gamma_1 value the phi term is zero, so the
+denominator is still q/[beta(1-q)] > 0. Numerically s_1 stays above gamma_1
+through beta in (0,1].
+
+I attached a short note with the benchmark numbers and the beta-scan summary.
+
+Best wishes,
+Xiaoxiao

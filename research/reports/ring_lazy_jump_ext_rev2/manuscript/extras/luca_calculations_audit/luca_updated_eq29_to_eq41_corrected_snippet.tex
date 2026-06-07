@@ -1,0 +1,231 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\Scal}{\mathcal{S}}
+
+\title{Corrected Eq. (29)--Eq. (41) Snippet for the Updated Shortcut Calculation}
+\author{}
+\date{7 June 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Scope}
+
+This note records the corrected replacement formulae for the updated
+shortcut-to-absorbing-target calculation.  The source checked is Luca's
+2026-06-06 updated \texttt{Calculations.tex}.  The leading shortcut resolvent
+sign has been corrected in the updated Eq. (29)--(31), but the correction has
+not been propagated consistently into Eq. (32), Eq. (33), Eq. (40), Eq. (41),
+and the final tail statement.
+
+Let
+\[
+  \lambda=\beta(1-q).
+\]
+For a shortcut \(u\to v\) where \(v\) is the absorbing target, the shortcut
+acts as killing in the transient state space: probability mass is removed from
+the \(u\to u\) self-loop and absorbed at \(v\).
+
+\section*{Corrected generating-function chain}
+
+The updated Eq. (31) is the correct starting point:
+\begin{equation}
+  \wt S_{n_0}(n,z)
+  =
+  \wt W_{n_0}(n,z)
+  -
+  \frac{
+    z\lambda \wt W_{n_0}(u,z)\wt W_u(n,z)
+  }{
+    1+z\lambda \wt W_u(u,z)
+  }.
+  \label{eq:snippet-S-correct}
+\end{equation}
+
+Summing over transient sites and using
+\[
+  \sum_n \wt W_r(n,z)=
+  \frac{1-\wt{\Fcal}_r(v,z)}{1-z}
+\]
+gives the corrected replacement for Eq. (32):
+\begin{equation}
+  \boxed{
+  \wt F_{n_0}(v,z)=
+  \wt{\Fcal}_{n_0}(v,z)
+  +
+  \frac{
+    z\beta(1-q)\wt W_{n_0}(u,z)
+    \left[1-\wt{\Fcal}_u(v,z)\right]
+  }{
+    1+z\beta(1-q)\wt W_u(u,z)
+  }}.
+  \label{eq:snippet-F-correct}
+\end{equation}
+
+With
+\begin{equation}
+  \wt H_{N,|u-v|}(z)
+  =
+  \frac{\beta(1-q)}{q}
+  \frac{1}{1+z\beta(1-q)\wt W_u(u,z)},
+  \label{eq:snippet-H-def}
+\end{equation}
+the corrected replacement for Eq. (33) is
+\begin{equation}
+  \boxed{
+  \wt F_{n_0}(v,z)=
+  \wt{\Fcal}_{n_0}(v,z)
+  +
+  qz\,\wt W_{n_0}(u,z)
+  \left[1-\wt{\Fcal}_u(v,z)\right]
+  \wt H_{N,|u-v|}(z)}.
+  \label{eq:snippet-F-H-correct}
+\end{equation}
+
+For \(N=2L\) and \(|u-v|=N/2\), the corrected \(H\) denominator is
+\begin{equation}
+  \wt H_{N,N/2}(z)
+  =
+  \frac{1}{\frac{q}{\beta(1-q)}+\phi(z)}.
+  \label{eq:snippet-H-symmetric}
+\end{equation}
+This plus sign is consistent with \eqref{eq:snippet-H-def}.
+
+\section*{Corrected time-domain convolution}
+
+The corrected replacement for Eq. (40) is
+\begin{equation}
+  \boxed{
+  F_{n_0}(v,t)=\Fcal_{n_0}(v,t)
+  +q\sum_{t'=0}^{t-1}W_{n_0}(u,t-1-t')
+  \sum_{t''=0}^{t'}
+  \left[\delta_{t',t''}-\Fcal_u(v,t'-t'')\right]
+  H_{N,N/2}(t'')}
+  \label{eq:snippet-time-convolution}
+\end{equation}
+for \(t\geq1\), with \(F_{n_0}(v,0)=0\) when \(n_0\neq v\).
+
+\section*{Clean replacement for Eq. (41)}
+
+The long mixed \(\alpha,\gamma,s\) convolution form is not the safest final
+form.  For the symmetric antipodal case, set \(N=2L\), \(v=0\), \(u=L\), and
+let \(\rho\in\{0,\ldots,L\}\) be the folded distance from the initial site to
+the target.  Define
+\[
+  a=\frac{q}{\beta(1-q)},\qquad
+  y=1+\frac{1/z-1}{q},\qquad U_{-1}(y)=0.
+\]
+The corrected first-passage generating function reduces to
+\begin{equation}
+  \boxed{
+  \wt F_\rho(z)
+  =
+  \frac{
+    aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)
+  }{
+    aT_L(y)+U_{L-1}(y)
+  }}.
+  \label{eq:snippet-closed-form}
+\end{equation}
+
+Let
+\[
+  D(y)=aT_L(y)+U_{L-1}(y),\qquad
+  N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y).
+\]
+If \(D(y_k)=0\) and \(s_k=1-q+qy_k\), then for simple roots
+\begin{equation}
+  \boxed{
+  F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1},
+  \qquad
+  B_{\rho k}=\frac{q\,N_\rho(y_k)}{D'(y_k)}
+  }
+  \label{eq:snippet-partial-fraction}
+\end{equation}
+for \(t\geq1\).  This is the recommended time-domain replacement for Eq. (41).
+
+\section*{Corrected tail statement}
+
+The apparent \(\alpha_\ell\) and \(\gamma_r\) poles in the long convolution
+expansion are intermediate poles.  In the closed form
+\eqref{eq:snippet-closed-form}, the ultimate tail is controlled by the largest
+positive root \(s_1\) of \(D(y)=0\):
+\begin{equation}
+  \boxed{
+  F_\rho(t)\sim B_{\rho1}s_1^{t-1},
+  \qquad
+  \frac{F_\rho(t+1)}{F_\rho(t)}\to s_1
+  }.
+  \label{eq:snippet-tail}
+\end{equation}
+Equivalently,
+\begin{equation}
+  \boxed{
+  \tau_\beta^{-1}=-\log s_1,\qquad
+  aT_L\left(1+\frac{s_1-1}{q}\right)
+  +
+  U_{L-1}\left(1+\frac{s_1-1}{q}\right)=0
+  }.
+  \label{eq:snippet-decay-rate}
+\end{equation}
+
+For weak shortcut strength,
+\begin{equation}
+  s_1
+  =
+  \alpha_1-\frac{2\beta(1-q)}{N}
+  +O\!\left([\beta(1-q)]^2\right),
+  \qquad
+  1-s_1
+  \sim
+  \frac{q\pi^2}{2N^2}
+  +
+  \frac{2\beta(1-q)}{N}.
+  \label{eq:snippet-weak-beta}
+\end{equation}
+Thus the generic \(t\alpha_1^t\) tail in the updated manuscript should be
+removed.
+
+\section*{Numerical checks}
+
+For \(N=100\), \(q=2/3\), \(\beta=0.04\), shortcut \(u=6\to v=56\), and target
+\(v=56\), direct finite-matrix checks give:
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Formula compared with the direct stochastic matrix & max absolute error \\
+\midrule
+correct plus/plus first-passage formula & \(2.08\times10^{-17}\) \\
+updated Eq. (32) denominator sign & \(3.29\times10^{-3}\) \\
+updated Eq. (33) minus prefactor & \(6.34\times10^{-2}\) \\
+closed form \eqref{eq:snippet-closed-form} & \(7.63\times10^{-17}\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For the same \(N=100\), \(q=2/3\), the proposed equality
+\[
+  s_1=1-q+q\cos\frac{2\pi}{N}
+\]
+does not occur for finite positive \(\beta\) in the admissible range.  The
+corrected dominant pole satisfies
+\[
+  \gamma_1<s_1<\alpha_1,
+  \qquad
+  \gamma_1=1-q+q\cos\frac{2\pi}{N},
+  \qquad
+  \alpha_1=1-q+q\cos\frac{\pi}{N}.
+\]
+
+Under the clear visual double-peak criterion used in the local scan, clear
+double peaks occur up to about \(\beta=0.03\) for \(n_0=1,2,3\), and no clear
+double peak remains at \(\beta_c=2q/[(1-q)N]=0.04\).
+
+\end{document}

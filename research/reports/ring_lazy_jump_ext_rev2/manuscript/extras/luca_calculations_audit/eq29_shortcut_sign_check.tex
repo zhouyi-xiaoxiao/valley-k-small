@@ -1,0 +1,158 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=0.85in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+
+\definecolor{auditblue}{RGB}{34,80,145}
+\definecolor{auditred}{RGB}{185,38,38}
+\definecolor{auditgray}{RGB}{245,246,248}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+
+\newtcolorbox{resultbox}[1]{
+  colback=auditgray,
+  colframe=#1,
+  boxrule=0.8pt,
+  arc=1.5pt,
+  left=7pt,
+  right=7pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Real-\(z\) Check of the Shortcut Sign in Eq. (29)}\\[0.3em]
+{\small Comparison with the direct stochastic shortcut matrix}
+\end{center}
+
+\begin{resultbox}{auditblue}
+\textbf{Short answer.}
+The quick check locates the sign issue already in Eq. (29).  Used literally,
+the printed Eq. (29) reproduces the original Eq. (32), but both disagree with
+the direct stochastic shortcut matrix.  With the stochastic shortcut sign, the
+Eq. (29) ratio and the corrected Eq. (32) agree with the direct matrix to
+roundoff.
+\end{resultbox}
+
+\section*{Direct Matrix Benchmark}
+
+The benchmark is the finite-state transition matrix for the stochastic shortcut
+model itself, not Eq. (29) or Eq. (32).  Start from the lazy ring matrix
+\[
+T_0(i,i)=1-q,\qquad T_0(i,i\pm1)=q/2,
+\]
+and move the shortcut mass
+\[
+\lambda=\beta(1-q)
+\]
+from the \(u\to u\) self-loop to the directed edge \(u\to v\):
+\[
+\widetilde T=T_0+\lambda(E_{uv}-E_{uu}).
+\]
+Then compute the resolvent and the first-passage ratio directly:
+\[
+\widetilde S(z)=(I-z\widetilde T)^{-1},\qquad
+\widetilde F_{n_0}(v,z)=
+\frac{\widetilde S_{n_0v}(z)}{\widetilde S_{vv}(z)}.
+\]
+
+\section*{Sign Implied by the Matrix}
+
+The direct stochastic matrix gives
+\[
+I-z\widetilde T=(I-zT_0)+z\lambda(E_{uu}-E_{uv}).
+\]
+Writing \(P(z)=(I-zT_0)^{-1}\), the corresponding rank-one update has the
+sign pattern
+\[
+\widetilde P_{ij}(z)
+=P_{ij}(z)
+-\frac{z\lambda P_{iu}(z)\{P_{uj}(z)-P_{vj}(z)\}}
+{1+z\lambda\{P_{uu}(z)-P_{vu}(z)\}}.
+\]
+Thus the stochastic shortcut \(u\to v\) gives a plus sign in this denominator
+and the corresponding minus sign in the correction term.  The printed Eq. (29)
+has the opposite pattern: a plus sign in the correction term and a
+\(1-z\lambda\{P_{uu}(z)-P_{vu}(z)\}\) denominator.  That is the inverse for the
+opposite rank-one defect, not for removing probability mass from \(u\to u\) and
+adding it to \(u\to v\).  This is why the sign issue is already in Eq. (29).
+
+\section*{Numerical Check}
+
+The grid uses the figure parameters \(N=10\), \(q=2/3\), \(\beta=2/7\),
+\(u=5\), \(v=0\), plus a second symmetric case, with several starts \(n_0\)
+and real values of \(z\).  Site labels here are zero-based.
+
+\subsection*{Main sign check}
+
+\begin{center}
+\begin{tabularx}{0.98\linewidth}{@{}Xr@{}}
+\toprule
+Quantity compared over the grid & Maximum absolute error \\
+\midrule
+Literal printed Eq. (29) ratio vs direct stochastic matrix & \(3.669746\times10^{-1}\) \\
+Original Eq. (32) vs direct stochastic matrix & \(3.669746\times10^{-1}\) \\
+Stochastic-sign Eq. (29) ratio vs direct stochastic matrix & \(2.220446\times10^{-16}\) \\
+Corrected Eq. (32) vs direct stochastic matrix & \(2.775558\times10^{-16}\) \\
+Literal printed Eq. (29) ratio vs original Eq. (32) & \(1.318390\times10^{-16}\) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection*{Control checks}
+
+\begin{center}
+\begin{tabularx}{0.98\linewidth}{@{}Xr@{}}
+\toprule
+Quantity compared over the grid & Maximum absolute error \\
+\midrule
+Eq. (19) \(W_{n_0}(u,z)\) vs absorbing matrix & \(1.043610\times10^{-14}\) \\
+Eq. (28) \(W_u(u,z)\) vs absorbing matrix & \(1.687539\times10^{-14}\) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The control checks show that the discrepancy is not coming from the
+\(W_{n_0}(u,z)\) or \(W_u(u,z)\) inputs used in Eq. (32).
+
+\section*{Representative Values}
+
+\begin{center}
+\small
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+\(n_0\) & \(z\) & direct matrix & printed Eq. (29) / original Eq. (32)
+& stochastic sign / corrected Eq. (32) \\
+\midrule
+2 & 0.80 & 0.197025316799 & 0.173752283343 & 0.197025316799 \\
+4 & 0.80 & 0.095953324694 & -0.033502923905 & 0.095953324694 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{resultbox}{auditred}
+\textbf{Interpretation.}
+For \(0<z<1\), a first-passage generating function has non-negative
+coefficients, so it should not become negative.  The negative value in the
+second row is a useful sanity check that the printed sign is not the stochastic
+shortcut sign for this \(u\to v\) model.
+\end{resultbox}
+
+\section*{Conclusion}
+
+The printed Eq. (29) and the original Eq. (32) are internally consistent with
+each other.  The problem is that this shared sign convention differs from the
+direct probability-conserving stochastic shortcut matrix.  Therefore the sign
+issue is already present in Eq. (29) under the stochastic \(u\to v\)
+interpretation.
+
+\end{document}

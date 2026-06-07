@@ -1,0 +1,231 @@
+\usepackage{xcolor}
+
+\usetikzlibrary{decorations,calligraphy, positioning, calc}
+\usepackage{ifthen}
+\usepackage{pgfmath}
+\usepackage{pgfplots}
+
+%%\usepackage[T1]{fontenc}
+%%\usepackage[sfdefault,scaled=.85]{FiraSans}
+%%\usepackage{newtxsf}
+
+\usepackage{bm}
+\usepackage[outline]{contour}
+
+\definecolor{colbg1}{HTML}{F2E5BC}
+\definecolor{colred}{HTML}{F2E5BC}
+
+
+
+\definecolor{gray_245}{HTML}{928374}
+\definecolor{gray_244}{HTML}{928374}
+
+
+
+\definecolor{light1}{HTML}{ebdbb2}
+\definecolor{light2}{HTML}{d5c4a1}
+\definecolor{light3}{HTML}{bdae93}
+\definecolor{light4}{HTML}{a89984}
+\definecolor{light0_hard}{HTML}{f9f5d7}
+\definecolor{light0}{HTML}{fbf1c7}
+\definecolor{light0_soft}{HTML}{f2e5bc}
+
+\definecolor{dark0_hard}{HTML}{1d2021}
+\definecolor{dark0}{HTML}{282828}
+\definecolor{dark0_soft}{HTML}{32302f}
+\definecolor{dark1}{HTML}{3c3836}
+\definecolor{dark2}{HTML}{504945}
+\definecolor{dark3}{HTML}{665c54}
+\definecolor{dark4}{HTML}{7c6f64}
+
+\definecolor{bright_red}{HTML}{fb4934}
+\definecolor{bright_green}{HTML}{b8bb26}
+\definecolor{bright_yellow}{HTML}{fabd2f}
+\definecolor{bright_blue}{HTML}{83a598}
+\definecolor{bright_purple}{HTML}{d3869b}
+\definecolor{bright_aqua}{HTML}{8ec07c}
+\definecolor{bright_orange}{HTML}{fe8019}
+\definecolor{neutral_red}{HTML}{cc241d}
+\definecolor{neutral_green}{HTML}{98971a}
+\definecolor{neutral_yellow}{HTML}{d79921}
+\definecolor{neutral_blue}{HTML}{458588}
+\definecolor{neutral_purple}{HTML}{b16286}
+\definecolor{neutral_aqua}{HTML}{689d6a}
+\definecolor{neutral_orange}{HTML}{d65d0e}
+\definecolor{faded_red}{HTML}{9d0006}
+\definecolor{faded_green}{HTML}{79740e}
+\definecolor{faded_yellow}{HTML}{b57614}
+\definecolor{faded_blue}{HTML}{076678}
+\definecolor{faded_purple}{HTML}{8f3f71}
+\definecolor{faded_aqua}{HTML}{427b58}
+\definecolor{faded_orange}{HTML}{af3a03}
+
+\definecolor{sol_base03}{HTML}{002b36}
+\definecolor{sol_base02}{HTML}{073642}
+\definecolor{sol_base01}{HTML}{586e75}
+\definecolor{sol_base00}{HTML}{657b83}
+\definecolor{sol_base0}{HTML}{839496}
+\definecolor{sol_base1}{HTML}{93a1a1}
+\definecolor{sol_base2}{HTML}{eee8d5}
+\definecolor{sol_base3}{HTML}{fdf6e3}
+\definecolor{sol_yellow}{HTML}{b58900}
+\definecolor{sol_orange}{HTML}{cb4b16}
+\definecolor{sol_red}{HTML}{dc322f}
+\definecolor{sol_magenta}{HTML}{d33682}
+\definecolor{sol_violet}{HTML}{6c71c4}
+\definecolor{sol_blue}{HTML}{268bd2}
+\definecolor{sol_cyan}{HTML}{2aa198}
+\definecolor{sol_green}{HTML}{859900}
+
+
+\colorlet{colour0}{faded_blue}
+\colorlet{colour1}{bright_orange}
+\colorlet{colour2}{bright_red}
+\colorlet{colour3}{neutral_green}
+\colorlet{colour4}{neutral_purple}
+\colorlet{colour5}{faded_aqua}
+\colorlet{colour6}{neutral_yellow}
+
+\colorlet{color0}{neutral_red}
+\colorlet{color1}{neutral_blue}
+
+% \colorlet{color0}{black}
+% \colorlet{color1}{black}
+
+\colorlet{initCol}{bright_red}
+\colorlet{targCol}{sol_blue}
+
+\colorlet{gridActiveCol}{bright_green!40}
+% \colorlet{gridUnactiveCol}{gray_245!100}
+
+\colorlet{gridActiveCol}{light1}
+\colorlet{gridActiveCol}{bright_blue!50}
+\colorlet{gridActiveCol}{light0_soft}
+
+\colorlet{gridActiveCol1}{dark4}
+
+\colorlet{gridUnactiveCol}{dark3}
+
+\colorlet{defectPlotCol}{white}
+\colorlet{bulkSiteCol}{bright_red}
+\colorlet{defectSiteCol}{sol_blue}
+
+\colorlet{bulkArrowCol}{gray_245!100}
+
+\colorlet{check_eq_col}{faded_blue}
+
+\colorlet{exBulkSiteCol}{gridActiveCol}
+\colorlet{exInitSiteCol}{initCol}
+
+\colorlet{coalTogCol}{bright_purple}
+
+\colorlet{coalCol0}{gridActiveCol}
+
+% \colorlet{coalCol1}{light0_soft}
+% \colorlet{coalCol2}{dark0_soft}
+
+\colorlet{coalCol1}{dark0_soft!70}
+\colorlet{coalCol2}{bright_red}
+
+
+\colorlet{coalSingleCol}{bright_green!40}
+
+%     _      __        _            _                   _   _
+%  __| |___ / _|___ __| |_   ___ __| |_  ___ _ __  __ _| |_(_)__
+% / _` / -_)  _/ -_) _|  _| (_-</ _| ' \/ -_) '  \/ _` |  _| / _|
+% \__,_\___|_| \___\__|\__| /__/\__|_||_\___|_|_|_\__,_|\__|_\__|
+%  
+\pgfmathsetmacro\barrierLW{1.5pt} 
+\pgfmathsetmacro\innerGridLW{0.1pt} 
+\pgfmathsetmacro\initLW{0.0pt} 
+\pgfmathsetmacro\siteRad{0.4} 
+\pgfmathsetmacro\siteGap{1.25} 
+\pgfmathsetmacro\siteGapL{1.25} 
+\pgfmathsetmacro\bulkSiteLW{0.0pt} 
+\pgfmathsetmacro\bulkArrowLW{1.0pt} 
+\pgfmathsetmacro\defectArrowLW{1.5pt} 
+\pgfmathsetmacro\bulkArrowAlpha{20} 
+\pgfmathsetmacro\bendRad{0cm} 
+
+\pgfmathsetmacro\barrierLW{1.5pt} 
+\pgfmathsetmacro\innerGridLW{0.1pt} 
+\pgfmathsetmacro\longRangeLW{1.5pt} 
+\pgfmathsetmacro\longRangeBW{1.5pt} 
+\pgfmathsetmacro\initLW{2pt} 
+\pgfmathsetmacro\initRC{0pt} 
+\pgfmathsetmacro\initBuff{0.20}
+
+
+\tikzset{
+  panelfont/.style={font=\smaller[1]},
+  % panelfont/.style={font=\larger[10]},
+  slines/.style={line width=2pt},
+  m->/.style={->, slines},
+  every node/.style={inner sep = 10 * \siteRad, font=\larger[1]},
+  reflexive above left/.style={->, loop, looseness=8, in=120, out=60},
+  reflexive above right/.style={->, loop, looseness=8, out=120, in=60},
+  reflexive below/.style={->, loop, looseness=7, in=240, out=300},
+  reflexive left/.style ={->, loop, looseness=8, in=155, out=205},
+  reflexive right/.style={->, loop, looseness=8, in=25,  out=335},
+  mybend lower right/.style={->, looseness=1.75, out=250, in=290},
+  mybend upper right/.style={->, looseness=1.75, out=70, in=110},
+  mybend lower left/.style={->, looseness=1.75, out=290, in=250},
+  mybend upper left/.style={->, looseness=1.75, out=110, in=70},
+  jump/.style={font=\larger[1], align=center, },
+  site label/.style={white},
+  init site/.style={fill = initCol, draw=none, rounded corners=\initRC},
+  inner grid/.style={step = 1, line width = \innerGridLW, dark0_soft, opacity=0.5},
+  boundingBoxCol/.style={draw=red,  fill=none},
+}
+
+\newcommand\brick[3][gridUnactiveCol]{
+  \draw[black, line width = \barrierLW, fill=#1]
+  (#2, #3) -- +(5, 0) -- +(5, -3) -- + (0, -3) -- cycle; 
+}
+
+
+\newlength{\hatchspread}
+\newlength{\hatchthickness}
+\newlength{\hatchshift}
+\newcommand{\hatchcolor}{}
+% declaring the keys in tikz
+\tikzset{hatchspread/.code={\setlength{\hatchspread}{#1}},
+         hatchthickness/.code={\setlength{\hatchthickness}{#1}},
+         hatchshift/.code={\setlength{\hatchshift}{#1}},% must be >= 0
+         hatchcolor/.code={\renewcommand{\hatchcolor}{#1}}}
+% setting the default values
+\tikzset{hatchspread=3pt,
+         hatchthickness=0.4pt,
+         hatchshift=0pt,% must be >= 0
+         hatchcolor=black}
+% declaring the pattern
+\pgfdeclarepatternformonly[\hatchspread,\hatchthickness,\hatchshift,\hatchcolor]% variables
+   {custom north west lines}% name
+   {\pgfqpoint{\dimexpr-2\hatchthickness}{\dimexpr-2\hatchthickness}}% lower left corner
+   {\pgfqpoint{\dimexpr\hatchspread+2\hatchthickness}{\dimexpr\hatchspread+2\hatchthickness}}% upper right corner
+   {\pgfqpoint{\dimexpr\hatchspread}{\dimexpr\hatchspread}}% tile size
+   {% shape description
+    \pgfsetlinewidth{\hatchthickness}
+    \pgfpathmoveto{\pgfqpoint{0pt}{\dimexpr\hatchspread+\hatchshift}}
+    \pgfpathlineto{\pgfqpoint{\dimexpr\hatchspread+0.15pt+\hatchshift}{-0.15pt}}
+    \ifdim \hatchshift > 0pt
+      \pgfpathmoveto{\pgfqpoint{0pt}{\hatchshift}}
+      \pgfpathlineto{\pgfqpoint{\dimexpr0.15pt+\hatchshift}{-0.15pt}}
+    \fi
+    \pgfsetstrokecolor{\hatchcolor}
+%    \pgfsetdash{{1pt}{1pt}}{0pt}% dashing cannot work correctly in all situation this way
+    \pgfusepath{stroke}
+   }
+
+
+
+  
+
+
+% \tikzset{%
+%   every picture/.style={%
+%     execute at end picture={%
+%       \draw [boundingBoxCol] (current bounding box.south west) rectangle (current bounding box.north east);
+%     },
+%   },
+% }

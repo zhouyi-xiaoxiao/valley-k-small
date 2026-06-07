@@ -1,0 +1,438 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\dd}{\mathrm{d}}
+
+\title{Direct-Route Check of the Updated Shortcut Calculation}
+\author{}
+\date{7 June 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Purpose and conclusion}
+
+This note follows the original time-convolution route in the updated
+manuscript and performs the calculation explicitly.  The result is a corrected
+direct-route version of the long Eq. (41) expansion, together with a check showing
+that the same expression recompresses to the closed form
+\begin{equation}
+  \boxed{
+  \wt F_\rho(z)=
+  \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+  {aT_L(y)+U_{L-1}(y)}}
+  \label{eq:main-closed}
+\end{equation}
+where
+\[
+  N=2L,\qquad
+  a=\frac{q}{\beta(1-q)},\qquad
+  y=1+\frac{1/z-1}{q},\qquad U_{-1}=0.
+\]
+Thus the closed form is not a different model or a shortcut around the
+calculation.  It is the simplified form of the original convolution route after
+all intermediate poles have been summed.
+
+\section{Corrected starting point}
+
+Let
+\[
+  \lambda=\beta(1-q).
+\]
+When the shortcut is \(u\to v\) and \(v\) is the absorbing target, the shortcut
+is killing in the transient state space.  The corrected first-passage
+generating function is
+\begin{equation}
+  \boxed{
+  \wt F_{n_0}(v,z)=
+  \wt{\Fcal}_{n_0}(v,z)
+  +qz\,\wt W_{n_0}(u,z)
+  \left[1-\wt{\Fcal}_{u}(v,z)\right]\wt H(z)}
+  \label{eq:F-correct-H}
+\end{equation}
+with
+\begin{equation}
+  \wt H(z)=
+  \frac{\beta(1-q)}{q}\,
+  \frac{1}{1+z\beta(1-q)\wt W_u(u,z)}.
+  \label{eq:H-def}
+\end{equation}
+For the antipodal case \(|u-v|=N/2\), this is
+\begin{equation}
+  \wt H(z)=\frac{1}{a+\phi(z)}.
+  \label{eq:H-a-phi}
+\end{equation}
+The sign in \eqref{eq:F-correct-H} is positive.  Therefore the corrected
+time-domain convolution is
+\begin{equation}
+  \boxed{
+  F_{n_0}(v,t)=\Fcal_{n_0}(v,t)
+  +q\sum_{t'=0}^{t-1}W_{n_0}(u,t-1-t')
+  \sum_{t''=0}^{t'}
+  \left[\delta_{t',t''}-\Fcal_u(v,t'-t'')\right]H(t'')}
+  \label{eq:time-convolution}
+\end{equation}
+for \(t\ge1\).  This is the corrected version of the updated manuscript's
+Eq. (40).
+
+\section{Mode expansions used in the direct route}
+
+For \(N=2L\), the no-shortcut first-passage probability is
+\begin{equation}
+  \Fcal_{n_0}(v,t)=
+  \sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1},
+  \qquad t\ge1.
+  \label{eq:F0-time}
+\end{equation}
+The killed propagator is
+\begin{equation}
+  W_{n_0}(u,t)
+  =
+  \sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)\gamma_r^t
+  +
+  \sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)\alpha_r^t.
+  \label{eq:W-time}
+\end{equation}
+Here
+\[
+  \alpha_r=1-q+q\cos\frac{(2r-1)\pi}{N},
+  \qquad
+  \gamma_r=1-q+q\cos\frac{2\pi r}{N}.
+\]
+
+The corrected \(H\)-poles are the roots of the corrected denominator.  Write
+\[
+  s=1/z,\qquad y_s=1+\frac{s-1}{q}.
+\]
+For the antipodal case
+\begin{equation}
+  \wt H(z)=
+  \frac{T_L(y)}{aT_L(y)+U_{L-1}(y)}.
+  \label{eq:H-T-over-D}
+\end{equation}
+Define
+\[
+  D(y)=aT_L(y)+U_{L-1}(y).
+\]
+Let
+\[
+  h_0=H(0)=\frac{\beta(1-q)}{q}=\frac1a.
+\]
+Since \(\wt H(z)\) has numerator and denominator of the same degree, its
+partial-fraction expansion has a constant term.  Equivalently, \(H(0)\) must be
+kept separate.  If \(D(y_k)=0\) and \(s_k=1-q+qy_k\), then for \(t\ge1\)
+\begin{equation}
+  H(t)=\sum_k c_k s_k^{t-1},
+  \qquad
+  \boxed{c_k=\frac{qT_L(y_k)}{D'(y_k)}}.
+  \label{eq:H-residue}
+\end{equation}
+This residue formula is the safest way to write the corrected version of
+Eq. (39): it is tied directly to the corrected denominator \(D(y)\).  In
+practice one should solve \(D(y)=0\) itself, not only the trigonometric
+parametrization \(y=\cos\theta\).  Some roots can have \(y<-1\) while still
+giving an admissible \(|s_k|<1\) pole after \(s_k=1-q+qy_k\).
+
+\section{The convolution kernels}
+
+Equation \eqref{eq:time-convolution} contains two kinds of sums, and each must
+be split into the \(H(0)=h_0\) contribution and the positive-time \(H(c)\),
+\(c\ge1\), pole contribution.
+
+\subsection*{Two-factor convolution}
+
+The \(H(0)\) part gives simply
+\begin{equation}
+  A^{(0)}_t(x)=x^{t-1}.
+  \label{eq:A0-kernel}
+\end{equation}
+For a positive-time pole mode \(s^{c-1}\), with \(a+c=t-1\) and \(c\ge1\),
+\begin{align}
+  \sum_{\substack{a+c=t-1\\c\ge1}}x^a s^{c-1}
+  &=\sum_{c=1}^{t-1}x^{t-1-c}s^{c-1}\notag\\
+  &=\boxed{\frac{s^{t-1}-x^{t-1}}{s-x}}.
+  \label{eq:A-kernel-derivation}
+\end{align}
+Define
+\begin{equation}
+  \boxed{A^{(+)}_t(x;s)=\frac{s^{t-1}-x^{t-1}}{s-x}}.
+  \label{eq:A-kernel}
+\end{equation}
+If \(x=s\), the expression is understood as the limit
+\[
+  A^{(+)}_t(s;s)=(t-1)s^{t-2}.
+\]
+For \(t=1\), \(A^{(+)}_1=0\), as there is no room for a positive-time
+\(H\)-factor.
+
+\subsection*{Three-factor convolution}
+
+The negative part of \(1-\Fcal_u(v,\cdot)\) contributes a first-passage mode
+\(y^{b-1}\) with \(b\ge1\).  The \(H(0)\) contribution is
+\begin{equation}
+  \boxed{
+  B^{(0)}_t(x,y)=
+  \sum_{\substack{a+b=t-1\\b\ge1}}x^a y^{b-1}
+  =
+  \frac{x^{t-1}-y^{t-1}}{x-y}.}
+  \label{eq:B0-kernel}
+\end{equation}
+For the positive-time \(H\)-pole contribution, \(a+b+c=t-1\), \(b\ge1\),
+and \(c\ge1\):
+\begin{equation}
+  \sum_{\substack{a+b+c=t-1\\b\ge1,\,c\ge1}}x^a y^{b-1}s^{c-1}
+  =
+  [z^{t-3}]
+  \frac{1}{(1-zx)(1-zy)(1-zs)}.
+\end{equation}
+Define
+\begin{equation}
+  \boxed{
+  B^{(+)}_t(x,y;s)=
+  [z^{t-3}]
+  \frac{1}{(1-zx)(1-zy)(1-zs)}.}
+  \label{eq:B-kernel}
+\end{equation}
+When \(x,y,s\) are distinct,
+\begin{equation}
+  \boxed{
+  B^{(+)}_t(x,y;s)=
+  \frac{x^{t-1}}{(x-y)(x-s)}
+  +\frac{y^{t-1}}{(y-x)(y-s)}
+  +\frac{s^{t-1}}{(s-x)(s-y)}.}
+  \label{eq:B-kernel-distinct}
+\end{equation}
+Coincident cases are obtained by taking limits.  This is where terms such as
+\(t\alpha^t\) can appear in an uncompressed expansion.  Such terms are not
+automatically true tail terms; they may cancel after the complete expression is
+recombined.
+
+\section{Corrected direct-route Eq. (41)}
+
+Substitute \eqref{eq:F0-time}, \eqref{eq:W-time}, and \eqref{eq:H-residue} into
+\eqref{eq:time-convolution}, keeping the \(H(0)\) part separate.  The corrected
+long expression is
+\begin{equation}
+\boxed{\begin{aligned}
+F_{n_0}(v,t)
+&=
+\sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1}
+\\
+&\quad
++q h_0
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)\gamma_r^{t-1}
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)\alpha_r^{t-1}
+\right]
+\\
+&\quad
++q\sum_k c_k
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)A^{(+)}_t(\gamma_r;s_k)
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)A^{(+)}_t(\alpha_r;s_k)
+\right]
+\\
+&\quad
+-q h_0\sum_{\ell=1}^{L}f_\ell(u,v)
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)B^{(0)}_t(\gamma_r,\alpha_\ell)
+\right.
+\\
+&\hspace{38mm}\left.
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)B^{(0)}_t(\alpha_r,\alpha_\ell)
+\right]
+\\
+&\quad
+-q\sum_k c_k\sum_{\ell=1}^{L}f_\ell(u,v)
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)B^{(+)}_t(\gamma_r,\alpha_\ell;s_k)
+\right.
+\\
+&\hspace{38mm}\left.
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)B^{(+)}_t(\alpha_r,\alpha_\ell;s_k)
+\right].
+\end{aligned}}
+\label{eq:hard-route-result}
+\end{equation}
+This is the corrected direct-route replacement for the updated manuscript's
+Eq. (41).  Compared with the printed expression, the baseline term must target
+\(v\), the global sign inherits the positive sign in Eq. (40), and the
+\(g^{(2)}\) modes are paired with \(\alpha_r\), not with \(\gamma_r\).
+
+\section{Why the direct route recompresses to the closed form}
+
+Now specialize to \(N=2L\), \(v=0\), \(u=L\), and let \(\rho\) be the folded
+distance from the starting site to the absorbing target.  The ingredients in
+\eqref{eq:F-correct-H} have compact Chebyshev forms:
+\begin{align}
+  \wt{\Fcal}_\rho(0,z)&=\frac{T_{L-\rho}(y)}{T_L(y)},
+  \label{eq:F0-rho-compact}\\
+  \wt W_\rho(L,z)&=\frac{U_{\rho-1}(y)}{zq\,T_L(y)},
+  \label{eq:WrhoL-compact}\\
+  1-\wt{\Fcal}_{L}(0,z)&=1-\frac1{T_L(y)}
+  =\frac{T_L(y)-1}{T_L(y)},
+  \label{eq:one-minus-FL}\\
+  \wt H(z)&=\frac{T_L(y)}{aT_L(y)+U_{L-1}(y)}.
+  \label{eq:H-compact-again}
+\end{align}
+Substitution into \eqref{eq:F-correct-H} gives
+\begin{align}
+  \wt F_\rho(z)
+  &=
+  \frac{T_{L-\rho}}{T_L}
+  +
+  qz\frac{U_{\rho-1}}{zqT_L}
+  \frac{T_L-1}{T_L}
+  \frac{T_L}{aT_L+U_{L-1}}\notag\\
+  &=
+  \frac{T_{L-\rho}(aT_L+U_{L-1})+U_{\rho-1}(T_L-1)}
+  {T_L(aT_L+U_{L-1})}.
+  \label{eq:pre-closed}
+\end{align}
+The only remaining algebra is a Chebyshev identity:
+\begin{equation}
+  T_L(y)U_{L-\rho-1}(y)
+  =
+  T_{L-\rho}(y)U_{L-1}(y)-U_{\rho-1}(y).
+  \label{eq:closing-identity}
+\end{equation}
+Using \eqref{eq:closing-identity} in \eqref{eq:pre-closed} gives exactly
+\eqref{eq:main-closed}:
+\[
+  \wt F_\rho(z)=
+  \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+  {aT_L(y)+U_{L-1}(y)}.
+\]
+
+This proves that the closed form is the direct-route expression after the
+intermediate \(\alpha,\gamma,s\) terms have been recombined.
+
+\section{Tail decay from the recompressed expression}
+
+Let
+\[
+  N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y),
+  \qquad
+  D(y)=aT_L(y)+U_{L-1}(y).
+\]
+The poles of \(\wt F_\rho(z)\) are the roots \(D(y_k)=0\).  With
+\(s_k=1-q+qy_k\), simple roots give
+\begin{equation}
+  \boxed{
+  F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1},
+  \qquad
+  B_{\rho k}=\frac{qN_\rho(y_k)}{D'(y_k)}.}
+  \label{eq:closed-time}
+\end{equation}
+The long-time tail is therefore
+\begin{equation}
+  \boxed{
+  F_\rho(t)\sim B_{\rho1}s_1^{t-1},
+  \qquad
+  \frac{F_\rho(t+1)}{F_\rho(t)}\to s_1.}
+  \label{eq:tail}
+\end{equation}
+It is not generically \(t\alpha_1^t\).
+
+\section{Check of the figure in the updated PDF}
+
+The figure in the updated PDF is not completely useless.  Interpreted narrowly,
+it is a graphical representation of the poles of \(H\): the intersections of
+\[
+  \phi(1/s)
+\]
+with the corrected horizontal line
+\[
+  -a=-\frac{q}{\beta(1-q)}.
+\]
+That part is consistent with the corrected denominator \(a+\phi(1/s)=0\).
+
+However, the figure is better treated as a pole-location visualization rather
+than as a standalone way to infer a finite transition at
+\[
+  s_1=\gamma_1=1-q+q\cos\frac{2\pi}{N}.
+\]
+For the corrected equation,
+\[
+  D(\cos\theta)=a\cos(L\theta)+\frac{\sin(L\theta)}{\sin\theta}=0,
+  \qquad
+  s_1=1-q+q\cos\theta_1,
+\]
+and the largest root satisfies
+\begin{equation}
+  \boxed{\gamma_1<s_1<\alpha_1}
+  \qquad (0<\beta\le1).
+  \label{eq:s1-between}
+\end{equation}
+At \(s=\gamma_1\), equivalently \(\theta=\pi/L\), the \(\phi\)-term is zero, so
+the corrected denominator is \(a>0\), not zero.  Thus \(s_1=\gamma_1\) is only
+approached in the infinite-shortcut-strength limit \(a\to0\), not reached for
+finite positive admissible \(\beta\).
+
+There is also a caption typo in the updated PDF: the sentence saying that
+\(q>1\) is required for a nonzero shortcut should be replaced.  The shortcut
+mass is \(\beta(1-q)\), so one needs \(0<q<1\) and \(\beta>0\), not \(q>1\).
+
+\subsection*{Suggested replacement caption sentence}
+
+\begin{quote}
+The intersections with the horizontal line
+\(-q/[\beta(1-q)]\) give the poles \(s_k\) of the corrected auxiliary
+function \(\wt H_{N,N/2}(z)=1/(q/[\beta(1-q)]+\phi(z))\).  This figure is a
+visualization of the \(H\)-poles only; it does not by itself determine the
+finite-time one-peak/two-peak transition.  For finite \(0<\beta\le1\), the
+dominant corrected pole satisfies \(\gamma_1<s_1<\alpha_1\), so the proposed
+finite crossing \(s_1=\gamma_1\) does not occur.
+\end{quote}
+
+\section{Validation summary}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.66\linewidth}p{0.26\linewidth}@{}}
+\toprule
+Check & Result \\
+\midrule
+Corrected plus/plus first-passage formula vs finite stochastic matrix
+& \(2.08\times10^{-17}\) max difference \\
+Corrected direct-route Eq. \eqref{eq:hard-route-result} vs finite stochastic matrix
+& \(1.32\times10^{-16}\) max difference \\
+Updated Eq. (32) denominator sign vs finite stochastic matrix
+& \(3.29\times10^{-3}\) max difference \\
+Updated Eq. (33) minus prefactor vs finite stochastic matrix
+& \(6.34\times10^{-2}\) max difference \\
+Closed form \eqref{eq:main-closed} vs finite stochastic matrix
+& \(7.63\times10^{-17}\) max difference \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{center}
+
+For \(N=100\), \(q=2/3\), and the fixed shortcut \(u=6\to v=56\), the clear
+visual double-peak scan finds clear double peaks up to about \(\beta=0.03\) for
+\(n_0=1,2,3\), and no clear double peak at
+\(\beta_c=2q/[(1-q)N]=0.04\).  This supports treating bimodality as a
+finite-time shape question, not as a direct consequence of the asymptotic tail
+crossing.
+
+\section*{Deliverable recommendation}
+
+One useful package to send back is this direct-route note together with the
+short benchmark note.  The direct-route note shows how the corrected long
+convolution is obtained and why it recompresses to the closed form; the
+benchmark note gives the numerical evidence for updating the remaining signs in
+the displayed first-passage formulae.
+
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{pdfpages}
+
+\title{Luca Calculations Audit Packet}
+\author{}
+\date{Compiled audit packet}
+
+\begin{document}
+\maketitle
+
+\noindent
+This packet combines the two complementary audit views.
+
+\begin{enumerate}
+  \item \textbf{In-place annotated original.}
+  This is the author-facing redline version.  Luca's original manuscript order
+  is preserved, wrong local steps remain visible, and the corrected formulae are
+  inserted immediately after the problematic steps.
+  \item \textbf{Complete corrected derivation.}
+  This is the expanded derivation behind the redline replacements.  It is
+  intended as the no-skipped-steps companion proof for checking the algebra and
+  the corrected tail conclusion.
+\end{enumerate}
+
+\clearpage
+\includepdf[pages=-]{Calculations_original_annotated_inplace.pdf}
+\includepdf[pages=-]{Calculations_corrected_complete_v3.pdf}
+
+\end{document}

@@ -1,0 +1,132 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=0.85in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\definecolor{auditred}{RGB}{185,38,38}
+\definecolor{auditblue}{RGB}{34,80,145}
+\definecolor{auditgray}{RGB}{245,246,248}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.2em,topsep=0.2em}
+
+\newtcolorbox{issuebox}[1]{
+  colback=auditgray,
+  colframe=#1,
+  boxrule=0.8pt,
+  arc=1.5pt,
+  left=7pt,
+  right=7pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Minimal sign issue in the shortcut-to-absorbing-site calculation}\\[0.35em]
+{\small Note on the first hard error in Eqs. (30)--(32)}
+\end{center}
+
+\begin{issuebox}{auditblue}
+\textbf{Where I think the issue starts.}
+The step from the probability-conserving shortcut formula to the absorbing
+case is made by replacing the ring propagator $\widetilde P$ with the absorbing
+propagator $\widetilde W$.  This replacement is not valid once the shortcut
+endpoint is also the absorbing site.
+\end{issuebox}
+
+In the manuscript, the absorbing site is then set equal to the shortcut
+endpoint:
+\[
+m=v,\qquad \widetilde W_v(n,z)=0.
+\]
+At this point, the shortcut $u\to v$ is not an additional transient propagation
+channel.  Since $v$ is absorbing, a walker that takes the shortcut has left the
+transient state space.
+
+Let
+\[
+\lambda=\beta(1-q),
+\]
+and let $P_0$ denote the transition matrix on the non-absorbing states for the
+ring with the absorbing target $v$ already removed.  In transient space, the
+shortcut to $v$ is therefore a killing term at $u$:
+\[
+\boxed{P=P_0-\lambda |u\rangle\langle u|.}
+\]
+Consequently
+\[
+I-zP=I-zP_0+z\lambda |u\rangle\langle u|.
+\]
+Applying Sherman--Morrison gives
+\[
+(I-zP)^{-1}
+=(I-zP_0)^{-1}
+-\frac{
+z\lambda (I-zP_0)^{-1}|u\rangle\langle u|(I-zP_0)^{-1}
+}{
+1+z\lambda\langle u|(I-zP_0)^{-1}|u\rangle
+}.
+\]
+
+\begin{issuebox}{auditred}
+\textbf{Corrected form of Eq. (31).}
+\[
+\boxed{
+\widetilde S_{n_0}(n,z)
+=\widetilde W_{n_0}(n,z)
+-\frac{
+z\beta(1-q)\widetilde W_{n_0}(u,z)\widetilde W_u(n,z)
+}{
+1+z\beta(1-q)\widetilde W_u(u,z)
+}.}
+\]
+The correction term is negative and the denominator has a plus sign.
+\end{issuebox}
+
+The sign is forced by the meaning of the absorbing boundary: adding a direct
+shortcut into the absorbing target removes paths from the transient propagator.
+Equivalently, to first order in $\lambda$ the transient occupation should
+decrease:
+\[
+\widetilde S
+=\widetilde W
+-z\lambda\,\widetilde W_{n_0}(u,z)\widetilde W_u(n,z)
++O(\lambda^2).
+\]
+The formula with a positive correction and denominator
+$1-z\lambda\widetilde W_u(u,z)$ would instead increase transient occupation,
+which corresponds to adding a propagation channel inside the transient state
+space rather than adding absorption at $v$.
+
+The first-passage generating function then inherits the corrected sign:
+\[
+\boxed{
+\widetilde F_{n_0}(v,z)
+=\widetilde{\mathcal F}_{n_0}(v,z)
++\frac{
+z\beta(1-q)\widetilde W_{n_0}(u,z)
+\left[1-\widetilde{\mathcal F}_u(v,z)\right]
+}{
+1+z\beta(1-q)\widetilde W_u(u,z)
+}.}
+\]
+
+Thus the later auxiliary denominator should be
+\[
+\frac{\beta(1-q)}{q}\,
+\frac{1}{1+z\beta(1-q)\widetilde W_u(u,z)},
+\]
+not the corresponding expression with $1-z\beta(1-q)\widetilde W_u(u,z)$.
+The later pole and threshold conclusions should therefore be recomputed from
+this corrected resolvent.
+
+\end{document}

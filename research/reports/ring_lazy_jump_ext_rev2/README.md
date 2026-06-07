@@ -26,6 +26,10 @@ Revision v2 of the lazy jump-over extension report.
   `tables/luca_k2_fixed_shortcut_summary.tex`,
   `figures/luca_k2_fixed_shortcut_{ring_geometry,annotated_double_peak,double_peak_map,peak_times,representative_fpt}.pdf`,
   and `manuscript/extras/luca_k2_fixed_shortcut_meeting_report.pdf`
+- Luca `Calculations.tex` analytical audit packet:
+  `manuscript/extras/luca_calculations_audit/` contains the original Outlook
+  TeX/PDF attachments, the two v3 audit manuscripts, and the annotated
+  in-place correction `Calculations_original_annotated_inplace.tex`.
 
 ## Reproduce
 
@@ -68,3 +72,5 @@ This checks the literal `u=6 -> v=56` setup for `n0=1..6`; see
 - `notes/changelog_v2.md` — v1 → v2 diff
 - `notes/revision_notes.md` — 10 numbered "issue → fix → verification" records driving this revision
 - `notes/luca_k2_fixed_shortcut_sweep.md` — meeting update for the K=2, `u=6 -> v=56`, beta/n0 scan
+- `manuscript/extras/luca_calculations_audit/README.md` — archived Luca TeX/PDF
+  plus annotated audit of the shortcut-to-absorbing-target derivation

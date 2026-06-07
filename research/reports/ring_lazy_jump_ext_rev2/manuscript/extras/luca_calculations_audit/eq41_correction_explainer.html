@@ -1,0 +1,904 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eq. (41) Correction Explainer</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172026;
+      --muted: #5d6b75;
+      --paper: #fbfcfb;
+      --panel: #ffffff;
+      --line: #d9e2e4;
+      --blue: #205a8f;
+      --green: #276b48;
+      --red: #a33a2d;
+      --gold: #9b6b14;
+      --soft-blue: #eaf3fb;
+      --soft-green: #eaf6ef;
+      --soft-red: #fff0ed;
+      --soft-gold: #fff7e7;
+      --shadow: 0 16px 35px rgba(23, 32, 38, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #f4f8f8;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100vw - 36px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 28px;
+      padding: 38px 0 28px;
+      align-items: start;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 48px);
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin: 10px 0 0;
+    }
+
+    .dek {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 850px;
+      margin-top: 16px;
+    }
+
+    .status {
+      display: grid;
+      gap: 10px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .status strong {
+      color: var(--green);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(251, 252, 251, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    nav .wrap {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    main {
+      padding: 26px 0 54px;
+    }
+
+    section {
+      margin: 24px 0;
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    section,
+    .grid-two > *,
+    .comparison > *,
+    .step > *,
+    .box,
+    .note,
+    .formula,
+    .codebox {
+      min-width: 0;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .note {
+      border-left: 4px solid var(--blue);
+      padding: 12px 14px;
+      background: var(--soft-blue);
+      border-radius: 0 8px 8px 0;
+      color: #17364e;
+    }
+
+    .warning {
+      border-left-color: var(--red);
+      background: var(--soft-red);
+      color: #5f241d;
+    }
+
+    .ok {
+      border-left-color: var(--green);
+      background: var(--soft-green);
+      color: #1e4c35;
+    }
+
+    .gold {
+      border-left-color: var(--gold);
+      background: var(--soft-gold);
+      color: #5f4211;
+    }
+
+    .formula {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fcfefd;
+      padding: 12px 14px;
+      margin-top: 12px;
+    }
+
+    mjx-container[jax="SVG"] {
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 2px;
+    }
+
+    .codebox {
+      overflow-x: auto;
+      border: 1px solid #cbd7dc;
+      border-radius: 8px;
+      background: #101820;
+      color: #edf7f5;
+      padding: 14px;
+      margin-top: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .badge {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 14px;
+      align-items: stretch;
+      margin-top: 14px;
+    }
+
+    .box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .box.bad {
+      border-color: #efb5ac;
+      background: var(--soft-red);
+    }
+
+    .box.good {
+      border-color: #afd8c1;
+      background: var(--soft-green);
+    }
+
+    .arrow {
+      align-self: center;
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 15px;
+    }
+
+    th, td {
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      vertical-align: top;
+    }
+
+    th {
+      color: #263943;
+      background: #f4f8f8;
+    }
+
+    .small {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .tagrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: #fff;
+      font-size: 13px;
+      color: #304550;
+    }
+
+    @media (max-width: 880px) {
+      .hero,
+      .grid-two,
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        justify-self: center;
+        transform: rotate(90deg);
+      }
+
+      section {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1>为什么 Eq. (41) 应该从长卷积式换成短的 pole expansion</h1>
+        <p class="dek">
+          这页解释的是：Luca 新稿里最后那一长串 Eq. (41) 为什么不是简单改几个符号就能修好，
+          以及完全正确的替代表达应该怎样写。
+        </p>
+        <div class="tagrow">
+          <span class="tag">shortcut to absorbing target</span>
+          <span class="tag">corrected sign</span>
+          <span class="tag">Chebyshev recurrence</span>
+          <span class="tag">partial fractions</span>
+        </div>
+      </div>
+      <aside class="status">
+        <div><strong>结论</strong>：旧 Eq. (41) 应替换，不应逐项修补。</div>
+        <div class="small">正确时间域形式是 \(F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1}\)。</div>
+        <div class="small">直接 finite-matrix check: max error \(7.63\times10^{-17}\)。</div>
+      </aside>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap">
+      <a href="#problem">问题在哪</a>
+      <a href="#route">正确路线</a>
+      <a href="#replacement">Eq. (41) 替换式</a>
+      <a href="#hardfix">硬修 41</a>
+      <a href="#decay">decay 依赖</a>
+      <a href="#why">为什么会变短</a>
+      <a href="#luca">给 Luca 的说法</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="problem">
+      <h2>1. 问题不是“长式子太长”，而是它来自错的对象</h2>
+      <div class="grid-two">
+        <div class="note warning">
+          <h3>旧长式的来源</h3>
+          <p>
+            原来的 Eq. (41) 是把 first-passage correction 写成
+            \(W\)、\(F^{(0)}\)、\(H\) 的卷积后，再把每一项展开成
+            \(\alpha_\ell\)、\(\gamma_r\)、\(s_k\) 的组合。
+          </p>
+          <p>
+            但它继承了旧 sign convention，也继承了旧的 pole geometry。
+          </p>
+        </div>
+        <div class="note ok">
+          <h3>修正后对象变了</h3>
+          <p>
+            stochastic shortcut \(u\to v\) 不是在 transient dynamics 里增加一条传播边，
+            因为 \(v\) 是 absorbing target。它是在 transient subspace 里从 \(u\) 移除概率质量。
+          </p>
+          <p>
+            所以 corrected problem 是一个带 killing 的 finite Markov chain。
+          </p>
+        </div>
+      </div>
+
+      <div class="comparison">
+        <div class="box bad">
+          <h3>旧结构</h3>
+          <div class="formula">
+            \[
+            \text{long convolution of } W,\ F^{(0)},\ H
+            \quad\leadsto\quad
+            \alpha_\ell,\gamma_r,s_k \text{ mixed terms}
+            \]
+          </div>
+          <p class="small">
+            这里还有额外问题：baseline term 写成了到 \(u\)，odd-sector 的 \(g^{(2)}\)
+            和 \(\gamma_r\) 混用，以及 generic \(t\alpha_\ell^t\) 项来自旧重根结构。
+          </p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="box good">
+          <h3>正确结构</h3>
+          <div class="formula">
+            \[
+            \widetilde F_\rho(z)
+            =
+            \frac{N_\rho(y)}{D(y)}
+            \quad\leadsto\quad
+            F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1}
+            \]
+          </div>
+          <p class="small">
+            这是同一个 finite chain 的 exact generating function。展开时只需要它自己的 poles。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="route">
+      <h2>2. 正确路线：从 killing resolvent 到一维 recurrence</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="badge">1</span>
+          <div>
+            <h3>把 shortcut 写成 transient killing</h3>
+            <p>令 \(\lambda=\beta(1-q)\)。因为 \(v\) 是吸收点，\(u\to v\) 在 transient subspace 中表现为从 \(u\) 杀掉这部分概率：</p>
+            <div class="formula">
+              \[
+              K=K_0-\lambda |u\rangle\langle u|.
+              \]
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="badge">2</span>
+          <div>
+            <h3>Sherman-Morrison 给出 corrected propagator</h3>
+            <div class="formula">
+              \[
+              \widetilde S_{n_0}(n,z)
+              =
+              \widetilde W_{n_0}(n,z)
+              -
+              \frac{
+                z\lambda\,\widetilde W_{n_0}(u,z)\widetilde W_u(n,z)
+              }{
+                1+z\lambda\,\widetilde W_u(u,z)
+              }.
+              \]
+            </div>
+            <p class="small">这一步固定了 plus denominator。不是记号选择，是 absorbing target 决定的。</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="badge">3</span>
+          <div>
+            <h3>对 transient sites 求和，得到 corrected first-passage formula</h3>
+            <div class="formula">
+              \[
+              \widetilde F_{n_0}(v,z)
+              =
+              \widetilde F^{(0)}_{n_0}(v,z)
+              +
+              \frac{
+                z\lambda\,\widetilde W_{n_0}(u,z)
+                \left[1-\widetilde F^{(0)}_u(v,z)\right]
+              }{
+                1+z\lambda\,\widetilde W_u(u,z)
+              }.
+              \]
+            </div>
+            <p class="small">注意这里是 plus correction。加一条通向吸收点的 shortcut 应该增加 hitting generating function。</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="badge">4</span>
+          <div>
+            <h3>对称情形直接解一维 recurrence</h3>
+            <p>令 \(N=2L\)、\(v=0\)、\(u=L\)，\(\rho\) 是 \(n_0\) 到吸收点的对称距离。定义</p>
+            <div class="formula">
+              \[
+              y=1+\frac{1}{q}\left(\frac1z-1\right),\qquad
+              a=\frac{q}{\beta(1-q)}.
+              \]
+            </div>
+            <p>内部满足 Chebyshev recurrence，边界为</p>
+            <div class="formula">
+              \[
+              F_0(z)=1,\qquad
+              (y+h)F_L(z)-F_{L-1}(z)=h,\quad h=\frac1a.
+              \]
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="replacement">
+      <h2>3. 完全正确的 Eq. (41) 应该写什么</h2>
+      <div class="note gold">
+        <p>
+          最稳的写法是先给 exact generating function，再给 partial-fraction time-domain formula。
+          这比保留旧的长卷积式更清楚，也更不容易把 \(\alpha\)、\(\gamma\)、\(s\) 的 sector 搞混。
+        </p>
+      </div>
+
+      <h3>Step A: corrected generating function</h3>
+      <div class="formula">
+        \[
+        \boxed{
+        \widetilde F_\rho(z)
+        =
+        \frac{
+        aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)
+        }{
+        aT_L(y)+U_{L-1}(y)
+        }.}
+        \]
+      </div>
+
+      <h3>Step B: poles</h3>
+      <div class="formula">
+        \[
+        D(y)=aT_L(y)+U_{L-1}(y),\qquad
+        D(y_k)=0,\qquad
+        s_k=1-q+qy_k.
+        \]
+      </div>
+      <p>若写 \(y_k=\cos\theta_k\)，根方程等价于</p>
+      <div class="formula">
+        \[
+        \tan(L\theta_k)=-a\sin\theta_k,
+        \qquad
+        s_k=1-q+q\cos\theta_k.
+        \]
+      </div>
+
+      <h3>Step C: replacement for Eq. (41)</h3>
+      <div class="formula">
+        \[
+        \boxed{
+        F_\rho(t)=\sum_{k=1}^{L}B_{\rho k}s_k^{t-1},
+        \qquad t\ge 1,}
+        \]
+        \[
+        \boxed{
+        B_{\rho k}
+        =
+        \frac{
+        q\left[
+        aT_{L-\rho}(y_k)+U_{\rho-1}(y_k)+U_{L-\rho-1}(y_k)
+        \right]
+        }{
+        D'(y_k)
+        }.}
+        \]
+      </div>
+
+      <h3>可直接替换进 TeX 的版本</h3>
+      <div class="codebox">\begin{align}
+\widetilde F_\rho(z)
+&=
+\frac{
+aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)
+}{
+aT_L(y)+U_{L-1}(y)
+}, \\
+y&=1+\frac{1}{q}\left(\frac1z-1\right),
+\qquad
+a=\frac{q}{\beta(1-q)}.
+\end{align}
+Let \(D(y)=aT_L(y)+U_{L-1}(y)\). If \(D(y_k)=0\) and
+\(s_k=1-q+qy_k\), then for \(t\ge 1\)
+\begin{align}
+F_\rho(t)
+&=\sum_{k=1}^{L}B_{\rho k}s_k^{t-1},\\
+B_{\rho k}
+&=
+\frac{
+q\left[
+aT_{L-\rho}(y_k)+U_{\rho-1}(y_k)+U_{L-\rho-1}(y_k)
+\right]
+}{
+D'(y_k)
+}.
+\end{align}</div>
+    </section>
+
+    <section id="hardfix">
+      <h2>4. 如果硬修原来的 Eq. (41)，会得到什么</h2>
+      <div class="note warning">
+        <p>
+          这里的“硬修”是指：不直接用上面的 closed form，而是保留原稿的
+          \(W_{n_0}(u,t)\)、\(\mathcal F_u(v,t)\)、\(H(t)\) 卷积结构，
+          然后把 sign、baseline target 和 sector/eigenvalue 的错误修掉。
+          它是对的，但不是最适合放正文的最终形式。
+        </p>
+      </div>
+
+      <h3>先修 Eq. (40) 的卷积号</h3>
+      <div class="formula">
+        \[
+        F_{n_0}(v,t)=\mathcal F_{n_0}(v,t)
+        +q\sum_{t'=0}^{t-1}W_{n_0}(u,t-1-t')
+        \sum_{t''=0}^{t'}
+        \left[\delta_{t',t''}-\mathcal F_u(v,t'-t'')\right]
+        H_{N,N/2}(t'').
+        \]
+      </div>
+      <p class="small">
+        Luca 新稿这里仍是 minus。corrected shortcut-to-target interpretation 下必须是 plus。
+      </p>
+
+      <h3>定义两个卷积核，避免把重复 pole 写错</h3>
+      <div class="formula">
+        \[
+        A_t(x;s)=\frac{s^t-x^t}{s(s-x)}.
+        \]
+        \[
+        B_t(x,y;s)=\frac{1}{s}
+        [z^{t-2}]
+        \frac{1}{(1-zx)(1-zy)(1-zs)},\qquad t\ge 2.
+        \]
+      </div>
+      <p>如果 \(x,y,s\) 互不相等，则</p>
+      <div class="formula">
+        \[
+        B_t(x,y;s)=\frac{1}{s}\left[
+        \frac{x^t}{(x-y)(x-s)}
+        +\frac{y^t}{(y-x)(y-s)}
+        +\frac{s^t}{(s-x)(s-y)}
+        \right].
+        \]
+      </div>
+      <p class="small">
+        如果 \(x=y\)，不要用互异根公式硬代；直接用 coefficient 定义，
+        或对上式取极限。这正是旧长式里最容易产生错误 \(t\alpha^t\) 项的地方。
+      </p>
+
+      <h3>硬修版 Eq. (41)</h3>
+      <div class="formula">
+        \[
+        \begin{aligned}
+        F_{n_0}(v,t)
+        =&\sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1} \\
+        &+q\sum_{k=1}^{M}c_k\left[
+        \sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)A_t(\gamma_r;s_k)
+        +\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)A_t(\alpha_r;s_k)
+        \right] \\
+        &-q\sum_{k=1}^{M}c_k
+        \sum_{\ell=1}^{L}f_\ell(u,v)\left[
+        \sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)B_t(\gamma_r,\alpha_\ell;s_k)
+        +\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)B_t(\alpha_r,\alpha_\ell;s_k)
+        \right].
+        \end{aligned}
+        \]
+      </div>
+
+      <div class="grid-two">
+        <div class="note ok">
+          <h3>这个式子修了什么</h3>
+          <p>第一项是 \(f_\ell(n_0,v)\)，不是 \(f_\ell(n_0,u)\)。</p>
+          <p>外层 correction 是 \(+q\) 开始，不是 \(-q\) 开始。</p>
+          <p>\(g^{(2)}\) odd-sector 配 \(\alpha_r\)，不是 \(\gamma_r\)。</p>
+        </div>
+        <div class="note gold">
+          <h3>为什么仍不推荐</h3>
+          <p>
+            这条硬修式保留了 \(\alpha\)、\(\gamma\)、\(s\) 三套中间 modes。
+            在完全化简后，\(\alpha\)、\(\gamma\) 的中间 pole 应该取消，
+            剩下 closed form 的 \(s_k\) poles。
+          </p>
+          <p>
+            所以它适合解释“如果硬修会怎样”，不适合作为最干净的最终结论。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="decay">
+      <h2>5. 什么叫“互相取消”，closed form 又是什么意思</h2>
+      <div class="grid-two">
+        <div class="note ok">
+          <h3>closed form 的意思</h3>
+          <p>
+            这里的 closed form 不是近似，也不是只看长时间尾部。它是整个 hitting
+            generating function 的精确表达式：
+          </p>
+          <div class="formula">
+            \[
+            \widetilde F_\rho(z)=
+            \frac{N_\rho(y)}{D(y)}
+            =
+            \frac{
+            aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)
+            }{
+            aT_L(y)+U_{L-1}(y)
+            }.
+            \]
+          </div>
+          <p>
+            它把边界条件、shortcut、absorbing target 全部已经合并到一个 rational
+            expression 里。
+          </p>
+        </div>
+        <div class="note warning">
+          <h3>互相取消的意思</h3>
+          <p>
+            硬修长式时，中间会出现 \(\alpha_\ell\)、\(\gamma_r\)、\(s_k\)
+            三套 apparent poles。但最终 closed form 的分母只有
+            \(D(y)=aT_L(y)+U_{L-1}(y)\)，所以真正 poles 只有 \(D(y_k)=0\)
+            给出的 \(s_k\)。
+          </p>
+          <p>
+            因此那些 \(\alpha_\ell\)、\(\gamma_r\) 项只是中间拆分造成的假 poles，
+            合并所有项以后它们的 residues 为零。
+          </p>
+        </div>
+      </div>
+
+      <h3>一个玩具例子</h3>
+      <div class="formula">
+        \[
+        \frac{1-\alpha z}{(1-\alpha z)(1-sz)}
+        =
+        \frac{1}{1-sz}.
+        \]
+      </div>
+      <p>
+        左边如果不约分，看起来有一个 \(\alpha\)-pole；但它其实被 numerator 的
+        \(1-\alpha z\) 精确消掉了。时间域里，这就等价于所有 \(\alpha^t\)
+        贡献互相抵消，最后只剩 \(s^t\)。
+      </p>
+
+      <h3>这个模型里最后 decay 依赖什么</h3>
+      <div class="formula">
+        \[
+        F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1}.
+        \]
+      </div>
+      <p>
+        长时间 \(t\to\infty\) 时，只剩最大的正 pole \(s_1\)：
+      </p>
+      <div class="formula">
+        \[
+        \boxed{
+        F_\rho(t)\sim B_{\rho1}s_1^{t-1},
+        \qquad
+        \frac{F_\rho(t+1)}{F_\rho(t)}\to s_1.}
+        \]
+      </div>
+      <p>
+        所以 tail decay rate 是
+      </p>
+      <div class="formula">
+        \[
+        \boxed{\tau_\beta^{-1}=-\log s_1.}
+        \]
+      </div>
+      <p>
+        这里确实有 beta 依赖，但不是 Luca 原来那种“到某个 beta 发生
+        \(\alpha_1\) 和 \(s_1\) 切换”的依赖。正确依赖是：\(s_1\) 由下面的根方程决定：
+      </p>
+      <div class="formula">
+        \[
+        aT_L(y_1)+U_{L-1}(y_1)=0,\qquad
+        s_1=1-q+qy_1,\qquad
+        a=\frac{q}{\beta(1-q)}.
+        \]
+      </div>
+      <p>等价地，若 \(y_1=\cos\theta_1\)，则</p>
+      <div class="formula">
+        \[
+        \tan(L\theta_1)=-a\sin\theta_1,
+        \qquad
+        s_1=1-q+q\cos\theta_1.
+        \]
+      </div>
+      <div class="note gold">
+        <p>
+          结论：tail decay 有 beta 依赖，依赖的是 corrected dominant pole \(s_1(\beta)\)。
+          起点 \(\rho\) 主要进入前面的 amplitude \(B_{\rho1}\)，不改变 decay rate 本身。
+          但“有没有双峰”是 finite-time shape 问题，不由 tail decay rate 单独决定。
+        </p>
+      </div>
+
+      <h3>弱 shortcut 下的近似</h3>
+      <div class="formula">
+        \[
+        s_1=\alpha_1-\frac{2\beta(1-q)}{N}
+        +O\!\left([\beta(1-q)]^2\right),
+        \qquad
+        \alpha_1=1-q+q\cos\frac{\pi}{N}.
+        \]
+        \[
+        1-s_1\sim
+        \frac{q\pi^2}{2N^2}
+        +\frac{2\beta(1-q)}{N}.
+        \]
+      </div>
+      <p>
+        这就是 corrected model 里最清楚的 beta-dependence：beta 越大，\(1-s_1\)
+        越大，tail decay 越快。
+      </p>
+    </section>
+
+    <section id="why">
+      <h2>6. 为什么从一长串变成这个短式</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>旧长式在做什么</th>
+            <th>新短式在做什么</th>
+            <th>为什么等价而且更安全</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>先写 \(W\)、\(F^{(0)}\)、\(H\) 的卷积。</td>
+            <td>直接解包含 shortcut boundary 的 recurrence。</td>
+            <td>两者描述同一 hitting problem，但 recurrence 已经把 boundary condition 吸收进去。</td>
+          </tr>
+          <tr>
+            <td>再把 \(W\) 展开成 \(\alpha_\ell,\gamma_r\)，把 \(H\) 展开成 \(s_k\)。</td>
+            <td>把最终 rational function \(\widetilde F_\rho=N_\rho/D\) 做 partial fractions。</td>
+            <td>最终过程自己的 poles 是 \(D(y)=0\) 的根。没有必要保留中间对象的三套 modes。</td>
+          </tr>
+          <tr>
+            <td>容易出现 sector mismatch，例如 odd-sector \(g^{(2)}\) 配 \(\gamma_r\)。</td>
+            <td>所有系数都来自同一个 \(D'(y_k)\) residue。</td>
+            <td>索引和 eigenvalue 不会混用。</td>
+          </tr>
+          <tr>
+            <td>会保留旧 sign 的 artificial pole collision，产生 generic \(t\alpha_1^t\) 说法。</td>
+            <td>corrected model 的 dominant pole 是 simple pole \(s_1\)。</td>
+            <td>tail 是 \(B_{\rho1}s_1^{t-1}\)，不是 generic \(t\alpha_1^t\)。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note ok">
+        <p>
+          直观地说：旧长式是“先拆开再卷回去”；新式是“先把真实边界条件放进去，再一次性解完”。
+          修正 sign 以后，真实边界条件已经改变，所以最好重新从 corrected recurrence 出发。
+        </p>
+      </div>
+    </section>
+
+    <section id="luca">
+      <h2>7. 可以给 Luca 的简短英文解释</h2>
+      <div class="codebox">The corrected Eq. (41)-type expression should not be obtained by
+termwise sign changes in the previous long convolution formula. Once the
+shortcut-to-target sign is corrected, the symmetric problem can be solved more
+cleanly as a one-dimensional boundary-value recurrence. This gives
+
+  F_rho(z) = [a T_{L-rho}(y) + U_{rho-1}(y) + U_{L-rho-1}(y)]
+             / [a T_L(y) + U_{L-1}(y)],
+
+with a = q/[beta(1-q)] and y = 1 + (1/z - 1)/q. Therefore the time-domain
+replacement for Eq. (41) is the partial-fraction expansion
+
+  F_rho(t) = sum_k B_{rho k} s_k^{t-1},
+
+where D(y_k)=0 for D(y)=aT_L(y)+U_{L-1}(y), s_k=1-q+q y_k, and
+
+  B_{rho k} =
+  q [aT_{L-rho}(y_k)+U_{rho-1}(y_k)+U_{L-rho-1}(y_k)] / D'(y_k).
+
+This avoids carrying over the old mixed alpha/gamma/s convolution terms, which
+also contain sector and pole-collision artifacts from the wrong-sign formula.</div>
+    </section>
+  </main>
+</body>
+</html>

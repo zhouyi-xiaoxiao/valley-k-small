@@ -1,0 +1,15 @@
+check,max_error,status,note
+Eq. (1)-(4) preliminary identities,2.486899575160e-14,PASS,Direct sums agree to roundoff.
+Eq. (8) periodic propagator,5.551115123126e-16,PASS,Fourier expression matches T^t.
+Eq. (9)-(12) first-passage time form,2.498001805407e-16,PASS,Time-domain formula matches absorbing matrix.
+Eq. (13) corrected compact GF and Chebyshev RHS,2.775557561563e-16,PASS,Use compact upper limit N/2.
+Eq. (13) literal printed compact upper N-1,4.811867490512e-01,FAIL,"Printed compact index is incompatible with f_k, alpha_k definitions."
+Eq. (16) killed propagator time form,1.642204890591e-15,PASS,Matches absorbing transition submatrix.
+Eq. (19)-(20) killed propagator GF sums,7.993605777301e-15,PASS,Modal sums match absorbing resolvent.
+Eq. (21)-(22) Chebyshev modal sums,5.551115123126e-15,PASS,Chebyshev forms match modal sums.
+Eq. (27)-(28) self Green functions,3.552713678801e-15,PASS,Self and antipodal forms match absorbing resolvent.
+Line 365 first identity,3.519744495861e-10,PASS,N^2/2 identity is correct.
+Line 365 second identity as printed,5.000000000000e-01,FAIL,Printed value is off by 1/2.
+Line 365 second identity corrected,1.759872247931e-10,PASS,Correct value is (N^2-1)/3.
+Line 365 third identity as printed,5.000000001760e-01,FAIL,Printed value is off by 1/2.
+Line 365 third identity corrected,1.759872247931e-10,PASS,Correct value is -(N^2+2)/6.

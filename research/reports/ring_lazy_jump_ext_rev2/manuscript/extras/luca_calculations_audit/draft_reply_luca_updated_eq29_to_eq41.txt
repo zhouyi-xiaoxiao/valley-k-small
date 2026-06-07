@@ -1,0 +1,32 @@
+Dear Luca,
+
+I went through the updated version and checked it against the direct finite
+stochastic shortcut matrix.
+
+My current reading is that the main shortcut resolvent sign has been corrected
+in the updated Eq. (29)--(31), but the correction has not yet been propagated
+consistently into the first-passage part. In particular, the equation labelled
+first_pass_prob still has the old denominator sign, and the following equation
+written with H has the opposite overall sign. With the direct stochastic matrix
+as benchmark, the corrected plus/plus first-passage expression agrees to
+roundoff, while those two displayed forms do not.
+
+For the symmetric antipodal case, I think the safest downstream correction is
+to replace the long mixed alpha/gamma/s convolution expression by the closed
+form whose denominator is a T_L(y) + U_{L-1}(y), followed by the corresponding
+partial-fraction expansion. In that form the ultimate tail is controlled by the
+dominant shortcut pole s_1, not by a generic t alpha_1^t term.
+
+For N=100 and q=2/3, I also checked the proposed condition
+s_1 = 1 - q + q cos(2 pi/N). It does not occur for finite positive beta in the
+admissible range: the corrected dominant pole stays above gamma_1 and below
+alpha_1. The double-peak range appears to be a finite-time shape issue rather
+than a tail-decay crossing. Under a clear visual double-peak criterion, I see
+clear double peaks up to about beta = 0.03 for n0=1,2,3, and no clear double
+peak at beta_c = 0.04.
+
+I have attached a short corrected snippet for the Eq. (29)--Eq. (41) chain and
+the benchmark note with the numerical checks.
+
+Best wishes,
+Xiaoxiao

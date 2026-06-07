@@ -1,0 +1,47 @@
+Dear Luca,
+
+Thank you for sending the updated version. I went through the TeX/PDF again,
+including the material before the shortcut section. It is much closer. I still
+see a few remaining points that I would check before treating the calculation
+as final.
+
+Before the shortcut section, most of the formulae seem to agree with
+finite-matrix or finite-sum checks to roundoff. The only local points I noticed
+are the compact generating-function summation range and two displayed
+antipodal self-Green-function identities which appear to be off by 1/2. These
+do not seem to be the source of the shortcut discrepancy.
+
+In the shortcut section, my reading is that the simplified absorbing resolvent
+now has the corrected sign. However, when this is summed to obtain the
+first-passage expression, the sign has not been propagated consistently: the
+displayed first-passage formula still has the previous denominator sign, and
+in the H notation the corresponding shortcut term should have the plus
+prefactor. The direct stochastic-matrix check supports this: the corrected
+plus/plus version agrees to roundoff, whereas the updated Eq. (32)- and
+Eq. (33)-style forms do not.
+
+For the symmetric antipodal case, if the corrected sign is used, the H(0)
+contribution has to be kept separate from the positive-time pole expansion.
+After the terms are recombined, the expression reduces cleanly to the closed
+form with denominator a T_L(y) + U_{L-1}(y). For this reason I would not read
+the final tail as a generic t alpha_1^t term from the updated long expression.
+
+For N=100 and q=2/3, I checked the fixed shortcut u=6 -> v=56 and
+n0=1,...,6. Under the clear visual double-peak criterion I used -- two
+filtered local maxima, with the intervening valley at least about 20 percent
+below the smaller peak -- clear double peaks remain for n0=1,2,3 up to about
+beta=0.03. I do not see a clear double peak at beta=0.04. I also checked the
+proposed finite crossing s_1 = 1-q+q cos(2 pi/N); in the corrected pole
+equation this crossing does not occur for finite positive beta, with
+gamma_1 < s_1 < alpha_1 instead. So I would treat the one-peak/two-peak
+transition as a finite-time bimodality question, rather than as something
+detected just from the asymptotic tail or from an s_1 = gamma_1 crossing.
+
+I attached two short PDFs. The full audit note lists the remaining points by
+source equation/line and includes the pre-shortcut checks plus the direct
+stochastic-matrix shortcut check. The hard-route packet follows the original
+time-convolution route, shows how the corrected long expression recombines to
+the closed form, and includes the pole/double-peak checks.
+
+Best wishes,
+Xiaoxiao

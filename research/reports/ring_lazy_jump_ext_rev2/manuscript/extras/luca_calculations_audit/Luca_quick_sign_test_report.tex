@@ -1,0 +1,119 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=0.85in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+
+\definecolor{auditred}{RGB}{185,38,38}
+\definecolor{auditblue}{RGB}{34,80,145}
+\definecolor{auditgray}{RGB}{245,246,248}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+
+\newtcolorbox{resultbox}[1]{
+  colback=auditgray,
+  colframe=#1,
+  boxrule=0.8pt,
+  arc=1.5pt,
+  left=7pt,
+  right=7pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Quick sign test for the shortcut sign}\\[0.3em]
+{\small Ratio test for Eqs. (29) and (32), using real values of \(z\)}
+\end{center}
+
+\begin{resultbox}{auditblue}
+\textbf{Short verdict.}
+The stochastic shortcut matrix, where \(\lambda=\beta(1-q)\) is moved from the
+self-loop at \(u\) to the directed edge \(u\to v\), agrees with Eq. (32) only
+with the corrected plus/plus sign.  The original minus/minus sign does not
+match this stochastic matrix.
+\end{resultbox}
+
+I used the proposed ratio check: compute the first-passage generating
+function from a full-ring shortcut propagator by
+\[
+\widetilde F_{n_0}(v,z)=\frac{\widetilde S_{n_0}(v,z)}
+{\widetilde S_v(v,z)}.
+\]
+I then compared this value with Eq. (32) using both signs.
+
+There is one important point in the test.  If Eq. (29) is used literally as
+printed in the manuscript, its ratio agrees with the original minus/minus
+Eq. (32).  However, the actual probability-conserving stochastic shortcut
+matrix for \(u\to v\) agrees with the corrected plus/plus Eq. (32).  Thus this
+test pushes the sign inconsistency one step earlier: Eq. (29), as printed, has
+the opposite defect sign if it is interpreted as moving self-loop mass from
+\(u\) to \(v\).
+
+\begin{resultbox}{auditred}
+\textbf{Sanity check.}
+For positive real \(z<1\), a first-passage generating function has non-negative
+coefficients and therefore cannot be negative.  In the \(N=10\), \(q=2/3\),
+\(\beta=2/7\), \(u=5\), \(v=0\) test, the original sign gives a negative value
+for \(n_0=4\), \(z=0.8\), while the stochastic matrix and the corrected sign
+give a positive value.
+\end{resultbox}
+
+\section*{Error Summary}
+
+The grid uses two symmetric cases, including the figure parameters in the manuscript
+\(N=10\), \(q=2/3\), \(\beta=2/7\), \(u=5\), \(v=0\), with several starts
+\(n_0\) and real values of \(z\).  Site labels here are zero-based.
+
+\begin{center}
+\begin{tabularx}{0.98\linewidth}{@{}Xr@{}}
+\toprule
+Quantity compared over the grid & Maximum absolute error \\
+\midrule
+Original Eq. (32) vs stochastic shortcut matrix & \(3.669746\times10^{-1}\) \\
+Corrected Eq. (32) vs stochastic shortcut matrix & \(2.775558\times10^{-16}\) \\
+Literal Eq. (29) ratio vs original Eq. (32) & \(1.318390\times10^{-16}\) \\
+Stochastic-sign Eq. (29) ratio vs corrected Eq. (32) & \(5.551115\times10^{-17}\) \\
+Eq. (19) \(W_{n_0}(u,z)\) vs absorbing matrix & \(1.043610\times10^{-14}\) \\
+Eq. (28) \(W_u(u,z)\) vs absorbing matrix & \(1.687539\times10^{-14}\) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section*{Representative Values}
+
+\begin{center}
+\small
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+\(n_0\) & \(z\) & stochastic matrix & literal Eq. (29) & original Eq. (32) & corrected Eq. (32) \\
+\midrule
+2 & 0.50 & 0.044096501039 & 0.042961443311 & 0.042961443311 & 0.044096501039 \\
+2 & 0.80 & 0.197025316799 & 0.173752283343 & 0.173752283343 & 0.197025316799 \\
+2 & 0.95 & 0.532769134231 & 0.394627514541 & 0.394627514541 & 0.532769134231 \\
+4 & 0.80 & 0.095953324694 & -0.033502923905 & -0.033502923905 & 0.095953324694 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Reproducibility}
+
+The script used to generate the numbers is
+\[
+\texttt{scripts/quick\_sign\_test.py}.
+\]
+It writes the full numerical table to
+\[
+\texttt{quick\_sign\_test\_results.csv}.
+\]
+
+\end{document}

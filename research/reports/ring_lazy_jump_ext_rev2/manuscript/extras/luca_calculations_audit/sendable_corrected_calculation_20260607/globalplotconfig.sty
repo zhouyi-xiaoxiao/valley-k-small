@@ -1,0 +1,116 @@
+\usepackage{pgfplots}
+\usepackage{customcolours}
+\usepackage{xcolor}
+
+% \pgfmathsetmacro\plotlinewidth{1} 
+% \pgfmathsetmacro\plotmarksize{2} 
+
+\colorlet{plotlinecol0}{bright_red}
+\colorlet{plotlinecol1}{faded_blue}
+\colorlet{plotlinecol2}{neutral_green}
+\colorlet{plotlinecol3}{neutral_purple}
+\colorlet{plotlinecol4}{bright_orange}
+\colorlet{plotlinecol5}{faded_aqua}
+\colorlet{plotlinecol6}{neutral_yellow}
+% \pgfplotsset{colormap/plasma}
+%\pgfplotsset{colormap={CM}{rgb=(0,0,1) color=(black) rgb255=(238,140,238)}}
+% \pgfplotset{colormap={CM}{
+% rgb=(0.050383, 0.029803, 0.527975),
+% rgb=(0.207435, 0.017442, 0.596333),
+% rgb=(0.32515, 0.006915, 0.639512),
+% rgb=(0.435734, 0.001127, 0.659797),
+% rgb=(0.546157, 0.038954, 0.64701),
+% rgb=(0.640959, 0.116492, 0.602065),
+% rgb=(0.723444, 0.196158, 0.538981),
+% rgb=(0.798216, 0.280197, 0.469538),
+% rgb=(0.85975, 0.360588, 0.406917),
+% rgb=(0.9128, 0.444029, 0.346251),
+% rgb=(0.95547, 0.533093, 0.28549),
+% rgb=(0.985301, 0.63533, 0.221265),
+% rgb=(0.994495, 0.74088, 0.166335),
+% rgb=(0.979644, 0.854866, 0.142453),
+% rgb=(0.940015, 0.975158, 0.131326)}
+
+\pgfplotsset{colormap/viridis}
+
+\pgfplotsset{
+  every axis/.append style={
+    axis on top = true,
+    label style={font=\smaller[0]},
+    tick label style={font=\larger[0]},
+    legend style={draw=none, font=\tiny,
+      fill opacity=0.0,
+      text opacity=1,
+      % font=\tiny,
+      font=\fontsize{4}{5}\selectfont,
+    }
+  },
+  every axis plot/.append style={
+    line width = 1pt,
+    mark size=1.0pt,
+  },
+  every tick/.style={black},
+}
+
+\pgfplotscreateplotcyclelist{linecolstyles}{
+  {plotlinecol0},
+  {plotlinecol1, dash pattern = on 3pt off 2pt},
+  {plotlinecol2, dash pattern = on 1pt off 2pt},
+  {plotlinecol3, dash pattern = on 3pt off 2pt on 1pt off 2pt},
+  {plotlinecol4, dash pattern = on 3pt off 2pt on 1pt off 2pt on 1pt off 2pt},
+  {plotlinecol5, dash pattern = on 5pt off 2pt on 3pt off 2pt on 1pt off 2pt},
+}
+
+\pgfplotscreateplotcyclelist{markcolstyles}{
+  {line width=0.5, plotlinecol0, mark=o, only marks},
+  {line width=0.5, plotlinecol1, mark=triangle, only marks},
+  {line width=0.5, plotlinecol2, mark=square, only marks},
+  {line width=0.5, plotlinecol3, mark=square, only marks, mark options={rotate=45, scale=0.75}},
+  {line width=0.5, plotlinecol4, mark=triangle, only marks, mark options={rotate=180}},
+  {line width=1pt, plotlinecol5, mark=x, only marks, mark options={scale=1.1}},
+}
+
+\pgfplotscreateplotcyclelist{markcolstylesfilled}{
+  {line width=0.5, plotlinecol0, mark=*, only marks},
+  {line width=1pt, plotlinecol1, mark=x, only marks, mark options={scale=1.5}},
+  {line width=0.5, plotlinecol2, mark=square*, only marks},
+  {line width=0.5, plotlinecol3, mark=square*, only marks, mark options={rotate=45, scale=1}},
+  {line width=0.5, plotlinecol4, mark=triangle*, only marks, mark options={rotate=180, scale=1.1}},
+  {line width=0.5, plotlinecol5, mark=triangle*, only marks, mark options={scale=1.1}},
+}
+
+
+
+
+  % {mark=*, mark options={line width=0.5, plotlinecol0,}},
+  % {mark=x, mark options={line width=1pt, plotlinecol1,scale=1.5}},
+  % {mark=square*, mark options={line width=0.5, plotlinecol2,}},
+  % {mark=square*, mark options={line width=0.5, plotlinecol3,rotate=45, scale=1}},
+  % {mark=triangle*, mark options={line width=0.5, plotlinecol4,rotate=180, scale=1.1}},
+  % {mark=triangle*, mark options={line width=0.5, plotlinecol5,scale=1.1}},
+
+\pgfplotscreateplotcyclelist{linemarkcolstylesfilled}{
+  {plotlinecol0, mark=*, mark options={solid, line width=0.5, plotlinecol0,}},
+  {plotlinecol1, dash pattern = on 3pt off 2pt, mark=x, mark options={solid, line width=1pt, plotlinecol1,scale=1.5}},
+  {plotlinecol2, dash pattern = on 1pt off 2pt, mark=square*, mark options={solid, line width=0.5, plotlinecol2,}},
+  {plotlinecol3, dash pattern = on 3pt off 2pt on 1pt off 2pt, mark=square*, mark options={solid, line width=0.5, plotlinecol3, rotate=45, scale=1}},
+  {plotlinecol4, dash pattern = on 3pt off 2pt on 1pt off 2pt on 1pt off 2pt, mark=triangle*, mark options={solid, line width=0.5, plotlinecol4,rotate=180, scale=1.1}},
+  {plotlinecol5, dash pattern = on 5pt off 2pt on 3pt off 2pt on 1pt off 2pt, mark=triangle*, mark options={solid, line width=0.5, plotlinecol5,scale=1.1}},
+}
+
+
+\tikzset{
+  dashpattern0/.style={dash pattern = on 1pt off 1pt},
+  dashpattern1/.style={dash pattern=on 4pt off 2pt on 1pt off 2pt},
+  dashpattern2/.style={dash pattern = on 8pt off 2pt},
+  dashpattern3/.style={dash pattern = on 4pt off 2pt on 1pt off 1pt on 1pt off 1pt},
+  dashpattern5/.style={dash pattern = on 4pt off 2pt on 4pt off 2pt on 1pt off 1pt on 1pt off 1pt on 1pt off 1pt},
+  dashpattern6/.style={dash pattern = on 1pt off 1pt},
+  dashpattern7/.style={dash pattern = on 3pt off 1pt on 1pt},
+  scatter style0/.style = {plotlinecol0, mark=o, only marks},
+  scatter style1/.style = {plotlinecol1, mark=triangle, only marks},
+  scatter style2/.style = {plotlinecol2, mark=square, only marks},
+  scatter style3/.style = {plotlinecol3, mark=o, only marks},
+  scatter style4/.style = {plotlinecol4, mark=o, only marks},
+  scatter style5/.style = {plotlinecol5, mark=o, only marks},
+}

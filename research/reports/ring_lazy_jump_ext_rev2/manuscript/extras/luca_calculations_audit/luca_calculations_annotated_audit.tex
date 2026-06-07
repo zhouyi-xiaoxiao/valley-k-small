@@ -1,0 +1,403 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.88in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
+\usepackage[capitalise]{cleveref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\Original}[1]{\textcolor{BrickRed}{#1}}
+\newcommand{\Corrected}[1]{\textcolor{MidnightBlue}{#1}}
+\newcommand{\Issue}[1]{\par\smallskip\noindent\textbf{\textcolor{BrickRed}{What is wrong.}} #1\par}
+\newcommand{\Fix}[1]{\par\smallskip\noindent\textbf{\textcolor{MidnightBlue}{Replacement.}} #1\par}
+\newcommand{\Added}[1]{\par\smallskip\noindent\textbf{\textcolor{ForestGreen}{Added here.}} #1\par}
+\newcommand{\Why}[1]{\par\smallskip\noindent\textbf{Why.} #1\par}
+\newcommand{\file}[1]{\texttt{#1}}
+
+\title{Annotated Audit of \texttt{Calculations.tex}\\
+Shortcut-to-absorbing-target correction, with original-step replacements}
+\author{}
+\date{31 May 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Provenance and how to read this version}
+
+This is the referee-facing annotated version of Luca's original
+\file{Calculations.tex}.  It is intentionally organised like a markup pass over
+the original manuscript: each critical original step is shown in red, followed
+by the correction in blue and the reason the replacement is necessary.
+
+The original and audit files are archived beside this document:
+\begin{center}
+\scriptsize
+\begin{tabular}{@{}p{0.14\linewidth}p{0.52\linewidth}p{0.28\linewidth}@{}}
+\toprule
+Role & File & Notes \\
+\midrule
+Original source & \file{source/original\_from\_outlook\_Calculations.tex} &
+Outlook attachment, Luca, 28 May 2026 \\
+Original PDF & \file{source/original\_from\_outlook\_Calculations.pdf} &
+Outlook attachment, Luca, 28 May 2026 \\
+Audit trail & \file{Calculations\_marked\_changes\_v3.tex} &
+Issue-by-issue marked changes \\
+Full correction & \file{Calculations\_corrected\_complete\_v3.tex} &
+Expanded corrected derivation \\
+This file & \file{luca\_calculations\_annotated\_audit.tex} &
+Original-step correction map \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Line anchors below refer to the archived original source.  The main mathematical
+fault begins in the shortcut section around original lines 383--464.
+
+\section{Executive correction}
+
+\fbox{\begin{minipage}{0.96\linewidth}
+For the stochastic model in which a fraction
+\[
+  \lambda=\beta(1-q)
+\]
+of the lazy self-loop at shortcut source $u$ is redirected to the absorbing
+target $v$, the shortcut is an extra killing channel in the transient state
+space.  Therefore the corrected resolvent is
+\[
+  \boxed{
+  \wt S_{n_0}(n,z)=\wt W_{n_0}(n,z)
+  -\frac{z\lambda\,\wt W_{n_0}(u,z)\wt W_u(n,z)}
+  {1+z\lambda\,\wt W_u(u,z)}.}
+\]
+The original denominator $1-z\lambda\wt W_u(u,z)$ and the original positive
+propagator correction have the wrong sign for a shortcut into an absorbing
+target.
+\end{minipage}}
+
+The corrected first-passage generating function is
+\begin{equation}
+  \boxed{
+  \wt F_{n_0}(v,z)=\wt F^{(0)}_{n_0}(v,z)+
+  \frac{z\lambda\,\wt W_{n_0}(u,z)\bigl[1-\wt F^{(0)}_u(v,z)\bigr]}
+  {1+z\lambda\,\wt W_u(u,z)}.}
+  \label{eq:annotated-main-F}
+\end{equation}
+This is positive relative to the no-shortcut hitting generating function for
+$0\leq z<1$, as a shortcut into the target must be.
+
+\section{What can be retained from the original}
+
+The absorbing-ring preliminaries are mostly usable after local corrections.  In
+particular, the no-shortcut first-passage expansion and the killed-ring
+propagator strategy are the right starting point:
+\[
+  \mathcal F_{n_0}^{(0)}(m,t)
+  =\sum_{\ell=1}^{N/2}f_\ell(n_0,m)\alpha_\ell^{t-1},
+  \qquad
+  \alpha_\ell=1-q+q\cos\frac{(2\ell-1)\pi}{N},
+\]
+with $N$ even stated before using the $N/2$ odd-sector form.
+
+\Issue{The original absorbing-ring reduction contains a sign-bookkeeping
+problem in the double-sum intermediate line, and the subsequent
+initial-condition check attributes zero to individual sums that only cancel
+correctly in combination.}
+
+\Fix{Keep the final killed-ring propagator after spelling out the sign
+convention and the orthogonality sums.  This is a local repair, not the main
+failure of the manuscript.}
+
+\Added{The full v3 derivation records the corrected finite-sum identities and
+the corrected orthogonality check; this annotated version uses those as the
+baseline and focuses on the shortcut section, where the conclusion changes.}
+
+\section{Critical step 1: the defect formula is not modular after absorption}
+
+\textbf{Original location:} lines 383--399 of \file{Calculations.tex}.
+
+The original manuscript first writes a probability-conserving one-defect
+formula and then replaces the free-ring propagator $\wt P$ by the killed
+propagator $\wt W$:
+\begingroup\color{BrickRed}
+\begin{align}
+\wt S_{n_0}(n,z)
+&=\wt W_{n_0}(n,z)
++\frac{z\beta(1-q)\wt W_{n_0}(u,z)
+\left[\wt W_u(n,z)-\wt W_v(n,z)\right]}
+{1-z\beta(1-q)\left[\wt W_u(u,z)-\wt W_v(u,z)\right]}.
+\tag{O1}
+\end{align}
+\endgroup
+When $v$ is the absorbing site, the original then simplifies this to
+\begingroup\color{BrickRed}
+\begin{align}
+\wt S_{n_0}(n,z)
+=\wt W_{n_0}(n,z)
++\frac{z\beta(1-q)\wt W_{n_0}(u,z)\wt W_u(n,z)}
+{1-z\beta(1-q)\wt W_u(u,z)}.
+\tag{O2}
+\end{align}
+\endgroup
+
+\Issue{This replacement changes the model.  In the probability-conserving ring,
+a shortcut transfers mass from $u$ to another transient site.  If the endpoint
+$v$ is absorbing, the same transfer removes mass from the transient state
+space.  The perturbation is therefore negative killing at $u$, not a positive
+rank-one return term.}
+
+\Fix{State the transient matrix first.  If $P_0$ is the killed-ring transient
+matrix and $\lambda=\beta(1-q)$ is the shortcut-to-target probability, then}
+\begin{equation}
+  \Corrected{P=P_0-\lambda |u\rangle\langle u|.}
+  \label{eq:transient-killing}
+\end{equation}
+Therefore
+\begin{align}
+  (I-zP)^{-1}
+  &=\bigl(I-zP_0+z\lambda |u\rangle\langle u|\bigr)^{-1} \notag\\
+  &= (I-zP_0)^{-1}
+  -\frac{z\lambda (I-zP_0)^{-1}|u\rangle\langle u|(I-zP_0)^{-1}}
+  {1+z\lambda\langle u|(I-zP_0)^{-1}|u\rangle}.
+\end{align}
+Taking the $(n,n_0)$ element gives
+\begingroup\color{MidnightBlue}
+\begin{align}
+\wt S_{n_0}(n,z)=\wt W_{n_0}(n,z)
+-\frac{z\lambda\wt W_{n_0}(u,z)\wt W_u(n,z)}
+{1+z\lambda\wt W_u(u,z)}.
+\tag{C1}
+\end{align}
+\endgroup
+
+\Why{The sign is forced by probability monotonicity.  Adding a shortcut into an
+absorbing target cannot increase transient occupation.  The original formula
+does exactly that, so it cannot describe this stochastic model.}
+
+\section{Critical step 2: the first-passage correction has the wrong sign}
+
+\textbf{Original location:} lines 401--414.
+
+The original first-passage equation is
+\begingroup\color{BrickRed}
+\begin{align}
+\wt F_{n_0}(v,z)=\wt{\mathcal F}_{n_0}(v,z)
+-\frac{z\beta(1-q)\wt W_{n_0}(u,z)
+\left[1-\wt{\mathcal F}_u(v,z)\right]}
+{1-z\beta(1-q)\wt W_u(u,z)}.
+\tag{O3}
+\end{align}
+\endgroup
+
+\Issue{This makes the shortcut contribution negative.  For $0\leq z<1$, the
+quantities $\wt W_{n_0}(u,z)$ and $1-\wt F_u^{(0)}(v,z)$ have non-negative
+coefficients.  A target shortcut should increase, not decrease, the
+first-passage generating function.}
+
+\Fix{Summing the corrected transient propagator over nonabsorbing $n$ and
+using
+\[
+  \wt R_a^{(0)}(z)=\frac{1-\wt F_a^{(0)}(v,z)}{1-z}
+\]
+gives the corrected equation \eqref{eq:annotated-main-F}.}
+
+\Added{This is also the simplest diagnostic to show a reader where the original
+argument turns around: the sign of the shortcut contribution is visibly wrong
+before any Chebyshev algebra is used.}
+
+\section{Critical step 3: the auxiliary denominator and Fig. 1 geometry change}
+
+\textbf{Original location:} lines 411--436.
+
+The original defines
+\begingroup\color{BrickRed}
+\begin{equation}
+\wt H_{N,|u-v|}(z)
+=\frac{\beta(1-q)}{q}
+\frac{1}{1-z\beta(1-q)\wt W_u(u,z)}
+\tag{O4}
+\end{equation}
+\endgroup
+and in the symmetric case $|u-v|=N/2$ obtains
+\begingroup\color{BrickRed}
+\begin{equation}
+  \wt H_{N,N/2}(z)
+  =\frac{1}{\dfrac{q}{\beta(1-q)}-\phi(z)}.
+\tag{O5}
+\end{equation}
+\endgroup
+
+\Issue{Because the denominator inherited the wrong sign, the pole picture based
+on a positive horizontal line intersecting $\phi(1/s)$ is the wrong picture for
+the stochastic shortcut-to-target model.}
+
+\Fix{With the corrected killing denominator, the same symbolic object becomes}
+\begingroup\color{MidnightBlue}
+\begin{equation}
+  \wt H^{\rm corr}_{N,N/2}(z)
+  =\frac{1}{\dfrac{q}{\beta(1-q)}+\phi(z)}.
+\tag{C2}
+\end{equation}
+\endgroup
+Equivalently, if one keeps the plotted curve $\phi(1/s)$, the horizontal line
+is $-q/[\beta(1-q)]$, not $+q/[\beta(1-q)]$.
+
+\Added{The figure caption should also correct the typo ``given the requirement
+$q>1$''.  The stochastic model requires $0<q<1$, and a nonzero shortcut
+probability proportional to $1-q$ requires $q<1$.}
+
+\section{Critical step 4: replace the symmetric-case answer}
+
+For $N=2L$, absorbing target $v=0$, shortcut source $u=L$, and starting
+distance $\rho$ from $v$, set
+\[
+  a=\frac{q}{\beta(1-q)},
+  \qquad
+  y=1+\frac{1}{q}\left(\frac1z-1\right).
+\]
+The corrected closed form is
+\begin{equation}
+  \Corrected{
+  \wt F_\rho(z)=
+  \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+  {aT_L(y)+U_{L-1}(y)},\qquad U_{-1}=0.}
+  \label{eq:corrected-symmetric-F}
+\end{equation}
+
+\Issue{The original long convolution formula downstream of $H$ is attached to
+the wrong denominator.  It also contains several local issues: the baseline
+term uses $f_\ell(n_0,u)$ where the target term should be
+$f_\ell(n_0,v)$, and odd-sector terms involving $g^{(2)}_r$ are paired with
+$\gamma_r$ in places where the odd-sector eigenvalue is $\alpha_r$.}
+
+\Fix{Use \eqref{eq:corrected-symmetric-F} as the primary corrected result.
+Then obtain time-domain coefficients by residues at the roots of the corrected
+denominator}
+\begin{equation}
+  \Corrected{D(y)=aT_L(y)+U_{L-1}(y).}
+  \label{eq:corrected-D}
+\end{equation}
+If $y_j$ are its roots and $s_j=1-q+qy_j$, then
+\begin{equation}
+  \Corrected{
+  F_\rho(t)=\sum_{j=1}^{L} B_{\rho j}s_j^{t-1},
+  \qquad
+  B_{\rho j}=\frac{q\,N_\rho(y_j)}{D'(y_j)},}
+  \label{eq:residue-expansion}
+\end{equation}
+where
+\[
+  N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y).
+\]
+
+\section{Critical step 5: replace the beta-threshold conclusion}
+
+\textbf{Original location:} line 464.
+
+The original conclusion states that the second-peak condition is
+\[
+\Original{
+  \beta\leq \frac{2q}{(1-q)N}}
+\]
+and that the right tail changes between $s_1^t$ and $t\alpha_1^t$ depending
+on this threshold.
+
+\Issue{That threshold comes from the wrong-sign pole geometry.  The repeated
+pole that produces $t\alpha_1^t$ is an artefact of the uncorrected denominator,
+not a property of the corrected stochastic shortcut-to-target model.}
+
+\Fix{The corrected pole equation is}
+\begin{equation}
+  \Corrected{
+  aT_L(y_s)+U_{L-1}(y_s)=0,\qquad
+  y_s=1+\frac{s-1}{q}.}
+  \label{eq:corrected-pole-y}
+\end{equation}
+Writing $y_s=\cos\theta$ gives
+\begin{equation}
+  \Corrected{\tan(L\theta)=-a\sin\theta.}
+  \label{eq:corrected-pole-theta}
+\end{equation}
+The largest positive root satisfies
+\begin{equation}
+  \Corrected{
+  \gamma_1<s_1<\alpha_1,\qquad
+  \gamma_1=1-q+q\cos\frac{2\pi}{N},\quad
+  \alpha_1=1-q+q\cos\frac{\pi}{N}.}
+  \label{eq:root-ordering}
+\end{equation}
+Thus the corrected right tail is
+\begin{equation}
+  \Corrected{
+  F_\rho(t)\sim B_{\rho1}s_1^{t-1},\qquad t\to\infty,}
+  \label{eq:corrected-tail}
+\end{equation}
+not generically $t\alpha_1^t$.
+
+\Added{The clean decay-dependence statement is the weak-shortcut expansion}
+\begin{equation}
+  \Corrected{
+  s_1=\alpha_1-\frac{2\beta(1-q)}{N}
+  +O\!\left([\beta(1-q)]^2\right),}
+  \label{eq:s1-expansion}
+\end{equation}
+so
+\begin{equation}
+  \Corrected{
+  1-s_1=1-\alpha_1+\frac{2\beta(1-q)}{N}
+  +O\!\left([\beta(1-q)]^2\right).}
+  \label{eq:gap-expansion}
+\end{equation}
+For large $N$,
+\begin{equation}
+  \Corrected{
+  1-s_1\sim \frac{q\pi^2}{2N^2}
+  +\frac{2\beta(1-q)}{N}.}
+  \label{eq:large-N-gap}
+\end{equation}
+
+\section{What this annotated version adds}
+
+\begin{enumerate}
+\item It pins down the stochastic interpretation before using a defect formula:
+the shortcut endpoint is absorbing, so the transient perturbation is killing.
+\item It replaces the original sign pattern in the propagator and first-passage
+generating function.
+\item It replaces the positive horizontal-line pole picture by the corrected
+$a+\phi=0$ picture.
+\item It gives the corrected symmetric generating function, pole equation, and
+tail expansion in one place.
+\item It separates two questions that the original merges: the asymptotic
+right-tail decay and the finite-time visual existence of a second peak.
+\end{enumerate}
+
+\section{Short referee-facing conclusion}
+
+The absorbing-ring part of the original calculation can be repaired locally.
+The shortcut-to-target part cannot be repaired by small notation changes,
+because the original formula uses the probability-conserving shortcut defect
+after the shortcut endpoint has become absorbing.  Under the stated stochastic
+model, the shortcut is an extra killing channel at $u$.  This flips the sign of
+the rank-one correction and changes the denominator from
+\[
+  1-z\beta(1-q)\wt W_u(u,z)
+  \quad\hbox{to}\quad
+  1+z\beta(1-q)\wt W_u(u,z).
+\]
+Consequently the claimed threshold
+\[
+  \beta\leq \frac{2q}{(1-q)N}
+\]
+is not a valid analytical condition for the corrected model, and the corrected
+long-time tail is controlled by the simple pole $s_1$ solving
+$aT_L(y_s)+U_{L-1}(y_s)=0$.
+
+\end{document}

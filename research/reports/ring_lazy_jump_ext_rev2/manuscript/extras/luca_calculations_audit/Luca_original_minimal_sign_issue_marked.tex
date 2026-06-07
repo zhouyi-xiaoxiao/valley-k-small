@@ -1,0 +1,101 @@
+\documentclass{article}
+
+\usepackage[paperwidth=8.5in,paperheight=11in,margin=0in]{geometry}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\usepackage{xcolor}
+
+\definecolor{auditred}{RGB}{190,32,38}
+\definecolor{auditblue}{RGB}{25,78,150}
+\definecolor{auditnote}{RGB}{255,248,225}
+
+\pagestyle{empty}
+
+\newcommand{\callout}[3]{%
+  \node[
+    anchor=#1,
+    align=left,
+    draw=auditred,
+    fill=auditnote,
+    rounded corners=1.5pt,
+    line width=0.8pt,
+    inner sep=4pt,
+    text width=#2,
+    font=\sffamily\bfseries\scriptsize,
+    text=auditred
+  ] #3;
+}
+
+\newcommand{\markpagefive}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    % The conceptual jump: probability-conserving shortcut formula is reused
+    % by replacing P with the absorbing propagator W.
+    \draw[auditred,line width=1.2pt,rounded corners=2pt]
+      ([xshift=0.66in,yshift=2.54in]current page.south west)
+      rectangle
+      ([xshift=8.08in,yshift=3.02in]current page.south west);
+    \callout{south west}{2.75in}{
+      at ([xshift=0.72in,yshift=3.08in]current page.south west)
+      {Conceptual jump: the probability-conserving shortcut formula is transferred to the absorbing case by replacing $\widetilde P$ with $\widetilde W$.}
+    }
+    \draw[auditred,line width=0.8pt,->]
+      ([xshift=2.15in,yshift=3.02in]current page.south west)
+      -- ([xshift=3.55in,yshift=2.78in]current page.south west);
+    % The first hard wrong formula: Eq. (31).
+    \draw[auditred,line width=1.3pt,rounded corners=2pt]
+      ([xshift=2.45in,yshift=0.98in]current page.south west)
+      rectangle
+      ([xshift=7.98in,yshift=1.48in]current page.south west);
+    \callout{south east}{2.55in}{
+      at ([xshift=8.05in,yshift=1.32in]current page.south west)
+      {First hard error: for $m=v$, the shortcut is killing in transient space. The correction should be negative and the denominator should be $1+z\beta(1-q)\widetilde W_u(u,z)$.}
+    }
+    \draw[auditred,line width=0.8pt,->]
+      ([xshift=6.55in,yshift=1.10in]current page.south west)
+      -- ([xshift=5.95in,yshift=1.18in]current page.south west);
+  \end{tikzpicture}%
+}
+
+\newcommand{\markpagesix}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    % First-passage equations inherited from the wrong Eq. (31).
+    \draw[auditred,line width=1.1pt,rounded corners=2pt]
+      ([xshift=2.23in,yshift=9.20in]current page.south west)
+      rectangle
+      ([xshift=7.95in,yshift=9.84in]current page.south west);
+    \draw[auditred,line width=1.1pt,rounded corners=2pt]
+      ([xshift=3.10in,yshift=7.58in]current page.south west)
+      rectangle
+      ([xshift=7.58in,yshift=8.05in]current page.south west);
+    \callout{north west}{2.9in}{
+      at ([xshift=0.72in,yshift=10.48in]current page.south west)
+      {These equations inherit the sign from Eq. (31): the first-passage term should be positive and the auxiliary denominator should contain $1+z\beta(1-q)\widetilde W_u(u,z)$.}
+    }
+    \draw[auditred,line width=0.8pt,->]
+      ([xshift=3.65in,yshift=10.08in]current page.south west)
+      -- ([xshift=4.55in,yshift=9.67in]current page.south west);
+    \draw[auditred,line width=0.8pt,->]
+      ([xshift=3.45in,yshift=9.92in]current page.south west)
+      -- ([xshift=4.80in,yshift=7.95in]current page.south west);
+  \end{tikzpicture}%
+}
+
+\begin{document}
+
+\includepdf[pages=1-4,fitpaper=true]{source/original_from_outlook_Calculations.pdf}
+
+\includepdf[
+  pages=5,
+  fitpaper=true,
+  pagecommand={\markpagefive}
+]{source/original_from_outlook_Calculations.pdf}
+
+\includepdf[
+  pages=6,
+  fitpaper=true,
+  pagecommand={\markpagesix}
+]{source/original_from_outlook_Calculations.pdf}
+
+\includepdf[pages=7-8,fitpaper=true]{source/original_from_outlook_Calculations.pdf}
+
+\end{document}

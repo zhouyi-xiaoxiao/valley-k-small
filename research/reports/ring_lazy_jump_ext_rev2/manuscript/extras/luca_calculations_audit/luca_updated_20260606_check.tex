@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\title{Check of the Updated Shortcut Calculation}
+\author{}
+\date{6 June 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Summary}
+
+I checked the updated TeX file against the direct finite stochastic shortcut
+matrix. The leading corrected resolvent formula now has the stochastic
+shortcut sign, but the correction has not been propagated consistently into
+the first-passage formula. In particular, the equations labelled
+\texttt{first\_pass\_prob} and \texttt{first\_pass\_prob\_2} still need the
+corresponding sign update to match the corrected resolvent and the finite-matrix
+benchmark.
+
+\section*{First-passage sign check}
+
+For a shortcut that moves probability mass
+\[
+  \lambda=\beta(1-q)
+\]
+from the self-loop \(u\to u\) to the absorbing target edge \(u\to v\), the
+transient dynamics loses this mass at \(u\). Summing the corrected absorbing
+propagator gives
+\[
+  \widetilde F_{n_0}(v,z)=
+  \widetilde{\mathcal F}_{n_0}(v,z)
+  +\frac{
+    z\beta(1-q)\widetilde W_{n_0}(u,z)
+    \left[1-\widetilde{\mathcal F}_{u}(v,z)\right]
+  }{
+    1+z\beta(1-q)\widetilde W_{u}(u,z)
+  }.
+\]
+Equivalently, with
+\[
+  \widetilde H_{N,|u-v|}(z)
+  =\frac{\beta(1-q)}{q}\,
+  \frac{1}{1+z\beta(1-q)\widetilde W_u(u,z)},
+\]
+the prefactor in the next displayed first-passage equation should be positive:
+\[
+  \widetilde F_{n_0}(v,z)=
+  \widetilde{\mathcal F}_{n_0}(v,z)
+  +qz\widetilde W_{n_0}(u,z)
+  \left[1-\widetilde{\mathcal F}_{u}(v,z)\right]
+  \widetilde H_{N,|u-v|}(z).
+\]
+
+As currently displayed, the first expression has a minus denominator and the
+second expression has a minus prefactor. These two forms therefore do not yet
+match the corrected \(H\) definition.
+
+\section*{Finite-matrix benchmark}
+
+I used the direct stochastic matrix with \(N=100\), \(q=2/3\),
+\(\beta=0.04\), shortcut \(u=6\to v=56\) in paper indexing, and target
+\(v=56\). The check used \(n_0=1,\ldots,5\) and
+\(z\in\{0.1,0.3,0.6,0.85,0.95\}\).
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Formula compared with the direct stochastic matrix & max absolute difference \\
+\midrule
+correct plus/plus first-passage formula & \(2.08\times 10^{-17}\) \\
+updated \texttt{first\_pass\_prob} denominator sign & \(3.29\times 10^{-3}\) \\
+updated \texttt{first\_pass\_prob\_2} minus prefactor & \(6.34\times 10^{-2}\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Pole comparison}
+
+For the symmetric case \(|u-v|=N/2\), the updated expression has
+\[
+  \widetilde H_{N,N/2}(z)
+  =
+  \frac{1}{\frac{q}{\beta(1-q)}+\phi(z)}.
+\]
+Writing \(s=1/z\), for \(N=100\), \(q=2/3\),
+\[
+  \gamma_1 = 1-q+q\cos\frac{2\pi}{N}=0.9986844856,
+\]
+and
+\[
+  \alpha_1 = 1-q+q\cos\frac{\pi}{N}=0.9996710402.
+\]
+
+The largest pole \(s_1\) solves
+\[
+  \frac{q}{\beta(1-q)}+\phi(1/s)=0.
+\]
+At \(s=\gamma_1\), the \(\phi(1/s)\) term is zero, so the denominator is
+\(q/[\beta(1-q)]>0\) for every finite positive \(\beta\). Thus \(s_1\) cannot
+equal \(\gamma_1\) for \(0<\beta\leq 1\). Numerically,
+
+\begin{center}
+\begin{tabular}{rccc}
+\toprule
+\(\beta\) & \(s_1\) & \(s_1-\gamma_1\) & \(\alpha_1-s_1\) \\
+\midrule
+0.01 & 0.9996076314 & \(9.23\times 10^{-4}\) & \(6.34\times 10^{-5}\) \\
+0.04 & 0.9994512449 & \(7.67\times 10^{-4}\) & \(2.20\times 10^{-4}\) \\
+0.08 & 0.9993014753 & \(6.17\times 10^{-4}\) & \(3.70\times 10^{-4}\) \\
+1.00 & 0.9987831951 & \(9.87\times 10^{-5}\) & \(8.88\times 10^{-4}\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+So the proposed switch at \(s_1=\gamma_1\) does not occur in the admissible
+range \(0<\beta\leq 1\) for this corrected \(H\).
+
+\section*{Double-peak scan}
+
+Using the exact first-passage PMF for the same \(N=100\), \(q=2/3\),
+\(u=6\to v=56\), target \(v=56\) setup, the result depends on what is meant by
+``double peak.'' With the report's clear visual rule
+\[
+  h_v/\min(h_1,h_2)\leq 0.8,
+\]
+with two filtered peaks and peak separation at least \(10\), the scan gives:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+\(n_0\) & clear double peak? & largest checked \(\beta\) with clear double peak \\
+\midrule
+1 & yes & 0.030 \\
+2 & yes & 0.030 \\
+3 & yes & 0.030 \\
+4 & no & -- \\
+5 & no & -- \\
+6 & no & -- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+At \(\beta_c=2q/[(1-q)N]=0.04\), no case remains clearly double-peaked under
+this rule; for \(n_0=1,2,3\) the inter-peak valley is already shallow,
+\[
+  h_v/\min(h_1,h_2)\approx 0.887\text{--}0.891.
+\]
+If one only asks for two local maxima, the boundary is less strict and local
+maxima persist to about \(\beta=0.060\)--\(0.062\) for \(n_0=1,2,3\), but the
+shape is no longer a clear two-peak distribution.
+
+\end{document}

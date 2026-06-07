@@ -1,0 +1,39 @@
+Dear Luca,
+
+I ran the real-z check you suggested. The direct benchmark I used was the finite
+stochastic shortcut matrix itself. Starting from the lazy ring transition
+matrix, I moved lambda = beta(1-q) from the u -> u self-loop to the directed
+edge u -> v. I then computed the resolvent directly and evaluated the
+first-passage ratio
+
+F~_{n0}(v,z) = S~_{n0,v}(z) / S~_{v,v}(z)
+
+for real values of z.
+
+The result seems to locate the sign issue already in Eq. (29). If I use the
+printed Eq. (29) literally, its ratio agrees with the original Eq. (32), so
+Eq. (32) does not seem to be a separate algebraic slip by itself. However, both
+the printed Eq. (29) ratio and the original Eq. (32) differ from the direct
+stochastic shortcut matrix. So the issue does not seem to be the algebraic step
+from Eq. (29) to Eq. (32), but the sign convention already used in Eq. (29).
+
+If I instead use the stochastic shortcut sign in Eq. (29), the ratio agrees
+with the direct stochastic matrix to roundoff, and it also gives the corrected
+plus/plus version of Eq. (32).
+
+The reason seems to be that the stochastic shortcut matrix removes probability
+mass from the u -> u self-loop and adds it to u -> v. In I - zT, this gives the
+opposite sign in the rank-one defect. The printed Eq. (29) therefore appears to
+correspond to the opposite rank-one perturbation, rather than to moving
+probability mass from u -> u to u -> v.
+
+I attached a short PDF showing the benchmark definition and the numerical
+comparisons. I also included the two control checks you suggested: Eq. (19) for
+W~_{n0}(u,z) and Eq. (28) for W~_u(u,z). Both agree with the absorbing-matrix
+calculation, so the discrepancy does not seem to come from those W inputs.
+
+My current interpretation is therefore that the printed Eq. (29) has the
+opposite rank-one defect sign for the stochastic u -> v shortcut interpretation.
+
+Best wishes,
+Xiaoxiao

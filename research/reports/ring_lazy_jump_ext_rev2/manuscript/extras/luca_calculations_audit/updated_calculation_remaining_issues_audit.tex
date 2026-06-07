@@ -1,0 +1,484 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\W}{\widetilde W}
+\newcommand{\issue}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\definecolor{hard}{HTML}{B42318}
+\definecolor{struct}{HTML}{875A00}
+\definecolor{minor}{HTML}{3D5A80}
+
+\title{Remaining-Points Check of the Updated Calculation}
+\author{Check note}
+\date{7 June 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Executive summary}
+
+This note checks the full active body of the updated TeX/PDF, not only
+the shortcut section.  The no-shortcut front part mostly passes direct finite
+matrix checks: the preliminary identities, the no-shortcut first-passage
+formula, the killed propagator, and the Chebyshev compact forms agree with
+direct sums or absorbing-matrix resolvents to roundoff.  The front part still
+has two local points worth adjusting: the compact Eq. (13) upper limit appears
+to use the long-mode range if read literally after \(f_k,\alpha_k\) are
+defined, and two identities on line 365 are off by \(1/2\).
+
+The shortcut part has a separate downstream sign-propagation point.  The
+updated manuscript has corrected the shortcut resolvent sign through Eq. (31),
+but the correction has not been propagated consistently.  The first main
+remaining shortcut point is Eq. (32): after summing the corrected Eq. (31), the
+denominator should remain
+\[
+  1+z\beta(1-q)\wt W_u(u,z),
+\]
+not \(1-z\beta(1-q)\wt W_u(u,z)\).  Because Eq. (33), Eq. (40), Eq. (41),
+and the final tail paragraph are downstream of Eq. (32), they inherit this
+remaining sign mismatch.
+
+The shortest way to see the point is:
+\begin{align*}
+\boxed{\text{correct Eq. (31)}} &\Longrightarrow
+\boxed{\text{Eq. (32) denominator should be plus}}\\
+&\Longrightarrow
+\boxed{\text{Eq. (33) and Eq. (40) should have plus shortcut terms}}.
+\end{align*}
+For the symmetric antipodal case, the safest corrected downstream expression is
+the closed form
+\[
+\boxed{
+  \wt F_\rho(z)=
+  \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
+  {aT_L(y)+U_{L-1}(y)}
+}
+\]
+where \(N=2L\), \(a=q/[\beta(1-q)]\), \(y=1+(1/z-1)/q\), and \(U_{-1}=0\).
+The time-domain tail is controlled by the roots of
+\[
+  D(y)=aT_L(y)+U_{L-1}(y),
+\]
+not by a generic \(t\alpha_1^t\) term.
+
+This check covers the active manuscript body up to \(\backslash\)end\{document\}
+in the updated TeX.  Material after that point is commented-out scratch text and
+is not treated as part of the active PDF.
+
+\section*{Check scope}
+
+The working instruction for this pass is:
+
+\begin{quote}
+Check the latest `Calculations.tex' and `Calculations.pdf' as a full active
+manuscript, not only the shortcut section beginning around Eq. (29).  Check the
+preliminary identities, no-shortcut first-passage formulae, killed propagator
+formulae, compact modal notation, Chebyshev generating functions, and the
+special antipodal self Green function.  For each formula, distinguish
+numerically verified formulae from notationally fragile formulae, formulae that
+differ if used literally, points that affect downstream conclusions, and
+compile/self-containedness points.
+\end{quote}
+
+\section*{Pre-shortcut validation}
+
+The following finite checks were run before evaluating the shortcut section.
+They compare the printed formulae with direct finite sums, transition matrices,
+absorbing submatrices, and resolvents.
+
+\[
+\begin{array}{lll}
+\text{Check} & \text{Max difference} & \text{Interpretation}\\
+\hline
+\text{Eq. (1)--(4) preliminary identities} & 2.486900\times10^{-14} & \text{passes}\\
+\text{Eq. (8) periodic propagator} & 5.551115\times10^{-16} & \text{passes}\\
+\text{Eq. (9)--(12) first-passage time form} & 2.498002\times10^{-16} & \text{passes}\\
+\text{Eq. (13), corrected compact upper }N/2 & 2.775558\times10^{-16} & \text{passes}\\
+\text{Eq. (13), literal printed upper }N-1 & 4.811867\times10^{-1} & \text{differs}\\
+\text{Eq. (16) killed propagator time form} & 1.642205\times10^{-15} & \text{passes}\\
+\text{Eq. (19)--(20) killed propagator GF sums} & 7.993606\times10^{-15} & \text{passes}\\
+\text{Eq. (21)--(22) Chebyshev modal sums} & 5.551115\times10^{-15} & \text{passes}\\
+\text{Eq. (27)--(28) self Green functions} & 3.552714\times10^{-15} & \text{passes}
+\end{array}
+\]
+
+Thus the front part is broadly consistent.  Its main formula-level point is the
+compact-mode indexing in Eq. (13).  Once \(f_k\) and \(\alpha_k\) have been
+defined for \(k=1,\ldots,N/2\), the compact generating-function sum must use
+\(\sum_{k=1}^{N/2}\), not \(\sum_{k=1}^{N-1}\).  The Chebyshev expression on
+the right-hand side agrees with the corrected compact sum.
+
+\section*{Core corrected chain}
+
+When the shortcut goes from \(u\) into the absorbing target \(v\), it is killing
+inside the transient state space.  The corrected first-passage generating
+function is
+\begin{equation}
+\boxed{
+\wt F_{n_0}(v,z)=
+\wt{\Fcal}_{n_0}(v,z)
++qz\,\wt W_{n_0}(u,z)
+\left[1-\wt{\Fcal}_{u}(v,z)\right]\wt H(z)}
+\label{eq:correct-F-H}
+\end{equation}
+with
+\begin{equation}
+\boxed{
+  \wt H(z)=
+  \frac{\beta(1-q)}{q}
+  \frac{1}{1+z\beta(1-q)\wt W_u(u,z)}.}
+\label{eq:correct-H}
+\end{equation}
+Thus the corrected version of Eq. (32) is
+\begin{equation}
+\boxed{
+\wt F_{n_0}(v,z)=
+\wt{\Fcal}_{n_0}(v,z)+
+\frac{z\beta(1-q)\wt W_{n_0}(u,z)
+\left[1-\wt{\Fcal}_{u}(v,z)\right]}
+{1+z\beta(1-q)\wt W_u(u,z)}.}
+\label{eq:correct-eq32}
+\end{equation}
+
+In time domain this gives, for \(t\geq 1\),
+\begin{equation}
+\boxed{
+F_{n_0}(v,t)=\Fcal_{n_0}(v,t)
++q\sum_{t'=0}^{t-1}W_{n_0}(u,t-1-t')
+\sum_{t''=0}^{t'}
+\left[\delta_{t',t''}-\Fcal_u(v,t'-t'')\right]
+H(t'').}
+\label{eq:correct-eq40}
+\end{equation}
+
+\section*{Corrected direct-route form}
+
+If one follows the original Eq. (41) route, \(H(0)\) must be split off from the
+positive-time pole expansion:
+\[
+  h_0=H(0)=\frac{\beta(1-q)}q=\frac1a,
+  \qquad H(c)=\sum_k c_k s_k^{c-1}\quad(c\geq1).
+\]
+The needed convolution kernels are
+\[
+  A^{(+)}_t(x;s)=\frac{s^{t-1}-x^{t-1}}{s-x},
+  \qquad
+  B^{(0)}_t(x,y)=\frac{x^{t-1}-y^{t-1}}{x-y},
+\]
+\[
+  B^{(+)}_t(x,y;s)=
+  [z^{t-3}]\frac{1}{(1-zx)(1-zy)(1-zs)}.
+\]
+Then the corrected long expression has four shortcut-convolution blocks:
+\begin{align}
+F_{n_0}(v,t)
+&=
+\sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1} \notag\\
+&\quad
++qh_0
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)\gamma_r^{t-1}
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)\alpha_r^{t-1}
+\right]\notag\\
+&\quad
++q\sum_k c_k
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)A^{(+)}_t(\gamma_r;s_k)
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)A^{(+)}_t(\alpha_r;s_k)
+\right]\notag\\
+&\quad
+-qh_0\sum_{\ell=1}^{L}f_\ell(u,v)
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)B^{(0)}_t(\gamma_r,\alpha_\ell)
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)B^{(0)}_t(\alpha_r,\alpha_\ell)
+\right]\notag\\
+&\quad
+-q\sum_k c_k\sum_{\ell=1}^{L}f_\ell(u,v)
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)B^{(+)}_t(\gamma_r,\alpha_\ell;s_k)
++
+\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)B^{(+)}_t(\alpha_r,\alpha_\ell;s_k)
+\right].
+\label{eq:correct-hard-route}
+\end{align}
+This direct-route expression is useful for checking the original derivation, but
+it should recompress to the closed form in the executive summary.  In that
+closed form, for simple roots \(D(y_k)=0\), \(s_k=1-q+qy_k\),
+\[
+\boxed{
+F_\rho(t)=\sum_k B_{\rho k}s_k^{t-1},
+\qquad
+B_{\rho k}=\frac{qN_\rho(y_k)}{D'(y_k)},}
+\]
+where \(N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)\).
+
+\section*{Checklist}
+
+\small
+\begin{longtable}{@{}L{0.08\linewidth}L{0.14\linewidth}L{0.24\linewidth}L{0.28\linewidth}L{0.10\linewidth}@{}}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{Current point} &
+\textbf{Suggested action} & \textbf{Type}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{Current point} &
+\textbf{Suggested action} & \textbf{Type}\\
+\midrule
+\endhead
+
+\issue{A0} & Eq. (13), line 251 &
+The compact sum is printed as \(\sum_{k=1}^{N-1}\) even though \(f_k\) and
+\(\alpha_k\) have just been defined with odd-mode compact indexing
+\(k=1,\ldots,N/2\).  Used literally, this gives a different generating
+function from the Chebyshev RHS/direct check. &
+Use \(\sum_{k=1}^{N/2}\) in the compact form.  The Chebyshev expression on the
+right agrees with this corrected compact sum. &
+\textcolor{hard}{Formula-local}\\
+
+\issue{A1} & Eq. (32), line 403 &
+The denominator is still \(1-z\beta(1-q)\wt W_u(u,z)\). &
+Use Eq. \eqref{eq:correct-eq32}; the denominator is
+\(1+z\beta(1-q)\wt W_u(u,z)\). &
+\textcolor{hard}{Main}\\
+
+\issue{A2} & Eq. (33), line 408 &
+The shortcut term is written with a minus sign, while the following definition
+of \(H\) has the plus denominator. &
+Use Eq. \eqref{eq:correct-F-H}: the term is
+\(+qz\,\wt W_{n_0}(u,z)[1-\wt{\Fcal}_u(v,z)]\wt H(z)\). &
+\textcolor{hard}{Main}\\
+
+\issue{A3} & Eq. (40), line 458 &
+The time-convolution inherits the minus sign from the Eq. (33) sign choice. &
+Use Eq. \eqref{eq:correct-eq40}; the convolution term is positive. &
+\textcolor{hard}{Main}\\
+
+\issue{A4} & Eq. (41), lines 463--465 &
+The long expression does not yet give the preferred corrected expression: the
+baseline targets \(u\)
+instead of \(v\), the global signs inherit Eq. (40), the \(g^{(2)}\) sector is
+paired with \(\gamma_r\) in places where it should be paired with
+\(\alpha_r\), and \(H(0)\) is not separated. &
+Use the direct-route form \eqref{eq:correct-hard-route}, or preferably the
+closed form and partial fractions above. &
+\textcolor{hard}{Main}\\
+
+\issue{A5} & Final paragraph, line 468 &
+The conclusion that the tail is generically dominated by \(t\alpha_1^t\) is an
+intermediate-mode conclusion, not a conclusion from the recompressed
+generating function. &
+The tail is \(B_{\rho1}s_1^{t-1}\) when the dominant root is simple; the
+finite-time double-peak question is separate from this tail statement. &
+\textcolor{hard}{Main}\\
+
+\issue{A6} & Final paragraph, line 468 &
+The proposed finite transition \(s_1=\gamma_1\) is not supported for finite
+positive \(\beta\) in the corrected denominator. &
+At \(s=\gamma_1\), the \(\phi(1/s)\) term is zero and the denominator is
+\(q/[\beta(1-q)]>0\), so this crossing is not a root condition. &
+\textcolor{hard}{Main}\\
+
+\issue{B1} & Eq. (38)--(39), lines 428--451 &
+The pole expansion of \(H\) is treated as if only positive-time poles matter.
+The residue formula and root count are fragile. &
+Keep \(H(0)=\beta(1-q)/q\) separate.  Write
+\(c_k=qT_L(y_k)/D'(y_k)\) with \(D(y)=aT_L(y)+U_{L-1}(y)\), and solve
+\(D(y)=0\) directly. &
+\textcolor{struct}{Structural}\\
+
+\issue{B2} & Figure caption, lines 436--438 &
+The caption says \(q>1\) is required for a non-zero shortcut probability, while
+the model uses \(0<q<1\); it also uses the pole figure in a way that could be
+read as determining the finite-time peak transition. &
+Change to \(0<q<1\), \(\beta>0\).  Treat the figure as an \(H\)-pole
+visualization only, not as a standalone double-peak-transition criterion. &
+\textcolor{struct}{Structural}\\
+
+\issue{B3} & Line 441 and Eq. (39), line 448 &
+The text says \(k=1,\ldots,N/2-1\) in the denominator, while the previous
+caption says \(M=N/2\); the coefficient formula is much less robust than a
+derivative-residue expression. &
+Use \(D(y_k)=0\), \(s_k=1-q+qy_k\), and
+\(c_k=qT_L(y_k)/D'(y_k)\).  Avoid claiming \(c_k=-\infty\) at an asymptote. &
+\textcolor{struct}{Structural}\\
+
+\issue{B4} & Line 365 &
+Two of the three displayed trigonometric identities are off by \(1/2\). &
+The correct identities are
+\(\sum 1/(1-\cos(\pi k/N))=(N^2-1)/3\) and
+\(\sum (-1)^k/(1-\cos(\pi k/N))=-(N^2+2)/6\). &
+\textcolor{struct}{Structural}\\
+
+\issue{B5} & Line 283 &
+The text says \(Q_{n_0}(n,t)=0\) at the absorbing boundary and as
+\(t\to\infty\).  \(Q\) was defined as the unrestricted periodic propagator, so
+this statement does not match \(Q\) as defined. &
+This statement should refer to \(W\), the killed propagator. &
+\textcolor{struct}{Structural}\\
+
+\issue{B6} & Eq. (25), line 288 &
+The compact form has a dangling \(G^{(2)}_k\) term without a displayed sum,
+while the later equivalent form uses the correct compact \(\alpha_k\) sum. &
+Add the missing sum or replace this line with the later
+\(\gamma_k/\alpha_k\) form. &
+\textcolor{struct}{Structural}\\
+
+\issue{B8} & Line 401 &
+The text says Eq. (30) is summed, but the needed special case is the simplified
+Eq. (31) with \(m=v\). &
+Reference the simplified equation directly before deriving Eq. (32). &
+\textcolor{struct}{Structural}\\
+
+\issue{B9} & Line 257 &
+The first displayed sentence calls \(\sum_{s=1}^t\Fcal_{n_0}(m,s)\) a survival
+probability, but this quantity is the cumulative absorption probability up to
+time \(t\). &
+Call the first quantity cumulative absorption; reserve survival probability for
+\(R_{n_0}(t)=1-\sum_{s=0}^t\Fcal_{n_0}(m,s)\). &
+\textcolor{struct}{Structural}\\
+
+\issue{C1} & Line 1; lines 65--68 &
+The attachment is not self-contained: direct compilation needs local
+style files and the figure.  Also \code{idelinks} appears to be a typo and
+\code{customcolours} is loaded twice. &
+Either include the style files and \code{phifunction.pdf}, or replace them with
+portable definitions.  Move link options to \code{hyperref}. &
+\textcolor{minor}{Compile}\\
+
+\issue{C2} & Line 189 &
+There is an empty label, \(\backslash\)label\{eq:\}. &
+Replace it with a meaningful unique label or remove it. &
+\textcolor{minor}{Notation}\\
+
+\issue{C3} & Line 220 &
+There is an extra closing parenthesis, and the condition says \(n_0\neq n\)
+where the context is the absorbing target. &
+Remove the extra parenthesis and clarify the condition as starting away from
+the absorbing site, e.g. \(n_0\neq m\), as appropriate. &
+\textcolor{minor}{Notation}\\
+
+\issue{C4} & Lines 293--294 &
+The arguments are written \(n_0,n,,m\). &
+Remove the doubled comma. &
+\textcolor{minor}{Typo}\\
+
+\issue{C5} & Line 370 &
+The notation switches to \(\wt{\mathcal W}\) while the rest of the manuscript
+uses \(\wt W\). &
+Use a consistent killed-propagator symbol unless a distinct object is intended. &
+\textcolor{minor}{Notation}\\
+
+\issue{C6} & Lines 438, 441, 451 &
+Small text edits: \code{correspoding}, \code{dominator}, and
+\code{an\$s\_k}. &
+Correct to \code{corresponding}, \code{denominator}, and ``and
+\(s_k\neq\alpha_k\)''. &
+\textcolor{minor}{Typo}\\
+
+\issue{C7} & Lines 171 and 433 &
+Minor active-text copy points: ``preliminaries identities'' and the sentence
+``the denominator ... has \(M\) real zeros ... and are shown graphically''. &
+Use ``preliminary identities'' or ``preliminaries: identities'', and rewrite
+the line 433 sentence so the subject agrees, e.g. ``the zeros are shown''. &
+\textcolor{minor}{Typo}\\
+
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section*{Numerical checks}
+
+\subsection*{Shortcut sign benchmark}
+
+The direct benchmark is the finite stochastic shortcut matrix: starting from
+the lazy ring transition matrix, move
+\(\lambda=\beta(1-q)\) from the \(u\to u\) self-loop to the directed shortcut
+\(u\to v\).  Then compute the resolvent and the first-passage ratio
+\[
+  \wt F_{n_0}(v,z)=\frac{\wt S_{n_0,v}(z)}{\wt S_{v,v}(z)}.
+\]
+Over the checked grid, the maximum differences were:
+\[
+\begin{array}{ll}
+\text{updated/original Eq. (32) sign vs stochastic matrix} & 3.669746\times10^{-1}\\
+\text{corrected plus/plus Eq. (32) vs stochastic matrix} & 2.775558\times10^{-16}\\
+\text{literal Eq. (29) ratio vs original Eq. (32)} & 1.318390\times10^{-16}\\
+\text{stochastic-sign Eq. (29) ratio vs corrected Eq. (32)} & 5.551115\times10^{-17}\\
+\text{Eq. (19) } W_{n_0}(u,z)\text{ vs absorbing matrix} & 1.043610\times10^{-14}\\
+\text{Eq. (28) } W_u(u,z)\text{ vs absorbing matrix} & 1.687539\times10^{-14}
+\end{array}
+\]
+This isolates the point to the shortcut sign propagation, not to the \(W\)
+inputs.
+
+\subsection*{Identity check}
+
+For \(N=10\),
+\[
+  \sum_{k=1}^{N-1}\frac{1}{1-\cos(\pi k/N)}=33,
+  \qquad
+  \frac{2N^2+1}{6}=33.5,
+\]
+and
+\[
+  \sum_{k=1}^{N-1}\frac{(-1)^k}{1-\cos(\pi k/N)}=-17,
+  \qquad
+  \frac{1-N^2}{6}=-16.5.
+\]
+So the second and third identities displayed on line 365 are not exact.
+
+\subsection*{Pre-shortcut check summary}
+
+The pre-shortcut checks show that the main no-shortcut formulae are numerically
+sound once the compact index in Eq. (13) is corrected:
+\[
+\begin{array}{ll}
+\text{preliminary identities Eq. (1)--(4)} & 2.486900\times10^{-14}\\
+\text{first-passage Eq. (9)--(13), corrected compact index} & 2.775558\times10^{-16}\\
+\text{killed propagator Eq. (16), Eq. (19)--(20)} & 7.993606\times10^{-15}\\
+\text{Chebyshev forms Eq. (21)--(22), Eq. (27)--(28)} & 5.551115\times10^{-15}
+\end{array}
+\]
+The literal printed Eq. (13) compact upper limit \(N-1\), however, differs from
+the finite-matrix benchmark by up to \(4.811867\times10^{-1}\) on the check
+grid.
+
+\section*{Shortest collaborator-facing statement}
+
+A concise way to describe the situation is:
+
+\begin{quote}
+I checked the active manuscript body, including the formulae before the
+shortcut section.  The no-shortcut first-passage and killed-propagator formulae
+agree with finite-matrix checks to roundoff once the compact Eq. (13) index is
+read as \(k=1,\ldots,N/2\).  The earlier local points I see are therefore the
+printed compact upper limit in Eq. (13), the two line-365 identities, and some
+notation/text points.
+
+In the shortcut section, the updated resolvent sign is correct through the
+simplified absorbing case, but the first-passage formula still carries the previous
+denominator sign.  Once the denominator in Eq. (32) is corrected, Eq. (33) and
+the time-convolution Eq. (40) also need the plus shortcut term.  The long
+Eq. (41) should be treated with care as a tail conclusion in its present form:
+after the
+\(H(0)\) term is separated and the modes are recombined, the symmetric case
+reduces to the closed form with denominator \(aT_L(y)+U_{L-1}(y)\), and the
+tail is controlled by the dominant root of that denominator.
+\end{quote}
+
+\end{document}

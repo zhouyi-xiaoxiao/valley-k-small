@@ -19,7 +19,6 @@
 │   └── archives/
 ├── platform/
 │   ├── web/
-│   ├── agent/
 │   ├── schemas/
 │   ├── skills/
 │   └── tools/

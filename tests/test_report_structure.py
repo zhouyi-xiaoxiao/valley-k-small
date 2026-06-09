@@ -34,11 +34,17 @@ def test_root_regular_layout_is_curated() -> None:
     assert regular_dirs == ALLOWED_ROOT_DIRS
 
 
+# Gitignored runtime dirs may be diverted out of OneDrive (od-divert) and live
+# behind a symlink into ~/.local-build/. Only these names are allowed; layout
+# symlinks for tracked content remain banned.
+ALLOWED_RUNTIME_SYMLINKS = {".venv", ".local"}
+
+
 def test_root_has_no_legacy_symlinks() -> None:
     legacy = [
         p.name
         for p in ROOT.iterdir()
-        if p.is_symlink()
+        if p.is_symlink() and p.name not in ALLOWED_RUNTIME_SYMLINKS
     ]
     assert legacy == [], f"legacy root symlinks should be removed: {legacy}"
 

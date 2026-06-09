@@ -108,6 +108,7 @@ Health check: `python3 scripts/reportctl.py doctor`.
 - **Mandatory after editing reports/docs**: run `python3 scripts/reportctl.py summary` to refresh `research/docs/RESEARCH_SUMMARY.md`. Stale summary breaks the agent contract.
 - **Do not commit**: `.venv*/`, `venv/`, `build/`, `.next/`, `out/`, `node_modules/`, `__pycache__/`, `*.pyc`, `.local/`. (`.gitignore` covers these — verify before adding new artifact paths.)
 - **`.local/`** is the canonical sink for runtime state and deliverables. Agent packs land at `.local/deliverables/agent_pack/v1`.
+- **Runtime dirs are diverted out of OneDrive (od-divert, 2026-06-09).** `.venv`, `.local`, `platform/web/{node_modules,.next,out}`, and `platform/web/public/artifacts` are symlinks into `~/.local-build/valley-k-small/`. Source stays OneDrive-synced; builds and venv I/O hit real local disk (fixes the numpy-`.so` mmap failures and the `next build` sync storm). If a target is missing, regenerate it in place (`python3 -m venv`, `npm install`, `next build`, `reportctl web-data`) — content lands outside OneDrive automatically. Two npm caveats: (1) `npm ci` deletes the `node_modules` symlink itself and reinstalls into OneDrive — use `npm install`, or re-divert afterwards; (2) Next.js workers resolve modules from the `.next` REALPATH, so `~/.local-build/valley-k-small/node_modules` must stay symlinked to the diverted node_modules or builds die with `Cannot find module 'react/jsx-runtime'`. Do NOT divert `platform/web/public/data/v1` (contains tracked files; git does not follow symlinks).
 
 ## Where things live
 

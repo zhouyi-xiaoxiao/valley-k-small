@@ -1,4 +1,5 @@
-.venv/
+# no trailing slash: also matches the od-divert symlink forms
+.venv
 .venv312/
 .venv_py314_broken/
 .venv_py314_broken_*/
@@ -18,16 +19,16 @@ __pycache__/
 **/.pycache/
 **/.pytest_cache/
 
-# Local agent/runtime outputs
+# Local agent/runtime outputs (no trailing slash: symlink-safe)
 .openclaw/
-.local/
+.local
 
-# Generated web payloads (rebuilt in CI)
-platform/web/.next/
-platform/web/out/
-platform/web/node_modules/
+# Generated web payloads (rebuilt in CI; no trailing slash: symlink-safe)
+platform/web/.next
+platform/web/out
+platform/web/node_modules
 platform/web/public/data/v1/
-platform/web/public/artifacts/
+platform/web/public/artifacts
 # Generic fallbacks per AGENTS.md/CLAUDE.md do-not-commit contract
 **/node_modules/
 **/.next/

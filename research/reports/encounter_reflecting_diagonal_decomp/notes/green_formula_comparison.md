@@ -49,30 +49,24 @@ over diagonal targets gives the total encounter generating function.
 
 - Cases: 2
 - z values per case: 4
-- max total absolute error: 1.388e-17
-- max channel absolute error: 5.204e-18
+- max total absolute error: 6.939e-18
+- max channel absolute error: 4.337e-18
 - Output CSV: `data/green_formula_comparison.csv`
 - Output JSON: `outputs/green_formula_comparison_summary.json`
 
 | case_id | z | abs_error | max_channel_abs_error |
 |---|---:|---:|---:|
-| L5_edge_to_edge_rho2 | 0.1 | 3.388e-21 | 1.694e-21 |
-| L5_edge_to_edge_rho2 | 0.4 | 4.337e-19 | 3.253e-19 |
-| L5_edge_to_edge_rho2 | 0.75 | 1.388e-17 | 5.204e-18 |
-| L5_edge_to_edge_rho2 | 0.5+0.2i | 2.743e-18 | 1.189e-18 |
-| L7_inner_pair_rho1 | 0.1 | 3.388e-21 | 1.694e-21 |
-| L7_inner_pair_rho1 | 0.4 | 4.337e-19 | 2.168e-19 |
-| L7_inner_pair_rho1 | 0.75 | 0.000e+00 | 1.735e-18 |
-| L7_inner_pair_rho1 | 0.5+0.2i | 4.470e-19 | 2.881e-19 |
+| L5_edge_to_edge_rho2 | 0.1 | 6.776e-21 | 3.388e-21 |
+| L5_edge_to_edge_rho2 | 0.4 | 0.000e+00 | 1.084e-19 |
+| L5_edge_to_edge_rho2 | 0.75 | 6.939e-18 | 4.337e-18 |
+| L5_edge_to_edge_rho2 | 0.5+0.2i | 8.941e-19 | 4.976e-19 |
+| L7_inner_pair_rho1 | 0.1 | 1.016e-20 | 1.016e-20 |
+| L7_inner_pair_rho1 | 0.4 | 2.168e-19 | 1.084e-19 |
+| L7_inner_pair_rho1 | 0.75 | 0.000e+00 | 2.602e-18 |
+| L7_inner_pair_rho1 | 0.5+0.2i | 4.632e-19 | 4.412e-19 |
 
 ## Limitations
 
-- Source checked: L. Giuggioli, S. Sarvaharman, D. Das, D. Marris, and
-  T. Kay, "Multi-target search in bounded and heterogeneous environments: a
-  lattice random walk perspective", arXiv:2311.00464v2.  The relevant pieces
-  are the single-target renewal ratio, the multi-target any-target formula,
-  and the statement that encounter/transmission can be represented as first
-  absorption at the product-space meeting sites.
 - This is a small `L=5`/`L=7` z-domain check, not a large scan.
 - It validates exact formula equivalence only under the matched conventions above.
 - It does not claim equality to closed forms whose published examples assume periodic boundaries, resetting, partial transmission, or different mobility definitions.

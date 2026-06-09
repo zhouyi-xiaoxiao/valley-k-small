@@ -73,6 +73,9 @@ Scope defined, no manuscript yet (registered with `status: wip` in `report_regis
 - `grid2d_one_target_window_measures`
 - `grid2d_one_two_target_gating`
 - `exact_recursion_method_guide`
+- `encounter_reflecting_diagonal_decomp` — reflecting two-walker encounter, diagonal-position decomposition scans
+- `encounter_reflecting_mean_validation` — reflecting two-walker mean-encounter-time validation smokes
+- `grid2d_two_target_bias_radius` — near/far target placement vs bias-radius decomposition
 
 ## Common Commands
 - `python3 scripts/reportctl.py list`

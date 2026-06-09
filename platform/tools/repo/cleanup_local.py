@@ -96,7 +96,17 @@ def remove_paths(files: list[Path], dirs: list[Path], dry_run: bool) -> None:
         else:
             path.unlink(missing_ok=True)
     for path in sorted(dirs, reverse=True):
-        if dry_run:
+        if path.is_symlink():
+            # Diverted runtime dir (od-divert): empty the real target but keep
+            # the symlink so regenerated content lands outside OneDrive again.
+            # rmtree on the symlink itself would raise and silently no-op.
+            target = path.resolve()
+            if dry_run:
+                print(f"[dry-run] empty diverted dir: {path} -> {target}")
+            else:
+                shutil.rmtree(target, ignore_errors=True)
+                target.mkdir(parents=True, exist_ok=True)
+        elif dry_run:
             print(f"[dry-run] remove dir: {path}")
         else:
             shutil.rmtree(path, ignore_errors=True)

@@ -27,7 +27,14 @@ def check_nonnegative(P: ArrayLike, tol: float = 1e-15) -> bool:
 
 
 def check_row_stochastic(P: ArrayLike, tol: float = 1e-12) -> bool:
-    """Validate a discrete-time transition matrix with rows summing to one."""
+    """Validate a discrete-time transition matrix with rows summing to one.
+
+    Note on defaults: row sums accumulate O(n) float additions, so this check
+    uses 1e-12, while ``check_nonnegative`` defaults to the tighter 1e-15 for
+    entrywise sign checks. When called from here, nonnegativity inherits this
+    looser ``tol`` on purpose — both checks then describe the same matrix at
+    the same precision.
+    """
 
     arr = _as_float_array(P, name="P")
     if arr.ndim != 2:

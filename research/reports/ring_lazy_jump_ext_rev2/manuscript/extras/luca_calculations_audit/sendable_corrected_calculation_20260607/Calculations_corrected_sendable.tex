@@ -191,7 +191,7 @@ W_{n_0}(n,t)=Q^{(k)}_{n_0}(n,t)-\sum_{s=1}^{t}\mathcal{F}_{n_0\to m}(s)Q^{(k)}_{
 \end{align}
 where $Q^{(k)}_{r}(n,t)$ is the propagator for the periodic ring lattice in the absence of any absorption site. Note that at $t=0$, by construction $F_{n_0\to m}(0)=0$ when $n_0\not= m$, and we have $W_{n_0}(n,0)=Q^{(k)}_{n_0}(n,0)$.
 
-More explicit expressions can be obtained for the case $K=2$, that is the nearest-neighbour lattice walk. We have that
+More explicit expressions can be obtained for the case $K=2$, that is the nearest-neighbour lattice walk. In the compact odd-mode notation below, and throughout the antipodal shortcut calculation, we take \(N\) even. We have that
 \begin{align}
 Q^{(1)}_{n_0}(n,t)=\frac{1}{N}\sum_{k=0}^{N-1}\cos\left[\frac{2\pi k (n-n_0)}{N}\right]\left[1-q+q\cos\left(\frac{2\pi k}{N}\right)\right]^t,
 \label{eq:Q1}
@@ -233,7 +233,7 @@ Using the above expressions in Eq. (\ref{eq:Abs_prop_ring}) and evaluating the t
 &W_{n_0}(n,t)=\frac{1}{N}\sum_{k=1}^{N-1}\cos\left[\frac{2\pi k (n-n_0)}{N}\right]\left[1-q+q\cos\left(\frac{2\pi k}{N}\right)\right]^t\nonumber \\
 &+\frac{1}{N^2}\sum_{k=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]}{1-\cos\left[\frac{\pi k}{N}\right]}\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^{t}\nonumber \\
 &+\frac{1}{N^2}\sum_{k=1}^{N-1}\sum_{r=1}^{N-1}\frac{\left[1-(-1)^k\right]\sin\left[\frac{|n_0-m|\pi k}{N}\right]\sin\left[\frac{\pi k}{N}\right]\cos\Big[\frac{2\pi r (n-m)}{N}\Big]}{\cos\left[\frac{\pi k}{N}\right]-\cos\Big[\frac{2\pi r}{N}\Big]}\nonumber\\
-&\quad\times\left\{\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t-\left[1-q+q\cos\left(\frac{2\pi r}{N}\right)\right]^t\right\}
+&\quad\times\left\{\left[1-q+q\cos\left(\frac{2\pi r}{N}\right)\right]^t-\left[1-q+q\cos\left(\frac{\pi k}{N}\right)\right]^t\right\}
 \end{align}
 
 Using the identities (\ref{eq:id_2}) and (\ref{eq:id_4}), we reduce the double summation to single summations as follows
@@ -253,7 +253,28 @@ and we have
 &+\frac{1}{N}\sum_{k=1}^{N-1}\left[1-(-1)^k\right]\sin\left[\frac{\pi k |n_0-m|}{N}\right]\sin\left[\frac{\pi k |n-m|}{N}\right]\left\{1-q+q\cos\left[\frac{ \pi k}{N}\right]\right\}^t.
 \label{eq:prob-time}
 \end{align}
-As $\sum_{k=1}^{N-1}\cos\left[\frac{2\pi k (n-m)}{N}\right]\cos\left[\frac{2\pi k (n_0-m)}{N}\right]=-1$ and $\sum_{k=1}^{N-1}\left[1-(-1)^k\right]\sin\left[\frac{\pi k |n_0-m|}{N}\right]\sin\left[\frac{\pi k |n-m|}{N}\right]=0$, one can show that $W_{n_0}(n,0)=\delta_{n,n_0}$ for $n,n_0\neq m$. Furthermore, for the killed propagator \(W\), when either $n=m$ or $n_0=m$ one has $W_{n_0}(n,t)=0$, and it is also easy to see that $W_{n_0}(n,t\to \infty)=0$, which means that all random walks eventually reach the absorbing site $n=m$.
+The initial condition follows from the complete orthogonality relations.  Let
+\[
+  a_n\equiv n-m\pmod N,\qquad b\equiv n_0-m\pmod N,
+\]
+with representatives in \(1,\ldots,N-1\).  Then
+\[
+  \sum_{k=1}^{N-1}
+  \cos\left(\frac{2\pi k a_n}{N}\right)
+  \cos\left(\frac{2\pi k b}{N}\right)
+  =
+  \frac{N}{2}\left(\delta_{a_n,b}+\delta_{a_n,N-b}\right)-1,
+\]
+and
+\[
+  \sum_{k=1}^{N-1}
+  \left[1-(-1)^k\right]
+  \sin\left(\frac{\pi k |a_n|}{N}\right)
+  \sin\left(\frac{\pi k |b|}{N}\right)
+  =
+  \frac{N}{2}\left(\delta_{a_n,b}+\delta_{a_n,N-b}\right).
+\]
+Substituting these identities in Eq. (\ref{eq:prob-time}) gives \(W_{n_0}(n,0)=\delta_{n,n_0}\) for \(n,n_0\neq m\). Furthermore, for the killed propagator \(W\), when either $n=m$ or $n_0=m$ one has $W_{n_0}(n,t)=0$, and it is also easy to see that $W_{n_0}(n,t\to \infty)=0$, which means that all random walks eventually reach the absorbing site $n=m$.
 
 
 We can rewrite Eq. (\ref{eq:prob-time}) as
@@ -302,6 +323,7 @@ g^{(2)}_k(n_0,n,m)=\frac{2}{N}\sin\left[\frac{\pi (2k-1) |n_0-m|}{N}\right]\!\si
 \end{align}
 
 The associated expressions in terms of Chebyshev polynomials of the first and second kind, respectively,  $T_r(y)$ and $U_r(y)$, are
+written with residues modulo \(N\) represented in \(0,\ldots,N-1\):
 \begin{align}
 &\sum_{k=1}^{N-1}\frac{G^{(1)}_k(n_0,n,m)}{1-z\left[1-q+q\cos\left(\frac{2 \pi k}{N}\right)\right]}=\Bigg\{2\,T_{N-|n-n_0|}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)+2\,T_{|n-n_0|}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)\Bigg. \nonumber \\
 &-T_{N-||n_0-m|-|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right)-T_{||n_0-m|-|n-m||}\left(1+\frac{1}{q}\left[\frac{1}{z}-1\right]\right) \nonumber \\
@@ -355,7 +377,7 @@ zq\,\left\{\left[1+\frac{1}{q}\left(\frac{1}{z}-1\right)\right]^2-1\right\}U_{N-
 
 \section*{Propagator with one shortcut and one absorbing site}
 
-We start from the general propagator with a shortcut from $n=u$ to site $n=v$ and we have
+We start from the general propagator with a directed shortcut from $n=u$ to site $n=v$.  The shortcut reallocates the transition probability \(\beta(1-q)\) from the lazy self-loop at \(u\) to the directed edge \(u\to v\).  Thus the \(u\)-row remains stochastic.  We have
 \begin{align}
 \widetilde{S}_{n_0}(n,z)=\widetilde{P}_{n_0}(n,z)-\frac{z\beta (1-q)\widetilde{P}_{n_0}(u,z)\left[\widetilde{P}_{u}(n,z)-\widetilde{P}_{v}(n,z)\right]}{1+z\beta(1-q)\left[\widetilde{P}_{u}(u,z)-\widetilde{P}_{v}(u,z)\right]},
 \label{eq:one_def_prop}
@@ -398,11 +420,12 @@ where
 %\phi(s)=\frac{\tan\left\{\frac{N}{2}\arccos\left[1+\frac{1}{q}\left(s-1\right)\right]\right\}}{\sqrt{1-\left[1+\frac{1}{q}\left(s-1\right)\right]^2}}.
 \label{eq:phi_s}
 \end{align}
-whose time-dependence is $H_{N,N/2}(0)= \beta(1-q)/q$ and for $t\geq 1$ is given by the complex integral (after the change of integration variable $z=1/s$ and the region of integration becoming $|s|\leq 1$)
+whose time-dependence is $H_{N,N/2}(0)= \beta(1-q)/q$ and for $t\geq 1$ is given by the complex integral after the change of integration variable $z=1/s$
 \begin{align}
- H_{N,N/2}(t)=\frac{1}{2\pi i}\oint_{|s|\leq 1}\frac{s^{t-1}}{\frac{q}{\beta(1-q)}+\phi\left(\frac{1}{s}\right)}.
+ H_{N,N/2}(t)=\frac{1}{2\pi i}\oint_{|s|=R}\frac{s^{t-1}}{\frac{q}{\beta(1-q)}+\phi\left(\frac{1}{s}\right)}\,\mathrm{d}s,
 \label{eq:inv_z}
 \end{align}
+where \(R\) is chosen so that the relevant poles are enclosed.
 The denominator in the integrand of Eq. (\ref{eq:inv_z}) has real zeros \(s_k\), which are the intersections of \(\phi(1/s)\) with the horizontal line \(-q/[\beta(1-q)]\). These intersections are shown graphically in Fig. \ref{fig:phis}.
 \begin{figure}[htbp]
 \includegraphics[width=0.92\linewidth]{phifunction.pdf}
@@ -458,12 +481,23 @@ The second equality uses
 \[
   T_L(y)U_{L-\rho-1}(y)=T_{L-\rho}(y)U_{L-1}(y)-U_{\rho-1}(y).
 \]
-The expanded-route check in the Appendix shows the same cancellation explicitly.
-Thus the long-time decay is controlled by the roots of
+Here and below \(U_{-1}(y)=0\), which covers the endpoint case \(\rho=L\).
+This cancellation should be read as a cancellation in the fully collected rational function, not as an attempt to determine poles from a numerator alone.  Before reduction, Eq. (\ref{eq:corrected_closed_F}) has the common denominator \(T_L(y)\{aT_L(y)+U_{L-1}(y)\}\), so the zeros of \(T_L(y)\) are candidate poles at that unreduced stage.  The numerator over this common denominator is
+\[
+  M_\rho(y)=T_{L-\rho}(y)\{aT_L(y)+U_{L-1}(y)\}
+  +U_{\rho-1}(y)\{T_L(y)-1\}.
+\]
+This \(M_\rho(y)\) is a polynomial expression in \(y\), with no hidden \(1/T_L(y)\) factor.  The Chebyshev identity above then gives
+\[
+  M_\rho(y)=T_L(y)\left[aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)\right].
+\]
+Thus \(T_L(y)\) is a common analytic factor of the collected numerator and denominator.  It can be removed only after this collection step.  The expanded-route check in the Appendix shows the same cancellation explicitly, including the diagonal limits in the time-domain partial fractions.
+
+The tail implication is therefore best read from the collected expression, not from the uncollected term-by-term convolution.  The apparent \(\alpha_\ell\)-modes that arise in the time-domain hard route correspond to the zeros of \(T_L(y)\).  They are removable singularities of the collected expression after the common \(T_L(y)\) factor is removed.  Hence the long-time behaviour is determined by the zeros of
 \[
   D(y)=aT_L(y)+U_{L-1}(y).
 \]
-For simple roots \(D(y_k)=0\), \(s_k=1-q+qy_k\),
+It is not determined by the zeros of \(T_L(y)\).  If \(D(y_k)=0\) and \(s_k=1-q+qy_k\), then for simple roots
 \begin{align}
 F_\rho(0,t)=\sum_k B_{\rho k}s_k^{t-1},\qquad
 B_{\rho k}=\frac{q\left[aT_{L-\rho}(y_k)+U_{\rho-1}(y_k)+U_{L-\rho-1}(y_k)\right]}{D'(y_k)}.
@@ -477,20 +511,565 @@ Equivalently, the exponential decay rate is \(-\log s_1\).  The dependence on th
 \[
   a=\frac{q}{\beta(1-q)}
 \]
-in the denominator \(D(y)=aT_L(y)+U_{L-1}(y)\), and hence through the dominant root \(s_1=1-q+qy_1\).  Thus the corrected shortcut calculation does not produce a generic \(t\alpha_1^t\) long-time factor; the long-time decay is set by the dominant root of the corrected denominator.
+in the denominator \(D(y)=aT_L(y)+U_{L-1}(y)\), and hence through the movement of the dominant root \(s_1=1-q+qy_1\).  Thus the corrected shortcut calculation changes the tail by moving the dominant pole; it does not produce a generic \(t\alpha_1^t\) long-time correction.
+
+Two structural facts make the absence of the \(t\alpha_\ell^t\) factor exact rather than accidental.
+First, the apparent double pole of the product \(\widetilde W_{n_0}(u,z)\bigl[1-\widetilde{\mathcal F}_u(v,z)\bigr]\) at \(z=1/\alpha_\ell\) is always accompanied by a \emph{zero} of \(\widetilde H\) at exactly the same point.  From Eq. (\ref{eq:HNuv}),
+\begin{align}
+\widetilde H_{N,N/2}(z)=\frac{\beta(1-q)}{q}\,
+\frac{1}{1+z\beta(1-q)\widetilde W_u(u,z)}
+\;\longrightarrow\;0
+\qquad (z\to1/\alpha_\ell),
+\label{eq:H_zero_at_alpha}
+\end{align}
+because the same killed propagator \(\widetilde W_u(u,z)\) that supplies the \(\alpha_\ell\)-modes of the numerator factors diverges in the denominator of \(\widetilde H\).  Every \(\alpha_\ell\) is a pole of \(\widetilde W_u(u,z)\) with residue coefficient \(g^{(2)}_\ell(u,u,v)=2/N\neq0\), so \(\widetilde H(1/\alpha_\ell)=0\) for every \(\ell=1,\ldots,L\) and every \(\beta>0\).  The would-be double pole is thereby reduced to at most a simple pole, and the residual simple-pole part cancels against the baseline \(\widetilde{\mathcal F}_{n_0}(v,z)\) through the residue identity
+\[
+  f_\ell(n_0,v)\,g^{(2)}_\ell(u,u,v)=g^{(2)}_\ell(n_0,u,v)\,f_\ell(u,v),
+\]
+which holds term by term from the definitions in Eqs. (\ref{eq:fn0m}) and (\ref{eq:small_g}).  This is the same statement as the \(T_L(y)\) factorization above.  Appendix A.4 shows the corresponding cancellation directly in the time domain: the total coefficient of the diagonal secular term \((t-1)\alpha_\ell^{t-2}\) is proportional to \(\sum_j c_j/(s_j-\alpha_\ell)-\beta(1-q)/q\), and this bracket vanishes identically by the sum rule in Eq. (\ref{eq:app_sum_rule}), which is nothing but \(\widetilde H(1/\alpha_\ell)=0\).  So the disappearance of the \(t\alpha_\ell^t\) coefficient is not a fine-tuned coincidence: it is forced, for every \(\ell\) and every admissible \((N,q,\beta)\), by the structure of \(\widetilde H\).
+
+Second, no parameter choice can make a \(t\lambda^t\) term survive in this model at all.  For \(t\geq1\) the first-passage probability is a linear functional of powers of the transient submatrix of the shortcut chain (all rows and columns except the absorbing site \(v\)).  That submatrix is \emph{symmetric}: starting from the symmetric killed ring matrix, the directed shortcut only lowers the diagonal entry at \(u\), because the reallocated mass \(\beta(1-q)\) leaves through the absorbing column.  A symmetric matrix is orthogonally diagonalizable with real spectrum, and a diagonalizable finite chain produces a pure sum of geometric modes \(\sum_i\kappa_i\lambda_i^t\); a secular term \(t\lambda^t\) would require a defective (Jordan-block) eigenvalue, which a symmetric matrix cannot have.  The spectrum of the transient submatrix is exactly \(\{\gamma_r\}_{r=1}^{L-1}\cup\{s_j\}_{j=1}^{L}\): the even (\(\gamma\)) eigenvectors vanish at \(u\) and are untouched by the rank-one defect, while the odd modes move from \(\alpha_\ell\) to the roots \(s_j\) of \(D(y)\), strictly interlacing the \(\alpha_\ell\) for every \(\beta>0\).  Hence for \(\beta>0\) the values \(\alpha_\ell\) are not in the spectrum, and a \(t\alpha_\ell^t\) contribution is impossible rather than merely cancelled.  (In the antipodal geometry the \(\gamma_r\)-modes also carry zero absorption flux, which is why Eq. (\ref{eq:tail_residue}) contains only the \(s_j\); see the note after Eq. (\ref{eq:app_W_modes}).)
+
 The finite-time one-peak/two-peak transition is therefore a shape question for the full first-passage distribution, not a criterion obtained from the auxiliary \(H\)-pole plot alone.  In particular, for finite positive \(\beta\) in the corrected pole equation, the proposed crossing \(s_1=\gamma_1=1-q+q\cos(2\pi/N)\) does not occur; the dominant corrected pole satisfies \(\gamma_1<s_1<\alpha_1\).
+The deterministic finite-matrix numerical audit used to check these statements is recorded in Appendix C, including the direct shortcut matrix benchmark and the five-group check of Eq. (\ref{eq:app_hard_route_result}).
 
 \clearpage
 \appendix
-\section*{Appendix: Expanded-route check}
+\section*{Appendix A: Direct time-domain route}
 
-This appendix records the same calculation in the expanded route, starting from the corrected generating-function version of the time convolution.  It is included to show how the apparent \(T_L(y)\)-denominators cancel once the corrected shortcut sign has been propagated.
-
-Let \(N=2L\),
+This appendix carries out the corrected calculation in the same time-convolution route as the long displayed expansion.  The goal is to make clear which terms arise before simplification, and why the collected answer is the compact closed form in Eq. (\ref{eq:corrected_closed_F}).  Throughout this appendix
 \[
-  a=\frac{q}{\beta(1-q)},\qquad y=1+\frac{1/z-1}{q},\qquad D(y)=aT_L(y)+U_{L-1}(y).
+  N=2L,\qquad L\geq 2,\qquad 0<q<1,\qquad 0<\beta\leq 1,
 \]
-For the antipodal shortcut geometry, Eq. (\ref{eq:first_pass_prob_2}) can be written as
+the absorbing target is \(v=0\), the shortcut source is \(u=L\), and \(1\leq \rho\leq L\) is the folded distance from the initial site to \(v\).  We also use
+\[
+  a=\frac{q}{\beta(1-q)},\qquad
+  y=1+\frac{1/z-1}{q},\qquad
+  U_{-1}(y)=0.
+\]
+
+\subsection*{A.1 Corrected convolution}
+
+The corrected generating-function starting point is Eq. (\ref{eq:first_pass_prob_2}),
+\begin{align}
+\widetilde F_{n_0}(v,z)
+&=\widetilde{\mathcal F}_{n_0}(v,z)
++qz\,\widetilde W_{n_0}(u,z)
+\left[1-\widetilde{\mathcal F}_{u}(v,z)\right]\widetilde H_{N,N/2}(z).
+\label{eq:app_time_route_gf}
+\end{align}
+Equivalently, for \(t\geq1\),
+\begin{align}
+F_{n_0}(v,t)
+&=\mathcal F_{n_0}(v,t)
++q\sum_{t'=0}^{t-1}W_{n_0}(u,t-1-t')
+\sum_{t''=0}^{t'}
+\left[\delta_{t',t''}-\mathcal F_u(v,t'-t'')\right]H_{N,N/2}(t'').
+\label{eq:app_time_route_conv}
+\end{align}
+This is the route expanded below.
+
+\subsection*{A.2 Mode inputs}
+
+For \(N=2L\), the no-shortcut first-passage probability is
+\begin{align}
+\mathcal F_{n_0}(v,t)
+&=\sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1},\qquad t\geq1,
+\label{eq:app_F0_modes}
+\end{align}
+where \(f_\ell\) is defined in Eq. (\ref{eq:fn0m}) with the odd index \(2\ell-1\), and
+\[
+  \alpha_\ell=1-q+q\cos\frac{(2\ell-1)\pi}{N}.
+\]
+From Eq. (\ref{eq:compactprob_abs}), evaluated at the shortcut source \(u\), we write
+\begin{align}
+W_{n_0}(u,t)
+&=\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)\gamma_r^t
++\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)\alpha_r^t,
+\label{eq:app_W_modes}
+\end{align}
+where
+\[
+  \gamma_r=1-q+q\cos\frac{2\pi r}{N},
+  \qquad
+  g^{(2)}_r(n_0,u,v)=G^{(2)}_{2r-1}(n_0,u,v).
+\]
+The even \(G^{(2)}\)-terms vanish because of the factor \(1-(-1)^k\).
+In the antipodal geometry the \(G^{(1)}\)-coefficients of Eq. (\ref{eq:app_W_modes}) vanish identically as well: with \(u-v=N/2\),
+\(\cos[2\pi r(u-n_0)/N]=(-1)^r\cos[2\pi r(n_0-v)/N]\) and \(\cos[2\pi r(u-v)/N]=(-1)^r\), so \(G^{(1)}_r(n_0,u,v)=0\) for every \(r\).  The killed propagator evaluated at the antipodal point is therefore a pure \(\alpha\)-mode sum, consistent with the closed form \(\widetilde W_\rho(L,z)=U_{\rho-1}(y)/[zq\,T_L(y)]\), whose denominator contains no \(U_{L-1}(y)\) factor.  The \(G^{(1)}\)-pieces are nevertheless kept in the displays below so that the term-by-term correspondence with the previous long Eq.~(41)-style expression remains visible; in the antipodal case they contribute zero.
+
+For the antipodal shortcut,
+\begin{align}
+\widetilde H_{N,N/2}(z)
+&=\frac{T_L(y)}{D(y)},\qquad
+D(y)=aT_L(y)+U_{L-1}(y).
+\label{eq:app_H_D}
+\end{align}
+The \(H(0)\) term must be kept separate:
+\[
+  h_0=H_{N,N/2}(0)=\frac{\beta(1-q)}{q}=\frac{1}{a}.
+\]
+If \(D(y_j)=0\) and \(s_j=1-q+qy_j\), then the positive-time part is
+\begin{align}
+H_{N,N/2}(t)
+&=\sum_j c_j s_j^{t-1},\qquad
+c_j=\frac{qT_L(y_j)}{D'(y_j)},\qquad t\geq1.
+\label{eq:app_H_residue}
+\end{align}
+
+\subsection*{A.3 Convolution kernels}
+
+The \(\delta\)-term in Eq. (\ref{eq:app_time_route_conv}) gives a two-factor convolution.  The \(H(0)\) part is simply
+\[
+  A^{(0)}_t(x)=x^{t-1}.
+\]
+For a positive-time \(H\)-pole,
+\begin{align}
+A^{(+)}_t(x;s)
+&=\sum_{c=1}^{t-1}x^{t-1-c}s^{c-1}
+=\frac{s^{t-1}-x^{t-1}}{s-x}.
+\label{eq:app_A_plus}
+\end{align}
+The coincident case \(x=s\) is understood as the limit
+\[
+  A^{(+)}_t(s;s)=(t-1)s^{t-2}.
+\]
+
+The negative \(\mathcal F_u(v,\cdot)\)-part gives a three-factor convolution.  With \(b\geq1\), the \(H(0)\) contribution is
+\begin{align}
+B^{(0)}_t(x,y)
+&=\sum_{\substack{a+b=t-1\\ b\geq1}}x^a y^{b-1}
+=\frac{x^{t-1}-y^{t-1}}{x-y}.
+\label{eq:app_B_zero}
+\end{align}
+The positive-time \(H\)-pole contribution is
+\begin{align}
+B^{(+)}_t(x,y;s)
+&=\sum_{\substack{a+b+c=t-1\\ b\geq1,\ c\geq1}}x^a y^{b-1}s^{c-1}
+\nonumber\\
+&=\operatorname{Coeff}_{\xi^{t-3}}
+\frac{1}{(1-\xi x)(1-\xi y)(1-\xi s)}.
+\label{eq:app_B_plus_def}
+\end{align}
+When \(x,y,s\) are distinct,
+\begin{align}
+B^{(+)}_t(x,y;s)
+&=
+\frac{x^{t-1}}{(x-y)(x-s)}
++\frac{y^{t-1}}{(y-x)(y-s)}
++\frac{s^{t-1}}{(s-x)(s-y)}.
+\label{eq:app_B_plus_distinct}
+\end{align}
+Coincident cases are obtained by taking limits.  This is the point at which an uncollected term-by-term expansion can temporarily produce factors such as \(t\alpha_\ell^t\); those factors are not tail terms unless they survive after the complete expression is recombined.
+
+\subsection*{A.4 Corrected Eq. (41)-style expansion}
+
+Substituting Eqs. (\ref{eq:app_F0_modes}), (\ref{eq:app_W_modes}), and (\ref{eq:app_H_residue}) into Eq. (\ref{eq:app_time_route_conv}) gives the corrected long expansion.  To keep the direct comparison with the previous long Eq. (41)-style calculation transparent, all five convolution groups are written out below; no \(A_t\)- or \(B_t\)-kernel shorthand is used in the displayed result.
+\begingroup
+\scriptsize
+\setlength{\jot}{3pt}
+\begin{align}
+F_{n_0}(v,t)
+&=
+\sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1}
+\nonumber\\
+&\quad
++q h_0
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)\gamma_r^{t-1}
++\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)\alpha_r^{t-1}
+\right]
+\nonumber\\
+&\quad
++q\sum_j c_j
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)
+\frac{s_j^{t-1}-\gamma_r^{t-1}}{s_j-\gamma_r}
++\sum_{r=1}^{L}g^{(2)}_r(n_0,u,v)
+\frac{s_j^{t-1}-\alpha_r^{t-1}}{s_j-\alpha_r}
+\right]
+\nonumber\\
+&\quad
+-q h_0\sum_{\ell=1}^{L}f_\ell(u,v)
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)
+\frac{\gamma_r^{t-1}-\alpha_\ell^{t-1}}{\gamma_r-\alpha_\ell}
+\right.
+\nonumber\\
+&\hspace{35mm}\left.
++\sum_{\substack{r=1\\r\neq\ell}}^{L}g^{(2)}_r(n_0,u,v)
+\frac{\alpha_r^{t-1}-\alpha_\ell^{t-1}}{\alpha_r-\alpha_\ell}
++g^{(2)}_\ell(n_0,u,v)(t-1)\alpha_\ell^{t-2}
+\right]
+\nonumber\\
+&\quad
+-q\sum_j c_j\sum_{\ell=1}^{L}f_\ell(u,v)
+\left[
+\sum_{r=1}^{N-1}G^{(1)}_r(n_0,u,v)
+\left(
+\frac{\gamma_r^{t-1}}{(\gamma_r-\alpha_\ell)(\gamma_r-s_j)}
++\frac{\alpha_\ell^{t-1}}{(\alpha_\ell-\gamma_r)(\alpha_\ell-s_j)}
++\frac{s_j^{t-1}}{(s_j-\gamma_r)(s_j-\alpha_\ell)}
+\right)
+\right.
+\nonumber\\
+&\hspace{35mm}\left.
++\sum_{\substack{r=1\\r\neq\ell}}^{L}g^{(2)}_r(n_0,u,v)
+\left(
+\frac{\alpha_r^{t-1}}{(\alpha_r-\alpha_\ell)(\alpha_r-s_j)}
++\frac{\alpha_\ell^{t-1}}{(\alpha_\ell-\alpha_r)(\alpha_\ell-s_j)}
++\frac{s_j^{t-1}}{(s_j-\alpha_r)(s_j-\alpha_\ell)}
+\right)
+\right.
+\nonumber\\
+&\hspace{35mm}\left.
++g^{(2)}_\ell(n_0,u,v)
+\left(
+\frac{s_j^{t-1}-\alpha_\ell^{t-1}}{(s_j-\alpha_\ell)^2}
+-\frac{(t-1)\alpha_\ell^{t-2}}{s_j-\alpha_\ell}
+\right)
+\right].
+\label{eq:app_hard_route_result}
+\end{align}
+\endgroup
+Equation (\ref{eq:app_hard_route_result}) is the corrected direct-route replacement for the long Eq. (41)-style expression.  The baseline first-passage term targets \(v\), the global sign follows the positive sign in Eq. (\ref{eq:app_time_route_gf}), and the \(g^{(2)}\)-modes are paired with \(\alpha_r\).  The final term in the last bracket is the \(r=\ell\) diagonal limit of the \((\alpha_r,\alpha_\ell,s_j)\) triple convolution.  Thus the fully expanded hard-route form really does contain explicit \(\alpha_\ell\)-powers and \(t\alpha_\ell\)-type factors.  The point of the later recombination is not that these intermediate terms are absent, but that their apparent \(T_L(y)=0\) poles cancel after all five convolution groups are collected.
+
+\medskip
+\noindent\textbf{How Eq. (\ref{eq:app_hard_route_result}) is generated, and where the cancellation occurs.}
+The correspondence with the previous long Eq. (41)-style expression is term-by-term, but not by a mere change of notation.  The first term of the previous long expression corresponds to the first line of Eq. (\ref{eq:app_hard_route_result}); the target in the baseline term is \(v\), so the coefficient is \(f_\ell(n_0,v)\), not \(f_\ell(n_0,u)\).  The first large \(s\)-dependent brace in the previous long expression corresponds to the second and third lines of Eq. (\ref{eq:app_hard_route_result}): the \(H(0)=h_0\) contribution has to be split off, giving the \(q h_0 W\) term, and only the positive-time part of \(H\) gives the difference quotients \((s_j^{t-1}-x^{t-1})/(s_j-x)\).  The previous \(G^{(1)}f_\ell(u,v)\) terms correspond to the \(G^{(1)}\)-parts in the fourth and fifth lines, written as a two-mode difference quotient and a three-mode partial fraction.  The previous \(g^{(2)}f_\ell(u,v)\) terms correspond to the \(g^{(2)}\)-parts in the fourth and fifth lines; here \(g^{(2)}_r\) is paired with the \(\alpha_r\)-mode.  Any visible \(t\alpha_\ell^t\) term is a coincident-limit case of the written-out partial fractions, not a final tail term.
+
+The six term-level correspondences are the following.  To keep the displays readable, only in this paragraph write
+\[
+  G_r=G^{(1)}_r(n_0,u,v),\qquad
+  g_r=g^{(2)}_r(n_0,u,v),\qquad
+  f_\ell^{uv}=f_\ell(u,v),
+  \qquad L=N/2.
+\]
+
+\begin{enumerate}
+\item The no-shortcut baseline term is
+\begin{align*}
+\text{previous piece:}\qquad
+&\sum_{\ell=1}^{L}f_\ell(n_0,u)\alpha_\ell^{t-1},\\
+\text{corrected piece:}\qquad
+&\sum_{\ell=1}^{L}f_\ell(n_0,v)\alpha_\ell^{t-1}.
+\end{align*}
+This is the first line of Eq. (\ref{eq:app_hard_route_result}); the target of the no-shortcut first passage is \(v\).
+
+\item The first large \(s\)-dependent \(W\)-brace is replaced by the two pieces \(qW*\delta*h_0\delta_0\) and \(qW*\delta*H_+\):
+\begin{align*}
+\text{previous piece:}\qquad
+&-q\sum_{k=1}^{M}\Bigg[
+\sum_{r=1}^{N-1}
+\frac{c_kG_r}{s_k(s_k-\gamma_r)}
+\left(s_k^t-\gamma_r^t\right)
+\nonumber\\[-1mm]
+&\hspace{34mm}
++\sum_{\ell=1}^{L}
+\frac{c_kg_\ell}{s_k(s_k-\alpha_\ell)}
+\left(s_k^t-\alpha_\ell^t\right)
+\Bigg],
+\nonumber\\
+\text{corrected pieces:}\qquad
+&q h_0
+\left[
+\sum_{r=1}^{N-1}G_r\gamma_r^{t-1}
++\sum_{r=1}^{L}g_r\alpha_r^{t-1}
+\right]
+\nonumber\\
+&\quad
++q\sum_j c_j
+\left[
+\sum_{r=1}^{N-1}G_r
+\frac{s_j^{t-1}-\gamma_r^{t-1}}{s_j-\gamma_r}
++\sum_{r=1}^{L}g_r
+\frac{s_j^{t-1}-\alpha_r^{t-1}}{s_j-\alpha_r}
+\right].
+\end{align*}
+These are the second and third lines of Eq. (\ref{eq:app_hard_route_result}).  The sign changes because the corrected route uses \(+qW*(\delta-\mathcal F_u)*H\), and \(H(0)=h_0\) is no longer folded into the positive-time pole expansion.
+
+\item The power shift in the old \(s\)-dependent factors is exactly the \(H(0)\) separation:
+\begin{align*}
+\text{old kernel if the positive-time pole is used at time zero:}\qquad
+&\sum_{c=0}^{t-1}x^{t-1-c}s^{c-1}
+=\frac{s^t-x^t}{s(s-x)},\\
+\text{corrected positive-time sum:}\qquad
+&\sum_{c=1}^{t-1}x^{t-1-c}s^{c-1}
+=\frac{s^{t-1}-x^{t-1}}{s-x}.
+\end{align*}
+This is why the corrected Eq. (\ref{eq:app_hard_route_result}) uses the \((s^{t-1}-x^{t-1})/(s-x)\) difference quotient rather than the old-looking \((s^t-x^t)/(s(s-x))\) factors.
+
+\item The \(G^{(1)}f_\ell(u,v)\) triple-convolution terms are
+\begin{align*}
+\text{previous piece:}\qquad
+&q\sum_{k=1}^{M}\sum_{r=1}^{N-1}\sum_{\ell=1}^{L}
+\frac{c_kG_rf_\ell^{uv}}{s_k-\alpha_\ell}
+\left[
+\frac{s_k^t-\gamma_r^t}{\alpha_\ell(s_k-\gamma_r)}
+-\frac{\alpha_\ell^t-\gamma_r^t}{s_k(\alpha_\ell-\gamma_r)}
+\right],
+\nonumber\\
+\text{corrected pieces:}\qquad
+&-q h_0\sum_{\ell=1}^{L}f_\ell^{uv}
+\sum_{r=1}^{N-1}G_r
+\frac{\gamma_r^{t-1}-\alpha_\ell^{t-1}}{\gamma_r-\alpha_\ell}
+\nonumber\\
+&\quad
+-q\sum_j c_j\sum_{\ell=1}^{L}f_\ell^{uv}
+\sum_{r=1}^{N-1}G_r
+\left(
+\frac{\gamma_r^{t-1}}{(\gamma_r-\alpha_\ell)(\gamma_r-s_j)}
+\right.
+\nonumber\\[-1mm]
+&\hspace{18mm}\left.
++\frac{\alpha_\ell^{t-1}}{(\alpha_\ell-\gamma_r)(\alpha_\ell-s_j)}
++\frac{s_j^{t-1}}{(s_j-\gamma_r)(s_j-\alpha_\ell)}
+\right).
+\end{align*}
+These are the \(G^{(1)}\)-parts of the fourth and fifth lines of Eq. (\ref{eq:app_hard_route_result}).
+
+\item The off-diagonal \(g^{(2)}f_\ell(u,v)\) terms are
+\begin{align*}
+\text{previous piece:}\qquad
+&q\sum_{k=1}^{M}
+\sum_{\substack{r,\ell=1\\ r\neq\ell}}^{L}
+\frac{c_kg_rf_\ell^{uv}}{s_k\alpha_\ell(s_k-\alpha_\ell)}
+\left[
+s_k\frac{s_k^t-\gamma_r^t}{s_k-\gamma_r}
+-\alpha_\ell\frac{\alpha_\ell^t-\gamma_r^t}{\alpha_\ell-\gamma_r}
+\right],
+\nonumber\\
+\text{corrected pieces:}\qquad
+&-q h_0\sum_{\ell=1}^{L}f_\ell^{uv}
+\sum_{\substack{r=1\\ r\neq\ell}}^{L}
+g_r
+\frac{\alpha_r^{t-1}-\alpha_\ell^{t-1}}{\alpha_r-\alpha_\ell}
+\nonumber\\
+&\quad
+-q\sum_j c_j\sum_{\ell=1}^{L}f_\ell^{uv}
+\sum_{\substack{r=1\\ r\neq\ell}}^{L}
+g_r
+\left(
+\frac{\alpha_r^{t-1}}{(\alpha_r-\alpha_\ell)(\alpha_r-s_j)}
+\right.
+\nonumber\\[-1mm]
+&\hspace{18mm}\left.
++\frac{\alpha_\ell^{t-1}}{(\alpha_\ell-\alpha_r)(\alpha_\ell-s_j)}
++\frac{s_j^{t-1}}{(s_j-\alpha_r)(s_j-\alpha_\ell)}
+\right).
+\end{align*}
+The corrected \(g_r\)-mode is paired with \(\alpha_r\), not with \(\gamma_r\).
+
+\item The visible diagonal \(t\alpha_\ell^t\) term is the \(r=\ell\) coincident-limit case of the same corrected kernels:
+\begin{align*}
+\text{previous diagonal piece:}\qquad
+&-q\sum_{k=1}^{M}\sum_{\ell=1}^{L}
+\frac{c_kg_\ell f_\ell^{uv}}{s_k\alpha_\ell(s_k-\alpha_\ell)}
+\alpha_\ell^t\,t,
+\nonumber\\
+\text{corrected diagonal pieces:}\qquad
+&-q h_0\sum_{\ell=1}^{L}
+f_\ell^{uv}g_\ell(t-1)\alpha_\ell^{t-2}
+\nonumber\\
+&\quad
+-q\sum_j c_j\sum_{\ell=1}^{L}
+f_\ell^{uv}g_\ell
+\left[
+\frac{s_j^{t-1}-\alpha_\ell^{t-1}}{(s_j-\alpha_\ell)^2}
+-\frac{(t-1)\alpha_\ell^{t-2}}{s_j-\alpha_\ell}
+\right],
+\end{align*}
+where the square bracket is the same as
+\[
+  \sum_{c=1}^{t-2}(t-1-c)\alpha_\ell^{t-2-c}s_j^{c-1}.
+\]
+Thus the \(t\alpha_\ell^t\)-type factor is only a diagonal-limit term in the uncollected expansion.  It is not a final tail term unless the corresponding \(\alpha_\ell\)-pole survives the complete recombination, which it does not.
+\end{enumerate}
+
+Thus the long Eq. (\ref{eq:app_hard_route_result}) is obtained by following the term-by-term route and keeping the partial fractions separated.  Write
+\[
+  H(t)=h_0\delta_{t,0}+H_+(t),
+  \qquad
+  H_+(t)=\sum_j c_j s_j^{t-1}\quad (t\geq1).
+\]
+Then the five groups in Eq. (\ref{eq:app_hard_route_result}) come from the five pieces
+\[
+\begin{array}{rcl}
+\mathcal F_{n_0}(v,\cdot) &\longrightarrow& \text{first line of Eq. (\ref{eq:app_hard_route_result})},\\
+q\,W_{n_0}(u,\cdot)*\delta* h_0\delta_0
+&\longrightarrow& \text{second line},\\
+q\,W_{n_0}(u,\cdot)*\delta*H_+
+&\longrightarrow& \text{third line},\\
+-q\,W_{n_0}(u,\cdot)*\mathcal F_u(v,\cdot)*h_0\delta_0
+&\longrightarrow& \text{fourth line},\\
+-q\,W_{n_0}(u,\cdot)*\mathcal F_u(v,\cdot)*H_+
+&\longrightarrow& \text{fifth line}.
+\end{array}
+\]
+The sign pattern comes directly from the corrected shortcut contribution \(+q\,W*(\delta-\mathcal F_u)*H\): the two \(\delta\)-pieces are positive, and the two \(\mathcal F_u\)-pieces are negative.
+This is the same mechanical route that produces a long Eq. (41)-style expression: insert the modal forms for \(\mathcal F\), \(W\), and \(H\), do the finite time sums, and leave the answer as separated partial fractions.  At that stage the \(\alpha_\ell\)-dependent pieces are visible because the no-shortcut first-passage and killed-propagator modes contain \(\alpha_\ell\).  Reading the tail directly from this uncollected list is premature.
+
+The cancellation is not a cancellation inside a single displayed line of Eq. (\ref{eq:app_hard_route_result}).  It occurs when all five groups are recombined before the pole set is read.  In generating-function form those same five groups add to
+\[
+\frac{T_{L-\rho}(y)}{T_L(y)}
++
+\frac{U_{\rho-1}(y)\left[T_L(y)-1\right]}{T_L(y)D(y)}.
+\]
+Putting this over the common denominator \(T_L(y)D(y)\) gives Eq. (\ref{eq:app_expanded_common_denominator}).  The numerator is then
+\[
+  aT_{L-\rho}(y)T_L(y)+T_{L-\rho}(y)U_{L-1}(y)
+  +U_{\rho-1}(y)T_L(y)-U_{\rho-1}(y),
+\]
+and the Chebyshev identity factors this numerator as
+\[
+  T_L(y)\left[aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)\right].
+\]
+This displayed \(T_L(y)\) factor cancels the apparent \(T_L(y)\) in the common denominator.  Therefore the \(\alpha_\ell\)-modes that appear while deriving Eq. (\ref{eq:app_hard_route_result}) are removable intermediate modes, not final tail poles.
+
+\medskip
+\noindent\textbf{Explicit vanishing of the diagonal secular coefficient.}
+The cancellation of the \(t\alpha_\ell^t\)-type terms can also be checked by simple algebra directly in the time domain, without any generating-function collection.  In Eq. (\ref{eq:app_hard_route_result}) the only terms proportional to \((t-1)\alpha_\ell^{t-2}\) are the two diagonal pieces, one from the \(h_0\)-group (fourth line) and one from the \(H_+\)-group (fifth line):
+\[
+  -q\,h_0\,f_\ell(u,v)\,g^{(2)}_\ell(n_0,u,v)\,(t-1)\alpha_\ell^{t-2}
+  \qquad\text{and}\qquad
+  +q\,f_\ell(u,v)\,g^{(2)}_\ell(n_0,u,v)\,(t-1)\alpha_\ell^{t-2}\sum_j\frac{c_j}{s_j-\alpha_\ell}\,.
+\]
+Their sum carries the total secular coefficient
+\begin{align}
+  \mathcal K_\ell
+  =q\,f_\ell(u,v)\,g^{(2)}_\ell(n_0,u,v)
+  \left[\sum_j\frac{c_j}{s_j-\alpha_\ell}-h_0\right].
+  \label{eq:app_secular_coeff}
+\end{align}
+The bracket vanishes identically because of the sum rule
+\begin{align}
+  \sum_j\frac{c_j}{s_j-\alpha_\ell}=h_0=\frac{\beta(1-q)}{q},
+  \qquad \ell=1,\ldots,L,
+  \label{eq:app_sum_rule}
+\end{align}
+so \(\mathcal K_\ell=0\) for every \(\ell\), every starting site, and every admissible \((N,q,\beta)\) with \(\beta>0\).  No special combination of parameters is needed.
+
+The sum rule itself is three lines of partial fractions.  Write \(s=1/z\), so that \(y=1+(s-1)/q\) is affine in \(s\), and define \(\widehat H(s)=\widetilde H_{N,N/2}(1/s)\).  Since \(y-\eta_\ell=(s-\alpha_\ell)/q\) at the zeros \(\eta_\ell=\cos[(2\ell-1)\pi/(2L)]\) of \(T_L\), and \(y-\cos(r\pi/L)=(s-\gamma_r)/q\) at the zeros of \(U_{L-1}\),
+\begin{align}
+  T_L(y(s))=\frac{2^{L-1}}{q^{L}}\prod_{\ell=1}^{L}(s-\alpha_\ell),
+  \qquad
+  D(y(s))=\frac{2^{L-1}}{q^{L}}\,\Delta(s),
+  \qquad
+  \Delta(s)=a\prod_{j=1}^{L}(s-s_j),
+  \label{eq:app_s_factorizations}
+\end{align}
+where the last equality holds because \(\Delta(s)=a\prod_\ell(s-\alpha_\ell)+q\prod_r(s-\gamma_r)\) is a degree-\(L\) polynomial with leading coefficient \(a\) whose roots are by definition the \(s_j\).  Hence
+\begin{align}
+  \widehat H(s)
+  =\frac{\prod_{\ell=1}^{L}(s-\alpha_\ell)}{a\prod_{j=1}^{L}(s-s_j)}
+  =\frac1a+\sum_j\frac{c_j}{s-s_j},
+  \qquad
+  c_j=\frac{\prod_{\ell}(s_j-\alpha_\ell)}{a\prod_{i\neq j}(s_j-s_i)},
+  \label{eq:app_Hhat_pf}
+\end{align}
+which is the same partial-fraction data as \(c_j=qT_L(y_j)/D'(y_j)\), and the constant term \(1/a=h_0\) reproduces \(H(0)\).  Evaluating Eq. (\ref{eq:app_Hhat_pf}) at \(s=\alpha_m\) makes the left side vanish, because \(\alpha_m\) is a zero of the numerator \(\prod_\ell(s-\alpha_\ell)\):
+\[
+  0=\widehat H(\alpha_m)=h_0+\sum_j\frac{c_j}{\alpha_m-s_j}
+  \qquad\Longleftrightarrow\qquad
+  \sum_j\frac{c_j}{s_j-\alpha_m}=h_0 .
+\]
+This is Eq. (\ref{eq:app_sum_rule}); it is the time-domain face of the statement \(\widetilde H(1/\alpha_m)=0\) of Eq. (\ref{eq:H_zero_at_alpha}).  The zero is structural: the same \(\widetilde W_u(u,z)\) that supplies the \(\alpha_\ell\)-modes to \(W_{n_0}(u,\cdot)\) and \(\mathcal F_u(v,\cdot)\) sits in the denominator of \(\widetilde H\), so \(\widetilde H\) vanishes at every \(\alpha\)-location simultaneously.
+
+\medskip
+\noindent\textbf{Where a spurious \(t\alpha_\ell^t\) term comes from.}
+The previous long Eq.~(41)-style route used kernels of the form
+\[
+  \frac{s_j^{t}-x^{t}}{s_j(s_j-x)}=\sum_{c=0}^{t-1}x^{t-1-c}s_j^{c-1},
+\]
+that is, it extended the positive-time pole expansion \(H(t'')=\sum_j c_js_j^{t''-1}\) down to \(t''=0\).  This silently replaces the true \(H(0)=h_0\) by
+\[
+  \sum_j\frac{c_j}{s_j}=h_0-c_\infty,
+  \qquad
+  c_\infty=\widehat H(0)=\frac{T_L(1-1/q)}{D(1-1/q)}\neq0,
+\]
+where the expression for \(c_\infty\) follows from Eq. (\ref{eq:app_Hhat_pf}) at \(s=0\), i.e.\ from \(y(0)=1-1/q\).  Carrying the same diagonal collection with \(h_0\) replaced by \(h_0-c_\infty\) turns the bracket in Eq. (\ref{eq:app_secular_coeff}) into \(+c_\infty\), so the diagonal secular term acquires the nonzero coefficient
+\[
+  \mathcal K^{\mathrm{folded}}_\ell=q\,f_\ell(u,v)\,g^{(2)}_\ell(n_0,u,v)\,c_\infty
+\]
+instead of zero.  This is precisely the origin of the apparent ``logarithmic correction'': it measures the time-zero boundary mismatch of the \(H\)-pole expansion, not a property of the first-passage tail.  For \(N=10\), \(q=2/3\), \(\beta=4/7\) one finds \(c_\infty=2/11\) exactly, and the folded-kernel route deviates from the exact finite-matrix PMF by \(q f_1(u,v)g^{(2)}_1 c_\infty\,(t-1)\alpha_1^{t-2}\,[1+o(1)]\), while the exact-\(H(0)\) route of Eq. (\ref{eq:app_hard_route_result}) agrees with the finite matrix to better than \(10^{-51}\) in 50-digit arithmetic; see Appendix C.
+
+\subsection*{\texorpdfstring{A.5 Generating-function recombination of Eq. (\ref{eq:app_hard_route_result})}{A.5 Generating-function recombination of the expanded route}}
+
+One can also see directly that Eq. (\ref{eq:app_hard_route_result}) recombines into the generating-function route used below.  Use the transform
+\[
+  \mathcal Z[X_t](z)=\sum_{t\geq1}X_tz^t.
+\]
+The convolution kernels in Appendix A.3 satisfy
+\[
+  \sum_{t\geq1}A_t^{(0)}(x)z^t=\frac{z}{1-zx},
+  \qquad
+  \sum_{t\geq1}A_t^{(+)}(x;s)z^t
+  =\frac{z^2}{(1-zx)(1-zs)},
+\]
+and
+\[
+  \sum_{t\geq1}B_t^{(0)}(x,y)z^t
+  =\frac{z^2}{(1-zx)(1-zy)},
+  \qquad
+  \sum_{t\geq1}B_t^{(+)}(x,y;s)z^t
+  =\frac{z^3}{(1-zx)(1-zy)(1-zs)}.
+\]
+The same formulae hold in coincident cases by taking limits.
+
+With the mode inputs above, write
+\[
+  \widetilde W_{n_0}(u,z)
+  =
+  \sum_{r=1}^{N-1}\frac{G^{(1)}_r(n_0,u,v)}{1-z\gamma_r}
+  +
+  \sum_{r=1}^{L}\frac{g^{(2)}_r(n_0,u,v)}{1-z\alpha_r},
+\]
+\[
+  \widetilde{\mathcal F}_{u}(v,z)
+  =
+  \sum_{\ell=1}^{L}\frac{f_\ell(u,v)z}{1-z\alpha_\ell},
+  \qquad
+  \widetilde H(z)
+  =
+  h_0+\widetilde H_+(z),
+  \qquad
+  \widetilde H_+(z)=\sum_j\frac{c_jz}{1-zs_j}.
+\]
+Then the two positive \(\delta\)-pieces in Eq. (\ref{eq:app_hard_route_result}) transform as
+\[
+  qh_0z\widetilde W_{n_0}(u,z)
+  +
+  qz\widetilde W_{n_0}(u,z)\widetilde H_+(z)
+  =
+  qz\widetilde W_{n_0}(u,z)\widetilde H(z).
+\]
+Similarly, the two negative \(\mathcal F_u\)-pieces transform as
+\[
+  -qh_0z\widetilde W_{n_0}(u,z)\widetilde{\mathcal F}_{u}(v,z)
+  -
+  qz\widetilde W_{n_0}(u,z)\widetilde{\mathcal F}_{u}(v,z)\widetilde H_+(z)
+  =
+  -qz\widetilde W_{n_0}(u,z)\widetilde{\mathcal F}_{u}(v,z)\widetilde H(z).
+\]
+Adding also the no-shortcut baseline term gives
+\[
+  \widetilde F_{n_0}(v,z)
+  =
+  \widetilde{\mathcal F}_{n_0}(v,z)
+  +
+  qz\widetilde W_{n_0}(u,z)
+  \left[1-\widetilde{\mathcal F}_{u}(v,z)\right]
+  \widetilde H(z).
+\]
+This is Eq. (\ref{eq:app_expanded_start}).  Thus Appendix B is the generating-function recombination of the fully expanded Eq. (\ref{eq:app_hard_route_result}), not a separate shortcut calculation.
+
+\section*{Appendix B: Recombination to the closed form}
+
+The same route can now be collected at the generating-function level.  Let
+\[
+  D(y)=aT_L(y)+U_{L-1}(y).
+\]
+For the antipodal shortcut geometry, Eq. (\ref{eq:app_time_route_gf}) can be written as
 \begin{align}
 \widetilde F_{\rho}(0,z)
 &=\widetilde{\mathcal F}_{\rho}(0,z)
@@ -520,32 +1099,199 @@ The Chebyshev identity
 \[
   T_L(y)U_{L-\rho-1}(y)=T_{L-\rho}(y)U_{L-1}(y)-U_{\rho-1}(y)
 \]
-then turns the numerator of Eq. (\ref{eq:app_expanded_common_denominator}) into
+turns the numerator of Eq. (\ref{eq:app_expanded_common_denominator}) into
 \[
   T_L(y)\left[aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)\right],
 \]
 where \(U_{-1}=0\) when \(\rho=L\).  After cancellation of this common \(T_L(y)\) factor, the expanded route gives
 \begin{align}
 \widetilde F_{\rho}(0,z)
-=
+&=
 \frac{aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)}
 {aT_L(y)+U_{L-1}(y)}.
 \label{eq:app_expanded_closed_form}
 \end{align}
-Thus Eq. (\ref{eq:corrected_closed_F}) is the corrected compact form of the expanded calculation rather than an additional assumption.  In pole language, let \(y=\eta_\ell\) be a zero of \(T_L(y)\), corresponding to an \(\alpha_\ell\)-mode location in \(z\).  The common-denominator numerator in Eq. (\ref{eq:app_expanded_common_denominator}) is
+Thus Eq. (\ref{eq:corrected_closed_F}) is the corrected compact form of the expanded calculation rather than an additional assumption.  In particular, following the full Eq. (41)-style hard route, represented above by Eq. (\ref{eq:app_hard_route_result}), leads to the same cancellation: the apparent \(T_L(y)=0\), or \(\alpha_\ell\), singularities cancel before the final pole set is read off.
+
+This is not an argument that the numerator alone determines poles.  The unreduced common denominator in Eq. (\ref{eq:app_expanded_common_denominator}) is \(T_L(y)D(y)\), so the zeros of \(T_L(y)\) are genuine candidate poles before the expression is collected.  The point of the calculation is that those candidates are removable.  To make the connection with the \(\alpha\)-notation explicit, put \(s=1/z=1-q+qy\).  If
+\[
+  \eta_\ell=\cos\frac{(2\ell-1)\pi}{2L},
+  \qquad
+  \alpha_\ell=1-q+q\eta_\ell,
+\]
+then
+\[
+  T_L(y(s))=\frac{2^{L-1}}{q^L}\prod_{\ell=1}^{L}(s-\alpha_\ell).
+\]
+Similarly,
+\[
+  U_{L-1}(y(s))=\frac{2^{L-1}}{q^{L-1}}\prod_{r=1}^{L-1}(s-\gamma_r),
+  \qquad
+  \gamma_r=1-q+q\cos\frac{r\pi}{L}.
+\]
+Therefore the reduced denominator is proportional to the mixed polynomial
+\[
+  \Delta(s)=
+  a\prod_{\ell=1}^{L}(s-\alpha_\ell)
+  +q\prod_{r=1}^{L-1}(s-\gamma_r).
+\]
+The \(\alpha_\ell\)-values enter this polynomial, but they are not individual denominator factors.  Indeed, at \(s=\alpha_m\),
+\[
+  \Delta(\alpha_m)=
+  q\prod_{r=1}^{L-1}(\alpha_m-\gamma_r)\neq0,
+\]
+because the half-integer-angle \(\alpha_m\) values do not coincide with the integer-angle \(\gamma_r\) values.  Thus \(s=\alpha_m\) is not a root of the final denominator.
+
+Equivalently, let \(y=\eta_\ell\) be a zero of \(T_L(y)\), corresponding to an \(\alpha_\ell\)-mode location in \(z\).  The common-denominator numerator in Eq. (\ref{eq:app_expanded_common_denominator}) is
 \[
   N_\rho(y)
   =
   aT_{L-\rho}(y)T_L(y)+T_{L-\rho}(y)U_{L-1}(y)
   +U_{\rho-1}(y)T_L(y)-U_{\rho-1}(y).
 \]
-The Chebyshev identity gives \(N_\rho(y)=T_L(y)\left[aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)\right]\), so \(N_\rho(\eta_\ell)=0\).  Thus the apparent \(1/T_L(y)\) pole has zero residue once the terms are collected, and the collected expression has no remaining \(1/T_L(y)\) factor or double pole at \(T_L(y)=0\).  This is the generating-function reason why no final \(t\alpha_\ell^t\) term is present.
-
-In an Eq. (41)-style term-by-term time expansion, intermediate partial fractions may still contain expressions such as
+The Chebyshev identity gives
 \[
-  \frac{s_k^t-\alpha_\ell^t}{s_k-\alpha_\ell}
+  N_\rho(y)=T_L(y)\left[aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y)\right],
 \]
-and, in the apparent repeated-pole limit, terms proportional to \(t\alpha_\ell^t\).  These terms belong to the uncollected representation of the convolution.  In the corrected calculation they collect into the removable \(T_L(y)\) factor displayed in Eq. (\ref{eq:app_expanded_common_denominator}).  Therefore the fully collected expanded route has the same poles as Eq. (\ref{eq:app_expanded_closed_form}), namely the roots of \(D(y)\), and not separate \(\alpha_\ell\)-poles.
+so \(N_\rho(\eta_\ell)=0\).  Therefore the apparent \(1/T_L(y)\) pole has zero residue once the terms are collected, and the collected expression has no remaining \(1/T_L(y)\) factor or double pole at \(T_L(y)=0\).  Equivalently, the \(\alpha_\ell\)-modes that appear in the hard-route expansion are not poles of the final first-passage generating function.
+
+\section*{Appendix C: Tail and numerical checks}
+
+Let
+\[
+  N_\rho(y)=aT_{L-\rho}(y)+U_{\rho-1}(y)+U_{L-\rho-1}(y).
+\]
+The poles of the collected first-passage generating function are the roots of \(D(y)=aT_L(y)+U_{L-1}(y)\).  For simple roots \(D(y_j)=0\), \(s_j=1-q+qy_j\),
+\begin{align}
+F_{\rho}(0,t)
+&=\sum_j B_{\rho j}s_j^{t-1},\qquad
+B_{\rho j}=\frac{qN_\rho(y_j)}{D'(y_j)}.
+\label{eq:app_tail_residue}
+\end{align}
+Thus the corrected long-time decay is controlled by the dominant root of \(D\), not by a generic \(t\alpha_1^t\) contribution.
+
+\subsection*{C.1 Numerical audit protocol}
+
+The numerical audit is deterministic: it uses finite matrices and finite convolutions, not random simulation.  The benchmark is the stochastic shortcut matrix itself.  Starting from the lazy ring transition matrix, the shortcut matrix moves
+\[
+  \lambda=\beta(1-q)
+\]
+from the \(u\to u\) self-loop to the directed \(u\to v\) edge, so the \(u\)-row remains stochastic.  The audit then uses the following independent checks.
+\begin{enumerate}
+\item \textbf{Resolvent benchmark.}  It computes
+\[
+  \widetilde S(z)=(I-z\widetilde T)^{-1},
+  \qquad
+  \widetilde F_{n_0}(v,z)=\frac{\widetilde S_{n_0,v}(z)}{\widetilde S_{v,v}(z)},
+\]
+and compares this direct finite-matrix ratio with both the corrected resolvent formula and the collected Chebyshev closed form.
+\item \textbf{Killed-chain benchmark.}  It deletes the absorbing target \(v\) and computes killed propagators directly from powers of the transient submatrix.  This checks the corrected Eq. (14) bracket against the absorbing-chain definition, and also shows that the old reversed bracket has a visible finite-matrix error.
+\item \textbf{Time-domain hard-route benchmark.}  It computes the direct shortcut first-passage PMF from the shortcut matrix, and separately computes the corrected time-domain convolution route.  For Eq. (\ref{eq:app_hard_route_result}), it records the five displayed groups separately:
+\[
+\mathcal F_{n_0}(v,\cdot),\quad
+qW*\delta*h_0\delta_0,\quad
+qW*\delta*H_+,\quad
+-qW*\mathcal F_u*h_0\delta_0,\quad
+-qW*\mathcal F_u*H_+.
+\]
+The audit checks both that these five groups sum to the hard-route convolution and that the same sum matches the direct finite-matrix PMF at every checked time.
+\item \textbf{Kernel-expansion benchmark.}  It checks the displayed partial-fraction replacements for \(A_t^{(+)}\), \(B_t^{(0)}\), and \(B_t^{(+)}\), including the diagonal limits used in the fully written Eq. (\ref{eq:app_hard_route_result})-style display.  This verifies that the fully expanded display is algebraically the same as the kernel form of Eq. (\ref{eq:app_hard_route_result}).
+\item \textbf{Pole benchmark.}  It computes the dominant eigenvalue \(s_1\) of the finite transient shortcut matrix, then checks that \(D(y)=aT_L(y)+U_{L-1}(y)\) is zero at \(y=(s_1-(1-q))/q\), up to numerical precision.  It also checks the sampled inequality \(\gamma_1<s_1<\alpha_1\).
+\item \textbf{Finite-time peak benchmark.}  It directly iterates the finite shortcut chain for the \(N=100,\ q=2/3,\ u=6\to v=56\) setup and applies the same peak classifier to the resulting first-passage PMF.
+\end{enumerate}
+The CSV outputs retain the direct benchmark columns, the formula columns, and the pointwise errors, so the table below is only the summary of the recorded audit rather than the audit itself.
+
+The main checks are:
+\begin{center}
+\small
+\begin{tabular}{ll}
+\hline
+Check & Maximum error or result \\
+\hline
+Eq. (14), corrected bracket & \(1.18\times10^{-14}\) \\
+Eq. (14), old reversed bracket & \(2.00\times10^{-1}\) \\
+Orthogonality identities & \(6.34\times10^{-13}\) \\
+Hard-route convolution & \(6.94\times10^{-18}\) \\
+Eq. (\ref{eq:app_hard_route_result}) five-group decomposition & \(5.20\times10^{-18}\) \\
+Kernel-to-fully-expanded identities & \(2.66\times10^{-15}\) \\
+Corrected resolvent formula & \(4.16\times10^{-17}\) \\
+Closed form & \(1.11\times10^{-16}\) \\
+Sampled pole inequality & \(\gamma_1<s_1<\alpha_1\) \\
+\hline
+\end{tabular}
+\end{center}
+\normalsize
+The same run also reproduces the \(N=100,\ q=2/3,\ u=6\to v=56\) finite-time double-peak scan quoted in the discussion.
+
+\subsubsection*{C.1.1 High-precision secular-term audit}
+
+A separate 50-significant-digit audit
+(\texttt{scripts/secular\_term\_cancellation\_check.py} in the local audit folder)
+targets the \(t\alpha_\ell^t\) question directly.  It was run for
+\((N,q,\beta,\rho)=(10,2/3,4/7,2)\), \((12,1/2,3/10,5)\), and \((10,2/3,1/50,1)\),
+with \(t\) up to \(600\), and for \(\beta\)-sweeps over \((0,1]\) at \(N=10,12,100\).
+\begin{center}
+\small
+\begin{tabular}{ll}
+\hline
+Check (50-digit arithmetic) & Maximum deviation \\
+\hline
+\(F(t)=\sum_jB_{\rho j}s_j^{t-1}\) vs exact matrix PMF, \(t\le600\) & \(1.7\times10^{-52}\) \\
+Transient matrix symmetric; spectrum \(=\{\gamma_r\}\cup\{s_j\}\) & \(5.6\times10^{-16}\) (float64) \\
+Distance of every \(\alpha_\ell\) to the transient spectrum & \(\geq1.3\times10^{-3}\) (never \(0\)) \\
+Sum rule Eq. (\ref{eq:app_sum_rule}), all \(\ell\) & \(1.1\times10^{-50}\) \\
+Secular coefficient \(\mathcal K_\ell\), exact \(H(0)\) treatment & \(1.5\times10^{-52}\) \\
+Folded-kernel secular coefficient vs \(qf_\ell g^{(2)}_\ell c_\infty\) & \(1.5\times10^{-52}\) \\
+\(H(t)\) renewal recursion vs \(\sum_jc_js_j^{t-1}\) \((t\ge1)\) & \(8.4\times10^{-53}\) \\
+\(c_\infty=h_0-\sum_jc_j/s_j\) vs \(T_L(1-1/q)/D(1-1/q)\) & \(1.5\times10^{-50}\) \\
+Five-group Eq. (\ref{eq:app_hard_route_result}) vs exact matrix PMF & \(1.6\times10^{-51}\) \\
+Residue identity \(f_\ell(n_0,v)g^{(2)}_\ell(u,u,v)=g^{(2)}_\ell(n_0,u,v)f_\ell(u,v)\) & \(2.7\times10^{-52}\) \\
+\(\gamma_1<s_1<\alpha_1\) on \(\beta\in(0,1]\), \(N=10,12,100\) & holds at all sampled \(\beta\) \\
+\hline
+\end{tabular}
+\end{center}
+In the same runs, the tail ratios behave as predicted by Eq. (\ref{eq:app_tail_residue}):
+\(F(t)/[B_{\rho1}s_1^{t-1}]\to1\) (equal to \(1\) within \(10^{-12}\) by \(t=120\)),
+while \(F(t)/[t\alpha_1^t]\to0\) (e.g.\ \(1.1\times10^{-12}\) at \(t=600\) for the
+\(N=10\), \(\beta=4/7\) case).  By contrast, the folded-kernel variant of the expansion
+(the \((s_j^t-x^t)/[s_j(s_j-x)]\) kernels) deviates from the exact PMF and its deviation,
+normalised by \((t-1)\alpha_1^{t-2}\), converges to \(qf_1(u,v)g^{(2)}_1c_\infty\) exactly
+as in Appendix A.4.
+
+\subsection*{\texorpdfstring{C.2 Sampled beta bounds for the \(N=100\) finite-time double peak}{C.2 Sampled beta bounds for the N=100 finite-time double peak}}
+
+For the finite-time peak check, the comparison value is
+\[
+  \beta_c=\frac{2q}{(1-q)N}=0.04
+  \qquad (N=100,\ q=2/3).
+\]
+This value is used as a reference line in the scan; it is not used as an analytic pole-crossing rule for the corrected tail.  The corrected denominator check above shows instead that the dominant pole remains between \(\gamma_1\) and \(\alpha_1\) on the sampled positive-\(\beta\) grid.
+
+The scan uses the exact finite shortcut chain with target \(56\) and directed shortcut \(6\to56\).  The tested beta grid is
+\[
+  \{0,0.002,0.004,\ldots,0.080\}
+  \cup\{0.001,0.005\},
+\]
+which also contains \(\beta_c=0.040\), \(0.75\beta_c=0.030\), and \(1.25\beta_c=0.050\).  For each \(n_0=1,\ldots,6\), the first-passage mass is iterated to \(t_{\max}=12000\) or survival mass \(<10^{-13}\).  A curve is labelled as a \emph{clear} double peak only when it has two local peaks above \(10^{-12}\), the second peak is at least \(1\%\) of the largest peak, the two peaks are separated by at least \(10\) time steps, the height ratio \(h_2/h_1\) lies in \([0.1,10]\), and the valley height is at most \(0.8\) of the smaller peak.  This extra ``clear'' condition prevents adjacent early-time oscillations from being counted as a two-timescale double peak.  The table reports the last sampled non-clear value before a clear interval, the first clear value, the last clear value, and the first sampled non-clear value after that interval.
+
+\begin{center}
+\scriptsize
+\begin{tabular}{cccccc}
+\hline
+\(n_0\) & no before & first clear & last clear & no after & clear at \(\beta\geq\beta_c\)\\
+\hline
+1 & 0.001 & 0.002 & 0.030 & 0.032 & 0\\
+2 & 0.001 & 0.002 & 0.030 & 0.032 & 0\\
+3 & 0.000 & 0.001 & 0.030 & 0.032 & 0\\
+4 & -- & -- & -- & -- & 0\\
+5 & -- & -- & -- & -- & 0\\
+6 & -- & -- & -- & -- & 0\\
+\hline
+\end{tabular}
+\end{center}
+\normalsize
+
+Thus, on this sampled grid, \(n_0=1,2\) have a clear double peak on \(0.002\leq\beta\leq0.030\).  The lower entry is bracketed by \(0.001<\beta\leq0.002\), and the loss of the clear double peak is bracketed by \(0.030<\beta\leq0.032\).  For \(n_0=3\), the sampled clear range is \(0.001\leq\beta\leq0.030\), with lower entry bracketed by \(0<\beta\leq0.001\) and the same upper-loss bracket \(0.030<\beta\leq0.032\).  For \(n_0=4,5,6\), no clear double-peak interval is found anywhere in \(0\leq\beta\leq0.080\).  Local peak detectors can still find adjacent early-time bumps for these starts, but their first two peaks are only two time steps apart, so they fail the separation criterion and are not counted as clear two-timescale double peaks.
 
 
 \end{document}

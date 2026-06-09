@@ -1,0 +1,115 @@
+==============================================================================
+CASE N=10, q=2/3, beta=4/7, rho=2  (v=0, u=5, n0=2)
+==============================================================================
+[roots] L=5 real roots of D(y) found; s_1=0.9383059156185489089
+        alpha_1=0.96737101086343571474  gamma_1=0.8726779962499649494
+[1] closed form F(t)=sum_j B_j s_j^(t-1) vs exact matrix:  max|diff| = 1.25e-52
+[2] transient matrix symmetric (max asym 0.0e+00); spec == {gamma_r} U {s_j} (max err 1.67e-16); min_l dist(alpha_l, spec) = 0.029065  (>0)
+[3] sum rule  sum_j c_j/(s_j-alpha_l) = h0 :  max_l |dev| = 1.07e-50
+[4] H(t) recursion vs sum_j c_j s_j^(t-1) (t>=1): max|diff| = 3.13e-53
+    H(0)=h0=0.285714285714;  sum_j c_j/s_j = 0.103896103896
+    c_inf = h0 - sum_j c_j/s_j = 0.181818181818  vs  T_L(1-1/q)/D(1-1/q) = 0.181818181818   |diff| = 3.34e-52
+[5] coefficient of (t-1)*alpha_l^(t-2):
+    l=1: exact-H(0) treatment: 4.32e-54   folded: 0.00058710507 (= q f g c_inf? |diff|=3.92e-54)
+    l=2: exact-H(0) treatment: 5.48e-53   folded: 0.002487017 (= q f g c_inf? |diff|=5.22e-53)
+    l=3: exact-H(0) treatment: -7.2e-104   folded: -3.2668953e-54 (= q f g c_inf? |diff|=6.28e-104)
+    l=4: exact-H(0) treatment: 1.46e-52   folded: -0.002487017 (= q f g c_inf? |diff|=1.46e-52)
+    l=5: exact-H(0) treatment: -2.16e-53   folded: -0.00058710507 (= q f g c_inf? |diff|=2.09e-53)
+[6] corrected five-group expansion vs exact (t<= 200): max|diff| = 1.61e-51
+[7] folded (old-kernel) route minus exact, normalised by (t-1)alpha_1^(t-2):
+    t=  50:  F_fold-F_exact = 0.00150452   /( (t-1)a1^(t-2) ) = 0.000150915323027
+    t= 150:  F_fold-F_exact = 0.00048754   /( (t-1)a1^(t-2) ) = 0.000443659191705
+    predicted limit q*f_1(u,v)*g2_1*c_inf = 0.000587105073136
+[8] Luca's printed Eq.(41)-style formula minus exact:
+    t=  50:  diff = 4.28658e-5   (F_exact=0.00245325)
+    t= 150:  diff = -0.000303143   (F_exact=4.20908e-6)
+[10] tail diagnostics:
+    t=  50:  F/(B_1 s_1^(t-1)) = 1.00000032663    F/(t alpha_1^t) = 0.000257703
+    t= 150:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 4.06571e-6
+    t= 300:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 2.09321e-8
+    t= 600:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 1.10968e-12
+[11] residue identity f_l(n0,v) g_l(u,u) = g_l(n0,u) f_l(u,v): max|dev| = 4.18e-53
+
+==============================================================================
+CASE N=12, q=1/2, beta=3/10, rho=5  (v=0, u=6, n0=5)
+==============================================================================
+[roots] L=6 real roots of D(y) found; s_1=0.96507526503061144618
+        alpha_1=0.98296291314453414337  gamma_1=0.93301270189221932338
+[1] closed form F(t)=sum_j B_j s_j^(t-1) vs exact matrix:  max|diff| = 1.67e-52
+[2] transient matrix symmetric (max asym 0.0e+00); spec == {gamma_r} U {s_j} (max err 3.33e-16); min_l dist(alpha_l, spec) = 0.017888  (>0)
+[3] sum rule  sum_j c_j/(s_j-alpha_l) = h0 :  max_l |dev| = 9.35e-51
+[4] H(t) recursion vs sum_j c_j s_j^(t-1) (t>=1): max|diff| = 8.35e-53
+    H(0)=h0=0.3;  sum_j c_j/s_j = 0.675
+    c_inf = h0 - sum_j c_j/s_j = -0.375  vs  T_L(1-1/q)/D(1-1/q) = -0.375   |diff| = 1.54e-50
+[5] coefficient of (t-1)*alpha_l^(t-2):
+    l=1: exact-H(0) treatment: 1.16e-53   folded: -0.00065104167 (= q f g c_inf? |diff|=1.44e-53)
+    l=2: exact-H(0) treatment: -1.86e-53   folded: 0.0013020833 (= q f g c_inf? |diff|=3.39e-53)
+    l=3: exact-H(0) treatment: 5.8e-54   folded: -0.00065104167 (= q f g c_inf? |diff|=2.09e-53)
+    l=4: exact-H(0) treatment: -1.51e-53   folded: -0.00065104167 (= q f g c_inf? |diff|=4.18e-53)
+    l=5: exact-H(0) treatment: -3.25e-53   folded: 0.0013020833 (= q f g c_inf? |diff|=2.09e-53)
+    l=6: exact-H(0) treatment: 8.12e-54   folded: -0.00065104167 (= q f g c_inf? |diff|=1.83e-53)
+[6] corrected five-group expansion vs exact (t<= 200): max|diff| = 4.18e-52
+[7] folded (old-kernel) route minus exact, normalised by (t-1)alpha_1^(t-2):
+    t=  50:  F_fold-F_exact = 0.00195991   /( (t-1)a1^(t-2) ) = 9.12552377351e-5
+    t= 120:  F_fold-F_exact = -0.00542057   /( (t-1)a1^(t-2) ) = -0.000346031820395
+    predicted limit q*f_1(u,v)*g2_1*c_inf = -0.000651041666667
+[8] Luca's printed Eq.(41)-style formula minus exact:
+    t=  50:  diff = -0.00590499   (F_exact=0.00690443)
+    t= 120:  diff = 0.00661647   (F_exact=0.000573647)
+[10] tail diagnostics:
+    t=  50:  F/(B_1 s_1^(t-1)) = 0.999462073636    F/(t alpha_1^t) = 0.000326063
+    t= 120:  F/(B_1 s_1^(t-1)) = 0.999999985433    F/(t alpha_1^t) = 3.75844e-5
+    t= 250:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 1.6572e-6
+    t= 400:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 6.58967e-8
+[11] residue identity f_l(n0,v) g_l(u,u) = g_l(n0,u) f_l(u,v): max|dev| = 2.71e-52
+
+==============================================================================
+CASE N=10, q=2/3, beta=1/50, rho=1  (v=0, u=5, n0=1)
+==============================================================================
+[roots] L=5 real roots of D(y) found; s_1=0.96605087483293169984
+        alpha_1=0.96737101086343571474  gamma_1=0.8726779962499649494
+[1] closed form F(t)=sum_j B_j s_j^(t-1) vs exact matrix:  max|diff| = 1.67e-52
+[2] transient matrix symmetric (max asym 0.0e+00); spec == {gamma_r} U {s_j} (max err 5.55e-16); min_l dist(alpha_l, spec) = 0.001320  (>0)
+[3] sum rule  sum_j c_j/(s_j-alpha_l) = h0 :  max_l |dev| = 1.08e-50
+[4] H(t) recursion vs sum_j c_j s_j^(t-1) (t>=1): max|diff| = 8.16e-56
+    H(0)=h0=0.01;  sum_j c_j/s_j = 0.000196078431373
+    c_inf = h0 - sum_j c_j/s_j = 0.00980392156863  vs  T_L(1-1/q)/D(1-1/q) = 0.00980392156863   |diff| = 2.09e-53
+[5] coefficient of (t-1)*alpha_l^(t-2):
+    l=1: exact-H(0) treatment: 5.42e-54   folded: 1.6643399e-5 (= q f g c_inf? |diff|=5.38e-54)
+    l=2: exact-H(0) treatment: 3.5e-53   folded: 0.00011407556 (= q f g c_inf? |diff|=3.47e-53)
+    l=3: exact-H(0) treatment: 8.39e-53   folded: 0.00017429194 (= q f g c_inf? |diff|=8.35e-53)
+    l=4: exact-H(0) treatment: -1.26e-52   folded: 0.00011407556 (= q f g c_inf? |diff|=1.26e-52)
+    l=5: exact-H(0) treatment: 1.55e-53   folded: 1.6643399e-5 (= q f g c_inf? |diff|=1.54e-53)
+[6] corrected five-group expansion vs exact (t<= 200): max|diff| = 3.34e-52
+[7] folded (old-kernel) route minus exact, normalised by (t-1)alpha_1^(t-2):
+    t=  50:  F_fold-F_exact = 3.74844e-5   /( (t-1)a1^(t-2) ) = 3.75999837385e-6
+    t= 120:  F_fold-F_exact = 2.69204e-5   /( (t-1)a1^(t-2) ) = 1.133841777e-5
+    predicted limit q*f_1(u,v)*g2_1*c_inf = 1.6643399183e-5
+[8] Luca's printed Eq.(41)-style formula minus exact:
+    t=  50:  diff = 0.00508021   (F_exact=0.00246624)
+    t= 120:  diff = 0.000497786   (F_exact=0.000219802)
+[10] tail diagnostics:
+    t=  50:  F/(B_1 s_1^(t-1)) = 1.00000464759    F/(t alpha_1^t) = 0.000259066
+    t= 120:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 9.81031e-5
+    t= 250:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 3.94298e-5
+    t= 400:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 2.00791e-5
+[11] residue identity f_l(n0,v) g_l(u,u) = g_l(n0,u) f_l(u,v): max|dev| = 5.22e-54
+
+==============================================================================
+BETA SWEEP N=10, q=2/3: check gamma_1 < s_1 < alpha_1
+==============================================================================
+  all 15 sampled beta in (0,1]: gamma_1 < s_1 < alpha_1 holds: True
+  smallest margin min(s1-gamma1, alpha1-s1) = 6.663e-05 at beta=0.001
+
+==============================================================================
+BETA SWEEP N=100, q=2/3: check gamma_1 < s_1 < alpha_1
+==============================================================================
+  all 15 sampled beta in (0,1]: gamma_1 < s_1 < alpha_1 holds: True
+  smallest margin min(s1-gamma1, alpha1-s1) = 6.633e-06 at beta=0.001
+
+==============================================================================
+BETA SWEEP N=12, q=1/2: check gamma_1 < s_1 < alpha_1
+==============================================================================
+  all 15 sampled beta in (0,1]: gamma_1 < s_1 < alpha_1 holds: True
+  smallest margin min(s1-gamma1, alpha1-s1) = 8.323e-05 at beta=0.001
+

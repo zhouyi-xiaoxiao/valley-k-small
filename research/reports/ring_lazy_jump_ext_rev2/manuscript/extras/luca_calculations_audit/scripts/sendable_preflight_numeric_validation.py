@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pre-send numerical validation for the corrected Luca calculation packet.
+"""Pre-send numerical validation for the corrected calculation packet.
 
 This script checks the claims made in the sendable corrected notes/email:
 
@@ -84,6 +84,401 @@ def w_abs_matrix(w_resolvent: np.ndarray, index: dict[int, int], start: int, end
     if start == target or end == target:
         return 0.0
     return float(w_resolvent[index[start], index[end]])
+
+
+def absorbing_propagator_series(
+    transition: np.ndarray,
+    target: int,
+    start: int,
+    end: int,
+    tmax: int,
+) -> np.ndarray:
+    values = np.zeros(tmax + 1, dtype=float)
+    if start == target or end == target:
+        return values
+    transient, index = absorbing_submatrix(transition, target)
+    vec = np.zeros(transient.shape[0], dtype=float)
+    vec[index[start]] = 1.0
+    end_idx = index[end]
+    for t in range(tmax + 1):
+        values[t] = float(vec[end_idx])
+        if t < tmax:
+            vec = vec @ transient
+    return values
+
+
+def first_passage_pmf_series(
+    transition: np.ndarray,
+    target: int,
+    start: int,
+    tmax: int,
+) -> np.ndarray:
+    values = np.zeros(tmax + 1, dtype=float)
+    if start == target:
+        values[0] = 1.0
+        return values
+    transient, index = absorbing_submatrix(transition, target)
+    keep = [i for i in range(transition.shape[0]) if i != target]
+    hit_column = transition[keep, target]
+    vec = np.zeros(transient.shape[0], dtype=float)
+    vec[index[start]] = 1.0
+    for t in range(1, tmax + 1):
+        values[t] = float(vec @ hit_column)
+        vec = vec @ transient
+    return values
+
+
+def h_series_from_killed_return(
+    *,
+    n_sites: int,
+    q: float,
+    beta: float,
+    u: int,
+    v: int,
+    tmax: int,
+) -> np.ndarray:
+    base = ring_transition(n_sites, q)
+    wuu = absorbing_propagator_series(base, v, u, u, tmax)
+    lam = beta * (1.0 - q)
+    h = np.zeros(tmax + 1, dtype=float)
+    h[0] = beta * (1.0 - q) / q
+    for n in range(1, tmax + 1):
+        h[n] = -lam * sum(float(wuu[j]) * float(h[n - 1 - j]) for j in range(n))
+    return h
+
+
+def hard_route_convolution_pmf(
+    *,
+    n_sites: int,
+    q: float,
+    beta: float,
+    start: int,
+    u: int,
+    v: int,
+    tmax: int,
+) -> np.ndarray:
+    base = ring_transition(n_sites, q)
+    f0_start = first_passage_pmf_series(base, v, start, tmax)
+    f0_u = first_passage_pmf_series(base, v, u, tmax)
+    w_start_u = absorbing_propagator_series(base, v, start, u, tmax)
+    h = h_series_from_killed_return(n_sites=n_sites, q=q, beta=beta, u=u, v=v, tmax=tmax)
+
+    out = np.zeros(tmax + 1, dtype=float)
+    for t in range(1, tmax + 1):
+        total = float(f0_start[t])
+        for tp in range(t):
+            inner = float(h[tp])
+            for tt in range(tp + 1):
+                inner -= float(f0_u[tp - tt]) * float(h[tt])
+            total += q * float(w_start_u[t - 1 - tp]) * inner
+        out[t] = total
+    return out
+
+
+def hard_route_convolution_components(
+    *,
+    n_sites: int,
+    q: float,
+    beta: float,
+    start: int,
+    u: int,
+    v: int,
+    tmax: int,
+) -> dict[str, np.ndarray]:
+    base = ring_transition(n_sites, q)
+    f0_start = first_passage_pmf_series(base, v, start, tmax)
+    f0_u = first_passage_pmf_series(base, v, u, tmax)
+    w_start_u = absorbing_propagator_series(base, v, start, u, tmax)
+    h = h_series_from_killed_return(n_sites=n_sites, q=q, beta=beta, u=u, v=v, tmax=tmax)
+    h0 = float(h[0])
+
+    baseline = np.zeros(tmax + 1, dtype=float)
+    delta_h0 = np.zeros(tmax + 1, dtype=float)
+    delta_hplus = np.zeros(tmax + 1, dtype=float)
+    fu_h0 = np.zeros(tmax + 1, dtype=float)
+    fu_hplus = np.zeros(tmax + 1, dtype=float)
+
+    for t in range(1, tmax + 1):
+        baseline[t] = float(f0_start[t])
+        delta_h0[t] = q * h0 * float(w_start_u[t - 1])
+        delta_hplus[t] = q * sum(float(w_start_u[t - 1 - tp]) * float(h[tp]) for tp in range(1, t))
+        fu_h0[t] = -q * h0 * sum(float(w_start_u[t - 1 - tp]) * float(f0_u[tp]) for tp in range(t))
+        total_hplus = 0.0
+        for tp in range(t):
+            total_hplus += float(w_start_u[t - 1 - tp]) * sum(
+                float(f0_u[tp - tt]) * float(h[tt]) for tt in range(1, tp + 1)
+            )
+        fu_hplus[t] = -q * total_hplus
+
+    total = baseline + delta_h0 + delta_hplus + fu_h0 + fu_hplus
+    return {
+        "baseline": baseline,
+        "delta_h0": delta_h0,
+        "delta_hplus": delta_hplus,
+        "fu_h0": fu_h0,
+        "fu_hplus": fu_hplus,
+        "total": total,
+    }
+
+
+def eq14_killed_propagator_formula(
+    *,
+    n_sites: int,
+    q: float,
+    start: int,
+    end: int,
+    target: int,
+    t: int,
+    corrected: bool,
+) -> float:
+    total = 0.0
+    for r in range(1, n_sites):
+        gamma_r = 1.0 - q + q * math.cos(2.0 * math.pi * r / n_sites)
+        total += math.cos(2.0 * math.pi * r * (end - start) / n_sites) * (gamma_r**t) / n_sites
+
+    for k in range(1, n_sites):
+        odd_weight = 1.0 - ((-1.0) ** k)
+        a_k = odd_weight * math.sin(abs(start - target) * math.pi * k / n_sites) * math.sin(math.pi * k / n_sites)
+        alpha_k = 1.0 - q + q * math.cos(math.pi * k / n_sites)
+        total += a_k * (alpha_k**t) / (n_sites**2 * (1.0 - math.cos(math.pi * k / n_sites)))
+        if abs(a_k) < 1.0e-14:
+            continue
+        for r in range(1, n_sites):
+            gamma_r = 1.0 - q + q * math.cos(2.0 * math.pi * r / n_sites)
+            denom = math.cos(math.pi * k / n_sites) - math.cos(2.0 * math.pi * r / n_sites)
+            if abs(denom) < 1.0e-14:
+                raise ArithmeticError(f"unexpected nonzero singular term: N={n_sites} k={k} r={r}")
+            bracket = (gamma_r**t - alpha_k**t) if corrected else (alpha_k**t - gamma_r**t)
+            total += (
+                a_k
+                * math.cos(2.0 * math.pi * r * (end - target) / n_sites)
+                * bracket
+                / (n_sites**2 * denom)
+            )
+    return float(total)
+
+
+def validate_eq14_and_orthogonality() -> dict[str, object]:
+    max_eq14_corrected = 0.0
+    max_eq14_printed = 0.0
+    max_orthogonality = 0.0
+    rows: list[dict[str, object]] = []
+    orth_rows: list[dict[str, object]] = []
+
+    for n_sites, q in ((10, 2.0 / 3.0), (12, 0.41), (100, 2.0 / 3.0)):
+        target = n_sites // 2
+        starts = (0, 1, n_sites // 3)
+        ends = (0, 2, target, (target + 1) % n_sites)
+        base = ring_transition(n_sites, q)
+        tmax = 16 if n_sites < 100 else 8
+
+        for start in starts:
+            if start == target:
+                continue
+            for end in ends:
+                exact = absorbing_propagator_series(base, target, start, end, tmax)
+                for t in range(tmax + 1):
+                    corrected = eq14_killed_propagator_formula(
+                        n_sites=n_sites,
+                        q=q,
+                        start=start,
+                        end=end,
+                        target=target,
+                        t=t,
+                        corrected=True,
+                    )
+                    printed = eq14_killed_propagator_formula(
+                        n_sites=n_sites,
+                        q=q,
+                        start=start,
+                        end=end,
+                        target=target,
+                        t=t,
+                        corrected=False,
+                    )
+                    err_corrected = abs(corrected - float(exact[t]))
+                    err_printed = abs(printed - float(exact[t]))
+                    max_eq14_corrected = max(max_eq14_corrected, err_corrected)
+                    max_eq14_printed = max(max_eq14_printed, err_printed)
+                    rows.append(
+                        {
+                            "N": n_sites,
+                            "q": q,
+                            "target": target,
+                            "start": start,
+                            "end": end,
+                            "t": t,
+                            "exact_absorbing": float(exact[t]),
+                            "corrected_eq14": corrected,
+                            "printed_order_eq14": printed,
+                            "err_corrected": err_corrected,
+                            "err_printed_order": err_printed,
+                        }
+                    )
+
+        for a_mod in range(1, n_sites):
+            for b_mod in range(1, n_sites):
+                cos_sum = sum(
+                    math.cos(2.0 * math.pi * k * a_mod / n_sites)
+                    * math.cos(2.0 * math.pi * k * b_mod / n_sites)
+                    for k in range(1, n_sites)
+                )
+                sin_sum = sum(
+                    (1.0 - ((-1.0) ** k))
+                    * math.sin(math.pi * k * abs(a_mod) / n_sites)
+                    * math.sin(math.pi * k * abs(b_mod) / n_sites)
+                    for k in range(1, n_sites)
+                )
+                rhs = 0.5 * n_sites * ((1.0 if a_mod == b_mod else 0.0) + (1.0 if a_mod == n_sites - b_mod else 0.0))
+                err_cos = abs(cos_sum - (rhs - 1.0))
+                err_sin = abs(sin_sum - rhs)
+                max_orthogonality = max(max_orthogonality, err_cos, err_sin)
+                if err_cos > 1.0e-10 or err_sin > 1.0e-10:
+                    orth_rows.append(
+                        {
+                            "N": n_sites,
+                            "a": a_mod,
+                            "b": b_mod,
+                            "cos_sum": cos_sum,
+                            "sin_sum": sin_sum,
+                            "rhs_delta": rhs,
+                            "err_cos": err_cos,
+                            "err_sin": err_sin,
+                        }
+                    )
+
+    return {
+        "rows": rows,
+        "orthogonality_fail_rows": orth_rows,
+        "max_err_eq14_corrected_vs_absorbing": max_eq14_corrected,
+        "max_err_eq14_printed_order_vs_absorbing": max_eq14_printed,
+        "max_err_orthogonality_identities": max_orthogonality,
+    }
+
+
+def validate_hard_route_time_convolution() -> dict[str, object]:
+    rows: list[dict[str, object]] = []
+    max_err = 0.0
+    max_component_err = 0.0
+    max_component_vs_hard_err = 0.0
+    cases = (
+        (10, 2.0 / 3.0, 4.0 / 7.0, 1, 5, 30),
+        (12, 0.41, 0.35, 2, 7, 36),
+        (20, 2.0 / 3.0, 0.04, 2, 10, 70),
+        (100, 2.0 / 3.0, 0.04, 0, 5, 160),
+    )
+    for n_sites, q, beta, start, u, tmax in cases:
+        v = (u + n_sites // 2) % n_sites
+        base = ring_transition(n_sites, q)
+        shortcut = stochastic_shortcut_transition(base, u, v, beta, q)
+        direct = first_passage_pmf_series(shortcut, v, start, tmax)
+        hard = hard_route_convolution_pmf(
+            n_sites=n_sites,
+            q=q,
+            beta=beta,
+            start=start,
+            u=u,
+            v=v,
+            tmax=tmax,
+        )
+        components = hard_route_convolution_components(
+            n_sites=n_sites,
+            q=q,
+            beta=beta,
+            start=start,
+            u=u,
+            v=v,
+            tmax=tmax,
+        )
+        for t in range(tmax + 1):
+            err = abs(float(hard[t]) - float(direct[t]))
+            component_sum = float(components["total"][t])
+            component_err = abs(component_sum - float(direct[t]))
+            component_vs_hard_err = abs(component_sum - float(hard[t]))
+            max_err = max(max_err, err)
+            max_component_err = max(max_component_err, component_err)
+            max_component_vs_hard_err = max(max_component_vs_hard_err, component_vs_hard_err)
+            rows.append(
+                {
+                    "N": n_sites,
+                    "q": q,
+                    "beta": beta,
+                    "start": start,
+                    "u": u,
+                    "v": v,
+                    "t": t,
+                    "direct_shortcut_pmf": float(direct[t]),
+                    "hard_route_convolution_pmf": float(hard[t]),
+                    "eq57_group1_baseline": float(components["baseline"][t]),
+                    "eq57_group2_delta_h0": float(components["delta_h0"][t]),
+                    "eq57_group3_delta_hplus": float(components["delta_hplus"][t]),
+                    "eq57_group4_fu_h0": float(components["fu_h0"][t]),
+                    "eq57_group5_fu_hplus": float(components["fu_hplus"][t]),
+                    "eq57_five_group_sum": component_sum,
+                    "err": err,
+                    "err_eq57_five_group_sum": component_err,
+                    "err_eq57_five_group_sum_vs_hard_route": component_vs_hard_err,
+                }
+            )
+    return {
+        "rows": rows,
+        "max_err_hard_route_convolution_vs_direct_pmf": max_err,
+        "max_err_eq57_five_group_sum_vs_direct_pmf": max_component_err,
+        "max_err_eq57_five_group_sum_vs_hard_route": max_component_vs_hard_err,
+    }
+
+
+def validate_kernel_expansion_identities() -> float:
+    def a_plus_sum(t: int, x: float, s: float) -> float:
+        return sum((x ** (t - 1 - c)) * (s ** (c - 1)) for c in range(1, t))
+
+    def a_plus_display(t: int, x: float, s: float) -> float:
+        if abs(s - x) < 1.0e-14:
+            return (t - 1) * (s ** (t - 2)) if t >= 2 else 0.0
+        return (s ** (t - 1) - x ** (t - 1)) / (s - x)
+
+    def b_zero_sum(t: int, x: float, y: float) -> float:
+        return sum((x ** (t - 1 - b)) * (y ** (b - 1)) for b in range(1, t))
+
+    def b_zero_display(t: int, x: float, y: float) -> float:
+        if abs(x - y) < 1.0e-14:
+            return (t - 1) * (x ** (t - 2)) if t >= 2 else 0.0
+        return (x ** (t - 1) - y ** (t - 1)) / (x - y)
+
+    def b_plus_sum(t: int, x: float, y: float, s: float) -> float:
+        total = 0.0
+        for b in range(1, t):
+            for c in range(1, t - b):
+                a = t - 1 - b - c
+                total += (x**a) * (y ** (b - 1)) * (s ** (c - 1))
+        return total
+
+    def b_plus_display(t: int, x: float, y: float, s: float) -> float:
+        if abs(x - y) < 1.0e-14:
+            if abs(s - x) < 1.0e-14:
+                return sum((t - 1 - c) * (x ** (t - 2 - c)) * (s ** (c - 1)) for c in range(1, t - 1))
+            return ((s ** (t - 1) - x ** (t - 1)) / ((s - x) ** 2)) - ((t - 1) * (x ** (t - 2)) / (s - x))
+        return (
+            (x ** (t - 1)) / ((x - y) * (x - s))
+            + (y ** (t - 1)) / ((y - x) * (y - s))
+            + (s ** (t - 1)) / ((s - x) * (s - y))
+        )
+
+    max_err = 0.0
+    triples = (
+        (0.23, 0.51, 0.81),
+        (0.91, 0.42, 0.17),
+        (-0.15, 0.37, 0.73),
+    )
+    for t in range(1, 18):
+        for x, y, s in triples:
+            max_err = max(max_err, abs(a_plus_sum(t, x, s) - a_plus_display(t, x, s)))
+            max_err = max(max_err, abs(a_plus_sum(t, x, x) - a_plus_display(t, x, x)))
+            max_err = max(max_err, abs(b_zero_sum(t, x, y) - b_zero_display(t, x, y)))
+            max_err = max(max_err, abs(b_zero_sum(t, x, x) - b_zero_display(t, x, x)))
+            max_err = max(max_err, abs(b_plus_sum(t, x, y, s) - b_plus_display(t, x, y, s)))
+            max_err = max(max_err, abs(b_plus_sum(t, x, x, s) - b_plus_display(t, x, x, s)))
+    return max_err
 
 
 def direct_first_passage_ratio(n_sites: int, q: float, beta: float, u: int, v: int, start: int, z: float) -> float:
@@ -264,7 +659,7 @@ def validate_double_peaks() -> dict[str, object]:
         row = summary_by_n0[n0]
         any_actual = bool(row["any_clear_double_peak"])
         max_actual = float(row["max_beta_clear_double_peak"])
-        at_or_above_actual = int(row["clear_at_or_above_luca_count"])
+        at_or_above_actual = int(row["clear_at_or_above_beta_c_count"])
         if any_actual != any_expected or at_or_above_actual != at_or_above_expected:
             matches_claim = False
         if math.isnan(max_expected):
@@ -453,8 +848,8 @@ def compute_double_peak_metrics(
                     "sc_dst_paper": int(sc_dst_paper),
                     "beta": float(beta),
                     "p_shortcut": float(beta) * (1.0 - q),
-                    "luca_beta_c": beta_c,
-                    "beta_below_luca": float(beta) < beta_c - 1.0e-12,
+                    "beta_c_threshold": beta_c,
+                    "beta_below_threshold": float(beta) < beta_c - 1.0e-12,
                     "mass": float(np.sum(f)),
                     "survival_tail": float(survival),
                     "tmax_used": int(f.size),
@@ -469,11 +864,22 @@ def transition_summary(rows_in: list[dict[str, object]]) -> list[dict[str, objec
     for n0 in sorted({int(r["n0_paper"]) for r in rows_in}):
         group = sorted([r for r in rows_in if int(r["n0_paper"]) == n0], key=lambda r: float(r["beta"]))
         yes = [r for r in group if bool(r["clear_double_peak"])]
-        below = [r for r in group if bool(r["beta_below_luca"])]
-        above = [r for r in group if not bool(r["beta_below_luca"])]
+        below = [r for r in group if bool(r["beta_below_threshold"])]
+        above = [r for r in group if not bool(r["beta_below_threshold"])]
+        min_yes = math.nan
+        max_yes = math.nan
+        last_no_before_yes = math.nan
         first_no_after_yes = math.nan
         if yes:
+            min_yes = min(float(r["beta"]) for r in yes)
             max_yes = max(float(r["beta"]) for r in yes)
+            earlier_no = [
+                r
+                for r in group
+                if float(r["beta"]) < min_yes and not bool(r["clear_double_peak"])
+            ]
+            if earlier_no:
+                last_no_before_yes = float(earlier_no[-1]["beta"])
             later_no = [r for r in group if float(r["beta"]) > max_yes and not bool(r["clear_double_peak"])]
             if later_no:
                 first_no_after_yes = float(later_no[0]["beta"])
@@ -483,12 +889,14 @@ def transition_summary(rows_in: list[dict[str, object]]) -> list[dict[str, objec
                 "target_paper": int(group[0]["target_paper"]),
                 "sc_src_paper": int(group[0]["sc_src_paper"]),
                 "sc_dst_paper": int(group[0]["sc_dst_paper"]),
-                "luca_beta_c": float(group[0]["luca_beta_c"]),
+                "beta_c_threshold": float(group[0]["beta_c_threshold"]),
                 "any_clear_double_peak": bool(any(bool(r["clear_double_peak"]) for r in group)),
-                "max_beta_clear_double_peak": max(float(r["beta"]) for r in yes) if yes else math.nan,
+                "last_beta_no_before_clear": last_no_before_yes,
+                "min_beta_clear_double_peak": min_yes,
+                "max_beta_clear_double_peak": max_yes,
                 "first_beta_no_after_clear": first_no_after_yes,
-                "clear_below_luca_count": sum(1 for r in below if bool(r["clear_double_peak"])),
-                "clear_at_or_above_luca_count": sum(1 for r in above if bool(r["clear_double_peak"])),
+                "clear_below_beta_c_count": sum(1 for r in below if bool(r["clear_double_peak"])),
+                "clear_at_or_above_beta_c_count": sum(1 for r in above if bool(r["clear_double_peak"])),
                 "grid_points": int(len(group)),
             }
         )
@@ -505,15 +913,34 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
+def write_empty_csv(path: Path, fieldnames: list[str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+
+
 def main() -> None:
     outdir = AUDIT_DIR / "send_preflight_numeric_validation_20260607"
     outdir.mkdir(parents=True, exist_ok=True)
 
     resolvent_checks = validate_resolvent_and_closed_form()
+    eq14_checks = validate_eq14_and_orthogonality()
+    hard_route_checks = validate_hard_route_time_convolution()
+    kernel_expansion_err = validate_kernel_expansion_identities()
     pole_checks = validate_poles()
     peak_checks = validate_double_peaks()
 
     write_csv(outdir / "resolvent_closed_form_checks.csv", resolvent_checks["rows"])  # type: ignore[arg-type]
+    write_csv(outdir / "eq14_killed_propagator_checks.csv", eq14_checks["rows"])  # type: ignore[arg-type]
+    if eq14_checks["orthogonality_fail_rows"]:
+        write_csv(outdir / "orthogonality_identity_failures.csv", eq14_checks["orthogonality_fail_rows"])  # type: ignore[arg-type]
+    else:
+        write_empty_csv(
+            outdir / "orthogonality_identity_failures.csv",
+            ["N", "a", "b", "cos_sum", "sin_sum", "rhs_delta", "err_cos", "err_sin"],
+        )
+    write_csv(outdir / "hard_route_convolution_checks.csv", hard_route_checks["rows"])  # type: ignore[arg-type]
     write_csv(outdir / "pole_checks.csv", pole_checks["rows"])  # type: ignore[arg-type]
     write_csv(outdir / "double_peak_metrics.csv", peak_checks["metrics_rows"])  # type: ignore[arg-type]
     write_csv(outdir / "double_peak_summary.csv", peak_checks["summary"])  # type: ignore[arg-type]
@@ -521,6 +948,20 @@ def main() -> None:
     summary = {
         "max_err_corrected_plus_vs_direct": resolvent_checks["max_err_corrected_plus_vs_direct"],
         "max_err_closed_form_vs_direct": resolvent_checks["max_err_closed_form_vs_direct"],
+        "max_err_eq14_corrected_vs_absorbing": eq14_checks["max_err_eq14_corrected_vs_absorbing"],
+        "max_err_eq14_printed_order_vs_absorbing": eq14_checks["max_err_eq14_printed_order_vs_absorbing"],
+        "max_err_orthogonality_identities": eq14_checks["max_err_orthogonality_identities"],
+        "orthogonality_failure_rows": len(eq14_checks["orthogonality_fail_rows"]),  # type: ignore[arg-type]
+        "max_err_hard_route_convolution_vs_direct_pmf": hard_route_checks[
+            "max_err_hard_route_convolution_vs_direct_pmf"
+        ],
+        "max_err_eq57_five_group_sum_vs_direct_pmf": hard_route_checks[
+            "max_err_eq57_five_group_sum_vs_direct_pmf"
+        ],
+        "max_err_eq57_five_group_sum_vs_hard_route": hard_route_checks[
+            "max_err_eq57_five_group_sum_vs_hard_route"
+        ],
+        "max_err_kernel_expansion_identities": kernel_expansion_err,
         "min_s1_minus_gamma1": pole_checks["min_s1_minus_gamma1"],
         "min_alpha1_minus_s1": pole_checks["min_alpha1_minus_s1"],
         "max_denominator_residual": pole_checks["max_denominator_residual"],
@@ -530,30 +971,82 @@ def main() -> None:
     }
     (outdir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
+    def fmt_beta(value: object) -> str:
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            return "--"
+        if math.isnan(numeric):
+            return "--"
+        return f"{numeric:.3f}"
+
     lines = [
         "# Sendable preflight numerical validation",
         "",
         f"- corrected plus/plus formula vs direct matrix: {summary['max_err_corrected_plus_vs_direct']:.6e}",
         f"- compact closed form vs direct matrix: {summary['max_err_closed_form_vs_direct']:.6e}",
+        f"- corrected Eq. (14) killed propagator vs absorbing matrix: {summary['max_err_eq14_corrected_vs_absorbing']:.6e}",
+        f"- old reversed-bracket Eq. (14) killed propagator vs absorbing matrix: {summary['max_err_eq14_printed_order_vs_absorbing']:.6e}",
+        f"- orthogonality identities max residual: {summary['max_err_orthogonality_identities']:.6e}",
+        f"- hard-route time convolution vs direct shortcut PMF: {summary['max_err_hard_route_convolution_vs_direct_pmf']:.6e}",
+        f"- Eq. (57) five-group sum vs direct shortcut PMF: {summary['max_err_eq57_five_group_sum_vs_direct_pmf']:.6e}",
+        f"- Eq. (57) five-group sum vs hard-route convolution: {summary['max_err_eq57_five_group_sum_vs_hard_route']:.6e}",
+        f"- kernel-to-fully-expanded identities: {summary['max_err_kernel_expansion_identities']:.6e}",
         f"- min(s1-gamma1) over sampled betas: {summary['min_s1_minus_gamma1']:.6e}",
         f"- min(alpha1-s1) over sampled betas: {summary['min_alpha1_minus_s1']:.6e}",
         f"- max denominator residual at spectral s1: {summary['max_denominator_residual']:.6e}",
         f"- max normalized denominator residual at spectral s1: {summary['max_denominator_normalized_residual']:.6e}",
         f"- double-peak summary matches email claim: {summary['double_peak_matches_email_claim']}",
+        f"- beta_c reference value for the N=100 scan: {summary['beta_c']:.6f}",
         "",
-        "Outputs:",
+        "Clear double-peak sampled beta brackets:",
         "",
-        "- resolvent_closed_form_checks.csv",
-        "- pole_checks.csv",
-        "- double_peak_metrics.csv",
-        "- double_peak_summary.csv",
-        "- summary.json",
+        "n0 | no before | first clear | last clear | no after | clear at beta>=beta_c",
+        "-- | --------- | ----------- | ---------- | -------- | ----------------------",
     ]
+    for row in peak_checks["summary"]:  # type: ignore[index]
+        lines.append(
+            " | ".join(
+                [
+                    str(row["n0_paper"]),
+                    fmt_beta(row["last_beta_no_before_clear"]),
+                    fmt_beta(row["min_beta_clear_double_peak"]),
+                    fmt_beta(row["max_beta_clear_double_peak"]),
+                    fmt_beta(row["first_beta_no_after_clear"]),
+                    str(row["clear_at_or_above_beta_c_count"]),
+                ]
+            )
+        )
+    lines.extend(
+        [
+            "",
+            "These are sampled-grid brackets, not analytic threshold proofs.",
+            "",
+            "Outputs:",
+            "",
+            "- resolvent_closed_form_checks.csv",
+            "- eq14_killed_propagator_checks.csv",
+            "- orthogonality_identity_failures.csv",
+            "- hard_route_convolution_checks.csv",
+            "- pole_checks.csv",
+            "- double_peak_metrics.csv",
+            "- double_peak_summary.csv",
+            "- summary.json",
+        ]
+    )
     (outdir / "README.md").write_text("\n".join(lines), encoding="utf-8")
 
     checks = [
         summary["max_err_corrected_plus_vs_direct"] < 1.0e-12,
         summary["max_err_closed_form_vs_direct"] < 1.0e-12,
+        summary["max_err_eq14_corrected_vs_absorbing"] < 1.0e-12,
+        summary["max_err_eq14_printed_order_vs_absorbing"] > 1.0e-4,
+        summary["max_err_orthogonality_identities"] < 1.0e-10,
+        int(summary["orthogonality_failure_rows"]) == 0,
+        summary["max_err_hard_route_convolution_vs_direct_pmf"] < 1.0e-12,
+        summary["max_err_eq57_five_group_sum_vs_direct_pmf"] < 1.0e-12,
+        summary["max_err_eq57_five_group_sum_vs_hard_route"] < 1.0e-12,
+        summary["max_err_kernel_expansion_identities"] < 1.0e-12,
         summary["min_s1_minus_gamma1"] > 0.0,
         summary["min_alpha1_minus_s1"] > 0.0,
         summary["max_denominator_normalized_residual"] < 1.0e-9,

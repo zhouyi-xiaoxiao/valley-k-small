@@ -8,14 +8,12 @@ import type {
   BookClaimCoverage,
   BookManifest,
   ContentMap,
-  GatingDemoPayload,
   FigureRecord,
   GlossaryPayload,
   Lang,
   RepoSyncPayload,
   ReportMeta,
   ReportNetwork,
-  RingDemoPayload,
   SeriesPayload,
   TalkDeckManifest,
   TalkScriptPayload,
@@ -162,14 +160,6 @@ export function loadTalkScript(talkId: string, lang: Lang): TalkScriptPayload | 
 
 export function loadBasicDemo(talkId: string): BasicDemoPayload | null {
   return readJson<BasicDemoPayload>(path.join(DATA_ROOT, 'talks', talkId, 'basic_demo.json'));
-}
-
-export function loadRingDemo(talkId: string): RingDemoPayload | null {
-  return readJson<RingDemoPayload>(path.join(DATA_ROOT, 'talks', talkId, 'ring_demo.json'));
-}
-
-export function loadGatingDemo(talkId: string): GatingDemoPayload | null {
-  return readJson<GatingDemoPayload>(path.join(DATA_ROOT, 'talks', talkId, 'gating_demo.json'));
 }
 
 export function loadSeriesPayload(reportId: string, seriesId: string): SeriesPayload | null {

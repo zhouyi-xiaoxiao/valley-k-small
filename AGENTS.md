@@ -122,11 +122,12 @@ Hard rules:
 - Safe cleanup: `python3 scripts/reportctl.py cleanup`
 - Include hidden runtime state: `python3 scripts/reportctl.py cleanup --include-runtime`
 - Include virtualenvs only intentionally: `python3 scripts/reportctl.py cleanup --include-venv`
-- Runtime dirs (`.venv`, `.local`, `platform/web/{node_modules,.next,out}`,
+- Runtime dirs (`.venv`, `.local`, `platform/web/{.next,out}`,
   `platform/web/public/artifacts`) are od-divert symlinks into
   `~/.local-build/valley-k-small/`; cleanup empties the symlink target and
-  keeps the link. Never divert paths that contain tracked files
-  (e.g. `platform/web/public/data/v1`).
+  keeps the link. `platform/web/node_modules` stays a real directory (npm
+  reify replaces a root symlink on every install). Never divert paths that
+  contain tracked files (e.g. `platform/web/public/data/v1`).
 
 ## Keepalive
 - Prefer `./scripts/ka` for recurring Codex execution.

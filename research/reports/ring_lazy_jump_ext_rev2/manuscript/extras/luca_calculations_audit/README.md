@@ -213,3 +213,11 @@ The latest checked builds have no overfull boxes, underfull boxes, undefined
 references, fatal errors, or LaTeX errors.  The in-place REVTeX redline keeps one
 benign `nameref` compatibility warning about `\label`; the complete derivation
 log is clean.
+
+## As-sent provenance (added 2026-06-09)
+
+- `as_sent_email_attachments/` - byte-exact copies of every attachment actually
+  sent to Luca in the thread, pulled back from Outlook Sent Items via Graph,
+  organised by send timestamp, with a thread timeline README. The working
+  copies above keep evolving after each send; use this folder when you need
+  exactly what Luca received.

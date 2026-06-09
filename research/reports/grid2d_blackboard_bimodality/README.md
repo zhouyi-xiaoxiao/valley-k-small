@@ -14,9 +14,9 @@ From repo root:
 
 ```
 source .venv/bin/activate
-python3 reports/grid2d_blackboard_bimodality/code/blackboard_bimodality_pipeline.py --cases Z,S
-python3 reports/grid2d_blackboard_bimodality/code/z_scan.py
-cd reports/grid2d_blackboard_bimodality
+python3 research/reports/grid2d_blackboard_bimodality/code/blackboard_bimodality_pipeline.py --cases Z,S
+python3 research/reports/grid2d_blackboard_bimodality/code/z_scan.py
+cd research/reports/grid2d_blackboard_bimodality
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_cn.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_blackboard_bimodality_en.tex
 ```
@@ -35,7 +35,7 @@ Note: A/B/C and other exploratory configs are still in the repo but are not incl
 - `research/reports/grid2d_blackboard_bimodality/config/S_small_rect_endpoints.json`
 
 ## Screenshot scan
-- `python3 reports/grid2d_blackboard_bimodality/code/screenshot_scan.py`
+- `python3 research/reports/grid2d_blackboard_bimodality/code/screenshot_scan.py`
 - Output: `research/reports/grid2d_blackboard_bimodality/outputs/screenshot_scan.json`
 - Internals: implemented in `packages/vkcore/src/vkcore/grid2d/reflecting_blackboard/_screenshot_scan.py` using shared `model/scans/io` helpers.
 

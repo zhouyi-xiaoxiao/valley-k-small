@@ -26,19 +26,20 @@ This report studies when a 2D lazy random walk with **two absorbing targets** ca
 - C4: `w2=1`, `skip2=1`
 
 ## Outputs
-- Main report sources: `grid2d_two_target_double_peak_cn.tex`, `grid2d_two_target_double_peak_en.tex`
-- Main report PDFs: `grid2d_two_target_double_peak_cn.pdf`, `grid2d_two_target_double_peak_en.pdf`
-- Method comparison reports: `method_comparison_cn.md`, `method_comparison_en.md`
-- Luca-fast constructed case report: `luca_fast_case_cn.md`
-- Method comparison PDFs (detailed math + complexity): `method_comparison_cn.pdf`, `method_comparison_en.pdf`
-- Method comparison TeX sources: `method_comparison_cn.tex`, `method_comparison_en.tex`
-- Data summary: `data/case_summary.json`
-- External sparse testset summary: `data/sparse_testset_results.json`
-- Method comparison data: `data/method_comparison_c1.json`, `data/method_comparison_c1_truncation.csv`
-- Luca-fast case data: `data/luca_fast_case.json`
-- Per-case time series: `outputs/C*_fpt.csv`
-- Parameter scan data: `data/scan_w2_skip2.csv`, `data/scan_w2_skip2.json`
-- Figures: `figures/*.pdf`
+(root `data/`, `figures/`, `outputs/`, `tables/` are compatibility symlinks into `artifacts/`)
+- Main report sources: `manuscript/grid2d_two_target_double_peak_cn.tex`, `manuscript/grid2d_two_target_double_peak_en.tex`
+- Main report PDFs: `manuscript/grid2d_two_target_double_peak_cn.pdf`, `manuscript/grid2d_two_target_double_peak_en.pdf`
+- Method comparison reports: `notes/method_comparison_cn.md`, `notes/method_comparison_en.md`
+- Luca-fast constructed case report: `notes/luca_fast_case_cn.md`
+- Method comparison PDFs (detailed math + complexity): `manuscript/extras/method_comparison_cn.pdf`, `manuscript/extras/method_comparison_en.pdf`
+- Method comparison TeX sources: `manuscript/extras/method_comparison_cn.tex`, `manuscript/extras/method_comparison_en.tex`
+- Data summary: `artifacts/data/case_summary.json`
+- External sparse testset summary: `artifacts/data/sparse_testset_results.json`
+- Method comparison data: `artifacts/data/method_comparison_c1.json`, `artifacts/data/method_comparison_c1_truncation.csv`
+- Luca-fast case data: `artifacts/data/luca_fast_case.json`
+- Per-case time series: `artifacts/outputs/C*_fpt.csv`
+- Parameter scan data: `artifacts/data/scan_w2_skip2.csv`, `artifacts/data/scan_w2_skip2.json`
+- Figures: `artifacts/figures/*.pdf`
   - Includes `figures/case_C*_env_heatmap.pdf` (environment + three computed conditional occupancy heatmaps).
   - Includes `figures/case_C*_arrowfield.pdf` (large full local-bias arrow-field maps: one red arrow per biased cell).
   - Includes `figures/symbol_legend_panel.pdf` (script-generated symbol legend panel, aligned with all plots).
@@ -53,11 +54,11 @@ This report studies when a 2D lazy random walk with **two absorbing targets** ca
 
 ## Reproduce
 ```bash
-.venv/bin/python reports/grid2d_two_target_double_peak/code/two_target_2d_report.py
-.venv/bin/python reports/grid2d_two_target_double_peak/code/compare_numeric_methods.py
-.venv/bin/python reports/grid2d_two_target_double_peak/code/luca_fast_case.py
+.venv/bin/python research/reports/grid2d_two_target_double_peak/code/two_target_2d_report.py
+.venv/bin/python research/reports/grid2d_two_target_double_peak/code/compare_numeric_methods.py
+.venv/bin/python research/reports/grid2d_two_target_double_peak/code/luca_fast_case.py
 
-cd reports/grid2d_two_target_double_peak
+cd research/reports/grid2d_two_target_double_peak
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_two_target_double_peak_cn.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_two_target_double_peak_en.tex
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir method_comparison_cn.tex

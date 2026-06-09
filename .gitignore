@@ -28,6 +28,10 @@ platform/web/out/
 platform/web/node_modules/
 platform/web/public/data/v1/
 platform/web/public/artifacts/
+# Generic fallbacks per AGENTS.md/CLAUDE.md do-not-commit contract
+**/node_modules/
+**/.next/
+*.tsbuildinfo
 
 # LaTeX build outputs
 build/

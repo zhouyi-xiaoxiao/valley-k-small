@@ -22,7 +22,7 @@ The report-side script is a thin wrapper. Core pipeline code lives in:
 
 ## Regenerate configs/metrics/plots
 ```
-python3 reports/grid2d_reflecting_bimodality/code/reflecting_bimodality_pipeline.py
+python3 research/reports/grid2d_reflecting_bimodality/code/reflecting_bimodality_pipeline.py
 ```
 
 Equivalent unified entry:
@@ -32,7 +32,7 @@ python3 scripts/reportctl.py run --report grid2d_reflecting_bimodality -- python
 
 ## Build
 ```
-cd reports/grid2d_reflecting_bimodality
+cd research/reports/grid2d_reflecting_bimodality
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_reflecting_bimodality_cn.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_reflecting_bimodality_en.tex
 ```

@@ -87,4 +87,4 @@ Expected outputs:
 - `artifacts/figures/grid2d_bias_radius_heatmap_theta0.pdf`
 - `artifacts/figures/grid2d_representative_fpt_decomp_*.pdf`
 - `artifacts/tables/grid2d_double_peak_candidates.csv`
-- `SUMMARY.md`
+- `notes/SUMMARY.md`

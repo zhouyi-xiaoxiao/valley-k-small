@@ -27,12 +27,12 @@ Standalone cross-report benchmark for fixed-horizon full-FPT fairness. This is t
 
 ## Reproduce
 ```bash
-.venv/bin/python reports/cross_luca_regime_map/code/build_manifest.py
-.venv/bin/python reports/cross_luca_regime_map/code/run_regime_scan.py
-.venv/bin/python reports/cross_luca_regime_map/code/plot_regime_figures.py
-.venv/bin/python reports/cross_luca_regime_map/code/write_regime_report.py
+.venv/bin/python research/reports/cross_luca_regime_map/code/build_manifest.py
+.venv/bin/python research/reports/cross_luca_regime_map/code/run_regime_scan.py
+.venv/bin/python research/reports/cross_luca_regime_map/code/plot_regime_figures.py
+.venv/bin/python research/reports/cross_luca_regime_map/code/write_regime_report.py
 
-cd reports/cross_luca_regime_map
+cd research/reports/cross_luca_regime_map
 latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir cross_luca_regime_map_en.tex
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir cross_luca_regime_map_cn.tex
 ```

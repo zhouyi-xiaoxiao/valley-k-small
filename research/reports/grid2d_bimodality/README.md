@@ -4,9 +4,9 @@
 From repo root:
 
 ```
-MPLCONFIGDIR=reports/grid2d_bimodality/.mplcache \
-python3 reports/grid2d_bimodality/code/bimodality_2d_pipeline.py \
-  --cases-json reports/grid2d_bimodality/config/cases.json \
+MPLCONFIGDIR=research/reports/grid2d_bimodality/.mplcache \
+python3 research/reports/grid2d_bimodality/code/bimodality_2d_pipeline.py \
+  --cases-json research/reports/grid2d_bimodality/config/cases.json \
   --mc-samples 30000 \
   --t-max 3000 \
   --t-max-aw 3000 \
@@ -20,7 +20,7 @@ python3 reports/grid2d_bimodality/code/bimodality_2d_pipeline.py \
   --peak-smooth-window 9 \
   --log-eps 1e-14 \
   --tune_B 1
-cd reports/grid2d_bimodality
+cd research/reports/grid2d_bimodality
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_bimodality_cn.tex
 ```
 
@@ -32,11 +32,11 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-
 ## Legacy v1 reproduce (recorded)
 
 ```
-MPLCONFIGDIR=reports/grid2d_bimodality/.mplcache python3 reports/grid2d_bimodality/code/bimodality_2d_pipeline.py --mc-samples 5000 --t-max 3000 --t-max-scan 1500
+MPLCONFIGDIR=research/reports/grid2d_bimodality/.mplcache python3 research/reports/grid2d_bimodality/code/bimodality_2d_pipeline.py --mc-samples 5000 --t-max 3000 --t-max-scan 1500
 ```
 
 ## Outputs
-- Figures: `research/reports/grid2d_bimodality/figures/`
+- Figures: `research/reports/grid2d_bimodality/artifacts/figures/` (root `figures/` is a compatibility symlink)
   - Environment: `env/candidate_{A,B,C}_env.pdf`, `env/symbol_legend.pdf`
   - Fig3 panels: `fig3_panels/candidate_{A,B,C}_fig3_panel.pdf`, `fig3_panels/channel_cartoon.pdf`
   - Paths: `paths/candidate_{A,B,C}_paths_fast.pdf`, `paths/candidate_{A,B,C}_paths_slow.pdf`
@@ -44,9 +44,9 @@ MPLCONFIGDIR=reports/grid2d_bimodality/.mplcache python3 reports/grid2d_bimodali
   - Channel mix: `channel_decomp/candidate_{A,B,C}_channel_decomp.pdf`, `channel_decomp/candidate_B_scan.pdf`
   - Unwrapped: `unwrapped/candidate_{A,B,C}_unwrapped.pdf`
   - Gallery: `gallery.html`
-- Data: `research/reports/grid2d_bimodality/data/candidate_*_metrics.json`
+- Data: `research/reports/grid2d_bimodality/artifacts/data/candidate_*_metrics.json`
 - Repro artifacts: `candidate_*_aw_input.npz`, `candidate_*_aw_output.npz`, `candidate_*_paths.npz`, `candidate_*_Pt_times.npz`
-- Report: `research/reports/grid2d_bimodality/grid2d_bimodality_cn.pdf` (Chinese), `research/reports/grid2d_bimodality/grid2d_bimodality_en.pdf` (English)
+- Report: `research/reports/grid2d_bimodality/manuscript/grid2d_bimodality_cn.pdf` (Chinese), `research/reports/grid2d_bimodality/manuscript/grid2d_bimodality_en.pdf` (English)
 
 ## Key results
 - Candidate A: periodic wrap-around produces bimodality with two time scales; AW/exact/MC overlap.
@@ -60,6 +60,6 @@ MPLCONFIGDIR=reports/grid2d_bimodality/.mplcache python3 reports/grid2d_bimodali
 
 ## Tests
 ```
-python3 reports/grid2d_bimodality/code/tests/test_aw_pgf.py
-python3 reports/grid2d_bimodality/code/tests/test_aw_toy_v5.py
+python3 research/reports/grid2d_bimodality/code/tests/test_aw_pgf.py
+python3 research/reports/grid2d_bimodality/code/tests/test_aw_toy_v5.py
 ```

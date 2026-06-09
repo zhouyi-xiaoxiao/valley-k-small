@@ -21,10 +21,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-python3 reports/grid2d_rect_bimodality/code/rect_bimodality_report.py --quick
-python3 reports/grid2d_rect_bimodality/code/rect_bimodality_report.py
+python3 research/reports/grid2d_rect_bimodality/code/rect_bimodality_report.py --quick
+python3 research/reports/grid2d_rect_bimodality/code/rect_bimodality_report.py
 
-cd reports/grid2d_rect_bimodality
+cd research/reports/grid2d_rect_bimodality
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_cn.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_rect_bimodality_en.tex
 ```

@@ -76,4 +76,7 @@
 | `research/reports/grid2d_one_target_window_measures` | - | - |
 | `research/reports/grid2d_one_two_target_gating` | - | - |
 | `research/reports/exact_recursion_method_guide` | - | - |
+| `research/reports/encounter_reflecting_diagonal_decomp` | - | - |
+| `research/reports/encounter_reflecting_mean_validation` | - | - |
+| `research/reports/grid2d_two_target_bias_radius` | - | - |
 <!-- AUTO-INDEX:END -->

@@ -111,6 +111,20 @@ def run_tex_audit(*, mode: str) -> tuple[list[dict[str, Any]], dict[str, int]]:
         log_path = tex_dir / "build" / f"{case.path.stem}.log"
         log_text = log_path.read_text(encoding="utf-8", errors="ignore") if log_path.exists() else proc.stdout
         warn = parse_warnings(log_text)
+        if warn["undef_ref"] or warn["undef_cite"]:
+            # The log can be stale: latexmk skips up-to-date targets, leaving a
+            # log from before the labels resolved. Force one regeneration pass
+            # before reporting the references as undefined.
+            proc = subprocess.run(
+                cmd[:1] + ["-g"] + cmd[1:],
+                cwd=tex_dir,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                check=False,
+            )
+            log_text = log_path.read_text(encoding="utf-8", errors="ignore") if log_path.exists() else proc.stdout
+            warn = parse_warnings(log_text)
         for k, v in warn.items():
             agg[k] += v
         rows.append(

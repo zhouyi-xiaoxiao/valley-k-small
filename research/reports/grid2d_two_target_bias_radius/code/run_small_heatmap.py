@@ -452,7 +452,7 @@ def _write_summary(
     for path in representative_paths:
         lines.append(f"- representative decomposition: `{path.relative_to(REPORT_DIR)}`")
 
-    path = REPORT_DIR / "SUMMARY.md"
+    path = REPORT_DIR / "notes" / "SUMMARY.md"
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return path
 

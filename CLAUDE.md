@@ -22,7 +22,7 @@ position.
 1. **`AGENTS.md`** — the repo contract. Mandatory upkeep, validation, cleanup, conventions. Authoritative.
 2. **`README.md`** (Chinese) — canonical layout: `research/`, `platform/`, `packages/vkcore/`, `scripts/`, `tests/`.
 3. **`platform/skills/valley-k-small-continuation/SKILL.md`** — operational playbook with workflow router and reference docs (`core-checklist.md`, `report-map.md`, `research-conventions.md`).
-4. **`scripts/README.md`** — public CLI surface (28 `reportctl.py` subcommands + `ka` keepalive).
+4. **`scripts/README.md`** — public CLI surface (29 `reportctl.py` subcommands + `ka` keepalive).
 
 ## Public CLI surface
 

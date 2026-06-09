@@ -5,27 +5,44 @@
 - `scripts/ka`: keepalive / recurring Codex shell 入口
 - `scripts/README.md`: 本说明
 
-## `reportctl` 常用子命令
+## `reportctl` 全部子命令（29 个）
+
+报告操作:
 - `list`
 - `resolve`
 - `run`
 - `build`
 - `summary`
+- `archive`
+- `prune-legacy-artifacts`
 - `cleanup`
+
+校验与健康检查:
 - `validate-registry`
 - `validate-archives`
 - `check-docs-paths`
 - `validate-science-rules`
 - `audit`
 - `doctor`
-- `web-data`
-- `book-data`
 - `translation-qc`
 - `validate-web-data`
+
+站点与数据生成:
+- `web-data`
+- `book-data`
+- `backbone-data`
+- `web-build`
+- `web-preview`
+- `book-preview`
+- `sync-local-remote`
+
+agent 与交付:
 - `agent-sync`
 - `agent-pack`
 - `publication-pdf`
 - `deliverables`
+- `openclaw-review`
+- `content-iterate`
 
 ## Keepalive
 - 启动: `./scripts/ka start <job> [task text...]`

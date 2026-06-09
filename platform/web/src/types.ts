@@ -519,8 +519,6 @@ export type TalkFigureReference = {
 export type TalkAnimationSpec = {
   kind:
     | 'basic-walk'
-    | 'ring-branches'
-    | 'valley-budget'
     | 'formula-foundations'
     | 'mechanism-lab'
     | 'grid-hop-lab';
@@ -573,6 +571,8 @@ export type TalkSlide = {
   animation?: TalkAnimationSpec;
   evidence?: TalkEvidenceSpec;
   links?: TalkEvidenceLink[];
+  /** Report ids backing this slide's claims (provenance metadata). */
+  reporting?: string[];
 };
 
 export type TalkDeckManifest = {

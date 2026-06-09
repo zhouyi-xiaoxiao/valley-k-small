@@ -256,3 +256,37 @@ reports:
     languages: [en]
     archive_policy: keep
     status: wip
+  # ============================================================================
+  # Encounter / two-target validation series (wip scaffolds, registered for
+  # registry completeness; no main manuscript yet)
+  # ============================================================================
+  - id: encounter_reflecting_diagonal_decomp
+    aliases: []
+    path: research/reports/encounter_reflecting_diagonal_decomp
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: []
+    entry_scripts: [code/run_ratio_scan.py, code/compare_green_formula.py]
+    languages: [en]
+    archive_policy: keep
+    status: wip
+  - id: encounter_reflecting_mean_validation
+    aliases: []
+    path: research/reports/encounter_reflecting_mean_validation
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: []
+    entry_scripts: [code/run_smoke.py, code/run_diagonal_smoke.py]
+    languages: [en]
+    archive_policy: keep
+    status: wip
+  - id: grid2d_two_target_bias_radius
+    aliases: []
+    path: research/reports/grid2d_two_target_bias_radius
+    manuscript_dir: manuscript
+    artifact_dir: artifacts
+    main_tex: []
+    entry_scripts: [code/run_smoke.py, code/run_small_heatmap.py]
+    languages: [en]
+    archive_policy: keep
+    status: wip

@@ -10,9 +10,9 @@ It includes:
 ## Reproduce
 
 ```bash
-python3 reports/grid2d_two_walker_encounter_shortcut/code/two_walker_encounter_report.py
+python3 research/reports/grid2d_two_walker_encounter_shortcut/code/two_walker_encounter_report.py
 
-cd reports/grid2d_two_walker_encounter_shortcut
+cd research/reports/grid2d_two_walker_encounter_shortcut
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_two_walker_encounter_shortcut_cn.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir grid2d_two_walker_encounter_shortcut_en.tex
 ```

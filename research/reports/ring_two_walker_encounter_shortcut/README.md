@@ -11,9 +11,9 @@ It contains:
 ## Reproduce
 
 ```bash
-.venv/bin/python reports/ring_two_walker_encounter_shortcut/code/two_walker_ring_encounter_report.py
+.venv/bin/python research/reports/ring_two_walker_encounter_shortcut/code/two_walker_ring_encounter_report.py
 
-cd reports/ring_two_walker_encounter_shortcut
+cd research/reports/ring_two_walker_encounter_shortcut
 latexmk -xelatex -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir ring_two_walker_encounter_shortcut_cn.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-dir ring_two_walker_encounter_shortcut_en.tex
 ```
@@ -21,7 +21,7 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -auxdir=build -emulate-aux-
 ## Continuous Optimize Loop
 
 ```bash
-cd reports/ring_two_walker_encounter_shortcut
+cd research/reports/ring_two_walker_encounter_shortcut
 ../../.venv/bin/python code/continuous_optimize_loop.py --rounds 2
 ```
 

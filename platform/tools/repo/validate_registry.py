@@ -105,6 +105,15 @@ def validate_payload(payload: dict[str, Any], *, root: Path) -> list[str]:
                 errors.append(f"{where}.aliases collision: {alias!r}")
             aliases.add(alias)
 
+    reports_root = root / "research" / "reports"
+    if reports_root.is_dir():
+        for child in sorted(reports_root.iterdir()):
+            if not child.is_dir() or child.name.startswith(("_", ".")):
+                continue
+            rel = child.relative_to(root).as_posix()
+            if rel not in seen_paths:
+                errors.append(f"unregistered report directory: {rel}")
+
     return errors
 
 

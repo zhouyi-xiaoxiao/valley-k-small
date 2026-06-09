@@ -394,7 +394,7 @@ def main() -> None:
         json.dumps(summary_json, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    write_summary(rows, REPORT_DIR / "SUMMARY.md", summary_json)
+    write_summary(rows, REPORT_DIR / "notes" / "SUMMARY.md", summary_json)
     print(json.dumps(summary_json, indent=2, sort_keys=True))
 
 

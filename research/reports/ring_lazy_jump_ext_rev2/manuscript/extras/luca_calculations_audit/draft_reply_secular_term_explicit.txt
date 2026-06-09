@@ -1,80 +1,105 @@
-UNSENT DRAFT - reply to Luca's 2026-06-09 14:47 "simple algebra / log correction" email.
-Review before sending. Attachment: sendable_corrected_calculation_20260607/Calculations_corrected_sendable.pdf
-(recompiled 2026-06-09, now 20 pages, with the explicit secular-term algebra in the main text
-p.9 and Appendix A.4, and the 50-digit checks in Appendix C.1.1).
+UNSENT DRAFT (canonical merged version, 2026-06-09 late) - reply to Luca's
+"simple algebra / log correction" email of 2026-06-09 14:47.
+Attachments when sending:
+  sendable_corrected_calculation_20260607/Calculations_corrected_sendable.pdf  (21 pp)
+  Calculations_corrected_sendable_20260609_secular.zip  (source + both independent
+  verification scripts + outputs; compiles clean from an empty directory)
 
 ---
 
 Dear Luca,
 
-Thank you - I agree completely that the diagonal convolution of two identical
-alpha_l modes produces (t-1) alpha_l^{t-2} terms. Those terms really are present
-in the expanded route; that is not where we differ. The question is only the
-total coefficient that multiplies them after all diagonal contributions are
-collected, and that coefficient can be computed with simple algebra in closed
-form. I have now written this out explicitly in the attached revision
-(Appendix A.4, "Explicit vanishing of the diagonal secular coefficient").
+Thank you for the message. I worked through the simple algebra for the
+coefficient in front of t*alpha^t explicitly, and I have added it to the
+corrected notes (main text p. 9 and the end of Appendix A.4), together with
+the numerical checks. Let me summarise the few lines that decide it.
 
-Collecting the only two sources of (t-1) alpha_l^{t-2} in the expanded
-convolution route (the H(0) piece and the positive-time H piece) gives the
-total secular coefficient
+I agree that the diagonal convolution of two identical alpha_l modes
+produces (t-1)*alpha_l^(t-2) terms - they are visible in my fully expanded
+Eq. (58). The question is only the total coefficient that multiplies them.
+Exactly two terms of the expansion carry that factor: the H(0)-diagonal term
+and the j-summed diagonal term of the positive-time H-poles. Their total
+coefficient is
 
-    K_l = q f_l(u,v) g_l(n0,u,v) [ sum_j c_j/(s_j - alpha_l) - beta(1-q)/q ].
+    q f_l(u,v) g_l(n0,u,v) [ sum_j c_j/(s_j - alpha_l) - h0 ],
+    h0 = H(0) = beta(1-q)/q .
 
-The bracket vanishes identically because of the sum rule
+The bracket is precisely H~(z) evaluated at z = 1/alpha_l. Since the killed
+return function W~_u(u,z) has a simple pole at every z = 1/alpha_l (its
+residue coefficient there is 2/N, never zero), the feedback denominator
+1 + z beta(1-q) W~_u(u,z) diverges at that point, so
 
-    sum_j c_j/(s_j - alpha_l) = beta(1-q)/q     for every l = 1,...,L,
+    H~(1/alpha_l) = 0    identically in N, q and beta,
 
-whose proof is three lines of partial fractions: with s = 1/z,
+equivalently, in partial fractions (s = 1/z):
 
     H_hat(s) = prod_l (s - alpha_l) / [ a prod_j (s - s_j) ]
              = 1/a + sum_j c_j/(s - s_j),
 
-and setting s = alpha_m makes the left side vanish because alpha_m is a zero
-of the numerator. So K_l = 0 for every l and every (N, q, beta) with
-beta > 0 - no special combination of parameters is involved. The mechanism is
-structural rather than miraculous: H~ = [beta(1-q)/q] / [1 + z beta(1-q)
-W~_u(u,z)], and the same W~_u(u,z) that supplies the alpha_l modes of
-W_{n0}(u,t) and F_u(v,t) diverges in the denominator of H~, so H~ has a zero
-at every z = 1/alpha_l simultaneously. The would-be double pole is reduced to
-a simple pole by that zero, and the remaining simple-pole residue cancels
-against the no-shortcut baseline via
-f_l(n0,v) g_l(u,u,v) = g_l(n0,u,v) f_l(u,v).
+and setting s = alpha_m makes the left side vanish, giving
+sum_j c_j/(s_j - alpha_m) = h0. So the coefficient in front of t*alpha_l^t
+is zero for every l and every parameter combination, not only for special
+ones: every t*alpha_l^t-type term the convolution can produce comes
+multiplied by H~ evaluated exactly where H~ has a structural zero.
 
-I can also say exactly where a nonzero coefficient in front of t alpha_l^t
-comes from if one finds one. Kernels of the form (s_k^t - x^t)/[s_k(s_k - x)]
-correspond to using the positive-time pole expansion H(t'') = sum_k c_k
-s_k^{t''-1} down to t'' = 0. But H(0) = beta(1-q)/q, while
-sum_k c_k/s_k = beta(1-q)/q - c_inf with
+The plain alpha_l^(t-1) coefficients cancel in the same explicit way, so the
+time-domain argument closes without reading poles off any collected
+expression. The W-mode and off-diagonal contributions cancel pairwise by the
+same sum rule, and the remaining diagonal piece vanishes by a second,
+derivative sum rule,
 
-    c_inf = T_L(1 - 1/q) / D(1 - 1/q)  !=  0.
+    sum_j c_j/(s_j - alpha_l)^2 = -L/q        (independent of beta),
 
-Using the expansion at t''=0 therefore silently changes H(0) by -c_inf, and
-the diagonal secular coefficient then comes out as q f_l g_l c_inf instead of
-zero. For N=10, q=2/3, beta=4/7, c_inf = 2/11 exactly. In 50-digit arithmetic
-the variant with the (s^t - x^t)/(s(s-x)) kernels deviates from the exact
-finite shortcut matrix PMF by q f_1 g_1 c_inf (t-1) alpha_1^{t-2} (1+o(1)),
-while the H(0)-separated route and the closed form agree with the matrix to
-10^{-51} for all t up to 600. So the apparent log correction measures the
-time-zero boundary mismatch of the H expansion, not the tail of F.
+which follows from differentiating the partial fraction at s = alpha_m,
+where D reduces to U_{L-1}(eta_m) and T_L' = L U_{L-1}. Combined with the
+residue identity f_l(n0,v) = (N/2) f_l(u,v) g_l(n0,u,v), the total
+coefficient of alpha_l^(t-1) is exactly zero. So every alpha-dependent term
+of the expanded route cancels explicitly, and only the s_j^(t-1) modes
+survive - exactly the closed form.
 
-There is also a parameter-free way to see that no t lambda^t term can survive:
-for t >= 1 the first-passage probability is a linear functional of powers of
-the transient submatrix (all sites except v). That submatrix is symmetric -
-the shortcut only lowers the diagonal entry at u, since the reallocated mass
-exits through the absorbing column - hence diagonalizable with real spectrum
-{gamma_r} U {s_j}, and alpha_l is not in the spectrum for any beta > 0 (the
-roots s_j strictly interlace the alpha_l). A t lambda^t term would require a
-defective eigenvalue, which a symmetric matrix cannot have.
+I can also say precisely where a nonzero coefficient comes from. If the
+positive-time pole expansion H(t) = sum_j c_j s_j^(t-1) is also used at
+t'' = 0 - which is what kernels of the form (s_k^t - x^t)/[s_k(s_k - x)]
+do - then H(0) = beta(1-q)/q is silently replaced by sum_j c_j/s_j, and the
+t*alpha_l^t coefficient becomes proportional to
 
-The attached revision contains all of this explicitly: the zero of H~ at
-1/alpha_l and the spectral argument in the main text (p. 9), the collected
-secular coefficient, the sum rule with its proof, and the c_inf boundary
-identification in Appendix A.4, and the corresponding 50-digit numerical
-checks (including the beta-sweeps confirming gamma_1 < s_1 < alpha_1 on
-(0,1] for N = 10, 12, 100) in Appendix C.1.1.
+    h0 - sum_j c_j/s_j = c_inf = T_L(1-1/q)/D(1-1/q)  !=  0 .
 
-Happy to go through the three-line sum-rule proof at the whiteboard tomorrow.
+For N=10, q=2/3, beta=4/7 one has c_inf = 2/11 exactly: h0 = 2/7 = 0.2857...
+while sum_j c_j/s_j = 0.1039... This formula reproduces the apparent
+coefficient of the uncollected route to machine precision in my checks. So
+the t*alpha^t term measures the H(0) bookkeeping replacement at the time-zero
+boundary, not a property of the walk.
+
+There is also a structural reason why no fine-tuning can be involved.
+Because the shortcut is directed into the absorbing site, it only changes
+one diagonal entry of the transient block: on the transient states the
+matrix is symmetric tridiagonal with off-diagonal q/2, with 1-q replaced by
+(1-beta)(1-q) at u. A symmetric Jacobi matrix has a complete eigenbasis and
+simple spectrum for every parameter choice, so no Jordan block and hence no
+t*lambda^t term can occur at all. Its spectrum is exactly {roots s_j of D}
+union {gamma_r}; the gamma_r modes are antisymmetric under reflection and
+carry zero amplitude in the first-passage probability, and alpha_l is not an
+eigenvalue for beta > 0 because D(eta_l) = U_{L-1}(eta_l) != 0. I confirmed
+this by exact diagonalization of the finite matrix in high-precision
+arithmetic: the spectrum matches to ~1e-60, the exact first-passage
+probability obeys F(t+1)/F(t) -> s_1 to 15 digits already by t = 200, while
+F(t)/(t alpha_1^(t-1)) decays to zero (4.5e-45 by t = 3000), and the closed
+form F(t) = sum_j B_rhoj s_j^(t-1) agrees with the exact finite chain to
+1e-52 for all t up to 600.
+
+Two further points are now proved rather than sampled in the revised notes.
+First, gamma_1 < s_1 < alpha_1 holds for all 0 < q < 1 and 0 < beta <= 1 by
+a sign argument: at the gamma_r locations U_{L-1} vanishes, so
+D = a T_L = a(-1)^r != 0, which also shows that a crossing s_j = gamma_r is
+impossible for any positive beta. Second, the dominant amplitude is strictly
+positive, B_rho1 > 0 for every starting distance and all parameters, from
+the compact form B_rhoj = q U_{rho-1}(y_j)[T_L(y_j)-1]/[T_L(y_j) D'(y_j)]
+and the bracketing of y_1; so the dominant s_1 mode never drops out.
+
+I attach the updated PDF with these additions, and a zip with the source and
+the two independent verification scripts and their outputs. Happy to go
+through the three-line sum-rule proof at the whiteboard.
 
 Best wishes,
 Xiaoxiao

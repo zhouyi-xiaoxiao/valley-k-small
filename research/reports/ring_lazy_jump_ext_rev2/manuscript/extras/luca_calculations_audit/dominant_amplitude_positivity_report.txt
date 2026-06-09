@@ -1,0 +1,17 @@
+==============================================================================
+Strict positivity of the dominant first-passage amplitude B_{rho,1}
+mpmath dps = 50
+==============================================================================
+
+points checked (N x q x beta x rho)        : 3486
+max | compact form - residue form |        : 1.002e-51
+exact-matrix cross-checks (small N)        : 462
+max | B1_residue - B1_exact_matrix |       : 6.27e-17
+sign-fact violations (T_L,U,D' on y_1)     : 0
+dominant-root bracket violations           : 0
+min B_{rho,1} over the whole grid          : 0.000124522
+    attained at (N,q,beta,rho)             : (40, '1/4', '1/100', 1)
+smallest margin of T_L(y_1) to {-1,0}      : 0.001313
+
+VERDICT: B_{rho,1} > 0 strictly, compact form == residue form, and matrix-confirmed  ->  PASS
+==============================================================================

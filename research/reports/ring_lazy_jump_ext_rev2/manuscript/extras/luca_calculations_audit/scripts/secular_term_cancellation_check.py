@@ -531,6 +531,23 @@ def audit_case(N, q, beta, rho, tmax=600, tprobe=(50, 150, 300, 600)):
     err11 = max(fabs(f_n0v[l] * g2_uu[l] - f_n0u_g[l] * f_uv[l]) for l in range(L))
     say(f"[11] residue identity f_l(n0,v) g_l(u,u) = g_l(n0,u) f_l(u,v): max|dev| = {mp.nstr(err11, 3)}")
 
+    # CHECK 12: complete plain-alpha cancellation (value rule + derivative rule)
+    # derivative sum rule: sum_j c_j/(s_j-alpha_l)^2 = -L/q for every l (beta-independent)
+    err12a = max(fabs(sum(c / (s - al) ** 2 for c, s in zip(cs, ss)) + mpf(L) / m["q"])
+                 for al in alpha)
+    # W-mode plain-alpha coefficient (groups 2+3): q h0 g_l - q g_l sum_j c_j/(s_j-alpha_l)
+    err12b = max(fabs(m["q"] * m["h0"] * g2[l]
+                      - m["q"] * g2[l] * sum(c / (s - alpha[l]) for c, s in zip(cs, ss)))
+                 for l in range(L))
+    # total plain alpha_l^{t-1} coefficient across all five groups:
+    #   f_l(n0,v) + q f_l(u,v) g_l sum_j c_j/(s_j-alpha_l)^2   (off-diagonals cancel by value rule)
+    err12c = max(fabs(f_n0v[l] + m["q"] * f_uv[l] * g2[l]
+                      * sum(c / (s - alpha[l]) ** 2 for c, s in zip(cs, ss)))
+                 for l in range(L))
+    say(f"[12] derivative sum rule sum_j c_j/(s_j-alpha_l)^2 = -L/q: max|dev| = {mp.nstr(err12a, 3)}")
+    say(f"     W-mode plain-alpha cancellation (groups 2+3): max|dev| = {mp.nstr(err12b, 3)}")
+    say(f"     total plain alpha_l^(t-1) coefficient (all five groups): max|dev| = {mp.nstr(err12c, 3)}")
+
     say()
     return dict(err_closed=float(err1), spec_err=spec_err,
                 min_alpha_dist=min_alpha_dist,

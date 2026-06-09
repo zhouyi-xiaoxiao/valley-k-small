@@ -50,3 +50,21 @@ q f_l g_l c_inf with c_inf = T_L(1-1/q)/D(1-1/q) is identified as the
 time-zero boundary mismatch of the H-pole expansion (the (s^t-x^t)/(s(s-x))
 kernels). Appendix C.1.1 records the corresponding 50-digit checks
 (scripts/secular_term_cancellation_check.py in the local audit folder).
+
+2026-06-09 second update (merged from the parallel independent audit). The
+plain alpha_l^(t-1) coefficients are also cancelled explicitly in Appendix
+A.4 via the derivative sum rule sum_j c_j/(s_j-alpha_l)^2 = -L/q
+(beta-independent), plus the gamma identity sum_j c_j/(gamma_r-s_j)=0. The
+main-text spectral argument is sharpened to the Jacobi/simple-spectrum form
+with the reflection-symmetry explanation of the zero gamma-amplitude.
+Appendix C now contains the analytic location of the dominant root
+(D = a(-1)^r at every gamma_r location, so s_j = gamma_r crossings are
+impossible and gamma_1 < s_1 < alpha_1 holds for all 0<q<1, 0<beta<=1) and
+the strict positivity proof B_rho1 > 0 via the compact amplitude form
+B_rhoj = q U_(rho-1)(y_j)[T_L(y_j)-1]/[T_L(y_j) D'(y_j)], grid-checked by
+scripts/dominant_amplitude_positivity_check.py (3486 cases, min 1.2e-4).
+A second fully independent verification script
+(scripts/independent_tail_cancellation_audit.py, exact rationals + 60-digit
+arithmetic, with outputs in independent_audit_20260609/) reproduces the
+same conclusions, including per-mode five-group bookkeeping and the
+evaluation of the previous Eq. (41) exactly as printed.

@@ -29,6 +29,9 @@ CASE N=10, q=2/3, beta=4/7, rho=2  (v=0, u=5, n0=2)
     t= 300:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 2.09321e-8
     t= 600:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 1.10968e-12
 [11] residue identity f_l(n0,v) g_l(u,u) = g_l(n0,u) f_l(u,v): max|dev| = 4.18e-53
+[12] derivative sum rule sum_j c_j/(s_j-alpha_l)^2 = -L/q: max|dev| = 5.24e-49
+     W-mode plain-alpha cancellation (groups 2+3): max|dev| = 1.34e-51
+     total plain alpha_l^(t-1) coefficient (all five groups): max|dev| = 7.35e-51
 
 ==============================================================================
 CASE N=12, q=1/2, beta=3/10, rho=5  (v=0, u=6, n0=5)
@@ -62,6 +65,9 @@ CASE N=12, q=1/2, beta=3/10, rho=5  (v=0, u=6, n0=5)
     t= 250:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 1.6572e-6
     t= 400:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 6.58967e-8
 [11] residue identity f_l(n0,v) g_l(u,u) = g_l(n0,u) f_l(u,v): max|dev| = 2.71e-52
+[12] derivative sum rule sum_j c_j/(s_j-alpha_l)^2 = -L/q: max|dev| = 7.48e-49
+     W-mode plain-alpha cancellation (groups 2+3): max|dev| = 5.43e-52
+     total plain alpha_l^(t-1) coefficient (all five groups): max|dev| = 2.26e-51
 
 ==============================================================================
 CASE N=10, q=2/3, beta=1/50, rho=1  (v=0, u=5, n0=1)
@@ -94,6 +100,9 @@ CASE N=10, q=2/3, beta=1/50, rho=1  (v=0, u=5, n0=1)
     t= 250:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 3.94298e-5
     t= 400:  F/(B_1 s_1^(t-1)) = 1.0    F/(t alpha_1^t) = 2.00791e-5
 [11] residue identity f_l(n0,v) g_l(u,u) = g_l(n0,u) f_l(u,v): max|dev| = 5.22e-54
+[12] derivative sum rule sum_j c_j/(s_j-alpha_l)^2 = -L/q: max|dev| = 1.62e-47
+     W-mode plain-alpha cancellation (groups 2+3): max|dev| = 1.16e-51
+     total plain alpha_l^(t-1) coefficient (all five groups): max|dev| = 1.88e-49
 
 ==============================================================================
 BETA SWEEP N=10, q=2/3: check gamma_1 < s_1 < alpha_1

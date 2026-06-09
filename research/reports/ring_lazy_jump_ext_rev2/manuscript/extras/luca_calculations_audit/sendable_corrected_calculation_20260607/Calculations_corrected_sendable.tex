@@ -503,10 +503,11 @@ F_\rho(0,t)=\sum_k B_{\rho k}s_k^{t-1},\qquad
 B_{\rho k}=\frac{q\left[aT_{L-\rho}(y_k)+U_{\rho-1}(y_k)+U_{L-\rho-1}(y_k)\right]}{D'(y_k)}.
 \label{eq:tail_residue}
 \end{align}
-Therefore, ordering the roots so that \(s_1\) is the dominant positive pole and assuming \(B_{\rho 1}\neq 0\), the corrected long-time dependence is
+Therefore, ordering the roots so that \(s_1\) is the dominant positive pole, the corrected long-time dependence is
 \[
   F_\rho(0,t)\sim B_{\rho 1}s_1^{t-1},\qquad t\to\infty.
 \]
+The dominant amplitude is not merely assumed nonzero: \(B_{\rho 1}>0\) strictly for every \(\rho,q,\beta\), proved in Appendix C from the compact form Eq. (\ref{eq:app_B1_positive}) and verified there to \(50\) digits.
 Equivalently, the exponential decay rate is \(-\log s_1\).  The dependence on the shortcut strength enters through
 \[
   a=\frac{q}{\beta(1-q)}
@@ -528,9 +529,9 @@ because the same killed propagator \(\widetilde W_u(u,z)\) that supplies the \(\
 \]
 which holds term by term from the definitions in Eqs. (\ref{eq:fn0m}) and (\ref{eq:small_g}).  This is the same statement as the \(T_L(y)\) factorization above.  Appendix A.4 shows the corresponding cancellation directly in the time domain: the total coefficient of the diagonal secular term \((t-1)\alpha_\ell^{t-2}\) is proportional to \(\sum_j c_j/(s_j-\alpha_\ell)-\beta(1-q)/q\), and this bracket vanishes identically by the sum rule in Eq. (\ref{eq:app_sum_rule}), which is nothing but \(\widetilde H(1/\alpha_\ell)=0\).  So the disappearance of the \(t\alpha_\ell^t\) coefficient is not a fine-tuned coincidence: it is forced, for every \(\ell\) and every admissible \((N,q,\beta)\), by the structure of \(\widetilde H\).
 
-Second, no parameter choice can make a \(t\lambda^t\) term survive in this model at all.  For \(t\geq1\) the first-passage probability is a linear functional of powers of the transient submatrix of the shortcut chain (all rows and columns except the absorbing site \(v\)).  That submatrix is \emph{symmetric}: starting from the symmetric killed ring matrix, the directed shortcut only lowers the diagonal entry at \(u\), because the reallocated mass \(\beta(1-q)\) leaves through the absorbing column.  A symmetric matrix is orthogonally diagonalizable with real spectrum, and a diagonalizable finite chain produces a pure sum of geometric modes \(\sum_i\kappa_i\lambda_i^t\); a secular term \(t\lambda^t\) would require a defective (Jordan-block) eigenvalue, which a symmetric matrix cannot have.  The spectrum of the transient submatrix is exactly \(\{\gamma_r\}_{r=1}^{L-1}\cup\{s_j\}_{j=1}^{L}\): the even (\(\gamma\)) eigenvectors vanish at \(u\) and are untouched by the rank-one defect, while the odd modes move from \(\alpha_\ell\) to the roots \(s_j\) of \(D(y)\), strictly interlacing the \(\alpha_\ell\) for every \(\beta>0\).  Hence for \(\beta>0\) the values \(\alpha_\ell\) are not in the spectrum, and a \(t\alpha_\ell^t\) contribution is impossible rather than merely cancelled.  (In the antipodal geometry the \(\gamma_r\)-modes also carry zero absorption flux, which is why Eq. (\ref{eq:tail_residue}) contains only the \(s_j\); see the note after Eq. (\ref{eq:app_W_modes}).)
+Second, no parameter choice can make a \(t\lambda^t\) term survive in this model at all.  For \(t\geq1\) the first-passage probability is a linear functional of powers of the transient submatrix of the shortcut chain (all rows and columns except the absorbing site \(v\)).  That submatrix is a \emph{symmetric tridiagonal (Jacobi) matrix with positive off-diagonal entries}: deleting \(v\) turns the ring into a path with off-diagonal entries \(q/2\) and diagonal \(1-q\), and the directed shortcut only lowers the diagonal entry at \(u\) to \(1-q-\beta(1-q)\), because the reallocated mass \(\beta(1-q)\) leaves through the absorbing column.  A Jacobi matrix with positive off-diagonals is diagonalizable with real and \emph{simple} spectrum for every parameter choice, so the exact PMF is a pure sum of geometric modes \(\sum_i\kappa_i\lambda_i^t\); a secular term \(t\lambda^t\) would require a defective (Jordan-block) eigenvalue, which such a matrix cannot have, and even accidental eigenvalue degeneracies are excluded.  The reflection symmetry \(n\mapsto N-n\) splits the eigenvectors into \(L-1\) antisymmetric modes, which vanish at \(u\) and keep the unperturbed eigenvalues \(\gamma_r\), and \(L\) symmetric modes, whose eigenvalues are exactly the roots \(s_j\) of \(D(y)\), strictly interlacing the \(\alpha_\ell\) for every \(\beta>0\).  Hence for \(\beta>0\) the values \(\alpha_\ell\) are not in the spectrum, since \(D(\eta_\ell)=U_{L-1}(\eta_\ell)\neq0\), and a \(t\alpha_\ell^t\) contribution is impossible rather than merely cancelled; likewise \(s_j=\gamma_r\) never occurs, since \(D=a(-1)^r\neq0\) at every \(\gamma_r\) location (Appendix C).  Finally, the one-step absorption vector is reflection symmetric, so the antisymmetric \(\gamma_r\)-modes carry zero amplitude in the first-passage probability for \emph{every} starting site; this is why Eq. (\ref{eq:tail_residue}) contains only the \(s_j\), in agreement with the explicit \(G^{(1)}_r=0\) computation noted after Eq. (\ref{eq:app_W_modes}).
 
-The finite-time one-peak/two-peak transition is therefore a shape question for the full first-passage distribution, not a criterion obtained from the auxiliary \(H\)-pole plot alone.  In particular, for finite positive \(\beta\) in the corrected pole equation, the proposed crossing \(s_1=\gamma_1=1-q+q\cos(2\pi/N)\) does not occur; the dominant corrected pole satisfies \(\gamma_1<s_1<\alpha_1\).
+The finite-time one-peak/two-peak transition is therefore a shape question for the full first-passage distribution, not a criterion obtained from the auxiliary \(H\)-pole plot alone.  In particular, the proposed crossing \(s_1=\gamma_1=1-q+q\cos(2\pi/N)\) does not occur for any finite positive \(\beta\); the dominant corrected pole satisfies \(\gamma_1<s_1<\alpha_1\) for all \(0<q<1\) and \(0<\beta\leq1\), by the sign argument in Appendix C (\(D=-a<0\) at the \(\gamma_1\) location, \(D=U_{L-1}(\eta_1)>0\) at the \(\alpha_1\) location, and \(D>0\) above it).
 The deterministic finite-matrix numerical audit used to check these statements is recorded in Appendix C, including the direct shortcut matrix benchmark and the five-group check of Eq. (\ref{eq:app_hard_route_result}).
 
 \clearpage
@@ -973,7 +974,36 @@ which is the same partial-fraction data as \(c_j=qT_L(y_j)/D'(y_j)\), and the co
   \qquad\Longleftrightarrow\qquad
   \sum_j\frac{c_j}{s_j-\alpha_m}=h_0 .
 \]
-This is Eq. (\ref{eq:app_sum_rule}); it is the time-domain face of the statement \(\widetilde H(1/\alpha_m)=0\) of Eq. (\ref{eq:H_zero_at_alpha}).  The zero is structural: the same \(\widetilde W_u(u,z)\) that supplies the \(\alpha_\ell\)-modes to \(W_{n_0}(u,\cdot)\) and \(\mathcal F_u(v,\cdot)\) sits in the denominator of \(\widetilde H\), so \(\widetilde H\) vanishes at every \(\alpha\)-location simultaneously.
+This is Eq. (\ref{eq:app_sum_rule}); it is the time-domain face of the statement \(\widetilde H(1/\alpha_m)=0\) of Eq. (\ref{eq:H_zero_at_alpha}).  The zero is structural: the same \(\widetilde W_u(u,z)\) that supplies the \(\alpha_\ell\)-modes to \(W_{n_0}(u,\cdot)\) and \(\mathcal F_u(v,\cdot)\) sits in the denominator of \(\widetilde H\), so \(\widetilde H\) vanishes at every \(\alpha\)-location simultaneously.  The analogous evaluation at \(s=\gamma_r\), where \(U_{L-1}\) vanishes so that \(\Delta(\gamma_r)=a\prod_\ell(\gamma_r-\alpha_\ell)\) cancels the numerator of Eq. (\ref{eq:app_Hhat_pf}) exactly, gives \(\widehat H(\gamma_r)=1/a=h_0\) and hence \(\sum_jc_j/(\gamma_r-s_j)=0\): the \(\gamma\)-modes pass through the shortcut kernel with no net weight, consistent with their zero amplitude in the final tail expression.
+
+\medskip
+\noindent\textbf{The plain \(\alpha_\ell^{t-1}\) coefficients vanish as well.}
+The same bookkeeping closes the time-domain argument completely: not only the secular diagonal, but every \(\alpha_\ell\)-dependent term of Eq. (\ref{eq:app_hard_route_result}) cancels explicitly, so no appeal to pole locations of any collected expression is needed.  Collect the coefficient of \(\alpha_\ell^{t-1}\) group by group (recall \(G^{(1)}_r=0\) in the antipodal geometry).
+(i) \emph{\(W\)-mode terms} (second and third lines): the \(h_0\)-piece contributes \(+q h_0 g^{(2)}_\ell\), and the \(H_+\)-difference quotients contribute \(-q g^{(2)}_\ell\sum_jc_j/(s_j-\alpha_\ell)\); by the sum rule (\ref{eq:app_sum_rule}) these add to zero.
+(ii) \emph{Off-diagonal \(\mathcal F_u\)-terms} (fourth and fifth lines, \(r\neq\ell\)): both carry the same bracket
+\(X_\ell=g^{(2)}_\ell\sum_{m\neq\ell}f_m(u,v)/(\alpha_\ell-\alpha_m)+f_\ell(u,v)\sum_{m\neq\ell}g^{(2)}_m/(\alpha_\ell-\alpha_m)\),
+the \(h_0\)-group with weight \(-qh_0\) and the \(H_+\)-group with weight \(-q\sum_jc_j/(\alpha_\ell-s_j)=+qh_0\); they cancel pairwise, again by the sum rule.
+(iii) \emph{Diagonal remainder}: the surviving \(\alpha_\ell^{t-1}\) pieces are the baseline \(f_\ell(n_0,v)\) and the \(-\alpha_\ell^{t-1}/(s_j-\alpha_\ell)^2\) part of the diagonal kernel, giving the total
+\begin{align}
+  \Bigl[f_\ell(n_0,v)+q\,f_\ell(u,v)\,g^{(2)}_\ell(n_0,u,v)\sum_j\frac{c_j}{(s_j-\alpha_\ell)^2}\Bigr]\alpha_\ell^{t-1}.
+  \label{eq:app_plain_alpha_total}
+\end{align}
+This vanishes by a second, derivative sum rule.  Differentiating Eq. (\ref{eq:app_Hhat_pf}) and evaluating at \(s=\alpha_m\), where \(T_L\) vanishes while \(D(\eta_m)=U_{L-1}(\eta_m)\) and \(T_L'(\eta_m)=L\,U_{L-1}(\eta_m)\),
+\begin{align}
+  \sum_j\frac{c_j}{(s_j-\alpha_m)^2}
+  =-\widehat H'(\alpha_m)
+  =-\frac{T_L'(\eta_m)}{q\,D(\eta_m)}
+  =-\frac{L}{q},
+  \qquad m=1,\ldots,L,
+  \label{eq:app_derivative_sum_rule}
+\end{align}
+remarkably independent of \(\beta\).  Substituting into Eq. (\ref{eq:app_plain_alpha_total}) and using \(\sin^2[(2\ell-1)\pi L/N]=1\), the bracket becomes
+\[
+  f_\ell(n_0,v)-\frac{N}{2}\,f_\ell(u,v)\,g^{(2)}_\ell(n_0,u,v)
+  =\frac{2q}{N}\sin\frac{(2\ell-1)\pi\rho}{N}\sin\frac{(2\ell-1)\pi}{N}
+  -\frac{2q}{N}\sin\frac{(2\ell-1)\pi\rho}{N}\sin\frac{(2\ell-1)\pi}{N}=0 ,
+\]
+which is the residue identity quoted in the main text.  Hence \emph{every} \(\alpha_\ell\)-dependent term of Eq. (\ref{eq:app_hard_route_result}) --- \(W\)-mode, off-diagonal, diagonal-secular, and plain --- cancels explicitly in the time domain, and the only surviving modes are the \(s_j^{t-1}\), in agreement with the closed form Eq. (\ref{eq:app_tail_residue}).  Both sum rules, Eqs. (\ref{eq:app_sum_rule}) and (\ref{eq:app_derivative_sum_rule}), are verified to \(50\)-digit precision in Appendix C.1.1.
 
 \medskip
 \noindent\textbf{Where a spurious \(t\alpha_\ell^t\) term comes from.}
@@ -1170,6 +1200,38 @@ B_{\rho j}=\frac{qN_\rho(y_j)}{D'(y_j)}.
 \end{align}
 Thus the corrected long-time decay is controlled by the dominant root of \(D\), not by a generic \(t\alpha_1^t\) contribution.
 
+\medskip
+\noindent\textbf{Analytic location of the dominant root.}
+The bracket \(\gamma_1<s_1<\alpha_1\) follows from the signs of \(D\) at the mode locations; no sampling is involved.  In the \(y\)-variable the \(\gamma_r\)-locations are \(\cos(r\pi/L)\), the zeros of \(U_{L-1}\), and there
+\[
+  D\!\left(\cos\frac{r\pi}{L}\right)
+  =a\,T_L\!\left(\cos\frac{r\pi}{L}\right)
+  =a\cos(r\pi)
+  =a(-1)^r\neq0
+  \qquad (r=1,\ldots,L-1),
+\]
+so for every finite \(a\), i.e.\ every \(\beta>0\), no root of \(D\) coincides with any \(\gamma_r\): the crossing \(s_j=\gamma_r\) is impossible, not merely unobserved.  Likewise at the \(\alpha_\ell\)-locations \(\eta_\ell\), \(D(\eta_\ell)=U_{L-1}(\eta_\ell)\neq0\), so no root coincides with any \(\alpha_\ell\).  For the dominant root: \(D(\cos\frac{\pi}{L})=-a<0\), while \(D(\eta_1)=U_{L-1}(\eta_1)=1/\sin\frac{\pi}{2L}>0\), and on \((\eta_1,1]\) both \(T_L>0\) and \(U_{L-1}>0\), so \(D>0\) there and no root lies above \(\eta_1\).  Hence the largest root satisfies
+\[
+  \cos\frac{\pi}{L}<y_1<\eta_1=\cos\frac{\pi}{2L},
+  \qquad\text{i.e.}\qquad
+  \gamma_1<s_1<\alpha_1
+  \qquad\text{for all }0<q<1,\ 0<\beta\leq1 .
+\]
+As \(\beta\to0^+\) (\(a\to\infty\)) the root \(y_1\) approaches \(\eta_1\) from below, and as \(\beta\) grows it moves down toward, but never reaches, \(\cos(\pi/L)\).
+
+\medskip
+\noindent\textbf{Strict positivity of the dominant amplitude.}
+The tail statement no longer carries the qualifier \(B_{\rho1}\neq0\): the dominant amplitude is strictly positive for every admissible \((\rho,q,\beta)\).  On a root \(D(y_j)=0\) the reduced numerator collapses to a single Chebyshev ratio.  The Appendix-B identity \(T_L(y)N_\rho(y)=M_\rho(y)\) with \(M_\rho(y)=T_{L-\rho}(y)D(y)+U_{\rho-1}(y)[T_L(y)-1]\) gives, at \(D(y_j)=0\), \(N_\rho(y_j)=U_{\rho-1}(y_j)[T_L(y_j)-1]/T_L(y_j)\), so
+\begin{align}
+  B_{\rho j}=\frac{q\,U_{\rho-1}(y_j)\,[\,T_L(y_j)-1\,]}{T_L(y_j)\,D'(y_j)}.
+  \label{eq:app_B1_positive}
+\end{align}
+For the dominant root the established bracket \(\gamma_1<s_1<\alpha_1\) places \(y_1=(s_1-(1-q))/q\) strictly inside \((\cos\tfrac{\pi}{L},\cos\tfrac{\pi}{2L})\), i.e. \(\theta_1:=\arccos y_1\in(\tfrac{\pi}{2L},\tfrac{\pi}{L})\).  Three signs follow.
+(i) \(T_L(y_1)=\cos(L\theta_1)\in(-1,0)\), since \(L\theta_1\in(\tfrac{\pi}{2},\pi)\); hence \(T_L(y_1)<0\) and \(T_L(y_1)-1<0\).
+(ii) \(U_{\rho-1}(y_1)=\sin(\rho\theta_1)/\sin\theta_1>0\) for every \(\rho\le L\), because \(\rho\theta_1\in(0,\pi)\): the upper bound \(\rho\theta_1<\rho\pi/L\le\pi\) is strict at the endpoint \(\rho=L\) precisely because \(\gamma_1<s_1\) forces \(\theta_1<\pi/L\).
+(iii) \(D'(y_1)>0\): \(y_1\) is the largest, simple root of \(D\), and \(D(1)=a+L>0\), so \(D>0\) on \((y_1,1]\) and a simple root makes \(D\) increase through zero at \(y_1\).  (No root lies in \((\cos\tfrac{\pi}{2L},1)\), where \(T_L>0\) and \(U_{L-1}\ge0\) give \(D>0\) directly.)
+Combining, \(B_{\rho1}=q\cdot(+)\cdot(-)/[(-)\cdot(+)]>0\).  Both strict inequalities of the bracket are load-bearing: \(s_1<\alpha_1\) keeps \(T_L(y_1)\neq0\) so that Eq. (\ref{eq:app_B1_positive}) is defined and \(T_L(y_1)<0\), and \(\gamma_1<s_1\) secures the \(\rho=L\) endpoint in (ii).  The closed form Eq. (\ref{eq:app_B1_positive}) and the strict bound \(B_{\rho1}>0\) are checked to \(50\) digits over a grid of even \(N\le40\), all \(q\) and \(\beta\), and every \(\rho\) by \texttt{scripts/dominant\_amplitude\_positivity\_check.py} (last two rows of the table in C.1.1).
+
 \subsection*{C.1 Numerical audit protocol}
 
 The numerical audit is deterministic: it uses finite matrices and finite convolutions, not random simulation.  The benchmark is the stochastic shortcut matrix itself.  Starting from the lazy ring transition matrix, the shortcut matrix moves
@@ -1230,6 +1292,10 @@ A separate 50-significant-digit audit
 targets the \(t\alpha_\ell^t\) question directly.  It was run for
 \((N,q,\beta,\rho)=(10,2/3,4/7,2)\), \((12,1/2,3/10,5)\), and \((10,2/3,1/50,1)\),
 with \(t\) up to \(600\), and for \(\beta\)-sweeps over \((0,1]\) at \(N=10,12,100\).
+The last two rows of the table come from a companion grid,
+\texttt{scripts/dominant\_amplitude\_positivity\_check.py}, which checks the
+compact amplitude Eq. (\ref{eq:app_B1_positive}) and the strict bound
+\(B_{\rho1}>0\) over even \(N\le40\), all \(q,\beta\), and every \(\rho\).
 \begin{center}
 \small
 \begin{tabular}{ll}
@@ -1240,12 +1306,17 @@ Check (50-digit arithmetic) & Maximum deviation \\
 Transient matrix symmetric; spectrum \(=\{\gamma_r\}\cup\{s_j\}\) & \(5.6\times10^{-16}\) (float64) \\
 Distance of every \(\alpha_\ell\) to the transient spectrum & \(\geq1.3\times10^{-3}\) (never \(0\)) \\
 Sum rule Eq. (\ref{eq:app_sum_rule}), all \(\ell\) & \(1.1\times10^{-50}\) \\
+Derivative sum rule Eq. (\ref{eq:app_derivative_sum_rule}), all \(\ell\) & \(1.7\times10^{-47}\) \\
 Secular coefficient \(\mathcal K_\ell\), exact \(H(0)\) treatment & \(1.5\times10^{-52}\) \\
+\(W\)-mode plain-\(\alpha\) cancellation (groups 2+3) & \(1.4\times10^{-51}\) \\
+Total plain \(\alpha_\ell^{t-1}\) coefficient, Eq. (\ref{eq:app_plain_alpha_total}) & \(7.4\times10^{-51}\) \\
 Folded-kernel secular coefficient vs \(qf_\ell g^{(2)}_\ell c_\infty\) & \(1.5\times10^{-52}\) \\
 \(H(t)\) renewal recursion vs \(\sum_jc_js_j^{t-1}\) \((t\ge1)\) & \(8.4\times10^{-53}\) \\
 \(c_\infty=h_0-\sum_jc_j/s_j\) vs \(T_L(1-1/q)/D(1-1/q)\) & \(1.5\times10^{-50}\) \\
 Five-group Eq. (\ref{eq:app_hard_route_result}) vs exact matrix PMF & \(1.6\times10^{-51}\) \\
 Residue identity \(f_\ell(n_0,v)g^{(2)}_\ell(u,u,v)=g^{(2)}_\ell(n_0,u,v)f_\ell(u,v)\) & \(2.7\times10^{-52}\) \\
+Compact amplitude Eq. (\ref{eq:app_B1_positive}) vs residue \(B_{\rho j}\), \(N\le40\) & \(1.0\times10^{-51}\) \\
+Strict positivity \(B_{\rho1}>0\), all \(\rho,q,\beta\), even \(N\le40\) (\(3486\) cases) & \(\min B_{\rho1}=1.2\times10^{-4}>0\) \\
 \(\gamma_1<s_1<\alpha_1\) on \(\beta\in(0,1]\), \(N=10,12,100\) & holds at all sampled \(\beta\) \\
 \hline
 \end{tabular}

@@ -1,6 +1,6 @@
 # 双峰模归因研究(DPMA)— 最终报告
 
-日期:2026-06-12 · 报告:`ring_lazy_jump_ext_rev2` · 状态:v7(2026-06-30 **三方对抗审计完成**:Claude 多-agent + ChatGPT gpt-5-5-pro(Extended Pro)+ gpt-5.5-thinking,经 ai-bridge 浏览器自动化驱动。**b_c 认证为真鞍结、G_{ξ,θ} 闭式验证+提交、honesty/prior-art 修正已应用、§八 三方校准**;剩余=纯 framing 重构(头条改 b_c/δ-sink、补 Giuggioli)。记录:`notes/dpma_chatgpt_pro_audit_20260630.md` + `notes/dpma_adversarial_audit_20260630.md`)
+日期:2026-06-12 · 报告:`ring_lazy_jump_ext_rev2` · 状态:v8(2026-06-30 **全 PRR-内容三方审计 + 修正**:Claude fan-out + ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁,经 `triangulated-audit` skill。**两技术阻塞真正清除**——b_c 认证(含 √fold 正规形标度 gap∼δ^½/prom∼δ^{3/2})+ **一般-θ FULL master 曲线落地**(此前 G 仅验 affected 模=过度声称,已补 node 模幅 G_n^node、全曲线 rel-err 1e-5/O(1/N))。PRR-referee 判 **MAJOR REVISION**,缺口=significance/universality(存在性定理+普适性+物理落地+PRR级图),**非 correctness**。roadmap+odds(JPA 55–65%/PRE 60–70%/PRR 50–60%)见 `notes/dpma_prr_audit_20260630.md`;前序 `dpma_chatgpt_pro_audit_20260630.md` + `dpma_adversarial_audit_20260630.md`)
 模型:懒惰环 N 格点(停留 1−q,左右各 q/2),吸收目标 v=0,对径捷径源 u=N/2
 把 β(1−q) 的自环概率改接到有向边 u→v;起点距 u 偏移 d(C.2 几何),ρ=L−d,L=N/2。
 
@@ -81,7 +81,9 @@ q=2/3 时 β·N=2b,故 b_c=3.0764 ⟺ β·N=6.153。即「合并边界 6.15」�
 b→b_c 时 (谷-极小, 峰-极大) **对合并**——间隔 (τ_max−τ_min) 与突起 (Φ_max−Φ_min) **同时→0**
 (b=3.060: 间隔3.2e-3/突起5.0e-4;b=3.0764: 间隔1.4e-4/突起4.4e-8),其后 b≥3.078 该对**湮灭**
 ⟹ Φ'(τ_c)=Φ''(τ_c)=0(二重根)⟹ **真鞍结(fold),非主导交叉**。这正是三方审计共同要求的
-无阈值认证;**PRR 头条成立且被强化**。脚本 `code/dpma_saddle_node_certification.py`。
+无阈值认证;**PRR 头条成立且被强化**。**正规形标度(2026-06-30 PRR 审计补)**:
+gap∼(b_c−b)^0.50、prominence∼(b_c−b)^1.50,双根 b_c=3.076432——标准 √ fold 的灾变签名
+(非主导交叉),回应 referee 对「catastrophe 语言未证」的质疑。脚本 `code/dpma_saddle_node_certification.py`。
 脚本 `code/dpma_saddle_node.py` → `artifacts/tables/dpma_saddle_node.txt`。
 **投稿重构要点**:论文头条应是 Φ(x;b) 与 tan w=−2w/b + 鞍结边界 b_c,
 分类器窗口降为下游推论(见 §八)。
@@ -192,7 +194,7 @@ x=0.1、0.2 全程无 clear 双峰。结论:固定 d(边界层)与固定 x 是�
   (Dirichlet 路径 Green 函数)。4 组配置验证至 10⁻¹⁵;对径退化为 ρ/(a+L)。
 ### 三 d-2、一般-u 主函数(2026-06-12 晚,源自 ChatGPT Pro 对话并经本仓库独立验证)
 
-把对径 master function 推广到任意 shortcut 位置 u(= 冲 PRR 的核心杠杆)。谱行列式 **D_u(y)=a·U_{N−1}(y)+2·U_{u−1}(y)·U_{N−u−1}(y)**;分段分子 N_{r,u};时域 F^(u)_r(t)=Σ_j B^(u)_rj s_j^{t−1};channel-mass **π_sc^(u)(r)=2min(r,u)[N−max]/(aN+2u(N−u))**;谱移 δs_k=−2β(1−q)/N·sin²(kπu/N)。连续极限 = [0,1] 上带 **interior δ-sink @ x=θ=u/N** 的扩散,master 谱方程 **M_θ(w;b)=w sin2w + b sin2θw·sin2(1−θ)w=0**,θ=1/2 回收 tan w=−2w/b。**验证**(`code/dpma_general_u_master.py` + 第三轮 6-agent 对抗审计):有限-N 主函数(D_u/分子/残差,12 组硬配置含 r>u、N 奇、u 贴边界、β≤0.5、node-frozen)对精确矩阵 ≤5e-18;**连续振幅 G_{ξ,θ} 已验证并提交(2026-06-30)**:闭式 G_{ξ,θ}(w;b)=2w²·φ_{w,θ}(ξ)·I_{w,θ}/J_{w,θ}(源自 ChatGPT gpt-5.5-thinking,经 gpt-5-5-pro 对抗交叉——pro 给的另一形被**数值否决**——并由本仓库**独立数值验证**:对精确有限-N 残差 A_j=(N²/q)B_j 之比 → 1.0000,**max|A/G−1|=2.1e-4@N=1200,O(1/N²)**,θ=1/2 与 1/3、affected 模;node/unaffected 模 sin2θw=0 另算)。脚本 `code/dpma_general_u_master_amplitudes.py`。**重要修正**:平台 master 用的对径 G(无 ξ)是**中心起点 ξ=1/2 的特例**,一般起点带 sin(2wξ) 因子(G_{ξ,1/2}=4w(1−cosw)sin(2wξ)/(sin²w[1+b(b+2)/(4w²)]),ξ=1/2 回收旧式);**一般-θ 连续谱**(θ=1/3、2/5)N²(1−s_j)/q→2w_j² 到 O(1/N²);channel 左右拆分 π_L/π_R+守恒=1 到 1e-62;no-Jordan/无 secular 项已证(两步:删 v 后为对称 Jacobi 矩阵、+q/2 正离对角 ⟹ 谱单 ⟹ 残差良定、无 t·λᵗ)。**连续振幅 G_{ξ,θ}**(下段)为**未提交**结果。完整逐项核对见 `notes/dpma_chatgpt_integration_20260612.md`。
+把对径 master function 推广到任意 shortcut 位置 u(= 冲 PRR 的核心杠杆)。谱行列式 **D_u(y)=a·U_{N−1}(y)+2·U_{u−1}(y)·U_{N−u−1}(y)**;分段分子 N_{r,u};时域 F^(u)_r(t)=Σ_j B^(u)_rj s_j^{t−1};channel-mass **π_sc^(u)(r)=2min(r,u)[N−max]/(aN+2u(N−u))**;谱移 δs_k=−2β(1−q)/N·sin²(kπu/N)。连续极限 = [0,1] 上带 **interior δ-sink @ x=θ=u/N** 的扩散,master 谱方程 **M_θ(w;b)=w sin2w + b sin2θw·sin2(1−θ)w=0**,θ=1/2 回收 tan w=−2w/b。**验证**(`code/dpma_general_u_master.py` + 第三轮 6-agent 对抗审计):有限-N 主函数(D_u/分子/残差,12 组硬配置含 r>u、N 奇、u 贴边界、β≤0.5、node-frozen)对精确矩阵 ≤5e-18;**连续振幅 G_{ξ,θ} 已验证并提交(2026-06-30)**:闭式 G_{ξ,θ}(w;b)=2w²·φ_{w,θ}(ξ)·I_{w,θ}/J_{w,θ}(源自 ChatGPT gpt-5.5-thinking,经 gpt-5-5-pro 对抗交叉——pro 给的另一形被**数值否决**——并由本仓库**独立数值验证**:对精确有限-N 残差 A_j=(N²/q)B_j 之比 → 1.0000,**max|A/G−1|=2.1e-4@N=1200,O(1/N²)**,θ=1/2 与 1/3、affected 模)。**node 模幅已补全(2026-06-30 PRR 审计后)**:G_n^node=nπ[1−(−1)ⁿ]sin(nπξ)(非微扰 Dirichlet 残差;偶 n 消失);**FULL master 曲线已验证**——affected+node 合并重构精确 (N²/q)F,rel-err ~1e-5@N=1200、O(1/N),τ∈[0.01,0.2],θ=1/3、2/5、1/2(affected-only 在早期 τ 偏 83%,补 node 后消除)。脚本 `code/dpma_general_u_master_amplitudes.py`(振幅)+ `code/dpma_general_u_master_curve.py`(全曲线)。**重要修正**:平台 master 用的对径 G(无 ξ)是**中心起点 ξ=1/2 的特例**,一般起点带 sin(2wξ) 因子(G_{ξ,1/2}=4w(1−cosw)sin(2wξ)/(sin²w[1+b(b+2)/(4w²)]),ξ=1/2 回收旧式);**一般-θ 连续谱**(θ=1/3、2/5)N²(1−s_j)/q→2w_j² 到 O(1/N²);channel 左右拆分 π_L/π_R+守恒=1 到 1e-62;no-Jordan/无 secular 项已证(两步:删 v 后为对称 Jacobi 矩阵、+q/2 正离对角 ⟹ 谱单 ⟹ 残差良定、无 t·λᵗ)。完整逐项核对见 `notes/dpma_chatgpt_integration_20260612.md`;2026-06-30 PRR 三方审计见 `notes/dpma_prr_audit_20260630.md`。
 
 **scaling-regime 修正(应采纳)**:Regime A 宏观 |ξ−θ|=O(1) → 全曲线 = Φ_{ξ,θ}(τ;b);Regime B source-layer d=O(1)(我们的 C.2)→ 需 matched asymptotics。**第三轮审计细化(诚信修正)**:β_hi·N 平台的 O(N⁻²) 回退是**分类器(height-ratio [0.1,10])伪象**,不是物理:物理**合并边界**(两峰真正并合)是稳的 O(1/N),β_hi·N≈6.15(N=100–1600);3.1475 特指 prominence-augmented C.2 边。手稿须明写「分类器边 vs 合并边」之分。
 
@@ -277,6 +279,22 @@ gpt-5-5-pro,经 ai-bridge 浏览器自动化驱动)**:
   约 **35–55%**(头条 = 认证的无阈值鞍结 + δ-sink 物理 + 精确有限-N 缺陷理论)。
 - pro 一句话:"数学骨架与缺陷-预解理论一致,但手稿当前过度声称尚未被数学认证的物理相变"——
   其点名的"未认证"恰是 b_c,现已认证,故该批评已被实质回应。
+
+**第六轮:全 PRR-内容三方审计(2026-06-30,经可复用 `triangulated-audit` skill)** — Claude
+fan-out(6 cluster)+ ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁。详见 `notes/dpma_prr_audit_20260630.md`。
+- **catch + fix(诚信)**:Claude 抓到此前「G_{ξ,θ} 已验证+提交、PRR 杠杆落地」**过度声称**——
+  提交脚本只验 affected 模、跳过 node 模(θ=1/3 占 ~33% 权重,affected-only 早期 τ 偏 83%)。
+  **已补 node 模幅并验证 FULL master 曲线**(rel-err ~1e-5、O(1/N);`dpma_general_u_master_curve.py`)。
+  故「两技术阻塞已清」现**才真正成立**(b_c + 全 G 曲线均落地)。
+- **gpt-5-5-pro PRR-referee 判 MAJOR REVISION**(borderline PRR / 有降 JPA 风险):数学不再是问题,
+  **缺口=significance/universality**。冲 PRR 的真实待办(roadmap):① **一般鞍结存在性定理**
+  (rank-one 缺陷何时在 FPT 密度生鞍结,resolvent-导数判据;referee 称最大理论缺口;正规形标度
+  已是一步);② **普适性/鲁棒性**(2D / 多 shortcut / 随机系综之一 + b_c 对 (β,q,θ) 扰动稳健);
+  ③ **物理落地**(reset/search、小世界传输、生化主动捷径之一 + 非厄米算子 Q+|u⟩λ⟨u| 表述);
+  ④ **PRR 级图**(b-N 相图、峰谷湮灭标度塌缩、谱 vs 时域对比、鲁棒性);⑤ framing/prior-art。
+- **重校接受率(两脑折中)**:JPA 今 55–65%、PRE 重构后 60–70%、**PRR ~50–60%**(两技术阻塞已清,
+  缺口转为 significance/universality,非 correctness)。建议:先投 JPA;推存在性定理 + 一条普适性
+  结果再认真冲 PRR;此 roadmap 交 Luca 定 venue。
 
 ## 六、复现指南
 

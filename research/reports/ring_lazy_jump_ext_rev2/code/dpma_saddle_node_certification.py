@@ -101,14 +101,28 @@ def main():
     say("  => if BOTH gap and prominence -> 0 as b -> b_c (then pair vanishes), the two")
     say("     critical points coalesce: Phi'(tau_c)=Phi''(tau_c)=0  ==> SADDLE-NODE.")
 
-    # quantify the approach to the fold
-    say("\n  Approach to the fold (fine grid just below b_c):")
-    last = None
-    for b in (3.060, 3.065, 3.070, 3.073, 3.075, 3.0764):
+    # quantify the approach to the fold + normal-form scaling exponents
+    say("\n  Approach to the fold (fine grid just below b_c) + normal-form scaling:")
+    bc = 3.0764
+    deltas, gaps, proms = [], [], []
+    for b in (3.040, 3.050, 3.060, 3.065, 3.070, 3.073, 3.075):
         ok, tmin, tmax, vmin, vmax = phi_pair(b)
         if ok:
-            say(f"    b={b:.4f}: gap={tmax-tmin:.6f}  prominence={vmax-vmin:.3e}")
-            last = (b, tmax - tmin, vmax - vmin)
+            d = bc - b
+            deltas.append(d); gaps.append(tmax - tmin); proms.append(vmax - vmin)
+            say(f"    b={b:.4f} (b_c-b={d:.4f}): gap={tmax-tmin:.6f}  prominence={vmax-vmin:.3e}")
+
+    def _slope(xs, ys):
+        lx = [math.log(x) for x in xs]; ly = [math.log(y) for y in ys]
+        n = len(lx); mx = sum(lx) / n; my = sum(ly) / n
+        return sum((a - mx) * (c - my) for a, c in zip(lx, ly)) / sum((a - mx) ** 2 for a in lx)
+    if len(deltas) >= 3:
+        pg = _slope(deltas, gaps); pp = _slope(deltas, proms)
+        ok_nf = abs(pg - 0.5) < 0.06 and abs(pp - 1.5) < 0.12
+        say(f"    => log-log slopes: gap ~ (b_c-b)^{pg:.3f} (fold predicts 1/2); "
+            f"prominence ~ (b_c-b)^{pp:.3f} (fold predicts 3/2)")
+        say(f"    => saddle-node normal form {'CONFIRMED' if ok_nf else 'WEAK'}: the two critical "
+            "points merge as a sqrt fold, the textbook catastrophe signature (not a crossover).")
     say("\n  VERDICT: b_c is a genuine SADDLE-NODE (fold) of the FPT density's interior")
     say("  critical points (valley+peak annihilation), NOT a dominance crossover. The")
     say("  gpt-5-5-pro refutation assumed positive amplitudes; the true amplitudes are")

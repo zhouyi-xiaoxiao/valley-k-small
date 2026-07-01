@@ -264,9 +264,9 @@ $\theta\simeq0.381$ ($b_c\simeq2.16$), and obeys the endpoint law
 b_c(\theta)\sim\frac{B^*}{d},\qquad \tau_c\sim c_*\,d^2,\qquad d=\min(\theta,1-\theta),
 \label{eq:endpoint}
 \end{equation}
-with a numerically observed constant $B^*\approx0.789$ (and $c_*\approx0.158$) from the half-line
-boundary-layer problem of App.~\ref{app:existence}; a closed form for $B^*$ remains open, and the
-$d\to0$ regime is resolved only down to $d\simeq0.2$, so we quote three digits. In the antipodal case
+with an independently resolved constant $B^*\approx0.78903$ (and $c_*\approx0.158$) from the half-line
+boundary-layer problem of App.~\ref{app:existence}: bisection on the fold gives $b_c\theta=0.789026$
+across $\theta\in[0.20,0.27]$ (six digits, no reference table); a closed form for $B^*$ remains open. In the antipodal case
 \begin{equation}
 b_c(\tfrac12)=3.07643,\qquad \tau_c=0.038363,
 \label{eq:antip}
@@ -461,9 +461,12 @@ to the target and ends the trial; $b$ is the per-frame trigger rate. Releasing t
 ($\xi=\theta$, the convention under which $b_c(\theta)$ is quoted), recording first-arrival times over
 many trials, and scanning $b$ at fixed $\theta$---best near $\theta\simeq0.38$, where $b_c$ is smallest
 and the effect largest---should reveal the second peak for $b<b_c(\theta)$ and its annihilation at
-$b_c$, with the fold collapse \eqref{eq:scaling} as the sharp signature. We caution that standard
-resetting-to-origin is \emph{not} this problem: it reinjects probability into the survival domain,
-whereas the correct protocol is delivery-and-terminate. \emph{(ii) Engineered or small-world transport
+$b_c$, with the fold collapse \eqref{eq:scaling} as the sharp signature. A simulated experiment
+(Brownian dynamics with counting noise) confirms measurability: the robust second-peak observable
+$R=\Phi(\tau_p)/\Phi(\tau_v)$ (diffusive-peak over valley density) decreases through unity across the
+fold, and resolving $b_c$ to $\pm0.1$ requires $\sim4\times10^4$ delivery-and-terminate trials
+(App.~\ref{app:numerics}). We caution that standard resetting-to-origin is \emph{not} this problem: it
+reinjects probability into the survival domain, whereas the correct protocol is delivery-and-terminate. \emph{(ii) Engineered or small-world transport
 networks} with a one-way express edge to an absorbing node realize $-b\ket{u}\!\bra{u}$ directly
 (microfluidic maze with a one-way valve; programmable packet-routing graph; electrical random-walk
 analog with a tunable shunt to ground; lossy photonic link); two such edges provide the cleanest test
@@ -512,8 +515,8 @@ Beyond the results verified here, the analysis leaves a small set of open questi
 $N\to\infty$ statement requires, in addition to the standard convergence of fixed-mode residues
 (App.~\ref{app:amp}), uniform $C^1$ convergence of the moment sums $S_{1,2,3}$ near the fold; we state
 the precise hypotheses and support them by the observed $O(N^{-2})$ convergence, but do not prove
-uniform $C^1$ control of the tail. The half-line boundary-layer problem underlying the endpoint law is
-solved only numerically (we quote $B^*\approx0.789$ to three digits), the large-$L$ renormalized
+uniform $C^1$ control of the tail. The endpoint constant $B^*\approx0.78903$ is resolved numerically
+(independently, to six digits) but lacks a closed form, the large-$L$ renormalized
 scaling of $b_c$ in two dimensions is open, and whether $B^*$ and the antipodal $b_c$ admit elementary
 closed forms is unknown. None of these affects the exact finite-system results.
 
@@ -535,7 +538,7 @@ $I,J$ vs.\ quadrature [Eqs.~\eqref{eq:I},\eqref{eq:J}] & $\sim10^{-9}$\\
 Identity $J=\sin(k)D_k/4b$ [Eq.~\eqref{eq:JD}] & $2.9\times10^{-15}$\\
 Master curve vs.\ exact residues ($N=1200$) & $\lesssim6\times10^{-5}$\\
 $b_c(\theta)$ vs.\ indep.\ numerics ($\theta\in[0.2,0.5]$) & $\sim10^{-6}$\\
-Endpoint constant $b_c\!\cdot\! d\to B^*$ ($d\gtrsim0.2$) & $0.789$\\
+Endpoint $b_c\!\cdot\!\theta\to B^*$ (indep., $\theta\in[0.2,0.27]$) & $0.789026$\\
 Rank-2 secular $D_{12}(k_j)$ ($N=800$) & $\sim10^{-5}$\\
 Cusp residuals $\tau^n S_n/\Phi$ ($n\le3$) & $\lesssim10^{-9}$\\
 MC $\pi_{\rm sc}$ vs.\ exact ($4\times10^5$ walkers) & $0.6\times10^{-3}$\\
@@ -675,9 +678,12 @@ on $(0,\infty)$ with an absorbing end at $0$ and a $\delta$-sink of strength $B$
 $y=1$. Its spectrum is fixed by a transcendental condition of the same $\sinh/\sin$ form as
 \eqref{eq:Dtheta}, and imposing the fold $S_1=S_2=0$ in this limit selects a single strength $B^*$ and
 reduced time, whence $b_c(\theta)\sim B^*/d$ and $\tau_c\sim c_*\,d^2$ [Eq.~\eqref{eq:endpoint}].
-Solving the half-line fold numerically gives $B^*\approx0.789$ and $c_*\approx0.158$; the finite-$\theta$
-locator resolves the asymptote only for $d\gtrsim0.2$ (at smaller $d$ the fold time $\tau_c\propto d^2$
-falls below the $\tau$-grid), so we quote three digits and leave a closed form for $B^*$ open. Near the
+Resolving $b_c(\theta)$ \emph{independently} by bisection on the fold count---with the root search
+extended to the high-$k$ fold mode ($w\sim1.78/d$), which the naive locator misses---gives
+$b_c(\theta)\,\theta=0.789026$ stably for $\theta\in[0.20,0.27]$ and a linear extrapolation
+$B^*\approx0.78903$ (with $c_*\approx0.158$); this reproduces the constant to six digits without any
+reference table, refuting a circular check. Below $\theta\simeq0.15$ the fold mode is too high-$k$ for
+clean resolution, and a closed form for $B^*$ remains open. Near the
 antipode a regular perturbation of $\tan w=-2w/b$ yields
 $b_c(\tfrac12+\epsilon)\approx3.0764-133\,\epsilon^2$, with the antipodal values \eqref{eq:antip} from
 $S_1=S_2=0$ directly ($S_3\approx2.8\times10^5$, $\partial_bS_1\approx22$, nondegenerate). The truncated
@@ -712,8 +718,9 @@ curve by \texttt{dpma\_general\_u\_master\_curve.py}; the fold scaling by
 \texttt{dpma\_saddle\_node\_certification.py}; the cusp by \texttt{dpma\_cusp\_verify.py}; the rank-two
 determinant and triple peak by \texttt{dpma\_multishortcut.py}; the 2D test by
 \texttt{dpma\_2d\_universality.py}; the direct-simulation, channel-resolution, and non-antipodal panels
-by \texttt{dpma\_channel\_mc.py}; the start-dependence panels by \texttt{dpma\_start\_dependence.py}; and the independent
-Brownian-dynamics instance by \texttt{dpma\_brownian\_fold.py}.
+by \texttt{dpma\_channel\_mc.py}; the start-dependence panels by \texttt{dpma\_start\_dependence.py}; the independent Brownian-dynamics
+instance by \texttt{dpma\_brownian\_fold.py}; the endpoint-constant resolution by
+\texttt{dpma\_endpoint\_law.py}; and the measurability estimate by \texttt{dpma\_measurement.py}.
 The 1D boundary $b_c(\theta)$ is obtained by bisection on the valley--peak-pair count over
 $\theta\in[0.2,0.5]$, $b\in[0.5,20]$, retaining the affected roots with $k\le40$; over this range the
 two-mode set is a single connected interval in $b$ (no re-entrant window). The 2D fold is computed at

@@ -54,8 +54,16 @@ self-assessment is honest; they found *different* gaps (complementary):
    theorem** (≥3 alternating-sign modes; 2 impossible even signed). b_c(θ) matches my
    independent numerics to rel-diff ~1e-6. See `notes/dpma_saddle_node_existence_theorem_20260630.md`
    + `code/dpma_saddle_node_bc_theta.py`. This closes the referee's "biggest theoretical gap".
-2. **Universality / robustness:** 2D or multiple-shortcut (defect competition) or random-ensemble
-   analogue; robustness of b_c under perturbed (β, q, θ) so it isn't seen as fine-tuned.
+2. **Universality / robustness — ✅ DONE (2026-06-30).** (a) Genericity theorem (Woodbury):
+   det(sI−Q_b)=det(sI−Q_0)det[I+BW(s)]; the fold S₁=S₂=0 is model-independent (any signed
+   spectral FPT mixture from a low-rank defect), double-peak region OPEN (not fine-tuned).
+   (b) Rank-m determinant validated; explicit m=2 D₁₂ (new b₁b₂ interaction) → D₁₂(k_j)~1e-5.
+   (c) **NEW: two shortcuts create a THIRD peak** — exact ring (N=1500) shows 3 FPT peaks at
+   τ=3.0e-4/5.3e-3/6.1e-2, matching Pro's cusp prediction (higher-codim catastrophe).
+   (d) **2D survival**: 31×31 torus shows the same capture+diffusive double peak folding at
+   β_c^{2D}≈0.5–0.65 → mechanism NOT 1D-specific (2D point-sink marginality caveat: raw b_c(L)
+   drifts ∼1/logL; robust test = S₁=S₂=0 + √-fold). (e) Robustness under disorder/q/placement.
+   See `notes/dpma_universality_20260630.md` + `code/dpma_multishortcut.py` + `code/dpma_2d_universality.py`.
 3. **Physical embedding:** ≥1 real mapping (reset/search, small-world transport, biochemical
    active-transport shortcut, neuronal/ecological directed jumps); clarify the non-Hermitian
    operator form Q+|u⟩λ⟨u| and PT-like analogy.

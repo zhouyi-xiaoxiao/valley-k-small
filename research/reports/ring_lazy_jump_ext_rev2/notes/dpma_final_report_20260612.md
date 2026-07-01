@@ -1,6 +1,6 @@
 # 双峰模归因研究(DPMA)— 最终报告
 
-日期:2026-06-12 · 报告:`ring_lazy_jump_ext_rev2` · 状态:v8(2026-06-30 **全 PRR-内容三方审计 + 修正**:Claude fan-out + ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁,经 `triangulated-audit` skill。**两技术阻塞真正清除**——b_c 认证(含 √fold 正规形标度 gap∼δ^½/prom∼δ^{3/2})+ **一般-θ FULL master 曲线落地**(此前 G 仅验 affected 模=过度声称,已补 node 模幅 G_n^node、全曲线 rel-err 1e-5/O(1/N))。PRR-referee 判 **MAJOR REVISION**,缺口=significance/universality(存在性定理+普适性+物理落地+PRR级图),**非 correctness**。roadmap+odds(JPA 55–65%/PRE 60–70%/PRR 50–60%)见 `notes/dpma_prr_audit_20260630.md`;前序 `dpma_chatgpt_pro_audit_20260630.md` + `dpma_adversarial_audit_20260630.md`)· **v9(2026-06-30 roadmap#1 闭合)**:**一般鞍结存在性定理**(判据 S₁=S₂=0、b_c(θ) 边界+端点律 0.789/d+最小 3 交替模定理;gpt-5-5-pro 推导+数值仲裁 rel-diff 1e-6)—— referee 最大理论缺口已闭合。见 `notes/dpma_saddle_node_existence_theorem_20260630.md`
+日期:2026-06-12 · 报告:`ring_lazy_jump_ext_rev2` · 状态:v8(2026-06-30 **全 PRR-内容三方审计 + 修正**:Claude fan-out + ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁,经 `triangulated-audit` skill。**两技术阻塞真正清除**——b_c 认证(含 √fold 正规形标度 gap∼δ^½/prom∼δ^{3/2})+ **一般-θ FULL master 曲线落地**(此前 G 仅验 affected 模=过度声称,已补 node 模幅 G_n^node、全曲线 rel-err 1e-5/O(1/N))。PRR-referee 判 **MAJOR REVISION**,缺口=significance/universality(存在性定理+普适性+物理落地+PRR级图),**非 correctness**。roadmap+odds(JPA 55–65%/PRE 60–70%/PRR 50–60%)见 `notes/dpma_prr_audit_20260630.md`;前序 `dpma_chatgpt_pro_audit_20260630.md` + `dpma_adversarial_audit_20260630.md`)· **v9(2026-06-30 roadmap#1 闭合)**:**一般鞍结存在性定理**(判据 S₁=S₂=0、b_c(θ) 边界+端点律 0.789/d+最小 3 交替模定理;gpt-5-5-pro 推导+数值仲裁 rel-diff 1e-6)—— referee 最大理论缺口已闭合。见 `notes/dpma_saddle_node_existence_theorem_20260630.md` · **v10(2026-06-30 roadmap#2 闭合)**:**普适性**——genericity 定理(fold S₁=S₂=0 模型无关)+ rank-m 行列式 + **两 shortcut 生第三峰**(新结果,cusp)+ **2D 存活**(β_c^{2D}≈0.5–0.65 fold);"窄 1D 模型"质疑已实质回应。见 `notes/dpma_universality_20260630.md`
 模型:懒惰环 N 格点(停留 1−q,左右各 q/2),吸收目标 v=0,对径捷径源 u=N/2
 把 β(1−q) 的自环概率改接到有向边 u→v;起点距 u 偏移 d(C.2 几何),ρ=L−d,L=N/2。
 
@@ -292,7 +292,11 @@ fan-out(6 cluster)+ ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁。详见 `not
   双峰存在 ⟺ 0<b<b_c(θ);显式 b_c(θ) 边界(对称,min@θ≈0.381)、端点律 **b_c∼0.789/min(θ,1−θ)**、
   近对径 b_c=3.0764−133.1ε²、**最小模定理**(≥3 交替号模,2 模不可能)。gpt-5-5-pro 推导 + 本仓库
   数值仲裁(b_c(θ) 逐点 rel-diff ~1e-6)。见 `notes/dpma_saddle_node_existence_theorem_20260630.md`
-  + `code/dpma_saddle_node_bc_theta.py`——**referee 最大理论缺口已闭合**;② **普适性/鲁棒性**(2D / 多 shortcut / 随机系综之一 + b_c 对 (β,q,θ) 扰动稳健);
+  + `code/dpma_saddle_node_bc_theta.py`——**referee 最大理论缺口已闭合**;② **普适性/鲁棒性——✅ 已完成(2026-06-30)**:genericity 定理(Woodbury,fold S₁=S₂=0 模型无关、
+  双峰区开集非精调)+ rank-m 行列式(m=2 D₁₂ 含新 b₁b₂ 交互,验证 ~1e-5)+ **新结果两 shortcut 生
+  第三峰**(N=1500 三峰 τ=3.0e-4/5.3e-3/6.1e-2,合 cusp 预测)+ **2D 存活**(31² 环面双峰折于
+  β_c^{2D}≈0.5–0.65;2D 点阱边缘性:裸 b_c(L)~1/logL 漂移,稳健判据=S₁=S₂=0+√-fold)+ 鲁棒性。
+  见 `notes/dpma_universality_20260630.md`、`code/dpma_multishortcut.py`、`code/dpma_2d_universality.py`;
   ③ **物理落地**(reset/search、小世界传输、生化主动捷径之一 + 非厄米算子 Q+|u⟩λ⟨u| 表述);
   ④ **PRR 级图**(b-N 相图、峰谷湮灭标度塌缩、谱 vs 时域对比、鲁棒性);⑤ framing/prior-art。
 - **重校接受率(两脑折中)**:JPA 今 55–65%、PRE 重构后 60–70%、**PRR ~50–60%**(两技术阻塞已清,

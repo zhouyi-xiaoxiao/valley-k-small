@@ -29,6 +29,11 @@ b₂=0.14,ξ=0.463) → 3 maxima at τ≈2.8e-4, 5.3e-3, 6.1e-2. Exact 2-shortcu
 shortcut + capture-via-far shortcut + diffusive arrival. So m shortcuts turn the single fold
 (double peak) into **fold hypersurfaces in b-space**, with open regions of 2 AND 3 peaks, organized
 by a **cusp** at S₁=S₂=S₃=0. Higher-codimension catastrophe, exactly solvable.
+**Cusp LOCATED + verified (2026-06-30, multi-round push):** at (α,β,b₁,b₂,τ_c)=(0.38, 0.489580512568,
+1.35, 1.08389, 0.0012366), ξ=0.463 — S₁=S₂=S₃=0 (normalized residuals ~1e-11), S₄≠0 (τ⁴S₄/Φ=−1.672),
+unfolding det ∂(S₁,S₂)/∂(b₁,b₂)=−6.9e7≠0. gpt-5-5-pro located it (it self-corrected: β=0.48 has only
+ordinary folds; the cusp is at β≈0.48958), and I reproduced ALL its numbers from scratch via the
+rank-2 resolvent (`code/dpma_cusp_verify.py`). The last [conjecture] in the package is now [verified].
 
 ## C. Beyond 1D — 2D lattice survival — VALIDATED
 Same algebra exactly (det[I+B W_L(−μ)]=0). Numerical test on a 31×31 torus

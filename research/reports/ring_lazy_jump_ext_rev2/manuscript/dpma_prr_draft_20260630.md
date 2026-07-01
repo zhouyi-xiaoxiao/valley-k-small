@@ -82,8 +82,11 @@ a **saddle-node**: **S₁(τ_c,b_c)=0, S₂(τ_c,b_c)=0**, nondeg S₃≠0, ∂_
   generically a fold."
 - **Multiple shortcuts [verified]:** explicit m=2 determinant with a new b₁b₂ interaction term
   (matches exact spectrum ~1e-5); **two shortcuts produce a THIRD peak** — exact ring (N=1500)
-  shows peaks at τ=3.0e-4/5.3e-3/6.1e-2 — organized by a cusp **[conjecture: cusp expected at
-  S₁=S₂=S₃=0; not yet located]**. Fig. D.
+  shows peaks at τ=3.0e-4/5.3e-3/6.1e-2 — organized by a **cusp [verified]:** located at
+  (α,β,b₁,b₂,τ_c)=(0.38, 0.489580512568, 1.35, 1.08389, 0.0012366), ξ=0.463 — S₁=S₂=S₃=0
+  (normalized residuals ~1e-11), S₄≠0 (τ⁴S₄/Φ=−1.672), unfolding det ∂(S₁,S₂)/∂(b₁,b₂)=−6.9e7≠0;
+  reproduced independently from the rank-2 resolvent to all digits (`code/dpma_cusp_verify.py`).
+  NB: the cusp sits at β≈0.48958, NOT the β=0.48 triple-peak example (only ordinary folds there). Fig. D.
 - **Beyond 1D [verified]:** on a 2D torus the same capture+diffusive double peak folds at
   β_c^{2D}≈0.55–0.65, present at L=17,25,33 (2D survival). Figs. E, F. **[open: a single-site 2D
   sink is marginal (log-divergent self-Green fn) so the large-L b_c(L) scaling needs
@@ -111,9 +114,9 @@ universality (rank-m cusp / 2D). (Mattos–Mejía-Monasterio–Metzler–Oshanin
 a splitting-probability P(ω) bimodality, not f(t) — cited correctly.)
 **Open / proof-level (narrowed 2026-06-30):** the G_{ξ,θ} derivation is now done (App. B), so what
 remains is: the single N→∞ assumption of uniform C¹ moment convergence near the fold (fixed-mode
-residue convergence is already standard 1D operator theory — App. B); locating the cusp
-(S₁=S₂=S₃=0) that organizes the two-shortcut triple peak; the 2D large-L marginal scaling of
-b_c(L) (2D point-sink log-renormalization); elementary closed forms for M, c_w(d).
+residue convergence is already standard 1D operator theory — App. B); the 2D large-L marginal
+scaling of b_c(L) (2D point-sink log-renormalization); elementary closed forms for M, c_w(d).
+(The cusp is now located + verified, App. D / `code/dpma_cusp_verify.py`.)
 
 ## Methods / reproducibility
 Exact determinant + amplitudes: `code/dpma_general_u_master*.py`; saddle-node certification +

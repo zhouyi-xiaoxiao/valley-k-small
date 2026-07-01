@@ -75,7 +75,9 @@ solutions of confined lattice random walks with defects are by now a mature
 program~\cite{Giuggioli2020,MontrollWeiss1965}.
 
 These works analyze direct/indirect first-passage structure and partial-absorption
-kinetics~\cite{GodecMetzler2016,Bressloff2022}; what has been missing is an exactly solvable model
+kinetics~\cite{GodecMetzler2016,GodecMetzler2017,Bressloff2022}---the two-channel (fast-capture vs
+slow-diffusion) decomposition is explicit already in Ref.~\cite{GodecMetzler2017}; what has been missing
+is an exactly solvable model
 whose FPT-density \emph{extrema} undergo a certified saddle-node fold at a computable shortcut-strength
 threshold. That is the gap we fill. The distinction matters: the appearance and disappearance of a
 finite-time arrival peak is a qualitative, controllable property of the distribution that is invisible
@@ -465,8 +467,12 @@ $b_c$, with the fold collapse \eqref{eq:scaling} as the sharp signature. A simul
 (Brownian dynamics with counting noise) confirms measurability: the robust second-peak observable
 $R=\Phi(\tau_p)/\Phi(\tau_v)$ (diffusive-peak over valley density) decreases through unity across the
 fold, and resolving $b_c$ to $\pm0.1$ requires $\sim4\times10^4$ delivery-and-terminate trials
-(App.~\ref{app:numerics}). We caution that standard resetting-to-origin is \emph{not} this problem: it
-reinjects probability into the survival domain, whereas the correct protocol is delivery-and-terminate. \emph{(ii) Engineered or small-world transport
+(App.~\ref{app:numerics}); the same holographic-tweezer/feedback stack that realizes controlled
+first-passage and resetting experiments~\cite{TalFriedman2020} can implement the delivery gate. We
+caution that standard resetting-to-origin~\cite{TalFriedman2020} is \emph{not} this problem: it
+reinjects probability into the survival domain, whereas the correct protocol is
+delivery-and-terminate---a gated detection that separates delivery times from bare first-passage
+times~\cite{Kumar2023}. \emph{(ii) Engineered or small-world transport
 networks} with a one-way express edge to an absorbing node realize $-b\ket{u}\!\bra{u}$ directly
 (microfluidic maze with a one-way valve; programmable packet-routing graph; electrical random-walk
 analog with a tunable shunt to ground; lossy photonic link); two such edges provide the cleanest test
@@ -742,6 +748,9 @@ are deterministic and will be released with the paper (repository archive/commit
 \bibitem{Almaas2003} E.~Almaas, R.~V.~Kulkarni, and D.~Stroud, \emph{Scaling properties of random walks on small-world networks}, Phys.\ Rev.\ E \textbf{68}, 056105 (2003).
 \bibitem{Grebenkov2020} D.~S.~Grebenkov, \emph{Paradigm Shift in Diffusion-Mediated Surface Phenomena}, Phys.\ Rev.\ Lett.\ \textbf{125}, 078102 (2020).
 \bibitem{Bressloff2022} P.~C.~Bressloff, \emph{Diffusion-mediated absorption by partially-reactive targets: Brownian functionals and generalized propagators}, J.\ Phys.\ A \textbf{55}, 205001 (2022).
+\bibitem{GodecMetzler2017} A.~Godec and R.~Metzler, \emph{First passage time statistics for two-channel diffusion}, J.\ Phys.\ A: Math.\ Theor.\ \textbf{50}, 084001 (2017).
+\bibitem{Kumar2023} A.~Kumar, Y.~Scher, S.~Reuveni, and M.~S.~Santhanam, \emph{Inference from gated first-passage times}, Phys.\ Rev.\ Research \textbf{5}, L032043 (2023).
+\bibitem{TalFriedman2020} O.~Tal-Friedman, A.~Pal, A.~Sekhon, S.~Reuveni, and Y.~Roichman, \emph{Experimental Realization of Diffusion with Stochastic Resetting}, J.\ Phys.\ Chem.\ Lett.\ \textbf{11}, 7350 (2020).
 \bibitem{Arnold1992} V.~I.~Arnol'd, \emph{Catastrophe Theory}, 3rd ed. (Springer, Berlin, 1992).
 \bibitem{Ashida2020} Y.~Ashida, Z.~Gong, and M.~Ueda, Adv.\ Phys.\ \textbf{69}, 249 (2020).
 \end{thebibliography}

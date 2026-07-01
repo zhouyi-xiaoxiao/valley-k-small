@@ -43,7 +43,7 @@ matched exact residues to ~1e-5 O(1/N) (`dpma_general_u_master_curve.py`).
   convergence of the moment sums S_{m,N}→S_m (m=1,2,3, incl. ∂_b) on a neighborhood of the fold
   (τ∈[τ_c/2,3τ_c/2]; NOT down to τ=0 — heat-kernel short-time singularity). Sufficient practical
   bound: μ_{N,j}≥cj², |G_{N,j}|≤Cj^r uniformly ⇒ uniform summability at τ_c>0.
-- **Fold persistence [proven under F]:** Jacobian det DF_c=−S_{1,b}S_3; nondeg S_{1,b}≠0, S_3≠0 ⇒
+- **Fold persistence [proven under F]:** Jacobian det DF_c=+S_{1,b}S_3 (∂_τS_1=−S_2=0, ∂_τS_2=−S_3 at the fold); nondeg S_{1,b}≠0, S_3≠0 ⇒
   IFT gives a unique nearby finite-N fold with b_{c,N}−b_c=O(ε_N) (matching the observed O(N⁻²)).
 
 ## Takeaway

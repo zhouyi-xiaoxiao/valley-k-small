@@ -64,9 +64,15 @@ self-assessment is honest; they found *different* gaps (complementary):
    β_c^{2D}≈0.5–0.65 → mechanism NOT 1D-specific (2D point-sink marginality caveat: raw b_c(L)
    drifts ∼1/logL; robust test = S₁=S₂=0 + √-fold). (e) Robustness under disorder/q/placement.
    See `notes/dpma_universality_20260630.md` + `code/dpma_multishortcut.py` + `code/dpma_2d_universality.py`.
-3. **Physical embedding:** ≥1 real mapping (reset/search, small-world transport, biochemical
-   active-transport shortcut, neuronal/ecological directed jumps); clarify the non-Hermitian
-   operator form Q+|u⟩λ⟨u| and PT-like analogy.
+3. **Physical embedding — ✅ DONE (2026-06-30).** Embedding = a localized Poissonian
+   target-delivery channel (−b|u⟩⟨u| in the survival sector; gate width a × trigger rate k → δ-sink).
+   3 ranked realizations: (1) controlled Brownian/active-particle search w/ an optical-tweezer/
+   microfluidic delivery gate (strongest; b=trigger rate; gate near θ≈0.38); (2) engineered/small-
+   world network w/ a one-way express edge to an absorbing node (two edges → triple-peak/cusp test);
+   (3) intracellular motor-capture (in vitro). Non-Hermitian framing precise & no overclaim: passive
+   open-Markov loss defect, **NOT PT-symmetric, and b_c is NOT an exceptional point** — a time-domain
+   morphology fold (verified: eigenvalues stay real/simple/smooth through b_c, no coalescence); the
+   √-scaling is a saddle-node, not EP splitting. See `notes/dpma_physical_embedding_20260630.md`.
 4. **Figures (PRR-grade) — ✅ DONE (2026-06-30).** 6-panel suite `code/dpma_prr_figures.py` →
    `artifacts/figures/dpma_prr_figures.{pdf,png}`: (A) b_c(θ) saddle-node phase boundary +
    endpoint 0.789/θ; (B) master-curve morphology Φ(τ;b) across b_c; (C) √-fold normal-form

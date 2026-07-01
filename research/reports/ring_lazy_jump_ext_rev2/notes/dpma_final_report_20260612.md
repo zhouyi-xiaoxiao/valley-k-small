@@ -1,6 +1,6 @@
 # 双峰模归因研究(DPMA)— 最终报告
 
-日期:2026-06-12 · 报告:`ring_lazy_jump_ext_rev2` · 状态:v8(2026-06-30 **全 PRR-内容三方审计 + 修正**:Claude fan-out + ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁,经 `triangulated-audit` skill。**两技术阻塞真正清除**——b_c 认证(含 √fold 正规形标度 gap∼δ^½/prom∼δ^{3/2})+ **一般-θ FULL master 曲线落地**(此前 G 仅验 affected 模=过度声称,已补 node 模幅 G_n^node、全曲线 rel-err 1e-5/O(1/N))。PRR-referee 判 **MAJOR REVISION**,缺口=significance/universality(存在性定理+普适性+物理落地+PRR级图),**非 correctness**。roadmap+odds(JPA 55–65%/PRE 60–70%/PRR 50–60%)见 `notes/dpma_prr_audit_20260630.md`;前序 `dpma_chatgpt_pro_audit_20260630.md` + `dpma_adversarial_audit_20260630.md`)· **v9(2026-06-30 roadmap#1 闭合)**:**一般鞍结存在性定理**(判据 S₁=S₂=0、b_c(θ) 边界+端点律 0.789/d+最小 3 交替模定理;gpt-5-5-pro 推导+数值仲裁 rel-diff 1e-6)—— referee 最大理论缺口已闭合。见 `notes/dpma_saddle_node_existence_theorem_20260630.md` · **v10(2026-06-30 roadmap#2 闭合)**:**普适性**——genericity 定理(fold S₁=S₂=0 模型无关)+ rank-m 行列式 + **两 shortcut 生第三峰**(新结果,cusp)+ **2D 存活**(β_c^{2D}≈0.5–0.65 fold);"窄 1D 模型"质疑已实质回应。见 `notes/dpma_universality_20260630.md`
+日期:2026-06-12 · 报告:`ring_lazy_jump_ext_rev2` · 状态:v8(2026-06-30 **全 PRR-内容三方审计 + 修正**:Claude fan-out + ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁,经 `triangulated-audit` skill。**两技术阻塞真正清除**——b_c 认证(含 √fold 正规形标度 gap∼δ^½/prom∼δ^{3/2})+ **一般-θ FULL master 曲线落地**(此前 G 仅验 affected 模=过度声称,已补 node 模幅 G_n^node、全曲线 rel-err 1e-5/O(1/N))。PRR-referee 判 **MAJOR REVISION**,缺口=significance/universality(存在性定理+普适性+物理落地+PRR级图),**非 correctness**。roadmap+odds(JPA 55–65%/PRE 60–70%/PRR 50–60%)见 `notes/dpma_prr_audit_20260630.md`;前序 `dpma_chatgpt_pro_audit_20260630.md` + `dpma_adversarial_audit_20260630.md`)· **v9(2026-06-30 roadmap#1 闭合)**:**一般鞍结存在性定理**(判据 S₁=S₂=0、b_c(θ) 边界+端点律 0.789/d+最小 3 交替模定理;gpt-5-5-pro 推导+数值仲裁 rel-diff 1e-6)—— referee 最大理论缺口已闭合。见 `notes/dpma_saddle_node_existence_theorem_20260630.md` · **v10(2026-06-30 roadmap#2 闭合)**:**普适性**——genericity 定理(fold S₁=S₂=0 模型无关)+ rank-m 行列式 + **两 shortcut 生第三峰**(新结果,cusp)+ **2D 存活**(β_c^{2D}≈0.5–0.65 fold);"窄 1D 模型"质疑已实质回应。见 `notes/dpma_universality_20260630.md` · **v11(2026-06-30 roadmap#3+#4 闭合)**:**PRR 级 6-面板套图**(`dpma_prr_figures.pdf`)+ **物理落地**(局域投递通道;三档实现;**b_c 非 EP,时域 fold**,数值验证)。**PRR roadmap 5 项已完成 4(#1存在性/#2普适性/#3物理落地/#4图),唯剩 #5 framing/prior-art 重写**。见 `notes/dpma_physical_embedding_20260630.md`
 模型:懒惰环 N 格点(停留 1−q,左右各 q/2),吸收目标 v=0,对径捷径源 u=N/2
 把 β(1−q) 的自环概率改接到有向边 u→v;起点距 u 偏移 d(C.2 几何),ρ=L−d,L=N/2。
 
@@ -300,7 +300,10 @@ fan-out(6 cluster)+ ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁。详见 `not
   ③ **物理落地**(reset/search、小世界传输、生化主动捷径之一 + 非厄米算子 Q+|u⟩λ⟨u| 表述);
   ④ **PRR 级图——✅ 已完成**:6-面板套图 `code/dpma_prr_figures.py`→`artifacts/figures/dpma_prr_figures.pdf`
   (A b_c(θ) 相图+端点律 0.789/θ;B Φ(τ;b) 形态过 b_c;C √-fold 标度 δ^½/δ^{3/2};D 两 shortcut 三峰;
-  E 2D torus capture+扩散峰;F 2D 扩散峰 prominence→0 fold);⑤ framing/prior-art(剩)。⑥ 物理落地(Pro 进行中)。
+  E 2D torus capture+扩散峰;F 2D 扩散峰 prominence→0 fold);⑥ **物理落地——✅ 已完成**:嵌入=局域
+Poisson 目标投递通道(−b|u⟩⟨u|);三档实现(受控布朗/光镊投递门=最强、小世界单向express边、胞内 motor 捕获)
++ 非厄米定性(passive open-Markov loss,**非 PT、b_c 非 EP**——时域形态 fold,本征值过 b_c 保持实/简单/光滑,
+已数值验证;√-标度是鞍结非 EP 分裂)。见 `notes/dpma_physical_embedding_20260630.md`。**剩:⑤ framing/prior-art 重写**(唯一剩项)。
 - **重校接受率(两脑折中)**:JPA 今 55–65%、PRE 重构后 60–70%、**PRR ~50–60%**(两技术阻塞已清,
   缺口转为 significance/universality,非 correctness)。建议:先投 JPA;推存在性定理 + 一条普适性
   结果再认真冲 PRR;此 roadmap 交 Luca 定 venue。

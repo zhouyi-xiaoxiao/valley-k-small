@@ -79,8 +79,15 @@ self-assessment is honest; they found *different* gaps (complementary):
    scaling (δ^{1/2}, δ^{3/2}); (D) two-shortcut TRIPLE peak; (E) 2D torus capture+diffusive
    peaks; (F) 2D diffusive-peak prominence → 0 (fold). [Optional extra: an explicit
    spectral-vs-time-domain panel.]
-5. **Framing/prior-art pass:** b_c/δ-sink headline; demote A(d)/b_pl/N* to classifier corollaries;
-   cite Giuggioli PRX 2020; correct Mattos 2012 (P(ω)); π_sc = splitting probability.
+5. **Framing/prior-art pass — ✅ DRAFTED (2026-06-30).** (a) Prior-art §四 rewritten from a REAL
+   WebSearch literature check (bimodality is KNOWN — Godec/small-world/Bressloff/Grebenkov;
+   Giuggioli method known; Mattos=P(ω)); novelty honestly scoped to the exactly-solvable
+   saddle-node classification + threshold + universality. (b) Reframed PRR manuscript drafted
+   `manuscript/dpma_prr_draft_20260630.md` — headline = certified b_c saddle-node + universality +
+   "controllable time-domain structure invisible to MFPT/spectral gaps"; ring = exactly-solvable
+   example; A(d) demoted; π_sc = splitting probability; b_c ≠ EP. Also audited: **b_c uniqueness
+   (no re-entrance, single fold)** and **2D survival across L=17/25/33** — both confirmed.
+   Remaining = prose polish + RevTeX conversion + (optional) close proof-level gaps.
 
 ## Recalibrated odds (reconciled)
 - **J.Phys.A: ~55–65% now** (after framing pass) — exact defect-resolvent study carries it.

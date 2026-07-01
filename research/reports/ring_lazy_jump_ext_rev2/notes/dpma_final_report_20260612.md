@@ -298,7 +298,9 @@ fan-out(6 cluster)+ ChatGPT gpt-5-5-pro PRR-referee + 数值仲裁。详见 `not
   β_c^{2D}≈0.5–0.65;2D 点阱边缘性:裸 b_c(L)~1/logL 漂移,稳健判据=S₁=S₂=0+√-fold)+ 鲁棒性。
   见 `notes/dpma_universality_20260630.md`、`code/dpma_multishortcut.py`、`code/dpma_2d_universality.py`;
   ③ **物理落地**(reset/search、小世界传输、生化主动捷径之一 + 非厄米算子 Q+|u⟩λ⟨u| 表述);
-  ④ **PRR 级图**(b-N 相图、峰谷湮灭标度塌缩、谱 vs 时域对比、鲁棒性);⑤ framing/prior-art。
+  ④ **PRR 级图——✅ 已完成**:6-面板套图 `code/dpma_prr_figures.py`→`artifacts/figures/dpma_prr_figures.pdf`
+  (A b_c(θ) 相图+端点律 0.789/θ;B Φ(τ;b) 形态过 b_c;C √-fold 标度 δ^½/δ^{3/2};D 两 shortcut 三峰;
+  E 2D torus capture+扩散峰;F 2D 扩散峰 prominence→0 fold);⑤ framing/prior-art(剩)。⑥ 物理落地(Pro 进行中)。
 - **重校接受率(两脑折中)**:JPA 今 55–65%、PRE 重构后 60–70%、**PRR ~50–60%**(两技术阻塞已清,
   缺口转为 significance/universality,非 correctness)。建议:先投 JPA;推存在性定理 + 一条普适性
   结果再认真冲 PRR;此 roadmap 交 Luca 定 venue。

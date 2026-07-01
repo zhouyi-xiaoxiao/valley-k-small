@@ -67,9 +67,12 @@ self-assessment is honest; they found *different* gaps (complementary):
 3. **Physical embedding:** ≥1 real mapping (reset/search, small-world transport, biochemical
    active-transport shortcut, neuronal/ecological directed jumps); clarify the non-Hermitian
    operator form Q+|u⟩λ⟨u| and PT-like analogy.
-4. **Figures (PRR-grade):** phase diagram b-vs-N (saddle-node region); peak-valley annihilation
-   with **scaling collapse** (the δ^{1/2}/δ^{3/2} laws); spectral-vs-time-domain comparison
-   (prove "not just eigenvalue crossing"); robustness panels.
+4. **Figures (PRR-grade) — ✅ DONE (2026-06-30).** 6-panel suite `code/dpma_prr_figures.py` →
+   `artifacts/figures/dpma_prr_figures.{pdf,png}`: (A) b_c(θ) saddle-node phase boundary +
+   endpoint 0.789/θ; (B) master-curve morphology Φ(τ;b) across b_c; (C) √-fold normal-form
+   scaling (δ^{1/2}, δ^{3/2}); (D) two-shortcut TRIPLE peak; (E) 2D torus capture+diffusive
+   peaks; (F) 2D diffusive-peak prominence → 0 (fold). [Optional extra: an explicit
+   spectral-vs-time-domain panel.]
 5. **Framing/prior-art pass:** b_c/δ-sink headline; demote A(d)/b_pl/N* to classifier corollaries;
    cite Giuggioli PRX 2020; correct Mattos 2012 (P(ω)); π_sc = splitting probability.
 

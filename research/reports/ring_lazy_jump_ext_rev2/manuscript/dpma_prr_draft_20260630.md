@@ -55,8 +55,12 @@ though the shortcut is directed — verified: real spectrum). Exact generating f
 Montroll determinant D_u(y)=a U_{N−1}+2 U_{u−1} U_{N−u−1} (a=q/λ); F(t)=Σ_j B_j s_j^{t−1}.
 Continuum limit (θ=u/N, b=β(1−q)N/q, τ=qt/N²): diffusion on [0,1] with an interior δ-sink,
 spectral function D_θ(k;b)=k sin k + 2b sin(kθ)sin(k(1−θ))=0 (θ=1/2 → tan w=−2w/b), μ_j=k_j²/2.
-Amplitudes G_{ξ,θ}(w)=2w²φ_{w,θ}(ξ)I/J (affected) + node term nπ[1−(−1)ⁿ]sin(nπξ) **[verified
-O(1/N²), max|A/G−1|=2.1e-4 @N=1200; derivation = Sturm–Liouville residue, App. B]**.
+Amplitudes G_{ξ,θ}(w)=2w²φ_{w,θ}(ξ)I/J (affected) + node term nπ[1−(−1)ⁿ]sin(nπξ) **[derived from
+the defect resolvent (Sherman–Morrison residue), App. B; every intermediate verified — I/J closed
+forms vs ∫φ,∫φ² to 1e-9, the exact identity J=sin(k)D_k/(4b) to 3e-15, the δ-sink jump condition
+to 2e-14; full curve vs exact residues 1e-5 O(1/N). N→∞: fixed-mode residue convergence is
+standard 1D operator theory; uniform C¹ moment convergence near the fold is an explicit,
+labeled assumption. See `notes/dpma_amplitude_derivation_20260630.md`]**.
 
 ## III. Existence theorem (the headline) **[proven criterion + verified constants]**
 With S_n(τ;b)=Σ_j G_j μ_j^n e^{−μ_j τ}, f′=−S₁ and f″=S₂, so the second peak is born/annihilated at
@@ -105,9 +109,11 @@ increment is the **exactly-solvable bifurcation-theoretic classification**: the 
 criterion, the predictive threshold b_c(θ), the minimal-mode theorem, universal scaling, and
 universality (rank-m cusp / 2D). (Mattos–Mejía-Monasterio–Metzler–Oshanin, PRE 86, 031143 (2012) is
 a splitting-probability P(ω) bimodality, not f(t) — cited correctly.)
-**Open / proof-level:** rigorous N→∞ (uniform convergence + fold persistence); a full symbolic
-derivation of G_{ξ,θ}; locating the cusp; the 2D large-L marginal scaling of b_c(L); elementary
-closed forms for the constants M, c_w(d).
+**Open / proof-level (narrowed 2026-06-30):** the G_{ξ,θ} derivation is now done (App. B), so what
+remains is: the single N→∞ assumption of uniform C¹ moment convergence near the fold (fixed-mode
+residue convergence is already standard 1D operator theory — App. B); locating the cusp
+(S₁=S₂=S₃=0) that organizes the two-shortcut triple peak; the 2D large-L marginal scaling of
+b_c(L) (2D point-sink log-renormalization); elementary closed forms for M, c_w(d).
 
 ## Methods / reproducibility
 Exact determinant + amplitudes: `code/dpma_general_u_master*.py`; saddle-node certification +

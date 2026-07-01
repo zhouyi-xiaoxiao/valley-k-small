@@ -87,7 +87,12 @@ self-assessment is honest; they found *different* gaps (complementary):
    "controllable time-domain structure invisible to MFPT/spectral gaps"; ring = exactly-solvable
    example; A(d) demoted; π_sc = splitting probability; b_c ≠ EP. Also audited: **b_c uniqueness
    (no re-entrance, single fold)** and **2D survival across L=17/25/33** — both confirmed.
-   Remaining = prose polish + RevTeX conversion + (optional) close proof-level gaps.
+   (c) **COMPLETE RevTeX manuscript written + compiles** `manuscript/dpma_prr_manuscript.tex`
+   → `build_prr/dpma_prr_manuscript.pdf` (5 pp, PRR format, figure embedded, refs resolved, 0
+   errors): abstract + intro + model/exact-solution + saddle-node existence theorem + universality
+   + physical realization/non-Hermitian + discussion + 4 appendices (determinant, amplitude, cusp,
+   numerics) + bibliography. Before submission: confirm author names/affiliation + verify the
+   %VERIFY-tagged refs. Remaining = (optional) close proof-level gaps; Luca venue decision.
 
 ## Recalibrated odds (reconciled)
 - **J.Phys.A: ~55–65% now** (after framing pass) — exact defect-resolvent study carries it.

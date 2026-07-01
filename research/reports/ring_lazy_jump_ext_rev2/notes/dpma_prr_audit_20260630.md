@@ -46,10 +46,14 @@ self-assessment is honest; they found *different* gaps (complementary):
   distributions induced by a directed shortcut in stochastic transport networks."
 
 ## PRR roadmap (the genuine remaining work — gating, mostly research not framing)
-1. **General saddle-node EXISTENCE THEOREM** (pro's "biggest theoretical gap"): a criterion for
-   when a rank-one defect produces a saddle-node in the FPT density, in terms of resolvent-
-   derivative structure — replace "we compute b_c" with "condition for existence". (The
-   normal-form scaling now in the cert is a step toward this.)
+1. **General saddle-node EXISTENCE THEOREM — ✅ DONE (2026-06-30).** Derived (gpt-5-5-pro) +
+   numerically arbitrated: the fold criterion is **S₁=S₂=0** in signed spectral moments
+   S_m=Σ_j G_j μ_j^m e^{−μ_j τ} (Φ'=−S₁, Φ''=S₂), nondeg S₃≠0/∂_b S₁≠0; second peak exists iff
+   0<b<b_c(θ). Explicit b_c(θ) boundary (symmetric, min at θ≈0.381), endpoint law
+   **b_c∼0.7890261736/min(θ,1−θ)**, near-antipodal b_c=3.0764−133.1ε², and a **minimal-mode
+   theorem** (≥3 alternating-sign modes; 2 impossible even signed). b_c(θ) matches my
+   independent numerics to rel-diff ~1e-6. See `notes/dpma_saddle_node_existence_theorem_20260630.md`
+   + `code/dpma_saddle_node_bc_theta.py`. This closes the referee's "biggest theoretical gap".
 2. **Universality / robustness:** 2D or multiple-shortcut (defect competition) or random-ensemble
    analogue; robustness of b_c under perturbed (β, q, θ) so it isn't seen as fine-tuned.
 3. **Physical embedding:** ≥1 real mapping (reset/search, small-world transport, biochemical

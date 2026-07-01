@@ -87,12 +87,25 @@ self-assessment is honest; they found *different* gaps (complementary):
    "controllable time-domain structure invisible to MFPT/spectral gaps"; ring = exactly-solvable
    example; A(d) demoted; π_sc = splitting probability; b_c ≠ EP. Also audited: **b_c uniqueness
    (no re-entrance, single fold)** and **2D survival across L=17/25/33** — both confirmed.
-   (c) **COMPLETE RevTeX manuscript written + compiles** `manuscript/dpma_prr_manuscript.tex`
-   → `build_prr/dpma_prr_manuscript.pdf` (5 pp, PRR format, figure embedded, refs resolved, 0
-   errors): abstract + intro + model/exact-solution + saddle-node existence theorem + universality
-   + physical realization/non-Hermitian + discussion + 4 appendices (determinant, amplitude, cusp,
-   numerics) + bibliography. Before submission: confirm author names/affiliation + verify the
-   %VERIFY-tagged refs. Remaining = (optional) close proof-level gaps; Luca venue decision.
+   (c) **COMPLETE full-length RevTeX article written + compiles** `manuscript/dpma_prr_manuscript.tex`
+   → `build_prr/dpma_prr_manuscript.pdf`. **Expanded 2026-07-01 from a 5pp Letter-density draft to an
+   8pp full article** (0 errors, 0 overfull, 0 stuck floats, all 57 labels/refs/cites resolved): the
+   fix was DEPTH not column format (kept PRR two-column `reprint`; a full PRR article is ~8-14pp).
+   Structure now: abstract + §I Intro (itemized 5-point contributions list + honest prior-art) +
+   §II Model/exact-solution (3 subsecs: ring+rank-one defect, Montroll determinant+residues,
+   diffusive limit) + §III existence theorem (4 subsecs: moments/fold, b_c(θ) boundary, normal-form
+   scaling, minimal-mode) + §IV universality (4 subsecs: Woodbury genericity, cusp/triple-peak,
+   2D, robustness) + §V physical realization/non-Hermitian (3 subsecs) + §VI discussion + **5 FULL
+   appendices** (A finite-N determinant w/ matrix-det-lemma derivation+splitting prob; B continuum
+   amplitude — full 8-step Sherman-Morrison resolvent chain + closed forms + node modes + N→∞ limit
+   hypotheses A-F + IFT fold persistence; C existence-theorem proofs — ∂_b k_j, minimal-mode proof,
+   endpoint boundary-layer, near-antipodal expansion; D rank-2 cusp w/ eigenfunction+residuals;
+   E numerics + reproducibility TABLE of all 8 verification tolerances) + bibliography.
+   **TWO figures now** (was one 6-panel): NEW schematic `code/dpma_schematic.py` →
+   `artifacts/figures/dpma_schematic.{pdf,png}` (Fig 1, data-free model diagram: lazy ring+shortcut |
+   continuum interval+δ-sink; on p2, Model §) + the 6-panel results suite (Fig 2, full-width, on p4).
+   Before submission: confirm author names/affiliation + verify the %VERIFY-tagged refs. Remaining =
+   (optional) close proof-level gaps; Luca venue decision.
 
 ## Recalibrated odds (reconciled)
 - **J.Phys.A: ~55–65% now** (after framing pass) — exact defect-resolvent study carries it.

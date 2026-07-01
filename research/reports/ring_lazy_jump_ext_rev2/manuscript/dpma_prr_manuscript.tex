@@ -1,8 +1,9 @@
-% Physical Review Research — submission-ready manuscript
-% Directed-shortcut first-passage saddle-node. Assembled 2026-06-30.
+% Physical Review Research — full-length article (submission candidate).
+% Directed-shortcut first-passage saddle-node. Assembled 2026-06-30; expanded to full
+% article + complete appendices 2026-07-01.
 % BEFORE SUBMISSION: (1) confirm author names/affiliation/order below;
-% (2) verify the marked references (% VERIFY); (3) optionally split Fig.1 into 2-3 figures.
-\documentclass[reprint,amsmath,amssymb,aps,prresearch,superscriptaddress]{revtex4-2}
+% (2) verify the marked references (% VERIFY); (3) confirm funding/acknowledgments.
+\documentclass[reprint,amsmath,amssymb,aps,prresearch,superscriptaddress,longbibliography]{revtex4-2}
 \usepackage{graphicx}
 \usepackage{bm}
 \usepackage{braket}
@@ -35,22 +36,28 @@ $\theta=\tfrac12$, has a minimum near $\theta\simeq0.381$, and diverges as
 $b_c\sim 0.789/\min(\theta,1-\theta)$ near the endpoints; at least three sign-alternating modes are
 required, and the fold obeys the universal normal-form scaling
 $\tau_+-\tau_-\propto(b_c-b)^{1/2}$, $\Delta f\propto(b_c-b)^{3/2}$. The mechanism is generic rather
-than lattice-specific: it follows model-independently from a low-rank non-Hermitian defect, it
-generalizes to multiple shortcuts (two shortcuts create a \emph{third} peak organized by a cusp
-catastrophe, which we locate), and it survives on a two-dimensional lattice. The threshold $b_c$ is a
-time-domain morphology fold, \emph{not} a spectral exceptional point. The result recasts a known
+than lattice-specific: it follows model-independently from a low-rank non-Hermitian defect (Woodbury
+identity), it generalizes to multiple shortcuts (two shortcuts create a \emph{third} peak organized by
+a cusp catastrophe, which we locate), and it survives on a two-dimensional lattice. The threshold $b_c$
+is a time-domain morphology fold, \emph{not} a spectral exceptional point. The result recasts a known
 phenomenology as a predictive, exactly solvable bifurcation with a measurable threshold and universal
 scaling, testable in feedback-controlled colloidal search and in engineered transport networks.
 \end{abstract}
 
 \maketitle
 
-\section{Introduction}
+\section{Introduction}\label{sec:intro}
 The first-passage time (FPT) to a target is a central observable of stochastic transport, search and
-reaction kinetics~\cite{Redner2001,MetzlerBook2014,Benichou2011}. When a searcher has access to a
+reaction kinetics~\cite{Redner2001,MetzlerBook2014,Benichou2011}. Its full distribution $f(t)$, rather
+than the mean first-passage time (MFPT) alone, controls the timing statistics of diffusion-limited
+reactions, of intracellular delivery, and of search under deadlines, and it is increasingly accessible
+experimentally through single-particle tracking and feedback-controlled colloidal
+platforms~\cite{Grebenkov2020,Bressloff2022}.
+
+A recurring and striking feature of $f(t)$ is \emph{multimodality}. When a searcher has access to a
 ``shortcut''---a relocation channel, a long-range rewired edge, or an active-transport route---the FPT
-density $f(t)$ can become bimodal: fast trajectories that use the shortcut form an early peak, while
-slow trajectories that explore the domain form a later peak, provided the two time scales are well
+density can become bimodal: fast trajectories that use the shortcut form an early peak, while slow
+trajectories that explore the domain form a later peak, provided the two time scales are well
 separated~\cite{GodecMetzler2016,Sood2005}. Multimodal capture-time densities are likewise known for
 interior partially absorbing traps when several traps are strategically
 arranged~\cite{Bressloff2022,Grebenkov2020}, and exact spatiotemporal solutions of confined lattice
@@ -58,201 +65,333 @@ random walks with defects are by now a mature program~\cite{Giuggioli2020,Montro
 
 These works \emph{exhibit} multimodality; they do not, however, classify or predict \emph{when} a
 second peak exists as a control parameter is varied, nor identify the transition as a bifurcation with
-a sharp, computable threshold. Here we supply exactly that. For a minimal directed shortcut---modeled
-as a rank-one killing (non-Hermitian) defect---we prove that the birth and death of the second FPT
-peak is a \emph{saddle-node} of the density's critical points, give the exact existence boundary
-$b_c(\theta)$, a minimal-mode theorem, the universal fold scaling, and demonstrate that the mechanism
-is generic (multiple shortcuts, two dimensions). The broad message is that FPT distributions carry
-controllable time-domain structure---an emergent arrival-time scale with a threshold---that is
-invisible to the mean first-passage time and to spectral gaps.
+a sharp, computable threshold. The distinction matters: the presence of a second arrival-time scale is
+a qualitative, controllable property of the distribution that is invisible to the MFPT and to the
+spectral gap, and its appearance and disappearance is, we argue, a genuine catastrophe of the
+observable.
+
+Here we supply exactly that classification for a minimal directed shortcut, modeled as a rank-one
+killing (non-Hermitian) defect on an absorbing lattice. Our contributions are:
+\begin{enumerate}
+\item An \emph{exact solution} (Sec.~\ref{sec:model}): the FPT density is a signed spectral mixture
+whose amplitudes we derive in closed form from the defect resolvent, both on the finite lattice
+(Montroll determinant, App.~\ref{app:det}) and in the diffusive limit (App.~\ref{app:amp}).
+\item A \emph{saddle-node existence theorem} (Sec.~\ref{sec:existence}): the birth and death of the
+second FPT peak is a fold governed by the compact criterion $S_1=S_2=0$ in signed spectral moments,
+with $f'=-S_1$, $f''=S_2$. The second peak exists \emph{iff} $0<b<b_c(\theta)$.
+\item An \emph{explicit phase boundary} $b_c(\theta)$: symmetric about $\theta=\tfrac12$, minimized
+near $\theta\simeq0.381$, with the endpoint law $b_c\sim0.789/\min(\theta,1-\theta)$; a
+\emph{minimal-mode theorem} (at least three sign-alternating modes are required); and the universal
+normal-form scaling $\tau_+-\tau_-\propto(b_c-b)^{1/2}$, $\Delta f\propto(b_c-b)^{3/2}$.
+\item A \emph{universality} argument (Sec.~\ref{sec:univ}): the fold is model-independent (Woodbury
+identity for a low-rank defect), generalizes to multiple shortcuts (two shortcuts create a
+\emph{third} peak organized by a cusp catastrophe, which we locate), and survives on a
+two-dimensional lattice.
+\item A \emph{physical embedding and non-Hermitian clarification} (Sec.~\ref{sec:physical}): the
+shortcut is a localized target-delivery channel; the threshold $b_c$ is a time-domain morphology fold,
+\emph{not} a spectral exceptional point.
+\end{enumerate}
 
 We are careful to separate what is new from what is not. Shortcut-induced bimodality and interior-trap
 multimodality are known~\cite{GodecMetzler2016,Bressloff2022,Grebenkov2020}; the lattice
 Green-function/defect method is Giuggioli's~\cite{Giuggioli2020,MontrollWeiss1965}; and
 Ref.~\cite{Mattos2012} concerns bimodality of a splitting probability $P(\omega)$, not of $f(t)$. Our
 contribution is the exactly solvable \emph{bifurcation-theoretic} account: the fold criterion, the
-predictive threshold, and the universality.
+predictive threshold $b_c(\theta)$, and the universality of the mechanism.
 
-\section{Model and exact solution}
-Consider a lazy random walk on a ring of $N$ sites: at each step the walker stays with probability
-$1-q$ and hops to each neighbor with probability $q/2$. Site $v=0$ is an absorbing target. A directed
-shortcut at a source site $u$ diverts probability $\lambda=\beta(1-q)$ from the $u$ self-loop onto the
-directed edge $u\to v$. Removing the absorbed state leaves a transient generator on sites
-$1,\dots,N-1$ that is a Dirichlet path with a rank-one diagonal killing defect at $u$,
+\section{Model and exact solution}\label{sec:model}
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{dpma_schematic}
+\caption{\label{fig:schematic}
+Model. (a) Lazy random walk on a ring of $N$ sites (stay $1-q$, hop $q/2$) with an absorbing target
+$v=0$ and a directed shortcut $u\to v$ of rate $\lambda=\beta(1-q)$; deleting $v$ leaves a rank-one
+killing defect at $u$. (b) Diffusive limit: Brownian motion on $[0,1]$ with absorbing ends and an
+interior $\delta$-sink of strength $b$ at $\theta$, started at $\xi$.}
+\end{figure}
+
+\subsection{Lazy ring with a directed shortcut}\label{sec:modelA}
+Consider a lazy random walk on a ring of $N$ sites [Fig.~\ref{fig:schematic}(a)]: at each step the
+walker stays with probability $1-q$ and hops to each neighbor with probability $q/2$. Site $v=0$ is an
+absorbing target. A directed shortcut at a source site $u$ diverts probability $\lambda=\beta(1-q)$
+from the $u$ self-loop onto the directed edge $u\to v$; upon taking it the walker is absorbed. Removing
+the absorbed state leaves a transient (sub-stochastic) generator on sites $1,\dots,N-1$ that is a
+Dirichlet path with a rank-one diagonal killing defect at $u$,
 \begin{equation}
 Q_b=Q_0-b\,\ket{u}\!\bra{u},
 \label{eq:Qb}
 \end{equation}
 so probability leaks irreversibly from $u$ into the target. Although the shortcut is directed, the
-transient block remains symmetric (the directedness enters only the absorption vector), so its
-spectrum is real.
+transient block remains symmetric---the directedness enters only through the (one-way) absorption
+vector, not the survival dynamics---so its spectrum is real. This is the crucial structural fact that
+makes the problem exactly solvable while retaining genuinely non-Hermitian (open, probability-losing)
+character.
 
-The generating function is rational with an exact Montroll-type determinant. With $U_m$ the Chebyshev
-polynomials of the second kind, $y=1+(z^{-1}-1)/q$, and $a=q/\lambda$, the characteristic determinant
-for a source at $u$ is
+\subsection{Exact generating function and Montroll determinant}\label{sec:modelB}
+The FPT generating function is rational with an exact Montroll-type determinant. Applying the
+matrix-determinant lemma to the rank-one defect \eqref{eq:Qb} and evaluating the resulting
+path-resolvent element in closed form (App.~\ref{app:det}) gives, with $U_m$ the Chebyshev
+polynomials of the second kind, $y=1+(z^{-1}-1)/q$ the spectral variable, and $a=q/\lambda$ the
+dimensionless inverse shortcut strength, the characteristic determinant for a source at $u$,
 \begin{equation}
-D_u(y)=a\,U_{N-1}(y)+2\,U_{u-1}(y)\,U_{N-u-1}(y),
+D_u(y)=a\,U_{N-1}(y)+2\,U_{u-1}(y)\,U_{N-u-1}(y).
 \label{eq:Du}
 \end{equation}
-and the FPT probability is $F(t)=\sum_j B_j s_j^{\,t-1}$ with $s_j=1-q+qy_j$, $D_u(y_j)=0$, and residues
-$B_j=q\,\mathcal N_{r,u}(y_j)/D_u'(y_j)$ (Appendix~\ref{app:det}). The antipodal case $u=N/2$ reduces to
-$D\propto a\,T_L+U_{L-1}$, recovering the symmetric problem as a special case of the rank-one theory.
+The FPT probability is then a finite sum of geometric modes,
+\begin{equation}
+F(t)=\sum_j B_j\, s_j^{\,t-1},\qquad s_j=1-q+q\,y_j,
+\label{eq:Ft}
+\end{equation}
+where $y_j$ are the roots $D_u(y_j)=0$ and the residues are $B_j=q\,\mathcal N_{r,u}(y_j)/D_u'(y_j)$
+with $r$ the start site and $\mathcal N_{r,u}$ the piecewise numerator of App.~\ref{app:det}. The
+antipodal case $u=N/2\equiv L$ reduces \eqref{eq:Du} to $D\propto a\,T_L+U_{L-1}$ (with $T_L$ the
+Chebyshev polynomial of the first kind), recovering the reflection-symmetric problem as a special case
+of the general rank-one theory.
 
-\emph{Diffusive limit.} Writing $\theta=u/N$, $b=\beta(1-q)N/q$, $\tau=qt/N^2$ and $s=1-q+q\cos(2w/N)$,
-the walk converges to Brownian motion on $[0,1]$ with absorbing ends and an interior $\delta$-sink,
+\subsection{Diffusive limit}\label{sec:modelC}
+Writing $\theta=u/N$ for the fractional shortcut position, $b=\beta(1-q)N/q$ for the rescaled sink
+strength, $\tau=qt/N^2$ for diffusive time, and expanding $s=1-q+q\cos(2w/N)$, the walk converges to
+Brownian motion on $[0,1]$ with absorbing ends and an interior $\delta$-sink [Fig.~\ref{fig:schematic}(b)],
 \begin{equation}
 \partial_\tau p=\tfrac12\,p_{xx}-b\,\delta(x-\theta)\,p,\qquad p(0)=p(1)=0 .
 \label{eq:continuum}
 \end{equation}
-Its spectrum is fixed by
+Its spectrum is fixed by the transcendental determinant
 \begin{equation}
 D_\theta(k;b)=k\sin k+2b\,\sin(k\theta)\sin\!\big(k(1-\theta)\big)=0,
 \label{eq:Dtheta}
 \end{equation}
-with $k=2w$ and $\mu_j=k_j^2/2=2w_j^2$; for $\theta=\tfrac12$ this is $\tan w=-2w/b$. The FPT density is
-$\Phi_{\xi,\theta}(\tau;b)=\sum_j G_j e^{-\mu_j\tau}$, started at $\xi=r/N$. The \emph{signed}
-amplitudes are (Appendix~\ref{app:amp})
+with $k=2w$ and eigenvalues $\mu_j=k_j^2/2=2w_j^2$; for $\theta=\tfrac12$ this collapses to
+$\tan w=-2w/b$. The FPT density from a start at $\xi=r/N$ is the signed spectral mixture
+\begin{equation}
+\Phi_{\xi,\theta}(\tau;b)=\sum_j G_j\, e^{-\mu_j\tau},
+\label{eq:Phi}
+\end{equation}
+whose amplitudes we derive from the defect resolvent (App.~\ref{app:amp}) as
 \begin{equation}
 G_{\xi,\theta}(w)=2w^2\,\frac{\phi_{w,\theta}(\xi)\,I(w,\theta)}{J(w,\theta)},
 \label{eq:G}
 \end{equation}
-where $\phi_{k,\theta}(x)=\sin(k(1-\theta))\sin(kx)$ for $x\le\theta$ and $\sin(k\theta)\sin(k(1-x))$
-for $x\ge\theta$, and $I=\int_0^1\phi\,dx$, $J=\int_0^1\phi^2\,dx$ (closed forms in
-Appendix~\ref{app:amp}). Modes with $\sin(n\pi\theta)=0$ do not see the sink and contribute the free
-term $G_n^{\mathrm{node}}=n\pi[1-(-1)^n]\sin(n\pi\xi)$. We have verified \eqref{eq:G} and the full
-master curve against exact finite-$N$ residues to a relative error $\sim10^{-5}$ with clean $O(N^{-2})$
-convergence.
+where
+\begin{equation}
+\phi_{k,\theta}(x)=
+\begin{cases}
+\sin\!\big(k(1-\theta)\big)\sin(kx), & x\le\theta,\\[2pt]
+\sin(k\theta)\sin\!\big(k(1-x)\big), & x\ge\theta,
+\end{cases}
+\label{eq:phi}
+\end{equation}
+and $I=\int_0^1\phi\,dx$, $J=\int_0^1\phi^2\,dx$ have the closed forms of App.~\ref{app:amp}. Modes with
+$\sin(n\pi\theta)=0$ do not couple to the sink and contribute the free Dirichlet term
+$G_n^{\mathrm{node}}=n\pi[1-(-1)^n]\sin(n\pi\xi)$ (even $n$ vanish). We have verified \eqref{eq:G}, the
+crucial normalization identity $J=\sin(k)\,D_k/(4b)$, and the full master curve (affected plus node
+modes) against exact finite-$N$ residues to a relative error $\sim10^{-5}$ with clean $O(N^{-2})$
+convergence (App.~\ref{app:amp}, App.~\ref{app:numerics}).
 
-\section{The saddle-node existence theorem}
+\section{The saddle-node existence theorem}\label{sec:existence}
+
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{dpma_prr_figures}
+\caption{\label{fig:results}
+Results. (a) Saddle-node phase boundary $b_c(\theta)$: the second FPT peak exists for
+$0<b<b_c(\theta)$; symmetric, minimum at $\theta\simeq0.381$, with the endpoint law $0.789/\theta$
+(dashed). (b) Master curve $\Phi(\tau;b)$ at $\theta=\tfrac12$ as $b$ crosses $b_c=3.0764$.
+(c) Normal-form scaling: gap $\propto(b_c-b)^{1/2}$ and prominence $\propto(b_c-b)^{3/2}$.
+(d) Two shortcuts produce a third peak (exact ring, $N=1500$).
+(e) 2D torus ($31\times31$): capture and diffusive peaks.
+(f) 2D fold: the diffusive-peak prominence vanishes at $\beta_c^{2D}\simeq0.55$--$0.65$.}
+\end{figure*}
+
+\subsection{Signed spectral moments and the fold criterion}\label{sec:existA}
 Define the signed spectral moments
 \begin{equation}
 S_n(\tau;b)=\sum_j G_j\,\mu_j^{\,n}\,e^{-\mu_j\tau},
 \label{eq:Sn}
 \end{equation}
-so that $\Phi'=-S_1$ and $\Phi''=S_2$. An interior extremum of the FPT density is a zero of $S_1$; two
-such extrema (a valley--peak pair, i.e.\ the second peak) merge and annihilate at a \emph{saddle-node}
-fold,
+so that $\Phi'=-S_1$ and $\Phi''=S_2$ [differentiate \eqref{eq:Phi}]. An interior extremum of the FPT
+density is a zero of $S_1$; the second peak is a valley--peak pair, and it is born or annihilated when
+these two extrema merge---a \emph{saddle-node} fold of the density's critical points,
 \begin{equation}
 \boxed{\,S_1(\tau_c,b_c)=0,\qquad S_2(\tau_c,b_c)=0\,},
 \label{eq:fold}
 \end{equation}
 with nondegeneracy $S_3(\tau_c,b_c)\neq0$ and $\partial_b S_1(\tau_c,b_c)\neq0$. No positivity is
-assumed---the $G_j$ are signed---so this is the correct criterion for a fold of a signed exponential
-mixture. Consequently the second peak exists \emph{iff} $0<b<b_c(\theta)$; we verify numerically that
-$b_c$ is a \emph{single} fold, i.e.\ the double-peak set is a single connected interval in $b$ with no
-re-entrant window.
+assumed---the $G_j$ are genuinely signed---so \eqref{eq:fold} is the correct fold criterion for a
+signed exponential mixture, and it is precisely the coincidence of a root and a critical point of the
+generalized (signed) exponential sum $S_1$. Consequently the second peak exists \emph{if and only if}
+$0<b<b_c(\theta)$; we verify numerically that $b_c$ is a \emph{single} fold, i.e.\ the double-peak set
+is a single connected interval in $b$ with no re-entrant window (App.~\ref{app:numerics}).
 
-\emph{Boundary.} $b_c(\theta)$ is symmetric, $b_c(\theta)=b_c(1-\theta)$, with a minimum at
-$\theta\simeq0.381$ ($b_c\simeq2.16$) and the endpoint law
+\subsection{The existence boundary $b_c(\theta)$}\label{sec:existB}
+Eliminating $\tau_c$ between the two equations in \eqref{eq:fold} yields a scalar boundary $b_c(\theta)$
+[Fig.~\ref{fig:results}(a)]. It is symmetric, $b_c(\theta)=b_c(1-\theta)$, has a minimum at
+$\theta\simeq0.381$ ($b_c\simeq2.16$), and obeys the endpoint law
 \begin{equation}
-b_c(\theta)\sim\frac{0.7890261736}{\min(\theta,1-\theta)},\qquad \tau_c\sim0.1579221011\,d^2,
+b_c(\theta)\sim\frac{0.7890261736}{\min(\theta,1-\theta)},\qquad
+\tau_c\sim0.1579221011\,d^2,
 \label{eq:endpoint}
 \end{equation}
-$d=\min(\theta,1-\theta)$, obtained from a half-line boundary-layer problem. In the antipodal case
-$b_c(\tfrac12)=3.0764323604$, with the near-antipodal expansion
-$b_c(\tfrac12+\epsilon)=3.0764323604-133.107\,\epsilon^2+O(\epsilon^4)$. Fig.~\ref{fig:main}(a).
-
-\emph{Normal form.} Near the fold the two extrema split as
+with $d=\min(\theta,1-\theta)$, obtained from the half-line boundary-layer problem of
+App.~\ref{app:existence}. In the antipodal case
 \begin{equation}
-\tau_+-\tau_-\propto(b_c-b)^{1/2},\qquad \Phi(\tau_+)-\Phi(\tau_-)\propto(b_c-b)^{3/2},
+b_c(\tfrac12)=3.0764323604,\qquad \tau_c=0.03836305186,
+\label{eq:antip}
+\end{equation}
+with the near-antipodal expansion
+$b_c(\tfrac12+\epsilon)=3.0764323604-133.107\,\epsilon^2+O(\epsilon^4)$ (App.~\ref{app:existence}). The
+two limits are physically transparent: as $b\to0$ the spectrum reverts to the plain Dirichlet spectrum
+(no sink, no second peak), while as $b\to\infty$ the $\delta$-sink becomes an absorbing cut and, for a
+start at the source $\xi=\theta$, the density collapses to $\Phi\to\delta(\tau)$ (again no interior
+second peak)---so a second peak can exist only in the finite window $0<b<b_c$.
+
+\subsection{Normal-form scaling}\label{sec:existC}
+Near the fold the two merging extrema split with the generic saddle-node exponents
+\begin{equation}
+\tau_+-\tau_-\propto(b_c-b)^{1/2},\qquad
+\Phi(\tau_+)-\Phi(\tau_-)\propto(b_c-b)^{3/2},
 \label{eq:scaling}
 \end{equation}
-the generic saddle-node signature; we confirm both exponents numerically [Fig.~\ref{fig:main}(c)],
-which certifies the transition as a fold rather than a spectral crossover.
+which we confirm numerically [Fig.~\ref{fig:results}(c)]; in the antipodal case the prefactors are
+$\tau_+-\tau_-\simeq0.0247518\,(b_c-b)^{1/2}$ and prominence $\simeq0.357444\,(b_c-b)^{3/2}$. The
+observation of these exponents certifies the transition as a fold rather than a smooth spectral
+crossover, and they constitute a system-independent experimental prediction (Sec.~\ref{sec:physical}).
 
-\emph{Minimal mode count.} A two-mode fold is impossible, even with signs: $S_1=0$ forces
-$A_2=-A_1$ ($A_j=G_j\mu_j e^{-\mu_j\tau}$), whence $S_2=(\mu_1-\mu_2)A_1=0$ gives $A_1=A_2=0$. Thus at
-least three sign-alternating modes are required; in the antipodal case
-$G_1>0,G_2<0,G_3>0,\dots$, and retaining $K$ affected modes gives $b_c^{(3)}=3.046$, $b_c^{(5)}=3.0764$.
+\subsection{Minimal mode count}\label{sec:existD}
+A two-mode fold is impossible, even with signs. Writing $A_j=G_j\mu_j e^{-\mu_j\tau}$, $S_1=0$ forces
+$A_2=-A_1$, whence $S_2=(\mu_1-\mu_2)A_1=0$ gives $A_1=A_2=0$, a contradiction. Thus \emph{at least
+three} modes are required, and the fold ratio $A_1:A_2:A_3=(\mu_3-\mu_2):(\mu_1-\mu_3):(\mu_2-\mu_1)$
+forces \emph{alternating signs}, $G_1>0,G_2<0,G_3>0,\dots$, exactly the sign pattern the true affected
+amplitudes possess (App.~\ref{app:amp}). Retaining $K$ affected modes in the antipodal case gives the
+truncated thresholds $b_c^{(2)}$ (none), $b_c^{(3)}=3.046$, $b_c^{(5)}=3.0764$, converging rapidly to
+\eqref{eq:antip}.
 
-\section{Universality}
-The fold \eqref{eq:fold} is not special to the ring. For any absorbing Markov generator, a rank-$m$
-killing defect $Q_b=Q_0-UBU^\top$ gives, by the Woodbury identity,
+\section{Universality}\label{sec:univ}
+
+\subsection{Model-independence}\label{sec:univA}
+The fold \eqref{eq:fold} is not special to the ring. For any absorbing Markov generator $Q_0$, a
+rank-$m$ killing defect $Q_b=Q_0-UBU^\top$ gives, by the Woodbury identity,
 \begin{equation}
-\det(sI-Q_b)=\det(sI-Q_0)\,\det[I_m+BW(s)],\quad W_{ab}=\bra{u_a}(sI-Q_0)^{-1}\ket{u_b},
+\det(sI-Q_b)=\det(sI-Q_0)\,\det\!\big[I_m+BW(s)\big],
 \label{eq:woodbury}
 \end{equation}
-and the FPT density is a signed spectral mixture whose second-peak birth/death is the fold $S_1=S_2=0$.
-The double-peak region is an \emph{open} set (structurally stable by the implicit-function theorem),
-hence not fine-tuned. The honest universal statement is not ``every shortcut creates a peak'' but
-``whenever a shortcut-induced peak is born or annihilated generically, the mechanism is a fold of the
-signed spectral mixture.''
+with $W_{ab}(s)=\bra{u_a}(sI-Q_0)^{-1}\ket{u_b}$, so the FPT density is again a signed spectral mixture
+and its second-peak birth/death is the fold $S_1=S_2=0$. The double-peak region is an \emph{open} set
+(structurally stable by the implicit-function theorem), hence not fine-tuned. The honest universal
+statement is not ``every shortcut creates a peak''---false in general---but ``whenever a
+shortcut-induced peak is born or annihilated generically, the mechanism is a fold of the signed
+spectral mixture, independent of the underlying geometry.''
 
-\emph{Multiple shortcuts.} For two shortcuts at $\theta_1=\alpha<\theta_2=\beta$ with strengths
-$b_1,b_2$, the secular determinant is
+\subsection{Multiple shortcuts and the cusp}\label{sec:univB}
+For two shortcuts at $\theta_1=\alpha<\theta_2=\beta$ with strengths $b_1,b_2$, the secular
+determinant is (App.~\ref{app:cusp})
 \begin{align}
-D_{12}(k)={}&k\sin k+2b_1\sin(k\alpha)\sin(k(1-\alpha))\notag\\
-&+2b_2\sin(k\beta)\sin(k(1-\beta))\notag\\
-&+\tfrac{4b_1b_2}{k}\sin(k\alpha)\sin(k(\beta-\alpha))\sin(k(1-\beta)),
+D_{12}(k)={}&k\sin k+2b_1\sin(k\alpha)\sin\!\big(k(1-\alpha)\big)\notag\\
+&+2b_2\sin(k\beta)\sin\!\big(k(1-\beta)\big)\notag\\
+&+\tfrac{4b_1b_2}{k}\sin(k\alpha)\sin\!\big(k(\beta-\alpha)\big)\sin\!\big(k(1-\beta)\big),
 \label{eq:D12}
 \end{align}
-the last term being a genuine two-defect interaction (it vanishes as the sources coalesce, giving
-$b=b_1+b_2$). Two shortcuts can produce a \emph{third} FPT peak: at $(\alpha,\beta,b_1,b_2)=(0.38,0.48,
-1.35,0.14)$, $\xi=0.463$, the exact ring shows three peaks at $\tau\simeq3.0\times10^{-4},5.3\times10^{-3},
-6.1\times10^{-2}$ [Fig.~\ref{fig:main}(d)]. The triple-peak wedge is organized by a \emph{cusp}
-$S_1=S_2=S_3=0$; we locate it at
+the last term being a genuine two-defect interaction that vanishes as the sources coalesce (giving the
+additive rule $b=b_1+b_2$). Two shortcuts can produce a \emph{third} FPT peak: at
+$(\alpha,\beta,b_1,b_2)=(0.38,0.48,1.35,0.14)$, $\xi=0.463$, the exact ring ($N=1500$) shows three
+peaks at $\tau\simeq3.0\times10^{-4},5.3\times10^{-3},6.1\times10^{-2}$ [Fig.~\ref{fig:results}(d)],
+corresponding to capture via the near shortcut, capture via the far shortcut, and diffusive arrival.
+The triple-peak wedge in $(b_1,b_2)$ is organized by a \emph{cusp} $S_1=S_2=S_3=0$; we locate it at
 \begin{equation}
-(\alpha,\beta,b_1,b_2,\tau_c)=(0.38,\,0.489580512568,\,1.35,\,1.08389,\,0.0012366),
+\begin{split}
+(\alpha,\beta,b_1,b_2,\tau_c)=(&0.38,\,0.489580512568,\,1.35,\\
+&1.08389,\,0.0012366),
+\end{split}
 \label{eq:cusp}
 \end{equation}
-with $S_4\neq0$ and $\det\partial(S_1,S_2)/\partial(b_1,b_2)=-6.9\times10^7\neq0$, a genuine
-codimension-two cusp (Appendix~\ref{app:cusp}). We note that the cusp sits slightly off the
-triple-peak example ($\beta\approx0.48958$, not $0.48$, which carries only ordinary folds).
+with $S_4\neq0$ and unfolding Jacobian $\det\partial(S_1,S_2)/\partial(b_1,b_2)=-6.9\times10^7\neq0$, a
+genuine codimension-two cusp (App.~\ref{app:cusp}). We note that the cusp sits slightly off the
+triple-peak example ($\beta\approx0.48958$, not $0.48$, which carries only ordinary folds), so the two
+statements are consistent but distinct. Thus $m$ shortcuts turn the single fold into fold
+hypersurfaces in $b$-space, with open regions of two and three peaks, organized by a hierarchy of
+catastrophes---all exactly solvable.
 
-\emph{Two dimensions.} On an $L\times L$ torus with an absorbing target and a directed shortcut, the
-same algebra holds [Eq.~\eqref{eq:woodbury} with the lattice resolvent]. Numerically, a single
-diffusive peak at $\beta=0$ acquires a shortcut-induced capture peak; the two coexist over a window and
-the diffusive peak's prominence falls to zero at $\beta_c^{2D}\simeq0.55$--$0.65$, a fold present at
-$L=17,25,33$ [Fig.~\ref{fig:main}(e,f)]. The mechanism is therefore not one-dimensional. A single-site
-sink is marginal in 2D (its self-Green function is logarithmically divergent), so the bare $b_c(L)$
-drifts as $\sim1/\log L$; the robust, size-independent diagnostics are the moment condition
-\eqref{eq:fold} and the fold scaling \eqref{eq:scaling}.
+\subsection{Two dimensions}\label{sec:univC}
+On an $L\times L$ torus with an absorbing target and a directed shortcut, the same algebra holds
+[Eq.~\eqref{eq:woodbury} with the 2D lattice resolvent]. Numerically, a single diffusive peak at
+$\beta=0$ acquires a shortcut-induced capture peak; the two coexist over a window and the diffusive
+peak's prominence falls to zero at $\beta_c^{2D}\simeq0.55$--$0.65$, a fold present at $L=17,25,33$
+[Fig.~\ref{fig:results}(e,f)]. The mechanism is therefore not one-dimensional. We add one honest
+caveat: a single-site sink is marginal in 2D (its self-Green function is logarithmically divergent),
+so the \emph{bare} threshold $b_c(L)$ drifts as $\sim1/\log L$ with system size. This is expected
+2D point-trap marginality, not a falsifier; the robust, size-independent diagnostics are the moment
+condition \eqref{eq:fold} and the fold scaling \eqref{eq:scaling}.
 
-\emph{Robustness.} The fold persists under any perturbation that preserves $S_3\neq0$,
-$\partial_b S_1\neq0$: weak hop-rate disorder, small shifts of the source or start, and the laziness $q$
-(which merely rescales time, $\tau_c\to\tau_c/q$). It is destroyed only by placing the source on a
-symmetry node (dark modes), by source coalescence, or by pushing the start onto the shortcut (the early
-peak then escapes to $\tau=0$, outside the interior-fold theorem).
+\subsection{Robustness}\label{sec:univD}
+The fold persists under any perturbation that preserves the nondegeneracy $S_3\neq0$,
+$\partial_b S_1\neq0$: to first order $\delta b_c=-(\partial_\varepsilon S_1/\partial_b S_1)\,
+\delta\varepsilon$ for a perturbation $\varepsilon$. Concretely it survives weak hop-rate disorder
+(which can even help, by lifting accidental dark modes), small shifts of the source or start, and the
+laziness $q$ (which merely rescales time, $\tau_c\to\tau_c/q$, and drops out of the $q$-reduced
+threshold). It is destroyed only by placing the source on a symmetry node (dark modes $G_j=0$), by
+source coalescence (rank drop), by moving the source adjacent to the absorbing boundary, or by pushing
+the start onto the shortcut, in which case the early peak escapes to $\tau=0$ and leaves the interior
+fold theorem.
 
-\section{Physical realization and non-Hermitian character}
-Physically the shortcut is a localized target-delivery channel: while at $u$ the searcher is delivered
-to the target at rate $b$, i.e.\ $f(t)=f_0(t)+b\,p_u(t)$, so a finite gate of width $a$ and local
-trigger rate $\kappa$ becomes a $\delta$-sink of strength $\sim\kappa a$. The sharpest realization is
-feedback-controlled colloidal or active-particle search: a narrow gate at $x=\theta L$ (optical
-tweezers, a microfluidic pulse, or active-particle feedback) that, upon entry, occasionally delivers
-the particle to the target and ends the trial; $b$ is the trigger rate, tunable per frame. Repeating
-many trials and scanning $b$ at fixed $\theta$ (best near $\theta\simeq0.38$, where $b_c$ is smallest)
-should reveal the second peak for $b<b_c(\theta)$ and its annihilation at $b_c$. We caution that
-standard resetting-to-origin is \emph{not} this problem---it reinjects probability into the survival
-domain; the correct protocol is delivery-and-terminate. A second realization is an engineered or
-small-world transport network with a one-way express edge to an absorbing node; two such edges provide
-a direct test of the cusp. Intracellular motor capture to a reaction site realizes it in a
-coarse-grained (ideally reconstituted) setting.
+\section{Physical realization and non-Hermitian character}\label{sec:physical}
 
+\subsection{Embedding}\label{sec:physA}
+Physically the shortcut is a localized target-delivery channel. From $p'(t)=Q_0p-b\ket{u}\!\bra{u}p$
+the absorption current is $f(t)=f_0(t)+b\,p_u(t)$: while the searcher is at $u$ it is irreversibly
+delivered to the target at rate $b$. In the survival sector this is a local killing term
+$-b\ket{u}\!\bra{u}$, not a transport edge, and a finite gate of width $a$ with local trigger rate
+$\kappa$ coarse-grains to a $\delta$-sink of strength $\sim\kappa a$; the dimensionless $b$ is $\kappa$
+normalized by the diffusive hop scale. The sharp physical statement is that a single localized delivery
+channel creates an \emph{additional arrival-time scale}---a second peak in the full FPT density---with a
+predictable threshold $b_c(\theta)$.
+
+\subsection{Realizations}\label{sec:physB}
+We rank candidate realizations by cleanliness. \emph{(i) Feedback-controlled colloidal or
+active-particle search} is the strongest: a narrow gate at $x=\theta L$ (optical tweezers, a
+microfluidic pulse, or active-particle feedback) that, upon entry, occasionally delivers the particle
+to the target and ends the trial; $b$ is the per-frame trigger rate. Recording first-arrival times over
+many trials and scanning $b$ at fixed $\theta$---best near $\theta\simeq0.38$, where $b_c$ is smallest
+and the effect largest---should reveal the second peak for $b<b_c(\theta)$ and its annihilation at
+$b_c$, with the fold collapse \eqref{eq:scaling} as the sharp signature. We caution that standard
+resetting-to-origin is \emph{not} this problem: it reinjects probability into the survival domain,
+whereas the correct protocol is delivery-and-terminate. \emph{(ii) Engineered or small-world transport
+networks} with a one-way express edge to an absorbing node realize $-b\ket{u}\!\bra{u}$ directly
+(microfluidic maze with a one-way valve; programmable packet-routing graph; electrical random-walk
+analog with a tunable shunt to ground; lossy photonic link); two such edges provide the cleanest test
+of the rank-two triple peak and cusp. \emph{(iii) Intracellular motor capture} to a reaction site
+realizes it in a coarse-grained, ideally reconstituted, in-vitro setting. In each case the caveat is
+that only a genuinely one-way, terminating channel maps to the rank-one killing defect.
+
+\subsection{Non-Hermitian character}\label{sec:physC}
 We stress what the non-Hermitian character is and is not. $Q_b$ is a passive open-Markov loss defect,
-analogous to an effective non-Hermitian Hamiltonian with a localized absorber; it is \emph{not}
-PT-symmetric (no balanced gain and loss). Crucially, $b_c$ is \emph{not} an exceptional point: an EP
-requires eigenvalue coalescence with a defective (Jordan) block, whereas here the eigenvalues remain
-real, simple and smooth through $b_c$ (verified), and the fold arises from cancellation among at least
-three signed residues. The $(b_c-b)^{1/2}$ scaling in \eqref{eq:scaling} is a saddle-node of the scalar
-$f(t;b)$, not EP eigenvalue splitting---the same exponent for a different object. In the reversible
-diffusive limit the $\delta$-sink operator is self-adjoint (Sturm--Liouville), so no spectral EP exists.
+analogous to an effective non-Hermitian Hamiltonian with a localized absorber (imaginary potential);
+it is \emph{not} PT-symmetric, since there is no balanced gain and loss. Crucially, $b_c$ is \emph{not}
+an exceptional point: an EP requires eigenvalue coalescence with a defective (Jordan) block, whereas
+here the eigenvalues remain real, simple and smooth through $b_c$ (verified across $b=2.9\to3.3$ at
+$N=200$, consecutive gaps bounded away from zero), and the fold arises from cancellation among at least
+three signed residues, not from spectral degeneracy. The $(b_c-b)^{1/2}$ scaling in \eqref{eq:scaling}
+is a saddle-node of the scalar $f(t;b)$, not EP eigenvalue splitting---the same exponent for a
+different object. Indeed, in the reversible diffusive limit the $\delta$-sink operator is self-adjoint
+(Sturm--Liouville), so no spectral EP exists at all.
 
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
 We have shown that shortcut-induced FPT bimodality, long known phenomenologically, is the observable
 signature of an exactly solvable saddle-node bifurcation: a rank-one directed defect produces a second
-first-passage peak that exists precisely for $0<b<b_c(\theta)$, is born/annihilated through a fold with
-universal $(1/2,3/2)$ scaling, requires at least three sign-alternating modes, generalizes to a cusp
-for two defects, and survives in two dimensions. The single most defensible novelty is the
-bifurcation-theoretic classification with a predictive threshold, distinct from the known bimodality
-and from the underlying defect-resolvent method. The predicted fold exponents and the two-shortcut
-triple peak are directly measurable.
+first-passage peak that exists precisely for $0<b<b_c(\theta)$, is born and annihilated through a fold
+with universal $(1/2,3/2)$ scaling, requires at least three sign-alternating modes, generalizes to a
+cusp for two defects, and survives in two dimensions. The single most defensible novelty is the
+bifurcation-theoretic classification with a predictive, computable threshold, distinct from the known
+bimodality and from the underlying defect-resolvent method. The predicted fold exponents and the
+two-shortcut triple peak are directly measurable, and the cleanest platforms are feedback-controlled
+colloidal search and engineered transport networks.
 
-Beyond the results proved and verified here, the analysis leaves a small set of technical questions:
-a rigorous $N\to\infty$ statement requires, in addition to the standard convergence of fixed-mode
-residues (Appendix~\ref{app:amp}), uniform $C^1$ convergence of the moment sums in a neighborhood of
-the fold; the large-$L$ renormalized scaling of $b_c$ in two dimensions; and whether the constants
-$0.7890\ldots$ and the antipodal $b_c$ admit elementary closed forms.
+Beyond the results proved and verified here, the analysis leaves a small set of technical questions.
+A fully rigorous $N\to\infty$ statement requires, in addition to the standard convergence of
+fixed-mode residues (App.~\ref{app:amp}), uniform $C^1$ convergence of the moment sums $S_{1,2,3}$ in
+a neighborhood of the fold; we state the precise hypotheses and support them by the observed
+$O(N^{-2})$ fold convergence, but do not prove uniform $C^1$ control of the tail. The large-$L$
+renormalized scaling of $b_c$ in two dimensions, and whether the constants $0.7890\ldots$ and the
+antipodal $b_c$ admit elementary closed forms, remain open. None of these affects the exact
+finite-system results or the numerically certified continuum thresholds.
 
 \begin{acknowledgments}
 % CONFIRM funding/acknowledgments before submission.
@@ -262,86 +401,188 @@ We thank colleagues at the Bristol Centre for Complexity Sciences for discussion
 \appendix
 
 \section{Exact finite-\texorpdfstring{$N$}{N} determinant and residues}\label{app:det}
-Deleting the target from the lazy-ring transition matrix leaves the transient block
-$Q_0-\lambda\ket{u}\!\bra{u}$ on $\{1,\dots,N-1\}$. Using the matrix-determinant lemma on the rank-one
-defect and $\det[yI-\tfrac12 A_{\rm path}]=2^{-(N-1)}U_{N-1}(y)$,
-$[\,(yI-\tfrac12A_{\rm path})^{-1}]_{u,u}=2U_{u-1}U_{N-u-1}/U_{N-1}$, one obtains \eqref{eq:Du}. The
-piecewise numerator is $\mathcal N_{r,u}=a[A_r+A_{N-r}]+2A_{N-u}[A_r+A_{u-r}]$ for $r\le u$ (and the
-mirror for $r\ge u$), $A_m:=U_{m-1}$. The channel (splitting) probability is
-$\pi_{\rm sc}(r)=2\min(r,u)[N-\max(r,u)]/(aN+2u(N-u))$, exact by Sherman--Morrison; for the antipodal
-case $\pi_{\rm sc}=\rho/(a+L)$. We emphasize $\pi_{\rm sc}$ is the eventual splitting probability, not
-the first-peak mass.
+We derive Eqs.~\eqref{eq:Du}--\eqref{eq:Ft}. Let $P_0$ be the $(N-1)\times(N-1)$ transient
+(sub-stochastic) transition matrix of the lazy ring with $v=0$ deleted; on the interior sites it is a
+symmetric tridiagonal path with diagonal $1-q$ and off-diagonal $q/2$. The directed shortcut diverts
+$\lambda=\beta(1-q)$ from the self-loop at $u$ into the absorbing target, i.e.\ it subtracts $\lambda$
+from the $(u,u)$ entry: $P_b=P_0-\lambda\ket{u}\!\bra{u}$, the rank-one defect of \eqref{eq:Qb}. The
+first-passage generating function to $v$ from a start $r$, $\tilde F_r(z)=\sum_{t\ge1}F(t)z^t$, is a
+ratio of resolvent elements of $P_b$; by the matrix-determinant lemma its poles are the zeros of
+\begin{equation}
+\det\!\big(I-zP_b\big)=\det\!\big(I-zP_0\big)\,\big[1-z\lambda\,G^{0}_{uu}(z)\big],
+\label{eq:mdl}
+\end{equation}
+with $G^0(z)=(I-zP_0)^{-1}$. Introducing the spectral variable $y=1+(z^{-1}-1)/q$ maps the lazy path
+onto the standard second-difference operator: $\det(yI-\tfrac12A_{\rm path})=2^{-(N-1)}U_{N-1}(y)$ and,
+by the cofactor structure of a tridiagonal inverse,
+\begin{equation}
+G^0_{uu}\propto\big[(yI-\tfrac12A_{\rm path})^{-1}\big]_{uu}=\frac{2\,U_{u-1}(y)\,U_{N-u-1}(y)}{U_{N-1}(y)} .
+\label{eq:Guu}
+\end{equation}
+Substituting \eqref{eq:Guu} into \eqref{eq:mdl} and clearing $U_{N-1}$ gives the characteristic
+determinant $D_u(y)=a\,U_{N-1}(y)+2\,U_{u-1}(y)U_{N-u-1}(y)$ of \eqref{eq:Du}, with $a=q/\lambda$. The
+residue of $\tilde F_r$ at each root $y_j$ produces the geometric sum \eqref{eq:Ft} with
+$s_j=1-q+q\,y_j$ and $B_j=q\,\mathcal N_{r,u}(y_j)/D_u'(y_j)$. Writing $A_m:=U_{m-1}(y)$, the piecewise
+numerator is
+\begin{equation}
+\mathcal N_{r,u}=a\,[A_r+A_{N-r}]+2A_{N-u}[A_r+A_{u-r}],\qquad r\le u,
+\label{eq:num}
+\end{equation}
+and its mirror ($r\leftrightarrow N-r$, $u\leftrightarrow N-u$) for $r\ge u$. Finally, by
+Sherman--Morrison the eventual channel (splitting) probability---the fraction of trajectories absorbed
+through the shortcut---is
+\begin{equation}
+\pi_{\rm sc}(r)=\frac{2\min(r,u)\,[N-\max(r,u)]}{aN+2u(N-u)},
+\label{eq:pisc}
+\end{equation}
+which for the antipodal case reduces to $\pi_{\rm sc}=\rho/(a+L)$ with $\rho$ the start offset. We
+emphasize that $\pi_{\rm sc}$ is the eventual splitting probability, \emph{not} the mass under the
+first peak; conflating the two is a common error we deliberately avoid.
 
-\section{Continuum amplitude}\label{app:amp}
-With $H_b=-\tfrac12\partial_x^2+b\,\delta_\theta$ and $R_0$ the sink-free interval resolvent, continued
-to $z=-k^2/2$, Sherman--Morrison gives
-$r_b=r_0-b\,r_0(x,\theta)r_0(\theta,y)/[1+b\,r_0(\theta,\theta)]$, whose poles are the zeros of
-\eqref{eq:Dtheta}; the residue eigenfunction is $\psi_j=\phi_{k_j,\theta}$, which satisfies the
-$\delta$-sink jump $\psi'(\theta^+)-\psi'(\theta^-)=2b\psi(\theta)\Leftrightarrow D_\theta=0$ (verified
-to $2\times10^{-14}$). The absorption density $f=-\tfrac{d}{dt}\!\int p$ has Laplace transform
-$\bar f=1-z\bar Q$, and the residue at $z=-\mu_j$ yields $G_j=\mu_j\,\psi_j(\xi)\int\psi_j/\int\psi_j^2$,
-i.e.\ \eqref{eq:G}, with
+\section{Continuum amplitude from the defect resolvent}\label{app:amp}
+We derive Eqs.~\eqref{eq:G}--\eqref{eq:phi} from the resolvent of $H_b=-\tfrac12\partial_x^2
++b\,\delta_\theta$ on $(0,1)$ with Dirichlet ends, continued to $z=-k^2/2$ (so $\mu=k^2/2=2w^2$).
+
+\emph{1. Free resolvent.} With $q=\sqrt{2z}$,
+$R_0(x,y;z)=2\sinh(qx_<)\sinh(q(1-x_>))/(q\sinh q)$; continued to $q=ik$,
+\begin{equation}
+r_0(x,y;k)=\frac{2\sin(kx_<)\sin\!\big(k(1-x_>)\big)}{k\sin k}.
+\label{eq:r0}
+\end{equation}
+\emph{2. Defect resolvent (Sherman--Morrison, rank-one $\delta$-sink).}
+\begin{equation}
+r_b=r_0-\frac{b\,r_0(x,\theta)r_0(\theta,y)}{1+b\,r_0(\theta,\theta)}
+=r_0-\frac{4b\,\phi(x)\phi(y)}{k\sin k\;D_\theta},
+\label{eq:rb}
+\end{equation}
+with $\phi=\phi_{k,\theta}$ of \eqref{eq:phi}; the pole condition $1+b\,r_0(\theta,\theta)=0$ is exactly
+$D_\theta(k;b)=0$ of \eqref{eq:Dtheta}. \emph{3. Eigenfunction.} The residue eigenfunction is
+$\psi_j=\phi_{k_j,\theta}$: it is continuous at $\theta$, satisfies the Dirichlet conditions, and obeys
+the $\delta$-sink jump $\psi'(\theta^+)-\psi'(\theta^-)=2b\,\psi(\theta)$, which is algebraically
+equivalent to $D_\theta=0$ (verified to $1.8\times10^{-14}$). \emph{4. Residue $=$ FPT amplitude.} The
+survival transform is $\bar Q_\xi(z)=\int_0^1 r_b(y,\xi;z)\,dy$ and $\bar f=1-z\bar Q$; the residue at
+$z=-\mu_j$ (using $k-k_j=-(z+\mu_j)/k_j$) gives the normalization-independent amplitude
+\begin{equation}
+G_j=\mu_j\,\psi_j(\xi)\,\frac{\int_0^1\psi_j}{\int_0^1\psi_j^2}
+=\mu_j\,\frac{\phi_{k_j,\theta}(\xi)\,I}{J},
+\label{eq:Gderiv}
+\end{equation}
+i.e.\ Eq.~\eqref{eq:G} with $\mu_j=2w_j^2$. \emph{5. Closed forms.} With $A=\sin k\theta$,
+$B=\sin k(1-\theta)$,
 \begin{align}
-I(k,\theta)&=\tfrac1k\big[\sin(k(1-\theta))(1-\cos k\theta)\notag\\
-&\qquad+\sin(k\theta)(1-\cos k(1-\theta))\big],\\
-J(k,\theta)&=\tfrac12[\theta B^2+(1-\theta)A^2]-\tfrac{AB\sin k}{2k},
+I(k,\theta)&=\tfrac1k\big[B\,(1-\cos k\theta)+A\,(1-\cos k(1-\theta))\big],\label{eq:I}\\
+J(k,\theta)&=\tfrac12\big[\theta B^2+(1-\theta)A^2\big]-\frac{AB\sin k}{2k},\label{eq:J}
 \end{align}
-$A=\sin k\theta$, $B=\sin k(1-\theta)$. The exact identity $J=\sin(k)\,D_k(k;b)/(4b)$ at a root (verified
-to $3\times10^{-15}$) links the norm to the determinant derivative and gives nondegeneracy of affected
-modes. For $\theta=\tfrac12$, \eqref{eq:G} reduces to
-$G_{\xi,1/2}=4w(1-\cos w)\sin(2w\xi)/[\sin^2 w(1+b(b+2)/4w^2)]$. Node modes are the free Dirichlet modes
-$\sin(n\pi x)$ at $\sin(n\pi\theta)=0$, with the amplitude quoted in the text. The $I$, $J$ closed forms
-match direct quadrature to $10^{-9}$, and the reconstructed master curve matches exact finite-$N$
-residues to $\sim10^{-5}$ with $O(N^{-2})$ convergence. Convergence of fixed-mode residues as
-$N\to\infty$ follows from norm-resolvent convergence of the killed generator; passing the fold
-\eqref{eq:fold} to the limit additionally requires uniform $C^1$ convergence of $S_{1,2,3}$ near
-$(\tau_c,b_c)$, which we state as a hypothesis and support by the observed $O(N^{-2})$ fold convergence.
+matching direct quadrature to $\sim10^{-9}$. \emph{6. Normalization identity.} At a root of
+\eqref{eq:Dtheta},
+\begin{equation}
+J(k_j,\theta)=\frac{\sin(k_j)\,D_k(k_j;b)}{4b},
+\label{eq:JD}
+\end{equation}
+with $D_k=\sin k+k\cos k+2b[\theta\cos(k\theta)\sin(k(1-\theta))+(1-\theta)\sin(k\theta)
+\cos(k(1-\theta))]$; this exact algebraic identity (verified to $2.9\times10^{-15}$) ties the residue
+norm to the determinant derivative, and $D_k(k_j)\neq0$ certifies each affected mode as nondegenerate.
+\emph{7. Antipodal reduction.} For $\theta=\tfrac12$,
+$G_{\xi,1/2}=4w(1-\cos w)\sin(2w\xi^*)/[\sin^2 w\,(1+b(b+2)/4w^2)]$ with $\xi^*=\min(\xi,1-\xi)$,
+recovering the previously verified antipodal amplitude. \emph{8. Node modes.} When $\sin(n\pi\theta)=0$
+the mode decouples from the sink and is the free Dirichlet mode $\sin(n\pi x)$, with amplitude
+$G_n^{\mathrm{node}}=n\pi[1-(-1)^n]\sin(n\pi\xi)$ (even $n$ vanish, and all node modes vanish at
+$\xi=\theta$). The reconstructed master curve (affected plus node) matches exact finite-$N$ residues to
+$\sim10^{-5}$ with $O(N^{-2})$ convergence.
 
-\section{Two-shortcut cusp}\label{app:cusp}
-For two sources the rank-two eigenfunction is $\psi_j(x)=-\sum_a b_a c_a^{(j)} r_0(k_j;x,\theta_a)$ with
+\emph{The $N\to\infty$ limit.} Convergence of fixed-mode residues $G_{N,j}\to G_j$ follows from
+norm-resolvent convergence of the killed generator under standard hypotheses (A) $\xi_N\to\xi$,
+$\theta_N\to\theta$; (B) bulk convergence $H_N\to-\tfrac12\partial_x^2$; (C) $\delta$-sink form scaling
+$V_{N,\theta}\sim bN$; (D) a symmetrizable transient generator; (E) simple isolated poles. Passing the
+fold \eqref{eq:fold} to the limit additionally requires (F) uniform $C^1$ convergence of $S_{1,2,3}$
+(including $\partial_b$) on a neighborhood $\tau\in[\tau_c/2,3\tau_c/2]$ of the fold---not down to
+$\tau=0$, where the heat-kernel short-time singularity lives---for which a sufficient practical bound is
+$\mu_{N,j}\ge cj^2$, $|G_{N,j}|\le Cj^r$ uniformly. Under (F), fold persistence is a consequence of the
+implicit-function theorem: the Jacobian $\det DF_c=-S_{1,b}S_3$ is nonzero by nondegeneracy, giving a
+unique nearby finite-$N$ fold with $b_{c,N}-b_c=O(\varepsilon_N)$, consistent with the observed
+$O(N^{-2})$. We state (F) as a hypothesis, supported by the numerics, rather than a theorem.
+
+\section{Existence theorem: proofs and asymptotics}\label{app:existence}
+\emph{Fold criterion.} From $\Phi=\sum_j G_j e^{-\mu_j\tau}$, $\Phi'=-\sum_j G_j\mu_j e^{-\mu_j\tau}
+=-S_1$ and $\Phi''=\sum_j G_j\mu_j^2 e^{-\mu_j\tau}=S_2$, so an interior extremum is $S_1=0$ and two
+extrema merge at $S_1=S_2=0$, Eq.~\eqref{eq:fold}. The parameter derivative of a root of
+\eqref{eq:Dtheta} is $\partial_b k_j=-D_b/D_k$ with $D_b=2\sin(k\theta)\sin(k(1-\theta))$ and $D_k$ as
+in \eqref{eq:JD}, which propagates into $\partial_b S_1$ and gives the nondegeneracy condition needed
+for a structurally stable fold.
+
+\emph{Minimal-mode theorem.} As in Sec.~\ref{sec:existD}, $S_1=S_2=0$ has no two-mode solution with
+$A_j\neq0$; the minimal count is three, with the alternating-sign ratio
+$A_1:A_2:A_3=(\mu_3-\mu_2):(\mu_1-\mu_3):(\mu_2-\mu_1)$. This retires an earlier (incorrect) two-mode
+heuristic and shows the fold is intrinsically a many-mode cancellation.
+
+\emph{Endpoint law.} As $d=\min(\theta,1-\theta)\to0$ the fold is governed by a half-line
+boundary-layer problem (absorbing end at $0$, $\delta$-sink at rescaled position $y=1$ of strength $B$,
+start $y=1$); its saddle-node occurs at the universal constant $B^*=0.7890261736$, giving
+$b_c(\theta)\sim B^*/d$ and $\tau_c\sim0.1579221011\,d^2$, Eq.~\eqref{eq:endpoint}. Near the antipode a
+regular perturbation of $\tan w=-2w/b$ yields
+$b_c(\tfrac12+\epsilon)=3.0764323604-133.107\,\epsilon^2+O(\epsilon^4)$, with the antipodal values
+\eqref{eq:antip} obtained from $S_1=S_2=0$ directly ($S_3=2.83\times10^5$, $\partial_bS_1=21.66$,
+nondegenerate). The truncated thresholds $b_c^{(3)}=3.046$, $b_c^{(5)}=3.0764$ confirm rapid mode
+convergence.
+
+\section{Two-shortcut determinant and cusp}\label{app:cusp}
+For two sources the secular condition is $\det[I_2+B\,W(k)]=0$ with $W_{ab}=r_0(k;\theta_a,\theta_b)$
+the interval resolvent \eqref{eq:r0}; expanding the $2\times2$ determinant gives $D_{12}(k)$ of
+\eqref{eq:D12}, whose cross term $\propto b_1b_2$ is the genuine two-defect interaction (it $\to0$ as
+$\alpha\to\beta$, recovering a single defect of strength $b_1+b_2$). The rank-two residue
+eigenfunction is $\psi_j(x)=-\sum_a b_a c_a^{(j)}r_0(k_j;x,\theta_a)$ with
 $c^{(j)}\in\ker[I_2+W(k_j)B]$, and $G_j=\mu_j\psi_j(\xi)\int\psi_j/\int\psi_j^2$ with
-$\int\psi_j=-\sum_a b_a c_a I_{\theta_a}$ and $\int\psi_j^2=\sum_{ab} b_a c_a b_b c_b\,C_{ab}$; closed
-forms for $I_\theta$ and $C_{ab}$ are elementary. The cusp solves $S_1=S_2=S_3=0$ with $S_4\neq0$ and a
-nonzero unfolding Jacobian $\det\partial(S_1,S_2)/\partial(b_1,b_2)$. At \eqref{eq:cusp} an independent
+$\int\psi_j=-\sum_a b_a c_a I_{\theta_a}$ and $\int\psi_j^2=\sum_{ab}b_a c_a b_b c_b\,C_{ab}$; the
+constituents $I_\theta$ [Eq.~\eqref{eq:I}] and $C_{ab}$ are elementary. The cusp solves
+$S_1=S_2=S_3=0$ with $S_4\neq0$ and a nonzero unfolding Jacobian
+$\det\partial(S_1,S_2)/\partial(b_1,b_2)$. At the located point \eqref{eq:cusp} an independent
 reimplementation gives normalized residuals $\tau S_1/\Phi\approx7\times10^{-12}$,
-$\tau^2 S_2/\Phi\approx5\times10^{-11}$, $\tau^3 S_3/\Phi\approx4\times10^{-10}$,
-$\tau^4 S_4/\Phi\approx-1.67$, and $\det\partial(S_1,S_2)/\partial(b_1,b_2)\approx-6.9\times10^7$,
-confirming a nondegenerate cusp.
+$\tau^2S_2/\Phi\approx5\times10^{-11}$, $\tau^3S_3/\Phi\approx4\times10^{-10}$,
+$\tau^4S_4/\Phi\approx-1.67$, and $\det\partial(S_1,S_2)/\partial(b_1,b_2)\approx-6.9\times10^7$,
+confirming a nondegenerate codimension-two cusp.
 
 \section{Numerical methods and reproducibility}\label{app:numerics}
-Exact FPT densities use the symmetric transient block (\texttt{numpy} \texttt{eigvalsh}); high-precision
-checks use \texttt{mpmath}. Continuum spectra are the roots of \eqref{eq:Dtheta}/\eqref{eq:D12};
-amplitudes use \eqref{eq:G} and Appendix~\ref{app:cusp}. All scripts are deterministic; the figure is
-generated by \texttt{dpma\_prr\_figures.py}, the existence boundary by
-\texttt{dpma\_saddle\_node\_bc\_theta.py}, the amplitude by \texttt{dpma\_general\_u\_master\_curve.py},
-the cusp by \texttt{dpma\_cusp\_verify.py}, and the 2D test by \texttt{dpma\_2d\_universality.py}.
-
-\begin{figure*}
-\includegraphics[width=\textwidth]{dpma_prr_figures}
-\caption{\label{fig:main}
-(a) Saddle-node phase boundary $b_c(\theta)$: the second FPT peak exists for $0<b<b_c(\theta)$;
-symmetric, minimum at $\theta\simeq0.381$, with the endpoint law $0.789/\theta$ (dashed).
-(b) Master curve $\Phi(\tau;b)$ at $\theta=\tfrac12$ as $b$ crosses $b_c=3.0764$.
-(c) Normal-form scaling: gap $\propto(b_c-b)^{1/2}$ and prominence $\propto(b_c-b)^{3/2}$.
-(d) Two shortcuts produce a third peak (exact ring, $N=1500$).
-(e) 2D torus ($31\times31$): capture and diffusive peaks.
-(f) 2D fold: the diffusive-peak prominence vanishes at $\beta_c^{2D}\simeq0.55$--$0.65$.}
-\end{figure*}
+Exact finite-$N$ FPT densities are computed from the symmetric transient block via \texttt{numpy}
+\texttt{eigvalsh}; high-precision cross-checks use \texttt{mpmath}. Continuum spectra are the roots of
+\eqref{eq:Dtheta}/\eqref{eq:D12}, and amplitudes use \eqref{eq:G} and App.~\ref{app:cusp}. All scripts
+are deterministic. Table~\ref{tab:verif} collects the verification tolerances quoted throughout.
+\begin{table}[b]
+\caption{\label{tab:verif}Independent numerical verifications (this work).}
+\begin{ruledtabular}
+\begin{tabular}{lc}
+Quantity & Agreement\\
+\hline
+$\delta$-sink jump $=D_\theta$ [Eq.~\eqref{eq:Dtheta}] & $1.8\times10^{-14}$\\
+$I,J$ vs.\ quadrature [Eqs.~\eqref{eq:I},\eqref{eq:J}] & $\sim10^{-9}$\\
+Identity $J=\sin(k)D_k/4b$ [Eq.~\eqref{eq:JD}] & $2.9\times10^{-15}$\\
+Master curve vs.\ exact residues ($N=1200$) & $\sim10^{-5}$\\
+$b_c(\theta)$ vs.\ independent numerics & $\sim10^{-6}$\\
+Endpoint constant $b_c\!\cdot\! d\to B^*$ & $0.7890$\\
+Rank-2 secular $D_{12}(k_j)$ ($N=800$) & $\sim10^{-5}$\\
+Cusp residuals $\tau^n S_n/\Phi$ ($n\le3$) & $\lesssim10^{-10}$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+The figures are generated by \texttt{dpma\_prr\_figures.py} (results) and \texttt{dpma\_schematic.py}
+(model); the existence boundary by \texttt{dpma\_saddle\_node\_bc\_theta.py}; the amplitude/master
+curve by \texttt{dpma\_general\_u\_master\_curve.py}; the fold scaling by
+\texttt{dpma\_saddle\_node\_certification.py}; the cusp by \texttt{dpma\_cusp\_verify.py}; and the 2D
+test by \texttt{dpma\_2d\_universality.py}. We verified that the double-peak region is a single
+connected interval in $b$ (no re-entrant window) and that the 2D fold persists at $L=17,25,33$.
 
 \begin{thebibliography}{99}
-\bibitem{Redner2001} S.~Redner, \emph{A Guide to First-Passage Processes} (Cambridge University Press, 2001).
-\bibitem{MetzlerBook2014} R.~Metzler, G.~Oshanin, and S.~Redner (eds.), \emph{First-Passage Phenomena and Their Applications} (World Scientific, 2014).
-\bibitem{Benichou2011} O.~B\'enichou, C.~Loverdo, M.~Moreau, and R.~Voituriez, Rev.\ Mod.\ Phys.\ \textbf{83}, 81 (2011). % intermittent search review
+\bibitem{Redner2001} S.~Redner, \emph{A Guide to First-Passage Processes} (Cambridge University Press, Cambridge, 2001).
+\bibitem{MetzlerBook2014} R.~Metzler, G.~Oshanin, and S.~Redner (eds.), \emph{First-Passage Phenomena and Their Applications} (World Scientific, Singapore, 2014).
+\bibitem{Benichou2011} O.~B\'enichou, C.~Loverdo, M.~Moreau, and R.~Voituriez, Rev.\ Mod.\ Phys.\ \textbf{83}, 81 (2011).
 \bibitem{MontrollWeiss1965} E.~W.~Montroll and G.~H.~Weiss, J.\ Math.\ Phys.\ \textbf{6}, 167 (1965).
 \bibitem{Giuggioli2020} L.~Giuggioli, Phys.\ Rev.\ X \textbf{10}, 021045 (2020).
-\bibitem{GodecMetzler2016} A.~Godec and R.~Metzler, Phys.\ Rev.\ X \textbf{6}, 041037 (2016). % VERIFY exact title/vol
+\bibitem{GodecMetzler2016} A.~Godec and R.~Metzler, Phys.\ Rev.\ X \textbf{6}, 041037 (2016). % VERIFY exact title/vol/page
 \bibitem{Mattos2012} T.~G.~Mattos, C.~Mej\'ia-Monasterio, R.~Metzler, and G.~Oshanin, Phys.\ Rev.\ E \textbf{86}, 031143 (2012).
-\bibitem{Sood2005} % VERIFY: small-world / network FPT bimodality reference (e.g. random walks on small-world networks)
-E.~Almaas, R.~V.~Kulkarni, and D.~Stroud, Phys.\ Rev.\ E \textbf{68}, 056105 (2003).
+\bibitem{Sood2005} E.~Almaas, R.~V.~Kulkarni, and D.~Stroud, Phys.\ Rev.\ E \textbf{68}, 056105 (2003). % VERIFY: small-world / network FPT bimodality
 \bibitem{Grebenkov2020} D.~S.~Grebenkov, Phys.\ Rev.\ Lett.\ \textbf{125}, 078102 (2020). % VERIFY: partially reactive / boundary local time
 \bibitem{Bressloff2022} P.~C.~Bressloff, J.\ Phys.\ A \textbf{55}, 205001 (2022). % VERIFY: encounter-based interior trap
-\bibitem{Arnold1992} V.~I.~Arnol'd, \emph{Catastrophe Theory} (Springer, 1992).
-\bibitem{Ashida2020} Y.~Ashida, Z.~Gong, and M.~Ueda, Adv.\ Phys.\ \textbf{69}, 249 (2020). % non-Hermitian physics review
+\bibitem{Arnold1992} V.~I.~Arnol'd, \emph{Catastrophe Theory}, 3rd ed. (Springer, Berlin, 1992).
+\bibitem{Ashida2020} Y.~Ashida, Z.~Gong, and M.~Ueda, Adv.\ Phys.\ \textbf{69}, 249 (2020).
 \end{thebibliography}
 
 \end{document}

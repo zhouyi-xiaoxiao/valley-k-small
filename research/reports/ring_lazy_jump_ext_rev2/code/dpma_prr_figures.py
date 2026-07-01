@@ -117,7 +117,7 @@ def main():
 
     # -- F: 2D diffusive-peak prominence vs beta (fold) --
     a = ax[1, 2]
-    betas = [0.0, 0.03, 0.06, 0.10, 0.15, 0.22, 0.30, 0.40, 0.52, 0.65]
+    betas = [0.0, 0.06, 0.15, 0.30, 0.40, 0.52, 0.60, 0.65, 0.68, 0.70, 0.72]
     proms = []
     for be in betas:
         M2, babs2, idx = build_2d(L, be, v, u)
@@ -137,7 +137,7 @@ def main():
     a.plot(betas, proms, 'o-', color='C3')
     a.axhline(0, ls=':', color='gray')
     a.set_xlabel(r'shortcut strength $\beta$'); a.set_ylabel('diffusive-peak prominence')
-    a.set_title('F. 2D fold: diffusive peak\n prominence $\\to$0 at $\\beta_c^{2D}\\approx0.5$–$0.65$')
+    a.set_title('F. 2D fold: diffusive peak\n prominence $\\to$0 at $\\beta_c^{2D}\\approx0.69$')
 
     fig.suptitle('Directed-shortcut first-passage saddle-node: existence, universality (PRR figure suite)',
                  fontsize=13)

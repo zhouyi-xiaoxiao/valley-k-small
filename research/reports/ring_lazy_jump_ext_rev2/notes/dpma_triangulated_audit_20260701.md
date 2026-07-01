@@ -67,10 +67,24 @@ Recompiles clean: 8 pp, 0 errors, 0 overfull, all 59 labels/refs/cites resolved.
 - **Pro's strategic reframe (venue decision, Luca's call):** the title/abstract already lead with the
   FPT-density saddle-node (the physics, per Pro's own recommendation), and the paper DOES contain the
   b_c(θ) phase boundary, the rank-2 cusp, the 2D test, and a physical-realizations section that Pro
-  (text-only, no figures) under-weighted. To push a genuine PRR run vs. bank a safe PRE/JPA, the
-  highest-leverage additions are: a channel-resolved FPT-density figure (which mode comes from which
-  channel), a general-(θ,ξ) modal-transition phase diagram, one non-antipodal robustness example, and
-  direct-simulation cross-checks. None are correctness issues.
+  (text-only, no figures) under-weighted.
+
+## PRR-strengthening additions DONE (2026-07-01, user chose "strengthen for PRR")
+New `code/dpma_channel_mc.py` → `artifacts/figures/dpma_channel_mc.pdf` = **Fig 3** (full-width, new
+§IV.E "Direct simulation and channel resolution"; manuscript now 9pp), directly addressing three of
+Pro's asks:
+- **(a) Direct Monte-Carlo cross-check** (4×10⁵ walkers, no spectral input) reproduces the exact FPT
+  density across 4 decades in τ; simulated π_sc=0.565 matches exact to 1e-3 → rebuts "solvable-model
+  curiosity."
+- **(b) Exact channel-resolution** f=f_sc+f_diff (the absorption vector splits exactly): early mode =
+  shortcut capture, late mode = diffusive return; the saddle-node = annihilation of the diffusive-
+  return peak. Identifies which channel makes which arrival-time mode.
+- **(c) Non-antipodal robustness** at θ=0.38 across b_c(θ)≈2.16 (interior maxima 1→1→0 for b=1.5/2.16/
+  2.8) → fold not special to the antipode.
+Presentation note: source-started (ξ=θ) densities need LOG-LOG axes — the shortcut-capture spike near
+τ→0 swamps the diffusive bump on linear axes. Compiles clean (9pp, 0 err/overfull/stuck, refs OK).
+Still OPTIONAL for an even stronger PRR run (not done): a full general-(θ,ξ) modal-transition phase
+diagram (b_c(θ) at ξ=θ already exists as Fig 2a), and a direct 2D-fold simulation.
 
 ## Reconciled bottom line
 Math bulletproof and reproducible; all honesty/notation/scoping fixes applied. The residual question

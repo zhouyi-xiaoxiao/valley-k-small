@@ -1,11 +1,12 @@
 # DPMA manuscript — handoff brief for Luca (2026-07-02)
 
-**Bottom line.** The paper is a **complete, submission-ready PRR manuscript** (11pp, RevTeX/PRR,
-5 figures, 15 references, compiles clean). It has been through **two full triangulated audits** (three
-adversaries — a repo-grounded Claude multi-agent workflow, ChatGPT gpt-5-5-thinking, and ChatGPT
-Extended Pro gpt-5-5-pro — over two rounds each), all findings reconciled against ground-truth
-computation, and then numerically strengthened. It is committed locally on branch
-`dpma-audit-20260630` and **not pushed** — awaiting your go-ahead.
+**Bottom line.** The paper is a **complete, submission-ready PRR manuscript** (13pp, RevTeX/PRR,
+5 figures, 23 references, compiles clean, full derivations in the appendices). It has been through
+**two full triangulated audits** (three adversaries — a repo-grounded Claude multi-agent workflow,
+ChatGPT gpt-5-5-thinking, and ChatGPT Extended Pro gpt-5-5-pro — over two rounds each) **plus a
+third repo-grounded adversarial round** in which every newly added derivation and number was
+verified numerically; all findings reconciled against ground-truth computation. It is committed
+locally on branch `dpma-audit-20260630` and **not pushed** — awaiting your go-ahead.
 
 Files: `manuscript/dpma_prr_manuscript.tex` → `manuscript/build_prr/dpma_prr_manuscript.pdf`; all
 verification scripts in `code/`; audit records in `notes/dpma_triangulated_audit*.md`.
@@ -16,12 +17,16 @@ of an **exactly solvable saddle-node fold** of a *signed* spectral mixture. Mode
 to an absorbing target as a rank-one killing defect on a lazy ring (continuum limit: Brownian motion on
 [0,1] with an interior δ-sink of strength *b* at θ), the finite-time diffusive-return peak is created
 and annihilated at the compact criterion **S₁=S₂=0** (Φ′=−S₁, Φ″=S₂). We give the phase boundary
-b_c(θ) (min at θ≈0.381; endpoint law b_c·θ→0.789026, resolved independently to 6 digits), the generic
-(½, 3⁄2) fold scaling, a minimal-three-mode theorem, Woodbury model-independence, a rank-two **cusp**
-organizing a triple peak, survival on a 2D lattice (fold at β_c²ᴰ≈0.69), a direct Monte-Carlo, an exact
-channel decomposition (early=capture, late=diffusive), robustness to release position, an **independent
-continuum Brownian-dynamics instance** reproducing the fold with no lattice/spectral input, and a
-measurability estimate (~4×10⁴ trials to resolve b_c). b_c is a time-domain morphology fold, **not** a
+b_c(θ) (min at θ≈0.381; endpoint constant **B\*=0.7890262 now fixed by an explicit closed-form
+half-line transform** — Eq.-level, third independent method — with interval bisection agreeing to 6
+digits), the generic (½, 3⁄2) fold scaling **with analytic prefactors** (0.0247518, 0.357444 from the
+fold data S₃ and ∂_bS₁), a minimal-three-mode theorem, Woodbury model-independence, a rank-two
+**cusp** organizing a triple peak, survival on a 2D lattice (β_c²ᴰ≈0.68, nearly size-independent over
+L=21–51), a direct Monte-Carlo, an exact channel decomposition (early = pure capture; the late peak
+is fed by both channels), robustness to release position, a **direct continuum Brownian-dynamics
+realization** reproducing the fold with no lattice/spectral input, a dense-grid scan confirming the
+two-peak window is a single connected interval, and a measurability estimate (~4×10⁴ trials resolve
+b_c to ±0.25; ~2×10⁵ to ±0.1). b_c is a time-domain morphology fold, **not** a
 spectral exceptional point.
 
 ## What the audits concluded
@@ -56,6 +61,7 @@ My recommendation: **submit to PRR; let the automatic PRE fallback handle the do
    (realizations) — these are where your judgement matters most.
 
 ## Optional, non-blocking (I can do if you want a maximally strong PRR run)
-A normal-form-prefactor script (restores displayed precision with a committed source) and a 2D
-gap+prominence co-collapse test (makes "same fold morphology as 1D" fully rigorous). Neither changes any
-auditor's verdict; the paper stands without them.
+A 2D gap+prominence co-collapse test (makes "same fold morphology as 1D" fully rigorous). The
+normal-form-prefactor script, the half-line B* transform, the window-connectivity scan, and a 2D
+size sweep (L=21–51) have all since been done and are in the paper. Nothing else changes any
+auditor's verdict; the paper stands as-is.

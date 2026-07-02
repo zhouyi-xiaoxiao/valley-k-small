@@ -58,8 +58,8 @@ def main():
     a.plot(1-tt, 0.7890/tt, '--', color='C3')
     a.axvline(0.381, ls=':', color='gray'); a.text(0.381, 12, r'$\theta_{\min}\approx0.381$', rotation=90, va='top', fontsize=8)
     a.set_xlabel(r'sink position $\theta=u/N$'); a.set_ylabel(r'shortcut strength $b$')
-    a.set_title('A. Saddle-node phase boundary\n(second FPT peak exists for $0<b<b_c(\\theta)$)')
-    a.text(0.5, 1.3, 'TWO-PEAK REGION', ha='center', color='C0', fontsize=9)
+    a.set_title('(a) saddle-node phase boundary $b_c(\\theta)$\n(second FPT peak exists for $0<b<b_c$)')
+    a.text(0.5, 1.3, 'two-peak region', ha='center', color='C0', fontsize=9)
     a.set_ylim(0, 16); a.legend(fontsize=8)
 
     # -- B: morphology Phi(tau;b) at theta=1/2 --
@@ -68,8 +68,17 @@ def main():
     for b, c in [(2.5, 'C0'), (3.0, 'C1'), (3.076, 'C2'), (3.3, 'C3')]:
         a.plot(xs, phi_vals(xs, 0.5, 0.5, b), color=c, label=f'b={b}')
     a.set_xscale('log'); a.set_xlabel(r'$\tau=qt/N^2$'); a.set_ylabel(r'$\Phi(\tau;b)$')
-    a.set_title(r'B. Master curve $\theta=1/2$: second peak'+'\n'+r'annihilates at $b_c=3.0764$')
-    a.legend(fontsize=8)
+    a.set_title(r'(b) master curve $\theta=\xi=1/2$: second peak'+'\n'+r'annihilates at $b_c=3.0764$')
+    a.legend(fontsize=8, loc='upper left')
+    # inset: the fold region (valley+peak merging), invisible at full scale
+    axins = a.inset_axes([0.40, 0.42, 0.57, 0.52])
+    for b, c in [(2.5, 'C0'), (3.0, 'C1'), (3.076, 'C2'), (3.3, 'C3')]:
+        axins.plot(xs, phi_vals(xs, 0.5, 0.5, b), color=c)
+    rB = interior_pair(0.5, 0.5, 2.5)                          # widest fold: sets the zoom window
+    tmn, tmx, vmn, vmx = rB
+    axins.set_xlim(0.55*tmn, 1.7*tmx); axins.set_ylim(vmn-0.35, vmx+0.35)  # linear x: clean ticks
+    axins.tick_params(labelsize=6)
+    a.indicate_inset_zoom(axins, edgecolor='gray')
 
     # -- C: normal-form scaling --
     a = ax[0, 2]
@@ -88,7 +97,7 @@ def main():
     a.loglog(dd, 0.0247518*dd**0.5, '--', color='C0', label=r'$0.02475\,\delta^{1/2}$ (analytic)')
     a.loglog(dd, 0.357444*dd**1.5, '--', color='C1', label=r'$0.35744\,\delta^{3/2}$ (analytic)')
     a.set_xlabel(r'$b_c-b$'); a.set_ylabel('gap / prominence')
-    a.set_title('C. Saddle-node normal form\n(fold: $\\delta^{1/2}$, $\\delta^{3/2}$)')
+    a.set_title('(c) normal-form fold scaling\n($\\delta^{1/2}$, $\\delta^{3/2}$)')
     a.legend(fontsize=8)
 
     # -- D: two-shortcut triple peak --
@@ -101,7 +110,7 @@ def main():
     taus = q*ts/(N*N)
     a.plot(taus, F, color='C4')
     a.set_xscale('log'); a.set_xlim(1e-5, 0.12); a.set_xlabel(r'$\tau=qt/N^2$'); a.set_ylabel('F(t)')
-    a.set_title('D. Two shortcuts $\\to$ THREE peaks\n(exact ring, N=1500)')
+    a.set_title('(d) two shortcuts, three peaks\n(exact ring, $N=1500$)')
     # mark the three predicted peaks
     for tp in (3.0e-4, 5.3e-3, 6.1e-2):
         a.axvline(tp, ls=':', color='gray', lw=0.8)
@@ -115,7 +124,7 @@ def main():
         F2 = fpt_curve(M2, babs2, idx[r2], tsE)
         a.plot(tsE, F2, color=c, label=f'β={be}')
     a.set_xscale('log'); a.set_xlabel('t'); a.set_ylabel('F(t)')
-    a.set_title('E. 2D torus (31×31): capture +\n diffusive peaks (mechanism survives)')
+    a.set_title('(e) 2D torus ($31\\times31$):\ncapture + late interior peaks')
     a.legend(fontsize=8)
 
     # -- F: 2D diffusive-peak prominence vs beta (fold) --
@@ -139,12 +148,10 @@ def main():
         proms.append(pr)
     a.plot(betas, proms, 'o-', color='C3')
     a.axhline(0, ls=':', color='gray')
-    a.set_xlabel(r'shortcut strength $\beta$'); a.set_ylabel('diffusive-peak prominence')
-    a.set_title('F. 2D fold: diffusive peak\n prominence $\\to$0 at $\\beta_c^{2D}\\approx0.69$')
+    a.set_xlabel(r'shortcut strength $\beta$'); a.set_ylabel('late-peak prominence')
+    a.set_title('(f) 2D fold: late-peak prominence\n$\\to0$ at $\\beta_c^{2D}\\approx0.69$')
 
-    fig.suptitle('Directed-shortcut first-passage saddle-node: existence, universality (PRR figure suite)',
-                 fontsize=13)
-    fig.tight_layout(rect=[0, 0, 1, 0.97])
+    fig.tight_layout()
     outdir = Path(__file__).resolve().parents[1] / "artifacts" / "figures"
     outdir.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "png"):

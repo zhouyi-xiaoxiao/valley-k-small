@@ -67,6 +67,7 @@ def modes(N, beta, u, r):
 def run(th, xi, b, Ns=(400, 800, 1200)):
     say(f"\n=== theta={th} xi={xi} b={b} ===")
     taus = [0.01, 0.03, 0.05, 0.1, 0.2]
+    allerrs = {}
     for N in Ns:
         u = int(round(th*N)); r = int(round(xi*N))
         beta = b*q/((1-q)*N)
@@ -102,7 +103,8 @@ def run(th, xi, b, Ns=(400, 800, 1200)):
             errs.append(rel)
         say(f"  N={N}: per-mode max|A/G-1| affected={aff_err:.2e}({n_aff}) node={node_err:.2e}({n_node}); "
             f"FULL-curve rel-err @tau{taus} = " + ", ".join(f"{e:.1e}" for e in errs))
-    return errs
+        allerrs[N] = errs
+    return allerrs
 
 def main():
     say("="*78)
@@ -111,9 +113,19 @@ def main():
     e1 = run(1.0/3.0, 0.2, 1.5)
     e2 = run(2.0/5.0, 0.3, 1.5)
     e3 = run(0.5, 0.3, 1.5)
-    worst = max(e1[0], e2[0], e3[0])  # hardest point (early tau)
+    Ns = sorted(e3.keys())
+    worst = max(e[Ns[-1]][0] for e in (e1, e2, e3))  # hardest point (early tau, largest N)
+    # empirical convergence exponent p (rel-err ~ N^-p) from successive-N log-ratios at fixed tau
+    rates = []
+    for e in (e1, e2, e3):
+        for a, b in zip(Ns[:-1], Ns[1:]):
+            for ea, eb in zip(e[a], e[b]):
+                if ea > 1e-12 and eb > 1e-12:
+                    rates.append(math.log(ea/eb) / math.log(b/a))
+    p_med = float(np.median(rates))
     say(f"\nVERDICT: full master curve {'LANDS' if worst < 0.05 else 'does NOT yet land'} "
-        f"(worst early-tau rel-err at largest N ~ {worst:.1e}; converges O(1/N) as N grows).")
+        f"(worst early-tau rel-err at largest N ~ {worst:.1e}; measured convergence "
+        f"rel-err ~ N^(-{p_med:.2f}), median over cases/taus/N-pairs).")
     p = Path(__file__).resolve().parents[1] / "artifacts" / "tables" / "dpma_general_u_master_curve.txt"
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text("\n".join(OUT) + "\n")

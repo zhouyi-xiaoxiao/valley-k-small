@@ -55,9 +55,11 @@ def R_from_fpt(fpt):
 say(f"delta-sink b_c(theta=0.5; xi=0.44) = {bcv:.4f}")
 say("Exact second-peak observable R=Phi(tau_p)/Phi(tau_v):")
 tex = np.exp(np.linspace(math.log(1.3e-3), math.log(0.5), 3000))
+Rex = {}
 for b in (2.0, 2.5, 3.0, bcv, 3.5, 4.0):
     yb = phi_vals(tex, xi, theta, b)
     rp = float(np.interp(tp, tex, yb)); rv = float(np.interp(tv, tex, yb))
+    Rex[b] = rp / rv
     say(f"  b={b:.2f}: R_exact = {rp/rv:.4f}")
 
 NT = 4000; NRUN = 10
@@ -67,12 +69,16 @@ for b in (2.0, 2.5, 3.0, 3.5, 4.0):
     rs = np.array(rs)
     say(f"  b={b:.2f}: R = {np.nanmean(rs):.3f} +/- {np.nanstd(rs):.3f}")
 
-# trials-to-resolve: R changes ~0.05 per unit b near the fold; s.d.(R) ~ c/sqrt(N).
-# from NT above, estimate N needed to get s.d.(R) <= 0.02 (resolve b_c to ~+/-0.1).
+# trials-to-resolve: local sensitivity from the EXACT R(b) curve near the fold (the earlier
+# 0.05-per-unit-b figure was stale and inconsistent); s.d.(R) ~ c/sqrt(N).
+slope = abs(Rex[3.0] - Rex[3.5]) / 0.5
 rs0 = np.array([R_from_fpt(brownian_fpt(theta, xi, 2.5, NT, seed=900+r)) for r in range(NRUN)])
 sd0 = float(np.nanstd(rs0))
-Nneed = NT * (sd0/0.02)**2
-say(f"\nAt N={NT}, s.d.(R)~{sd0:.3f}; resolving R to +/-0.02 (b_c to ~+/-0.1) needs N ~ {Nneed:,.0f} trials.")
+say(f"\nAt N={NT}, s.d.(R)~{sd0:.3f}; local sensitivity |dR/db| ~ {slope:.3f} per unit b near b_c={bcv:.4f}.")
+for db_target in (0.25, 0.1):
+    dR = slope * db_target
+    Nneed = NT * (sd0/dR)**2
+    say(f"  resolving b_c to +/-{db_target}: need s.d.(R) <= {dR:.4f}  ->  N ~ {Nneed:,.0f} trials")
 say("=> the fold is measurable in a realistic feedback-controlled colloidal experiment "
-    "(order 10^4-10^5 delivery-and-terminate trials).")
+    "(order 4x10^4 delivery-and-terminate trials for b_c to ~+/-0.25; ~2x10^5 for +/-0.1).")
 (TAB / "dpma_measurement.txt").write_text("\n".join(OUT) + "\n")

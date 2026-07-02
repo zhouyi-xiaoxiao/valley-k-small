@@ -48,15 +48,15 @@ $S_1=S_2=0$, where $S_n(\tau)=\sum_j G_j\mu_j^{n}e^{-\mu_j\tau}$ and $\Phi'=-S_1
 carries an initial shortcut-capture feature and a finite-time interior peak; numerical continuation
 shows that the latter survives on a single connected window $0<b<b_c(\theta)$, annihilated at the
 computable boundary $b_c(\theta)$---symmetric about $\theta=\tfrac12$, minimal near
-$\theta\simeq0.381$, diverging as $0.789/\min(\theta,1-\theta)$ near the endpoints with the constant
-fixed by an explicit half-line transform. The fold has the generic saddle-node exponents
+$\theta\simeq0.381$, and diverging as $0.789/\min(\theta,1-\theta)$ at the
+endpoints. The fold has the generic saddle-node exponents
 $(1/2,3/2)$ with prefactors analytic in the fold data, requires at least three spectral modes, and
 persists when the walker is released off (but near) the gate, where both features become genuine
 interior peaks. The local fold is structurally stable for reversible (symmetrizable) low-rank
 killing, and it is \emph{not} a spectral exceptional point. The classification is validated by exact
-finite-lattice residues, direct Monte Carlo, an exact channel decomposition (the early feature is
-pure capture; the late peak is fed by both channels), off-gate starts, and Brownian-dynamics
-simulations with no lattice and no spectral input, and it extends to a rank-two cusp and to finite
+finite-lattice residues, direct Monte Carlo, an exact channel decomposition, off-gate starts, and
+Brownian-dynamics
+simulations with no lattice and no spectral input; it extends to a rank-two cusp and to finite
 two-dimensional lattices. The result recasts a known phenomenology as a predictive, exactly
 computable bifurcation of a measurable time-domain observable, testable in feedback-controlled
 colloidal search and engineered transport networks.
@@ -149,11 +149,11 @@ Consider a lazy random walk on a ring of $N$ sites [Fig.~\ref{fig:schematic}(a)]
 walker stays with probability $1-q$ and hops to each neighbor with probability $q/2$. Site $v=0$ is an
 absorbing target. A directed shortcut at a source site $u$ diverts probability $\lambda=\beta(1-q)$
 from the $u$ self-loop onto the directed edge $u\to v$; upon taking it the walker is absorbed. Removing
-the absorbed state leaves a transient (sub-stochastic) generator on sites $1,\dots,N-1$ that is a
+the absorbed state leaves a transient (sub-stochastic) transition matrix on sites $1,\dots,N-1$: a
 Dirichlet path with a rank-one diagonal killing defect of strength $\lambda=\beta(1-q)$ at $u$
 (admissibly $0\le\lambda\le1-q$, as it is diverted from the self-loop probability),
 \begin{equation}
-Q_\lambda=Q_0-\lambda\,\ket{u}\!\bra{u},
+P_\lambda=P_0-\lambda\,\ket{u}\!\bra{u},
 \label{eq:Qb}
 \end{equation}
 so probability leaks irreversibly from $u$ into the target; the rescaled continuum sink strength
@@ -184,8 +184,8 @@ antipodal case $u=N/2$ the identity $U_{N-1}=2\,U_{N/2-1}T_{N/2}$ factorizes \eq
 $D_u=2\,U_{N/2-1}(y)\,[a\,T_{N/2}(y)+U_{N/2-1}(y)]$ (with $T_m$ the Chebyshev polynomial of the first
 kind): the bracket carries the sink-coupled spectrum, while the factor $U_{N/2-1}$ carries the
 antisymmetric (sink-decoupled, node) modes, recovering the reflection-symmetric problem as a special
-case of the general rank-one theory. Equivalently, with the transient transition matrix
-$P_\lambda=P_0-\lambda\ket{u}\!\bra{u}$, the total absorption current has the compact form
+case of the general rank-one theory. Equivalently, in terms of the defected matrix $P_\lambda$ of
+\eqref{eq:Qb}, the total absorption current has the compact form
 \begin{equation}
 \tilde F_r(z)=z\Big[\lambda\bra{u}+\tfrac q2\big(\bra{1}+\bra{N-1}\big)\Big](I-zP_\lambda)^{-1}\ket{r},
 \label{eq:genfun}
@@ -305,7 +305,8 @@ parameter values at which two extrema of
 such a mixture merge. The amplitudes $G_j$, and hence the boundary, depend on the start, so
 $b_c=b_c(\theta;\xi)$; unless stated otherwise we report $\xi=\theta$. The local fold \eqref{eq:fold} is
 exact; the global statement is \emph{numerical}: for $\xi=\theta$, numerical continuation of the
-interior extrema gives a single connected two-peak window $0<b<b_c(\theta)$ with no re-entrant interval
+interior extrema gives a single connected window $0<b<b_c(\theta)$ in which the finite-time interior
+peak exists (the \emph{peak window}), with no re-entrant interval
 over the scanned range (App.~\ref{app:numerics}). The window reaches down to arbitrarily small $b$:
 released at the gate, the density diverges as $\Phi\simeq b/\sqrt{2\pi\tau}$ for $\tau\to0$ (killing at
 rate $b$ against the returning heat kernel), while the inherited Dirichlet interior peak survives
@@ -411,7 +412,7 @@ removes the boundary/initial capture feature: both features become genuine \emph
 annihilate through the fold [Fig.~\ref{fig:start}(a)], and the threshold $b_c(\theta;\xi)$ varies
 smoothly and symmetrically about $\xi=\theta$ [Fig.~\ref{fig:start}(b)], so the saddle-node is not an
 artifact of releasing exactly at the gate. (Far from the gate the morphology changes and the simple
-two-peak window is lost.)
+peak window is lost.)
 
 \subsection{A direct stochastic realization}\label{sec:univF}
 Finally, the continuum fold is realized directly by stochastic simulation. A
@@ -427,8 +428,9 @@ particular, not a lattice artifact. The realization is also converged: halving t
 refining the Euler--Maruyama step leaves the fold morphology unchanged and the late-peak location
 stable within the histogram resolution (App.~\ref{app:numerics}).
 
-\begin{figure}[!htbp]
-\includegraphics[width=\columnwidth]{dpma_start_dependence}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{dpma_start_dependence}
 \caption{\label{fig:start}
 Start dependence (Sec.~\ref{sec:univE}). (a) Continuum FPT density $\Phi(\tau;b)$ for a walker released
 off the gate ($\xi=0.44$, $\theta=\tfrac12$): both the capture and the late (indirect) features are
@@ -437,7 +439,7 @@ $b_c\simeq3.14$ (two interior
 maxima $\to$ one). (b) The fold threshold $b_c(\theta{=}\tfrac12;\xi)$ varies smoothly and symmetrically
 about the source-started point $\xi=\theta$, so the saddle-node is robust to the release position in a
 neighborhood of the gate.}
-\end{figure}
+\end{figure*}
 
 \begin{figure}[!htbp]
 \includegraphics[width=\columnwidth]{dpma_brownian_fold}
@@ -463,7 +465,8 @@ $\beta=0,0.10,0.30,0.60$]: capture and late interior peaks.
 \end{figure*}
 
 \subsection{Model-independence}\label{sec:univA}
-The fold \eqref{eq:fold} is not special to the ring. For any absorbing Markov generator $Q_0$, a
+The fold \eqref{eq:fold} is not special to the ring. For any absorbing continuous-time generator
+$Q_0$ (or, analogously, any sub-stochastic transition matrix), a
 rank-$m$ killing defect $Q_B=Q_0-UBU^\top$ gives, by the Woodbury identity,
 \begin{equation}
 \det(sI-Q_B)=\det(sI-Q_0)\,\det\!\big[I_m+BW(s)\big],
@@ -583,7 +586,10 @@ $b_c$.
 We rank candidate realizations by cleanliness. \emph{(i) Feedback-controlled colloidal or
 active-particle search} is the strongest: a narrow gate at $x=\theta L$ (optical tweezers, a
 microfluidic pulse, or active-particle feedback) that, upon entry, occasionally delivers the particle
-to the target and ends the trial; $b$ is the per-frame trigger rate. Releasing the particle at the gate
+to the target and ends the trial; the controlled parameter is the local trigger rate
+$\kappa$---equivalently the dimensionless gate strength $b=\kappa\ell L/(2D)$ (in a frame-based
+implementation, $\kappa$ is the per-frame trigger probability divided by the frame time). Releasing
+the particle at the gate
 ($\xi=\theta$, the convention under which $b_c(\theta)$ is quoted), recording first-arrival times over
 many trials, and scanning $b$ at fixed $\theta$---best near $\theta\simeq0.38$, where $b_c$ is smallest
 and the effect largest---should reveal the second peak for $b<b_c(\theta)$ and its annihilation at
@@ -606,7 +612,7 @@ realizes it in a coarse-grained, ideally reconstituted, in-vitro setting. In eac
 that only a genuinely one-way, terminating channel maps to the rank-one killing defect.
 
 \subsection{Non-Hermitian character}\label{sec:physC}
-We stress what the non-Hermitian character is and is not. $Q_\lambda$ is a passive open-Markov loss
+We stress what the non-Hermitian character is and is not. $P_\lambda$ is a passive open-Markov loss
 defect, analogous to an effective non-Hermitian Hamiltonian with a localized absorber (imaginary
 potential)~\cite{Ashida2020}; it is \emph{not} PT-symmetric, since there is no balanced gain and loss.
 The survival-sector operator is itself self-adjoint in the one-defect model (the directedness enters
@@ -678,7 +684,7 @@ We derive Eqs.~\eqref{eq:Du}--\eqref{eq:Ft}. Let $P_0$ be the $(N-1)\times(N-1)$
 (sub-stochastic) transition matrix of the lazy ring with $v=0$ deleted; on the interior sites it is a
 symmetric tridiagonal path with diagonal $1-q$ and off-diagonal $q/2$. The directed shortcut diverts
 $\lambda=\beta(1-q)$ from the self-loop at $u$ into the absorbing target, i.e.\ it subtracts $\lambda$
-from the $(u,u)$ entry: $P_\lambda=P_0-\lambda\ket{u}\!\bra{u}$, the rank-one defect of \eqref{eq:Qb}.
+from the $(u,u)$ entry: $P_\lambda=P_0-\lambda\ket{u}\!\bra{u}$ [Eq.~\eqref{eq:Qb}].
 The first-passage generating function to $v$ from a start $r$, $\tilde F_r(z)=\sum_{t\ge1}F(t)z^t$, is a
 ratio of resolvent elements of $P_\lambda$; by the matrix-determinant lemma its poles are the zeros of
 \begin{equation}
@@ -823,10 +829,10 @@ $\lesssim6\times10^{-5}$ (worst case in the early-$\tau$ tail; per-mode $\sim2\t
 measured $O(N^{-2})$ convergence (exponent $2.00$, median over cases, $\tau$, and $N$-pairs).
 
 \emph{The $N\to\infty$ limit.} Convergence of fixed-mode residues $G_{N,j}\to G_j$ follows from
-norm-resolvent convergence of the killed generator under standard
+norm-resolvent convergence of the killed evolution operator under standard
 hypotheses~\cite{Kato1995,Albeverio2005}: (A) $\xi_N\to\xi$,
 $\theta_N\to\theta$; (B) bulk convergence $H_N\to-\tfrac12\partial_x^2$; (C) $\delta$-sink form scaling
-$V_{N,\theta}\sim bN$; (D) a symmetrizable transient generator; (E) simple isolated poles. Passing the
+$V_{N,\theta}\sim bN$; (D) a symmetrizable transient matrix; (E) simple isolated poles. Passing the
 fold \eqref{eq:fold} to the limit additionally requires (F) uniform $C^1$ convergence of $S_{1,2,3}$
 (including $\partial_b$) on a neighborhood $\tau\in[\tau_c/2,3\tau_c/2]$ of the fold---not down to
 $\tau=0$, where the heat-kernel short-time singularity lives---for which a sufficient practical bound is
@@ -926,7 +932,7 @@ $\int\psi_j=-\sum_a b_a c_a I_{\theta_a}$ and $\int\psi_j^2=\sum_{ab}b_a c_a b_b
 constituents are $I_\theta$ [Eq.~\eqref{eq:I}] and the overlap
 $C_{ab}=\int_0^1 r_0(x,\theta_a)\,r_0(x,\theta_b)\,dx$, which evaluates in closed form by splitting
 the integral at $\theta_a\le\theta_b$ into three segments of sine products (the explicit three-line
-expression is displayed in the deposited script \texttt{dpma\_cusp\_verify.py}). The cusp solves the
+expression is displayed in the accompanying script \texttt{dpma\_cusp\_verify.py}). The cusp solves the
 three conditions
 $S_1=S_2=S_3=0$ for the three unknowns $(\eta,b_2,\tau_c)$ at fixed $(\alpha,b_1)=(0.38,1.35)$---hence
 the many digits quoted in \eqref{eq:cusp}---with $S_4\neq0$ and a nonzero unfolding Jacobian
@@ -1011,6 +1017,12 @@ roughly $\pm0.25$ and $N_{\rm t}\simeq2\times10^5$ to $\pm0.1$ (\texttt{dpma\_me
 figure and table, together with the simulation histogram data underlying
 Figs.~\ref{fig:sim}--\ref{fig:bd}, is available from the authors upon reasonable request and will be
 deposited in a public repository upon publication.
+% AT SUBMISSION (once the public repository + Zenodo DOI exist -- see
+% manuscript/extras/reproducibility/), REPLACE the sentence above with:
+%   The code and numerical data required to reproduce all figures and numerical values in this
+%   article are available at [GitHub URL] and archived at Zenodo, DOI: [DOI]. The archive includes
+%   raw and processed data for Figs.~2--6, Monte-Carlo and Brownian-dynamics histograms, fixed
+%   random seeds, and the pinned software environment.
 
 \clearpage
 \begin{thebibliography}{99}

@@ -19,6 +19,8 @@ from pathlib import Path
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
+matplotlib.rcParams["pdf.fonttype"] = 42   # TrueType, no Type 3 (APS/arXiv production)
+matplotlib.rcParams["ps.fonttype"] = 42
 import matplotlib.pyplot as plt
 
 from dpma_saddle_node_bc_theta import phi_vals
@@ -60,8 +62,8 @@ def main():
     a.plot(1-tt, 0.7890/tt, '--', color='C3')
     a.axvline(0.381, ls=':', color='gray'); a.text(0.381, 12, r'$\theta_{\min}\approx0.381$', rotation=90, va='top', fontsize=8)
     a.set_xlabel(r'sink position $\theta=u/N$'); a.set_ylabel(r'shortcut strength $b$')
-    a.set_title('(a) saddle-node phase boundary $b_c(\\theta)$\n(second FPT peak exists for $0<b<b_c$)')
-    a.text(0.5, 1.3, 'two-peak region', ha='center', color='C0', fontsize=9)
+    a.set_title('(a) saddle-node phase boundary $b_c(\\theta)$\n(finite-time interior peak exists for $0<b<b_c$)')
+    a.text(0.5, 1.3, 'interior peak exists', ha='center', color='C0', fontsize=9)
     a.set_ylim(0, 16); a.legend(fontsize=8)
 
     # -- B: morphology Phi(tau;b) at theta=1/2 --

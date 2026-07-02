@@ -21,6 +21,8 @@ from pathlib import Path
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
+matplotlib.rcParams["pdf.fonttype"] = 42   # TrueType, no Type 3 (APS/arXiv production)
+matplotlib.rcParams["ps.fonttype"] = 42
 import matplotlib.pyplot as plt
 from dpma_saddle_node_bc_theta import phi_vals, bc
 

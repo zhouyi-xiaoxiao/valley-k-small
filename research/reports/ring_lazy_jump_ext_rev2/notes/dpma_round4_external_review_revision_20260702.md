@@ -46,3 +46,26 @@ now includes all mapped scripts.
 ## Remaining human-gated items (unchanged)
 Funding line; public repo + Zenodo DOI (package ready under extras/reproducibility/); title-change
 decision; venue sign-off; push/arXiv timing.
+
+## Round-5 addendum: second external review (7.8/10) — final referee-defense polish (same day)
+The follow-up external review confirmed the round-4 verdict ("past the submit-worthy line") and
+listed 7 final items; 6 adopted, 1 partially:
+1. "two-peak window/region" purged under the source-started convention → defined once as the
+   *peak window* (Sec III.A), Fig. 2(a) in-figure label → "interior peak exists", panel title →
+   "finite-time interior peak exists".
+2. Abstract trimmed ~10% (channel parenthetical, half-line clause) while keeping every
+   audit-hardened qualifier.
+3. DAS: final swap-in sentence added as a tex comment next to the availability paragraph
+   (publishing the repo/DOI remains user-gated); App D "deposited script" → "accompanying script".
+4. fig:start (the source-started defense evidence) promoted to a full-width figure*.
+5. **Type 3 fonts eliminated**: pdf.fonttype=42 in all five figure scripts, all figures
+   regenerated; verified old fig had 2 /Type3 dicts, new figs have 0 (FontFile2/TrueType embedded);
+   manuscript PDF: 0 Type3 markers.
+6. Discrete-time terminology fixed: Eq. (1) now P_lambda (transition matrix, not "generator");
+   Woodbury frame explicitly "continuous-time generator (or, analogously, sub-stochastic transition
+   matrix)"; App B "killed evolution operator"/"symmetrizable transient matrix"; Sec VI.C P_lambda.
+7. Sec VI.B: "b is the per-frame trigger rate" → controlled parameter is kappa (b = kappa*l*L/(2D);
+   frame-based: kappa = per-frame probability / frame time).
+Declined as premature: writing the final DAS with a live URL/DOI before the repo exists (would
+reintroduce the printed-placeholder blocker); handled via the swap-in comment instead.
+Recompiled: 14pp, 0 errors / 0 overfull / 0 undefined; identity tests 5/5; validators OK.

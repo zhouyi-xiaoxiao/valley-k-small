@@ -72,7 +72,7 @@ def main():
     for b, c in [(2.5, 'C0'), (3.0, 'C1'), (3.076, 'C2'), (3.3, 'C3')]:
         a.plot(xs, phi_vals(xs, 0.5, 0.5, b), color=c, label=f'b={b}')
     a.set_xscale('log'); a.set_xlabel(r'$\tau=qt/N^2$'); a.set_ylabel(r'$\Phi(\tau;b)$')
-    a.set_title(r'(b) master curve $\theta=\xi=1/2$: second peak'+'\n'+r'annihilates at $b_c=3.0764$')
+    a.set_title(r'(b) master curve $\theta=\xi=1/2$: finite-time peak'+'\n'+r'annihilates at $b_c=3.0764$')
     a.legend(fontsize=8, loc='upper left')
     # inset: the fold region (valley+peak merging), invisible at full scale
     axins = a.inset_axes([0.40, 0.42, 0.57, 0.52])

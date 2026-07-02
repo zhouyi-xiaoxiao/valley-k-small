@@ -1,7 +1,7 @@
 # DPMA manuscript — handoff brief for Luca (2026-07-02)
 
 **Bottom line.** The paper is a **complete, submission-ready PRR manuscript** (14pp, RevTeX/PRR,
-6 figures, 27 references, notation table, compiles clean, full derivations in the appendices). It
+6 figures, 25 references, notation table, compiles clean, full derivations in the appendices). It
 has been through **two full triangulated audits** (three adversaries — a repo-grounded Claude
 multi-agent workflow, ChatGPT gpt-5-5-thinking, and ChatGPT Extended Pro gpt-5-5-pro — over two
 rounds each) **plus two further repo-grounded adversarial rounds** (every new derivation and number

@@ -15,6 +15,7 @@
 \usepackage{bm}
 \usepackage{braket}
 \usepackage{hyperref}
+\hypersetup{hidelinks}       % no red/green link boxes in the submission PDF
 \usepackage{placeins}
 \graphicspath{{../artifacts/figures/}}
 % modest float relaxation (6 figures in a two-column article)
@@ -479,8 +480,9 @@ the fold $S_1=S_2=0$. (For non-reversible directed transient dynamics the determ
 holds, but the real modal expansion, and hence the fold classification, requires additional
 hypotheses.) The Woodbury identity supplies only the finite-rank secular determinant; the universality
 is the \emph{structural stability} of a generic extrema-pair fold (a codimension-one catastrophe of the
-scalar density~\cite{Arnold1992}), not a consequence of the identity alone. Accordingly the double-peak
-region is an \emph{open} set (structurally stable by the implicit-function theorem), and the honest
+scalar density~\cite{Arnold1992}), not a consequence of the identity alone. Accordingly the region
+supporting the additional peak is an \emph{open} set (structurally stable by the implicit-function
+theorem), and the honest
 statement is not ``every shortcut creates a peak''---false in general---but ``whenever a
 shortcut-induced peak is born or annihilated generically, it does so through a fold of the signed
 spectral mixture, independent of the underlying geometry.''
@@ -592,7 +594,8 @@ implementation, $\kappa$ is the per-frame trigger probability divided by the fra
 the particle at the gate
 ($\xi=\theta$, the convention under which $b_c(\theta)$ is quoted), recording first-arrival times over
 many trials, and scanning $b$ at fixed $\theta$---best near $\theta\simeq0.38$, where $b_c$ is smallest
-and the effect largest---should reveal the second peak for $b<b_c(\theta)$ and its annihilation at
+and the effect largest---should reveal the finite-time interior peak for $b<b_c(\theta)$ and its
+annihilation at
 $b_c$, with the fold collapse \eqref{eq:scaling} as the sharp signature. A simulated experiment
 (Brownian dynamics with counting noise) confirms measurability: the robust second-peak observable
 $R=\Phi(\tau_p)/\Phi(\tau_v)$ (second-peak over valley density) decreases through unity across the

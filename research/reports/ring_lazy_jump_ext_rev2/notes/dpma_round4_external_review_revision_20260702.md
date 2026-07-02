@@ -2,7 +2,7 @@
 
 An external review (ChatGPT, PDF-level; user-provided) of the 13pp version was assessed, largely
 endorsed, and implemented; a fifth multi-agent internal audit round then verified the restructured
-manuscript. Result: **14pp / 6 figures / 27 refs / two tables, 0 errors / 0 overfull / 0 undefined.**
+manuscript. Result: **14pp / 6 figures / 25 refs / two tables, 0 errors / 0 overfull / 0 undefined.**
 
 ## Assessment of the external review
 Endorsed and implemented: the "above a predictable threshold" directional error (a genuine

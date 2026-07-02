@@ -44,19 +44,21 @@ def main():
     fig, ax = plt.subplots(2, 3, figsize=(15, 9))
 
     # -- A: b_c(theta) phase boundary --
-    th = sorted(BC); bcv = [BC[t] for t in th]
+    # solid points = bisection-located thresholds ONLY (theta in [0.2,0.5] + mirror); the
+    # small-theta entries of BC are asymptote values and are NOT plotted as data points.
+    th = sorted(t for t in BC if 0.2 <= t <= 0.5); bcv = [BC[t] for t in th]
     th_full = th + [1-t for t in reversed(th) if (1-t) not in th]
     bc_full = bcv + [BC[t] for t in reversed(th) if (1-t) not in th]
     order = np.argsort(th_full); th_full = np.array(th_full)[order]; bc_full = np.array(bc_full)[order]
     a = ax[0, 0]
-    a.plot(th_full, bc_full, 'o-', color='C0', label=r'$b_c(\theta)$ (saddle-node)')
+    a.plot(th_full, bc_full, 'o-', color='C0', label=r'$b_c(\theta)$ (numerically located)')
     a.fill_between(th_full, 0, bc_full, alpha=0.15, color='C0')
     tt = np.linspace(0.03, 0.30, 100)
-    a.plot(tt, 0.7890/tt, '--', color='C3', label=r'endpoint $0.789/\theta$')
+    a.plot(tt, 0.7890/tt, '--', color='C3', label=r'endpoint $0.789/\min(\theta,1-\theta)$')
     a.plot(1-tt, 0.7890/tt, '--', color='C3')
     a.axvline(0.381, ls=':', color='gray'); a.text(0.381, 12, r'$\theta_{\min}\approx0.381$', rotation=90, va='top', fontsize=8)
     a.set_xlabel(r'sink position $\theta=u/N$'); a.set_ylabel(r'shortcut strength $b$')
-    a.set_title('A. Saddle-node phase boundary\n(second FPT peak exists iff $b<b_c(\\theta)$)')
+    a.set_title('A. Saddle-node phase boundary\n(second FPT peak exists for $0<b<b_c(\\theta)$)')
     a.text(0.5, 1.3, 'TWO-PEAK REGION', ha='center', color='C0', fontsize=9)
     a.set_ylim(0, 16); a.legend(fontsize=8)
 
@@ -82,8 +84,9 @@ def main():
     dd = np.array(dd); gg = np.array(gg); pp = np.array(pp)
     a.loglog(dd, gg, 'o', color='C0', label='gap $\\tau_+-\\tau_-$')
     a.loglog(dd, pp, 's', color='C1', label='prominence')
-    a.loglog(dd, 0.0248*dd**0.5, '--', color='C0', label=r'$\propto\delta^{1/2}$')
-    a.loglog(dd, 0.357*dd**1.5, '--', color='C1', label=r'$\propto\delta^{3/2}$')
+    # analytic normal-form prefactors (dpma_normal_form.py): 2*sqrt(2*S1b/S3), (4*sqrt2/3)*S1b^1.5/sqrt(S3)
+    a.loglog(dd, 0.0247518*dd**0.5, '--', color='C0', label=r'$0.02475\,\delta^{1/2}$ (analytic)')
+    a.loglog(dd, 0.357444*dd**1.5, '--', color='C1', label=r'$0.35744\,\delta^{3/2}$ (analytic)')
     a.set_xlabel(r'$b_c-b$'); a.set_ylabel('gap / prominence')
     a.set_title('C. Saddle-node normal form\n(fold: $\\delta^{1/2}$, $\\delta^{3/2}$)')
     a.legend(fontsize=8)

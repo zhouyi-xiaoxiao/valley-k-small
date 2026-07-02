@@ -137,14 +137,21 @@ say(f"  N={Na}, u={ua}, b={ba} (beta={beta_a:.4f}), start r={ra}")
 nwalk = 400_000
 tmc = int(6.0 * Na * Na / q)
 tau_mc, chan_mc, nabs, ntot = montecarlo(Na, ua, beta_a, ra, nwalk, tmc, 0)
-say(f"  MC walkers={ntot}, absorbed={nabs} ({100*nabs/ntot:.2f}%), pi_sc(MC)={np.mean(chan_mc==1):.4f}")
-# exact splitting probability pi_sc = sum over t of f_sc  (approx via sum of exact pmf)
+say(f"  MC walkers={ntot}, absorbed={nabs} ({100*nabs/ntot:.2f}%), pi_sc(MC)={np.mean(chan_mc==1):.5f}")
+# exact splitting probability: closed form pi_sc = 2 min(r,u)(N-max(r,u)) / (aN + 2u(N-u)),
+# a=q/lambda (Sherman-Morrison at z=1). The truncated pmf sum is tail-biased (the cut late-time
+# mass is disproportionately diffusive), so it is logged only as a consistency check.
+a_sm = q / (beta_a * (1 - q))               # a = q/lambda = N/b
+pi_sc_exact = 2 * min(ra, ua) * (Na - max(ra, ua)) / (a_sm * Na + 2 * ua * (Na - ua))
+say(f"  pi_sc(exact, closed form)={pi_sc_exact:.5f}")
 tsFull = np.arange(1, int(8.0*Na*Na/q))
 _, FscFull, FdiffFull = fpt_channels(*build_ring(Na, ua, beta_a), ra, tsFull)
-pi_sc_exact = float(FscFull.sum() / (FscFull.sum() + FdiffFull.sum()))
-say(f"  pi_sc(exact)={pi_sc_exact:.4f}")
+say(f"  pi_sc(truncated pmf sum, tau<=8)={float(FscFull.sum()/(FscFull.sum()+FdiffFull.sum())):.4f} (tail-biased)")
 axA = axes[0]
 logbins = np.logspace(math.log10(3e-4), math.log10(tau_max_a), 60)
+cnts, _ = np.histogram(tau_mc, bins=logbins)
+say(f"  MC histogram bins: {len(logbins)-1}, nonempty {int((cnts>0).sum())}, "
+    f"min nonempty count {int(cnts[cnts>0].min())}, median {int(np.median(cnts[cnts>0]))}")
 axA.hist(tau_mc, bins=logbins, density=True, color="0.82",
          edgecolor="0.6", lw=0.3, label="direct MC")
 axA.plot(tauA, Ftot * dens_scale, color="#c1121f", lw=1.8, label="exact")

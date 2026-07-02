@@ -10,7 +10,8 @@ master-curve saddle-node quantities, not the C.2 classifier label):
   D: two-shortcut TRIPLE peak (exact ring, N=1500)
   E: 2D torus FPT density F(t) vs beta (capture + diffusive peaks)
   F: 2D diffusive-peak prominence vs beta (fold at beta_c^2D)
-Writes artifacts/figures/dpma_prr_figures.{pdf,png}
+Writes artifacts/figures/dpma_prr_figures.{pdf,png} (panels a-c: the 1D fold result)
+and artifacts/figures/dpma_prr_extensions.{pdf,png} (panels a-c: cusp/2D extensions)
 """
 from __future__ import annotations
 import math
@@ -21,7 +22,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from dpma_saddle_node_bc_theta import phi_vals
-from dpma_2d_universality import build_2d, fpt_curve
+from dpma_2d_finite_lattice import build_2d, fpt_curve
 from dpma_multishortcut import build_ring_multi, fpt
 
 q = 2.0/3.0
@@ -41,7 +42,8 @@ def interior_pair(xi, th, b, xlo=1e-4, xhi=1.5, n=8000):
     return None
 
 def main():
-    fig, ax = plt.subplots(2, 3, figsize=(15, 9))
+    figA, axA = plt.subplots(1, 3, figsize=(15, 4.6))
+    figB, axB = plt.subplots(1, 3, figsize=(15, 4.6))
 
     # -- A: b_c(theta) phase boundary --
     # solid points = bisection-located thresholds ONLY (theta in [0.2,0.5] + mirror); the
@@ -50,7 +52,7 @@ def main():
     th_full = th + [1-t for t in reversed(th) if (1-t) not in th]
     bc_full = bcv + [BC[t] for t in reversed(th) if (1-t) not in th]
     order = np.argsort(th_full); th_full = np.array(th_full)[order]; bc_full = np.array(bc_full)[order]
-    a = ax[0, 0]
+    a = axA[0]
     a.plot(th_full, bc_full, 'o-', color='C0', label=r'$b_c(\theta)$ (numerically located)')
     a.fill_between(th_full, 0, bc_full, alpha=0.15, color='C0')
     tt = np.linspace(0.03, 0.30, 100)
@@ -63,7 +65,7 @@ def main():
     a.set_ylim(0, 16); a.legend(fontsize=8)
 
     # -- B: morphology Phi(tau;b) at theta=1/2 --
-    a = ax[0, 1]
+    a = axA[1]
     xs = np.exp(np.linspace(math.log(1e-3), math.log(0.3), 3000))
     for b, c in [(2.5, 'C0'), (3.0, 'C1'), (3.076, 'C2'), (3.3, 'C3')]:
         a.plot(xs, phi_vals(xs, 0.5, 0.5, b), color=c, label=f'b={b}')
@@ -81,7 +83,7 @@ def main():
     a.indicate_inset_zoom(axins, edgecolor='gray')
 
     # -- C: normal-form scaling --
-    a = ax[0, 2]
+    a = axA[2]
     bc0 = 3.0764323604
     bs = [3.00, 3.03, 3.05, 3.06, 3.065, 3.07, 3.073, 3.075]
     dd, gg, pp = [], [], []
@@ -101,7 +103,7 @@ def main():
     a.legend(fontsize=8)
 
     # -- D: two-shortcut triple peak --
-    a = ax[1, 0]
+    a = axB[0]
     N = 1500; b1, b2 = 1.35, 0.14
     u1, u2, rr = round(0.38*N), round(0.48*N), round(0.463*N)
     be1 = b1*q/((1-q)*N); be2 = b2*q/((1-q)*N)
@@ -110,25 +112,26 @@ def main():
     taus = q*ts/(N*N)
     a.plot(taus, F, color='C4')
     a.set_xscale('log'); a.set_xlim(1e-5, 0.12); a.set_xlabel(r'$\tau=qt/N^2$'); a.set_ylabel('F(t)')
-    a.set_title('(d) two shortcuts, three peaks\n(exact ring, $N=1500$)')
+    a.set_title('(a) two shortcuts, three peaks\n(exact ring, $N=1500$)')
     # mark the three predicted peaks
     for tp in (3.0e-4, 5.3e-3, 6.1e-2):
         a.axvline(tp, ls=':', color='gray', lw=0.8)
 
     # -- E: 2D torus F(t) vs beta --
-    a = ax[1, 1]
+    a = axB[1]
     L = 31; v = (0, 0); u = (15, 15); r2 = (15, 13); T = 6000
     tsE = np.arange(1, T)
     for be, c in [(0.0, 'C0'), (0.10, 'C1'), (0.30, 'C2'), (0.60, 'C3')]:
         M2, babs2, idx = build_2d(L, be, v, u)
         F2 = fpt_curve(M2, babs2, idx[r2], tsE)
         a.plot(tsE, F2, color=c, label=f'β={be}')
-    a.set_xscale('log'); a.set_xlabel('t'); a.set_ylabel('F(t)')
-    a.set_title('(e) 2D torus ($31\\times31$):\ncapture + late interior peaks')
+    a.set_xscale('log'); a.set_yscale('log'); a.set_ylim(2e-6, 8e-3)
+    a.set_xlabel('t'); a.set_ylabel('F(t)')
+    a.set_title('(b) 2D torus ($31\\times31$):\ncapture + late interior peaks')
     a.legend(fontsize=8)
 
     # -- F: 2D diffusive-peak prominence vs beta (fold) --
-    a = ax[1, 2]
+    a = axB[2]
     betas = [0.0, 0.06, 0.15, 0.30, 0.40, 0.52, 0.60, 0.65, 0.68, 0.70, 0.72]
     proms = []
     for be in betas:
@@ -149,14 +152,15 @@ def main():
     a.plot(betas, proms, 'o-', color='C3')
     a.axhline(0, ls=':', color='gray')
     a.set_xlabel(r'shortcut strength $\beta$'); a.set_ylabel('late-peak prominence')
-    a.set_title('(f) 2D fold: late-peak prominence\n$\\to0$ at $\\beta_c^{2D}\\approx0.69$')
+    a.set_title('(c) 2D fold: late-peak prominence\n$\\to0$ at $\\beta_c^{2D}\\approx0.68$')
 
-    fig.tight_layout()
+    figA.tight_layout(); figB.tight_layout()
     outdir = Path(__file__).resolve().parents[1] / "artifacts" / "figures"
     outdir.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "png"):
-        fig.savefig(outdir / f"dpma_prr_figures.{ext}", dpi=140)
-    print("wrote", outdir / "dpma_prr_figures.pdf", "and .png")
+        figA.savefig(outdir / f"dpma_prr_figures.{ext}", dpi=140)
+        figB.savefig(outdir / f"dpma_prr_extensions.{ext}", dpi=140)
+    print("wrote", outdir / "dpma_prr_figures.pdf", "+ dpma_prr_extensions.pdf")
 
 if __name__ == "__main__":
     main()

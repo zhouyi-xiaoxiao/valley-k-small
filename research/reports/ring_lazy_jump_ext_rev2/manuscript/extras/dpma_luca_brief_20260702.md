@@ -1,12 +1,16 @@
 # DPMA manuscript — handoff brief for Luca (2026-07-02)
 
-**Bottom line.** The paper is a **complete, submission-ready PRR manuscript** (13pp, RevTeX/PRR,
-5 figures, 23 references, compiles clean, full derivations in the appendices). It has been through
-**two full triangulated audits** (three adversaries — a repo-grounded Claude multi-agent workflow,
-ChatGPT gpt-5-5-thinking, and ChatGPT Extended Pro gpt-5-5-pro — over two rounds each) **plus a
-third repo-grounded adversarial round** in which every newly added derivation and number was
-verified numerically; all findings reconciled against ground-truth computation. It is committed
-locally on branch `dpma-audit-20260630` and **not pushed** — awaiting your go-ahead.
+**Bottom line.** The paper is a **complete, submission-ready PRR manuscript** (14pp, RevTeX/PRR,
+6 figures, 27 references, notation table, compiles clean, full derivations in the appendices). It
+has been through **two full triangulated audits** (three adversaries — a repo-grounded Claude
+multi-agent workflow, ChatGPT gpt-5-5-thinking, and ChatGPT Extended Pro gpt-5-5-pro — over two
+rounds each) **plus two further repo-grounded adversarial rounds** (every new derivation and number
+verified numerically) **and a strategic external-review revision** (2026-07-02): validation now has
+its own section ahead of the extensions, the abstract is a three-part defensive structure, and a
+cover-letter draft + reproducibility package (README/requirements/pytest tests) sit in `extras/`.
+It is committed locally on branch `dpma-audit-20260630` and **not pushed** — awaiting your
+go-ahead (the reproducibility package is staged for a public repo + Zenodo DOI, which needs your
+approval to publish).
 
 Files: `manuscript/dpma_prr_manuscript.tex` → `manuscript/build_prr/dpma_prr_manuscript.pdf`; all
 verification scripts in `code/`; audit records in `notes/dpma_triangulated_audit*.md`.

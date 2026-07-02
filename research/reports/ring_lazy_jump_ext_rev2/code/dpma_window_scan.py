@@ -79,7 +79,7 @@ def n_extrema(th, b, eps=1e-6):
 say("Dense-b connectivity scan of the two-peak window (xi=theta, db=0.02, w<=120, tau>=1.5e-3)")
 say(f"  {'theta':>6} {'b-range':>13} {'transitions':>11} {'pattern':>24} {'b_c(scan)':>10} {'b_c(bisect)':>11}")
 ok_all = True
-for th in (0.25, 0.30, 0.35, 0.40, 0.45, 0.50):
+for th in (0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50):
     bcv = bc(th, th, lo=0.3, hi=8.0)
     bs = np.arange(0.05, bcv + 1.5, 0.02)
     counts = np.array([n_extrema(th, b) for b in bs])
@@ -93,7 +93,7 @@ for th in (0.25, 0.30, 0.35, 0.40, 0.45, 0.50):
     say(f"  {th:>6.2f} [0.05,{bs[-1]:.2f}] {len(trans):>11d} {pattern:>24} {b_scan:>10.3f} {bcv:>11.4f}"
         + ("" if ok else "   <-- UNEXPECTED"))
 say("")
-say("VERDICT: " + ("single connected two-peak window CONFIRMED at all six theta "
+say("VERDICT: " + ("single connected two-peak window CONFIRMED at all seven theta "
                    "(exactly one transition; 2 interior extrema below b_c, 0 above; no re-entrance)."
                    if ok_all else "unexpected structure found -- see rows above."))
 (TAB / "dpma_window_scan.txt").write_text("\n".join(OUT) + "\n")

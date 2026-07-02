@@ -13,7 +13,7 @@ from __future__ import annotations
 import math
 from pathlib import Path
 import numpy as np
-from dpma_2d_universality import analyse
+from dpma_2d_finite_lattice import analyse
 
 TAB = Path(__file__).resolve().parents[1] / "artifacts" / "tables"
 TAB.mkdir(parents=True, exist_ok=True)

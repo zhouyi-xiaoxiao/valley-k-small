@@ -8,13 +8,16 @@
 % formatting ("Unused global option" warning) -- harmless for drafting; verify the option against
 % the current APS revtex4-2 release before submission.
 \documentclass[reprint,amsmath,amssymb,aps,prresearch,longbibliography]{revtex4-2}
+\usepackage{cmap}            % ToUnicode CMaps: clean text extraction of Greek/math from the PDF
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage{bm}
 \usepackage{braket}
 \usepackage{hyperref}
 \usepackage{placeins}
 \graphicspath{{../artifacts/figures/}}
-% modest float relaxation (5 figures in a two-column article)
+% modest float relaxation (6 figures in a two-column article)
 \renewcommand{\topfraction}{0.9}
 \renewcommand{\textfraction}{0.08}
 
@@ -30,33 +33,33 @@
 \date{\today}
 
 \begin{abstract}
-First-passage-time (FPT) densities in shortcut-assisted search can be
-bimodal: a fast ``direct'' arrival and a slow ``indirect'' one. We show that this bimodality is the
-observable-level signature of a \emph{saddle-node bifurcation} that can be solved exactly. We model a
-directed shortcut to an absorbing target as a rank-one killing defect on a lazy lattice, whose
+First-passage-time (FPT) densities in shortcut-assisted search can be bimodal: a fast ``direct''
+arrival and a slow ``indirect'' one. While this bimodality is well documented, the
+\emph{morphology} of the density---when a finite-time arrival peak is created or destroyed---has
+lacked an exact threshold theory. Here we show that, in a minimal model, the morphology transition
+is an observable-level \emph{saddle-node bifurcation} that can be solved exactly. A directed
+shortcut to an absorbing target is, after elimination of the target, a rank-one killing defect on a
+lazy lattice---in the survival sector the directedness enters only the absorption channel---and the
 diffusive limit is Brownian motion on an interval with an interior $\delta$-sink of strength $b$ at
-fractional position $\theta$, released at position $\xi$. The FPT density $\Phi$ carries a short-time
-shortcut-capture feature together with a finite-time interior peak, and the latter is created and
-annihilated through a fold of a \emph{signed} spectral mixture governed by the compact criterion
+position $\theta$, released at $\xi$. The FPT density is a \emph{signed} spectral mixture
+$\Phi(\tau)=\sum_j G_j e^{-\mu_j\tau}$, and its extrema merge at the compact fold criterion
 $S_1=S_2=0$, where $S_n(\tau)=\sum_j G_j\mu_j^{n}e^{-\mu_j\tau}$ and $\Phi'=-S_1$, $\Phi''=S_2$
-(primes denoting $\tau$-derivatives). Numerical continuation gives a single connected two-peak window
-$0<b<b_c(\theta;\xi)$ for the source-started convention $\xi=\theta$, with a computable boundary
-$b_c(\theta)$ that is symmetric about $\theta=\tfrac12$, minimal near $\theta\simeq0.381$, and
-diverging as $b_c\simeq0.789/\min(\theta,1-\theta)$ near the endpoints, the constant being fixed by an
-explicit half-line boundary-layer transform. The fold obeys the generic saddle-node scaling
-$\tau_+-\tau_-\propto(b_c-b)^{1/2}$, $\Delta\Phi\propto(b_c-b)^{3/2}$ with prefactors analytic in the
-fold data, requires at least three spectral modes, and persists when the walker is released off (but
-near) the gate, where both features become genuine interior peaks. The mechanism is structurally
-stable rather than lattice-specific: for reversible transient dynamics it follows from a low-rank
-killing defect alone; it admits a rank-two extension with a triple-peak region and a nondegenerate
-organizing cusp point; finite two-dimensional lattice simulations show the same fold morphology; and
-an independent continuum Brownian-dynamics simulation---no lattice, no spectral input---reproduces
-both the exact density and the fold. A direct Monte-Carlo and an exact channel decomposition identify
-the early feature as pure shortcut capture, while the late peak is a second arrival-time scale fed by
-both channels. The threshold $b_c$ is a time-domain morphology fold, \emph{not} a spectral
-exceptional point. The result recasts a known phenomenology as a predictive, exactly solvable
-bifurcation with a measurable threshold and generic scaling, testable in feedback-controlled colloidal
-search and engineered transport networks.
+(primes denoting $\tau$-derivatives). For the source-started convention $\xi=\theta$ the density
+carries an initial shortcut-capture feature and a finite-time interior peak; numerical continuation
+shows that the latter survives on a single connected window $0<b<b_c(\theta)$, annihilated at the
+computable boundary $b_c(\theta)$---symmetric about $\theta=\tfrac12$, minimal near
+$\theta\simeq0.381$, diverging as $0.789/\min(\theta,1-\theta)$ near the endpoints with the constant
+fixed by an explicit half-line transform. The fold has the generic saddle-node exponents
+$(1/2,3/2)$ with prefactors analytic in the fold data, requires at least three spectral modes, and
+persists when the walker is released off (but near) the gate, where both features become genuine
+interior peaks. The local fold is structurally stable for reversible (symmetrizable) low-rank
+killing, and it is \emph{not} a spectral exceptional point. The classification is validated by exact
+finite-lattice residues, direct Monte Carlo, an exact channel decomposition (the early feature is
+pure capture; the late peak is fed by both channels), off-gate starts, and Brownian-dynamics
+simulations with no lattice and no spectral input, and it extends to a rank-two cusp and to finite
+two-dimensional lattices. The result recasts a known phenomenology as a predictive, exactly
+computable bifurcation of a measurable time-domain observable, testable in feedback-controlled
+colloidal search and engineered transport networks.
 \end{abstract}
 
 \maketitle
@@ -92,32 +95,35 @@ finite-time arrival peak is a qualitative, controllable property of the distribu
 to the MFPT and to the spectral gap, and is, we argue, a genuine catastrophe of the observable.
 
 Here we supply exactly that classification for a minimal directed shortcut, modeled as a rank-one
-killing defect on an absorbing lattice. Our contributions are:
+killing defect on an absorbing lattice. In the survival sector the directed shortcut is equivalent
+to localized killing: the non-reversibility resides entirely in the absorbing channel, not in the
+transient propagator (Sec.~\ref{sec:model}). Our contributions are:
 \begin{enumerate}
 \item An \emph{exact solution} (Sec.~\ref{sec:model}): the FPT density is a signed spectral mixture
 whose amplitudes we derive in closed form from the defect resolvent, both on the finite lattice
 (Montroll determinant, App.~\ref{app:det}) and in the diffusive limit (App.~\ref{app:amp}).
-\item A \emph{saddle-node fold criterion} (Sec.~\ref{sec:existence}): the FPT density carries a
-short-time shortcut-capture feature and a finite-time interior peak; the birth and death of the
-latter is a fold governed by the compact local criterion $S_1=S_2=0$ in signed spectral moments, with
-$\Phi'=-S_1$, $\Phi''=S_2$. For the source-started convention ($\xi=\theta$), numerical continuation
-gives a single connected two-peak window $0<b<b_c(\theta;\xi)$.
-\item A \emph{computable phase boundary} $b_c(\theta)$: symmetric about $\theta=\tfrac12$, minimized
-near $\theta\simeq0.381$, with the endpoint law $b_c\sim B^*/\min(\theta,1-\theta)$, the constant
-$B^*=0.7890262$ fixed by an explicit half-line boundary-layer transform; a
-\emph{minimal-mode theorem} (at least three spectral modes are required); and the generic saddle-node
-scaling $\tau_+-\tau_-\propto(b_c-b)^{1/2}$, $\Delta\Phi\propto(b_c-b)^{3/2}$, with prefactors
-analytic in the fold data.
-\item A \emph{structural-stability (model-independence)} argument (Sec.~\ref{sec:univ}): for reversible
-(symmetrizable) low-rank killing the fold is model-independent, admits a rank-two extension with a
-triple-peak region and a nondegenerate organizing cusp point, reproduces on finite two-dimensional
-lattices, and is realized in
-an independent continuum Brownian-dynamics simulation (no lattice, no spectral input).
-\item A \emph{physical embedding} (Sec.~\ref{sec:physical}): a direct Monte-Carlo and an exact channel
-decomposition identify the early feature as pure shortcut capture, the late peak receiving comparable
-contributions from both channels; the
-fold persists for starts off (but near) the gate; and the threshold $b_c$ is a time-domain morphology
-fold, \emph{not} a spectral exceptional point.
+\item A \emph{saddle-node fold criterion and computable phase boundary}
+(Sec.~\ref{sec:existence}): the FPT density carries a short-time shortcut-capture feature and a
+finite-time interior peak; the birth and death of the latter is a fold governed by the compact local
+criterion $S_1=S_2=0$ in signed spectral moments ($\Phi'=-S_1$, $\Phi''=S_2$), with a single
+connected window $0<b<b_c(\theta)$ under the source-started convention. The boundary is symmetric
+about $\theta=\tfrac12$, minimized near $\theta\simeq0.381$, and obeys the endpoint law $b_c\sim
+B^*/\min(\theta,1-\theta)$ with $B^*=0.7890262$ fixed by an explicit half-line transform; a
+\emph{minimal-mode theorem} (at least three spectral modes) and the generic $(1/2,3/2)$ saddle-node
+scaling, with prefactors analytic in the fold data, complete the local classification.
+\item An \emph{independent validation chain} (Sec.~\ref{sec:valid}; the exact finite-$N$ checks
+appear in Secs.~\ref{sec:modelC}, \ref{sec:existB} and Apps.~\ref{app:amp}, \ref{app:numerics}):
+exact finite-$N$ residues
+against the continuum master curve, the fold threshold itself converging as
+$b_{c,N}-b_c\propto N^{-2.08}$, a direct Monte-Carlo, an exact channel decomposition (the early
+feature is pure shortcut capture; the late peak is fed by both channels), off-gate starts for which
+both features are genuine interior peaks, and a Brownian-dynamics realization containing no lattice
+and no spectral input.
+\item \emph{Extensions and scope} (Secs.~\ref{sec:univ}, \ref{sec:physical}): structural stability
+for reversible (symmetrizable) low-rank killing, a rank-two extension with a triple-peak region and
+a nondegenerate organizing cusp point, finite-2D evidence with explicit limitations, the
+demonstration that $b_c$ is \emph{not} a spectral exceptional point, and a quantitative
+measurability estimate for feedback-controlled colloidal search.
 \end{enumerate}
 
 We are careful to separate what is new from what is not. Shortcut-induced bimodality and interior-trap
@@ -198,7 +204,10 @@ Brownian motion on $[0,1]$ with absorbing ends and an interior $\delta$-sink [Fi
 \partial_\tau p=\tfrac12\,p_{xx}-b\,\delta(x-\theta)\,p,\qquad p(0)=p(1)=0 .
 \label{eq:continuum}
 \end{equation}
-Its spectrum is fixed by the transcendental determinant
+The finite-$b$ continuum limit is the \emph{weak-per-visit} (partially absorbing) scaling
+$\lambda=\beta(1-q)=bq/N=O(N^{-1})$: a fixed per-visit shortcut probability would instead approach
+the absorbing-cut limit $b\to\infty$. The spectrum of \eqref{eq:continuum} is fixed by the
+transcendental determinant
 \begin{equation}
 D_\theta(k;b)=k\sin k+2b\,\sin(k\theta)\sin\!\big(k(1-\theta)\big)=0,
 \label{eq:Dtheta}
@@ -234,26 +243,40 @@ $G_n^{\mathrm{node}}=n\pi[1-(-1)^n]\sin(n\pi\xi)$ (even $n$ vanish). We have ver
 crucial normalization identity $J=\sin(k)\,D_k/(4b)$, and the full master curve (affected plus node
 modes) against exact finite-$N$ residues ($N=1200$) to a relative error $\lesssim6\times10^{-5}$ (per-mode
 $\sim2\times10^{-4}$) with measured $O(N^{-2})$ convergence (fitted exponent $2.00$;
-App.~\ref{app:amp}, App.~\ref{app:numerics}).
+App.~\ref{app:amp}, App.~\ref{app:numerics}). Table~\ref{tab:notation} collects the notation.
+
+\begin{table}[b]
+\caption{\label{tab:notation}Notation.}
+\begin{ruledtabular}
+\begin{tabular}{ll}
+$q$ & hop probability per step (stay $1-q$)\\
+$\beta$ & shortcut fraction of the $u$ self-loop\\
+$\lambda=\beta(1-q)$ & per-step shortcut rate; $a=q/\lambda$\\
+$b=\lambda N/q$ & continuum sink strength\\
+$\theta=u/N$, $\xi=r/N$ & sink, start; $d=\min(\theta,1-\theta)$\\
+$\tau=qt/N^2$ & diffusive time\\
+$w$, $k=2w$, $\mu=2w^2$ & root, wavenumber, eigenvalue\\
+$B=b\,d$, $\sigma=\tau/d^2$ & boundary layer (App.~\ref{app:existence})\\
+$\kappa$, $\ell$, $L$ & trigger rate, gate width, domain size\\
+$L\times L$ & 2D torus (Sec.~\ref{sec:univ})\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
 
 \section{Saddle-node fold criterion and phase boundary}\label{sec:existence}
 
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{dpma_prr_figures}
 \caption{\label{fig:results}
-Results. (a) Phase boundary $b_c(\theta)$ ($\xi=\theta$): the interior second peak exists for
+The exact one-dimensional fold. (a) Phase boundary $b_c(\theta)$ ($\xi=\theta$): the finite-time
+interior peak exists for
 $0<b<b_c(\theta)$; symmetric, minimum at $\theta\simeq0.381$. Solid points are numerically located
 over $\theta\in[0.20,0.50]$ and mirrored by the symmetry $b_c(\theta)=b_c(1-\theta)$; the dashed
 curves are the endpoint asymptote $0.789/\min(\theta,1-\theta)$ (App.~\ref{app:existence}).
 (b) Master curve $\Phi(\tau;b)$ at $\theta=\xi=\tfrac12$ for $b=2.5,3.0,3.076,3.3$, crossing
 $b_c\simeq3.076$; the inset magnifies the fold region, where the valley--peak pair merges.
 (c) Normal-form scaling: gap $\propto(b_c-b)^{1/2}$ and prominence $\propto(b_c-b)^{3/2}$ (fitted
-exponents $0.498(1)$, $1.493(2)$); dashed lines use the analytic prefactors of Eq.~\eqref{eq:prefac}.
-(d) Two shortcuts produce a third peak [exact ring, $N=1500$;
-$(\alpha,\eta,b_1,b_2)=(0.38,0.48,1.35,0.14)$, $\xi=0.463$].
-(e) 2D torus [$31\times31$, $q=2/3$; target $(0,0)$, source $(15,15)$, start $(15,13)$;
-$\beta=0,0.10,0.30,0.60$]: capture and late interior peaks.
-(f) 2D fold: the late-peak prominence vanishes near $\beta_c^{2D}\approx0.69$ ($L=31$).}
+exponents $0.498(1)$, $1.493(2)$); dashed lines use the analytic prefactors of Eq.~\eqref{eq:prefac}.}
 \end{figure*}
 
 \subsection{Signed spectral moments and the fold criterion}\label{sec:existA}
@@ -275,7 +298,11 @@ forms a valley--peak pair that is born or annihilated when the two interior extr
 with nondegeneracy $S_3(\tau_c,b_c)\neq0$ and $\partial_b S_1(\tau_c,b_c)\neq0$. No positivity is
 assumed---the $G_j$ are genuinely signed---so \eqref{eq:fold} is the correct fold criterion for a
 signed exponential mixture: the coincidence of a root and a critical point of the generalized (signed)
-exponential sum $S_1$. The amplitudes $G_j$, and hence the boundary, depend on the start, so
+exponential sum $S_1$. This places the classification in a classical frame: the FPT density of any
+finite absorbing chain is a (discrete- or continuous-time) phase-type law~\cite{Neuts1981}, whose
+density is a matrix-exponential---in general signed---mixture, and \eqref{eq:fold} locates the
+parameter values at which two extrema of
+such a mixture merge. The amplitudes $G_j$, and hence the boundary, depend on the start, so
 $b_c=b_c(\theta;\xi)$; unless stated otherwise we report $\xi=\theta$. The local fold \eqref{eq:fold} is
 exact; the global statement is \emph{numerical}: for $\xi=\theta$, numerical continuation of the
 interior extrema gives a single connected two-peak window $0<b<b_c(\theta)$ with no re-entrant interval
@@ -304,10 +331,13 @@ b_c(\tfrac12)=3.07643,\qquad \tau_c=0.038363,
 \label{eq:antip}
 \end{equation}
 independently verified to $10^{-6}$, with the numerically fitted near-antipodal expansion
-$b_c(\tfrac12+\epsilon)\approx3.0764-133\,\epsilon^2$ (App.~\ref{app:existence}). The two limits are physically transparent: as
+$b_c(\tfrac12+\epsilon)\approx3.0764-133\,\epsilon^2$ (App.~\ref{app:existence}); the finite-lattice
+threshold converges to this value as $b_{c,N}-b_c\propto N^{-2.08}$ over $N=100$--$1200$
+(App.~\ref{app:numerics}). The two limits are physically transparent: as
 $b\to0$ the capture feature's weight vanishes and the density reverts to the single-peaked Dirichlet FPT,
 while as $b\to\infty$ the $\delta$-sink becomes an absorbing cut and, for $\xi=\theta$, the density
-collapses toward $\tau\to0$---so the interior second peak exists only in the finite window $0<b<b_c$.
+collapses toward $\tau\to0$---so the finite-time interior peak exists only in the finite window
+$0<b<b_c$.
 
 \subsection{Normal-form scaling}\label{sec:existC}
 Near the fold the two merging extrema split with the generic saddle-node exponents
@@ -329,14 +359,108 @@ experimental signature (Sec.~\ref{sec:physical}).
 A two-mode fold is impossible, even with signs. Writing $A_j=G_j\mu_j e^{-\mu_j\tau}$, $S_1=0$ forces
 $A_2=-A_1$, whence $S_2=(\mu_1-\mu_2)A_1=0$ gives $A_1=A_2=0$, a contradiction. Thus \emph{at least
 three} modes are required, and the fold ratio $A_1:A_2:A_3=(\mu_3-\mu_2):(\mu_1-\mu_3):(\mu_2-\mu_1)$
-forces \emph{alternating signs} among the three participating contributions. The full fold is realized
+forces \emph{alternating signs} among the three participating contributions. Both statements also
+follow from Laguerre's generalization of Descartes' rule: an $n$-term real exponential sum has at
+most as many real zeros, counted with multiplicity, as its coefficient sequence has sign
+changes~\cite{PolyaSzego1976}---so the double zero of $S_1$ at a fold requires $n\ge3$ terms, with
+alternating signs among the participating triplet. The full fold is realized
 by a many-mode signed cancellation; at the antipode this coincides with an alternating affected-mode
 pattern ($G_1>0,G_2<0,G_3>0,\dots$), while away from the antipode the modal signs need not be strictly
 alternating in eigenvalue order (App.~\ref{app:amp}). Retaining $K$ affected modes in the antipodal
 case gives $b_c^{(2)}$ (none), $b_c^{(3)}=3.046$, $b_c^{(4)}$ (none), $b_c^{(5)}=3.0764$---the even-$K$
 gaps reflecting the odd-mode parity of the alternating structure---converging to \eqref{eq:antip}.
 
-\section{Structural stability and model independence}\label{sec:univ}
+\section{Independent validation}\label{sec:valid}
+This section assembles the evidence that the fold of Sec.~\ref{sec:existence} is a property of the
+physical process rather than of the spectral representation. The exact finite-$N$ checks---residues
+against the continuum master curve (Sec.~\ref{sec:modelC}, App.~\ref{app:amp}) and the threshold
+convergence $b_{c,N}\to b_c$ (App.~\ref{app:numerics})---are complemented by four independent probes
+(Sec.~\ref{sec:univE}): a direct Monte-Carlo, an exact channel resolution, non-antipodal
+robustness, and start-position dependence (under which both features become genuine interior
+peaks), followed by a Brownian-dynamics realization with no lattice and no spectral input
+(Sec.~\ref{sec:univF}).
+
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{dpma_channel_mc}
+\caption{\label{fig:sim}
+The fold is a physical mechanism, not an artifact of the exact solution.
+(a) A direct Monte-Carlo simulation of the lazy ring (grey; $4\times10^5$ walkers, no spectral input)
+reproduces the exact FPT density (red) across four decades in $\tau$; the simulated splitting
+probability $\pi_{\rm sc}=0.56466\pm0.00078$ agrees with the exact $\pi_{\rm sc}=0.56522$.
+(b) Exact channel decomposition $\Phi=f_{\rm sc}+f_{\rm diff}$: the shortcut channel is monotone and
+carries the short-time mass; the late bump is fed comparably by both channels.
+(c) The interior fold away from the antipode, $\theta=0.38$ ($b_c=2.165$): peak present at $b=1.5$,
+marginal at $b=2.16$, absent at $b=2.8$.
+($N=100$, $q=2/3$, $b=2.6$ in (a,b); gate $u=N/2$ in (a,b), $u=0.38N$ in (c); start $\xi=\theta$.)}
+\end{figure*}
+
+\subsection{Direct simulation, channel resolution, and start dependence}\label{sec:univE}
+Four checks confirm that the fold is a physical mechanism rather than an artifact of the spectral
+representation. \emph{(i) Direct simulation.} A direct Monte-Carlo of the lazy ring, using no spectral
+input, reproduces the exact FPT density across four decades in $\tau$ [Fig.~\ref{fig:sim}(a)], with the
+simulated splitting probability $\pi_{\rm sc}=0.56466\pm0.00078$ ($4\times10^5$ walkers) agreeing
+with the exact $0.56522$ [Eq.~\eqref{eq:pisc}]. \emph{(ii) Channel resolution.} The absorption current splits exactly into a shortcut
+entry ($\lambda$ at $u$) and diffusive entries ($q/2$ at the neighbors of $v$),
+$\Phi=f_{\rm sc}+f_{\rm diff}$ [Fig.~\ref{fig:sim}(b)]: $f_{\rm sc}$ is monotone and carries the
+short-time mass, while the late finite-time bump receives comparable contributions from both channels
+(diffusive return and delayed capture). The fold thus annihilates the second arrival-time \emph{scale},
+not a single pure channel. \emph{(iii) Non-antipodal robustness.} The interior fold occurs off the
+reflection axis [Fig.~\ref{fig:sim}(c)]: at $\theta=0.38$ ($b_c=2.165$) the interior peak is present
+at $b=1.5$, marginal at $b=2.16$ just below threshold, and absent at $b=2.8$. \emph{(iv) Start dependence.} Releasing the walker away from the gate ($\xi\neq\theta$)
+removes the boundary/initial capture feature: both features become genuine \emph{interior} peaks that
+annihilate through the fold [Fig.~\ref{fig:start}(a)], and the threshold $b_c(\theta;\xi)$ varies
+smoothly and symmetrically about $\xi=\theta$ [Fig.~\ref{fig:start}(b)], so the saddle-node is not an
+artifact of releasing exactly at the gate. (Far from the gate the morphology changes and the simple
+two-peak window is lost.)
+
+\subsection{A direct stochastic realization}\label{sec:univF}
+Finally, the continuum fold is realized directly by stochastic simulation. A
+continuum Brownian-dynamics simulation of the delivery-gate protocol (Sec.~\ref{sec:physB})---Brownian
+motion on $[0,1]$ with absorbing ends and killing at rate $b/\ell$ inside a narrow gate of width $\ell$
+at $\theta$, integrated by Euler--Maruyama with \emph{no lattice and no spectral input}---reproduces
+both the exact $\delta$-sink density and the fold: released off the gate ($\xi=0.44$), it shows two
+interior peaks below $b_c$ and one above [Fig.~\ref{fig:bd}], matching the exact continuum $\Phi(\tau)$
+to histogram precision. Because the simulation contains none of the exact machinery (a finite gate
+that only coarse-grains to the $\delta$-sink, no lattice, no spectral decomposition), this confirms
+that the fold is a property of the physical process rather than of the solution method---in
+particular, not a lattice artifact. The realization is also converged: halving the gate width and
+refining the Euler--Maruyama step leaves the fold morphology unchanged and the late-peak location
+stable within the histogram resolution (App.~\ref{app:numerics}).
+
+\begin{figure}[!htbp]
+\includegraphics[width=\columnwidth]{dpma_start_dependence}
+\caption{\label{fig:start}
+Start dependence (Sec.~\ref{sec:univE}). (a) Continuum FPT density $\Phi(\tau;b)$ for a walker released
+off the gate ($\xi=0.44$, $\theta=\tfrac12$): both the capture and the late (indirect) features are
+genuine interior peaks; the late peak and its valley annihilate through the fold as $b$ crosses
+$b_c\simeq3.14$ (two interior
+maxima $\to$ one). (b) The fold threshold $b_c(\theta{=}\tfrac12;\xi)$ varies smoothly and symmetrically
+about the source-started point $\xi=\theta$, so the saddle-node is robust to the release position in a
+neighborhood of the gate.}
+\end{figure}
+
+\begin{figure}[!htbp]
+\includegraphics[width=\columnwidth]{dpma_brownian_fold}
+\caption{\label{fig:bd}
+Direct stochastic realization. A continuum Brownian-dynamics simulation of the delivery-gate protocol
+($6\times10^4$ walkers, Euler--Maruyama, gate width $\ell=0.02$, $\theta=\tfrac12$, start $\xi=0.44$; no
+lattice, no spectral input) reproduces the exact $\delta$-sink density $\Phi(\tau)$ (red) and the fold:
+two interior peaks below $b_c\simeq3.14$ (left) and one above (right).}
+\end{figure}
+
+\section{Extensions, structural stability, and scope}\label{sec:univ}
+Having validated the one-dimensional fold, we now delimit how far the mechanism extends---and where
+its present evidence stops.
+
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{dpma_prr_extensions}
+\caption{\label{fig:ext}
+Extensions. (a) Two shortcuts produce a third peak [exact ring, $N=1500$;
+$(\alpha,\eta,b_1,b_2)=(0.38,0.48,1.35,0.14)$, $\xi=0.463$].
+(b) 2D torus [$31\times31$, $q=2/3$; target $(0,0)$, source $(15,15)$, start $(15,13)$;
+$\beta=0,0.10,0.30,0.60$]: capture and late interior peaks.
+(c) 2D fold: the late-peak prominence vanishes near $\beta_c^{2D}\approx0.68$ ($L=31$).}
+\end{figure*}
 
 \subsection{Model-independence}\label{sec:univA}
 The fold \eqref{eq:fold} is not special to the ring. For any absorbing Markov generator $Q_0$, a
@@ -370,7 +494,7 @@ D_{12}(k)={}&k\sin k+2b_1\sin(k\alpha)\sin\!\big(k(1-\alpha)\big)\notag\\
 the last term being a genuine two-defect interaction that vanishes as the sources coalesce (giving the
 additive rule $b=b_1+b_2$). Two shortcuts can produce a \emph{third} FPT peak: at
 $(\alpha,\eta,b_1,b_2)=(0.38,0.48,1.35,0.14)$, $\xi=0.463$, the exact ring ($N=1500$) shows three
-peaks at $\tau\simeq3.0\times10^{-4},5.3\times10^{-3},6.1\times10^{-2}$ [Fig.~\ref{fig:results}(d)],
+peaks at $\tau\simeq3.0\times10^{-4},5.3\times10^{-3},6.1\times10^{-2}$ [Fig.~\ref{fig:ext}(a)],
 corresponding to three well-separated arrival-time scales (nominally near-shortcut capture,
 far-shortcut capture, and diffusive arrival; as for the single-shortcut late peak of
 Sec.~\ref{sec:univE}, the later scales are fed by more than one channel).
@@ -403,8 +527,8 @@ $\lambda=\beta(1-q)$), and start $r=(15,13)$, two sites off the gate---the 2D te
 the off-gate convention in which both features are genuine interior peaks (cf.\
 Sec.~\ref{sec:univE}). Numerically, a single diffusive
 peak at $\beta=0$ acquires a shortcut-induced capture peak; the two coexist over a window, and the
-second (late) interior maximum then annihilates by extremum merging near $\beta_c^{2D}\approx0.69$,
-its prominence falling to zero between $\beta=0.68$ and $0.70$ [Fig.~\ref{fig:results}(e,f)]---the same
+second (late) interior maximum then annihilates by extremum merging near $\beta_c^{2D}\approx0.68$,
+its prominence falling to zero between $\beta=0.68$ and $0.70$ [Fig.~\ref{fig:ext}(b,c)]---the same
 fold morphology as in one dimension. A size sweep locates the threshold at
 $\beta_c^{2D}=0.669,0.684,0.686,0.682$ for $L=21,31,41,51$ (App.~\ref{app:numerics})---nearly
 size-independent over accessible sizes. One caveat is essential:
@@ -420,7 +544,8 @@ The fold persists under any perturbation that preserves the nondegeneracy $S_3\n
 $\partial_b S_1\neq0$: to first order $\delta b_c=-(\partial_\varepsilon S_1/\partial_b S_1)\,
 \delta\varepsilon$ for a perturbation $\varepsilon$. Concretely it survives weak hop-rate disorder
 (which can even help, by lifting accidental dark modes), small shifts of the source or start
-(Sec.~\ref{sec:univE}), and the laziness $q$, which is already scaled out of the reduced threshold and
+(Sec.~\ref{sec:univE}), and the hop probability $q$, which is already scaled out of the reduced
+threshold and
 reduced fold time (the raw step time obeys $t_c\sim N^2\tau_c/q$). It is destroyed by source
 coalescence in the rank-two family (rank drop) or by moving the source
 adjacent to the absorbing boundary. Recall that at $\xi=\theta$ the shortcut-capture feature is a
@@ -428,73 +553,6 @@ boundary/initial-time contribution, so the interior fold concerns the finite-tim
 peak; moving the start off the gate turns the capture feature into an interior peak in its own right
 (Sec.~\ref{sec:univE}).
 
-\begin{figure*}[t]
-\includegraphics[width=\textwidth]{dpma_channel_mc}
-\caption{\label{fig:sim}
-The fold is a physical mechanism, not an artifact of the exact solution.
-(a) A direct Monte-Carlo simulation of the lazy ring (grey; $4\times10^5$ walkers, no spectral input)
-reproduces the exact FPT density (red) across four decades in $\tau$; the simulated splitting
-probability $\pi_{\rm sc}=0.56466\pm0.00078$ agrees with the exact $\pi_{\rm sc}=0.56522$.
-(b) The absorption vector splits exactly into a shortcut entry ($\lambda$ at $u$) and diffusive entries
-($q/2$ at the neighbors of $v$), $\Phi=f_{\rm sc}+f_{\rm diff}$: $f_{\rm sc}$ is monotone and carries the
-short-time mass, while the late finite-time bump receives comparable contributions from both channels
-(diffusive return and delayed capture).
-(c) The same interior fold occurs away from the antipode, at $\theta=0.38$ ($b_c=2.165$): the
-interior peak is present at $b=1.5$, marginal at $b=2.16$ (just below threshold), and absent at
-$b=2.8$.
-($N=100$, $q=2/3$, $b=2.6$ in (a,b); gate $u=N/2$ in (a,b), $u=0.38N$ in (c); start $\xi=\theta$.)}
-\end{figure*}
-
-\subsection{Direct simulation, channel resolution, and start dependence}\label{sec:univE}
-Four checks confirm that the fold is a physical mechanism rather than an artifact of the spectral
-representation. \emph{(i) Direct simulation.} A direct Monte-Carlo of the lazy ring, using no spectral
-input, reproduces the exact FPT density across four decades in $\tau$ [Fig.~\ref{fig:sim}(a)], with the
-simulated splitting probability $\pi_{\rm sc}=0.56466\pm0.00078$ ($4\times10^5$ walkers) agreeing
-with the exact $0.56522$ [Eq.~\eqref{eq:pisc}]. \emph{(ii) Channel resolution.} The absorption current splits exactly into a shortcut
-entry ($\lambda$ at $u$) and diffusive entries ($q/2$ at the neighbors of $v$),
-$\Phi=f_{\rm sc}+f_{\rm diff}$ [Fig.~\ref{fig:sim}(b)]: $f_{\rm sc}$ is monotone and carries the
-short-time mass, while the late finite-time bump receives comparable contributions from both channels
-(diffusive return and delayed capture). The fold thus annihilates the second arrival-time \emph{scale},
-not a single pure channel. \emph{(iii) Non-antipodal robustness.} The interior fold occurs off the
-reflection axis [Fig.~\ref{fig:sim}(c)]: at $\theta=0.38$ ($b_c=2.165$) the interior peak is present
-at $b=1.5$, marginal at $b=2.16$ just below threshold, and absent at $b=2.8$. \emph{(iv) Start dependence.} Releasing the walker away from the gate ($\xi\neq\theta$)
-removes the boundary/initial capture feature: both features become genuine \emph{interior} peaks that
-annihilate through the fold [Fig.~\ref{fig:start}(a)], and the threshold $b_c(\theta;\xi)$ varies
-smoothly and symmetrically about $\xi=\theta$ [Fig.~\ref{fig:start}(b)], so the saddle-node is not an
-artifact of releasing exactly at the gate. (Far from the gate the morphology changes and the simple
-two-peak window is lost.)
-
-\subsection{A direct stochastic realization}\label{sec:univF}
-Finally, the continuum fold is realized directly by stochastic simulation. A
-continuum Brownian-dynamics simulation of the delivery-gate protocol (Sec.~\ref{sec:physB})---Brownian
-motion on $[0,1]$ with absorbing ends and killing at rate $b/\ell$ inside a narrow gate of width $\ell$
-at $\theta$, integrated by Euler--Maruyama with \emph{no lattice and no spectral input}---reproduces
-both the exact $\delta$-sink density and the fold: released off the gate ($\xi=0.44$), it shows two
-interior peaks below $b_c$ and one above [Fig.~\ref{fig:bd}], matching the exact continuum $\Phi(\tau)$
-to histogram precision. Because the simulation contains none of the exact machinery (a finite gate
-that only coarse-grains to the $\delta$-sink, no lattice, no spectral decomposition), this confirms
-that the fold is a property of the physical process rather than of the solution method---in
-particular, not a lattice artifact.
-
-\begin{figure}[!htbp]
-\includegraphics[width=\columnwidth]{dpma_start_dependence}
-\caption{\label{fig:start}
-Start dependence (Sec.~\ref{sec:univE}). (a) Continuum FPT density $\Phi(\tau;b)$ for a walker released
-off the gate ($\xi=0.44$, $\theta=\tfrac12$): both the capture and the late (indirect) features are
-genuine interior peaks, which annihilate through the fold as $b$ crosses $b_c\simeq3.14$ (two interior
-maxima $\to$ one). (b) The fold threshold $b_c(\theta{=}\tfrac12;\xi)$ varies smoothly and symmetrically
-about the source-started point $\xi=\theta$, so the saddle-node is robust to the release position in a
-neighborhood of the gate.}
-\end{figure}
-
-\begin{figure}[!htbp]
-\includegraphics[width=\columnwidth]{dpma_brownian_fold}
-\caption{\label{fig:bd}
-Independent instance. A continuum Brownian-dynamics simulation of the delivery-gate protocol
-($6\times10^4$ walkers, Euler--Maruyama, gate width $\ell=0.02$, $\theta=\tfrac12$, start $\xi=0.44$; no
-lattice, no spectral input) reproduces the exact $\delta$-sink density $\Phi(\tau)$ (red) and the fold:
-two interior peaks below $b_c\simeq3.14$ (left) and one above (right).}
-\end{figure}
 
 \section{Physical realization and non-Hermitian character}\label{sec:physical}
 
@@ -514,9 +572,12 @@ b\;=\;\frac{\kappa\,\ell\,L}{2D}\qquad(\ell\ll L),
 \end{equation}
 so a laboratory quadruple $(\kappa,\ell,L,D)$ maps to a definite $b$; the smallest threshold
 $b_c(0.38)\simeq2.165$ corresponds to a trigger rate $\kappa\simeq4.3\,D/(\ell L)$ at a gate placed at
-$x\simeq0.38\,L$. The sharp physical statement is that a single localized delivery channel creates an
-\emph{additional arrival-time scale}---a second interior peak in the full FPT density---above a
-predictable threshold.
+$x\simeq0.38\,L$. The sharp physical statement is that a localized delivery channel supports an
+\emph{additional arrival-time scale}---a finite-time interior peak in the full FPT density---over
+the predictable finite window $0<b<b_c$ of gate strengths, and that this scale is annihilated at
+$b_c$ through a measurable saddle-node fold: scanning the delivery rate should reveal two
+arrival-time scales for $b<b_c$, with the late scale merging with its valley and disappearing at
+$b_c$.
 
 \subsection{Realizations}\label{sec:physB}
 We rank candidate realizations by cleanliness. \emph{(i) Feedback-controlled colloidal or
@@ -559,6 +620,8 @@ eigenvalue splitting---the same exponent for a different object. In the reversib
 $\delta$-sink operator is self-adjoint (Sturm--Liouville), so no spectral EP exists at all.
 
 \section{Discussion}\label{sec:discussion}
+We do not claim the first observation of shortcut-induced bimodality; the robust result of this
+paper is the observable-level fold classification with its computable threshold.
 We have shown that shortcut-induced FPT bimodality, long known phenomenologically, is the observable
 signature of an exactly solvable saddle-node fold: a rank-one directed defect adds a short-time
 capture channel, while the pre-existing finite-time interior peak survives, for the source-started
@@ -598,6 +661,7 @@ $\delta$-sink jump $=D_\theta$ [Eq.~\eqref{eq:Dtheta}] & $1.8\times10^{-14}$\\
 $I,J$ vs.\ quadrature [Eqs.~\eqref{eq:I},\eqref{eq:J}] & $\sim10^{-9}$\\
 Identity $J=\sin(k)D_k/4b$ [Eq.~\eqref{eq:JD}] & $2.9\times10^{-15}$\\
 Master curve vs.\ exact residues ($N=1200$) & $\lesssim6\times10^{-5}$\\
+$b_{c,N}\to b_c$, antipodal ($N=100$--$1200$) & $\propto N^{-2.08}$\\
 $b_c(\theta)$ vs.\ indep.\ numerics ($\theta\in[0.2,0.5]$) & $\sim10^{-6}$\\
 Endpoint $b_c\!\cdot\!\theta\to B^*$ (indep., $\theta\in[0.2,0.27]$) & $0.789026$\\
 $B^*$: half-line \eqref{eq:phihl} vs.\ interval bisection & $10^{-6}$\\
@@ -724,7 +788,9 @@ $B=\sin k(1-\theta)$,
 I(k,\theta)&=\tfrac1k\big[B\,(1-\cos k\theta)+A\,(1-\cos k(1-\theta))\big],\label{eq:I}\\
 J(k,\theta)&=\tfrac12\big[\theta B^2+(1-\theta)A^2\big]-\frac{AB\sin k}{2k},\label{eq:J}
 \end{align}
-matching direct quadrature to $\sim10^{-9}$. \emph{6. Normalization identity.} At a root of
+matching direct quadrature to $\sim10^{-9}$ (here and below, $A$, $B$, $C$, $E$ are local
+abbreviations of this appendix, distinct from the residues $B_j$, the Woodbury matrix $B$, and the
+boundary-layer strength $B=b\,d$). \emph{6. Normalization identity.} At a root of
 \eqref{eq:Dtheta},
 \begin{equation}
 J(k_j,\theta)=\frac{\sin(k_j)\,D_k(k_j;b)}{4b},
@@ -766,8 +832,9 @@ fold \eqref{eq:fold} to the limit additionally requires (F) uniform $C^1$ conver
 $\tau=0$, where the heat-kernel short-time singularity lives---for which a sufficient practical bound is
 $\mu_{N,j}\ge cj^2$, $|G_{N,j}|\le Cj^p$ uniformly. Under (F), fold persistence is a consequence of the
 implicit-function theorem: the Jacobian $\det DF_c=+S_{1,b}S_3$ is nonzero by nondegeneracy, giving a
-unique nearby finite-$N$ fold with $b_{c,N}-b_c=O(\varepsilon_N)$, consistent with the observed
-convergence. We state (F) as a hypothesis, supported by the numerics, rather than a theorem.
+unique nearby finite-$N$ fold with $b_{c,N}-b_c=O(\varepsilon_N)$, consistent with the directly
+measured threshold convergence $b_{c,N}-b_c\propto N^{-2.08}$ (App.~\ref{app:numerics}). We state (F)
+as a hypothesis, supported by the numerics, rather than a theorem.
 
 \section{Fold criterion: proofs and asymptotics}\label{app:existence}
 \emph{Fold criterion.} From $\Phi=\sum_j G_j e^{-\mu_j\tau}$, $\Phi'=-\sum_j G_j\mu_j e^{-\mu_j\tau}
@@ -874,37 +941,53 @@ Exact finite-$N$ FPT poles are computed from the symmetric transient block via \
 \texttt{eigvalsh}, with amplitudes from the closed-form residues; high-precision cross-checks use \texttt{mpmath}. Continuum spectra are the roots of
 \eqref{eq:Dtheta}/\eqref{eq:D12}, and amplitudes use \eqref{eq:G} and App.~\ref{app:cusp}. All scripts
 are deterministic. Table~\ref{tab:verif} collects the verification tolerances quoted throughout.
-The figures are generated by \texttt{dpma\_prr\_figures.py} (results) and \texttt{dpma\_schematic.py}
+The figures are generated by \texttt{dpma\_prr\_figures.py} (fold results and extensions) and
+\texttt{dpma\_schematic.py}
 (model); the existence boundary by \texttt{dpma\_saddle\_node\_bc\_theta.py}; the amplitude/master
 curve by \texttt{dpma\_general\_u\_master\_curve.py}; the fold scaling by
 \texttt{dpma\_saddle\_node\_certification.py}; the cusp by \texttt{dpma\_cusp\_verify.py}; the rank-two
 determinant and triple peak by \texttt{dpma\_multishortcut.py}; the 2D test by
-\texttt{dpma\_2d\_universality.py}; the direct-simulation, channel-resolution, and non-antipodal panels
-by \texttt{dpma\_channel\_mc.py}; the start-dependence panels by \texttt{dpma\_start\_dependence.py}; the independent Brownian-dynamics
-instance by \texttt{dpma\_brownian\_fold.py}; the endpoint-constant resolution by
+\texttt{dpma\_2d\_finite\_lattice.py}; the direct-simulation, channel-resolution, and non-antipodal panels
+by \texttt{dpma\_channel\_mc.py}; the start-dependence panels by \texttt{dpma\_start\_dependence.py}; the Brownian-dynamics
+realization by \texttt{dpma\_brownian\_fold.py}; the endpoint-constant resolution by
 \texttt{dpma\_endpoint\_law.py}; the half-line transform inversion and fold
 [Eqs.~\eqref{eq:fhl}--\eqref{eq:Bstar}] by \texttt{dpma\_halfline\_bstar.py}; the normal-form
 prefactors and the near-antipodal quadratic coefficient by \texttt{dpma\_normal\_form.py}; the
 window-connectivity scan by \texttt{dpma\_window\_scan.py}; the 2D size sweep by
-\texttt{dpma\_2d\_Lsweep.py}; and the
-measurability estimate by \texttt{dpma\_measurement.py}.
+\texttt{dpma\_2d\_Lsweep.py}; the finite-$N$ threshold convergence by
+\texttt{dpma\_bcN\_convergence.py}; the Brownian-dynamics convergence sweeps by
+\texttt{dpma\_bd\_convergence.py}; and the
+measurability estimate by \texttt{dpma\_measurement.py}. All randomized computations use fixed seeds
+recorded in the scripts.
 The 1D boundary $b_c(\theta)$ is obtained by bisection on the valley--peak-pair count over
 $\theta\in[0.2,0.5]$, $b\in[0.5,20]$, retaining the affected roots with $w\le40$ (i.e.\ $k\le80$).
-Connectivity of the window is verified separately by a dense-$b$ scan ($\Delta b=0.02$, six values of
-$\theta$, spectrum deepened to $w\le120$ so the mode sum is converged down to the small fold times of
-off-center $\theta$): exactly one transition per $\theta$---two interior extrema for all $0<b<b_c$,
+Connectivity of the window is verified separately by a dense-$b$ scan [$\Delta b=0.02$, seven values
+$\theta\in\{0.20,0.25,\dots,0.50\}$, spectrum deepened to $w\le120$ so the mode sum is converged
+down to the small fold times of
+off-center $\theta$]: exactly one transition per $\theta$---two interior extrema for all $0<b<b_c$,
 none above---with no re-entrance (\texttt{dpma\_window\_scan.py}); the $b\to0$ end is closed
 analytically by the short-time argument of Sec.~\ref{sec:existA}, and the tabulated boundary agrees
 with an independent reimplementation to $\sim10^{-6}$ (Table~\ref{tab:verif}). The normal-form
 exponents are log--log fits over $b_c-b\in[1.4\times10^{-3},3.6\times10^{-2}]$ (seven continuation
 points), giving $0.498(1)$ and $1.493(2)$ (OLS standard errors). The 2D fold is computed at
 $L=31$ (target $(0,0)$, source $(15,15)$, start $(15,13)$, horizon $T=6000$ steps) by extremum
-merging (the second interior maximum's prominence $\to0$ near $\beta\approx0.69$),
+merging (the second interior maximum's prominence $\to0$ near $\beta\approx0.68$),
 not an ad-hoc valley heuristic; peak detection separates capture from late arrivals at $t=120$ and
 uses a relative height threshold $10^{-3}\max F$, with the fold location insensitive to both over
 wide ranges. A size sweep with the same criterion gives
 $\beta_c^{2D}=0.669,0.684,0.686,0.682$ at $L=21,31,41,51$ (horizon scaled as $L^2$;
-\texttt{dpma\_2d\_Lsweep.py}). The Monte-Carlo uses $4\times10^5$ vectorized walkers with a fixed
+\texttt{dpma\_2d\_Lsweep.py}).
+
+\emph{Threshold and discretization convergence.} Bisection on the exact ring gives the
+finite-lattice fold threshold converging monotonically from above to the continuum value,
+$b_{c,N}(\tfrac12)-b_c=4.7\times10^{-3},\dots,2.6\times10^{-5}$ over $N=100$--$1200$, with fitted
+$|b_{c,N}-b_c|\propto N^{-2.08}$. The Brownian-dynamics realization is likewise converged: halving
+the gate width ($\ell=0.04,0.02,0.01$) and halving/doubling the Euler--Maruyama step
+($3\times10^{-5}$ to $7.5\times10^{-6}$) leaves the late-peak location within two histogram bins of
+the exact $\tau_p$ in every cell, while the ratio observable agrees with the exact $\delta$-sink
+value at the $1$--$3.5\%$ level (within $\sim2.6$ standard errors; a small first-order killing bias
+shrinks with the step), so the fold morphology of Fig.~\ref{fig:bd} is not a discretization
+artifact. The Monte-Carlo uses $4\times10^5$ vectorized walkers with a fixed
 seed, logarithmic $\tau$-binning, and shortcut-vs-diffusive absorption events recorded per walker; the
 quoted $\pi_{\rm sc}$ uncertainty is the binomial standard error, and the exact $\pi_{\rm sc}$ is
 evaluated from the closed form \eqref{eq:pisc}. The histogram of Fig.~\ref{fig:sim}(a) uses $59$
@@ -917,7 +1000,8 @@ delivery-and-terminate trials per run from the continuum gate protocol of Fig.~\
 ($\ell=0.02$, $\theta=\tfrac12$, $\xi=0.44$, Euler--Maruyama step $1.5\times10^{-5}$) and evaluates
 the ratio observable $R=\hat\Phi(\tau_p)/\hat\Phi(\tau_v)$ from histogram densities in fixed
 $\pm20\%$ windows around the exact below-threshold peak and valley locations ($\tau_p=0.0462$,
-$\tau_v=0.0253$); $R$ decreases monotonically through unity across the fold. Ten independent runs
+$\tau_v=0.0253$); the exact $R(b)$ decreases monotonically through unity across the fold, and the
+simulated estimates track it within counting noise. Ten independent runs
 give ${\rm s.d.}(R)\simeq0.061$ at $N_{\rm t}=4000$; the exact $R(b)$ table gives the local
 sensitivity $|dR/db|\simeq0.09$ per unit $b$ near the fold, so with
 ${\rm s.d.}(R)\propto N_{\rm t}^{-1/2}$, $N_{\rm t}\simeq4\times10^4$ trials resolve $b_c$ to
@@ -949,6 +1033,8 @@ deposited in a public repository upon publication.
 \bibitem{GrebenkovMetzlerOshanin2018} D.~S.~Grebenkov, R.~Metzler, and G.~Oshanin, \emph{Strong defocusing of molecular reaction times results from an interplay of geometry and reaction control}, Commun.\ Chem.\ \textbf{1}, 96 (2018).
 \bibitem{TalFriedman2020} O.~Tal-Friedman, A.~Pal, A.~Sekhon, S.~Reuveni, and Y.~Roichman, \emph{Experimental Realization of Diffusion with Stochastic Resetting}, J.\ Phys.\ Chem.\ Lett.\ \textbf{11}, 7350 (2020).
 \bibitem{PalReuveni2017} A.~Pal and S.~Reuveni, \emph{First Passage under Restart}, Phys.\ Rev.\ Lett.\ \textbf{118}, 030603 (2017).
+\bibitem{Neuts1981} M.~F.~Neuts, \emph{Matrix-Geometric Solutions in Stochastic Models: An Algorithmic Approach} (Johns Hopkins University Press, Baltimore, 1981).
+\bibitem{PolyaSzego1976} G.~P\'olya and G.~Szeg\H{o}, \emph{Problems and Theorems in Analysis II} (Springer, Berlin, 1976), Part V.
 \bibitem{Kato1995} T.~Kato, \emph{Perturbation Theory for Linear Operators}, 2nd ed.\ (Springer, Berlin, 1995).
 \bibitem{Albeverio2005} S.~Albeverio, F.~Gesztesy, R.~H{\o}egh-Krohn, and H.~Holden, \emph{Solvable Models in Quantum Mechanics}, 2nd ed.\ (AMS Chelsea, Providence, 2005).
 \bibitem{Arnold1992} V.~I.~Arnol'd, \emph{Catastrophe Theory}, 3rd ed. (Springer, Berlin, 1992).

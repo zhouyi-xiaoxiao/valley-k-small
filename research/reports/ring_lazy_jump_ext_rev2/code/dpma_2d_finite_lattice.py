@@ -11,7 +11,7 @@ fast capture via the shortcut vs slow 2D-diffusive arrival at v -> candidate dou
 Method: build the (L^2-1)x(L^2-1) symmetric transient matrix + absorption vector, F(t) via
 eigendecomposition, scan beta, count interior local maxima of F(t). A 2D saddle-node =
 a (valley,peak) pair that ANNIHILATES at beta_c (both gap and prominence -> 0). If found,
-the mechanism is NOT 1D-specific. Writes artifacts/tables/dpma_2d_universality.txt
+the mechanism is NOT 1D-specific. Writes artifacts/tables/dpma_2d_finite_lattice.txt
 """
 from __future__ import annotations
 import math
@@ -99,7 +99,7 @@ def main():
         say("     i.e. the 1D mechanism is NOT 1D-specific -- it SURVIVES on the 2D lattice.")
     else:
         say("  => no genuine 2D double peak found (mechanism may be 1D-specific / need retuning).")
-    p = Path(__file__).resolve().parents[1] / "artifacts" / "tables" / "dpma_2d_universality.txt"
+    p = Path(__file__).resolve().parents[1] / "artifacts" / "tables" / "dpma_2d_finite_lattice.txt"
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text("\n".join(OUT) + "\n")
     say(f"\nwrote {p}")

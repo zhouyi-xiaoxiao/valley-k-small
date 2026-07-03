@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DPMA 完全教程 — 从高等代数到成稿</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/contrib/auto-render.min.js"></script>
+<style>
+  :root { --blue:#1656b8; --accent:#4a7dbd; --green:#2a8a2a; --red:#c33; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
+         margin: 0; color: #1c1c1e; background: #fbfbfd; font-size: 15.5px; line-height: 1.85; }
+  #layout { display: flex; min-height: 100vh; }
+  /* ---- sidebar ---- */
+  #side { width: 240px; flex: 0 0 240px; background: #223046; color: #dbe4f0;
+          padding: 18px 0 40px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  #side h1 { font-size: 16px; margin: 0 18px 4px; color: #fff; }
+  #side .sub { font-size: 11.5px; color: #93a7c4; margin: 0 18px 14px; line-height: 1.5; }
+  #side a.nav { display: block; padding: 7px 18px; color: #c9d6e8; text-decoration: none;
+                font-size: 13.5px; border-left: 3px solid transparent; }
+  #side a.nav:hover { background: #2c3d59; }
+  #side a.nav.active { background: #31456650; border-left-color: #7fb0f0; color: #fff; font-weight: 600; }
+  #side a.nav .done { color: #7ee08a; margin-right: 4px; }
+  #side .resume { margin: 12px 18px 0; }
+  #side .resume button { width: 100%; padding: 7px 0; background: #3a72c4; color: #fff;
+        border: 0; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  /* ---- main ---- */
+  #main { flex: 1; min-width: 0; padding: 34px 46px 90px; max-width: 860px; margin: 0 auto; }
+  section.ch { display: none; }
+  section.ch.show { display: block; animation: fadein .25s; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; } }
+  h2 { font-size: 24px; margin: 6px 0 2px; }
+  h3 { font-size: 17.5px; margin-top: 34px; border-left: 4px solid var(--accent); padding-left: 10px; }
+  .lede { color: #555; font-size: 14px; margin-bottom: 22px; border-bottom: 1px solid #e8e8ee; padding-bottom: 14px; }
+  .goal { background: #eef4fc; border: 1px solid #cfdff5; border-radius: 8px;
+          padding: 10px 16px; font-size: 14px; margin: 14px 0; }
+  .goal b:first-child { color: var(--blue); }
+  .keybox { background: #fff; border: 1.5px solid var(--blue); border-radius: 8px;
+            padding: 12px 18px; margin: 18px 0; box-shadow: 0 1px 4px #0001; }
+  .keybox .tag { display: inline-block; font-size: 11px; background: var(--blue); color: #fff;
+                 border-radius: 4px; padding: 1px 8px; margin-bottom: 6px; }
+  .warn { background: #fff7ec; border: 1px solid #f0d9ae; border-radius: 8px;
+          padding: 10px 16px; font-size: 14px; margin: 14px 0; }
+  .warn::before { content: "⚠ 常见误解  "; font-weight: 700; color: #b07000; }
+  .luca { background: #f3eefb; border: 1px solid #ddd0f0; border-radius: 8px;
+          padding: 10px 16px; font-size: 14px; margin: 14px 0; }
+  .luca::before { content: "🎓 和 Luca 的对话里  "; font-weight: 700; color: #6a3fb5; }
+  details { background: #f4f5f8; border-radius: 8px; padding: 10px 16px; margin: 12px 0; }
+  details summary { cursor: pointer; font-weight: 600; color: #365a8c; font-size: 14px; }
+  details[open] { padding-bottom: 14px; }
+  details.ans summary { color: #2a7a4f; }
+  .qa { border-left: 4px solid #b58fe0; background: #faf7ff; padding: 8px 16px; margin: 12px 0;
+        border-radius: 0 8px 8px 0; font-size: 14.5px; }
+  .qa .qdate { color: #8a6cc0; font-size: 12px; font-weight: 700; }
+  .selftest { background: #f0f8f1; border: 1px solid #cfe6d3; border-radius: 8px; padding: 12px 18px; margin: 22px 0; }
+  .selftest h4 { margin: 0 0 6px; color: #226b37; font-size: 15px; }
+  .term { border-bottom: 1.5px dotted var(--accent); cursor: help; position: relative; }
+  .term .tip { display: none; position: absolute; left: 0; top: 1.7em; z-index: 30; width: 340px;
+               background: #223046; color: #eef; font-size: 13px; line-height: 1.6; border-radius: 8px;
+               padding: 9px 13px; box-shadow: 0 4px 14px #0004; font-weight: 400; }
+  .term:hover .tip { display: block; }
+  .exp { background: #fff; border: 1px solid #dcdce4; border-radius: 10px; padding: 16px 20px; margin: 20px 0;
+         box-shadow: 0 1px 5px #00000010; }
+  .exp h4 { margin: 0 0 4px; color: var(--blue); font-size: 15px; }
+  .exp .hint { font-size: 13px; color: #666; }
+  canvas { background: #fff; border: 1px solid #e2e2ea; border-radius: 6px; display: block;
+           margin: 10px 0; max-width: 100%; }
+  button.act { padding: 5px 14px; border: 1px solid var(--accent); background: #fff; color: #29517f;
+           border-radius: 5px; cursor: pointer; font-size: 13px; }
+  button.act:hover { background: #eaf1fa; }
+  label { font-size: 13px; margin-right: 12px; user-select: none; }
+  input[type=range] { width: 300px; vertical-align: middle; }
+  .stat { font-size: 13px; color: #333; font-variant-numeric: tabular-nums; }
+  .big { font-size: 15px; font-weight: 600; }
+  .navbtns { display: flex; justify-content: space-between; margin-top: 44px; gap: 10px; }
+  .navbtns button { padding: 9px 20px; font-size: 14px; border-radius: 8px; border: 1px solid #c8d4e6;
+                    background: #fff; cursor: pointer; color: #29517f; }
+  .navbtns button.donebtn { background: #2a8a2a; color: #fff; border-color: #2a8a2a; }
+  .navbtns button:disabled { opacity: .35; cursor: default; }
+  table.sym { border-collapse: collapse; width: 100%; font-size: 14px; }
+  table.sym th, table.sym td { border: 1px solid #e0e0e8; padding: 5px 10px; text-align: left; vertical-align: top; }
+  table.sym th { background: #eef2f8; }
+  .rowflex { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  code { background: #eef0f4; border-radius: 4px; padding: 1px 5px; font-size: 13px; }
+  .katex { font-size: 1.06em; }
+  .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+  @media (max-width: 900px) { #side { display: none; } #main { padding: 20px 18px 70px; } }
+</style>
+</head>
+<body>
+<div id="layout">
+<nav id="side">
+  <h1>DPMA 完全教程</h1>
+  <p class="sub">从高等代数到你的 PRR 成稿<br>公式·动画·推导·自测 全在这一页</p>
+  <div id="toc"></div>
+  <div class="resume"><button onclick="resumeStudy()">▶ 接着上次学</button></div>
+  <p class="sub" style="margin-top:14px">进度存在浏览器本地。<br>追问 → 回答会被写进对应章节的紫色"追问区"。</p>
+</nav>
+<main id="main">
+
+<!-- ================= 第 0 章 ================= -->
+<section class="ch" id="ch0" data-title="第 0 章 · 预备知识:你其实都学过">
+<h2>第 0 章 · 预备知识:你其实都学过</h2>
+<p class="lede">这一章不讲论文,只做一件事:把论文里吓人的词(谱分解、模、Dirac 记号、生成函数)
+翻译回你在<b>高等代数</b>和<b>数学分析</b>里学过的东西。读完你会发现:全文只用到"实对称矩阵可以正交对角化"这一条定理,外加几何级数。</p>
+
+<div class="goal"><b>本章目标:</b>看到 \(A^t=\sum_j \lambda_j^t\, v_j v_j^{\mathsf T}\) 这行字时,不再心虚。</div>
+
+<h3>0.1 随机游走 = 反复乘同一个矩阵</h3>
+<p>一个粒子在有限个位置之间随机跳动。规则只有一条:<b>下一步去哪,只由现在在哪决定</b>(这叫
+<span class="term">马尔可夫性<span class="tip">未来只依赖现在、不依赖历史。我们的走子每一步掷骰子决定去向,骰子不看它以前走过的路——所以自动满足。</span></span>)。
+把"从位置 \(i\) 一步跳到位置 \(j\) 的概率"记作 \(P_{ij}\),排成矩阵 \(P\)。它每行加起来是 1(总得去某个地方),这样的矩阵叫<b>随机矩阵</b>(row-stochastic)。</p>
+<p>关键事实(纯粹是矩阵乘法的定义):<b>两步转移概率就是 \(P^2\) 的矩阵元,\(t\) 步就是 \(P^t\)。</b></p>
+<details><summary>为什么?(两行推导)</summary>
+两步从 \(i\) 到 \(j\):中途必经过某个 \(k\),各条路径概率相乘、再对 \(k\) 求和:
+\[ \Pr(i\to j \text{ 两步}) = \sum_k P_{ik}P_{kj} = (P^2)_{ij}. \]
+这恰好就是矩阵乘法的定义。归纳下去就是 \(P^t\)。<b>所以"研究随机游走在时刻 \(t\) 的行为"="研究矩阵幂 \(P^t\)"。</b>整篇论文的出发点就这一句。
+</details>
+
+<h3>0.2 "谱分解"= 你学过的实对称矩阵正交对角化</h3>
+<p>高等代数的定理:实对称矩阵 \(A\) 一定可以正交对角化,\(A = Q\Lambda Q^{\mathsf T}\),其中
+\(\Lambda\) 是特征值对角阵、\(Q\) 的列是标准正交特征向量。把它按列展开,就是物理文献里所谓的
+<span class="term">谱分解<span class="tip">spectral decomposition — "谱"就是"特征值的集合";把矩阵写成特征对的加权和,每一项叫一个"模"(mode)。名字唬人,内容就是正交对角化。</span></span>:</p>
+<div class="keybox"><span class="tag">全文最重要的一行代数</span>
+\[ A=\sum_{j} \lambda_j\, v_j v_j^{\mathsf T} \qquad\Longrightarrow\qquad A^{t}=\sum_{j} \lambda_j^{\,t}\, v_j v_j^{\mathsf T}. \]
+矩阵幂难算;数的幂 \(\lambda_j^t\) 谁都会算。谱分解就是"把矩阵幂换成数的幂"的机器。
+</div>
+<details><summary>为什么 \(A^t\) 长这样?(一行)</summary>
+特征向量正交:\(v_j^{\mathsf T}v_k=\delta_{jk}\)(相同为 1,不同为 0)。于是
+\(A^2=\sum_{j,k}\lambda_j\lambda_k\,v_j (v_j^{\mathsf T}v_k) v_k^{\mathsf T}=\sum_j \lambda_j^2 v_jv_j^{\mathsf T}\)。交叉项全部因正交而消失。
+</details>
+<p><b>2×2 完整算例</b>(建议亲手验一遍):\(A=\begin{pmatrix}0.5&0.3\\0.3&0.5\end{pmatrix}\)。
+特征值 \(\lambda_1=0.8,\ \lambda_2=0.2\),特征向量 \(v_1=\tfrac1{\sqrt2}(1,1)^{\mathsf T}\),
+\(v_2=\tfrac1{\sqrt2}(1,-1)^{\mathsf T}\)。于是</p>
+\[ A^t = 0.8^t\cdot\tfrac12\begin{pmatrix}1&1\\1&1\end{pmatrix} + 0.2^t\cdot\tfrac12\begin{pmatrix}1&-1\\-1&1\end{pmatrix}. \]
+<p>注意 \(t=5\) 时 \(0.2^5=0.00032\) 已经可以忽略,而 \(0.8^5=0.328\) 还活着:<b>特征值小的"模"先死,最大特征值的模最后活着</b>——这就是论文里"长时间尾巴由第一模主导"的全部原理,现在就讲完了。</p>
+
+<h3>0.3 衰减率的语言</h3>
+<p>若 \(0\lt\lambda\lt1\),则 \(\lambda^t=e^{t\ln\lambda}\) 是指数衰减,\(\lambda\) 越接近 1 死得越慢。
+一堆这样的项加起来,\(f(t)=\sum_j c_j\lambda_j^t\),叫<b>指数和</b>。长时间后只剩最大的 \(\lambda\):
+\(f(t)\approx c_1\lambda_1^t\)。<b>论文里的到达时间分布 \(F(t)\) 恰好就是这种指数和</b>——这是第 1 章末尾要证明的事。</p>
+
+<h3>0.4 记号约定(论文用的"方言")</h3>
+<table class="sym">
+<tr><th>记号</th><th>它其实是</th></tr>
+<tr><td>\(|v\rangle\)(ket)</td><td>就是列向量 \(v\)。物理界写法,别的什么都不是。</td></tr>
+<tr><td>\(\langle v|\)(bra)</td><td>行向量 \(v^{\mathsf T}\)。</td></tr>
+<tr><td>\(\langle a|M|r\rangle\)</td><td>数:\(a^{\mathsf T} M\, r\)(行向量×矩阵×列向量)。</td></tr>
+<tr><td>\(|u\rangle\langle u|\)</td><td>矩阵 \(uu^{\mathsf T}\)。若 \(u=e_u\) 是标准基向量,它就是"只有第 \((u,u)\) 元为 1、其余全 0"的矩阵。</td></tr>
+<tr><td>\(\delta_{ij}\)</td><td>Kronecker delta:\(i=j\) 时为 1,否则 0。</td></tr>
+<tr><td>\(f(N)=O(N^{-2})\)</td><td>数学分析里的大 O:\(|f|\le C N^{-2}\)。</td></tr>
+</table>
+
+<h3>0.5 还要用到的分析工具(先混个脸熟)</h3>
+<p>后面章节还会用到三样,现在只需要知道它们"是什么、在哪学过":</p>
+<p><b>几何级数</b> \(\sum_{t\ge0} x^t = (1-x)^{-1}\)(\(|x|\lt1\));矩阵版本
+\(\sum_{t\ge0} P^t=(I-P)^{-1}\)(谱半径 \(\lt1\) 时逐元素收敛)——第 1 章证质量守恒用。</p>
+<p><b>生成函数</b>:给数列 \(F(1),F(2),\dots\) 配一个函数 \(\tilde F(z)=\sum_t F(t)z^t\)。它把"数列问题"变成"函数问题"——只在第 8 章讲 Luca 的路线时出现,可以先跳过。</p>
+<p><b>热方程直觉</b>:随机游走走了很久、格子很密时,粒子位置的分布满足扩散方程 \(\partial_\tau p=\tfrac12\partial_x^2 p\)。数学分析里的分离变量法就够用了——第 7 章用。</p>
+
+<div class="selftest"><h4>自测(能答上来就进入第 1 章)</h4>
+<ol>
+<li>\(P\) 是转移矩阵,\((P^3)_{25}\) 的概率含义是什么?</li>
+<li>把 \(A=\begin{pmatrix}0.5&0.3\\0.3&0.5\end{pmatrix}\) 的谱分解代入,算出 \(A^{10}\begin{pmatrix}1\\0\end{pmatrix}\) 约等于多少?(提示:\(0.2^{10}\approx0\))</li>
+<li>\(\langle a|P^{t-1}|r\rangle\) 是一个数、一个向量、还是一个矩阵?</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. 从位置 2 出发走 3 步、恰好落在位置 5 的概率。<br>
+2. \(A^{10}\approx 0.8^{10}\cdot\tfrac12\binom{1\ 1}{1\ 1}\),作用在 \((1,0)^{\mathsf T}\) 上得约 \((0.0537,\,0.0537)^{\mathsf T}\)。<br>
+3. 一个数(行向量×矩阵×列向量)。它就是论文的主角 \(F(t)\)。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch0"></div>
+</section>
+
+<!-- ================= 第 1 章 ================= -->
+<section class="ch" id="ch1" data-title="第 1 章 · 模型:环、出口、传送门">
+<h2>第 1 章 · 模型:环、出口、传送门 → 三个对象 \(P_\lambda,\ a,\ F(t)\)</h2>
+<p class="lede">这一章搭舞台。整篇论文研究的系统一段话就能说完;难的从来不是模型,而是它产生的现象。
+本章结束时你手里会有三个对象:转移矩阵 \(P_\lambda\)、吸收向量 \(a\)、到达时间分布 \(F(t)\)——全文的一切都从它们长出来。</p>
+
+<div class="goal"><b>本章目标:</b>能亲手写出 \(N=6\) 时的全部矩阵,并证明 \(\sum_t F(t)=1\)。</div>
+
+<h3>1.1 游戏规则</h3>
+<p>\(N\) 个格点排成一个环,编号 \(0,1,\dots,N-1\)。<b>0 号是出口</b>:走到就结束(吸收)。
+每一步,站在普通格点 \(i\) 的走子:</p>
+\[ \text{原地不动概率 } 1-q,\qquad \text{左右各走一格概率 } \tfrac q2 . \]
+<p>全文取 \(q=2/3\)(于是三个概率都是 \(1/3\),好记)。"原地不动"这一手叫
+<span class="term">懒惰游走<span class="tip">lazy walk。技术上它保证转移矩阵特征值非负、避免奇偶震荡;直觉上就是走子每步有概率发呆。</span></span>。</p>
+<p>只有一个格点特殊:<b>传送门 \(u\)</b>。站在 \(u\) 上时,从"发呆"的概率里划出 \(\lambda\) 给传送:</p>
+\[ \text{在 } u:\quad \text{不动 } 1-q-\lambda,\qquad \text{瞬移到出口 } \lambda,\qquad \text{左右各 } \tfrac q2 . \]
+<p>论文把传送强度参数化为 \(\lambda=\beta(1-q)\),\(\beta\in[0,1]\) 是"发呆时间里被传送门征用的比例"。
+这样设计使每行概率和恒为 1,且 \(\beta\le1\) 自动给出合法范围(成稿里的 admissibility)。
+<b>注意传送是单向的</b>:\(u\to0\) 有捷径,\(0\to u\) 没有。</p>
+
+<div class="exp"><h4>🎮 迷你演示 · 先看一眼这个世界</h4>
+<p class="hint">红 = 出口(吸收),绿 = 传送门,蓝 = 走子(从传送门旁出发)。按"走几步"感受一下规则——大多数时间它在发呆和乱晃。正式的统计实验放在第 2 章。</p>
+<canvas id="ring0Cv" width="270" height="270"></canvas>
+<button class="act" id="ring0Step">走 30 步</button>
+<button class="act" id="ring0Reset">重置</button>
+<span id="ring0Msg" class="stat"></span>
+</div>
+
+<h3>1.2 删掉出口:环断成链,传送门变成"漏点"</h3>
+<p>吸收态是"只进不出"的,把它留在矩阵里没有信息量。标准做法:<b>把 0 号的行和列整个删掉</b>,只留
+"还活着"的状态 \(1,\dots,N-1\),得到 \((N-1)\times(N-1)\) 的
+<span class="term">瞬态转移矩阵<span class="tip">substochastic / transient matrix:行和 ≤ 1 的转移矩阵,"缺掉"的概率就是这一步死亡(被吸收)的概率。</span></span>。这就是成稿的 Eq.&nbsp;(1):</p>
+<div class="keybox"><span class="tag">成稿 Eq. (1)</span>
+\[ P_\lambda = P_0-\lambda\,|u\rangle\langle u| ,\qquad
+(P_0)_{ij}=(1-q)\,\delta_{ij}+\tfrac q2\,\delta_{|i-j|,1},\quad i,j\in\{1,\dots,N-1\}. \]
+翻译:\(P_0\) 是三对角矩阵(对角线 \(1-q\),上下次对角线 \(q/2\));传送门的全部效果 = 从第 \((u,u)\) 个对角元里减去一个数 \(\lambda\)。
+</div>
+<p>两个立刻要看清的事:</p>
+<p><b>(a) 环断成了链。</b>删掉 0 之后,格点 1 和 \(N-1\) 不再相邻(它们本来是通过 0 相连的)。
+所以 \(P_0\) 描述的是一条两端"漏"的链,不再有环的周期结构。</p>
+<p><b>(b) 传送门 = 秩一对角缺陷。</b>回忆 0.4 节:\(|u\rangle\langle u|\) 就是"只在 \((u,u)\) 处为 1"的矩阵。
+论文里那个吓人的词 "rank-one killing defect" 说的就是<b>只改了一个矩阵元</b>这件事。</p>
+<p><b>亲手算例(\(N=6,\ u=3,\ q=2/3\)):</b>活着的状态是 \(1,2,3,4,5\),</p>
+\[ P_\lambda=\begin{pmatrix}
+\frac13 & \frac13 & 0 & 0 & 0\\[2pt]
+\frac13 & \frac13 & \frac13 & 0 & 0\\[2pt]
+0 & \frac13 & \frac13-\lambda & \frac13 & 0\\[2pt]
+0 & 0 & \frac13 & \frac13 & \frac13\\[2pt]
+0 & 0 & 0 & \frac13 & \frac13
+\end{pmatrix}. \]
+<p>看第 1 行:加起来是 \(2/3\),缺 \(1/3\)——那是走子从 1 走进出口的概率。第 3 行缺 \(\lambda\)——传送。
+把每行"缺掉"的概率收进一个向量,就是<b>吸收向量</b>:</p>
+<div class="keybox"><span class="tag">吸收向量 = 每步的死亡概率</span>
+\[ a_i \;=\; 1-\sum_j (P_\lambda)_{ij}
+      \;=\; \underbrace{\tfrac q2\left(\delta_{i,1}+\delta_{i,N-1}\right)}_{\text{从两端正常走进出口(扩散通道)}}
+       \;+\; \underbrace{\lambda\,\delta_{i,u}}_{\text{被传送(捷径通道)}} . \]
+</div>
+<p>这个拆分不是记号游戏:成稿第 4 图把 \(F=F_{\rm diff}+F_{\rm sc}\) 分成两条曲线画,就是把 \(a\) 的这两半分别演化。<b>"到达方式"只有这两种,泾渭分明。</b></p>
+
+<h3>1.3 到达时间分布:一行公式</h3>
+<p>设走子从 \(r\) 出发。"恰好在第 \(t\) 步结束"= 先活满 \(t-1\) 步,再在这一步掉进某个洞:</p>
+<div class="keybox"><span class="tag">全文主角</span>
+\[ F(t)=\langle a|\,P_\lambda^{\,t-1}\,|r\rangle . \]
+读法(从右往左):从 \(r\) 出发(\(|r\rangle\) 是第 \(r\) 个标准基向量)→ 自由演化 \(t-1\) 步(\(P_\lambda^{t-1}\),0.1 节)→ 以各位置的死亡概率加权求和(\(\langle a|\))。
+</div>
+<p><b>自检:概率总和必须是 1</b>(走子迟早会被吸收)。用 0.5 节的矩阵几何级数:</p>
+\[ \sum_{t\ge1}F(t)=\langle a|\Big(\sum_{t\ge0}P_\lambda^{t}\Big)|r\rangle=\langle a|(I-P_\lambda)^{-1}|r\rangle . \]
+<details><summary>为什么这个数恰好是 1?(两行,很妙)</summary>
+按定义 \(a=(I-P_\lambda)\mathbf 1\)(\(\mathbf 1\) 是全 1 向量——每行"缺"的就是 1 减行和)。而 \(P_\lambda\) 对称,所以
+\[ \langle a|(I-P_\lambda)^{-1}|r\rangle=\mathbf 1^{\mathsf T}(I-P_\lambda)(I-P_\lambda)^{-1}|r\rangle=\mathbf 1^{\mathsf T}e_r=1 . \]
+其中用了谱半径 \(\lt1\)(级数收敛、逆存在):直觉上"从任何地方出发都有正概率死掉,所以活到 \(t\) 步的概率指数衰减"。
+</details>
+
+<h3>1.4 两条结构性大腿(全文反复站在上面)</h3>
+<p><b>(a) \(P_\lambda\) 是实对称矩阵。</b>三对角对称,减一个对角元还是对称。由第 0 章:
+<b>特征值全是实数,特征向量正交</b>。可是传送门明明是单向的,"方向性"去哪了?——看定义:
+\(P_\lambda\) 只管"活着的走动",传送这一步是<b>死亡方式</b>,被记进了 \(a\)。所以:</p>
+<div class="keybox"><span class="tag">成稿摘要里的那句话</span>
+单向捷径的方向性<b>只进入吸收通道 \(a\),不进入传输结构 \(P_\lambda\)</b>。
+一切后果(实谱、正交模、"这不是非厄米效应")都由此而来。
+</div>
+<p><b>(b) \(F(t)\) 自动是指数和。</b>把 0.2 节的谱分解 \(P_\lambda=\sum_j s_j|\psi_j\rangle\langle\psi_j|\) 代入主角公式:</p>
+<div class="keybox"><span class="tag">模展开(第 4 章主角)</span>
+\[ F(t)=\sum_{j=1}^{N-1}B_j\,s_j^{\,t-1},\qquad B_j=\langle a|\psi_j\rangle\,\langle\psi_j|r\rangle . \]
+\(s_j\):第 \(j\) 个模的衰减率(特征值);\(B_j\):它的权重 = 两个内积之积,<b>完全可以是负数</b>。
+</div>
+<p>"权重可以为负"现在看只是个无害的备注——到第 4 章它会变成全文的戏剧核心。</p>
+
+<div class="selftest"><h4>自测</h4>
+<ol>
+<li>写出 \(N=6,\ u=2\)(注意传送门换了位置)时的 \(P_\lambda\) 和 \(a\)。</li>
+<li>\(\sum_t F(t)=1\) 的证明里,哪一步用了"\(P_\lambda\) 对称"?哪一步用了"谱半径 \(\lt1\)"?</li>
+<li>如果传送门是<b>双向</b>的(\(0\leftrightarrow u\) 都能瞬移),\(P_\lambda\) 还对称吗?还能删掉 0 号吗?</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. 同 1.2 的矩阵,只是 \(-\lambda\) 移到第 \((2,2)\) 元;\(a=(\tfrac13,\lambda,0,0,\tfrac13)^{\mathsf T}\)。<br>
+2. 对称性用在 \(\langle a|=\mathbf 1^{\mathsf T}(I-P_\lambda)\)(否则要写转置);谱半径用在几何级数收敛、\((I-P_\lambda)^{-1}\) 存在。<br>
+3. 双向传送破坏"0 是吸收态"(能从 0 回来),整个删行删列的框架就塌了——这是为什么"单向"不是装饰,而是模型成立的前提。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch1"></div>
+</section>
+
+<!-- ================= 第 2 章 ================= -->
+<section class="ch" id="ch2" data-title="第 2 章 · 双峰从哪来:两种剧本">
+<h2>第 2 章 · 双峰从哪来:两种剧本</h2>
+<p class="lede">论文标题里的现象——到达时间分布有<b>两个峰</b>——本章用眼睛看出来、用两个时间尺度算出来。
+这是全文物理直觉的地基,后面所有数学都是在给这个直觉"上保险"。</p>
+
+<div class="goal"><b>本章目标:</b>不看任何公式,能向别人解释"为什么会有两个峰、峰的位置大概在哪"。</div>
+
+<h3>2.1 先做实验</h3>
+<div class="exp"><h4>🎮 实验一 · 看着直方图自己长出两个峰</h4>
+<p class="hint">环 \(N=40\),走子从传送门旁边出发,一趟一趟地跑;每趟结束把"用了多少步"记进直方图(横轴是对数的)。
+<b style="color:var(--green)">绿色</b> = 这趟是被传送门抓走的;<b style="color:#888">灰色</b> = 这趟是自己绕路走到出口的。
+按"开始",等几百趟之后看直方图的形状。然后把 β 拖大、拖小,再清零重跑,观察两个峰的<b>相对高度</b>怎么变。</p>
+<div class="rowflex">
+  <canvas id="ringCv" width="300" height="300"></canvas>
+  <canvas id="histCv" width="520" height="300"></canvas>
+</div>
+<button class="act" id="runBtn">开始 / 暂停</button>
+<button class="act" id="resetBtn">清零</button>
+<label style="margin-left:14px">传送强度 β:
+  <input type="range" id="betaSl" min="0" max="0.30" step="0.01" value="0.10">
+  <span id="betaVal" class="stat">0.10</span></label>
+<span id="tally" class="stat"></span>
+</div>
+
+<h3>2.2 你刚才看到的:两种剧本</h3>
+<p>从传送门旁出发的走子,一生只有两种结局:</p>
+<p><b>剧本 A(早)</b>:出生在传送门附近,晃悠几步就撞上 \(u\),被抓走。用时短,而且大家用时都差不多短
+——堆出一个<b>窄而早的峰</b>。</p>
+<p><b>剧本 B(晚)</b>:运气好,逃出了传送门的"势力范围",于是只能像普通随机游走一样绕大半个环、
+从另一侧摸到出口。用时长且参差——堆出一个<b>宽而晚的峰</b>。</p>
+<p>中间的<b>谷</b>是"不早不晚"的到达:要么已经被抓走了(没机会晚到),要么已经逃远了(没法早到)——
+两个剧本都不给中间时间供货。</p>
+
+<h3>2.3 峰的位置:两个时间尺度</h3>
+<p>随机游走的基本事实(数学分析够用):无偏随机游走走 \(t\) 步,典型位移是 \(\sqrt{t}\) 量级
+——反过来,<b>扩散到距离 \(d\) 处需要 \(t\sim d^2\) 步</b>。于是:</p>
+<div class="keybox"><span class="tag">量级估计</span>
+出发点离传送门 \(d\) 格 \(\Rightarrow\) 早峰位置 \(t_1\sim d^2/q\);<br>
+绕环到对面 \(\Rightarrow\) 晚峰位置 \(t_2\sim N^2/q\) 量级(实测约 \(0.1\,N^2/q\) 处)。
+</div>
+<p><b>用论文的实际数字验一遍</b>(\(N=100\),出发点在 \(u+4\),即 \(d=4\),\(q=2/3\)):
+\(t_1\sim 4^2/(2/3)=24\);而精确计算的首峰就在 \(t_1=24\)。晚峰 \(0.1\times100^2/(2/3)=1500\) 量级,
+精确值 \(t_2=1091\)。<b>相差 45 倍</b>——所以两个峰离得开,谷才挖得深。</p>
+<div class="keybox"><span class="tag">一句话版本(可以直接说给 Luca)</span>
+双峰 = <b>两个时间尺度差得足够远</b>:捕获尺度 \(\sim d^2\),绕环尺度 \(\sim N^2\)。
+\(d\ll N\) 时它们自动分离——双峰不需要精调,是几何送的。
+</div>
+
+<h3>2.4 β 拧到两头会怎样(第一次闻到"窗口"的味道)</h3>
+<p>你刚才拖 β 的时候应该看到了:</p>
+<p><b>β 太小</b> → 传送门基本不抓人,绿色峰饿死,只剩晚峰(单峰)。<br>
+<b>β 太大</b> → 几乎没人逃得出去,灰色峰饿死,只剩早峰(单峰)。<br>
+<b>中间一段</b> → 两个剧本都有足够客源,双峰。</p>
+<p>所以双峰只活在一个 <b>β 窗口</b>里。窗口的下边界(β 太小)好理解;但<b>上边界在哪、以什么方式关闭</b>
+——两个峰是"一个慢慢饿死",还是"谷和峰互相靠近、砰地合并"?这是全文最深的问题,第 6 章的鞍结分岔就是答案。</p>
+
+<div class="warn">直方图里的双峰不是"运气"或"噪声":重跑多少次它都在。但反过来,肉眼看着像双峰的曲线
+未必真是——论文里用了严格的分类判据(极大-极小-极大的序列 + 显著度阈值)。"像"和"是"的区别,审稿人很在意。</div>
+
+<h3>2.5 悬念:单调衰减的和,怎么长出峰?</h3>
+<p>现在把第 1 章的结论拿回来对质:\(F(t)=\sum_j B_j s_j^{t-1}\),每一项 \(s_j^{t-1}\) 都是<b>单调下降</b>的指数。
+一堆只会下降的东西加起来,凭什么先升后降、还升降两次?</p>
+<p>唯一的出路:<b>有些 \(B_j\) 是负的</b>。负权重的项把曲线的某些时间段"啃掉",啃出谷、也啃出峰。
+到底哪几项负责哪一段?——第 4、5 章把这笔账算得清清楚楚(这正是 Luca 要的 "which term contributes most")。</p>
+
+<div class="selftest"><h4>自测</h4>
+<ol>
+<li>把出发点从 \(u+4\) 挪到环的正对面(离 \(u\) 最远),双峰会发生什么?为什么?</li>
+<li>\(N\) 翻倍(100→200)、其他不变,早峰和晚峰的位置各怎么动?</li>
+<li>为什么谷里"没有客源"?用两种剧本各说一句。</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. 早峰大幅削弱甚至消失:从远处出发,"快速被抓"这个剧本基本不发生(要先扩散 \(\sim(N/2)^2\) 步才碰得到传送门,已经不早了)。双峰主要是"近门出发"的现象——这就是成稿 C.2 类初始条件的意义。<br>
+2. 早峰 \(t_1\sim d^2/q\) 不动(\(d\) 没变);晚峰 \(t_2\sim0.1N^2/q\) 变成 4 倍远。两峰分得更开,谷更深。<br>
+3. 剧本 A:想晚到?可你在门口晃得越久越可能被抓,活不到中间时间;剧本 B:想早到?可你得先绕过半个环,物理上来不及。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch2"></div>
+</section>
+
+<!-- ================= 第 3 章 ================= -->
+<section class="ch" id="ch3" data-title="第 3 章 · 精确解:把 s_j 和 B_j 全算出来">
+<h2>第 3 章 · 精确解:把 \(s_j\) 和 \(B_j\) 全算出来</h2>
+<p class="lede">第 2 章的直觉要变成定理,就得把 \(F(t)=\sum_j B_j s_j^{t-1}\) 里的每个数<b>精确</b>算出来。
+本章是全文技术含量最高的一站(对应成稿附录 A),但结构其实只有三步:先解无传送门的 \(P_0\),
+再用"秩一修正"公式接上传送门,最后收获特征值方程。推导细节都放在折叠块里——第一遍读,只需要跟住三步的骨架。</p>
+
+<div class="goal"><b>本章目标:</b>说得出三步骨架;知道 Chebyshev 多项式在哪一步、以什么身份出场。</div>
+
+<h3>3.1 第一步:无传送门的链,谱是现成的</h3>
+<p>\(P_0\) 是"两端漏的链"上的懒惰游走(1.2 节)。它的特征对有教科书级的封闭形式:</p>
+<div class="keybox"><span class="tag">自由谱(全部 \(N-1\) 个)</span>
+\[ s_k^{(0)}=1-q+q\cos\frac{k\pi}{N},\qquad
+\psi_k^{(0)}(i)=\sqrt{\tfrac2N}\,\sin\frac{k\pi i}{N},\qquad k=1,\dots,N-1 . \]
+</div>
+<details><summary>验证它(一行三角恒等式)</summary>
+把 \(\psi(i)=\sin(k\pi i/N)\) 代入 \((P_0\psi)(i)=(1-q)\psi(i)+\tfrac q2[\psi(i-1)+\psi(i+1)]\),
+用 \(\sin(x-h)+\sin(x+h)=2\cos h\sin x\) 得 \((P_0\psi)(i)=[1-q+q\cos(k\pi/N)]\psi(i)\)。
+边界不用特殊处理:\(\sin 0=0\) 和 \(\sin(k\pi)=0\) 自动满足"删掉 0 号"的条件——这正是选正弦的原因(Dirichlet 边界)。
+</details>
+<p>注意:特征值全落在区间 \((1-2q\sin^2\frac{\pi}{2N}\dots)\subset(-1,1)\) 内、按 \(k\) 单调排好;
+\(k\) 小 = 慢模(空间上是长波),\(k\) 大 = 快模(短波)。<b>\(k=1\) 的最慢模就是未来的"尾巴之王"。</b></p>
+
+<h3>3.2 第二步:加上传送门 = 秩一修正,有专用公式</h3>
+<p>\(P_\lambda=P_0-\lambda|u\rangle\langle u|\) 只改了一个矩阵元。线性代数里对"原矩阵 + 秩一扰动"有一把万能钥匙:</p>
+<div class="keybox"><span class="tag">矩阵行列式引理(matrix determinant lemma)</span>
+\[ \det\!\big(A-\lambda\,uu^{\mathsf T}\big)=\det(A)\,\big(1-\lambda\,u^{\mathsf T}A^{-1}u\big) . \]
+</div>
+<p>把 \(A=P_0-y I\)(求特征值就是让行列式为零)代进去:\(y\) 是 \(P_\lambda\) 的特征值,当且仅当</p>
+\[ \underbrace{\det(P_0-yI)}_{\text{给出旧谱 } s_k^{(0)}}\cdot\Big(1-\lambda\,\big\langle u\big|(P_0-yI)^{-1}\big|u\big\rangle\Big)=0 . \]
+<p>第二个因子是新东西。它说:<b>新特征值 \(s_j\) 由一个标量方程决定</b>,而这个方程只需要知道
+\((P_0-yI)^{-1}\) 的<b>一个对角元</b> \(\langle u|(P_0-yI)^{-1}|u\rangle\)(格林函数的 \((u,u)\) 元)。
+一个 \((N-1)^2\) 的矩阵问题,坍缩成一个数的方程——这就是秩一缺陷的全部便宜。</p>
+
+<h3>3.3 第三步:那个对角元有封闭公式 —— Chebyshev 出场</h3>
+<p>三对角矩阵的行列式满足<b>三项递推</b>(按最后一行展开,数学归纳法的标准练习):
+\(D_n(y)=(c-y)D_{n-1}(y)-\big(\tfrac q2\big)^2D_{n-2}(y)\),其中 \(c=1-q\)。
+而"由三项递推定义的多项式"正是<b>第二类 Chebyshev 多项式</b> \(U_n\) 的定义方式:</p>
+\[ U_0(x)=1,\quad U_1(x)=2x,\quad U_{n+1}(x)=2x\,U_n(x)-U_{n-1}(x) . \]
+<p>做变量替换 \(x=\dfrac{y-(1-q)}{q}\) 后,链的行列式和格林函数全部用 \(U_n(x)\) 表出。
+特别地,那个关键对角元是两段链的行列式之比(左边 \(u-1\) 格、右边 \(N-1-u\) 格拼起来):</p>
+<div class="keybox"><span class="tag">特征值方程(成稿 App. A 的核心,记号 \(D_u(y)\))</span>
+\[ 1-\lambda\,\frac{2}{q}\cdot\frac{U_{u-1}(x)\,U_{N-1-u}(x)}{U_{N-1}(x)}=0 ,
+\qquad x=\frac{y-(1-q)}{q} . \]
+解出的根就是全部 \(s_j\);把根代回秩一修正的特征向量公式,再做两个内积,就得到全部 \(B_j\)。
+<b>从此 \(F(t)\) 的每一个数字都是"可以打印出来"的封闭表达式。</b>
+</div>
+<details><summary>为什么 \(U_n\) 会"数格子"?——一个值得记住的直觉</summary>
+\(U_n(\cos\phi)=\dfrac{\sin\big((n{+}1)\phi\big)}{\sin\phi}\)。三对角链的特征问题本质是离散驻波,
+Chebyshev 就是"离散正弦"的多项式化身。所以链越长,\(U\) 的下标越大;传送门把链切成两段,
+公式里就出现 \(U_{u-1}\times U_{N-1-u}\) ——<b>左段驻波 × 右段驻波,在传送门处拼接</b>。
+这个"两段正弦拼接"的图像到第 7 章连续极限里会原样重现(变成 \(\sin(k\theta)\sin(k(1-\theta))\)),值回票价。
+</details>
+<details><summary>展开:从秩一公式到 \(B_j\)(第一遍可跳)</summary>
+秩一扰动的特征向量可写为 \(\psi_j\propto(P_0-s_jI)^{-1}|u\rangle\)(把特征方程 \((P_0-\lambda|u\rangle\langle u|)\psi=s\psi\)
+整理成 \((P_0-sI)\psi=\lambda\langle u|\psi\rangle\,|u\rangle\) 即得)。归一化因子由 \(\|\psi_j\|=1\) 定;
+再计算 \(B_j=\langle a|\psi_j\rangle\langle\psi_j|r\rangle\),其中 \(\langle i|(P_0-sI)^{-1}|u\rangle\) 同样有 Chebyshev 封闭式。
+成稿附录 A 把这些整理成了残数(留数)形式;数值上论文用 50 位精度的任意精度算术直接求根验证——
+注意这只是<b>运算精度</b>,不代表任何物理近似好到 50 位。
+</details>
+
+<h3>3.4 这一章买到了什么</h3>
+<p>三样货真价实的东西:<b>(i)</b> \(s_j,B_j\) 的封闭公式 → 第 4、5 章逐项拆账的原料;
+<b>(ii)</b> 特征值方程的"两段拼接"结构 → 第 7 章连续极限的模板;
+<b>(iii)</b> 一个心理保障:后面所有图里的每条曲线都不是模拟噪声,而是可以任意精度重算的精确解。</p>
+
+<div class="selftest"><h4>自测</h4>
+<ol>
+<li>三步骨架分别是什么?每步的输出是什么?</li>
+<li>矩阵行列式引理里,如果 \(\lambda=0\),方程退化成什么?这说明新旧谱是什么关系?</li>
+<li>为什么特征值方程里出现的是 \(U_{u-1}\) 和 \(U_{N-1-u}\) 两个下标?</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. ① 解自由链 \(P_0\) → 封闭谱 \(s_k^{(0)},\sin\) 波;② 秩一修正 → 单个标量方程决定新谱;③ Chebyshev 封闭化 → \(s_j,B_j\) 全部可打印。<br>
+2. 退化为 \(\det(P_0-yI)=0\),即旧谱本身;新谱是旧谱被标量方程"逐个推移"的结果(每两个旧特征值之间夹一个新的,交错定理)。<br>
+3. 传送门把链切成左右两段,长度分别为 \(u-1\) 和 \(N-1-u\);每段贡献自己的驻波行列式。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch3"></div>
+</section>
+
+<!-- ================= 第 4 章 ================= -->
+<section class="ch" id="ch4" data-title="第 4 章 · 负权重的魔法:指数和怎么长出峰">
+<h2>第 4 章 · 负权重的魔法:单调衰减的和怎么长出峰</h2>
+<p class="lede">第 2 章留下的悬念在这里揭开。先亲手用<b>两个</b>指数造出一个峰,再看真实系统里
+\(N-1\) 个模怎么分工。这一章之后,"signed spectral mixture(带符号谱混合)"就不再是黑话,而是你亲手玩过的东西。</p>
+
+<div class="goal"><b>本章目标:</b>亲手调出一个峰;能解释 \(B_j\lt0\) 为什么不违反概率非负。</div>
+
+<h3>4.1 亲手造峰:两项就够</h3>
+<div class="exp"><h4>🎮 实验二 · 双指数调音台</h4>
+<p class="hint">画的是 \(f(t)=B_1 s_1^{\,t-1}+B_2 s_2^{\,t-1}\)(红、蓝虚线是两个单项,黑实线是和)。
+初始参数下 \(B_2\lt0\):快模是<b>负</b>权重,它在早期把红项"啃掉",黑线于是先升后降——峰出现了。
+试试:① 把 \(B_2\) 拖到 0(峰消失,变纯衰减);② 把 \(B_2\) 拖到 \(+0.02\)(两个正项相加,依旧单调);
+③ 把 \(s_2\) 拖近 \(s_1\)(两项纠缠,峰变钝)。<b>结论:峰 = 负权重 × 时间尺度分离</b>。</p>
+<div>
+<label>\(B_2\) = <input type="range" id="tw_B2" min="-0.020" max="0.020" step="0.001" value="-0.018">
+<span id="tw_B2v" class="stat">−0.018</span></label>
+<label>\(s_2\) = <input type="range" id="tw_s2" min="0.80" max="0.978" step="0.002" value="0.90">
+<span id="tw_s2v" class="stat">0.900</span></label>
+<span class="stat">(固定 \(B_1=0.02,\ s_1=0.98\))</span>
+</div>
+<canvas id="twoExpCv" width="820" height="300"></canvas>
+</div>
+
+<h3>4.2 \(B_j\lt0\) 荒谬吗?</h3>
+<div class="warn">"权重是负的"不等于"概率是负的"。有物理意义、必须非负的是<b>总和</b> \(F(t)\);
+单项 \(B_j s_j^{t-1}\) 只是数学分解的一块碎片,就像傅里叶系数可以为负一样。
+分解方式是我们选的(按特征向量投影),自然不必逐项非负。</div>
+<p>什么时候 \(B_j=\langle a|\psi_j\rangle\langle\psi_j|r\rangle\) 为负?两个内积一正一负的时候。
+内积的符号由特征向量 \(\psi_j\) 在"死亡位置"(\(a\) 支撑的地方)和"出生位置"(\(r\))的<b>符号</b>决定
+——第 3 章说过 \(\psi_j\) 本质是驻波,有波峰有波谷。出生点落在波峰、死亡通道落在波谷,权重就翻负。
+<b>负权重是驻波几何送的,不是精调出来的。</b></p>
+
+<h3>4.3 β 拧大时,谱怎么动(为第 6 章埋一根线)</h3>
+<p>传送门变强,特征值会移动。摄动论一阶(把 \(-\lambda|u\rangle\langle u|\) 当小扰动,标准结论
+\(\Delta s_k\approx-\lambda|\psi_k^{(0)}(u)|^2\))给出一个干净的图像,而且论文在 C.2 几何
+(\(N\) 偶、\(u\) 在特殊位置)下逐字验证过:</p>
+<div class="keybox"><span class="tag">谱移(六月报告的"均匀谱移律")</span>
+奇数号模:\(\ \Delta s_k \approx -\dfrac{2\beta(1-q)}{N}\)(<b>与 \(k\) 无关的均匀下移</b>);<br>
+偶数号模:纹丝不动——因为它们的驻波在 \(u\) 处恰好是<b>节点</b>,\(\psi_k^{(0)}(u)=0\),传送门"摸不到"它们。
+更妙的是这些模的权重 \(B_k\) 也恰好为零(死亡通道两端反相 + 传送门在节点上),所以它们全程隐身。
+</div>
+<p>这根线第 6 章会收:双峰的死亡不是哪一个 \(s_j\) 出事,而是<b>整组 \((s_j,B_j)\) 随 β 连续变形</b>的过程中,
+曲线的谷和峰在某个精确的 β 值相遇。</p>
+
+<div class="selftest"><h4>自测</h4>
+<ol>
+<li>用调音台的语言:要造出<b>两个</b>峰(中间一个谷),最少需要几项、符号怎么排?(先猜,第 5 章有精确答案)</li>
+<li>为什么偶数号模"隐身"需要<b>两个</b>条件(谱不动 + 权重为零)?只有一个会怎样?</li>
+<li>\(\sum_j B_j\) 应该等于多少?(提示:算 \(F(1)\))</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. 猜三项左右、符号 +−+ 交替就对了——精确答案(第 5 章):第二峰段 3 项、谷段约 9 项、首峰段约 31 项。<br>
+2. 谱不动但权重非零 → 它仍然出现在曲线里(只是不随 β 变);权重为零才是真隐身。两个条件来源不同(节点位置 vs 通道反相),恰好在 C.2 几何同时成立。<br>
+3. \(F(1)=\langle a|r\rangle=\sum_j B_j\):出发点不在死亡位置时为 0(负权重的存在从这里已经可以看出:一堆项加出 0,必有负项);从 C.2 起点 \(r=u+d\)(\(d\ge2\))恰好 \(F(1)=0\)。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch4"></div>
+</section>
+
+<!-- ================= 第 5 章 ================= -->
+<section class="ch" id="ch5" data-title="第 5 章 · 逐项拆账:哪几项撑起哪一段">
+<h2>第 5 章 · 逐项拆账:哪几项撑起曲线的哪一段</h2>
+<p class="lede">Luca 在上次开会问的原话:"which term contributes most of the tail and the whole curve?"
+这一章就是答案本身——不是定性的,是逐项数出来的。</p>
+
+<div class="goal"><b>本章目标:</b>脱口说出四个数:尾巴 1 项、第二峰 3 项、谷约 9 项、首峰约 31 项;并能解释各自"为什么恰好这么多"。</div>
+
+<h3>5.1 开账本</h3>
+<div class="exp"><h4>🎮 实验三 · 部分和开关(真实精确解)</h4>
+<p class="hint">这是<b>真实系统</b>的精确解 \(F(t)=\sum_j B_j s_j^{\,t-1}\)(\(N=100,\ \beta=0.01\),C.2 起点 \(u+4\)),
+不是示意图。勾选不同的部分和 \(\sum_{j\le k}\),看每加一层"补"出曲线的哪一段。
+顺序建议:只开 mode 1 → 加到 1–3 → 1–9 → 1–31 → 对照全曲线。</p>
+<div>
+  <label><input type="checkbox" id="mFull" checked> 全曲线</label>
+  <label><input type="checkbox" id="m1"> mode 1</label>
+  <label><input type="checkbox" id="m3"> modes 1–3</label>
+  <label><input type="checkbox" id="m9"> modes 1–9</label>
+  <label><input type="checkbox" id="m31"> modes 1–31</label>
+</div>
+<canvas id="modeCv" width="820" height="340"></canvas>
+</div>
+
+<h3>5.2 账目清单(论文的核心归因结果)</h3>
+<div class="keybox"><span class="tag">给 Luca 的正式答案</span>
+<b>尾巴</b>:mode 1 一项,占比 100%——最慢模独裁(第 0 章 0.3 节的一般原理)。<br>
+<b>第二峰</b>:3 个模就完整;其中 mode 1 单独贡献 <b>115%</b>——超冲了,mode 3 的<b>负</b>权重把多出来的 15% 削掉,才有峰形。<br>
+<b>谷</b>:约 9 个模(其中偶数模隐身,真正干活的 5 个)。<br>
+<b>首峰</b>:约 31 个模(干活的 17 个)——这是一个<b>波包</b>:早期的窄峰在"频域"里必然宽(许多驻波叠加才能定位出"刚出生在门口"这件事)。
+</div>
+<p>注意读法上的一个反直觉:"mode 1 贡献 115%"意味着<b>不能</b>说"第二峰就是 mode 1"——
+单独画 mode 1 在第二峰处比真实曲线还<b>高</b>。第二峰的"形状"本质上是 1、3 两个模的<b>带符号抵消</b>雕出来的。
+这就是全文反复出现的 signed spectral mixture:</p>
+<p><b>曲线的每一段 = 少数几个模的签名合谋;越晚的时间段,需要的合谋者越少。</b></p>
+
+<h3>5.3 为什么"越晚越少"?</h3>
+<p>模 \(j\) 的寿命由 \(s_j\) 决定:\(s_j^{t}\) 在 \(t\gtrsim1/(1-s_j)\) 后就死了。快模(大 \(j\))寿命短,
+只够参与首峰;到谷的时间只剩慢的几个;到第二峰只剩 1、3;到尾巴只剩王者 mode 1。
+<b>时间轴本身是一台筛子</b>——这个图像值得记住,它把四个数字(1/3/9/31)统一成一句话。</p>
+
+<div class="luca">上次开会说好的三张图,对应关系:图 2(\(s_k\) vs β)= 第 4 章的谱移;图 3(解析 \(\rho_i\) vs β)= 本章的 \(B_j\);
+图 4(部分和)= 上面的实验三。所以汇报顺序可以完全照本教程的章节走:先给直觉(第 2 章),再给账本(本章)。</div>
+
+<div class="selftest"><h4>自测</h4>
+<ol>
+<li>"mode 1 占第二峰的 115%" —— 这句话里 115% 是怎么定义的?(部分和在峰位置的值 ÷ 全和在峰位置的值)它为什么可以超过 100%?</li>
+<li>如果把起点从 \(u+4\) 改到 \(u+10\),首峰需要的模数是变多还是变少?为什么?(提示:波包要定位的距离变了,峰也变宽了)</li>
+<li>尾巴的斜率(半对数图上)由哪个数唯一决定?</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. 定义就是括号里那个比值;因为后续模有负贡献,部分和可以超过全和——"贡献"是带符号的。<br>
+2. 变少:峰更晚、更宽,定位精度要求更低,需要的驻波项更少(不确定性原理的离散版直觉)。<br>
+3. \(s_1\)(最大特征值):斜率 = \(\ln s_1\)。这也是为什么"尾巴 = mode 1"是严格意义上的 100%。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch5"></div>
+</section>
+
+<!-- ================= 第 6 章 ================= -->
+<section class="ch" id="ch6" data-title="第 6 章 · 双峰的生与死:鞍结分岔(全文心脏)">
+<h2>第 6 章 · 双峰的生与死:鞍结分岔(全文心脏)</h2>
+<p class="lede">第 2 章问过:β 拧大,双峰以什么方式死?本章给出精确答案——<b>谷和第二峰相向而行,
+在一个临界强度处相遇、互相湮灭</b>。这类事件在数学上叫鞍结分岔(saddle-node / fold),
+是全文最重要的定理级结论,也是审稿人眼里"这篇文章有普适内容"的地方。</p>
+
+<div class="goal"><b>本章目标:</b>玩会实验四;能写出判据 \(S_1=S_2=0\);能解释 \(\tfrac12\) 和 \(\tfrac32\) 两个指数是抛物线送的。</div>
+
+<h3>6.1 什么是鞍结分岔(先用数学分析的语言)</h3>
+<p>一条光滑曲线的极小值和极大值,分别满足 \(f'=0,f''\gt0\) 和 \(f'=0,f''\lt0\)。
+让曲线随参数 \(b\) 连续变形:谷和峰要消失,不能"各自蒸发"(极值点是 \(f'\) 的零点,零点不能凭空消失,
+只能<b>成对合并</b>)。合并的瞬间,两个 \(f'\) 的零点撞在一起——那一点上:</p>
+<div class="keybox"><span class="tag">fold 判据</span>
+\[ f'(t_*)=0 \quad\text{且}\quad f''(t_*)=0 . \]
+标准模型:\(f'(t)\approx -(t-t_*)^2-\varepsilon(b)\)。\(\varepsilon\lt0\) 时两个零点(谷+峰),
+\(\varepsilon=0\) 相切,\(\varepsilon\gt0\) 无零点(极值对消失)。一切光滑单参数的极值对湮灭,局部都长这样——所以叫"普适"。
+</div>
+<p>论文在对数坐标里工作(分布横跨几个量级),定义 \(S_n = \) \(\ln F\) 对 \(\ln t\) 的 \(n\) 阶导数,判据写成
+<b>\(S_1=S_2=0\)</b>——形式一样,只是换了坐标。</p>
+
+<h3>6.2 亲手滑过分岔点</h3>
+<div class="exp"><h4>🎮 实验四 · 拖着 b 穿过 \(b_c\)</h4>
+<p class="hint">画的是连续极限主曲线 \(\Phi(\tau;b)\)(第 7 章会解释它从哪来;现在只需知道:\(b\) 是传送强度的
+"标度化"版本,曲线是精确计算)。拖动 \(b\):谷–峰对越来越浅、越靠越近,在
+<b>\(b_c=3.0764\)</b> 处相遇消失。按"放大"聚焦决斗现场。灰色幽灵线是其他 \(b\) 值的曲线,给你参照。</p>
+<label>b = <input type="range" id="bSl" min="0" max="9" step="1" value="0">
+  <span id="bVal" class="big">2.0</span></label>
+<button class="act" id="zoomBtn">放大 fold 区</button>
+<canvas id="foldCv" width="820" height="360"></canvas>
+</div>
+
+<h3>6.3 分岔点附近的定量律:两个指数是抛物线送的</h3>
+<p>既然局部就是标准模型 \(S_1\approx -c\,(x-x_*)^2-\varepsilon\)(\(x=\ln\tau\)),初等积分就给出临界行为:</p>
+<div class="keybox"><span class="tag">fold 标度律(成稿 Sec. III)</span>
+谷峰间距:\(\ \Delta x \propto (b_c-b)^{1/2}\);<br>
+谷峰深度差:\(\ \Delta\Phi=\displaystyle\int_{\text{谷}}^{\text{峰}} S_1\,dx \propto (b_c-b)^{3/2}\)。
+</div>
+<details><summary>两行推出 \(\tfrac12\) 和 \(\tfrac32\)</summary>
+\(S_1=0\) 的两根:\(x_\pm=x_*\pm\sqrt{\varepsilon'/c}\),其中 \(\varepsilon'\propto(b_c-b)\)
+(参数依赖一般是横截的,即一阶不为零)。间距 \(\propto\sqrt{b_c-b}\)。
+深度差 = 对 \(S_1\)(一个高 \(\propto\varepsilon'\)、宽 \(\propto\sqrt{\varepsilon'}\) 的抛物线帽)积分
+\(\propto \varepsilon'^{3/2}\)。<b>不依赖模型细节</b>——这就是"普适指数"的含义。
+论文额外给出了这两条律的<b>解析前置系数</b>(由 fold 点的三阶导 \(S_3\) 定):
+\(\Delta x=2\sqrt{2S_{1b}/S_3}\),\(\Delta\Phi=\tfrac{4\sqrt2}{3}S_{1b}^{3/2}S_3^{-1/2}\),数值 0.0248 与 0.357——所以理论不止说"指数对",连系数都钉死了。
+</details>
+
+<h3>6.4 这为什么是"可测量"的预言</h3>
+<p>\((b_c-b)^{3/2}\) 意味着靠近临界点时谷变得<b>极浅</b>——实验/模拟要分辨"还有没有谷"需要足够样本。
+论文把这句话变成了硬数字:按深度律换算,\(4\times10^4\) 次独立到达可把 \(b_c\) 定到 \(\pm0.25\),
+\(2\times10^5\) 次到 \(\pm0.1\)。<b>这一段是写给做实验/模拟的读者的"购物清单"</b>,也是审稿人爱看的落地感。</p>
+
+<div class="warn">别把"第二峰消失"说成"某个模消失"。所有 \(s_j,B_j\) 在 \(b_c\) 处都<b>光滑无事</b>;
+死掉的是它们的<b>和</b>的几何特征。分岔发生在"曲线形状"这一层,不在"谱"这一层——这是本文与
+"谱塌缩/例外点"故事的本质区别(第 8 章还会回来)。</div>
+
+<div class="selftest"><h4>自测</h4>
+<ol>
+<li>为什么极值只能"成对合并"而不能单个消失?(用 \(S_1\) 的零点说)</li>
+<li>fold 处 \(S_1=S_2=0\),那 \(S_3\) 扮演什么角色?如果 \(S_3\) 也是 0 会怎样?</li>
+<li>在实验四里,\(b\gt b_c\) 后曲线在原谷峰位置还留有什么痕迹?(拖到 3.2 仔细看)</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. 极值 = \(S_1\) 的零点;连续变形下零点个数的奇偶性只能通过"相切再分离/合并"改变,单个零点消失违反介值定理。<br>
+2. \(S_3\) 是标准模型里抛物线的"曲率",决定两条标度律的系数;若 \(S_3=0\) 则是更高阶的退化分岔(需要 \(S_4\)),泛型参数扫描碰不到(余维数太高)。<br>
+3. 一个"肩膀"(shoulder):拐点残迹。论文分类判据严格区分 double peak / shoulder / local bump,正是为了不把肩膀误报成峰。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch6"></div>
+</section>
+
+<!-- ================= 第 7 章 ================= -->
+<section class="ch" id="ch7" data-title="第 7 章 · 连续极限与相图:b、θ、τ 和那两个常数">
+<h2>第 7 章 · 连续极限与相图:\(b,\ \theta,\ \tau\) 和那两个常数</h2>
+<p class="lede">前六章一直在一个具体的格子(某个 \(N\)、某个 \(u\))上说话。本章把 \(N\to\infty\) 的极限做出来:
+所有格子共享<b>一张</b>相图,坐标只剩两个纯数 \((\theta, b)\)。实验四里那条 \(\Phi(\tau;b)\) 曲线、
+以及常数 3.0764,都在这一章获得身份。</p>
+
+<div class="goal"><b>本章目标:</b>知道四个标度变量各自"吸收"了什么;能读懂相边界 \(b_c(\theta)\) 这张图。</div>
+
+<h3>7.1 正确的放大镜:扩散标度</h3>
+<p>格子越来越密时,什么组合保持有限?随机游走 \(t\) 步走 \(\sqrt t\) 格(第 2 章),所以空间缩 \(N\) 倍、
+时间要缩 \(N^2\) 倍——这是数学分析里热方程出现的标准方式:</p>
+<div class="keybox"><span class="tag">四个无量纲变量(成稿 Sec. II 末)</span>
+\[ x=\frac iN\in(0,1),\qquad \theta=\frac uN,\qquad \xi=\frac rN,\qquad \tau=\frac{q\,t}{N^2}, \qquad
+\boxed{\,b=\frac{\lambda N}{q}\,}. \]
+前四个是"位置与时钟"的改单位;只有 \(b\) 有内容:<b>传送强度必须以 \(1/N\) 的速率变弱</b>(\(\lambda\sim qb/N\)),
+连续极限里才留下有限的竞争。为什么?走子路过门口的一次"逗留"约 \(O(N)\) 步(扩散往返),
+每步被抓概率 \(\lambda\):\(\lambda N\sim\) 每次路过被抓的总概率。\(\lambda\) 不衰减 \(\Rightarrow\) 门无穷强(路过必死);
+衰减快于 \(1/N\) \(\Rightarrow\) 门消失。<b>\(b\) 就是"每次路过的危险程度"。</b>(成稿称 weak-per-visit regime。)
+</div>
+<p>在这套变量下,概率密度 \(p(x,\tau)\) 满足带"局部漏点"的热方程(成稿 Sec. II):</p>
+\[ \partial_\tau p=\tfrac12\,\partial_x^2 p\;-\;b\,\delta(x-\theta)\,p ,
+\qquad p(0,\tau)=p(1,\tau)=0 . \]
+<p>读法:自由扩散 + 在 \(x=\theta\) 处按局部密度的 \(b\) 倍速率"抽走"概率;两端 Dirichlet 零边界 = 出口。
+到达时间密度 \(\Phi(\tau)\) 就是这套方程的"死亡率曲线"——实验四画的正是它。</p>
+
+<h3>7.2 特征值方程:第 3 章的"两段拼接"原样重现</h3>
+<p>分离变量 \(p=e^{-\frac{k^2}{2}\tau}\phi_k(x)\):\(\phi_k\) 在 \((0,\theta)\) 和 \((\theta,1)\) 上都是正弦,
+在 \(\theta\) 处连续、导数跳变 \(2b\phi_k(\theta)\)(把 δ 项跨过去积分)。拼接条件给出:</p>
+<div class="keybox"><span class="tag">连续极限的谱条件(对照第 3 章 Chebyshev 方程)</span>
+\[ D(k;b)=k\,\sin k+2b\,\sin(k\theta)\,\sin\!\big(k(1-\theta)\big)=0 . \]
+和第 3 章逐项对照:\(U_{N-1}\to\sin k\)(整链驻波),\(U_{u-1}U_{N-1-u}\to\sin(k\theta)\sin(k(1-\theta))\)
+(左右两段驻波)。<b>离散公式的骨架在极限下一根不少</b>——这也是对第 3 章代数的一次独立体检。
+</div>
+
+<h3>7.3 相图:\(b_c(\theta)\) 一条曲线管所有格子</h3>
+<p>对每个门位置 \(\theta\),让 \(b\) 从 0 拧大,双峰在某处死于 fold(第 6 章)。死亡线就是相边界:</p>
+<div class="keybox"><span class="tag">数字身份卡(全文的"物理常数")</span>
+对径几何(\(\theta=\xi=\tfrac12\)):\(\ b_c=3.0764323604\),fold 时刻 \(\tau_c=0.0383630519\)。<br>
+最脆弱的门位置:\(\theta\approx0.381\),那里 \(b_c\approx2.165\)(最低的死亡门槛)。<br>
+门贴近出口 \(\theta\to0\) 的端点行为由一个显式可解的<b>半直线极限</b>问题钉死,端点常数 \(B^{*}=0.7890262\)(成稿 App. D)。<br>
+有限 \(N\) 的修正:\(b_{c,N}-b_c\propto N^{-2.08}\)(实测),即基本上 \(O(N^{-2})\)——\(N=100\) 时相图已经准到千分位。
+</div>
+<p>这张相图为什么值钱:任何人拿任何 \(N\)、任何门位置的懒惰环(甚至第 8 章的 2D 版本、反应扩散版本),
+只要算出自己的 \((\theta,b)\),就能<b>查表</b>预言双峰存亡。三个常数(3.076 / 2.165 / 0.789)是这张表的三根桩。</p>
+
+<details><summary>展开:\(b_c\) 是怎么算到 10 位的(以及"精度"的诚实说法)</summary>
+在 \((b,\tau)\) 平面上解联立方程 \(S_1(\tau;b)=0,\ S_2(\tau;b)=0\)(第 6 章判据),
+其中 \(\Phi\) 用谱条件的根做模和,全程任意精度算术,牛顿迭代收敛到 10 位以上。
+<b>诚实说法</b>:10 位是"这个连续极限模型内部"的算术精度;它对真实格子的预言精度由 \(N^{-2.08}\) 修正决定。
+"算得准"和"模型准"是两句话——写论文、答审稿都要分开说。
+</details>
+
+<div class="selftest"><h4>自测</h4>
+<ol>
+<li>四个变量 \(x,\tau,b,\theta\) 里,哪个的定义里藏着物理内容而不只是改单位?内容是什么?</li>
+<li>\(\theta=1/2\) 时 \(\sin(k\theta)\sin(k(1-\theta))=\sin^2(k/2)\ge0\)。由此说明:偶数 \(\pi\) 附近的根为什么不被 \(b\) 移动?(对照第 4 章偶模冻结)</li>
+<li>为什么 \(N^{-2}\) 量级的有限尺寸修正"理所应当"?(提示:连续化丢掉的最低阶项是什么)</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. \(b=\lambda N/q\):要求传送强度按 \(1/N\) 变弱(weak-per-visit),\(b\) = 每次路过门口的总被抓概率——这是物理选择,不是单位换算。<br>
+2. \(k=2m\pi\) 时 \(\sin^2(k/2)=0\),\(D(k;b)=k\sin k\) 与 \(b\) 无关:这些根是被冻结的偶模在连续极限里的化身。<br>
+3. 离散拉普拉斯 = 连续二阶导 + \(O(N^{-2})\) 截断误差(Taylor 展开下一项),所以一切格点量对连续极限的偏差天然从 \(N^{-2}\) 起跳;实测指数 2.08 与之相符。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch7"></div>
+</section>
+
+<!-- ================= 第 8 章 ================= -->
+<section class="ch" id="ch8" data-title="第 8 章 · 全景:什么是已知的、什么是你的">
+<h2>第 8 章 · 全景:什么是已知的、什么是你的</h2>
+<p class="lede">最后一章不学新数学,做三件事:把你的贡献放进文献地图(答"审稿人为什么要收")、
+把 Luca 的语言和你的语言对上(答"和导师怎么对话")、把六月的窗口定律接进主线(答"我做过的其他东西去哪了")。</p>
+
+<div class="goal"><b>本章目标:</b>能各用一分钟完成三场对话:对审稿人、对 Luca、对好奇的同学。</div>
+
+<h3>8.1 文献地图:三句"已知" + 四句"新"</h3>
+<p><b>已知(不抢别人的功)</b>:① 首达时间分布可以有多峰,文献里见过(直达 vs 绕行的竞争);
+② 平均首达时间在有捷径/重置系统里的优化,研究很多;③ 重置(resetting)系统的相变故事很成熟。</p>
+<p><b>新(你的四根旗杆,对应成稿 Sec. I 的 contributions)</b>:</p>
+<div class="keybox"><span class="tag">被审稿人问"novelty"时的答案</span>
+① 双峰的<b>消失机制</b>被精确鉴定为 log–log 曲线形状的<b>鞍结分岔</b>(判据 \(S_1=S_2=0\)),
+并给出普适指数 \(\tfrac12,\tfrac32\) <b>连同解析系数</b>;<br>
+② 完整的<b>相图</b> \(b_c(\theta)\) 与三个钉死的常数(3.0764 / 2.165 / 0.789),外加 \(N^{-2}\) 收敛率;<br>
+③ <b>逐模归因</b>:尾=1 模、第二峰=3 模(mode 1 超冲 115%)、谷≈9、首峰≈31——"哪个 term 贡献哪一段"第一次有了带符号的精确账本;<br>
+④ 机制澄清:方向性只进吸收通道,谱全程实、光滑——双峰死亡<b>不是</b>谱塌缩/非厄米效应,是形状层面的分岔。
+</div>
+
+<h3>8.2 和 Luca 的字典(他问起时不慌)</h3>
+<p>Luca 的手稿走的是<b>生成函数</b>路线(第 0 章 0.5 节埋的伏笔,现在收):</p>
+\[ \tilde F_r(z)=\sum_{t\ge1}F(t)\,z^t=z\,\langle a|(I-zP_\lambda)^{-1}|r\rangle . \]
+<p>这是 \(z\) 的有理函数:<b>极点</b>在 \(z_j=1/s_j\),<b>留数</b>给出 \(B_j\)。所以两条路线是同一枚硬币:
+他从生成函数的部分分式读出指数和,我们从谱分解直接写出指数和。对照表:</p>
+<table class="sym">
+<tr><th>Luca 的记号</th><th>本教程 / 成稿</th><th>注意</th></tr>
+<tr><td>\(\alpha_l\)(自由谱)</td><td>\(\beta=0\) 的谱</td><td><b>陷阱</b>:他的自由谱在<b>环</b>上(周期边界),我们删掉出口后的 \(P_0\) 是<b>链</b>(Dirichlet)。两套"自由谱"不同,这是 sum rule 里两套下标并存的原因。</td></tr>
+<tr><td>\(s_j\)(极点)</td><td>\(P_\lambda\) 的特征值 \(s_j\)</td><td>一致。</td></tr>
+<tr><td>\(c_j\)(留数)</td><td>权重 \(B_j\)</td><td>差一个约定俗成的归一化。</td></tr>
+</table>
+<p>六月那场 \(t\alpha^t\) 之争,你用 50 位数值赢下的求和规则
+\(\sum_j c_j/(s_j-\alpha_l)=h_0\),就是上面这个部分分式结构的恒等式——它属于 Luca 的路线内部,
+和本文的谱路线相容而独立。</p>
+
+<h3>8.3 把六月的窗口定律接进主线</h3>
+<p>六月报告(格点扫描)找到的经验定律,在本教程语言里各就各位:</p>
+<table class="sym">
+<tr><th>六月定律</th><th>本教程位置</th></tr>
+<tr><td>下边界 \(\beta_{\rm lo}N^2=A(d)\)(如 \(A(4)=12.17\))</td><td>第 2 章"β 太小,绿色峰饿死":捕获通道要在绕环时标 \(N^2\) 内攒出可见质量 ⇒ \(\beta N^2\) 是对的组合。</td></tr>
+<tr><td>上边界坪区 \(\beta N=3.1475\)(分类器判据下)</td><td>第 6、7 章:fold 发生在 \(b=\lambda N/q=\beta N(1-q)/q\) 为常数处 ⇒ \(\beta N\) 是对的组合。数值 3.15(分类器窗)与 6.15(fold 窗)不同是因为<b>判据不同</b>(分类器带显著度阈值,先于 fold 触发)——两套窗口的映射在六月报告 §3b 已闭合。</td></tr>
+<tr><td>偶模冻结 + 奇模均匀移 \(-2\beta(1-q)/N\)</td><td>第 4 章 4.3 节;连续版即第 7 章自测第 2 题。</td></tr>
+</table>
+
+<h3>8.4 物理翻译(论文 Sec. VI 在说什么)</h3>
+<p>把抽象模型穿上衣服:一维通道里的扩散粒子(长度 \(L\)、扩散系数 \(D\)),在位置 \(\theta L\) 处有一个
+局部捕获点(反应速率 \(\kappa\)、俘获截面 \(\ell\))。字典:\(\tau=2Dt/L^2\),\(b=\kappa\ell L/(2D)\)。
+预言:捕获强度低于 \(\kappa_c\approx4.3\,D/(\ell L)\) 时,到达时间统计呈双峰,且随 \(\kappa\) 增强按
+\(\tfrac32\) 律退化直至 fold。<b>2D 版本也验过</b>:方格版扫描给出同样的 fold 情节,临界值 \(\beta_c\approx0.68\) 量级
+(成稿 Sec. V)——机制不挑维度。</p>
+
+<h3>8.5 三场一分钟对话(照着说)</h3>
+<div class="keybox"><span class="tag">对好奇的同学</span>
+"粒子找出口,门口有个单向捕获点。到达时间分布有两个峰——早到的是被抓走的,晚到的是绕路的。
+把捕获拧强,谷和第二个峰互相靠近、砰地合并消失。我们证明了这个'砰'是一个鞍结分岔,
+算出了它发生的精确位置和靠近它时的普适规律。"
+</div>
+<div class="keybox"><span class="tag">对 Luca</span>
+"你要的归因做完了:尾巴 100% 是最慢模;第二峰只要 3 个模,其中 mode 1 超冲到 115%、
+被 mode 3 的负权重削回;首峰是 ~31 模的波包。你的 \(c_j\) 就是我的 \(B_j\)(部分分式 ↔ 谱分解),
+你手稿的生成函数路线和这套账完全相容。下一步我想把 fold 相图那章给你过一遍。"
+</div>
+<div class="keybox"><span class="tag">对审稿人</span>
+"Multimodal first-passage distributions are known; what was missing is the <i>fate</i> of the second peak.
+We identify its disappearance as a saddle-node bifurcation of the log–log profile, give the full phase
+boundary with pinned constants, universal \((1/2,3/2)\) exponents with analytic prefactors, and a signed
+mode-by-mode attribution of every feature of the curve."
+</div>
+
+<div class="selftest"><h4>结业自测(全书)</h4>
+<ol>
+<li>从 \(F(t)=\langle a|P_\lambda^{t-1}|r\rangle\) 出发,不看书,重建到 \(S_1=S_2=0\) 的完整逻辑链(每章一句话)。</li>
+<li>审稿人:"你们的双峰消失是不是特征值合并(exceptional point)?"——两句话反驳,指出证据。</li>
+<li>Luca:"为什么你的 \(b_c\) 是 3.08,六月扫描的上边界是 \(\beta N\approx3.15\)?"——先指出这是两个不同判据下的数,再说出换算关系里差在哪。(小心:这是容易翻车的问题)</li>
+</ol>
+<details class="ans"><summary>参考答案</summary>
+1. 模型给 \(P_\lambda,a\)(1)→ 两剧本两时标(2)→ 谱与权重封闭解(3)→ 负权重造峰(4)→ 逐段归因(5)→ 谷峰湮灭 = fold(6)→ 标度化相图与常数(7)。<br>
+2. 不是:谱全程实、单重、随 β 光滑(有精确公式为证);消失的是曲线形状的极值对,判据 \(S_1=S_2=0\) 作用在 \(\ln F\) 上而非谱上。<br>
+3. 判据不同:fold 是数学上的极值对合并(对应 \(\beta N(1-q)/q=b_c\approx3.08\),即 \(\beta N\approx6.15\));六月的 3.15 是<b>分类器</b>(带显著度阈值)判"还算不算双峰"的更早关窗。分类器窗 ⊂ fold 窗;两者换算已在六月报告 §3b 闭合。若把 3.15 和 3.08 直接对等,就是把两个判据混为一谈——这正是当初审计揪出来的坑。
+</details>
+</div>
+<div class="qa-anchor" id="qa-ch8"></div>
+</section>
+
+<!-- ================= 附录 ================= -->
+<section class="ch" id="appx" data-title="附录 · 符号总表 & 使用说明">
+<h2>附录 · 符号总表 &amp; 使用说明</h2>
+<p class="lede">忘了哪个符号,回这里查。"首次出现"列告诉你去哪一章找完整解释。</p>
+<table class="sym">
+<tr><th>符号</th><th>读法 / 类型</th><th>一句话含义</th><th>首次出现</th></tr>
+<tr><td>\(N\)</td><td>整数</td><td>环上的格点数</td><td>第 1 章</td></tr>
+<tr><td>\(q\)</td><td>数,全文 \(=2/3\)</td><td>每步"动"的总概率(左右各 \(q/2\))</td><td>第 1 章</td></tr>
+<tr><td>\(u,\ r\)</td><td>格点编号</td><td>传送门位置;出发位置</td><td>第 1 章</td></tr>
+<tr><td>\(\lambda=\beta(1-q)\)</td><td>数</td><td>每步被传送的概率;\(\beta\) 是它占"发呆概率"的比例</td><td>第 1 章</td></tr>
+<tr><td>\(P_0,\ P_\lambda\)</td><td>\((N-1)^2\) 对称矩阵</td><td>删掉出口后的转移矩阵(无门 / 有门)</td><td>第 1 章</td></tr>
+<tr><td>\(a\)</td><td>向量</td><td>吸收向量:各位置的每步死亡概率(扩散 + 捷径两部分)</td><td>第 1 章</td></tr>
+<tr><td>\(F(t)\)</td><td>数列(分布)</td><td>恰在第 \(t\) 步到达的概率 \(=\langle a|P_\lambda^{t-1}|r\rangle\)</td><td>第 1 章</td></tr>
+<tr><td>\(s_j,\ \psi_j\)</td><td>特征值 / 特征向量</td><td>第 \(j\) 个模的衰减率与驻波形状</td><td>第 1、3 章</td></tr>
+<tr><td>\(B_j\)</td><td>数(可负!)</td><td>模 \(j\) 的带符号权重 \(=\langle a|\psi_j\rangle\langle\psi_j|r\rangle\)</td><td>第 1、4 章</td></tr>
+<tr><td>\(U_n(x)\)</td><td>多项式</td><td>第二类 Chebyshev:三对角行列式的化身("离散正弦")</td><td>第 3 章</td></tr>
+<tr><td>\(x,\theta,\xi,\tau\)</td><td>无量纲变量</td><td>位置 \(i/N\)、门位 \(u/N\)、起点 \(r/N\)、时间 \(qt/N^2\)</td><td>第 7 章</td></tr>
+<tr><td>\(b=\lambda N/q\)</td><td>无量纲强度</td><td>每次路过门口的总被抓概率;相图的横轴</td><td>第 7 章</td></tr>
+<tr><td>\(\Phi(\tau;b)\)</td><td>函数</td><td>连续极限的到达时间密度(实验四那条曲线)</td><td>第 6、7 章</td></tr>
+<tr><td>\(S_n\)</td><td>函数</td><td>\(\ln\Phi\) 对 \(\ln\tau\) 的 \(n\) 阶导;\(S_1=S_2=0\) 即 fold</td><td>第 6 章</td></tr>
+<tr><td>\(b_c(\theta)\)</td><td>函数(相边界)</td><td>双峰死亡线;\(b_c(\tfrac12)=3.0764\),最低点 \(\approx2.165\)(\(\theta\approx0.381\))</td><td>第 6、7 章</td></tr>
+<tr><td>\(\tilde F(z),\ \alpha_l,\ c_j\)</td><td>Luca 的语言</td><td>生成函数;环上自由谱;留数(≈ 我们的 \(B_j\))</td><td>第 8 章</td></tr>
+</table>
+
+<h3>这份教程怎么继续长</h3>
+<p>你在聊天里问任何问题 → 回答会被写进对应章节末尾的紫色<b>追问区</b>(标日期),然后这页刷新就能看到。
+所有数字都以仓库 <code>artifacts/</code> 的计算工件为准;交互数据由
+<code>code/dpma_tutorial_demo_data.py</code> 再生。进度(章节完成勾)存在浏览器本地,清缓存会丢,但书不会丢。</p>
+<p>学完想验收:把第 8 章"三场一分钟对话"各讲一遍给我听,我来当审稿人。</p>
+<div class="qa-anchor" id="qa-appx"></div>
+</section>
+
+
+</main>
+</div>
+<script src="dpma_demo_data.js"></script>
+<script src="dpma_course.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  renderMathInElement(document.body, {
+    delimiters: [ {left: "\\[", right: "\\]", display: true},
+                  {left: "\\(", right: "\\)", display: false} ],
+    throwOnError: false
+  });
+});
+</script>
+</body>
+</html>

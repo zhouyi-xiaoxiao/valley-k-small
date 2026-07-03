@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>DPMA 直觉实验室</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", sans-serif; max-width: 980px;
+         margin: 24px auto; padding: 0 16px; color: #222; background: #fafafa; }
+  h1 { font-size: 22px; } h2 { font-size: 17px; margin-top: 34px; border-left: 4px solid #4a7dbd;
+       padding-left: 8px; }
+  .note { color: #555; font-size: 13px; line-height: 1.6; }
+  canvas { background: #fff; border: 1px solid #ddd; border-radius: 6px; display: block;
+           margin: 10px 0; max-width: 100%; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  button { padding: 5px 14px; border: 1px solid #4a7dbd; background: #fff; color: #29517f;
+           border-radius: 5px; cursor: pointer; font-size: 13px; }
+  button:hover { background: #eaf1fa; }
+  label { font-size: 13px; margin-right: 12px; user-select: none; }
+  input[type=range] { width: 340px; vertical-align: middle; }
+  .big { font-size: 15px; font-weight: 600; }
+  .stat { font-size: 13px; color: #333; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>DPMA 直觉实验室</h1>
+<p class="note">配套《DPMA 学习书》(同目录 <code>build_book/dpma_study_book.pdf</code>)。
+严谨数学在书里;这里只做一件事:<b>让概念动起来</b>。三个实验分别对应书的第 2、4–5、6 站。</p>
+
+<h2>实验 一 · 两种剧本(第 2 站):看着到达时间分布长出两个峰</h2>
+<p class="note">环 N=40,红点 = 出口(吸收),绿点 = 传送门(强度 λ),蓝点从传送门旁出发。
+每个走子要么在传送门被抓走(<span style="color:#2a8a2a">绿色计入</span>),要么绕路正常到达
+(<span style="color:#888">灰色计入</span>)。右图:到达步数的直方图实时累积——看它自己长出两个峰。</p>
+<div class="row">
+  <canvas id="ringCv" width="300" height="300"></canvas>
+  <canvas id="histCv" width="560" height="300"></canvas>
+</div>
+<button id="runBtn">开始 / 暂停</button>
+<button id="resetBtn">清零</button>
+<label style="margin-left:14px">传送强度 β:
+  <input type="range" id="betaSl" min="0" max="0.30" step="0.01" value="0.10">
+  <span id="betaVal" class="stat">0.10</span></label>
+<span id="tally" class="stat"></span>
+
+<h2>实验 二 · 哪些模搭出曲线(第 4–5 站):部分和开关</h2>
+<p class="note">格点精确解 F(t) = Σ B<sub>j</sub> s<sub>j</sub><sup>t−1</sup>(N=100, β=0.01,
+C.2 起点 u+4)。勾选部分和,看每一层"补"出曲线的哪一段:尾巴只要 1 项;第二峰 3 项就够
+(mode 1 单独超冲 115%,mode 3 负权重削回);首峰是 ~31 项的波包。</p>
+<div>
+  <label><input type="checkbox" id="mFull" checked> 全曲线</label>
+  <label><input type="checkbox" id="m1"> mode 1</label>
+  <label><input type="checkbox" id="m3"> modes 1–3</label>
+  <label><input type="checkbox" id="m9"> modes 1–9</label>
+  <label><input type="checkbox" id="m31"> modes 1–31</label>
+</div>
+<canvas id="modeCv" width="900" height="360"></canvas>
+
+<h2>实验 三 · 双峰的生与死(第 6 站):滑过鞍结分岔</h2>
+<p class="note">连续极限主曲线 Φ(τ; b)(θ=ξ=1/2)。拖动 b:第二个峰(谷–峰对)随 b 增大
+逐渐变浅,在 <b>b<sub>c</sub> = 3.0764</b> 处谷与峰<b>相遇并同时消失</b>——这就是鞍结分岔
+(S₁=S₂=0)。"放大"按钮聚焦 fold 区域。</p>
+<label>b = <input type="range" id="bSl" min="0" max="9" step="1" value="0">
+  <span id="bVal" class="big">2.0</span></label>
+<button id="zoomBtn">放大 fold 区</button>
+<canvas id="foldCv" width="900" height="380"></canvas>
+
+<script src="dpma_demo_data.js"></script>
+<script>
+"use strict";
+// ---------- shared tiny plot helpers (log-x line plots on canvas) ----------
+function plotFrame(cv, xlo, xhi, ylo, yhi, logx) {
+  const c = cv.getContext("2d"); c.clearRect(0, 0, cv.width, cv.height);
+  const L = 52, R = 12, T = 12, B = 30;
+  const X = x => L + (cv.width - L - R) * ((logx ? Math.log(x / xlo) : x - xlo) /
+                (logx ? Math.log(xhi / xlo) : xhi - xlo));
+  const Y = y => cv.height - B - (cv.height - T - B) * (y - ylo) / (yhi - ylo);
+  c.strokeStyle = "#999"; c.strokeRect(L, T, cv.width - L - R, cv.height - T - B);
+  c.fillStyle = "#666"; c.font = "11px sans-serif";
+  if (logx) { let d = Math.pow(10, Math.ceil(Math.log10(xlo)));
+    for (; d < xhi; d *= 10) { c.beginPath(); c.moveTo(X(d), T); c.lineTo(X(d), cv.height - B);
+      c.strokeStyle = "#eee"; c.stroke(); c.fillText(d < 1 ? d.toExponential(0) : d, X(d) - 8, cv.height - 14); } }
+  c.fillText(yhi.toPrecision(2), 4, T + 10); c.fillText(ylo.toPrecision(2), 4, cv.height - B);
+  if (ylo < 0 && yhi > 0) { c.strokeStyle = "#ccc"; c.beginPath();
+    c.moveTo(L, Y(0)); c.lineTo(cv.width - R, Y(0)); c.stroke(); }
+  return { c, X, Y };
+}
+function drawLine(f, xs, ys, color, w) {
+  f.c.strokeStyle = color; f.c.lineWidth = w || 1.6; f.c.beginPath();
+  for (let i = 0; i < xs.length; i++) { const px = f.X(xs[i]), py = f.Y(ys[i]);
+    i ? f.c.lineTo(px, py) : f.c.moveTo(px, py); }
+  f.c.stroke(); f.c.lineWidth = 1;
+}
+
+// ---------- experiment 1: walker on the ring ----------
+const N1 = 40, ABS = 0, U = 20, START = 24, q1 = 2 / 3;
+let beta1 = 0.10, running = false, pos = START, steps = 0;
+let histC = new Array(400).fill(0), histD = new Array(400).fill(0), nDone = 0, nCap = 0;
+const ringCv = document.getElementById("ringCv"), histCv = document.getElementById("histCv");
+function drawRing() {
+  const c = ringCv.getContext("2d"); c.clearRect(0, 0, 300, 300);
+  for (let i = 0; i < N1; i++) {
+    const a = Math.PI / 2 - 2 * Math.PI * i / N1, x = 150 + 118 * Math.cos(a),
+          y = 150 - 118 * Math.sin(a);
+    c.beginPath(); c.arc(x, y, i === ABS ? 7 : (i === U ? 7 : 3.4), 0, 7);
+    c.fillStyle = i === ABS ? "#c33" : (i === U ? "#2a8a2a" : "#bbb"); c.fill();
+    if (i === pos) { c.beginPath(); c.arc(x, y, 5, 0, 7); c.fillStyle = "#1656b8"; c.fill(); }
+  }
+  c.fillStyle = "#c33"; c.font = "12px sans-serif"; c.fillText("出口", 138, 18);
+  c.fillStyle = "#2a8a2a"; c.fillText("传送门 λ=β(1−q)", 100, 292);
+}
+function drawHist() {
+  const nb = 60, lo = 1, hi = 3000;                       // log bins over steps
+  const bc = new Array(nb).fill(0), bd = new Array(nb).fill(0);
+  const bin = t => Math.min(nb - 1, Math.max(0, Math.floor(nb * Math.log(t / lo) / Math.log(hi / lo))));
+  for (let t = 1; t < histC.length; t++) { if (histC[t]) bc[bin(t * 8)] += histC[t];
+                                           if (histD[t]) bd[bin(t * 8)] += histD[t]; }
+  const m = Math.max(1, ...bc.map((v, i) => v + bd[i]));
+  const f = plotFrame(histCv, lo, hi, 0, m * 1.08, true);
+  for (let i = 0; i < nb; i++) {
+    const x0 = lo * Math.pow(hi / lo, i / nb), x1 = lo * Math.pow(hi / lo, (i + 1) / nb);
+    const px0 = f.X(x0), px1 = f.X(x1);
+    f.c.fillStyle = "#bbb"; f.c.fillRect(px0, f.Y(bd[i]), px1 - px0 - 1, f.Y(0) - f.Y(bd[i]));
+    f.c.fillStyle = "rgba(42,138,42,.75)";
+    f.c.fillRect(px0, f.Y(bd[i] + bc[i]), px1 - px0 - 1, f.Y(bd[i]) - f.Y(bd[i] + bc[i]));
+  }
+  f.c.fillStyle = "#333"; f.c.font = "12px sans-serif";
+  f.c.fillText("到达步数(对数轴)→ 早峰 = 被传送门抓走;晚峰 = 绕路到达", 60, 20);
+}
+function microStep() {
+  steps++;
+  const r = Math.random();
+  if (pos === U) {                                         // at the portal site
+    const lam = beta1 * (1 - q1);                          // capture prob, diverted from self-loop
+    if (r < lam) {                                         // captured -> teleported to exit
+      nCap++; nDone++; histC[Math.min(399, Math.round(steps / 8))]++;
+      pos = START; steps = 0; return;
+    }
+    if (r < 1 - q1) return;                                // stay (prob 1-q-lam after the cut)
+    pos = (r < 1 - q1 / 2) ? (pos + 1) % N1 : (pos - 1 + N1) % N1;
+  } else {
+    if (r < 1 - q1) return;                                // stay
+    pos = (r < 1 - q1 / 2) ? (pos + 1) % N1 : (pos - 1 + N1) % N1;
+  }
+  if (pos === ABS) {                                       // diffusive arrival at the exit
+    nDone++; histD[Math.min(399, Math.round(steps / 8))]++;
+    pos = START; steps = 0;
+  }
+}
+function stepMany() {
+  if (!running) return;
+  for (let k = 0; k < 400; k++) microStep();               // many micro-steps per frame
+  drawRing(); drawHist();
+  document.getElementById("tally").textContent =
+    `  已完成 ${nDone} 次 · 被抓走 ${(100 * nCap / Math.max(1, nDone)).toFixed(1)}%(π_sc)`;
+  requestAnimationFrame(stepMany);
+}
+document.getElementById("runBtn").onclick = () => { running = !running; if (running) stepMany(); };
+document.getElementById("resetBtn").onclick = () => {
+  histC.fill(0); histD.fill(0); nDone = nCap = 0; pos = START; steps = 0; drawRing(); drawHist(); };
+document.getElementById("betaSl").oninput = e => {
+  beta1 = +e.target.value; document.getElementById("betaVal").textContent = beta1.toFixed(2); };
+drawRing(); drawHist();
+
+// ---------- experiment 2: mode partial sums ----------
+const M = DPMA.modes;
+function drawModes() {
+  const ymin = Math.min(...M.full) * 1.6 - 1e-4, ymax = Math.max(...M.full) * 1.55;
+  const f = plotFrame(document.getElementById("modeCv"), M.t[0], M.t[M.t.length - 1], ymin, ymax, true);
+  const sel = [["mFull", M.full, "#111", 2.4], ["m1", M.parts["1"], "#c33", 1.6],
+               ["m3", M.parts["3"], "#e08a00", 1.6], ["m9", M.parts["9"], "#1656b8", 1.6],
+               ["m31", M.parts["31"], "#2a8a2a", 1.6]];
+  for (const [id, ys, col, w] of sel)
+    if (document.getElementById(id).checked)
+      drawLine(f, M.t, ys.map(v => Math.max(ymin, Math.min(ymax, v))), col, w);
+  for (const [tm, lab] of [[M.marks.t1, "首峰"], [M.marks.tv, "谷"], [M.marks.t2, "第二峰"]]) {
+    f.c.strokeStyle = "#aaa"; f.c.setLineDash([3, 3]); f.c.beginPath();
+    f.c.moveTo(f.X(tm), 12); f.c.lineTo(f.X(tm), 330); f.c.stroke(); f.c.setLineDash([]);
+    f.c.fillStyle = "#555"; f.c.fillText(lab, f.X(tm) + 4, 24);
+  }
+}
+for (const id of ["mFull", "m1", "m3", "m9", "m31"])
+  document.getElementById(id).onchange = drawModes;
+drawModes();
+
+// ---------- experiment 3: fold slider ----------
+const FD = DPMA.fold; let zoom = false;
+function drawFold() {
+  const i = +document.getElementById("bSl").value, b = FD.bs[i];
+  document.getElementById("bVal").textContent = b.toFixed(3) + (Math.abs(b - FD.bc) < 5e-4 ? "  ← b_c!" : "");
+  const ylo = zoom ? 2.0 : 0, yhi = zoom ? 3.4 : 40;
+  const xlo = zoom ? 0.012 : FD.tau[0], xhi = zoom ? 0.12 : FD.tau[FD.tau.length - 1];
+  const f = plotFrame(document.getElementById("foldCv"), xlo, xhi, ylo, yhi, true);
+  for (let j = 0; j < FD.bs.length; j++)                    // ghost curves
+    if (j !== i) drawLine(f, FD.tau, FD.curves[j].map(v => Math.max(ylo, Math.min(yhi, v))), "#e4e4e4", 1);
+  drawLine(f, FD.tau, FD.curves[i].map(v => Math.max(ylo, Math.min(yhi, v))), "#1656b8", 2.4);
+  f.c.fillStyle = "#333"; f.c.font = "13px sans-serif";
+  f.c.fillText(`Φ(τ; b=${b}) — ${b < FD.bc ? "谷–峰对存在(双时间尺度)" : b > FD.bc ? "谷与峰已湮灭(单尺度)" : "恰在鞍结分岔点"}`, 64, 26);
+}
+document.getElementById("bSl").oninput = drawFold;
+document.getElementById("zoomBtn").onclick = () => { zoom = !zoom; drawFold(); };
+drawFold();
+</script>
+</body>
+</html>

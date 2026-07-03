@@ -1,0 +1,167 @@
+% DPMA 学习书 — 一点一点加的私人教材(与成稿符号完全一致)
+% 编译: cd tutorial/ && xelatex -output-directory build_book dpma_study_book.tex (×2)
+% 协议见 TUTOR_STATE.md;每讲一站/答一个追问,在对应章节加内容并重编译。
+\documentclass[11pt]{article}
+\usepackage[fontset=mac]{ctex}
+\usepackage{amsmath,amssymb,bm}
+\usepackage[margin=2.6cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\graphicspath{{../../../artifacts/figures/}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+\setlength{\parskip}{4pt}
+
+\title{\bf DPMA 学习书\\[2pt]\large 从零到成稿:懒惰环、单向捷径与鞍结分岔\\[4pt]
+\normalsize (增量教材:讲到哪写到哪;配套交互页 \texttt{dpma\_interactive.html})}
+\author{}
+\date{最近更新:2026-07-03}
+
+\begin{document}
+\maketitle
+
+\section*{使用说明与进度}
+\textbf{怎么用}:在聊天里提问 $\to$ 回答被写进对应章节的"追问区"并重编译本书 $\to$ 你只看这份
+PDF。重型数学在这里;\textbf{直觉动画}在同目录的 \texttt{dpma\_interactive.html}(双击打开,
+离线可用):走子动画(第 2 站)、$b$ 滑条看双峰生灭(第 6 站)、模开关(第 4--5 站)。
+
+\begin{center}
+\begin{tabular}{clc}
+\toprule
+站 & 内容 & 状态\\
+\midrule
+1 & 舞台与矩阵:环、懒走、吸收、捷径 $\to P_\lambda$、$a$、$F(t)$ & ✅ 已讲(\S\ref{sec:s1})\\
+2 & $F(t)$ 与双峰直觉:两种剧本 & ⏳ 下一站(\S\ref{sec:s2} 有引子)\\
+3 & 精确解:特征行列式与 Chebyshev 闭式 & ☐\\
+4 & 模展开:$s_j$(衰减率)与 $B_j$(带符号权重) & ☐\\
+5 & 归因:尾=1 模,第二峰=3 模,首峰=波包 & ☐\\
+6 & 双峰的生与死:$S_1=S_2=0$ 鞍结分岔(全文心脏) & ☐\\
+7 & 相边界 $b_c(\theta)$ 与常数 3.076、0.789 & ☐\\
+8 & 新颖性定位:别人知道什么、我们补了什么 & ☐\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{第 1 站:舞台与矩阵}\label{sec:s1}
+
+\subsection{模型规则(完整链)}
+状态 = 环上格点 $\{0,1,\dots,N-1\}$,\textbf{0 是吸收态}(出口)。一步规则:
+\[
+\text{从 } i:\;
+\begin{cases}
+\text{留在 } i, & 1-q\\[1pt]
+\text{去 } i\pm1 \ (\mathrm{mod}\ N), & \text{各 } q/2
+\end{cases}
+\qquad
+\text{但 } i=u \text{ 特殊}:\;
+\begin{cases}
+\text{留在 } u, & 1-q-\lambda\\[1pt]
+\text{传送到 } 0, & \lambda\\[1pt]
+\text{去 } u\pm1, & \text{各 } q/2 .
+\end{cases}
+\]
+$\lambda=\beta(1-q)$,$\beta\in[0,1]$ 是"懒惰概率中被传送门征用的比例"——每行和仍为 1,
+且给出可行域 $0\le\lambda\le1-q$(成稿的 admissibility)。本文全程 $q=2/3$。
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+  \def\NN{16}
+  \foreach \i in {0,...,15}{
+    \pgfmathsetmacro\ang{90-360*\i/\NN}
+    \node[circle,fill=black!25,inner sep=1.6pt] (n\i) at (\ang:1.35) {};
+  }
+  \node[circle,fill=red!70,inner sep=2.6pt,label={90:{\small $0$ 出口(吸收)}}] at (90:1.35) {};
+  \node[circle,fill=green!60!black,inner sep=2.6pt,label={-90:{\small $u$ 传送门}}] at (-90:1.35) {};
+  \node[circle,fill=blue!70,inner sep=2.4pt,label={-45:{\small $r$ 出发}}] at (-45:1.35) {};
+  \draw[dashed,->,green!60!black,thick] (-90:1.2) -- (85:1.2)
+        node[midway,left]{\small $\lambda$(单向)};
+  \draw[<->,thick] (150:1.55) arc (150:170:1.55);
+  \node at (162:1.9) {\small $q/2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{删掉吸收态:环断成链,捷径变成对角"漏点"}
+把 0 行 0 列删去,得 $(N-1)\times(N-1)$ \textbf{瞬态(次随机)转移矩阵}——成稿 Eq.~(1):
+\[
+\boxed{\;P_\lambda \;=\; P_0-\lambda\,\ket{u}\!\bra{u}\;},\qquad
+(P_0)_{ij}=(1-q)\,\delta_{ij}+\tfrac q2\,\delta_{|i-j|,1},\quad i,j\in\{1,\dots,N-1\}.
+\]
+两个立刻要看清的事:
+\begin{itemize}
+\item \textbf{环断成链}:删掉 0 后,格点 1 和 $N-1$ 不再相邻;它们各自"丢失"的 $q/2$
+  正是漏向出口的概率。$P_0$ 是三对角(Dirichlet path)。
+\item \textbf{捷径 = 秩一对角缺陷}:只改一个矩阵元,$(u,u)$ 减 $\lambda$。
+  "rank-one killing defect" 说的就是这一个数。
+\end{itemize}
+每行的概率赤字收进\textbf{吸收向量}
+\[
+a_i \;=\; 1-\textstyle\sum_j (P_\lambda)_{ij}
+      \;=\; \underbrace{\tfrac q2(\delta_{i,1}+\delta_{i,N-1})}_{\text{正常到达(扩散通道)}}
+       \;+\; \underbrace{\lambda\,\delta_{i,u}}_{\text{传送(捷径通道)}} .
+\]
+成稿第 4 图的通道分解 $f=f_{\rm diff}+f_{\rm sc}$ 就是把 $a$ 拆成这两半分别演化。
+
+\subsection{到达时间分布:一行公式}
+从 $r$ 出发、恰在第 $t$ 步结束("先活 $t-1$ 步,再掉进某个洞"):
+\[
+\boxed{\;F(t)=\bra{a}P_\lambda^{\,t-1}\ket{r}\;}
+\qquad\text{自检(质量守恒):}\;
+\sum_{t\ge1}F(t)=\bra{a}(I-P_\lambda)^{-1}\ket{r}=1,
+\]
+因为 $(I-P_\lambda)\bm 1=a$(赤字的定义)且 $P_\lambda$ 谱半径 $<1$(总会被吸收)。
+
+\subsection{两条结构性大腿}
+\textbf{(a) $P_\lambda$ 对称。}三对角对称 $+$ 对角修正仍对称 $\Rightarrow$ 谱全实、
+特征向量正交。捷径明明单向,方向性去哪了?——\textbf{全进了吸收向量 $a$},没进传输结构。
+(这就是成稿摘要那句 ``the directedness enters only the absorption channel'',
+也是后面"不是非厄米/EP 效应"的根源。)
+
+\textbf{(b) 谱一展开,$F(t)$ 自动成为指数和。}
+$P_\lambda=\sum_j s_j\ket{\psi_j}\!\bra{\psi_j}$ 代入上框:
+\[
+F(t)=\sum_{j=1}^{N-1}B_j\,s_j^{\,t-1},\qquad
+B_j=\langle a|\psi_j\rangle\,\langle\psi_j|r\rangle .
+\]
+$s_j$ = 你给 Luca 的第 2 图的"根";$B_j$ = 第 3 图的"振幅 $\rho$";部分和 = 第 4 图。
+$B_j$ 是两个内积之积,\textbf{可以为负}——``signed spectral mixture'' 是全文的戏剧冲突。
+
+\subsection{与 Luca 手稿的字典}
+Luca 不做谱分解,走 $z$ 变换(生成函数):
+\[
+\tilde F_r(z)=\sum_{t\ge1}F(t)z^t=z\,\bra{a}(I-zP_\lambda)^{-1}\ket{r}
+\]
+是 $z$ 的有理函数:极点 $z_j=1/s_j$,留数给 $B_j$——两条路线由部分分式互译。对照:
+他的 $\alpha_l$ = 无缺陷谱,$s_j$ = 缺陷后极点,$c_j$ = 留数;六月那场 $t\alpha^t$ 之争的
+求和规则 $\sum_j c_j/(s_j-\alpha_l)=h_0$ 就是这个部分分式结构的恒等式。
+他的方法免对角化、适配他 PRX 2020 的任意几何;成稿 App.~A 则把
+$(I-zP_\lambda)^{-1}$ 用 Chebyshev 多项式彻底闭式化(第 3 站讲)。
+
+\subsection{追问区}
+\paragraph{Q1(2026-07-03):这也是 Luca 最初手稿的起点吗?}
+是——同一个模型(懒惰环 + 单向跳跃),他的 Eq.~(40)--(41)、$H$ 展开、$\alpha_l/s_j/c_j$
+都定义在这个舞台上;差别只在技术路线(生成函数 vs 谱分解,见 \S1.5)。你们六月的争论
+(以及你 50 位验证赢下的 sum rule)发生在他的路线内部;成稿把两条路线都写全了。
+
+\paragraph{待你追问的好问题(提示):}
+为什么删掉 0 环就断成链?$B_j<0$ 不荒谬吗(概率哪能是负的)?
+Luca 的 $\alpha_l$ 与我们 $\beta=0$ 的谱是不是一回事?(最后这个有个小陷阱:
+他的自由谱在\textbf{环}上(周期边界),删掉吸收态后的 $P_0$ 是\textbf{链}(Dirichlet 边界)
+——两套"自由谱"不同,这正是 sum rule 里 $\alpha_l$ 与 $s_j$ 两套下标并存的原因。)
+
+\subsection{自测(能答出来就过站)}
+\begin{enumerate}
+\item 写出 $N=6$、$u=3$ 时 $P_\lambda$ 的 $5\times5$ 矩阵和 $a$ 向量。
+\item 为什么 $\sum_t F(t)=1$?哪一步用了"谱半径 $<1$"?
+\item 单向捷径的"方向性"藏在哪个对象里?为什么这保证了谱是实的?
+\end{enumerate}
+
+\section{第 2 站:$F(t)$ 与双峰直觉(下一站)}\label{sec:s2}
+\textbf{引子}:$F(t)=\sum_j B_j s_j^{t-1}$ 是一堆\textbf{只会单调衰减}的指数的带符号叠加,
+凭什么能长出两个峰?先用交互页的\textbf{走子动画}看两种剧本:从 $u$ 旁出发的人,
+要么很快被传送门抓走(早峰),要么逃出传送门的势力范围、绕一大圈从另一侧到达(晚峰)。
+两个时间尺度差多远、什么时候"并成一个"——就是全文的主线。\emph{待讲。}
+
+\end{document}

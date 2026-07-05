@@ -60,6 +60,22 @@ deterministic; all randomized computations use **fixed seeds hard-coded in the s
 - 2D peak detection: capture/late split at t=120, relative height threshold 10⁻³·max F.
 - Fold continuation window for exponent fits: b_c−b ∈ [1.4×10⁻³, 3.6×10⁻²], 7 points.
 
+## Formal verification (Lean 4 + mathlib)
+
+The exact algebraic layer of the manuscript (all finite identities, the Sherman–Morrison /
+Green-function chain, the minimal-mode theorem, the normal-form prefactor algebra, and the
+half-line transform algebra) is machine-verified in `../../code/formal_lean/` — 46 sorry-free
+theorems, axiom report clean (only propext / Classical.choice / Quot.sound). See
+`code/formal_lean/README.md` for the claim ↔ theorem map and the explicit three-tier scope
+statement (exact algebra = Lean-proved; transcendental constants = multi-method numerics,
+Table II; analytic limit statements = cited/hypothesis (F)). To re-verify:
+
+```bash
+cd ../../code/formal_lean     # copy/symlink to local disk first if the checkout is cloud-synced
+lake exe cache get && lake build                     # zero errors, zero sorries
+lake env lean AxiomsReport.lean                      # 46 lines, standard axioms only
+```
+
 ## Publishing (human-gated)
 
 To publish: copy `code/` + `artifacts/` + this directory into a standalone repository,

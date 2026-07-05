@@ -1018,6 +1018,21 @@ sensitivity $|dR/db|\simeq0.09$ per unit $b$ near the fold, so with
 ${\rm s.d.}(R)\propto N_{\rm t}^{-1/2}$, $N_{\rm t}\simeq4\times10^4$ trials resolve $b_c$ to
 roughly $\pm0.25$ and $N_{\rm t}\simeq2\times10^5$ to $\pm0.1$ (\texttt{dpma\_measurement.py}).
 
+\emph{Formal verification.} The exact algebraic layer of this work has additionally been
+machine-verified in Lean~4 against \texttt{mathlib} (46 theorems, no unproven placeholders, no
+axioms beyond Lean's classical standard): the Chebyshev product identity and numerator collapse
+of App.~\ref{app:det}, the tridiagonal Green-column structure behind \eqref{eq:Guu} and the
+determinant \eqref{eq:Du}, the Sherman--Morrison column \eqref{eq:smcol} and the splitting
+probability \eqref{eq:pisc} with its antipodal reduction, the $\delta$-sink jump condition
+$\Leftrightarrow$ \eqref{eq:Dtheta} and the normalization identity \eqref{eq:JD} with the antipodal
+closed forms of App.~\ref{app:amp}, the derivative relations $\Phi'=-S_1$, $\Phi''=S_2$, the
+minimal-mode theorem of Sec.~\ref{sec:existD}, the normal-form prefactor algebra
+\eqref{eq:prefac}, and the half-line transform algebra
+\eqref{eq:fhl}--\eqref{eq:phihl} (including strict positivity of the branch-cut denominator).
+The transcendental fold constants themselves ($b_c$, $\tau_c$, $B^*$, $c_*$) are numerical and
+remain certified by the independent cross-checks of Table~\ref{tab:verif}. The formal audit
+package (sources, pinned toolchain, and axiom report) accompanies the reproducibility code.
+
 \emph{Code and data availability.} All scripts are deterministic; the complete code generating every
 figure and table, together with the simulation histogram data underlying
 Figs.~\ref{fig:sim}--\ref{fig:bd}, is available from the authors upon reasonable request and will be

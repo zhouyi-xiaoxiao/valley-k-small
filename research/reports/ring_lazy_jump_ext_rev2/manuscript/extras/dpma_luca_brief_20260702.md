@@ -8,6 +8,10 @@ rounds each) **plus two further repo-grounded adversarial rounds** (every new de
 verified numerically) **and a strategic external-review revision** (2026-07-02): validation now has
 its own section ahead of the extensions, the abstract is a three-part defensive structure, and a
 cover-letter draft + reproducibility package (README/requirements/pytest tests) sit in `extras/`.
+As of 2026-07-05 the paper's entire exact-algebra layer is additionally **machine-verified in
+Lean 4/mathlib** (46 sorry-free theorems -- the Chebyshev/Green/Sherman-Morrison chain, pi_sc, the
+J-identity, the minimal-mode theorem, the normal-form prefactors, the half-line transform algebra;
+formal audit package in `code/formal_lean/`, axiom report clean).
 It is committed locally on branch `dpma-audit-20260630` and **not pushed** — awaiting your
 go-ahead (the reproducibility package is staged for a public repo + Zenodo DOI, which needs your
 approval to publish).

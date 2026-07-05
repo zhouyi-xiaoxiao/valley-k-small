@@ -33,7 +33,12 @@ direct Monte Carlo on the lattice, an exact absorption-channel decomposition, of
 physical delivery-gate protocol, with documented gate-width and time-step convergence. The fold
 threshold itself converges from the finite lattice to the continuum as N^-2 (fitted exponent 2.08). Extensions (a
 rank-two cusp organizing a triple-peak region; finite two-dimensional lattices) are presented as
-supporting evidence with their limitations stated explicitly.
+supporting evidence with their limitations stated explicitly. In addition to these numerical
+cross-checks, the manuscript's entire exact-algebra layer — the finite-N determinant and residue
+chain, the splitting probability, the continuum amplitude and normalization identities, the
+minimal-mode theorem, and the normal-form prefactors — has been machine-verified in Lean 4
+against the mathlib library (46 theorems, no unproven placeholders, standard axioms only); the
+formal audit package accompanies the reproducibility archive.
 
 We believe the result is of interest to the broad Physical Review Research readership working on
 stochastic transport, first-passage statistics, and controlled colloidal experiments: it converts
@@ -64,3 +69,6 @@ University of Bristol
 - Venue: PRR first (automatic PRE transfer on rejection); PRE directly is the conservative option.
 - Before sending: mint the Zenodo DOI (see extras/reproducibility/README.md), fill the funding
   line, and confirm author order.
+- The public repository/Zenodo package must include `code/formal_lean/` (sources + pinned
+  `lake-manifest.json` + `axioms_report_20260705.txt`) so the letter's machine-verification
+  sentence is backed by the archive; reviewers re-verify with `lake exe cache get && lake build`.

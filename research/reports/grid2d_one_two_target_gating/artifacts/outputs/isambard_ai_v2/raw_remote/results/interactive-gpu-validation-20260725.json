@@ -1,0 +1,89 @@
+{
+  "gating": {
+    "redirected_to_target2_probability": 0.006,
+    "target1_probability_drop": 0.0,
+    "target1_probability_ratio": 1.0,
+    "unresolved_probability_change": -0.006000000000000005
+  },
+  "geometry": {
+    "boundary": "attempted-outside-step-stays",
+    "start": [
+      7,
+      24
+    ],
+    "target1": [
+      54,
+      24
+    ],
+    "target2": [
+      32,
+      36
+    ],
+    "target_radius": 3
+  },
+  "one_target": {
+    "mass_balance": 1.0,
+    "target1": {
+      "hits": 1,
+      "mean_fpt": 294.0,
+      "median_fpt": 294,
+      "probability": 5e-05,
+      "q90_fpt": 294,
+      "standard_error": 4.999874998437461e-05
+    },
+    "target2": {
+      "hits": 0,
+      "mean_fpt": null,
+      "median_fpt": null,
+      "probability": 0.0,
+      "q90_fpt": null,
+      "standard_error": 0.0
+    },
+    "unresolved": 19999,
+    "unresolved_probability": 0.99995
+  },
+  "parameters": {
+    "base_hold": 0.08,
+    "batch_size": 20000,
+    "disorder_amplitude": 0.34,
+    "disorder_seed": 20260726,
+    "height": 48,
+    "steps": 300,
+    "target_radius": 3,
+    "walk_seed": 1729,
+    "walkers": 20000,
+    "width": 64
+  },
+  "runtime": {
+    "device": "cuda",
+    "elapsed_seconds": 0.7895307540893555,
+    "gpu": "NVIDIA GH200 120GB",
+    "hold_probability_max": 0.3372449278831482,
+    "hold_probability_mean": 0.25554460287094116,
+    "hold_probability_min": 0.09333301335573196,
+    "python": "3.12.11",
+    "torch": "2.8.0+cu129"
+  },
+  "schema": "grid2d-one-two-target-gating-v1",
+  "two_targets": {
+    "mass_balance": 1.0,
+    "target1": {
+      "hits": 1,
+      "mean_fpt": 294.0,
+      "median_fpt": 294,
+      "probability": 5e-05,
+      "q90_fpt": 294,
+      "standard_error": 4.999874998437461e-05
+    },
+    "target2": {
+      "hits": 120,
+      "mean_fpt": 234.98333333333332,
+      "median_fpt": 243,
+      "probability": 0.006,
+      "q90_fpt": 278,
+      "standard_error": 0.0005460769176590419
+    },
+    "unresolved": 19879,
+    "unresolved_probability": 0.99395
+  }
+}

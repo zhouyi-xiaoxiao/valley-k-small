@@ -1,6 +1,6 @@
 # RESEARCH SUMMARY
 
-最后更新: 2026-06-09
+最后更新: 2026-07-27
 
 ## 仓库定位
 - 本仓库研究随机游走首达时间分布中的双峰、谷值、shortcut 机制与跨模型对比。
@@ -47,6 +47,7 @@
 - 仓库已收敛为 canonical 结构：`research/`、`platform/`、`packages/`、`scripts/`、`tests/`。
 - 根目录兼容入口正在被移除，agent handoff 改为通过生成包输出到 `.local/deliverables/agent_pack/v1`。
 - 文档、测试与 CLI 正在同步切换到单一 `reportctl` 表面。
+- `grid2d_one_two_target_gating` 已进入 Isambard-AI 预注册验证阶段：v3 环境、canary、5,760-cell production 与 reducer 链已排队，独立 raw-cell/max-|t| secondary 作业 `5789031` 依赖 reducer `5788358`；23,040-cell 四 GPU 扩容仍处于 append-only r2 审计，未获生产提交许可。
 
 ## 自动索引（由脚本生成）
 <!-- AUTO-INDEX:START -->

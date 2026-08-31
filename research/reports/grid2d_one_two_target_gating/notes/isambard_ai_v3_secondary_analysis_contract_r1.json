@@ -1,0 +1,82 @@
+{
+  "schema": "grid2d-one-two-target-gating-secondary-analysis-contract-r1",
+  "status": "frozen-before-upstream-production-results",
+  "roots": {
+    "upstream_read_only_root": "/home/b5dj/ae23069.b5dj/valley-gating-v3-20260726-r3",
+    "secondary_write_root": "/home/b5dj/ae23069.b5dj/valley-gating-v3-secondary-r1-20260727"
+  },
+  "payload": {
+    "manifest_relative": "notes/isambard_ai_v3_secondary_r1.sha256",
+    "manifest_sha256_source": "frozen_sbatch_positional_argument"
+  },
+  "upstream": {
+    "production_array_job_id": "5788357",
+    "production_reducer_job_id": "5788358",
+    "run_token": "5788353",
+    "raw_results_dir_relative": "artifacts/outputs/isambard_ai_v3/production-5788353",
+    "reduction_dir_relative": "artifacts/outputs/isambard_ai_v3/reductions/production-5788353-reduce-5788358",
+    "reduction_json_filename": "reduction.json",
+    "reduction_csv_filename": "reduction.csv",
+    "sacct_receipt_filename": "sacct-production-5788353.psv",
+    "manifest_relative": "artifacts/data/gating_v3_production_manifest.json",
+    "manifest_sha256": "419bee7e19a862a74d7ffb0072e1dc2ce3ff714335b4273003834733d77f245f",
+    "reduction_schema": "grid2d-one-two-target-gating-gpu-v3-reduction-v1",
+    "manifest_schema": "grid2d-one-two-target-gating-gpu-v3-manifest",
+    "cell_count": 5760,
+    "allocation_count": 480,
+    "cells_per_allocation": 12,
+    "block_csv_row_count": 2880,
+    "primary_csv_row_count": 32,
+    "total_csv_row_count": 2912
+  },
+  "estimand": {
+    "metric": "gating_probability_drop",
+    "effect_direction": "amplitude_minus_zero_within_geometry_and_disorder_block",
+    "geometry_order": [
+      [24, 9],
+      [24, 16],
+      [24, 24],
+      [24, 31],
+      [24, 38],
+      [32, 9],
+      [32, 16],
+      [32, 24],
+      [32, 31],
+      [32, 38],
+      [40, 9],
+      [40, 16],
+      [40, 24],
+      [40, 31],
+      [40, 38]
+    ],
+    "control_amplitude": 0.0,
+    "treatment_amplitudes": [0.05, 0.1, 0.15, 0.2, 0.25],
+    "contrast_count": 75,
+    "disorder_blocks": 32,
+    "walk_replicates_already_averaged": [0, 1]
+  },
+  "bootstrap": {
+    "bit_generator": "PCG64",
+    "seed": 20260726,
+    "resamples": 10000,
+    "joint_resampling_unit": "disorder_field_block_shared_across_all_75_contrasts",
+    "studentization": "centered_resample_mean_divided_by_resample_standard_error_ddof_1",
+    "maximum_statistic": "maximum_absolute_studentized_statistic_across_75_contrasts",
+    "confidence_level": 0.95,
+    "critical_order_statistic_one_indexed": 9501,
+    "adjusted_p_value": "(1 + count(max_abs_t_resample >= abs(observed_t))) / 10001"
+  },
+  "integrity": {
+    "policy": "fail_closed",
+    "require_reducer_audit_pass": true,
+    "require_independent_sacct_parse": true,
+    "require_sacct_inventory_bijection": true,
+    "require_independent_raw_cell_replay": true,
+    "require_raw_recomputed_block_match": true,
+    "require_exact_manifest_hash": true,
+    "require_exact_inventory_digest": true,
+    "require_exact_csv_hash_and_row_count": true,
+    "reject_missing_duplicate_unexpected_zero_or_nonfinite_values": true,
+    "outputs": "atomic_no_overwrite_json_and_csv_under_secondary_write_root_only"
+  }
+}

@@ -1,0 +1,1616 @@
+{
+  "backend": {
+    "deterministic": true,
+    "method": "sparse_probability_propagation_and_sparse_dirichlet_committor",
+    "monte_carlo": false,
+    "numpy": "2.3.5",
+    "platform": "Linux-6.4.0-150700.53.73-64kb-aarch64-with-glibc2.38",
+    "python": "3.12.12",
+    "randomness": null,
+    "scipy": "1.16.3"
+  },
+  "created_utc": "2026-07-26T17:44:43.649810+00:00",
+  "gates": {
+    "absorbing_precedence": {
+      "effective_target_mask_overlap_cells": 0,
+      "passed": true,
+      "rule": "target1_then_target2_then_stop"
+    },
+    "all_passed": true,
+    "checkpoint_monotonicity": {
+      "passed": true
+    },
+    "committor_linear_system": {
+      "absolute_tolerance": 1e-11,
+      "maximum_residual_inf_norm": 8.006372019307658e-16,
+      "passed": true
+    },
+    "mass_balance": {
+      "absolute_tolerance": 1e-11,
+      "eventual_splitting_max_abs_error": 1.3855583347321954e-13,
+      "finite_checkpoint_max_abs_error": 6.249445405615006e-13,
+      "passed": true
+    },
+    "nonnegative_and_finite": {
+      "committor_maximum": 0.9853474444173833,
+      "committor_minimum": 0.0,
+      "passed": true,
+      "propagated_minimum": 0.0,
+      "transition_minimum": 0.0
+    },
+    "row_stochastic": {
+      "absolute_tolerance": 1e-14,
+      "maximum_absolute_row_sum_error": 1.1102230246251565e-16,
+      "passed": true
+    }
+  },
+  "manifest": {
+    "filename": "gating_v3_production_manifest.json",
+    "projection": "gpu_manifest_amplitude_zero_projection",
+    "schema": "grid2d-one-two-target-gating-gpu-v3-manifest",
+    "sha256": "419bee7e19a862a74d7ffb0072e1dc2ce3ff714335b4273003834733d77f245f"
+  },
+  "model": {
+    "absorbing_precedence": "target1_then_target2_then_stop",
+    "base_hold": 0.3,
+    "boundary_rule": "attempted_outside_stays",
+    "checkpoints": [
+      5000,
+      10000,
+      20000,
+      40000,
+      80000
+    ],
+    "domain": {
+      "height": 48,
+      "width": 64
+    },
+    "geometry_count": 15,
+    "move_probability_per_direction": 0.175,
+    "normalization_walkers": 1000000,
+    "start": {
+      "x": 7,
+      "y": 24
+    },
+    "state_count": 3072,
+    "steps": 80000,
+    "target1": {
+      "x": 54,
+      "y": 24
+    },
+    "target_radius": 3
+  },
+  "one_target": {
+    "checkpoint_cumulative": {
+      "10000": {
+        "mass": 0.9999999999995854,
+        "target1_cumulative": {
+          "expected_count_at_manifest_walkers": 570516.7146835215,
+          "probability": 0.5705167146835215
+        },
+        "unresolved": {
+          "expected_count_at_manifest_walkers": 429483.2853160639,
+          "probability": 0.4294832853160639
+        }
+      },
+      "20000": {
+        "mass": 0.9999999999994381,
+        "target1_cumulative": {
+          "expected_count_at_manifest_walkers": 854379.1129927495,
+          "probability": 0.8543791129927496
+        },
+        "unresolved": {
+          "expected_count_at_manifest_walkers": 145620.8870066885,
+          "probability": 0.14562088700668852
+        }
+      },
+      "40000": {
+        "mass": 0.9999999999993757,
+        "target1_cumulative": {
+          "expected_count_at_manifest_walkers": 983267.0692731095,
+          "probability": 0.9832670692731096
+        },
+        "unresolved": {
+          "expected_count_at_manifest_walkers": 16732.93072626619,
+          "probability": 0.01673293072626619
+        }
+      },
+      "5000": {
+        "mass": 0.9999999999997466,
+        "target1_cumulative": {
+          "expected_count_at_manifest_walkers": 268151.6080092949,
+          "probability": 0.2681516080092949
+        },
+        "unresolved": {
+          "expected_count_at_manifest_walkers": 731848.3919904517,
+          "probability": 0.7318483919904517
+        }
+      },
+      "80000": {
+        "mass": 0.999999999999375,
+        "target1_cumulative": {
+          "expected_count_at_manifest_walkers": 999779.0629680493,
+          "probability": 0.9997790629680493
+        },
+        "unresolved": {
+          "expected_count_at_manifest_walkers": 220.93703132577318,
+          "probability": 0.00022093703132577318
+        }
+      }
+    }
+  },
+  "runtime": {
+    "elapsed_seconds": 13.938617857013014,
+    "hostname": "x3004c0s1b2n0"
+  },
+  "schema": "grid2d-one-two-target-gating-exact-homogeneous-oracle-v3",
+  "source": {
+    "filename": "exact_homogeneous_oracle_v3.py",
+    "sha256": "8ee8605cd791523410ad7b28b9cc702df02480c05ee3f96c7050aeb87a774371"
+  },
+  "transition": {
+    "format": "csr_float64",
+    "nonzero_entries": 15136,
+    "shape": [
+      3072,
+      3072
+    ]
+  },
+  "two_target_geometries": [
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999997933,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 231700.31818831302,
+            "probability": 0.23170031818831302
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 700880.4488567323,
+            "probability": 0.7008804488567324
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 67419.23295474783,
+            "probability": 0.06741923295474783
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999997802,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 257943.1565982167,
+            "probability": 0.2579431565982167
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 738371.0411439103,
+            "probability": 0.7383710411439103
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 3685.80225765319,
+            "probability": 0.0036858022576531898
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999997768,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 259458.98383740973,
+            "probability": 0.25945898383740973
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 740530.0253342254,
+            "probability": 0.7405300253342254
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 10.99082814167242,
+            "probability": 1.099082814167242e-05
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998338,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 145357.13793529177,
+            "probability": 0.14535713793529179
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 570390.5010192242,
+            "probability": 0.5703905010192242
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 284252.36104531784,
+            "probability": 0.2842523610453178
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999997647,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 259463.5174487377,
+            "probability": 0.2594635174487377
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 740536.4824532982,
+            "probability": 0.7405364824532982
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 9.772883257323773e-05,
+            "probability": 9.772883257323772e-11
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.343229319255558e-16,
+        "mass": 0.9999999999999295,
+        "target1": {
+          "expected_count_at_manifest_walkers": 259463.51748910878,
+          "probability": 0.2594635174891088
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 740536.4825108207,
+          "probability": 0.7405364825108207
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x24_y9",
+      "target2": {
+        "x": 24,
+        "y": 9
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999998191,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 173210.1110437625,
+            "probability": 0.1732101110437625
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 787426.919110264,
+            "probability": 0.7874269191102641
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 39362.96984579261,
+            "probability": 0.039362969845792614
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999998066,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 186643.82889389287,
+            "probability": 0.1866438288938929
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 812108.3860303856,
+            "probability": 0.8121083860303856
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 1247.7850755280915,
+            "probability": 0.0012477850755280915
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999998066,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 187084.83150644277,
+            "probability": 0.18708483150644278
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 812913.9191952954,
+            "probability": 0.8129139191952954
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 1.2492980683626114,
+            "probability": 1.2492980683626114e-06
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998498,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 113576.61442608484,
+            "probability": 0.11357661442608484
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 669112.6899888733,
+            "probability": 0.6691126899888733
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 217310.69558489166,
+            "probability": 0.21731069558489166
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999998179,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 187085.27349774924,
+            "probability": 0.18708527349774923
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 812914.7265008163,
+            "probability": 0.8129147265008163
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 1.2522925612107739e-06,
+            "probability": 1.2522925612107738e-12
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 8.006372019307658e-16,
+        "mass": 0.9999999999999458,
+        "target1": {
+          "expected_count_at_manifest_walkers": 187085.27349823166,
+          "probability": 0.18708527349823167
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 812914.7265017141,
+          "probability": 0.8129147265017141
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x24_y16",
+      "target2": {
+        "x": 24,
+        "y": 16
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.999999999999834,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 144699.05982174393,
+            "probability": 0.14469905982174391
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 826580.9218861719,
+            "probability": 0.8265809218861719
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 28720.018291918204,
+            "probability": 0.028720018291918205
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999998348,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 153754.62470190803,
+            "probability": 0.15375462470190804
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 845605.0346165946,
+            "probability": 0.8456050346165945
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 640.3406813322805,
+            "probability": 0.0006403406813322805
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999998305,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 153962.23577401903,
+            "probability": 0.15396223577401905
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 846037.4477495854,
+            "probability": 0.8460374477495853
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.3164762261440154,
+            "probability": 3.164762261440154e-07
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998566,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 96464.45566715205,
+            "probability": 0.09646445566715206
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 715802.7432207024,
+            "probability": 0.7158027432207024
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 187732.8011120021,
+            "probability": 0.1877328011120021
+          }
+        },
+        "80000": {
+          "mass": 0.999999999999777,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 153962.33843928564,
+            "probability": 0.15396233843928564
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 846037.661560414,
+            "probability": 0.846037661560414
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 7.72987628674358e-08,
+            "probability": 7.72987628674358e-14
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.735967010198914e-16,
+        "mass": 0.9999999999999467,
+        "target1": {
+          "expected_count_at_manifest_walkers": 153962.3384393399,
+          "probability": 0.1539623384393399
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 846037.6615606068,
+          "probability": 0.8460376615606068
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x24_y24",
+      "target2": {
+        "x": 24,
+        "y": 24
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999998208,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 166965.3809689452,
+            "probability": 0.1669653809689452
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 793694.5608500243,
+            "probability": 0.7936945608500243
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 39340.05818085125,
+            "probability": 0.03934005818085125
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999998164,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 180409.7852924471,
+            "probability": 0.1804097852924471
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 818304.3930938246,
+            "probability": 0.8183043930938246
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 1285.8216135446264,
+            "probability": 0.0012858216135446265
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999998184,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 180865.57824106055,
+            "probability": 0.18086557824106056
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 819133.0529244454,
+            "probability": 0.8191330529244454
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 1.368834312468387,
+            "probability": 1.368834312468387e-06
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998512,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 108547.18511574565,
+            "probability": 0.10854718511574565
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 677304.6582342242,
+            "probability": 0.6773046582342241
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 214148.15664988136,
+            "probability": 0.21414815664988138
+          }
+        },
+        "80000": {
+          "mass": 0.999999999999814,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 180866.06399334257,
+            "probability": 0.18086606399334257
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 819133.9360049203,
+            "probability": 0.8191339360049202
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 1.551237032129937e-06,
+            "probability": 1.5512370321299369e-12
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.2625028662417297e-16,
+        "mass": 0.9999999999999358,
+        "target1": {
+          "expected_count_at_manifest_walkers": 180866.0639939258,
+          "probability": 0.18086606399392582
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 819133.93600601,
+          "probability": 0.81913393600601
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x24_y31",
+      "target2": {
+        "x": 24,
+        "y": 31
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999997915,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 223120.80037258888,
+            "probability": 0.22312080037258888
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 709393.5698114329,
+            "probability": 0.7093935698114329
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 67485.62981576977,
+            "probability": 0.06748562981576978
+          }
+        },
+        "20000": {
+          "mass": 0.99999999999978,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 249388.18263473097,
+            "probability": 0.24938818263473098
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 746801.1894257722,
+            "probability": 0.7468011894257722
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 3810.6279392767347,
+            "probability": 0.0038106279392767345
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999997784,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 250958.39929289027,
+            "probability": 0.25095839929289027
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 749029.4794176932,
+            "probability": 0.7490294794176933
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 12.121289194796546,
+            "probability": 1.2121289194796546e-05
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998361,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 138655.05474006847,
+            "probability": 0.13865505474006848
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 581320.2122616661,
+            "probability": 0.5813202122616661
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 280024.7329981016,
+            "probability": 0.2800247329981016
+          }
+        },
+        "80000": {
+          "mass": 0.999999999999786,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 250963.40995299982,
+            "probability": 0.2509634099529998
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 749036.5899241414,
+            "probability": 0.7490365899241415
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.00012264463775157043,
+            "probability": 1.2264463775157042e-10
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 5.339613331367658e-16,
+        "mass": 0.9999999999999194,
+        "target1": {
+          "expected_count_at_manifest_walkers": 250963.4100037536,
+          "probability": 0.2509634100037536
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 749036.5899961658,
+          "probability": 0.7490365899961658
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x24_y38",
+      "target2": {
+        "x": 24,
+        "y": 38
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999997423,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 251833.52080665255,
+            "probability": 0.25183352080665256
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 623221.6105973969,
+            "probability": 0.6232216105973969
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 124944.86859569282,
+            "probability": 0.12494486859569283
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999997234,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 295460.38896354614,
+            "probability": 0.29546038896354615
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 692418.3535523571,
+            "probability": 0.692418353552357
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 12121.257483820158,
+            "probability": 0.012121257483820157
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999997236,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 300107.5846206879,
+            "probability": 0.3001075846206879
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 699778.4407557155,
+            "probability": 0.6997784407557155
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 113.97462332018799,
+            "probability": 0.00011397462332018799
+          }
+        },
+        "5000": {
+          "mass": 0.999999999999803,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 148618.3759861862,
+            "probability": 0.1486183759861862
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 453549.7333376423,
+            "probability": 0.45354973333764226
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 397831.89067597454,
+            "probability": 0.3978318906759745
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999997217,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 300151.69257897575,
+            "probability": 0.3001516925789757
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 699848.2973438201,
+            "probability": 0.6998482973438201
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.010076925826291867,
+            "probability": 1.0076925826291867e-08
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.92761608055305e-16,
+        "mass": 0.9999999999998972,
+        "target1": {
+          "expected_count_at_manifest_walkers": 300151.6964791432,
+          "probability": 0.30015169647914325
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 699848.303520754,
+          "probability": 0.699848303520754
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x32_y9",
+      "target2": {
+        "x": 32,
+        "y": 9
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999997583,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 198881.68459461778,
+            "probability": 0.19888168459461777
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 703505.6402960118,
+            "probability": 0.7035056402960118
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 97612.67510912879,
+            "probability": 0.09761267510912879
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999997384,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 227116.5248201872,
+            "probability": 0.22711652482018718
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 765634.2078546408,
+            "probability": 0.7656342078546408
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 7249.267324910479,
+            "probability": 0.007249267324910479
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999997388,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 229371.6652000769,
+            "probability": 0.2293716652000769
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 770588.3878220188,
+            "probability": 0.7705883878220188
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 39.94697764310903,
+            "probability": 3.994697764310903e-05
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998124,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 120348.2972975868,
+            "probability": 0.12034829729758681
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 524478.0579011276,
+            "probability": 0.5244780579011276
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 355173.644801098,
+            "probability": 0.355173644801098
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999997418,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 229384.16064242343,
+            "probability": 0.22938416064242342
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 770615.8381443142,
+            "probability": 0.7706158381443142
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.001213004187010711,
+            "probability": 1.2130041870107108e-09
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 5.073998631512245e-16,
+        "mass": 0.9999999999999157,
+        "target1": {
+          "expected_count_at_manifest_walkers": 229384.16102191785,
+          "probability": 0.22938416102191786
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 770615.8389779979,
+          "probability": 0.7706158389779979
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x32_y16",
+      "target2": {
+        "x": 32,
+        "y": 16
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999997591,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 174284.26038719114,
+            "probability": 0.17428426038719114
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 738086.337083696,
+            "probability": 0.7380863370836961
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 87629.40252887188,
+            "probability": 0.08762940252887189
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999997413,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 196994.75303080704,
+            "probability": 0.19699475303080705
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 797284.3357793759,
+            "probability": 0.7972843357793759
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 5720.911189558446,
+            "probability": 0.005720911189558446
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999997391,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 198575.43291457175,
+            "probability": 0.19857543291457175
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 801400.2059076917,
+            "probability": 0.8014002059076918
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 24.361177475528844,
+            "probability": 2.4361177475528844e-05
+          }
+        },
+        "5000": {
+          "mass": 0.999999999999813,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 105919.74443732761,
+            "probability": 0.10591974443732761
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 554513.2947517362,
+            "probability": 0.5545132947517363
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 339566.96081074903,
+            "probability": 0.33956696081074905
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999997429,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 198582.19254759542,
+            "probability": 0.19858219254759543
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 801417.8070104107,
+            "probability": 0.8014178070104107
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.00044173677419736396,
+            "probability": 4.41736774197364e-10
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.537620821762004e-16,
+        "mass": 0.9999999999999216,
+        "target1": {
+          "expected_count_at_manifest_walkers": 198582.19267021428,
+          "probability": 0.1985821926702143
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 801417.8073297073,
+          "probability": 0.8014178073297074
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x32_y24",
+      "target2": {
+        "x": 32,
+        "y": 24
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999997562,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 193341.203844406,
+            "probability": 0.193341203844406
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 708293.3823488444,
+            "probability": 0.7082933823488444
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 98365.4138065058,
+            "probability": 0.0983654138065058
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999997289,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 221710.65376386573,
+            "probability": 0.22171065376386573
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 770851.0822715681,
+            "probability": 0.7708510822715682
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 7438.263964294917,
+            "probability": 0.007438263964294917
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999997328,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 224021.77254561993,
+            "probability": 0.22402177254561992
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 775935.7445211364,
+            "probability": 0.7759357445211363
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 42.48293297643082,
+            "probability": 4.248293297643082e-05
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998147,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 115750.79050310684,
+            "probability": 0.11575079050310684
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 529785.5658919126,
+            "probability": 0.5297855658919125
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 354463.64360479533,
+            "probability": 0.3544636436047953
+          }
+        },
+        "80000": {
+          "mass": 0.999999999999723,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 224035.04775868394,
+            "probability": 0.22403504775868394
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 775964.9508552473,
+            "probability": 0.7759649508552473
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.0013857918367543313,
+            "probability": 1.3857918367543314e-09
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.823918396354142e-16,
+        "mass": 0.999999999999911,
+        "target1": {
+          "expected_count_at_manifest_walkers": 224035.04819178674,
+          "probability": 0.22403504819178674
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 775964.9518081242,
+          "probability": 0.7759649518081242
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x32_y31",
+      "target2": {
+        "x": 32,
+        "y": 31
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.999999999999733,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 244168.80829305216,
+            "probability": 0.24416880829305215
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 629530.563999232,
+            "probability": 0.629530563999232
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 126300.6277074489,
+            "probability": 0.1263006277074489
+          }
+        },
+        "20000": {
+          "mass": 0.999999999999704,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 288135.9770474567,
+            "probability": 0.28813597704745675
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 699306.2640559144,
+            "probability": 0.6993062640559143
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 12557.75889633288,
+            "probability": 0.01255775889633288
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999997079,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 292948.07554477133,
+            "probability": 0.2929480755447713
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 706927.9260558939,
+            "probability": 0.7069279260558938
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 123.99839904279801,
+            "probability": 0.00012399839904279802
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999998019,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 142308.98992099092,
+            "probability": 0.14230898992099092
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 460790.7662970444,
+            "probability": 0.4607907662970444
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 396900.24378176656,
+            "probability": 0.3969002437817666
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999996984,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 292996.06075077853,
+            "probability": 0.29299606075077855
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 707003.9271590334,
+            "probability": 0.7070039271590334
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.012089886447660276,
+            "probability": 1.2089886447660275e-08
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.5082695036973095e-16,
+        "mass": 0.9999999999998885,
+        "target1": {
+          "expected_count_at_manifest_walkers": 292996.065429875,
+          "probability": 0.292996065429875
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 707003.9345700135,
+          "probability": 0.7070039345700135
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x32_y38",
+      "target2": {
+        "x": 32,
+        "y": 38
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.999999999999682,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 283147.795050331,
+            "probability": 0.283147795050331
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 508510.7500661622,
+            "probability": 0.5085107500661622
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 208341.45488318874,
+            "probability": 0.20834145488318873
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999996236,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 356038.6657800787,
+            "probability": 0.3560386657800787
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 610056.2515535882,
+            "probability": 0.6100562515535882
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 33905.082665956696,
+            "probability": 0.033905082665956696
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999996055,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 369836.6611058761,
+            "probability": 0.3698366611058761
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 629265.7783173481,
+            "probability": 0.6292657783173481
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 897.560576381338,
+            "probability": 0.000897560576381338
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999997808,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 157077.75816990112,
+            "probability": 0.15707775816990113
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 329120.13261519035,
+            "probability": 0.32912013261519035
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 513802.1092146894,
+            "probability": 0.5138021092146894
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999996132,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 370211.6018624678,
+            "probability": 0.3702116018624678
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 629787.7691216286,
+            "probability": 0.6297877691216286
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.6290155168122039,
+            "probability": 6.290155168122039e-07
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.593079873366793e-16,
+        "mass": 0.9999999999998812,
+        "target1": {
+          "expected_count_at_manifest_walkers": 370211.8648074415,
+          "probability": 0.3702118648074415
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 629788.1351924397,
+          "probability": 0.6297881351924397
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x40_y9",
+      "target2": {
+        "x": 40,
+        "y": 9
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999996886,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 225141.14040218323,
+            "probability": 0.22514114040218322
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 583469.385186928,
+            "probability": 0.5834693851869279
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 191389.47441057744,
+            "probability": 0.19138947441057744
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999996428,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 279349.0179178524,
+            "probability": 0.2793490179178524
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 692405.2642411821,
+            "probability": 0.6924052642411821
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 28245.717840608406,
+            "probability": 0.028245717840608406
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999996378,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 288533.2176111568,
+            "probability": 0.2885332176111568
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 710851.759033328,
+            "probability": 0.7108517590333281
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 615.0233551529343,
+            "probability": 0.0006150233551529343
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999997825,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 125171.07643897495,
+            "probability": 0.12517107643897496
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 378922.7394442612,
+            "probability": 0.3789227394442612
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 495906.1841165463,
+            "probability": 0.4959061841165463
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999996457,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 288737.54917738255,
+            "probability": 0.28873754917738254
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 711262.1592344624,
+            "probability": 0.7112621592344625
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.29158780065199763,
+            "probability": 2.915878006519976e-07
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.8650909833711075e-16,
+        "mass": 0.9999999999998918,
+        "target1": {
+          "expected_count_at_manifest_walkers": 288737.6460987454,
+          "probability": 0.2887376460987454
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 711262.3539011463,
+          "probability": 0.7112623539011463
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x40_y16",
+      "target2": {
+        "x": 40,
+        "y": 16
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999996949,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 193056.97033956082,
+            "probability": 0.19305697033956082
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 619184.997684939,
+            "probability": 0.619184997684939
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 187758.0319751952,
+            "probability": 0.1877580319751952
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999996467,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 239330.75261091912,
+            "probability": 0.23933075261091913
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 733794.3403081734,
+            "probability": 0.7337943403081735
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 26874.90708055407,
+            "probability": 0.02687490708055407
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999996424,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 246903.34439335516,
+            "probability": 0.24690334439335515
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 752546.1634692092,
+            "probability": 0.7525461634692092
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 550.4921370780736,
+            "probability": 0.0005504921370780736
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999997835,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 105822.60284132537,
+            "probability": 0.10582260284132537
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 400365.38566926675,
+            "probability": 0.40036538566926677
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 493812.01148919144,
+            "probability": 0.49381201148919146
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999996453,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 247061.63484469522,
+            "probability": 0.2470616348446952
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 752938.1341829366,
+            "probability": 0.7529381341829366
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.23097201338214998,
+            "probability": 2.3097201338214998e-07
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 5.102133355019938e-16,
+        "mass": 0.9999999999998795,
+        "target1": {
+          "expected_count_at_manifest_walkers": 247061.70128714622,
+          "probability": 0.24706170128714622
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 752938.2987127333,
+          "probability": 0.7529382987127333
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x40_y24",
+      "target2": {
+        "x": 40,
+        "y": 24
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999996905,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 218567.38904343502,
+            "probability": 0.218567389043435
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 587760.7669641768,
+            "probability": 0.5877607669641768
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 193671.84399207876,
+            "probability": 0.19367184399207876
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999996436,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 272859.52457282785,
+            "probability": 0.27285952457282786
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 698110.7252700322,
+            "probability": 0.6981107252700322
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 29029.750156783524,
+            "probability": 0.029029750156783524
+          }
+        },
+        "40000": {
+          "mass": 0.999999999999638,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 282222.5042759168,
+            "probability": 0.2822225042759168
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 717125.57231873,
+            "probability": 0.71712557231873
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 651.9234049912438,
+            "probability": 0.0006519234049912439
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999997818,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 119904.82849823374,
+            "probability": 0.11990482849823374
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 382544.8954251835,
+            "probability": 0.38254489542518355
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 497550.2760763646,
+            "probability": 0.4975502760763646
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999996382,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 282437.4916652325,
+            "probability": 0.2824374916652325
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 717562.1795564967,
+            "probability": 0.7175621795564967
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.328777909006346,
+            "probability": 3.28777909006346e-07
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 4.614896056748662e-16,
+        "mass": 0.9999999999998657,
+        "target1": {
+          "expected_count_at_manifest_walkers": 282437.6001424175,
+          "probability": 0.2824376001424175
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 717562.3998574482,
+          "probability": 0.7175623998574482
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x40_y31",
+      "target2": {
+        "x": 40,
+        "y": 31
+      }
+    },
+    {
+      "checkpoint_cumulative": {
+        "10000": {
+          "mass": 0.9999999999996836,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 275630.8488718372,
+            "probability": 0.2756308488718372
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 512768.7806265998,
+            "probability": 0.5127687806265998
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 211600.37050124662,
+            "probability": 0.2116003705012466
+          }
+        },
+        "20000": {
+          "mass": 0.9999999999996249,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 349162.1873565209,
+            "probability": 0.34916218735652094
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 615659.7139505907,
+            "probability": 0.6156597139505907
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 35178.09869251322,
+            "probability": 0.03517809869251322
+          }
+        },
+        "40000": {
+          "mass": 0.9999999999996206,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 363427.0582173461,
+            "probability": 0.3634270582173461
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 635601.2552298313,
+            "probability": 0.6356012552298314
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 971.6865524431761,
+            "probability": 0.0009716865524431761
+          }
+        },
+        "5000": {
+          "mass": 0.9999999999997805,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 150827.42532284095,
+            "probability": 0.15082742532284096
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 333374.85235142394,
+            "probability": 0.33337485235142394
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 515797.7223255156,
+            "probability": 0.5157977223255156
+          }
+        },
+        "80000": {
+          "mass": 0.9999999999996307,
+          "target1_cumulative": {
+            "expected_count_at_manifest_walkers": 363831.96543883637,
+            "probability": 0.3638319654388364
+          },
+          "target2_cumulative": {
+            "expected_count_at_manifest_walkers": 636167.293193799,
+            "probability": 0.6361672931937989
+          },
+          "unresolved": {
+            "expected_count_at_manifest_walkers": 0.7413669953324966,
+            "probability": 7.413669953324966e-07
+          }
+        }
+      },
+      "eventual_two_target_splitting": {
+        "linear_residual_inf_norm": 3.585564713742182e-16,
+        "mass": 0.9999999999998614,
+        "target1": {
+          "expected_count_at_manifest_walkers": 363832.27460659156,
+          "probability": 0.36383227460659157
+        },
+        "target2": {
+          "expected_count_at_manifest_walkers": 636167.7253932699,
+          "probability": 0.6361677253932699
+        },
+        "transient_states": 3014
+      },
+      "geometry_id": "target2_x40_y38",
+      "target2": {
+        "x": 40,
+        "y": 38
+      }
+    }
+  ]
+}

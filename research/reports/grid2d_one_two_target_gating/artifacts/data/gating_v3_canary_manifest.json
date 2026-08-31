@@ -1,0 +1,557 @@
+{
+  "artifacts": {
+    "container": {
+      "reference": "/projects/public/brics/containers/e4s/e4s-cuda90-aarch64-25.11.sif",
+      "sha256": "aac14468290a4b1489806a47e26ada96b741afbbe2edfe8fa2bf5424013f09c4"
+    },
+    "field_pack": {
+      "filename": "disorder_field_pack_v3.npz",
+      "sha256": "d7039cf68cd137729a3931f1265cad2735c67da3c436fc4f71d214f059f0e420",
+      "sidecar_filename": "disorder_field_pack_v3.manifest.json",
+      "sidecar_sha256": "8ebcfedda858697cd7ece6a1c0f48e71508999cf3c21dd887a75440ad9d21926"
+    },
+    "manifest_builder": {
+      "filename": "build_gating_campaign_manifest_v3.py",
+      "sha256": "a36046ef50ffa9fc66ec57ea5dcd9b107696b40120fe9390176ebdb6355b2b4d"
+    },
+    "manifest_validator": {
+      "filename": "validate_gating_campaign_manifest_v3.py",
+      "sha256": "8beecc39f1e4ff422003fd8e1d1de8d815706afc177916cf045c77fbed4e6eb0"
+    },
+    "runner_source": {
+      "filename": "gpu_gating_mc_v3.py",
+      "sha256": "fbac49ca27dbb0210d9bf89f5eebe160b60ed01386a17d301408727f0a722156"
+    }
+  },
+  "campaign": {
+    "cell_count": 8,
+    "created_utc": "2026-07-26T17:31:50.714520+00:00",
+    "domain": {
+      "height": 48,
+      "width": 64
+    },
+    "kind": "canary"
+  },
+  "cells": [
+    {
+      "amplitude": 0.0,
+      "cell_id": 0,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2688
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 1,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2689
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 2,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2690
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 3,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2691
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 4,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2944
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 5,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2945
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 6,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2946
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 7,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2947
+      },
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    }
+  ],
+  "defaults": {
+    "base_hold": 0.3,
+    "batch_size": 131072,
+    "checkpoints": [
+      5000,
+      10000,
+      20000,
+      40000,
+      80000
+    ],
+    "seed_base": 1729,
+    "start_x": 7,
+    "start_y": 24,
+    "steps": 80000,
+    "target1_x": 54,
+    "target1_y": 24,
+    "target_radius": 3,
+    "walkers": 1000000
+  },
+  "field_pack_sha256": "d7039cf68cd137729a3931f1265cad2735c67da3c436fc4f71d214f059f0e420",
+  "preregistration": {
+    "amplitudes": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25
+    ],
+    "boundary_rule": "an attempted step outside the rectangle stays at the current site",
+    "budget": {
+      "calibration": {
+        "allocated_seconds_formula": "17.628323 + 9.311070539 * (walkers / 500000) * (steps / 5000)",
+        "observed_gpu_runtime_mean_seconds": 9.311070539,
+        "observed_node_seconds": 889.0,
+        "observed_tasks": 33
+      },
+      "campaign_hard_cap": 950.0,
+      "optional_precision_expected_range": [
+        34.0,
+        129.0
+      ],
+      "optional_precision_hard_cap": 160.0,
+      "reserve": 50.0,
+      "stage_hard_cap_total": 712.0,
+      "unallocated_margin": 28.0,
+      "units": "node-hours"
+    },
+    "domain_source": "contrasts.shape in the SHA-256-pinned field pack",
+    "field_count": 32,
+    "gates": {
+      "integrity": {
+        "checkpoint_counts_must_be_monotone": true,
+        "duplicate_tasks": 0,
+        "fixed_mean_absolute_error_max": 1e-12,
+        "hash_mismatches": 0,
+        "holding_probability_interval": "[0,1)",
+        "mass_balance_absolute_error_max": 1e-12,
+        "missing_tasks": 0,
+        "nonfinite_values": 0,
+        "paired_subset_violations": 0,
+        "runtime_parameter_mismatches": 0,
+        "task_mapping_mismatches": 0
+      },
+      "tail": {
+        "confidence_level": 0.95,
+        "escalation_horizon": 160000,
+        "horizon_drift_abs_plus_tcrit_se_max": 0.002,
+        "on_escalation_failure": "make finite-horizon and tail-bound claims only; no asymptotic claim",
+        "on_primary_failure": "run stage A2 with profile tail_160k",
+        "one_target_unresolved_upper_max": 0.005,
+        "primary_horizon": 80000,
+        "two_target_unresolved_upper_max": 0.005
+      }
+    },
+    "geometry_grid": {
+      "geometry_count": 15,
+      "target2_x": [
+        24,
+        32,
+        40
+      ],
+      "target2_y": [
+        9,
+        16,
+        24,
+        31,
+        38
+      ]
+    },
+    "primary_inference": {
+      "confidence_level": 0.95,
+      "decision_rules": {
+        "equivalent": "CI_low >= -0.002 and CI_high <= 0.002",
+        "inconclusive": "otherwise",
+        "negative": "CI_high < -0.002",
+        "positive": "CI_low > 0.002"
+      },
+      "estimand": "paired gating probability drop p(one-target hits target1) - p(two-target hits target1)",
+      "primary_amplitude_contrast": {
+        "contrast": "high - low",
+        "high": 0.2,
+        "low": 0.0
+      },
+      "primary_geometry": {
+        "target2_x": 32,
+        "target2_y": 24
+      },
+      "rope_absolute_probability": 0.002
+    },
+    "production_task_count": 5760,
+    "randomness": {
+      "common_random_numbers": "same disorder and walk stream across every amplitude, geometry, and target condition",
+      "effective_field_blocks": 32,
+      "forbidden_pseudoreplication": "do not treat two streams as twice as many independent fields",
+      "independent_inference_unit": "disorder field block",
+      "stream_aggregation": "average the two walk streams within each field before inference",
+      "walk_seed_formula": "1729 + disorder_replicate * 104729 + walk_replicate * 1009"
+    },
+    "stages": [
+      {
+        "advance_gate": "all integrity gates pass before expanding",
+        "expected_node_hours": 0.701,
+        "hard_cap_node_hours": 2.0,
+        "priority": 1,
+        "profile": "default",
+        "role": "canary",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": [
+            0,
+            1
+          ],
+          "target2": [
+            {
+              "x": 32,
+              "y": 24
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "G0",
+        "task_count": 8
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; its tail gate decides whether A2 is required",
+        "expected_node_hours": 33.662,
+        "hard_cap_node_hours": 45.0,
+        "priority": 2,
+        "profile": "default",
+        "role": "anchor horizon and second-stream block",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 24
+            },
+            {
+              "x": 32,
+              "y": 24
+            },
+            {
+              "x": 40,
+              "y": 24
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "A",
+        "task_count": 384
+      },
+      {
+        "advance_gate": "run only if the 80k tail gate fails",
+        "expected_node_hours": 65.444,
+        "hard_cap_node_hours": 85.0,
+        "priority": 3,
+        "profile": "tail_160k",
+        "role": "conditional 160k tail escalation",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 24
+            },
+            {
+              "x": 32,
+              "y": 24
+            },
+            {
+              "x": 40,
+              "y": 24
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "A2",
+        "task_count": 384
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; joint integrity is evaluated by the full reducer",
+        "expected_node_hours": 134.649,
+        "hard_cap_node_hours": 170.0,
+        "priority": 4,
+        "profile": "default",
+        "role": "remaining geometries at anchor amplitudes",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 9
+            },
+            {
+              "x": 24,
+              "y": 16
+            },
+            {
+              "x": 24,
+              "y": 31
+            },
+            {
+              "x": 24,
+              "y": 38
+            },
+            {
+              "x": 32,
+              "y": 9
+            },
+            {
+              "x": 32,
+              "y": 16
+            },
+            {
+              "x": 32,
+              "y": 31
+            },
+            {
+              "x": 32,
+              "y": 38
+            },
+            {
+              "x": 40,
+              "y": 9
+            },
+            {
+              "x": 40,
+              "y": 16
+            },
+            {
+              "x": 40,
+              "y": 31
+            },
+            {
+              "x": 40,
+              "y": 38
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "B1",
+        "task_count": 1536
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; joint integrity is evaluated by the full reducer",
+        "expected_node_hours": 112.207,
+        "hard_cap_node_hours": 140.0,
+        "priority": 5,
+        "profile": "default",
+        "role": "remaining amplitudes at the central x slice",
+        "selection": {
+          "amplitudes": [
+            0.05,
+            0.1,
+            0.15,
+            0.25
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 32,
+              "y": 9
+            },
+            {
+              "x": 32,
+              "y": 16
+            },
+            {
+              "x": 32,
+              "y": 24
+            },
+            {
+              "x": 32,
+              "y": 31
+            },
+            {
+              "x": 32,
+              "y": 38
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "B2",
+        "task_count": 1280
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; joint integrity is evaluated by the full reducer",
+        "expected_node_hours": 224.414,
+        "hard_cap_node_hours": 270.0,
+        "priority": 6,
+        "profile": "default",
+        "role": "remaining geometry-by-amplitude interactions",
+        "selection": {
+          "amplitudes": [
+            0.05,
+            0.1,
+            0.15,
+            0.25
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 9
+            },
+            {
+              "x": 24,
+              "y": 16
+            },
+            {
+              "x": 24,
+              "y": 24
+            },
+            {
+              "x": 24,
+              "y": 31
+            },
+            {
+              "x": 24,
+              "y": 38
+            },
+            {
+              "x": 40,
+              "y": 9
+            },
+            {
+              "x": 40,
+              "y": 16
+            },
+            {
+              "x": 40,
+              "y": 24
+            },
+            {
+              "x": 40,
+              "y": 31
+            },
+            {
+              "x": 40,
+              "y": 38
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "B3",
+        "task_count": 2560
+      }
+    ],
+    "status": "frozen-before-production-execution",
+    "task_mapping": {
+      "geometry_index": "x_index * 5 + y_index",
+      "loop_order": [
+        "target2_x",
+        "target2_y",
+        "amplitude",
+        "disorder_replicate",
+        "walk_replicate"
+      ],
+      "production_cell_id": "((((geometry_index * 6) + amplitude_index) * field_count + field_index) * 2 + stream_index)"
+    },
+    "walk_streams": [
+      0,
+      1
+    ]
+  },
+  "profiles": {
+    "tail_160k": {
+      "checkpoints": [
+        10000,
+        20000,
+        40000,
+        80000,
+        160000
+      ],
+      "steps": 160000
+    }
+  },
+  "schema": "grid2d-one-two-target-gating-gpu-v3-manifest"
+}

@@ -1,0 +1,89 @@
+{
+  "gating": {
+    "redirected_to_target2_probability": 0.0,
+    "target1_probability_drop": 0.0,
+    "target1_probability_ratio": null,
+    "unresolved_probability_change": 0.0
+  },
+  "geometry": {
+    "boundary": "attempted-outside-step-stays",
+    "start": [
+      7,
+      24
+    ],
+    "target1": [
+      54,
+      24
+    ],
+    "target2": [
+      32,
+      36
+    ],
+    "target_radius": 3
+  },
+  "one_target": {
+    "mass_balance": 1.0,
+    "target1": {
+      "hits": 0,
+      "mean_fpt": null,
+      "median_fpt": null,
+      "probability": 0.0,
+      "q90_fpt": null,
+      "standard_error": 0.0
+    },
+    "target2": {
+      "hits": 0,
+      "mean_fpt": null,
+      "median_fpt": null,
+      "probability": 0.0,
+      "q90_fpt": null,
+      "standard_error": 0.0
+    },
+    "unresolved": 128,
+    "unresolved_probability": 1.0
+  },
+  "parameters": {
+    "base_hold": 0.08,
+    "batch_size": 64,
+    "disorder_amplitude": 0.34,
+    "disorder_seed": 20260726,
+    "height": 48,
+    "steps": 12,
+    "target_radius": 3,
+    "walk_seed": 1729,
+    "walkers": 128,
+    "width": 64
+  },
+  "runtime": {
+    "device": "cpu",
+    "elapsed_seconds": 0.35263538360595703,
+    "gpu": null,
+    "hold_probability_max": 0.333510160446167,
+    "hold_probability_mean": 0.2556115686893463,
+    "hold_probability_min": 0.09331785142421722,
+    "python": "3.12.11",
+    "torch": "2.8.0+cu129"
+  },
+  "schema": "grid2d-one-two-target-gating-v1",
+  "two_targets": {
+    "mass_balance": 1.0,
+    "target1": {
+      "hits": 0,
+      "mean_fpt": null,
+      "median_fpt": null,
+      "probability": 0.0,
+      "q90_fpt": null,
+      "standard_error": 0.0
+    },
+    "target2": {
+      "hits": 0,
+      "mean_fpt": null,
+      "median_fpt": null,
+      "probability": 0.0,
+      "q90_fpt": null,
+      "standard_error": 0.0
+    },
+    "unresolved": 128,
+    "unresolved_probability": 1.0
+  }
+}

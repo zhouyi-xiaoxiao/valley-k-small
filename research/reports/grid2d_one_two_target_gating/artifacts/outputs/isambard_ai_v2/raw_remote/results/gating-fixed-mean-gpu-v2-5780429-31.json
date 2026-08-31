@@ -1,0 +1,160 @@
+{
+  "cumulative_counts": {
+    "1250": {
+      "one_target1": 6154,
+      "one_unresolved": 493846,
+      "two_target1": 2476,
+      "two_target2": 73952,
+      "two_unresolved": 423572,
+      "walkers": 500000
+    },
+    "2500": {
+      "one_target1": 38168,
+      "one_unresolved": 461832,
+      "two_target1": 16496,
+      "two_target2": 161808,
+      "two_unresolved": 321696,
+      "walkers": 500000
+    },
+    "3750": {
+      "one_target1": 84179,
+      "one_unresolved": 415821,
+      "two_target1": 35270,
+      "two_target2": 229133,
+      "two_unresolved": 235597,
+      "walkers": 500000
+    },
+    "500": {
+      "one_target1": 126,
+      "one_unresolved": 499874,
+      "two_target1": 38,
+      "two_target2": 17769,
+      "two_unresolved": 482193,
+      "walkers": 500000
+    },
+    "5000": {
+      "one_target1": 132018,
+      "one_unresolved": 367982,
+      "two_target1": 52026,
+      "two_target2": 278874,
+      "two_unresolved": 169100,
+      "walkers": 500000
+    }
+  },
+  "field": {
+    "device_dtype": "torch.float32",
+    "hold_sha256_float64_le": "c6fb9e35f5436da4351e94042db241b364fb8182d585806bd406f309f2238e79",
+    "maximum": 0.5,
+    "mean": 0.3,
+    "minimum": 0.1086157198271192,
+    "pack_filename": "disorder_field_pack_v2.npz",
+    "pack_sha256": "28d8879690a8ca307b5db03823aa39110d9734c2ec5ea68243facda9fe83cc8f",
+    "standard_deviation": 0.09317931355837891
+  },
+  "gating_probability_drop": 0.159984,
+  "gating_probability_ratio": 0.39408262509657777,
+  "one_target": {
+    "mass_balance": 1.0,
+    "target1": {
+      "hits": 132018,
+      "mean_fpt": 3197.412148343408,
+      "median_fpt": 3277,
+      "probability": 0.264036,
+      "q90_fpt": 4652,
+      "standard_error": 0.0006234115666299432
+    },
+    "unresolved": 367982,
+    "unresolved_probability": 0.735964
+  },
+  "paired_outcomes": {
+    "invalid_two_target1_not_one_target1": 0,
+    "one_target1__two_target1": 52026,
+    "one_target1__two_target2": 79992,
+    "one_target1__two_unresolved": 0,
+    "one_unresolved__two_target1": 0,
+    "one_unresolved__two_target2": 198882,
+    "one_unresolved__two_unresolved": 169100
+  },
+  "parameters": {
+    "amplitude": 0.2,
+    "base_hold": 0.3,
+    "batch_size": 131072,
+    "disorder_replicate": 15,
+    "disorder_seed": 20379511,
+    "steps": 5000,
+    "target_fraction": 0.5,
+    "target_radius": 3,
+    "walk_replicate": 0,
+    "walkers": 500000
+  },
+  "provenance": {
+    "argv": [
+      "/home/b5dj/ae23069.b5dj/valley-gating/gpu_gating_mc_v2.py",
+      "--field-pack",
+      "/home/b5dj/ae23069.b5dj/valley-gating/disorder_field_pack_v2.npz",
+      "--device",
+      "cuda",
+      "--walkers",
+      "500000",
+      "--steps",
+      "5000",
+      "--batch-size",
+      "131072",
+      "--disorder-replicate",
+      "15",
+      "--walk-replicate",
+      "0",
+      "--amplitude",
+      "0.20",
+      "--target-fraction",
+      "0.50",
+      "--output",
+      "/home/b5dj/ae23069.b5dj/valley-gating/results/gating-fixed-mean-gpu-v2-5780429-31.json"
+    ],
+    "slurm": {
+      "SLURM_ARRAY_JOB_ID": "5780429",
+      "SLURM_ARRAY_TASK_ID": "31",
+      "SLURM_CPUS_PER_TASK": "8",
+      "SLURM_JOB_ACCOUNT": "brics.b5dj",
+      "SLURM_JOB_ID": "5780429",
+      "SLURM_JOB_NAME": "vk-gpu-v2-main",
+      "SLURM_JOB_PARTITION": "workq",
+      "SLURM_NODELIST": "nid010185"
+    },
+    "source": "gpu_gating_mc_v2.py",
+    "source_sha256": "85e1b293f03669f2d1e533129d407aad34a0205380c0a84de289052d64f3b745"
+  },
+  "runtime": {
+    "cuda": "12.9",
+    "device": "cuda",
+    "elapsed_seconds": 9.259962558746338,
+    "gpu": "NVIDIA GH200 120GB",
+    "hostname": "nid010185",
+    "numpy": "1.26.4",
+    "python": "3.12.11",
+    "torch": "2.8.0+cu129"
+  },
+  "schema": "grid2d-one-two-target-gating-fixed-mean-gpu-v2",
+  "target2_first_probability": 0.557748,
+  "two_targets": {
+    "mass_balance": 1.0,
+    "target1": {
+      "hits": 52026,
+      "mean_fpt": 3104.6992465305807,
+      "median_fpt": 3137,
+      "probability": 0.104052,
+      "q90_fpt": 4586,
+      "standard_error": 0.00043179898400992096
+    },
+    "target2": {
+      "hits": 278874,
+      "mean_fpt": 2305.1650243479135,
+      "median_fpt": 2158,
+      "probability": 0.557748,
+      "q90_fpt": 4251,
+      "standard_error": 0.0007023747838526096
+    },
+    "unresolved": 169100,
+    "unresolved_probability": 0.3382
+  }
+}

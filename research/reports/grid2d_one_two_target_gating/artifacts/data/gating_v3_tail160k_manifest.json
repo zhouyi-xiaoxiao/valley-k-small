@@ -1,0 +1,5078 @@
+{
+  "artifacts": {
+    "container": {
+      "reference": "/projects/public/brics/containers/e4s/e4s-cuda90-aarch64-25.11.sif",
+      "sha256": "aac14468290a4b1489806a47e26ada96b741afbbe2edfe8fa2bf5424013f09c4"
+    },
+    "field_pack": {
+      "filename": "disorder_field_pack_v3.npz",
+      "sha256": "d7039cf68cd137729a3931f1265cad2735c67da3c436fc4f71d214f059f0e420",
+      "sidecar_filename": "disorder_field_pack_v3.manifest.json",
+      "sidecar_sha256": "8ebcfedda858697cd7ece6a1c0f48e71508999cf3c21dd887a75440ad9d21926"
+    },
+    "manifest_builder": {
+      "filename": "build_gating_campaign_manifest_v3.py",
+      "sha256": "a36046ef50ffa9fc66ec57ea5dcd9b107696b40120fe9390176ebdb6355b2b4d"
+    },
+    "manifest_validator": {
+      "filename": "validate_gating_campaign_manifest_v3.py",
+      "sha256": "8beecc39f1e4ff422003fd8e1d1de8d815706afc177916cf045c77fbed4e6eb0"
+    },
+    "runner_source": {
+      "filename": "gpu_gating_mc_v3.py",
+      "sha256": "fbac49ca27dbb0210d9bf89f5eebe160b60ed01386a17d301408727f0a722156"
+    }
+  },
+  "campaign": {
+    "activation_gate": "submit only when the verified 80k reducer tail gate is FAIL",
+    "cell_count": 384,
+    "created_utc": "2026-07-26T17:31:50.714520+00:00",
+    "domain": {
+      "height": 48,
+      "width": 64
+    },
+    "kind": "tail160k"
+  },
+  "cells": [
+    {
+      "amplitude": 0.0,
+      "cell_id": 0,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 768
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 1,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 769
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 2,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 770
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 3,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 771
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 4,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 772
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 5,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 773
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 6,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 774
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 7,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 775
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 8,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 776
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 9,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 777
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 10,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 778
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 11,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 779
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 12,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 780
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 13,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 781
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 14,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 782
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 15,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 783
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 16,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 784
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 17,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 785
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 18,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 786
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 19,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 787
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 20,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 788
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 21,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 789
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 22,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 790
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 23,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 791
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 24,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 792
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 25,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 793
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 26,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 794
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 27,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 795
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 28,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 796
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 29,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 797
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 30,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 798
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 31,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 799
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 32,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 800
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 33,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 801
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 34,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 802
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 35,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 803
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 36,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 804
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 37,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 805
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 38,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 806
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 39,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 807
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 40,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 808
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 41,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 809
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 42,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 810
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 43,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 811
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 44,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 812
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 45,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 813
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 46,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 814
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 47,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 815
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 48,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 816
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 49,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 817
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 50,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 818
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 51,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 819
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 52,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 820
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 53,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 821
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 54,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 822
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 55,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 823
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 56,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 824
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 57,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 825
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 58,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 826
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 59,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 827
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 60,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 828
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 61,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 829
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 62,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 830
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 63,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 831
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 64,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 1024
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 65,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 1025
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 66,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 1026
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 67,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 1027
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 68,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 1028
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 69,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 1029
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 70,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 1030
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 71,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 1031
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 72,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 1032
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 73,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 1033
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 74,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 1034
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 75,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 1035
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 76,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 1036
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 77,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 1037
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 78,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 1038
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 79,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 1039
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 80,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 1040
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 81,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 1041
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 82,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 1042
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 83,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 1043
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 84,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 1044
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 85,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 1045
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 86,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 1046
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 87,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 1047
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 88,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 1048
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 89,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 1049
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 90,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 1050
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 91,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 1051
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 92,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 1052
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 93,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 1053
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 94,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 1054
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 95,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 1055
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 96,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 1056
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 97,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 1057
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 98,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 1058
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 99,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 1059
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 100,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 1060
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 101,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 1061
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 102,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 1062
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 103,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 1063
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 104,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 1064
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 105,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 1065
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 106,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 1066
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 107,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 1067
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 108,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 1068
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 109,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 1069
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 110,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 1070
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 111,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 1071
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 112,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 1072
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 113,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 1073
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 114,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 1074
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 115,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 1075
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 116,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 1076
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 117,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 1077
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 118,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 1078
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 119,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 1079
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 120,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 1080
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 121,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 1081
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 122,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 1082
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 123,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 1083
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 124,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 1084
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 125,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 1085
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 126,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 1086
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 127,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 1087
+      },
+      "profile": "tail_160k",
+      "target2_x": 24,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 128,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2688
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 129,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2689
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 130,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2690
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 131,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2691
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 132,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 2692
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 133,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 2693
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 134,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 2694
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 135,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 2695
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 136,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 2696
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 137,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 2697
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 138,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 2698
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 139,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 2699
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 140,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 2700
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 141,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 2701
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 142,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 2702
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 143,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 2703
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 144,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 2704
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 145,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 2705
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 146,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 2706
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 147,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 2707
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 148,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 2708
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 149,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 2709
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 150,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 2710
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 151,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 2711
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 152,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 2712
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 153,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 2713
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 154,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 2714
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 155,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 2715
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 156,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 2716
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 157,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 2717
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 158,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 2718
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 159,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 2719
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 160,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 2720
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 161,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 2721
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 162,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 2722
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 163,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 2723
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 164,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 2724
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 165,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 2725
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 166,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 2726
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 167,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 2727
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 168,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 2728
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 169,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 2729
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 170,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 2730
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 171,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 2731
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 172,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 2732
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 173,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 2733
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 174,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 2734
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 175,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 2735
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 176,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 2736
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 177,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 2737
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 178,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 2738
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 179,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 2739
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 180,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 2740
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 181,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 2741
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 182,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 2742
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 183,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 2743
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 184,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 2744
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 185,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 2745
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 186,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 2746
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 187,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 2747
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 188,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 2748
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 189,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 2749
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 190,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 2750
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 191,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 2751
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 192,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2944
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 193,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 2945
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 194,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2946
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 195,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 2947
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 196,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 2948
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 197,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 2949
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 198,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 2950
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 199,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 2951
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 200,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 2952
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 201,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 2953
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 202,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 2954
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 203,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 2955
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 204,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 2956
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 205,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 2957
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 206,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 2958
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 207,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 2959
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 208,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 2960
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 209,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 2961
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 210,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 2962
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 211,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 2963
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 212,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 2964
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 213,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 2965
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 214,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 2966
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 215,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 2967
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 216,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 2968
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 217,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 2969
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 218,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 2970
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 219,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 2971
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 220,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 2972
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 221,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 2973
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 222,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 2974
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 223,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 2975
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 224,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 2976
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 225,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 2977
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 226,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 2978
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 227,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 2979
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 228,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 2980
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 229,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 2981
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 230,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 2982
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 231,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 2983
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 232,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 2984
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 233,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 2985
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 234,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 2986
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 235,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 2987
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 236,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 2988
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 237,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 2989
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 238,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 2990
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 239,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 2991
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 240,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 2992
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 241,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 2993
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 242,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 2994
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 243,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 2995
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 244,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 2996
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 245,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 2997
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 246,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 2998
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 247,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 2999
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 248,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 3000
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 249,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 3001
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 250,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 3002
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 251,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 3003
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 252,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 3004
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 253,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 3005
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 254,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 3006
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 255,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 3007
+      },
+      "profile": "tail_160k",
+      "target2_x": 32,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 256,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 4608
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 257,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 4609
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 258,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 4610
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 259,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 4611
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 260,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 4612
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 261,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 4613
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 262,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 4614
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 263,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 4615
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 264,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 4616
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 265,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 4617
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 266,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 4618
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 267,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 4619
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 268,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 4620
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 269,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 4621
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 270,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 4622
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 271,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 4623
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 272,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 4624
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 273,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 4625
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 274,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 4626
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 275,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 4627
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 276,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 4628
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 277,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 4629
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 278,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 4630
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 279,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 4631
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 280,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 4632
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 281,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 4633
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 282,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 4634
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 283,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 4635
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 284,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 4636
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 285,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 4637
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 286,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 4638
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 287,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 4639
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 288,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 4640
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 289,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 4641
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 290,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 4642
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 291,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 4643
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 292,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 4644
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 293,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 4645
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 294,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 4646
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 295,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 4647
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 296,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 4648
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 297,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 4649
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 298,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 4650
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 299,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 4651
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 300,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 4652
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 301,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 4653
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 302,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 4654
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 303,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 4655
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 304,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 4656
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 305,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 4657
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 306,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 4658
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 307,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 4659
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 308,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 4660
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 309,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 4661
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 310,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 4662
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 311,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 4663
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 312,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 4664
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 313,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 4665
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 314,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 4666
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 315,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 4667
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 316,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 4668
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 317,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 4669
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 318,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 4670
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.0,
+      "cell_id": 319,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 4671
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 320,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 4864
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 321,
+      "disorder_replicate": 0,
+      "notes": {
+        "production_cell_id": 4865
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 322,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 4866
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 323,
+      "disorder_replicate": 1,
+      "notes": {
+        "production_cell_id": 4867
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 324,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 4868
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 325,
+      "disorder_replicate": 2,
+      "notes": {
+        "production_cell_id": 4869
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 326,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 4870
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 327,
+      "disorder_replicate": 3,
+      "notes": {
+        "production_cell_id": 4871
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 328,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 4872
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 329,
+      "disorder_replicate": 4,
+      "notes": {
+        "production_cell_id": 4873
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 330,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 4874
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 331,
+      "disorder_replicate": 5,
+      "notes": {
+        "production_cell_id": 4875
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 332,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 4876
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 333,
+      "disorder_replicate": 6,
+      "notes": {
+        "production_cell_id": 4877
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 334,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 4878
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 335,
+      "disorder_replicate": 7,
+      "notes": {
+        "production_cell_id": 4879
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 336,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 4880
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 337,
+      "disorder_replicate": 8,
+      "notes": {
+        "production_cell_id": 4881
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 338,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 4882
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 339,
+      "disorder_replicate": 9,
+      "notes": {
+        "production_cell_id": 4883
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 340,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 4884
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 341,
+      "disorder_replicate": 10,
+      "notes": {
+        "production_cell_id": 4885
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 342,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 4886
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 343,
+      "disorder_replicate": 11,
+      "notes": {
+        "production_cell_id": 4887
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 344,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 4888
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 345,
+      "disorder_replicate": 12,
+      "notes": {
+        "production_cell_id": 4889
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 346,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 4890
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 347,
+      "disorder_replicate": 13,
+      "notes": {
+        "production_cell_id": 4891
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 348,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 4892
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 349,
+      "disorder_replicate": 14,
+      "notes": {
+        "production_cell_id": 4893
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 350,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 4894
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 351,
+      "disorder_replicate": 15,
+      "notes": {
+        "production_cell_id": 4895
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 352,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 4896
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 353,
+      "disorder_replicate": 16,
+      "notes": {
+        "production_cell_id": 4897
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 354,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 4898
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 355,
+      "disorder_replicate": 17,
+      "notes": {
+        "production_cell_id": 4899
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 356,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 4900
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 357,
+      "disorder_replicate": 18,
+      "notes": {
+        "production_cell_id": 4901
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 358,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 4902
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 359,
+      "disorder_replicate": 19,
+      "notes": {
+        "production_cell_id": 4903
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 360,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 4904
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 361,
+      "disorder_replicate": 20,
+      "notes": {
+        "production_cell_id": 4905
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 362,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 4906
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 363,
+      "disorder_replicate": 21,
+      "notes": {
+        "production_cell_id": 4907
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 364,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 4908
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 365,
+      "disorder_replicate": 22,
+      "notes": {
+        "production_cell_id": 4909
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 366,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 4910
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 367,
+      "disorder_replicate": 23,
+      "notes": {
+        "production_cell_id": 4911
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 368,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 4912
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 369,
+      "disorder_replicate": 24,
+      "notes": {
+        "production_cell_id": 4913
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 370,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 4914
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 371,
+      "disorder_replicate": 25,
+      "notes": {
+        "production_cell_id": 4915
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 372,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 4916
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 373,
+      "disorder_replicate": 26,
+      "notes": {
+        "production_cell_id": 4917
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 374,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 4918
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 375,
+      "disorder_replicate": 27,
+      "notes": {
+        "production_cell_id": 4919
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 376,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 4920
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 377,
+      "disorder_replicate": 28,
+      "notes": {
+        "production_cell_id": 4921
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 378,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 4922
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 379,
+      "disorder_replicate": 29,
+      "notes": {
+        "production_cell_id": 4923
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 380,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 4924
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 381,
+      "disorder_replicate": 30,
+      "notes": {
+        "production_cell_id": 4925
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 382,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 4926
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 0
+    },
+    {
+      "amplitude": 0.2,
+      "cell_id": 383,
+      "disorder_replicate": 31,
+      "notes": {
+        "production_cell_id": 4927
+      },
+      "profile": "tail_160k",
+      "target2_x": 40,
+      "target2_y": 24,
+      "walk_replicate": 1
+    }
+  ],
+  "defaults": {
+    "base_hold": 0.3,
+    "batch_size": 131072,
+    "checkpoints": [
+      5000,
+      10000,
+      20000,
+      40000,
+      80000
+    ],
+    "seed_base": 1729,
+    "start_x": 7,
+    "start_y": 24,
+    "steps": 80000,
+    "target1_x": 54,
+    "target1_y": 24,
+    "target_radius": 3,
+    "walkers": 1000000
+  },
+  "field_pack_sha256": "d7039cf68cd137729a3931f1265cad2735c67da3c436fc4f71d214f059f0e420",
+  "preregistration": {
+    "amplitudes": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25
+    ],
+    "boundary_rule": "an attempted step outside the rectangle stays at the current site",
+    "budget": {
+      "calibration": {
+        "allocated_seconds_formula": "17.628323 + 9.311070539 * (walkers / 500000) * (steps / 5000)",
+        "observed_gpu_runtime_mean_seconds": 9.311070539,
+        "observed_node_seconds": 889.0,
+        "observed_tasks": 33
+      },
+      "campaign_hard_cap": 950.0,
+      "optional_precision_expected_range": [
+        34.0,
+        129.0
+      ],
+      "optional_precision_hard_cap": 160.0,
+      "reserve": 50.0,
+      "stage_hard_cap_total": 712.0,
+      "unallocated_margin": 28.0,
+      "units": "node-hours"
+    },
+    "domain_source": "contrasts.shape in the SHA-256-pinned field pack",
+    "field_count": 32,
+    "gates": {
+      "integrity": {
+        "checkpoint_counts_must_be_monotone": true,
+        "duplicate_tasks": 0,
+        "fixed_mean_absolute_error_max": 1e-12,
+        "hash_mismatches": 0,
+        "holding_probability_interval": "[0,1)",
+        "mass_balance_absolute_error_max": 1e-12,
+        "missing_tasks": 0,
+        "nonfinite_values": 0,
+        "paired_subset_violations": 0,
+        "runtime_parameter_mismatches": 0,
+        "task_mapping_mismatches": 0
+      },
+      "tail": {
+        "confidence_level": 0.95,
+        "escalation_horizon": 160000,
+        "horizon_drift_abs_plus_tcrit_se_max": 0.002,
+        "on_escalation_failure": "make finite-horizon and tail-bound claims only; no asymptotic claim",
+        "on_primary_failure": "run stage A2 with profile tail_160k",
+        "one_target_unresolved_upper_max": 0.005,
+        "primary_horizon": 80000,
+        "two_target_unresolved_upper_max": 0.005
+      }
+    },
+    "geometry_grid": {
+      "geometry_count": 15,
+      "target2_x": [
+        24,
+        32,
+        40
+      ],
+      "target2_y": [
+        9,
+        16,
+        24,
+        31,
+        38
+      ]
+    },
+    "primary_inference": {
+      "confidence_level": 0.95,
+      "decision_rules": {
+        "equivalent": "CI_low >= -0.002 and CI_high <= 0.002",
+        "inconclusive": "otherwise",
+        "negative": "CI_high < -0.002",
+        "positive": "CI_low > 0.002"
+      },
+      "estimand": "paired gating probability drop p(one-target hits target1) - p(two-target hits target1)",
+      "primary_amplitude_contrast": {
+        "contrast": "high - low",
+        "high": 0.2,
+        "low": 0.0
+      },
+      "primary_geometry": {
+        "target2_x": 32,
+        "target2_y": 24
+      },
+      "rope_absolute_probability": 0.002
+    },
+    "production_task_count": 5760,
+    "randomness": {
+      "common_random_numbers": "same disorder and walk stream across every amplitude, geometry, and target condition",
+      "effective_field_blocks": 32,
+      "forbidden_pseudoreplication": "do not treat two streams as twice as many independent fields",
+      "independent_inference_unit": "disorder field block",
+      "stream_aggregation": "average the two walk streams within each field before inference",
+      "walk_seed_formula": "1729 + disorder_replicate * 104729 + walk_replicate * 1009"
+    },
+    "stages": [
+      {
+        "advance_gate": "all integrity gates pass before expanding",
+        "expected_node_hours": 0.701,
+        "hard_cap_node_hours": 2.0,
+        "priority": 1,
+        "profile": "default",
+        "role": "canary",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": [
+            0,
+            1
+          ],
+          "target2": [
+            {
+              "x": 32,
+              "y": 24
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "G0",
+        "task_count": 8
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; its tail gate decides whether A2 is required",
+        "expected_node_hours": 33.662,
+        "hard_cap_node_hours": 45.0,
+        "priority": 2,
+        "profile": "default",
+        "role": "anchor horizon and second-stream block",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 24
+            },
+            {
+              "x": 32,
+              "y": 24
+            },
+            {
+              "x": 40,
+              "y": 24
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "A",
+        "task_count": 384
+      },
+      {
+        "advance_gate": "run only if the 80k tail gate fails",
+        "expected_node_hours": 65.444,
+        "hard_cap_node_hours": 85.0,
+        "priority": 3,
+        "profile": "tail_160k",
+        "role": "conditional 160k tail escalation",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 24
+            },
+            {
+              "x": 32,
+              "y": 24
+            },
+            {
+              "x": 40,
+              "y": 24
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "A2",
+        "task_count": 384
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; joint integrity is evaluated by the full reducer",
+        "expected_node_hours": 134.649,
+        "hard_cap_node_hours": 170.0,
+        "priority": 4,
+        "profile": "default",
+        "role": "remaining geometries at anchor amplitudes",
+        "selection": {
+          "amplitudes": [
+            0.0,
+            0.2
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 9
+            },
+            {
+              "x": 24,
+              "y": 16
+            },
+            {
+              "x": 24,
+              "y": 31
+            },
+            {
+              "x": 24,
+              "y": 38
+            },
+            {
+              "x": 32,
+              "y": 9
+            },
+            {
+              "x": 32,
+              "y": 16
+            },
+            {
+              "x": 32,
+              "y": 31
+            },
+            {
+              "x": 32,
+              "y": 38
+            },
+            {
+              "x": 40,
+              "y": 9
+            },
+            {
+              "x": 40,
+              "y": 16
+            },
+            {
+              "x": 40,
+              "y": 31
+            },
+            {
+              "x": 40,
+              "y": 38
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "B1",
+        "task_count": 1536
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; joint integrity is evaluated by the full reducer",
+        "expected_node_hours": 112.207,
+        "hard_cap_node_hours": 140.0,
+        "priority": 5,
+        "profile": "default",
+        "role": "remaining amplitudes at the central x slice",
+        "selection": {
+          "amplitudes": [
+            0.05,
+            0.1,
+            0.15,
+            0.25
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 32,
+              "y": 9
+            },
+            {
+              "x": 32,
+              "y": 16
+            },
+            {
+              "x": 32,
+              "y": 24
+            },
+            {
+              "x": 32,
+              "y": 31
+            },
+            {
+              "x": 32,
+              "y": 38
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "B2",
+        "task_count": 1280
+      },
+      {
+        "advance_gate": "included in post-G0 parallel production; joint integrity is evaluated by the full reducer",
+        "expected_node_hours": 224.414,
+        "hard_cap_node_hours": 270.0,
+        "priority": 6,
+        "profile": "default",
+        "role": "remaining geometry-by-amplitude interactions",
+        "selection": {
+          "amplitudes": [
+            0.05,
+            0.1,
+            0.15,
+            0.25
+          ],
+          "field_indices": "all",
+          "target2": [
+            {
+              "x": 24,
+              "y": 9
+            },
+            {
+              "x": 24,
+              "y": 16
+            },
+            {
+              "x": 24,
+              "y": 24
+            },
+            {
+              "x": 24,
+              "y": 31
+            },
+            {
+              "x": 24,
+              "y": 38
+            },
+            {
+              "x": 40,
+              "y": 9
+            },
+            {
+              "x": 40,
+              "y": 16
+            },
+            {
+              "x": 40,
+              "y": 24
+            },
+            {
+              "x": 40,
+              "y": 31
+            },
+            {
+              "x": 40,
+              "y": 38
+            }
+          ],
+          "walk_streams": [
+            0,
+            1
+          ]
+        },
+        "stage_id": "B3",
+        "task_count": 2560
+      }
+    ],
+    "status": "frozen-before-production-execution",
+    "task_mapping": {
+      "geometry_index": "x_index * 5 + y_index",
+      "loop_order": [
+        "target2_x",
+        "target2_y",
+        "amplitude",
+        "disorder_replicate",
+        "walk_replicate"
+      ],
+      "production_cell_id": "((((geometry_index * 6) + amplitude_index) * field_count + field_index) * 2 + stream_index)"
+    },
+    "walk_streams": [
+      0,
+      1
+    ]
+  },
+  "profiles": {
+    "tail_160k": {
+      "checkpoints": [
+        10000,
+        20000,
+        40000,
+        80000,
+        160000
+      ],
+      "steps": 160000
+    }
+  },
+  "schema": "grid2d-one-two-target-gating-gpu-v3-manifest"
+}

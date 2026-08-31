@@ -1,0 +1,258 @@
+{
+  "classifier_spec": null,
+  "classifier_spec_sha256": null,
+  "command": [
+    "python",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_fold.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:45:11.202876+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_fold.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "held_out_delta": 0.005,
+    "quadrature_steps": [
+      0.2,
+      0.1,
+      0.05
+    ],
+    "quadrature_tmax": 40.0,
+    "scaling_mu": [
+      0.0002,
+      0.0005,
+      0.001,
+      0.002,
+      0.005,
+      0.01,
+      0.02,
+      0.05
+    ],
+    "shape_dt": 0.05,
+    "shape_tmax": 60.0,
+    "tail_check_time": 480.0
+  },
+  "inputs": [],
+  "model_spec": {
+    "budget_matching": {
+      "continuum_finite_a_reference": {
+        "exact_boundary_clipped_kappa_bar": 2.2501572220343395,
+        "factorized_relative_error": 2.1267034822525233e-05,
+        "far_patch_joint_volume": 0.011409127224656312,
+        "interior_patch_factorized_counterfactual_kappa_bar": 2.2502050762063366,
+        "near_patch_joint_volume": 0.009238091051110219,
+        "quadrature_reduction": "one-dimensional integration over |r_x| after analytic r_y width; y clipping is absent for both patches",
+        "tube_volume": 0.0781082993554117
+      },
+      "principal": "exact unweighted sum over encounter-tube Markov states",
+      "sensitivity": "exact matching under a tensor-product boundary-node trapezoidal/control-volume quadrature on the four-dimensional product-state grid"
+    },
+    "catalytic_coordinate": "arithmetic midpoint C_eta with eta=0.5",
+    "discretization": "boundary-node nearest-neighbour lattice CTMC with binary masks",
+    "endpoint_grids": [
+      [
+        9,
+        5
+      ],
+      [
+        10,
+        6
+      ],
+      [
+        11,
+        7
+      ],
+      [
+        12,
+        8
+      ],
+      [
+        13,
+        9
+      ]
+    ],
+    "endpoint_resolution_rule": {
+      "maximum_valley_ratio": 0.95,
+      "minimum_secondary_peak_ratio": 0.03
+    },
+    "even_grid_topology_diagnostics": {
+      "10x6_bounded_least_squares": {
+        "starts": [
+          [
+            15.3,
+            -0.0957
+          ],
+          [
+            15.0,
+            -0.1
+          ],
+          [
+            16.0,
+            -0.09
+          ],
+          [
+            12.0,
+            -0.13
+          ]
+        ],
+        "theta_bounds": [
+          -0.2,
+          0.0
+        ],
+        "time_bounds": [
+          8.0,
+          25.0
+        ]
+      },
+      "10x6_curvature_scan": {
+        "theta_interval": [
+          -0.2,
+          0.1
+        ],
+        "theta_points": 31,
+        "time_interval": [
+          0.01,
+          40.0
+        ],
+        "time_points": 401
+      },
+      "12x8_extrapolated_initial_guess": [
+        18.27,
+        -0.0616
+      ]
+    },
+    "family_id": "M2D-F",
+    "far_patch": {
+      "centre": [
+        0.72,
+        0.5
+      ],
+      "radius": 0.2,
+      "rate": 15.0
+    },
+    "fold_grids": [
+      [
+        9,
+        5
+      ],
+      [
+        11,
+        7
+      ],
+      [
+        13,
+        9
+      ]
+    ],
+    "fold_initial_guesses": {
+      "11x7": [
+        18.1,
+        0.014
+      ],
+      "13x9": [
+        16.6,
+        0.256
+      ],
+      "9x5": [
+        16.81,
+        0.275
+      ]
+    },
+    "initial_distribution": "hierarchical contact-safe selector: minimum physical Euclidean spread on the smallest feasible local stencil, followed by a strictly convex closest-to-product QP on the optimal LP face; exact product-bilinear return when already contact-safe",
+    "near_patch": {
+      "centre": [
+        0.25,
+        0.5
+      ],
+      "radius": 0.18,
+      "rate": 0.5
+    },
+    "reaction_radius": 0.17,
+    "start_one": [
+      0.0,
+      0.5
+    ],
+    "start_two": [
+      0.28,
+      0.5
+    ],
+    "walker_one": {
+      "diffusion": 0.0025,
+      "drift_x": 0.115,
+      "transverse_confinement": 1.5
+    },
+    "walker_two": {
+      "diffusion": 0.0008,
+      "drift_x": 0.02,
+      "transverse_confinement": 1.5
+    },
+    "weighted_fold_initial_guesses": {
+      "11x7": [
+        18.19,
+        0.241
+      ],
+      "13x9": [
+        16.43,
+        0.459
+      ],
+      "9x5": [
+        16.75,
+        0.624
+      ]
+    }
+  },
+  "model_spec_sha256": "648ad965e7300c61a8b5163b32f77a2ca43004a4c75bd296226d3ac821c82e78",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fold_metrics.json",
+      "sha256": "a143ed1af928d649bd0ff5e6a5929acf50ce286a14b5f20f3b47ffaa11a2b0f0"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fold_metrics.csv",
+      "sha256": "4fdc81ba872252b1ab200b771dab6f262d27f46a77936c7ffb6903fe0e25487e"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fold_series.npz",
+      "sha256": "1342694a3b84942cbd0a5a54f7ec04c5e7ef6d37711f6c07d55df2b741a29b45"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_fold_validation.pdf",
+      "sha256": "53a1dba299b8ca103fb0a4735981122b47a2585b4b3956ca3fa2f813174010de"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_fold_validation.png",
+      "sha256": "d96e85ffbd03baf24d3b5c50e11bb0b5ea5e6ab7a7f581176ce8d9755414736e"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_fold.py",
+      "sha256": "e41f296256569c3fab1e51c0a41b19a822e5a234a82a14c8df922ba160806e82"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/encounter2d.py",
+      "sha256": "43d5b8174c50b625d33b0fb030d238ebe9d7d985197ecb9d0f1319359ce6b650"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "b397bbbdee40a96f8462cf442c1539810f834d8bd1d579ee86ad53fc6ff783b0"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_radius_2d_matched_fold.md",
+      "sha256": "9bc02541de9a13013478788e8dbcd74f8e270ee03506fca91378faa9ea2c91b0"
+    }
+  ]
+}

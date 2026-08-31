@@ -1,0 +1,63 @@
+{
+  "cell_average_formulae": {
+    "contact_average": "C_ab=cell_relative_area^-1*integral_relative_cell_indicator_contact_dR_dY",
+    "physical_volume_killing_average": "V_j_mab=W^-1*C_ab*Phi_jm",
+    "profile_average": "Phi_jm=cell_midpoint_length^-1*integral_midpoint_cell_phi_j_dM",
+    "symbolic_control_combination": "V_control_mab=sum_j_weight_j*V_j_mab"
+  },
+  "claim_boundary": {
+    "budget_present": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "concrete_killing_constructed": false,
+    "control_values_present": false,
+    "production_bridge_accepted": false,
+    "release_eligible": false
+  },
+  "contact_geometry": {
+    "contact_indicator": "indicator(relative_parallel^2+minimum_image(relative_perpendicular)^2<=radius^2)",
+    "contact_radius_exact": "5764607523034235/36028797018963968",
+    "transverse_period_exact": "1/1"
+  },
+  "coordinate_and_storage": {
+    "coordinate_order": [
+      "midpoint",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "full_flat_index": "(i_midpoint*n_relative_parallel+i_relative_parallel)*n_relative_perpendicular+i_relative_perpendicular",
+    "periodic_normalization": "W^-1",
+    "tensor_storage_order": "C"
+  },
+  "embedded_predecessor_contract": {
+    "canonical_object_sha256": "de42fefbfc163fdcffd573d49d1156d761341c78b3756903755579dc8e9b23af",
+    "path": "artifacts/data/physical_production_killing_geometry_v1/bundle.json#factorization_contract"
+  },
+  "profile_basis": {
+    "analytic_integral_each": "1/1",
+    "centre_exact": [
+      "3152519739159347/9007199254740992",
+      "5404319552844595/9007199254740992",
+      "3/4",
+      "8106479329266893/9007199254740992"
+    ],
+    "density": "phi_j(M)=b((M-centre_j)/half_width)/(half_width*I_b)",
+    "half_width_exact": "5764607523034235/144115188075855872",
+    "normalizer": "I_b=integral_-1^1_b(u)_du",
+    "profile_count": 4,
+    "shape": "b(u)=indicator(abs(u)<1)*exp(-1/(1-u^2))"
+  },
+  "schema": "encounter_continuum_c1_factorization_source_v1",
+  "source_pins": {
+    "killing_geometry_authority": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "two_repeat_geometry_receipt": {
+      "path": "artifacts/data/physical_production_killing_geometry_two_repeat_outer_receipt_v1.json",
+      "sha256": "d635dfb7dd24fc15731dfd69e20264a5515c3bf82b92569a58cd2bed3264fcd9"
+    }
+  },
+  "status": "FROZEN_CONTROL_FREE_STANDALONE_FACTORIZATION_AUTHORITY_ONLY_NO_CONCRETE_KILLING"
+}

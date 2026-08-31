@@ -1,0 +1,190 @@
+{
+  "boundary_conditions": {
+    "finite_box_midpoint": "reflecting_zero_flux_approximant_only",
+    "finite_box_relative_parallel": "reflecting_zero_flux_approximant_only",
+    "target_midpoint": "natural_decay_form_realization_no_reflecting_face",
+    "target_relative_parallel": "natural_decay_form_realization_no_reflecting_face",
+    "target_relative_perpendicular": "periodic_torus_exact"
+  },
+  "claim_boundary": {
+    "c0a_operator_realization_proved": true,
+    "complete_c0_independently_accepted": false,
+    "c1_fixed_box_convergence_proved": false,
+    "c2_quantitative_spatial_error_proved": false,
+    "c3_derivative_box_error_proved": false,
+    "continuum_stationary_topology_proved": false,
+    "f0_complete": false,
+    "positive_budget_scientific_values_read": false,
+    "release_eligible": false
+  },
+  "control_contract": {
+    "control_ids": [
+      "m1",
+      "m2",
+      "m3"
+    ],
+    "exact_weight_rule": "numerator_divided_by_denominator_at_controls_control_id_weights",
+    "opaque_result_blind_source_path": "scratch/modal_certificate_exact_selector_method_only_result.json",
+    "opaque_result_blind_source_sha256": "77e8d4a0e567b313d23ce737bf584515a2de84b901fbfeca40917202be9cfd98",
+    "weight_constraints": "each_weight_nonnegative_and_exact_sum_one"
+  },
+  "continuum_object": {
+    "coordinate_order": [
+      "midpoint_z",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "density_space": "X_pi=L2(pi^-1 dx)",
+    "diffusion_matrix": [
+      "D/2",
+      "2*D",
+      "2*D"
+    ],
+    "drift": [
+      "-gamma*(z-zbar)",
+      "-gamma*relative_parallel",
+      "0"
+    ],
+    "form_core": "C_c_infinity(R^2)_tensor_C_infinity(T_W)",
+    "form_domain": "weighted_H1_closure_of_form_core",
+    "normalizer": "2*pi*D*W/gamma",
+    "quotient": "R_z_times_R_relative_parallel_times_T_W",
+    "reversible_density": "normalizer^-1*exp(-gamma*(z-zbar)^2/D-gamma*relative_parallel^2/(4*D))",
+    "weighted_state_space": "H=L2(pi dx)"
+  },
+  "equation_contract": [
+    "2.0",
+    "2.1",
+    "2.2",
+    "2.3",
+    "2.4",
+    "2.5",
+    "2.6",
+    "2.6a",
+    "2.7",
+    "2.7a",
+    "2.8",
+    "2.8a",
+    "2.9",
+    "2.10",
+    "2.11",
+    "2.12",
+    "2.13",
+    "2.14",
+    "2.15",
+    "2.16",
+    "2.17"
+  ],
+  "finite_volume_identification": {
+    "J_h": "piecewise_constant_cell_value_embedding_from_H_h_to_H_L",
+    "P_h": "pi_weighted_cell_average_from_H_L_to_H_h",
+    "cell_density": "pi_h_pc_on_C_i=pi_h_i/abs(C_i)",
+    "initial_projection": "u_0_h=P_h_u_0_or_H_h_consistent_approximation",
+    "killing_projection": "physical_volume_cell_average_no_meshwise_renormalization",
+    "stationary_mass_gauge": "sum_i_pi_h_i=integral_Omega_L_pi_dx"
+  },
+  "frozen_sources": {
+    "configuration_family": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "continuum_program": {
+      "path": "notes/continuum_research_program_v2.md",
+      "sha256": "cef634e93e0f3f4e339759cc7521baab728a4778a06fffc5ebffd65513144995"
+    },
+    "initial_source": {
+      "path": "artifacts/data/physical_initial_analytic_source_v1.json",
+      "sha256": "0b2efec5dc1abea1380ab862e46825e7b79658fe9bfa0ac6637e1426ed9f7f5f"
+    },
+    "killing_geometry_source": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "physical_design": {
+      "path": "notes/positive_b_fixed_control_robustness_design_v2.md",
+      "sha256": "264cf2d2ef17feedcb3c1a5469e18b5c57ba5981b57dc6201147955df3684dcd"
+    }
+  },
+  "initial_law": {
+    "analytic_mass_exact": "1/1",
+    "requirements": [
+      "q0_in_X_pi",
+      "q0_nonnegative",
+      "integral_q0_dx_equals_one"
+    ],
+    "source_path": "artifacts/data/physical_initial_analytic_source_v1.json"
+  },
+  "killing_field": {
+    "contact": "indicator(relative_parallel^2+minimum_image(relative_perpendicular)^2<=a^2)",
+    "field": "W^-1*contact*sum_j(w_c_j*phi_j(midpoint))",
+    "profile_count": 4,
+    "profiles": "fixed_bounded_nonnegative_unit_integral_compact_bumps",
+    "sharp_contact_retained": true
+  },
+  "mesh_contract": {
+    "alignment_classes": [
+      "cell_centred_reflecting",
+      "vertex_centred_reflecting_dual",
+      "cell_centred_periodic_base",
+      "cell_centred_periodic_half_shift"
+    ],
+    "box_nesting_relations": [
+      "O129/Base_midpoint_subset_M+_midpoint",
+      "O129/Base_relative_subset_R+_relative",
+      "M+_and_R+_product_equals_MR+_box",
+      "MR+_box_equals_MR+F_box"
+    ],
+    "configuration_count": 12,
+    "configuration_order": [
+      "O113/Base",
+      "E128/Base",
+      "O129/Base",
+      "O161/Base",
+      "M+",
+      "R+",
+      "MR+",
+      "MR+F",
+      "A_M",
+      "A_R",
+      "A_Y",
+      "A_MRY"
+    ],
+    "source_path": "artifacts/data/physical_configuration_family_control_free_v1.json"
+  },
+  "physical_parameters": {
+    "B": {
+      "binary64_hex": "0x1.47ae147ae147bp-7",
+      "exact": "5764607523034235/576460752303423488",
+      "unit": "inverse_time_times_longitudinal_measure"
+    },
+    "D": {
+      "binary64_hex": "0x1.0624dd2f1a9fcp-9",
+      "exact": "1152921504606847/576460752303423488",
+      "unit": "length_squared_per_time"
+    },
+    "W": {
+      "binary64_hex": "0x1.0000000000000p+0",
+      "exact": "1/1",
+      "unit": "length"
+    },
+    "contact_radius_a": {
+      "binary64_hex": "0x1.47ae147ae147bp-3",
+      "exact": "5764607523034235/36028797018963968",
+      "unit": "length"
+    },
+    "gamma": {
+      "binary64_hex": "0x1.999999999999ap-4",
+      "exact": "3602879701896397/36028797018963968",
+      "unit": "inverse_time"
+    },
+    "zbar": {
+      "binary64_hex": "0x1.e666666666666p-1",
+      "exact": "4278419646001971/4503599627370496",
+      "unit": "length"
+    }
+  },
+  "physical_dimension": 2,
+  "quotient_dimension": 3,
+  "schema": "encounter_continuum_c0_model_contract_candidate_v1",
+  "status": "HOLD_C0_CANDIDATE_RESULT_BLIND_PENDING_INDEPENDENT_THEORY_AND_HASH_AUDIT"
+}

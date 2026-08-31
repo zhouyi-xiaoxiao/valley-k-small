@@ -1,0 +1,1166 @@
+{
+  "authorized_scientific_command": null,
+  "claim_scope": "Exact optimality and deterministic lexicographic selection for three finite LPs whose coefficients are the frozen finite rationals represented by the recorded decimal strings.",
+  "continuum_kernel_executed_by_this_producer": false,
+  "evidence_timing": "POST_EXPLORATORY_POC_METHOD_ONLY_B0_RATIONALIZATION",
+  "external_lp_solver_used": false,
+  "f0_control_compatibility": {
+    "m1": {
+      "f0_control_margin_in_the_rationalized_lp": {
+        "decimal_40_significant": "0.8809904119598448677301375922780245039476",
+        "denominator": "36028797018963973000000000000000000",
+        "exact": "31741024728154701276606353250076613/36028797018963973000000000000000000",
+        "numerator": "31741024728154701276606353250076613"
+      },
+      "f0_control_satisfies_exact_selector_floor": false,
+      "f0_exact_raw_over_sum_weights": [
+        {
+          "decimal_40_significant": "0.02999999999999999472644063303050716484113",
+          "denominator": "36028797018963973",
+          "exact": "1080863910568919/36028797018963973",
+          "numerator": "1080863910568919"
+        },
+        {
+          "decimal_40_significant": "0.9100000000000000158206781009084785054766",
+          "denominator": "36028797018963973",
+          "exact": "32786205287257216/36028797018963973",
+          "numerator": "32786205287257216"
+        },
+        {
+          "decimal_40_significant": "0.02999999999999999472644063303050716484113",
+          "denominator": "36028797018963973",
+          "exact": "1080863910568919/36028797018963973",
+          "numerator": "1080863910568919"
+        },
+        {
+          "decimal_40_significant": "0.02999999999999999472644063303050716484113",
+          "denominator": "36028797018963973",
+          "exact": "1080863910568919/36028797018963973",
+          "numerator": "1080863910568919"
+        }
+      ],
+      "f0_raw_weight_hex": [
+        "0x1.eb851eb851eb8p-6",
+        "0x1.d1eb851eb8520p-1",
+        "0x1.eb851eb851eb8p-6",
+        "0x1.eb851eb851eb8p-6"
+      ],
+      "maximum_absolute_component_delta": {
+        "decimal_40_significant": "1.582067810090847850547661466884562166449e-17",
+        "denominator": "3602879701896397300",
+        "exact": "57/3602879701896397300",
+        "numerator": "57"
+      },
+      "reason": "exact_selector_weights_differ_from_f0_raw_over_exact_sum_control",
+      "replacement_authorized": false,
+      "required_policy_if_different": "Before any positive-B evaluation, either amend and independently audit the F0 v1 control freeze, or retain the existing F0 control and treat this exact selector only as a candidate/method result while disclosing the prior family pilot.",
+      "selector_exact_optimality_gap_over_feasible_f0_control": null,
+      "selector_minus_f0_component_deltas": [
+        {
+          "decimal_40_significant": "5.273559366969492835158871556281873888162e-18",
+          "denominator": "3602879701896397300",
+          "exact": "19/3602879701896397300",
+          "numerator": "19"
+        },
+        {
+          "decimal_40_significant": "-1.582067810090847850547661466884562166449e-17",
+          "denominator": "3602879701896397300",
+          "exact": "-57/3602879701896397300",
+          "numerator": "-57"
+        },
+        {
+          "decimal_40_significant": "5.273559366969492835158871556281873888162e-18",
+          "denominator": "3602879701896397300",
+          "exact": "19/3602879701896397300",
+          "numerator": "19"
+        },
+        {
+          "decimal_40_significant": "5.273559366969492835158871556281873888162e-18",
+          "denominator": "3602879701896397300",
+          "exact": "19/3602879701896397300",
+          "numerator": "19"
+        }
+      ],
+      "selector_rho_minus_f0_control_margin": {
+        "decimal_40_significant": "-2.092013759227802450394762097701455095427e-17",
+        "denominator": "3602879701896397300000000000000000000",
+        "exact": "-75372739092098263687/3602879701896397300000000000000000000",
+        "numerator": "-75372739092098263687"
+      },
+      "selector_weights": [
+        {
+          "decimal_40_significant": "0.03",
+          "denominator": "100",
+          "exact": "3/100",
+          "numerator": "3"
+        },
+        {
+          "decimal_40_significant": "0.91",
+          "denominator": "100",
+          "exact": "91/100",
+          "numerator": "91"
+        },
+        {
+          "decimal_40_significant": "0.03",
+          "denominator": "100",
+          "exact": "3/100",
+          "numerator": "3"
+        },
+        {
+          "decimal_40_significant": "0.03",
+          "denominator": "100",
+          "exact": "3/100",
+          "numerator": "3"
+        }
+      ],
+      "status": "HOLD_F0_CONTROL_COMPATIBILITY_NO_SILENT_REPLACEMENT",
+      "weights_exactly_equal": false
+    },
+    "m2": {
+      "f0_control_margin_in_the_rationalized_lp": {
+        "decimal_40_significant": "0.3254042484806042556107099926010349356342",
+        "denominator": "9007199254740991000000000000000000",
+        "exact": "2930980904404050904091903787735623/9007199254740991000000000000000000",
+        "numerator": "2930980904404050904091903787735623"
+      },
+      "f0_control_satisfies_exact_selector_floor": true,
+      "f0_exact_raw_over_sum_weights": [
+        {
+          "decimal_40_significant": "0.5420243013882049589762581063517820041684",
+          "denominator": "9007199254740991",
+          "exact": "4882120883515346/9007199254740991",
+          "numerator": "4882120883515346"
+        },
+        {
+          "decimal_40_significant": "0.03000000000000000222044604925031332736630",
+          "denominator": "36028797018963964",
+          "exact": "1080863910568919/36028797018963964",
+          "numerator": "1080863910568919"
+        },
+        {
+          "decimal_40_significant": "0.04824505083766303917214855330886526775786",
+          "denominator": "36028797018963964",
+          "exact": "1738211143799759/36028797018963964",
+          "numerator": "1738211143799759"
+        },
+        {
+          "decimal_40_significant": "0.3797306477741319996311472910890394007074",
+          "denominator": "18014398509481982",
+          "exact": "6840619215266951/18014398509481982",
+          "numerator": "6840619215266951"
+        }
+      ],
+      "f0_raw_weight_hex": [
+        "0x1.1584359032fd2p-1",
+        "0x1.eb851eb851eb8p-6",
+        "0x1.8b39347154f3cp-5",
+        "0x1.84d81c65ea487p-2"
+      ],
+      "maximum_absolute_component_delta": {
+        "decimal_40_significant": "7.727353847690574966598518045526452288530e-18",
+        "denominator": "1310303803388275645999223320198926890647498037736348041718",
+        "exact": "10125181136755986453067278092835659745617/1310303803388275645999223320198926890647498037736348041718",
+        "numerator": "10125181136755986453067278092835659745617"
+      },
+      "reason": "exact_selector_weights_differ_from_f0_raw_over_exact_sum_control",
+      "replacement_authorized": false,
+      "required_policy_if_different": "Before any positive-B evaluation, either amend and independently audit the F0 v1 control freeze, or retain the existing F0 control and treat this exact selector only as a candidate/method result while disclosing the prior family pilot.",
+      "selector_exact_optimality_gap_over_feasible_f0_control": {
+        "decimal_40_significant": "8.692108428511927337354954506527714602929e-18",
+        "denominator": "873535868925517097332815546799284593764998691824232027812000000000000000000",
+        "exact": "7592868488894977357447748847577763413713175052881078022683/873535868925517097332815546799284593764998691824232027812000000000000000000",
+        "numerator": "7592868488894977357447748847577763413713175052881078022683"
+      },
+      "selector_minus_f0_component_deltas": [
+        {
+          "decimal_40_significant": "-5.917363357858957474224919229027160425143e-18",
+          "denominator": "436767934462758548666407773399642296882499345912116013906",
+          "exact": "-2584514571277669998825668712252555318941/436767934462758548666407773399642296882499345912116013906",
+          "numerator": "-2584514571277669998825668712252555318941"
+        },
+        {
+          "decimal_40_significant": "-2.220446049250313327366296217747857185276e-18",
+          "denominator": "450359962737049550",
+          "exact": "-1/450359962737049550",
+          "numerator": "-1"
+        },
+        {
+          "decimal_40_significant": "4.104555594186958349926974012485653218887e-19",
+          "denominator": "32757595084706891149980583004973172266187450943408701042950",
+          "exact": "13445537015704487984461464983781810345499/32757595084706891149980583004973172266187450943408701042950",
+          "numerator": "13445537015704487984461464983781810345499"
+        },
+        {
+          "decimal_40_significant": "7.727353847690574966598518045526452288530e-18",
+          "denominator": "1310303803388275645999223320198926890647498037736348041718",
+          "exact": "10125181136755986453067278092835659745617/1310303803388275645999223320198926890647498037736348041718",
+          "numerator": "10125181136755986453067278092835659745617"
+        }
+      ],
+      "selector_rho_minus_f0_control_margin": {
+        "decimal_40_significant": "8.692108428511927337354954506527714602929e-18",
+        "denominator": "873535868925517097332815546799284593764998691824232027812000000000000000000",
+        "exact": "7592868488894977357447748847577763413713175052881078022683/873535868925517097332815546799284593764998691824232027812000000000000000000",
+        "numerator": "7592868488894977357447748847577763413713175052881078022683"
+      },
+      "selector_weights": [
+        {
+          "decimal_40_significant": "0.5420243013882049530588947484928245299435",
+          "denominator": "48490981725852599599478842590487770043566",
+          "exact": "26283290493583468211604731104755904933345/48490981725852599599478842590487770043566",
+          "numerator": "26283290493583468211604731104755904933345"
+        },
+        {
+          "decimal_40_significant": "0.03",
+          "denominator": "100",
+          "exact": "3/100",
+          "numerator": "3"
+        },
+        {
+          "decimal_40_significant": "0.04824505083766303958260411272756110275056",
+          "denominator": "7273647258877889939921826388573165506534900",
+          "exact": "350917481779792215769355334742286319173303/7273647258877889939921826388573165506534900",
+          "numerator": "350917481779792215769355334742286319173303"
+        },
+        {
+          "decimal_40_significant": "0.3797306477741320073585011387796143673060",
+          "denominator": "72736472588778899399218263885731655065349",
+          "exact": "27620267852942407942141065964602984821638/72736472588778899399218263885731655065349",
+          "numerator": "27620267852942407942141065964602984821638"
+        }
+      ],
+      "status": "HOLD_F0_CONTROL_COMPATIBILITY_NO_SILENT_REPLACEMENT",
+      "weights_exactly_equal": false
+    },
+    "m3": {
+      "f0_control_margin_in_the_rationalized_lp": {
+        "decimal_40_significant": "0.1361627364148734190370295868049829456645",
+        "denominator": "3602879701896396700000000000000000",
+        "exact": "490577959183816783518243229378601/3602879701896396700000000000000000",
+        "numerator": "490577959183816783518243229378601"
+      },
+      "f0_control_satisfies_exact_selector_floor": false,
+      "f0_exact_raw_over_sum_weights": [
+        {
+          "decimal_40_significant": "0.4016285358628774005315269463833150057488",
+          "denominator": "36028797018963967",
+          "exact": "14470192995627300/36028797018963967",
+          "numerator": "14470192995627300"
+        },
+        {
+          "decimal_40_significant": "0.2761816314605931098663979944727617195754",
+          "denominator": "36028797018963967",
+          "exact": "9950491940260022/36028797018963967",
+          "numerator": "9950491940260022"
+        },
+        {
+          "decimal_40_significant": "0.02999999999999999972244424384371085719037",
+          "denominator": "36028797018963967",
+          "exact": "1080863910568919/36028797018963967",
+          "numerator": "1080863910568919"
+        },
+        {
+          "decimal_40_significant": "0.2921898326765294898796308153002124174855",
+          "denominator": "36028797018963967",
+          "exact": "10527248172507726/36028797018963967",
+          "numerator": "10527248172507726"
+        }
+      ],
+      "f0_raw_weight_hex": [
+        "0x1.9b4482caaf892p-2",
+        "0x1.1acf5b8b8445bp-2",
+        "0x1.eb851eb851eb8p-6",
+        "0x1.2b33cfbe47127p-2"
+      ],
+      "maximum_absolute_component_delta": {
+        "decimal_40_significant": "1.581197551056367140689064700728907718855e-16",
+        "denominator": "165831109907940773790448966354154771546851172109970758649",
+        "exact": "26221174487539521247330754161788330394205/165831109907940773790448966354154771546851172109970758649",
+        "numerator": "26221174487539521247330754161788330394205"
+      },
+      "reason": "exact_selector_weights_differ_from_f0_raw_over_exact_sum_control",
+      "replacement_authorized": false,
+      "required_policy_if_different": "Before any positive-B evaluation, either amend and independently audit the F0 v1 control freeze, or retain the existing F0 control and treat this exact selector only as a candidate/method result while disclosing the prior family pilot.",
+      "selector_exact_optimality_gap_over_feasible_f0_control": null,
+      "selector_minus_f0_component_deltas": [
+        {
+          "decimal_40_significant": "-5.757667752093825653951346829739519509417e-17",
+          "denominator": "2335649435323109490006323469776827768265509466337616319",
+          "exact": "-134478934339560210466448596175826672802/2335649435323109490006323469776827768265509466337616319",
+          "numerator": "-134478934339560210466448596175826672802"
+        },
+        {
+          "decimal_40_significant": "-1.008206333408547466722026294700672254955e-16",
+          "denominator": "16583110990794077379044896635415477154685117210997075864900",
+          "exact": "-1671919752853548149810421810346603175342947/16583110990794077379044896635415477154685117210997075864900",
+          "numerator": "-1671919752853548149810421810346603175342947"
+        },
+        {
+          "decimal_40_significant": "2.775557561562891428096276945716487041701e-19",
+          "denominator": "3602879701896396700",
+          "exact": "1/3602879701896396700",
+          "numerator": "1"
+        },
+        {
+          "decimal_40_significant": "1.581197551056367140689064700728907718855e-16",
+          "denominator": "165831109907940773790448966354154771546851172109970758649",
+          "exact": "26221174487539521247330754161788330394205/165831109907940773790448966354154771546851172109970758649",
+          "numerator": "26221174487539521247330754161788330394205"
+        }
+      ],
+      "selector_rho_minus_f0_control_margin": {
+        "decimal_40_significant": "2.044273869652534755360814774073788624873e-16",
+        "denominator": "1658311099079407737904489663541547715468511721099707586490000000000000000000",
+        "exact": "339004204760280882194445423531559097316579805099019881449743/1658311099079407737904489663541547715468511721099707586490000000000000000000",
+        "numerator": "339004204760280882194445423531559097316579805099019881449743"
+      },
+      "selector_weights": [
+        {
+          "decimal_40_significant": "0.4016285358628773429548494254450584662353",
+          "denominator": "64827294513711540691991929804781870657",
+          "exact": "26036491379493507141660506705923271294/64827294513711540691991929804781870657",
+          "numerator": "26036491379493507141660506705923271294"
+        },
+        {
+          "decimal_40_significant": "0.2761816314605930090457646536180150473728",
+          "denominator": "460273791047351938913142701613951281664700",
+          "exact": "127119166530009747123445480310208680739259/460273791047351938913142701613951281664700",
+          "numerator": "127119166530009747123445480310208680739259"
+        },
+        {
+          "decimal_40_significant": "0.03",
+          "denominator": "100",
+          "exact": "3/100",
+          "numerator": "3"
+        },
+        {
+          "decimal_40_significant": "0.2921898326765296479993859209369264863920",
+          "denominator": "4602737910473519389131427016139512816647",
+          "exact": "1344873219915177329165133426432688362881/4602737910473519389131427016139512816647",
+          "numerator": "1344873219915177329165133426432688362881"
+        }
+      ],
+      "status": "HOLD_F0_CONTROL_COMPATIBILITY_NO_SILENT_REPLACEMENT",
+      "weights_exactly_equal": false
+    }
+  },
+  "f0_control_freeze_status": "HOLD_F0_CONTROL_COMPATIBILITY_NO_SILENT_REPLACEMENT",
+  "gates": {
+    "all_finite_rational_lp_selectors_have_positive_exact_optima": true,
+    "all_selector_weights_exactly_reproduce_f0_controls": false,
+    "continuum_derivative_coefficients_outward_interval_certified": false,
+    "full_window_box_and_complement_certificate_present": false,
+    "positive_budget_evaluated": false
+  },
+  "limitations": [
+    "The exact proof concerns the rationalized coefficient tables, not continuum derivatives.",
+    "The source binary64 quadrature values have no outward coefficient error intervals.",
+    "Raw signed margins are exact only in the internally reconstructed rationalized table units.",
+    "No box-curvature or full-complement derivative enclosure is supplied.",
+    "No exact-selector weight may silently replace a different F0 raw-over-exact-sum control.",
+    "No positive-budget killed process, primary FV grid, or off-lattice trajectory was evaluated.",
+    "This method-only artifact is neither a publication gate nor F1 authorization."
+  ],
+  "positive_budget_evaluated": false,
+  "primary_finite_volume_grid_evaluated": false,
+  "publication_certificate_status": "HOLD_CONTINUUM_COEFFICIENTS_NOT_INTERVAL_CERTIFIED",
+  "schema_version": 1,
+  "selector_results": {
+    "m1": {
+      "coefficient_table_sha256": "20f8ed31ab95a20f14b66a42325cebe0991f265a886cf28374ad568328065afc",
+      "enumeration": {
+        "active_set_size": 4,
+        "all_linear_systems_and_constraint_residuals_used_fraction_exact_arithmetic": true,
+        "constraints": 6,
+        "enumerated_active_sets": 15,
+        "exactly_feasible_solutions_before_deduplication": 7,
+        "nonsingular_exact_solutions": 14,
+        "primary_optimal_vertices": 1,
+        "singular_active_sets": 1,
+        "unique_exactly_feasible_vertices": 7
+      },
+      "exactness_scope": "finite_rational_lp_defined_by_frozen_decimal_strings_only",
+      "frozen_coefficient_source": {
+        "checkpoint_times_decimal": [
+          "5.5",
+          "12.0"
+        ],
+        "desired_signs": [
+          1,
+          -1
+        ],
+        "name": "m1",
+        "row_scales_decimal": [
+          "0.2674801474024189",
+          "0.11213730751238601"
+        ],
+        "signed_normalized_coefficients_decimal": [
+          [
+            "-0.6593397434471837",
+            "1.0",
+            "0.04057643049449547",
+            "4.293408212312281e-05"
+          ],
+          [
+            "0.005908164154451627",
+            "1.0",
+            "-0.5316894021563535",
+            "-0.4412050300032699"
+          ]
+        ],
+        "target_maxima": 1,
+        "weight_floor_decimal": "0.03"
+      },
+      "name": "m1",
+      "objective": "maximize_unrestricted_rho_then_lexicographically_minimize_w0_w1_w2_w3",
+      "reason": "positive_exact_rationalized_optimum",
+      "selected": {
+        "all_exactly_active_constraints": [
+          "checkpoint_1",
+          "weight_floor_0",
+          "weight_floor_2",
+          "weight_floor_3"
+        ],
+        "constraint_residuals": {
+          "checkpoint_0": {
+            "decimal_40_significant": "0.0104479766740381999743",
+            "denominator": "10000000000000000000000",
+            "exact": "104479766740381999743/10000000000000000000000",
+            "numerator": "104479766740381999743"
+          },
+          "checkpoint_1": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "weight_floor_0": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "weight_floor_1": {
+            "decimal_40_significant": "0.88",
+            "denominator": "25",
+            "exact": "22/25",
+            "numerator": "22"
+          },
+          "weight_floor_2": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "weight_floor_3": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          }
+        },
+        "exact_feasibility_rechecked": true,
+        "generating_active_set": [
+          "checkpoint_1",
+          "weight_floor_0",
+          "weight_floor_2",
+          "weight_floor_3"
+        ],
+        "minimum_raw_signed_checkpoint_margin_in_rationalized_table_units": {
+          "decimal_40_significant": "0.0987918927414047552914621219460371281",
+          "denominator": "10000000000000000000000000000000000000",
+          "exact": "987918927414047552914621219460371281/10000000000000000000000000000000000000",
+          "numerator": "987918927414047552914621219460371281"
+        },
+        "minimum_signed_normalized_checkpoint_margin": {
+          "decimal_40_significant": "0.88099041195984484681",
+          "denominator": "100000000000000000000",
+          "exact": "88099041195984484681/100000000000000000000",
+          "numerator": "88099041195984484681"
+        },
+        "normalized_optimum_rho": {
+          "decimal_40_significant": "0.88099041195984484681",
+          "denominator": "100000000000000000000",
+          "exact": "88099041195984484681/100000000000000000000",
+          "numerator": "88099041195984484681"
+        },
+        "raw_signed_checkpoint_margins_in_rationalized_table_units": [
+          {
+            "decimal_40_significant": "0.23844207159196582230649215970768654327",
+            "denominator": "100000000000000000000000000000000000000",
+            "exact": "23844207159196582230649215970768654327/100000000000000000000000000000000000000",
+            "numerator": "23844207159196582230649215970768654327"
+          },
+          {
+            "decimal_40_significant": "0.0987918927414047552914621219460371281",
+            "denominator": "10000000000000000000000000000000000000",
+            "exact": "987918927414047552914621219460371281/10000000000000000000000000000000000000",
+            "numerator": "987918927414047552914621219460371281"
+          }
+        ],
+        "row_scales": [
+          {
+            "decimal_40_significant": "0.2674801474024189",
+            "denominator": "10000000000000000",
+            "exact": "2674801474024189/10000000000000000",
+            "numerator": "2674801474024189"
+          },
+          {
+            "decimal_40_significant": "0.11213730751238601",
+            "denominator": "100000000000000000",
+            "exact": "11213730751238601/100000000000000000",
+            "numerator": "11213730751238601"
+          }
+        ],
+        "signed_normalized_checkpoint_margins": [
+          {
+            "decimal_40_significant": "0.8914383886338830467843",
+            "denominator": "10000000000000000000000",
+            "exact": "8914383886338830467843/10000000000000000000000",
+            "numerator": "8914383886338830467843"
+          },
+          {
+            "decimal_40_significant": "0.88099041195984484681",
+            "denominator": "100000000000000000000",
+            "exact": "88099041195984484681/100000000000000000000",
+            "numerator": "88099041195984484681"
+          }
+        ],
+        "simplex_sum_residual": {
+          "decimal_40_significant": "0",
+          "denominator": "1",
+          "exact": "0/1",
+          "numerator": "0"
+        },
+        "weights": [
+          {
+            "decimal_40_significant": "0.03",
+            "denominator": "100",
+            "exact": "3/100",
+            "numerator": "3"
+          },
+          {
+            "decimal_40_significant": "0.91",
+            "denominator": "100",
+            "exact": "91/100",
+            "numerator": "91"
+          },
+          {
+            "decimal_40_significant": "0.03",
+            "denominator": "100",
+            "exact": "3/100",
+            "numerator": "3"
+          },
+          {
+            "decimal_40_significant": "0.03",
+            "denominator": "100",
+            "exact": "3/100",
+            "numerator": "3"
+          }
+        ]
+      },
+      "status": "PASS_EXACT_RATIONALIZED_SELECTOR",
+      "target_maxima": 1
+    },
+    "m2": {
+      "coefficient_table_sha256": "bf2b117a3cbfdcc712030abcc353631f3dd366f539f51152234ab2713f05168c",
+      "enumeration": {
+        "active_set_size": 4,
+        "all_linear_systems_and_constraint_residuals_used_fraction_exact_arithmetic": true,
+        "constraints": 8,
+        "enumerated_active_sets": 70,
+        "exactly_feasible_solutions_before_deduplication": 11,
+        "nonsingular_exact_solutions": 69,
+        "primary_optimal_vertices": 1,
+        "singular_active_sets": 1,
+        "unique_exactly_feasible_vertices": 11
+      },
+      "exactness_scope": "finite_rational_lp_defined_by_frozen_decimal_strings_only",
+      "frozen_coefficient_source": {
+        "checkpoint_times_decimal": [
+          "2.0",
+          "5.5",
+          "16.0",
+          "35.0"
+        ],
+        "desired_signs": [
+          1,
+          -1,
+          1,
+          -1
+        ],
+        "name": "m2",
+        "row_scales_decimal": [
+          "0.554048268115002",
+          "0.2674801474024188",
+          "0.06072999278484658",
+          "0.005587099274431895"
+        ],
+        "signed_normalized_coefficients_decimal": [
+          [
+            "1.0",
+            "1.1603546024409161e-05",
+            "1.3855853269321413e-12",
+            "1.9616636844203973e-22"
+          ],
+          [
+            "0.6593397434471842",
+            "-1.0",
+            "-0.040576430494495476",
+            "-4.2934082123122815e-05"
+          ],
+          [
+            "-0.0004475615149088995",
+            "-0.5744836141548475",
+            "-0.7637944413288659",
+            "1.0"
+          ],
+          [
+            "1.339325051000316e-06",
+            "0.046511727711955726",
+            "1.0",
+            "0.7262071720607719"
+          ]
+        ],
+        "target_maxima": 2,
+        "weight_floor_decimal": "0.03"
+      },
+      "name": "m2",
+      "objective": "maximize_unrestricted_rho_then_lexicographically_minimize_w0_w1_w2_w3",
+      "reason": "positive_exact_rationalized_optimum",
+      "selected": {
+        "all_exactly_active_constraints": [
+          "checkpoint_1",
+          "checkpoint_2",
+          "checkpoint_3",
+          "weight_floor_1"
+        ],
+        "constraint_residuals": {
+          "checkpoint_0": {
+            "decimal_40_significant": "0.2166204010140482686655185788822068504857",
+            "denominator": "1212274543146314989986971064762194251089150000000000000000000000000000000000000",
+            "exact": "262603397675476913281776884185749879046158994956079952642653712884594565994629/1212274543146314989986971064762194251089150000000000000000000000000000000000000",
+            "numerator": "262603397675476913281776884185749879046158994956079952642653712884594565994629"
+          },
+          "checkpoint_1": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "checkpoint_2": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "checkpoint_3": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "weight_floor_0": {
+            "decimal_40_significant": "0.5120243013882049530588947484928245299435",
+            "denominator": "2424549086292629979973942129524388502178300",
+            "exact": "1241428052090394511181018291352063591601901/2424549086292629979973942129524388502178300",
+            "numerator": "1241428052090394511181018291352063591601901"
+          },
+          "weight_floor_1": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "weight_floor_2": {
+            "decimal_40_significant": "0.01824505083766303958260411272756110275056",
+            "denominator": "1818411814719472484980456597143291376633725",
+            "exact": "33177016003363879392925135771272838494314/1818411814719472484980456597143291376633725",
+            "numerator": "33177016003363879392925135771272838494314"
+          },
+          "weight_floor_3": {
+            "decimal_40_significant": "0.3497306477741320073585011387796143673060",
+            "denominator": "7273647258877889939921826388573165506534900",
+            "exact": "2543817367527904096016451804803103516967753/7273647258877889939921826388573165506534900",
+            "numerator": "2543817367527904096016451804803103516967753"
+          }
+        },
+        "exact_feasibility_rechecked": true,
+        "generating_active_set": [
+          "checkpoint_1",
+          "checkpoint_2",
+          "checkpoint_3",
+          "weight_floor_1"
+        ],
+        "minimum_raw_signed_checkpoint_margin_in_rationalized_table_units": {
+          "decimal_40_significant": "0.001818065840583040156065111495485123549394",
+          "denominator": "19396392690341039839791537036195108017426400000000000000000000000000000000000",
+          "exact": "35263918980843618304080693903080266253854411227741771867680076037170310411/19396392690341039839791537036195108017426400000000000000000000000000000000000",
+          "numerator": "35263918980843618304080693903080266253854411227741771867680076037170310411"
+        },
+        "minimum_signed_normalized_checkpoint_margin": {
+          "decimal_40_significant": "0.3254042484806042643028184211129622729892",
+          "denominator": "96981963451705199198957685180975540087132000000000000000000",
+          "exact": "31558342933175559858376629785004918591370881881288857927009/96981963451705199198957685180975540087132000000000000000000",
+          "numerator": "31558342933175559858376629785004918591370881881288857927009"
+        },
+        "normalized_optimum_rho": {
+          "decimal_40_significant": "0.3254042484806042643028184211129622729892",
+          "denominator": "96981963451705199198957685180975540087132000000000000000000",
+          "exact": "31558342933175559858376629785004918591370881881288857927009/96981963451705199198957685180975540087132000000000000000000",
+          "numerator": "31558342933175559858376629785004918591370881881288857927009"
+        },
+        "raw_signed_checkpoint_margins_in_rationalized_table_units": [
+          {
+            "decimal_40_significant": "0.3003078183281532298941040442840641529018",
+            "denominator": "202045757191052498331161844127032375181525000000000000000000000000000000000000000000000000000",
+            "exact": "60675920544504752705923630685489154116071357840945342387081795105493829697615006505181054043/202045757191052498331161844127032375181525000000000000000000000000000000000000000000000000000",
+            "numerator": "60675920544504752705923630685489154116071357840945342387081795105493829697615006505181054043"
+          },
+          {
+            "decimal_40_significant": "0.08703917634896534245301131510922607802677",
+            "denominator": "80818302876420999332464737650812950072610000000000000000000000000000000000",
+            "exact": "7034358516284900350735724253161489438890711458969950757823739375567041141/80818302876420999332464737650812950072610000000000000000000000000000000000",
+            "numerator": "7034358516284900350735724253161489438890711458969950757823739375567041141"
+          },
+          {
+            "decimal_40_significant": "0.01976179766238552066374850146312595210644",
+            "denominator": "4849098172585259959947884259048777004356600000000000000000000000000000000000",
+            "exact": "95826896931673290318237027713124633235092528264973572385495964502345163961/4849098172585259959947884259048777004356600000000000000000000000000000000000",
+            "numerator": "95826896931673290318237027713124633235092528264973572385495964502345163961"
+          },
+          {
+            "decimal_40_significant": "0.001818065840583040156065111495485123549394",
+            "denominator": "19396392690341039839791537036195108017426400000000000000000000000000000000000",
+            "exact": "35263918980843618304080693903080266253854411227741771867680076037170310411/19396392690341039839791537036195108017426400000000000000000000000000000000000",
+            "numerator": "35263918980843618304080693903080266253854411227741771867680076037170310411"
+          }
+        ],
+        "row_scales": [
+          {
+            "decimal_40_significant": "0.554048268115002",
+            "denominator": "500000000000000",
+            "exact": "277024134057501/500000000000000",
+            "numerator": "277024134057501"
+          },
+          {
+            "decimal_40_significant": "0.2674801474024188",
+            "denominator": "2500000000000000",
+            "exact": "668700368506047/2500000000000000",
+            "numerator": "668700368506047"
+          },
+          {
+            "decimal_40_significant": "0.06072999278484658",
+            "denominator": "50000000000000000",
+            "exact": "3036499639242329/50000000000000000",
+            "numerator": "3036499639242329"
+          },
+          {
+            "decimal_40_significant": "0.005587099274431895",
+            "denominator": "200000000000000000",
+            "exact": "1117419854886379/200000000000000000",
+            "numerator": "1117419854886379"
+          }
+        ],
+        "signed_normalized_checkpoint_margins": [
+          {
+            "decimal_40_significant": "0.5420246494946525329683369999951691234749",
+            "denominator": "1212274543146314989986971064762194251089150000000000000000000000000000000000000",
+            "exact": "657082684340171411511484756498311361438295018472190676730266212884594565994629/1212274543146314989986971064762194251089150000000000000000000000000000000000000",
+            "numerator": "657082684340171411511484756498311361438295018472190676730266212884594565994629"
+          },
+          {
+            "decimal_40_significant": "0.3254042484806042643028184211129622729892",
+            "denominator": "96981963451705199198957685180975540087132000000000000000000",
+            "exact": "31558342933175559858376629785004918591370881881288857927009/96981963451705199198957685180975540087132000000000000000000",
+            "numerator": "31558342933175559858376629785004918591370881881288857927009"
+          },
+          {
+            "decimal_40_significant": "0.3254042484806042643028184211129622729892",
+            "denominator": "96981963451705199198957685180975540087132000000000000000000",
+            "exact": "31558342933175559858376629785004918591370881881288857927009/96981963451705199198957685180975540087132000000000000000000",
+            "numerator": "31558342933175559858376629785004918591370881881288857927009"
+          },
+          {
+            "decimal_40_significant": "0.3254042484806042643028184211129622729892",
+            "denominator": "96981963451705199198957685180975540087132000000000000000000",
+            "exact": "31558342933175559858376629785004918591370881881288857927009/96981963451705199198957685180975540087132000000000000000000",
+            "numerator": "31558342933175559858376629785004918591370881881288857927009"
+          }
+        ],
+        "simplex_sum_residual": {
+          "decimal_40_significant": "0",
+          "denominator": "1",
+          "exact": "0/1",
+          "numerator": "0"
+        },
+        "weights": [
+          {
+            "decimal_40_significant": "0.5420243013882049530588947484928245299435",
+            "denominator": "48490981725852599599478842590487770043566",
+            "exact": "26283290493583468211604731104755904933345/48490981725852599599478842590487770043566",
+            "numerator": "26283290493583468211604731104755904933345"
+          },
+          {
+            "decimal_40_significant": "0.03",
+            "denominator": "100",
+            "exact": "3/100",
+            "numerator": "3"
+          },
+          {
+            "decimal_40_significant": "0.04824505083766303958260411272756110275056",
+            "denominator": "7273647258877889939921826388573165506534900",
+            "exact": "350917481779792215769355334742286319173303/7273647258877889939921826388573165506534900",
+            "numerator": "350917481779792215769355334742286319173303"
+          },
+          {
+            "decimal_40_significant": "0.3797306477741320073585011387796143673060",
+            "denominator": "72736472588778899399218263885731655065349",
+            "exact": "27620267852942407942141065964602984821638/72736472588778899399218263885731655065349",
+            "numerator": "27620267852942407942141065964602984821638"
+          }
+        ]
+      },
+      "status": "PASS_EXACT_RATIONALIZED_SELECTOR",
+      "target_maxima": 2
+    },
+    "m3": {
+      "coefficient_table_sha256": "0f76d711b8ff65999e17c2281e14ad0311c7877a37887c9e342345657fc68377",
+      "enumeration": {
+        "active_set_size": 4,
+        "all_linear_systems_and_constraint_residuals_used_fraction_exact_arithmetic": true,
+        "constraints": 10,
+        "enumerated_active_sets": 210,
+        "exactly_feasible_solutions_before_deduplication": 16,
+        "nonsingular_exact_solutions": 209,
+        "primary_optimal_vertices": 1,
+        "singular_active_sets": 1,
+        "unique_exactly_feasible_vertices": 16
+      },
+      "exactness_scope": "finite_rational_lp_defined_by_frozen_decimal_strings_only",
+      "frozen_coefficient_source": {
+        "checkpoint_times_decimal": [
+          "2.0",
+          "5.0",
+          "6.5",
+          "11.0",
+          "17.0",
+          "35.0"
+        ],
+        "desired_signs": [
+          1,
+          -1,
+          1,
+          -1,
+          1,
+          -1
+        ],
+        "name": "m3",
+        "row_scales_decimal": [
+          "0.554048268115002",
+          "0.22974144714713002",
+          "0.23845731109916096",
+          "0.12927504142810492",
+          "0.05394093798151121",
+          "0.005587099274431895"
+        ],
+        "signed_normalized_coefficients_decimal": [
+          [
+            "1.0",
+            "1.1603546024409161e-05",
+            "1.3855853269321413e-12",
+            "1.9616636844203973e-22"
+          ],
+          [
+            "1.0",
+            "-0.9594096685761585",
+            "-0.016418201193845627",
+            "-6.59128259330763e-06"
+          ],
+          [
+            "-0.3631544024050941",
+            "1.0",
+            "0.18552572414898608",
+            "0.0009189373821381621"
+          ],
+          [
+            "0.012342182682642163",
+            "1.0",
+            "-0.8041490975383898",
+            "-0.2763202566199642"
+          ],
+          [
+            "-0.0002487340322843361",
+            "-0.46177069114264063",
+            "-0.9464871578663434",
+            "1.0"
+          ],
+          [
+            "1.339325051000316e-06",
+            "0.046511727711955726",
+            "1.0",
+            "0.7262071720607719"
+          ]
+        ],
+        "target_maxima": 3,
+        "weight_floor_decimal": "0.03"
+      },
+      "name": "m3",
+      "objective": "maximize_unrestricted_rho_then_lexicographically_minimize_w0_w1_w2_w3",
+      "reason": "positive_exact_rationalized_optimum",
+      "selected": {
+        "all_exactly_active_constraints": [
+          "checkpoint_1",
+          "checkpoint_2",
+          "checkpoint_4",
+          "weight_floor_2"
+        ],
+        "constraint_residuals": {
+          "checkpoint_0": {
+            "decimal_40_significant": "0.2654690041343170364503734606701485297738",
+            "denominator": "460273791047351938913142701613951281664700000000000000000000000000000000000000",
+            "exact": "122188424938467247629999583720755949303700391822345245081987944209994305926213/460273791047351938913142701613951281664700000000000000000000000000000000000000",
+            "numerator": "122188424938467247629999583720755949303700391822345245081987944209994305926213"
+          },
+          "checkpoint_1": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "checkpoint_2": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "checkpoint_3": {
+            "decimal_40_significant": "0.04011342533282634984551216423507795180493",
+            "denominator": "46027379104735193891314270161395128166470000000000000000000",
+            "exact": "1846315834983486925404305243115151159382740920047597674211/46027379104735193891314270161395128166470000000000000000000",
+            "numerator": "1846315834983486925404305243115151159382740920047597674211"
+          },
+          "checkpoint_4": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "checkpoint_5": {
+            "decimal_40_significant": "0.1188738384307571792354847967389156648117",
+            "denominator": "575342238809189923641428377017439102080875000000000000000000",
+            "exact": "68393140338593755778658847922475839188084923964190099662453/575342238809189923641428377017439102080875000000000000000000",
+            "numerator": "68393140338593755778658847922475839188084923964190099662453"
+          },
+          "weight_floor_0": {
+            "decimal_40_significant": "0.3716285358628773429548494254450584662353",
+            "denominator": "6482729451371154069199192980478187065700",
+            "exact": "2409167254408216092090074881177981517429/6482729451371154069199192980478187065700",
+            "numerator": "2409167254408216092090074881177981517429"
+          },
+          "weight_floor_1": {
+            "decimal_40_significant": "0.2461816314605930090457646536180150473728",
+            "denominator": "230136895523675969456571350806975640832350",
+            "exact": "56655476399294594478025599630895071144659/230136895523675969456571350806975640832350",
+            "numerator": "56655476399294594478025599630895071144659"
+          },
+          "weight_floor_2": {
+            "decimal_40_significant": "0",
+            "denominator": "1",
+            "exact": "0/1",
+            "numerator": "0"
+          },
+          "weight_floor_3": {
+            "decimal_40_significant": "0.2621898326765296479993859209369264863920",
+            "denominator": "460273791047351938913142701613951281664700",
+            "exact": "120679108260097174749119061594850297838159/460273791047351938913142701613951281664700",
+            "numerator": "120679108260097174749119061594850297838159"
+          }
+        },
+        "exact_feasibility_rechecked": true,
+        "generating_active_set": [
+          "checkpoint_1",
+          "checkpoint_2",
+          "checkpoint_4",
+          "weight_floor_2"
+        ],
+        "minimum_raw_signed_checkpoint_margin_in_rationalized_table_units": {
+          "decimal_40_significant": "0.001424914662273619541329609781269503760377",
+          "denominator": "20921535956697815405142850073361421893850000000000000000000000000000000000000",
+          "exact": "29811403341983455346540112291367606390282336441178751103295961349580129559/20921535956697815405142850073361421893850000000000000000000000000000000000000",
+          "numerator": "29811403341983455346540112291367606390282336441178751103295961349580129559"
+        },
+        "minimum_signed_normalized_checkpoint_margin": {
+          "decimal_40_significant": "0.1361627364148736234644165520584584817459",
+          "denominator": "46027379104735193891314270161395128166470000000000000000000",
+          "exact": "6267213888905520103483700710424398042938904887282907158229/46027379104735193891314270161395128166470000000000000000000",
+          "numerator": "6267213888905520103483700710424398042938904887282907158229"
+        },
+        "normalized_optimum_rho": {
+          "decimal_40_significant": "0.1361627364148736234644165520584584817459",
+          "denominator": "46027379104735193891314270161395128166470000000000000000000",
+          "exact": "6267213888905520103483700710424398042938904887282907158229/46027379104735193891314270161395128166470000000000000000000",
+          "numerator": "6267213888905520103483700710424398042938904887282907158229"
+        },
+        "raw_signed_checkpoint_margins_in_rationalized_table_units": [
+          {
+            "decimal_40_significant": "0.2225233702712929073542044584075033498290",
+            "denominator": "230136895523675969456571350806975640832350000000000000000000000000000000000000000000000000000",
+            "exact": "51210837615700798987582181145484719893398274412707398982376584612586632814159106809605173713/230136895523675969456571350806975640832350000000000000000000000000000000000000000000000000000",
+            "numerator": "51210837615700798987582181145484719893398274412707398982376584612586632814159106809605173713"
+          },
+          {
+            "decimal_40_significant": "0.03128222411146628470882329619845315677843",
+            "denominator": "2301368955236759694565713508069756408323500000000000000000000000000000000000",
+            "exact": "71991939420887336984044104653189407284375401697265446187111014660568796729/2301368955236759694565713508069756408323500000000000000000000000000000000000",
+            "numerator": "71991939420887336984044104653189407284375401697265446187111014660568796729"
+          },
+          {
+            "decimal_40_significant": "0.03246899999739457231527710196916159550428",
+            "denominator": "71917779851148740455178547127179887760109375000000000000000000000000000000",
+            "exact": "2335098393799571879191202697652085520173811115728411198727505824406030531/71917779851148740455178547127179887760109375000000000000000000000000000000",
+            "numerator": "2335098393799571879191202697652085520173811115728411198727505824406030531"
+          },
+          {
+            "decimal_40_significant": "0.02278810811272123782824609776377345877683",
+            "denominator": "2615191994587226925642856259170177736731250000000000000000000000000000000",
+            "exact": "59595277908176821390449465740545840679046618467392108260223881527917023/2615191994587226925642856259170177736731250000000000000000000000000000000",
+            "numerator": "59595277908176821390449465740545840679046618467392108260223881527917023"
+          },
+          {
+            "decimal_40_significant": "0.007344745720347556161729487139986411235899",
+            "denominator": "4602737910473519389131427016139512816647000000000000000000000000000000000000",
+            "exact": "33805939569831834628271039299746999766360130002051588819083933776400724709/4602737910473519389131427016139512816647000000000000000000000000000000000000",
+            "numerator": "33805939569831834628271039299746999766360130002051588819083933776400724709"
+          },
+          {
+            "decimal_40_significant": "0.001424914662273619541329609781269503760377",
+            "denominator": "20921535956697815405142850073361421893850000000000000000000000000000000000000",
+            "exact": "29811403341983455346540112291367606390282336441178751103295961349580129559/20921535956697815405142850073361421893850000000000000000000000000000000000000",
+            "numerator": "29811403341983455346540112291367606390282336441178751103295961349580129559"
+          }
+        ],
+        "row_scales": [
+          {
+            "decimal_40_significant": "0.554048268115002",
+            "denominator": "500000000000000",
+            "exact": "277024134057501/500000000000000",
+            "numerator": "277024134057501"
+          },
+          {
+            "decimal_40_significant": "0.22974144714713002",
+            "denominator": "50000000000000000",
+            "exact": "11487072357356501/50000000000000000",
+            "numerator": "11487072357356501"
+          },
+          {
+            "decimal_40_significant": "0.23845731109916096",
+            "denominator": "1562500000000000",
+            "exact": "372589548592439/1562500000000000",
+            "numerator": "372589548592439"
+          },
+          {
+            "decimal_40_significant": "0.12927504142810492",
+            "denominator": "25000000000000000",
+            "exact": "3231876035702623/25000000000000000",
+            "numerator": "3231876035702623"
+          },
+          {
+            "decimal_40_significant": "0.05394093798151121",
+            "denominator": "100000000000000000",
+            "exact": "5394093798151121/100000000000000000",
+            "numerator": "5394093798151121"
+          },
+          {
+            "decimal_40_significant": "0.005587099274431895",
+            "denominator": "200000000000000000",
+            "exact": "1117419854886379/200000000000000000",
+            "numerator": "1117419854886379"
+          }
+        ],
+        "signed_normalized_checkpoint_margins": [
+          {
+            "decimal_40_significant": "0.4016317405491906599147900127286070115198",
+            "denominator": "460273791047351938913142701613951281664700000000000000000000000000000000000000",
+            "exact": "184860563827522448664836590824999929733089440695174316664277944209994305926213/460273791047351938913142701613951281664700000000000000000000000000000000000000",
+            "numerator": "184860563827522448664836590824999929733089440695174316664277944209994305926213"
+          },
+          {
+            "decimal_40_significant": "0.1361627364148736234644165520584584817459",
+            "denominator": "46027379104735193891314270161395128166470000000000000000000",
+            "exact": "6267213888905520103483700710424398042938904887282907158229/46027379104735193891314270161395128166470000000000000000000",
+            "numerator": "6267213888905520103483700710424398042938904887282907158229"
+          },
+          {
+            "decimal_40_significant": "0.1361627364148736234644165520584584817459",
+            "denominator": "46027379104735193891314270161395128166470000000000000000000",
+            "exact": "6267213888905520103483700710424398042938904887282907158229/46027379104735193891314270161395128166470000000000000000000",
+            "numerator": "6267213888905520103483700710424398042938904887282907158229"
+          },
+          {
+            "decimal_40_significant": "0.1762761617476999733099287162935364335509",
+            "denominator": "104607679783489077025714250366807109469250000000000000000",
+            "exact": "18439840281565925065654558985317157278003740471205692801/104607679783489077025714250366807109469250000000000000000",
+            "numerator": "18439840281565925065654558985317157278003740471205692801"
+          },
+          {
+            "decimal_40_significant": "0.1361627364148736234644165520584584817459",
+            "denominator": "46027379104735193891314270161395128166470000000000000000000",
+            "exact": "6267213888905520103483700710424398042938904887282907158229/46027379104735193891314270161395128166470000000000000000000",
+            "numerator": "6267213888905520103483700710424398042938904887282907158229"
+          },
+          {
+            "decimal_40_significant": "0.2550365748456308026999013487973741465576",
+            "denominator": "1150684477618379847282856754034878204161750000000000000000000",
+            "exact": "293466627899825514144410213605561629449642470110452878280631/1150684477618379847282856754034878204161750000000000000000000",
+            "numerator": "293466627899825514144410213605561629449642470110452878280631"
+          }
+        ],
+        "simplex_sum_residual": {
+          "decimal_40_significant": "0",
+          "denominator": "1",
+          "exact": "0/1",
+          "numerator": "0"
+        },
+        "weights": [
+          {
+            "decimal_40_significant": "0.4016285358628773429548494254450584662353",
+            "denominator": "64827294513711540691991929804781870657",
+            "exact": "26036491379493507141660506705923271294/64827294513711540691991929804781870657",
+            "numerator": "26036491379493507141660506705923271294"
+          },
+          {
+            "decimal_40_significant": "0.2761816314605930090457646536180150473728",
+            "denominator": "460273791047351938913142701613951281664700",
+            "exact": "127119166530009747123445480310208680739259/460273791047351938913142701613951281664700",
+            "numerator": "127119166530009747123445480310208680739259"
+          },
+          {
+            "decimal_40_significant": "0.03",
+            "denominator": "100",
+            "exact": "3/100",
+            "numerator": "3"
+          },
+          {
+            "decimal_40_significant": "0.2921898326765296479993859209369264863920",
+            "denominator": "4602737910473519389131427016139512816647",
+            "exact": "1344873219915177329165133426432688362881/4602737910473519389131427016139512816647",
+            "numerator": "1344873219915177329165133426432688362881"
+          }
+        ]
+      },
+      "status": "PASS_EXACT_RATIONALIZED_SELECTOR",
+      "target_maxima": 3
+    }
+  },
+  "source_hashes": {
+    "exploratory_poc": "4920411d65f85653cdec16da206a19d7a8eb42610b6d01936ceae41ec3a6ae6e",
+    "exploratory_poc_result": "6f04ef4c618677d6d26b80cd04e3d4f8c9918fd50a649cfc0dd0bf064ccce604",
+    "f0_design": "891b49a3b9efbfa93c27c09e4f585a088b40f079c3ff5642536764f1523698d7",
+    "implementation": "bda458aef64ba43a73178c732733b7355c8c88bd35a943536602c78bd7091bec",
+    "tests": "43fd42572a28b66406967f5a9c3fe9db38fa6f0302c92cc9d5f4ddc995a76292",
+    "theory_note": "38dde114552d0cea69f714d7493d3cb6715e1b4ed436431045a50a57360326be"
+  },
+  "stage": "method_only_b0_exact_rational_modal_selector",
+  "status": "HOLD_METHOD_ONLY_NOT_A_CONTINUUM_OR_F0_CONTROL_CERTIFICATE"
+}

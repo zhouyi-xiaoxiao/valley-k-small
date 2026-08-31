@@ -1,0 +1,314 @@
+{
+  "configuration_index": 0,
+  "configuration_label": "O113/Base",
+  "contact_fraction_relative": {
+    "active_cell_count": 335,
+    "area_enclosure_exact": {
+      "lower_exact": "666524706539332003039756388429172365/8287554823328901748588238453476425728",
+      "upper_exact": "666524706539335986450208079570656063/8287554823328901748588238453476425728"
+    },
+    "file": {
+      "byte_length": 204304,
+      "path": "rows/00_o113_base/contact_fraction_relative.be64",
+      "sha256": "3b8770f307c58cbb1e752a40bad45e35756d2042056241e074f647df612792ea"
+    },
+    "full_cell_count": 243,
+    "manifest": {
+      "byte_order": "big",
+      "logical_shape": [
+        113,
+        113
+      ],
+      "raw_byte_length": 204304,
+      "raw_sha256": "3b8770f307c58cbb1e752a40bad45e35756d2042056241e074f647df612792ea",
+      "record_count": 12769,
+      "record_format": ">dd",
+      "role": "physical_contact_fraction_relative",
+      "schema": "encounter_big_endian_binary64_interval_file_v1"
+    },
+    "quality_ledger": {
+      "aggregate_contains_analytic_enclosure": true,
+      "aggregate_width_exact": "1991705225845570741849/4143777411664450874294119226738212864",
+      "aggregate_width_over_radius_squared_cap_exact": "1/10000000000",
+      "aggregate_width_over_radius_squared_exact": "7966820903382282967396/424322806954439787193703439607788025",
+      "analytic_area_enclosure_exact": {
+        "lower_exact": "2897607783230849/36028797018963968",
+        "upper_exact": "5795215566461699/72057594037927936"
+      },
+      "analytic_area_precision_bits": 256,
+      "analytic_width_exact": "1/72057594037927936",
+      "analytic_width_over_radius_squared_cap_exact": "1/1000000000000",
+      "analytic_width_over_radius_squared_exact": "18014398509481984/33230699894622898206100982035225",
+      "backend": "gmpy2_mpfr_same_backend_as_producer_core",
+      "independent_backend": false,
+      "separately_directed_formula": "pi*radius_exact^2"
+    },
+    "relation_sha256": "1941e888e263f9d2e6fdba6698927da0ccb9a6dbf399e1672b5b0d71c6ebc205"
+  },
+  "expected_states": 1442897,
+  "factorization_contract_sha256": "de42fefbfc163fdcffd573d49d1156d761341c78b3756903755579dc8e9b23af",
+  "flags": {
+    "authorizes_scientific_execution": false,
+    "concrete_killing_constructed": false,
+    "contact_fraction_geometry_producer_consistent": true,
+    "contains_budget_value": false,
+    "contains_control_values": false,
+    "continuum_verified": false,
+    "f0_pass": false,
+    "full_operator_bound": false,
+    "independent_killing_geometry_replay": false,
+    "killing_geometry_bound": true,
+    "positive_budget_executed": false,
+    "producer_consistent_control_free_killing_geometry": true,
+    "production_resource_gate": false,
+    "propagation_executed": false,
+    "same_core_producer_consistency_only": true,
+    "science_executed": false,
+    "single_physical_operator_bound": false,
+    "support_density_basis_producer_consistent": true,
+    "topology_complete": false
+  },
+  "gates": {
+    "analytic_disk_area_anchor_is_contained_and_quality_capped": true,
+    "contact_area_enclosure_is_positive_and_domain_bounded": true,
+    "contact_area_overlaps_direct_core_domain_enclosure": true,
+    "contact_fraction_intervals_are_canonical_and_in_unit_range": true,
+    "geometrically_full_contact_cells_are_exact_unit_intervals": true,
+    "partition_bytes_match_same_core_exact_reconstruction": true,
+    "support_centres_are_strictly_distinct_and_pairwise_disjoint": true,
+    "support_density_intervals_are_canonical_and_nonnegative": true,
+    "support_integral_enclosures_contain_analytic_unit_mass": true,
+    "support_integral_widths_pass_predeclared_cap": true,
+    "support_ranges_are_strictly_inside_midpoint_domain": true
+  },
+  "partition_source": {
+    "bundle_manifest_sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e",
+    "bundle_row_manifest": {
+      "byte_length": 12061,
+      "path": "rows/00_o113_base/row.json",
+      "sha256": "b4db6d90683d24f785f431dc5251685da66133cd1bbc6649f61dd2a7c72d9744"
+    },
+    "bundle_row_relation_sha256": "78fcde20cdd141433b5eafcc993aac02ee3376a8f0398e6c55ec50c88138ac3d",
+    "partitions": [
+      {
+        "axis_relation_sha256": "a476dcb5829f05d62e25abd030baba80431a8da04ce30ab5daeceb095293832f",
+        "coordinate": "midpoint",
+        "file": {
+          "byte_length": 24349,
+          "path": "rows/00_o113_base/midpoint.partition.json",
+          "sha256": "f36127a87a19a13df6108a527a2285361be082ca81f2184e68c3c47655e7ca94"
+        }
+      },
+      {
+        "axis_relation_sha256": "b8d263cf459175c078d6c848c685096d55a18af70ec9dba2537e10c7f8cf755a",
+        "coordinate": "relative_parallel",
+        "file": {
+          "byte_length": 24622,
+          "path": "rows/00_o113_base/relative_parallel.partition.json",
+          "sha256": "318ee1287c419f8ed91e19e4426657e2ec28d4e367859f71373061ada7382424"
+        }
+      },
+      {
+        "axis_relation_sha256": "e157ab33b80790ee12147056dab2d7a63f609698b3f20baaee21dfd64896bcee",
+        "coordinate": "relative_perpendicular",
+        "file": {
+          "byte_length": 10795,
+          "path": "rows/00_o113_base/relative_perpendicular.partition.json",
+          "sha256": "66f21ab3a8314dbede0f1aac6cd0bbba0738d22f75f8a7334bd79463a204d9d8"
+        }
+      }
+    ]
+  },
+  "row_relation_sha256": "1c5356611fe6fe6520e1babc823fcfcbd54192cd9e7e5c92b7a544f8d867dee6",
+  "schema": "encounter_control_free_production_killing_geometry_row_v1",
+  "shape": [
+    113,
+    113,
+    113
+  ],
+  "source_pins": {
+    "configuration": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "f0_core": {
+      "path": "code/rate_defined_tensor_f0.py",
+      "sha256": "321f12aa8a5df44ca9c9162704cccd0f2c526abf9577832b4824538b0afdb8e5"
+    },
+    "killing_geometry_source": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "partition_bundle_manifest": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    "producer": {
+      "path": "code/rate_defined_tensor_f0_production_killing_geometry.py",
+      "sha256": "2cada45143914edf1142daf6a5b7a8b5367757c664855dd6d836e7f43935dd9b"
+    },
+    "production_initial_stream": {
+      "path": "code/rate_defined_tensor_f0_production_initial_stream.py",
+      "sha256": "2871976855a0c598b26b8d83b33f4ea3a027a2c826ccdb2ad9b678761093e6cb"
+    }
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NO_CONCRETE_KILLING_NOT_FULL_OPERATOR_NOT_F0",
+  "support_densities": [
+    {
+      "centre_binary64_hex": "0x1.6666666666666p-2",
+      "centre_exact": "3152519739159347/9007199254740992",
+      "file": {
+        "byte_length": 1808,
+        "path": "rows/00_o113_base/midpoint_support_density_00.be64",
+        "sha256": "7538db751d9ec2221e96cd026e4da8e86ee39a88db4b70250f899b1f57c78b37"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "2291912285212125229436257502835005/2291912285212638757906039395319808",
+        "upper_exact": "4583824570426303973976626404190449/4583824570425277515812078790639616"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          113
+        ],
+        "raw_byte_length": 1808,
+        "raw_sha256": "7538db751d9ec2221e96cd026e4da8e86ee39a88db4b70250f899b1f57c78b37",
+        "record_count": 113,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_00",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 0,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "18172700036384057703/40564819207303340847894502572032",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "44675708303515317/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "56204923349583787/144115188075855872"
+      },
+      "relation_sha256": "61d2d10efeae501bd251d0d1489bce3891217c7a6690585356fa30095b44fe8c"
+    },
+    {
+      "centre_binary64_hex": "0x1.3333333333333p-1",
+      "centre_exact": "5404319552844595/9007199254740992",
+      "file": {
+        "byte_length": 1808,
+        "path": "rows/00_o113_base/midpoint_support_density_01.be64",
+        "sha256": "74bcfd44797d7341a4ae0fb96fbc419cdf832ea1dc6eaf3fd894f5341e3d650b"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "2291912285212125342926968112571509/2291912285212638757906039395319808",
+        "upper_exact": "2291912285213152206876565008459701/2291912285212638757906039395319808"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          113
+        ],
+        "raw_byte_length": 1808,
+        "raw_sha256": "74bcfd44797d7341a4ae0fb96fbc419cdf832ea1dc6eaf3fd894f5341e3d650b",
+        "record_count": 113,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_01",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 1,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "16044749212451498253/35811129456447480592281865551872",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "80704505322479285/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "92233720368547755/144115188075855872"
+      },
+      "relation_sha256": "ea574b97300dff07bf534a5f6a5e65fbf087b0241b2f8748461f68bdd9012dc8"
+    },
+    {
+      "centre_binary64_hex": "0x1.8000000000000p-1",
+      "centre_exact": "3/4",
+      "file": {
+        "byte_length": 1808,
+        "path": "rows/00_o113_base/midpoint_support_density_02.be64",
+        "sha256": "ca2167724150c6108c61730aa0ead30558910453d9317de63a471fa98c6abe4f"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "4583824570424250397398380092062737/4583824570425277515812078790639616",
+        "upper_exact": "4583824570426304163127810753751289/4583824570425277515812078790639616"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          113
+        ],
+        "raw_byte_length": 1808,
+        "raw_sha256": "ca2167724150c6108c61730aa0ead30558910453d9317de63a471fa98c6abe4f",
+        "record_count": 113,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_02",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 2,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "256720716178832711069/572978071303159689476509848829952",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "102321783533857669/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "113850998579926139/144115188075855872"
+      },
+      "relation_sha256": "6253758c7664b4355fd46549b1a4a1803aab4beed79b38252cc71ffcf87a5c66"
+    },
+    {
+      "centre_binary64_hex": "0x1.ccccccccccccdp-1",
+      "centre_exact": "8106479329266893/9007199254740992",
+      "file": {
+        "byte_length": 1808,
+        "path": "rows/00_o113_base/midpoint_support_density_03.be64",
+        "sha256": "6a5acbb48de8bc903cf5d647d09b8ccddc80f95bc13068d8665362f37151000e"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "18335298281697019090806852311367669/18335298281701110063248315162558464",
+        "upper_exact": "40319747318952397263320525139231012383619054367/40319747318943366639896578636948237602812592128"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          113
+        ],
+        "raw_byte_length": 1808,
+        "raw_sha256": "6a5acbb48de8bc903cf5d647d09b8ccddc80f95bc13068d8665362f37151000e",
+        "record_count": 113,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_03",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 3,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "18026766960545655057624921601506079/40319747318943366639896578636948237602812592128",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "123939061745236053/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "135468276791304523/144115188075855872"
+      },
+      "relation_sha256": "ad3da6f6598626143967e135bcd858830d6c1419869f59e72139d85d44446c21"
+    }
+  ]
+}

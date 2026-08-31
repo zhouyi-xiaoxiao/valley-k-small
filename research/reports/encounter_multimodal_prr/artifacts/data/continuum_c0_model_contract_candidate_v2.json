@@ -1,0 +1,430 @@
+{
+  "boundary_conditions": {
+    "finite_box_midpoint": "reflecting_zero_flux_approximant_only",
+    "finite_box_relative_parallel": "reflecting_zero_flux_approximant_only",
+    "target_midpoint": "natural_decay_form_realization_no_reflecting_face",
+    "target_relative_parallel": "natural_decay_form_realization_no_reflecting_face",
+    "target_relative_perpendicular": "periodic_torus_exact"
+  },
+  "claim_boundary": {
+    "c0a_operator_realization_proved": true,
+    "c1_fixed_box_convergence_proved": false,
+    "c2_quantitative_spatial_error_proved": false,
+    "c3_derivative_box_error_proved": false,
+    "complete_c0_independently_accepted": false,
+    "continuum_stationary_topology_proved": false,
+    "control_values_committed_for_c0": false,
+    "f0_complete": false,
+    "gauged_ideal_member_containment_proved_for_every_declared_configuration": false,
+    "positive_budget_scientific_values_read": false,
+    "production_centre_mosco_proved": false,
+    "production_raw_to_gauged_bridge_proved": false,
+    "release_eligible": false,
+    "sealed_control_source_required_before_complete_c0": true
+  },
+  "continuum_object": {
+    "coordinate_order": [
+      "midpoint_z",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "density_space": "X_pi=L2(pi^-1 dx)",
+    "diffusion_matrix": [
+      "D/2",
+      "2*D",
+      "2*D"
+    ],
+    "drift": [
+      "-gamma*(z-zbar)",
+      "-gamma*relative_parallel",
+      "0"
+    ],
+    "form_core": "C_c_infinity(R^2)_tensor_C_infinity(T_W)",
+    "form_domain": "weighted_H1_closure_of_form_core",
+    "normalizer": "2*pi*D*W/gamma",
+    "quotient": "R_z_times_R_relative_parallel_times_T_W",
+    "reversible_density": "normalizer^-1*exp(-gamma*(z-zbar)^2/D-gamma*relative_parallel^2/(4*D))",
+    "weighted_state_space": "H=L2(pi dx)"
+  },
+  "control_contract": {
+    "constraints": {
+      "each_weight_nonnegative": true,
+      "exact_sum_one_required": true,
+      "finite_control_ids_only": true
+    },
+    "control_ids": [
+      "m1",
+      "m2",
+      "m3"
+    ],
+    "exclusions": {
+      "actual_control_values_committed_for_c0": false,
+      "actual_control_values_included": false,
+      "budget_value_included": false,
+      "control_payload_path_included": false,
+      "positive_budget_result_values_included": false,
+      "result_payload_path_included": false
+    },
+    "future_source": {
+      "required_before_complete_c0": true,
+      "requirements": [
+        "immutable_exact_rational_control_values",
+        "independent_result_blind_review",
+        "no_scientific_result_values",
+        "separate_hash_bound_source"
+      ]
+    },
+    "schema": "encounter_continuum_c0_control_method_commitment_v2",
+    "status": "FROZEN_METHOD_ONLY_NO_CONTROL_VALUES_NO_RESULT_VALUES_COMPLETE_C0_OPEN"
+  },
+  "discrete_operator_convention": {
+    "density_ratio_forward_equation": "u_prime=Q_c*u",
+    "directed_edge_form": "one_half*sum_i_j_pi_h_i*q_ij*(u_i-u_j)*(v_i-v_j)+sum_i_pi_h_i*k_i*u_i*v_i",
+    "free_detailed_balance": "pi_h_i*q_ij=pi_h_j*q_ji",
+    "free_graph_connected": true,
+    "free_offdiagonal_rates_nonnegative": true,
+    "free_row_sum": "Q_0*one=0",
+    "killed_generator": "Q_c=Q_0-diag(k_i)",
+    "killing": "k_i=B*V_h_i>=0",
+    "nonnegative_operator": "H_h=-Q_c",
+    "probability_forward_equation": "p_prime=transpose(Q_c)*p",
+    "row_generator_convention": true,
+    "undirected_edge_form": "sum_each_undirected_edge_once_c_ij*(u_i-u_j)*(v_i-v_j)+sum_i_pi_h_i*k_i*u_i*v_i",
+    "undirected_edge_has_extra_one_half": false,
+    "undirected_edge_single_common_conductance": "c_ij=pi_h_i*q_ij=pi_h_j*q_ji"
+  },
+  "equation_contract": [
+    "2.0",
+    "2.1",
+    "2.2",
+    "2.3",
+    "2.4",
+    "2.5",
+    "2.6",
+    "2.6a",
+    "2.7",
+    "2.7a",
+    "2.8",
+    "2.8a",
+    "2.9",
+    "2.10",
+    "2.11",
+    "2.12",
+    "2.13",
+    "2.14",
+    "2.15",
+    "2.16",
+    "2.17",
+    "4.1",
+    "4.2",
+    "4.3",
+    "4.4",
+    "4.4a",
+    "4.4b",
+    "4.4c",
+    "4.4d",
+    "4.5",
+    "4.5a",
+    "4.5b"
+  ],
+  "finite_volume_identification": {
+    "A_h": {
+      "denominator": "M_i_pi",
+      "formula": "A_h[u]_i=integral_C_i_u_pi_dx/M_i_pi",
+      "kind": "literal_pi_weighted_cell_average"
+    },
+    "J_h": {
+      "formula": "J_h[v]=sum_i_v_i*indicator_C_i",
+      "kind": "piecewise_constant_actual_control_volume_reconstruction"
+    },
+    "P_h": {
+      "denominator": "pi_h_i",
+      "exact_adjoint_of_J_h": true,
+      "formula": "P_h[u]_i=integral_C_i_u_pi_dx/pi_h_i",
+      "kind": "exact_adjoint_weighted_cell_map"
+    },
+    "S_h": {
+      "defined_on_all_H_L": false,
+      "formula": "S_h[u]_i=u(x_i_rep)",
+      "kind": "representative_point_or_nodal_sampling",
+      "smooth_or_continuous_recovery_core_only": true
+    },
+    "cell_mass": {
+      "formula": "M_i_pi=integral_C_i_pi_dx"
+    },
+    "exact_identities": {
+      "A_h_J_h": "I",
+      "J_h_A_h": "E_h_pi_weighted_cell_conditional_expectation",
+      "J_h_P_h": "rho_h_pc*E_h",
+      "P_h": "J_h_adjoint",
+      "P_h_J_h": "diag(rho_i)",
+      "P_h_relation_to_A_h": "P_h=diag(rho_i)*A_h"
+    },
+    "nonclaims": {
+      "J_h_P_h_equals_E_h_claimed": false,
+      "J_h_P_h_operator_norm_convergence_claimed": false,
+      "P_h_J_h_equals_I_claimed": false
+    },
+    "rho_i": {
+      "denominator": "pi_h_i",
+      "formula": "rho_i=M_i_pi/pi_h_i",
+      "numerator": "M_i_pi"
+    }
+  },
+  "frozen_sources": {
+    "configuration_family": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "control_method_commitment": {
+      "path": "artifacts/data/continuum_c0_control_method_commitment_v2.json",
+      "sha256": "288ad85d5992446a8f3b58416e445a88f1c15a4c71114ba008939d8fbd9a4a97"
+    },
+    "initial_source": {
+      "path": "artifacts/data/physical_initial_analytic_source_v1.json",
+      "sha256": "0b2efec5dc1abea1380ab862e46825e7b79658fe9bfa0ac6637e1426ed9f7f5f"
+    },
+    "killing_geometry_source": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "mathematical_source": {
+      "path": "artifacts/data/continuum_c0_mathematical_source_v2.json",
+      "sha256": "522bd667e5f6fd6a4d12f270f0c2f4b9e86be9b207d471961d4f67db972df559"
+    }
+  },
+  "initial_law": {
+    "analytic_mass_exact": "1/1",
+    "initial_probability_cell_mass": "p0_h_i=integral_C_i_q0_dx",
+    "initial_reference_mass": "pi_h_i",
+    "meshwise_renormalization": false,
+    "requirements": [
+      "q0_in_X_pi",
+      "q0_nonnegative",
+      "integral_q0_dx_equals_one",
+      "support_closure_strictly_inside_every_declared_nonperiodic_box"
+    ],
+    "source_path": "artifacts/data/physical_initial_analytic_source_v1.json",
+    "support_certificate": {
+      "configuration_count_checked": 12,
+      "global_minimum_clearance_exact": "106645239176133349/288230376151711744",
+      "midpoint_support_closure_exact": [
+        "34587645138205413/288230376151711744",
+        "46116860184273883/288230376151711744"
+      ],
+      "nonperiodic_axes_checked": 24,
+      "periodic_axes_checked": 12,
+      "periodic_support_handled_as_wrapped_arc": true,
+      "relative_parallel_support_closure_exact": [
+        "-106645239176133339/288230376151711744",
+        "-95116024130064869/288230376151711744"
+      ],
+      "strict_side_inequalities_checked": 48,
+      "support_closure_strictly_inside_all_nonperiodic_boxes": true
+    },
+    "unique_discrete_density_ratio": "u0_h_i=p0_h_i/pi_h_i=P_h[u0]_i"
+  },
+  "killing_field": {
+    "contact": "indicator(relative_parallel^2+minimum_image(relative_perpendicular)^2<=a^2)",
+    "field": "W^-1*contact*sum_j(w_c_j*phi_j(midpoint))",
+    "profile_count": 4,
+    "profiles": "fixed_bounded_nonnegative_unit_integral_compact_bumps",
+    "sharp_contact_retained": true
+  },
+  "mesh_contract": {
+    "alignment_classes": [
+      "cell_centred_reflecting",
+      "vertex_centred_reflecting_dual",
+      "cell_centred_periodic_base",
+      "cell_centred_periodic_half_shift"
+    ],
+    "box_nesting_relations": [
+      "O129/Base_midpoint_subset_M+_midpoint",
+      "O129/Base_relative_subset_R+_relative",
+      "M+_and_R+_product_equals_MR+_box",
+      "MR+_box_equals_MR+F_box"
+    ],
+    "configuration_count": 12,
+    "configuration_order": [
+      "O113/Base",
+      "E128/Base",
+      "O129/Base",
+      "O161/Base",
+      "M+",
+      "R+",
+      "MR+",
+      "MR+F",
+      "A_M",
+      "A_R",
+      "A_Y",
+      "A_MRY"
+    ],
+    "source_path": "artifacts/data/physical_configuration_family_control_free_v1.json"
+  },
+  "physical_dimension": 2,
+  "physical_parameters": {
+    "B": {
+      "binary64_hex": "0x1.47ae147ae147bp-7",
+      "exact": "5764607523034235/576460752303423488",
+      "unit": "inverse_time_times_longitudinal_measure"
+    },
+    "D": {
+      "binary64_hex": "0x1.0624dd2f1a9fcp-9",
+      "exact": "1152921504606847/576460752303423488",
+      "unit": "length_squared_per_time"
+    },
+    "W": {
+      "binary64_hex": "0x1.0000000000000p+0",
+      "exact": "1/1",
+      "unit": "length"
+    },
+    "contact_radius_a": {
+      "binary64_hex": "0x1.47ae147ae147bp-3",
+      "exact": "5764607523034235/36028797018963968",
+      "unit": "length"
+    },
+    "gamma": {
+      "binary64_hex": "0x1.999999999999ap-4",
+      "exact": "3602879701896397/36028797018963968",
+      "unit": "inverse_time"
+    },
+    "zbar": {
+      "binary64_hex": "0x1.e666666666666p-1",
+      "exact": "4278419646001971/4503599627370496",
+      "unit": "length"
+    }
+  },
+  "previous_contract": {
+    "path": "artifacts/data/continuum_c0_model_contract_candidate_v1.json",
+    "sha256": "5bbe7d3c265736f98f0025a8aad80d83a53e464a5349d6b6be57a096ba9cdf66",
+    "supersession_reason": "result_blindness_repair_source_hash_drift_and_ambiguous_P_h_denominator",
+    "v1_bytes_mutated": false
+  },
+  "production_gauge_bridge": {
+    "common_conductance_intervals_constructed_for_every_declared_edge": false,
+    "current_single_axis_diagnostic_generalized_to_all_configurations": false,
+    "current_single_axis_diagnostic_raw_containment": true,
+    "gauge_enclosures_frozen_for_every_declared_configuration": false,
+    "gauged_ideal_member_containment_proved_for_every_declared_configuration": false,
+    "ideal_analytic_common_conductance_is_mosco_object": true,
+    "production_centre_h_to_zero_theorem_claimed": false,
+    "production_centres_accepted_as_exactly_reversible": false,
+    "production_interval_width_belongs_to": "E_eval_not_E_space",
+    "raw_containment_scope": "ungauged_primitives_and_directed_rates_only",
+    "raw_to_gauged_bridge_proved": false
+  },
+  "quotient_dimension": 3,
+  "scalar_convention": {
+    "complex_continuum_inner_product": "integral_conjugate(u)*v*pi_dx",
+    "complex_discrete_inner_product": "sum_i_pi_h_i*conjugate(u_i)*v_i",
+    "complex_forms_conjugate_first_factor": true,
+    "complexification_optional": true,
+    "primary_scalar_field": "real"
+  },
+  "schema": "encounter_continuum_c0_model_contract_candidate_v2",
+  "source_policy": {
+    "allowed_opened_source_roles": [
+      "configuration_family",
+      "control_method_commitment",
+      "initial_source",
+      "killing_geometry_source",
+      "mathematical_source"
+    ],
+    "embedded_source_paths_followed": false,
+    "living_continuum_program_pinned": false,
+    "opaque_scratch_or_result_payload_opened": false,
+    "positive_budget_design_note_opened": false,
+    "same_bytes_used_for_source_hash_and_parse": true
+  },
+  "stationary_mass_gauge": {
+    "box_mass": "M_L=integral_Omega_L_pi_dx",
+    "conditional_renormalization_to_one": false,
+    "gauged_mass": "pi_h_i=g_h_L*tilde_pi_h_i",
+    "global_mass_identity": "sum_i_pi_h_i=M_L",
+    "ideal_common_conductance": "c_ij=g_h_L*tilde_pi_h_i*q_ij=g_h_L*tilde_pi_h_j*q_ji",
+    "raw_reversible_mass": "tilde_pi_h_i",
+    "scale_formula": "g_h_L=M_L/sum_i_tilde_pi_h_i",
+    "target": "restricted_fixed_box_mass_not_full_space_probability_one"
+  },
+  "status": "HOLD_C0_V2_CANDIDATE_RESULT_BLIND_MAPS_EXPLICIT_PRODUCTION_GAUGE_BRIDGE_OPEN",
+  "witnesses": {
+    "complex_positivity": {
+      "bilinear_edge_square_wrong": "-1/1",
+      "conductance": "1/1",
+      "sesquilinear_edge_square_correct": "1/1",
+      "u": [
+        "i",
+        "0"
+      ]
+    },
+    "global_gauge": {
+      "box_mass": "1/2",
+      "correct_gauge": "1/4",
+      "gauged_masses": [
+        "1/4",
+        "1/4"
+      ],
+      "raw_masses": [
+        "1/1",
+        "1/1"
+      ],
+      "unit_sum_normalization_is_wrong": true
+    },
+    "map_denominators": {
+      "A_h_u": [
+        "1/1",
+        "0/1"
+      ],
+      "M_i_pi": [
+        "1/3",
+        "2/3"
+      ],
+      "P_h_u": [
+        "2/3",
+        "0/1"
+      ],
+      "cell_integrals_of_u_pi": [
+        "1/3",
+        "0/1"
+      ],
+      "inner_Jv_u": "1/3",
+      "inner_v_Au_wrong_for_adjoint": "1/2",
+      "inner_v_Pu": "1/3",
+      "pi_h_i": [
+        "1/2",
+        "1/2"
+      ],
+      "rho_i": [
+        "2/3",
+        "4/3"
+      ],
+      "u": "indicator_C_1",
+      "v": [
+        "1/1",
+        "0/1"
+      ]
+    },
+    "row_column": {
+      "Q": [
+        [
+          "-1/1",
+          "1/1"
+        ],
+        [
+          "2/1",
+          "-2/1"
+        ]
+      ],
+      "incorrect_Q_p_total_derivative": "1/1",
+      "pi_h": [
+        "2/1",
+        "1/1"
+      ],
+      "probability_column": [
+        "1/1",
+        "0/1"
+      ],
+      "transpose_Q_p_total_derivative": "0/1"
+    }
+  }
+}

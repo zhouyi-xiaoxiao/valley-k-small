@@ -1,0 +1,1346 @@
+{
+  "claim_scope": "cell-averaged square-cell refinement ladder for the matched-budget fold; per-level results are finite-lattice statements and the Richardson block is the continuum-limit diagnostic",
+  "continuum_reference": {
+    "budget": 0.1757559538953998,
+    "far_patch_joint_volume": {
+      "adaptive_quadrature_error_estimate": 2.237793284010081e-16,
+      "midpoint_refinement_final_gap": 4.760405080544983e-09,
+      "midpoint_refinement_panels": [
+        1024,
+        2048,
+        4096
+      ],
+      "midpoint_refinement_values": [
+        0.011409165305998501,
+        0.01140914068904132,
+        0.011409131985061393
+      ],
+      "volume": 0.011409127224656312
+    },
+    "kappa_bar": 2.2501572220343395,
+    "near_patch_joint_volume": {
+      "adaptive_quadrature_error_estimate": 2.130240428499519e-15,
+      "midpoint_refinement_final_gap": 3.809987455735686e-09,
+      "midpoint_refinement_panels": [
+        1024,
+        2048,
+        4096
+      ],
+      "midpoint_refinement_values": [
+        0.009238121530995964,
+        0.009238101827288616,
+        0.009238094861097675
+      ],
+      "volume": 0.009238091051110219
+    },
+    "reduction": "midpoint/relative change of variables; one-dimensional adaptive quadrature over |r_x| with analytic relative-y width, plus composite-midpoint refinement sequences as the refinement audit",
+    "tube_volume": {
+      "analytic": 0.0781082993554117,
+      "midpoint": 0.07811026750269554,
+      "midpoint_gap": 1.9681472838289915e-06,
+      "midpoint_panels_per_axis": 2048
+    }
+  },
+  "levels": [
+    {
+      "binary_reference_counts": {
+        "far": 39,
+        "near": 33,
+        "tube": 369
+      },
+      "budget_abs_gap_to_continuum": 0.007330441368272073,
+      "budget_invariance_relative_error": 0.0,
+      "budget_match_tolerance": 1e-11,
+      "budget_minus_continuum": 0.007330441368272073,
+      "budget_theta0": 0.18308639526367188,
+      "budget_theta1": 0.18308639526367188,
+      "cell_averaged_positive_counts": {
+        "far": 238,
+        "near": 205,
+        "tube": 1325
+      },
+      "discretizations": {
+        "scharfetter_gummel": {
+          "discretization": "scharfetter_gummel",
+          "fold": {
+            "accepted": true,
+            "density": 0.0010000465169065454,
+            "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+            "dimensionless_f_t_residual": 1.3868869078835003e-14,
+            "dimensionless_f_tt_residual": 1.5952749672311709e-13,
+            "f_t_residual": -7.453889935837843e-19,
+            "f_tt_residual": 4.607859233063394e-19,
+            "f_tt_theta": -2.5734370467091813e-05,
+            "f_ttheta": 4.52988514382034e-05,
+            "f_ttt": -4.265308869522028e-06,
+            "fold_limit_determinant": 1.9321359281852962e-10,
+            "jacobian_determinant": 1.9321359281851776e-10,
+            "max_dimensionless_residual": 1.5952749672311709e-13,
+            "nondegeneracy_gate_tolerance": 1e-14,
+            "normalized_margin_f_ttheta": 0.8428402423779857,
+            "normalized_margin_f_ttt": -27.476733868404985,
+            "rejection_reasons": [],
+            "residual_gate_tolerance": 1e-08,
+            "seed": [
+              17.0,
+              0.25
+            ],
+            "seed_attempts": 1,
+            "state_theta_l1": 0.035808540888270166,
+            "survival": 0.02036647259287417,
+            "theta": 0.21480811423771412,
+            "theta_physical": true,
+            "time": 18.607082121025243
+          },
+          "fold_found": true,
+          "free_generator_mass_balance_relative_error": 1.5312654117731166e-16,
+          "seed_attempt_count": 1,
+          "seed_attempts": [
+            {
+              "evaluation": {
+                "accepted": true,
+                "density": 0.0010000465169065454,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 1.3868869078835003e-14,
+                "dimensionless_f_tt_residual": 1.5952749672311709e-13,
+                "f_t_residual": -7.453889935837843e-19,
+                "f_tt_residual": 4.607859233063394e-19,
+                "f_tt_theta": -2.5734370467091813e-05,
+                "f_ttheta": 4.52988514382034e-05,
+                "f_ttt": -4.265308869522028e-06,
+                "fold_limit_determinant": 1.9321359281852962e-10,
+                "jacobian_determinant": 1.9321359281851776e-10,
+                "max_dimensionless_residual": 1.5952749672311709e-13,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": 0.8428402423779857,
+                "normalized_margin_f_ttt": -27.476733868404985,
+                "rejection_reasons": [],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.035808540888270166,
+                "survival": 0.02036647259287417,
+                "theta": 0.21480811423771412,
+                "theta_physical": true,
+                "time": 18.607082121025243
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                17.0,
+                0.25
+              ],
+              "solution": [
+                18.607082121025243,
+                0.21480811423771412
+              ]
+            }
+          ],
+          "seed_list": [
+            [
+              17.0,
+              0.25
+            ],
+            [
+              16.5,
+              0.3
+            ],
+            [
+              18.0,
+              0.15
+            ],
+            [
+              18.5,
+              0.28
+            ],
+            [
+              19.5,
+              -0.1
+            ],
+            [
+              20.0,
+              -0.3
+            ],
+            [
+              15.0,
+              0.4
+            ],
+            [
+              14.0,
+              0.45
+            ]
+          ],
+          "solve_seconds": 1.6999145000008866
+        },
+        "upwind": {
+          "discretization": "upwind",
+          "fold": {
+            "accepted": true,
+            "density": 0.0037709468553015083,
+            "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+            "dimensionless_f_t_residual": 1.5528934427443017e-14,
+            "dimensionless_f_tt_residual": 1.2407284905708052e-13,
+            "f_t_residual": 5.637851296924623e-18,
+            "f_tt_residual": -4.336808689942018e-18,
+            "f_tt_theta": 0.005476418915315095,
+            "f_ttheta": -0.03190244306579224,
+            "f_ttt": -0.00014482754341426513,
+            "fold_limit_determinant": -4.620352458132147e-06,
+            "jacobian_determinant": -4.620352458132171e-06,
+            "max_dimensionless_residual": 1.2407284905708052e-13,
+            "nondegeneracy_gate_tolerance": 1e-14,
+            "normalized_margin_f_ttheta": -87.8722975035121,
+            "normalized_margin_f_ttt": -43.03641688461082,
+            "rejection_reasons": [],
+            "residual_gate_tolerance": 1e-08,
+            "seed": [
+              20.0,
+              -0.3
+            ],
+            "seed_attempts": 6,
+            "state_theta_l1": 0.8182834478514343,
+            "survival": 0.06145892089163405,
+            "theta": -0.18366819083629005,
+            "theta_physical": false,
+            "time": 10.386720642542073
+          },
+          "fold_found": true,
+          "free_generator_mass_balance_relative_error": 1.3965222242725433e-16,
+          "seed_attempt_count": 6,
+          "seed_attempts": [
+            {
+              "evaluation": {
+                "accepted": false,
+                "density": 0.0017435655187083023,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 0.7562322117249054,
+                "dimensionless_f_tt_residual": 2.171530509743656,
+                "f_t_residual": -7.756120050000362e-05,
+                "f_tt_residual": 1.310105785332907e-05,
+                "f_tt_theta": -2.7895230203085764e-05,
+                "f_ttheta": -8.460642323702972e-06,
+                "f_ttt": -8.150973601902395e-06,
+                "fold_limit_determinant": -6.896247223564105e-11,
+                "jacobian_determinant": -4.3441949695820003e-10,
+                "max_dimensionless_residual": 2.171530509743656,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": -0.08249240877939923,
+                "normalized_margin_f_ttt": -22.967724973027586,
+                "rejection_reasons": [
+                  "normalized fold residual gate failed"
+                ],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.0478402712880647,
+                "survival": 0.031443043458122176,
+                "theta": 0.25,
+                "theta_physical": true,
+                "time": 17.0
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                17.0,
+                0.25
+              ],
+              "solution": [
+                17.0,
+                0.25
+              ]
+            },
+            {
+              "evaluation": {
+                "accepted": false,
+                "density": 0.0019210716628597546,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 0.7312035154001431,
+                "dimensionless_f_tt_residual": 2.3039421575935863,
+                "f_t_residual": -8.513299110416068e-05,
+                "f_tt_residual": 1.6257256168304875e-05,
+                "f_tt_theta": -3.040560343245055e-05,
+                "f_ttheta": -1.8967893401795194e-06,
+                "f_ttt": -1.0425367847791828e-05,
+                "fold_limit_determinant": -1.9774726601141837e-11,
+                "jacobian_determinant": -5.140864105543804e-10,
+                "max_dimensionless_residual": 2.3039421575935863,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": -0.016291440198733943,
+                "normalized_margin_f_ttt": -24.378088776525136,
+                "rejection_reasons": [
+                  "normalized fold residual gate failed"
+                ],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.05605784384889145,
+                "survival": 0.0349162840148654,
+                "theta": 0.3,
+                "theta_physical": true,
+                "time": 16.5
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                16.5,
+                0.3
+              ],
+              "solution": [
+                16.5,
+                0.3
+              ]
+            },
+            {
+              "evaluation": {
+                "accepted": false,
+                "density": 0.0014516268591108724,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 0.8133039499636594,
+                "dimensionless_f_tt_residual": 2.033184149138675,
+                "f_t_residual": -6.558965879934517e-05,
+                "f_tt_residual": 9.10933555681539e-06,
+                "f_tt_theta": -2.419636858644325e-05,
+                "f_ttheta": -1.037544867091636e-05,
+                "f_ttt": -5.291439193377129e-06,
+                "fold_limit_determinant": -5.490105574615946e-11,
+                "jacobian_determinant": -2.753138964564579e-10,
+                "max_dimensionless_residual": 2.033184149138675,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": -0.12865432662969917,
+                "normalized_margin_f_ttt": -21.258681721194588,
+                "rejection_reasons": [
+                  "normalized fold residual gate failed"
+                ],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.03569598206113845,
+                "survival": 0.02586772340913153,
+                "theta": 0.15,
+                "theta_physical": true,
+                "time": 18.0
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                18.0,
+                0.15
+              ],
+              "solution": [
+                18.0,
+                0.15
+              ]
+            },
+            {
+              "evaluation": {
+                "accepted": false,
+                "density": 0.0017165412218441004,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 0.7175958541753984,
+                "dimensionless_f_tt_residual": 0.7876368919451259,
+                "f_t_residual": -6.658285753062158e-05,
+                "f_tt_residual": 3.950361410866255e-06,
+                "f_tt_theta": -2.2533223257896473e-05,
+                "f_ttheta": -5.239428903828884e-05,
+                "f_ttt": -3.5372873040638575e-06,
+                "fold_limit_determinant": -1.8533365342059126e-10,
+                "jacobian_determinant": -2.743480290410195e-10,
+                "max_dimensionless_residual": 0.7876368919451259,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": -0.5646787475147373,
+                "normalized_margin_f_ttt": -13.047619504606013,
+                "rejection_reasons": [
+                  "normalized fold residual gate failed"
+                ],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.04750705150661172,
+                "survival": 0.030262493388985172,
+                "theta": 0.28,
+                "theta_physical": true,
+                "time": 18.5
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                18.5,
+                0.28
+              ],
+              "solution": [
+                18.5,
+                0.28
+              ]
+            },
+            {
+              "root_message": "The number of calls to function has reached maxfev = 300.",
+              "root_success": false,
+              "seed": [
+                19.5,
+                -0.1
+              ],
+              "solution": [
+                2643.321878638217,
+                0.762290815611198
+              ]
+            },
+            {
+              "evaluation": {
+                "accepted": true,
+                "density": 0.0037709468553015083,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 1.5528934427443017e-14,
+                "dimensionless_f_tt_residual": 1.2407284905708052e-13,
+                "f_t_residual": 5.637851296924623e-18,
+                "f_tt_residual": -4.336808689942018e-18,
+                "f_tt_theta": 0.005476418915315095,
+                "f_ttheta": -0.03190244306579224,
+                "f_ttt": -0.00014482754341426513,
+                "fold_limit_determinant": -4.620352458132147e-06,
+                "jacobian_determinant": -4.620352458132171e-06,
+                "max_dimensionless_residual": 1.2407284905708052e-13,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": -87.8722975035121,
+                "normalized_margin_f_ttt": -43.03641688461082,
+                "rejection_reasons": [],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.8182834478514343,
+                "survival": 0.06145892089163405,
+                "theta": -0.18366819083629005,
+                "theta_physical": false,
+                "time": 10.386720642542073
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                20.0,
+                -0.3
+              ],
+              "solution": [
+                10.386720642542073,
+                -0.18366819083629005
+              ]
+            }
+          ],
+          "seed_list": [
+            [
+              17.0,
+              0.25
+            ],
+            [
+              16.5,
+              0.3
+            ],
+            [
+              18.0,
+              0.15
+            ],
+            [
+              18.5,
+              0.28
+            ],
+            [
+              19.5,
+              -0.1
+            ],
+            [
+              20.0,
+              -0.3
+            ],
+            [
+              15.0,
+              0.4
+            ],
+            [
+              14.0,
+              0.45
+            ]
+          ],
+          "solve_seconds": 1465.6117102919961
+        }
+      },
+      "fraction_fields": {
+        "far": {
+          "control_volume_measure": 0.011882781982421875,
+          "field": "far",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "positive_states": 238,
+          "sum": 49.875
+        },
+        "near": {
+          "control_volume_measure": 0.0096893310546875,
+          "field": "near",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "positive_states": 205,
+          "sum": 41.421875
+        },
+        "tube": {
+          "control_volume_measure": 0.08056640625,
+          "field": "tube",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "positive_states": 1325,
+          "sum": 468.90625
+        }
+      },
+      "initial_cell_averaged_overlap": {
+        "killing_rate_theta0": 0.16191495028409086,
+        "killing_rate_theta1": 0.03562499999999999,
+        "note": "the initial law is contact-safe for the binary node mask; cell-averaged fields can overlap its support on coarse grids and the overlap must vanish under refinement",
+        "tube_fraction_mass": 0.07124999999999998
+      },
+      "initial_distribution": {
+        "active_sink_mass": 0.0,
+        "contact_mass": 0.0,
+        "first_max_support_displacement": 0.0,
+        "first_position_max_abs_error": 0.0,
+        "first_position_mean": [
+          0.0,
+          0.5
+        ],
+        "first_rms_support_displacement": 0.0,
+        "joint_max_support_displacement": 0.09499999999999997,
+        "joint_rms_support_displacement": 0.053385391260156574,
+        "minimum_probability": 0.0,
+        "second_max_support_displacement": 0.09499999999999997,
+        "second_position_max_abs_error": 0.0,
+        "second_position_mean": [
+          0.28,
+          0.5
+        ],
+        "second_rms_support_displacement": 0.053385391260156574,
+        "support_size": 2,
+        "total_mass": 1.0
+      },
+      "kappa_bar": 2.2724905303030303,
+      "kappa_bar_relative_gap_to_continuum": 0.009925221246762206,
+      "matched_budget": 0.18308639526367188,
+      "n": 9,
+      "product_states": 6561,
+      "setup_seconds": 0.026177999970968813,
+      "single_walker_states": 81,
+      "spacing": 0.125,
+      "subsamples_per_axis": 4,
+      "subsamples_per_product_cell": 256,
+      "tube_control_volume_measure": 0.08056640625
+    },
+    {
+      "binary_reference_counts": {
+        "far": 231,
+        "near": 193,
+        "tube": 1941
+      },
+      "budget_abs_gap_to_continuum": 0.0035700446698968824,
+      "budget_invariance_relative_error": 0.0,
+      "budget_match_tolerance": 1e-11,
+      "budget_minus_continuum": 0.0035700446698968824,
+      "budget_theta0": 0.17932599856529668,
+      "budget_theta1": 0.17932599856529668,
+      "cell_averaged_positive_counts": {
+        "far": 620,
+        "near": 549,
+        "tube": 3481
+      },
+      "discretizations": {
+        "scharfetter_gummel": {
+          "discretization": "scharfetter_gummel",
+          "fold": {
+            "accepted": true,
+            "density": 0.000518764466142858,
+            "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+            "dimensionless_f_t_residual": 3.0295164192322137e-15,
+            "dimensionless_f_tt_residual": 7.806997526833961e-14,
+            "f_t_residual": -8.131516293641283e-20,
+            "f_tt_residual": 1.0842021724855044e-19,
+            "f_tt_theta": -6.252432054060491e-05,
+            "f_ttheta": 0.0004359583178628456,
+            "f_ttt": -2.2700724451691842e-06,
+            "fold_limit_determinant": 9.896569646227542e-10,
+            "jacobian_determinant": 9.896569646227474e-10,
+            "max_dimensionless_residual": 7.806997526833961e-14,
+            "nondegeneracy_gate_tolerance": 1e-14,
+            "normalized_margin_f_ttheta": 16.24227062176764,
+            "normalized_margin_f_ttt": -31.59260810881293,
+            "rejection_reasons": [],
+            "residual_gate_tolerance": 1e-08,
+            "seed": [
+              18.607082121025243,
+              0.21480811423771412
+            ],
+            "seed_attempts": 1,
+            "state_theta_l1": 0.026272436920141404,
+            "survival": 0.010337526504710795,
+            "theta": -0.11782646118549032,
+            "theta_physical": false,
+            "time": 19.32733590072239
+          },
+          "fold_found": true,
+          "free_generator_mass_balance_relative_error": 1.9524697582116167e-16,
+          "seed_attempt_count": 1,
+          "seed_attempts": [
+            {
+              "evaluation": {
+                "accepted": true,
+                "density": 0.000518764466142858,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 3.0295164192322137e-15,
+                "dimensionless_f_tt_residual": 7.806997526833961e-14,
+                "f_t_residual": -8.131516293641283e-20,
+                "f_tt_residual": 1.0842021724855044e-19,
+                "f_tt_theta": -6.252432054060491e-05,
+                "f_ttheta": 0.0004359583178628456,
+                "f_ttt": -2.2700724451691842e-06,
+                "fold_limit_determinant": 9.896569646227542e-10,
+                "jacobian_determinant": 9.896569646227474e-10,
+                "max_dimensionless_residual": 7.806997526833961e-14,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": 16.24227062176764,
+                "normalized_margin_f_ttt": -31.59260810881293,
+                "rejection_reasons": [],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.026272436920141404,
+                "survival": 0.010337526504710795,
+                "theta": -0.11782646118549032,
+                "theta_physical": false,
+                "time": 19.32733590072239
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                18.607082121025243,
+                0.21480811423771412
+              ],
+              "solution": [
+                19.32733590072239,
+                -0.11782646118549032
+              ]
+            }
+          ],
+          "seed_list": [
+            [
+              18.607082121025243,
+              0.21480811423771412
+            ],
+            [
+              17.0,
+              0.25
+            ],
+            [
+              16.5,
+              0.3
+            ],
+            [
+              18.0,
+              0.15
+            ],
+            [
+              18.5,
+              0.28
+            ],
+            [
+              19.5,
+              -0.1
+            ],
+            [
+              20.0,
+              -0.3
+            ],
+            [
+              15.0,
+              0.4
+            ],
+            [
+              14.0,
+              0.45
+            ]
+          ],
+          "solve_seconds": 9.674329541972838
+        },
+        "upwind": {
+          "discretization": "upwind",
+          "fold": {
+            "accepted": true,
+            "density": 0.0026350645991090253,
+            "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+            "dimensionless_f_t_residual": 9.139903678771259e-15,
+            "dimensionless_f_tt_residual": 2.136208418688975e-12,
+            "f_t_residual": 2.2768245622195593e-18,
+            "f_tt_residual": 5.0306980803327406e-17,
+            "f_tt_theta": 0.0059199765265864,
+            "f_ttheta": -0.02463783789102644,
+            "f_ttt": -0.00012517503285505716,
+            "fold_limit_determinant": -3.0840421674868066e-06,
+            "jacobian_determinant": -3.084042167486509e-06,
+            "max_dimensionless_residual": 2.136208418688975e-12,
+            "nondegeneracy_gate_tolerance": 1e-14,
+            "normalized_margin_f_ttheta": -98.90417949358329,
+            "normalized_margin_f_ttt": -56.22589796306445,
+            "rejection_reasons": [],
+            "residual_gate_tolerance": 1e-08,
+            "seed": [
+              10.386720642542073,
+              -0.18366819083629005
+            ],
+            "seed_attempts": 1,
+            "state_theta_l1": 0.5359169217496402,
+            "survival": 0.04061431408978405,
+            "theta": -0.17576422151938542,
+            "theta_physical": false,
+            "time": 10.577994028542106
+          },
+          "fold_found": true,
+          "free_generator_mass_balance_relative_error": 2.0046221032308866e-16,
+          "seed_attempt_count": 1,
+          "seed_attempts": [
+            {
+              "evaluation": {
+                "accepted": true,
+                "density": 0.0026350645991090253,
+                "derivative_method": "sparse generator actions plus augmented expm sensitivity",
+                "dimensionless_f_t_residual": 9.139903678771259e-15,
+                "dimensionless_f_tt_residual": 2.136208418688975e-12,
+                "f_t_residual": 2.2768245622195593e-18,
+                "f_tt_residual": 5.0306980803327406e-17,
+                "f_tt_theta": 0.0059199765265864,
+                "f_ttheta": -0.02463783789102644,
+                "f_ttt": -0.00012517503285505716,
+                "fold_limit_determinant": -3.0840421674868066e-06,
+                "jacobian_determinant": -3.084042167486509e-06,
+                "max_dimensionless_residual": 2.136208418688975e-12,
+                "nondegeneracy_gate_tolerance": 1e-14,
+                "normalized_margin_f_ttheta": -98.90417949358329,
+                "normalized_margin_f_ttt": -56.22589796306445,
+                "rejection_reasons": [],
+                "residual_gate_tolerance": 1e-08,
+                "state_theta_l1": 0.5359169217496402,
+                "survival": 0.04061431408978405,
+                "theta": -0.17576422151938542,
+                "theta_physical": false,
+                "time": 10.577994028542106
+              },
+              "root_message": "The solution converged.",
+              "root_success": true,
+              "seed": [
+                10.386720642542073,
+                -0.18366819083629005
+              ],
+              "solution": [
+                10.577994028542106,
+                -0.17576422151938542
+              ]
+            }
+          ],
+          "seed_list": [
+            [
+              10.386720642542073,
+              -0.18366819083629005
+            ],
+            [
+              17.0,
+              0.25
+            ],
+            [
+              16.5,
+              0.3
+            ],
+            [
+              18.0,
+              0.15
+            ],
+            [
+              18.5,
+              0.28
+            ],
+            [
+              19.5,
+              -0.1
+            ],
+            [
+              20.0,
+              -0.3
+            ],
+            [
+              15.0,
+              0.4
+            ],
+            [
+              14.0,
+              0.45
+            ]
+          ],
+          "solve_seconds": 7.270043708966114
+        }
+      },
+      "fraction_fields": {
+        "far": {
+          "control_volume_measure": 0.011638500072337937,
+          "field": "far",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "positive_states": 620,
+          "sum": 243.3828125
+        },
+        "near": {
+          "control_volume_measure": 0.009496994960455245,
+          "field": "near",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "positive_states": 549,
+          "sum": 200.421875
+        },
+        "tube": {
+          "control_volume_measure": 0.07916561173804001,
+          "field": "tube",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "positive_states": 3481,
+          "sum": 2045.203125
+        }
+      },
+      "initial_cell_averaged_overlap": {
+        "killing_rate_theta0": 0.0,
+        "killing_rate_theta1": 0.0,
+        "note": "the initial law is contact-safe for the binary node mask; cell-averaged fields can overlap its support on coarse grids and the overlap must vanish under refinement",
+        "tube_fraction_mass": 0.0
+      },
+      "initial_distribution": {
+        "active_sink_mass": 0.0,
+        "contact_mass": 0.0,
+        "first_max_support_displacement": 0.0,
+        "first_position_max_abs_error": 0.0,
+        "first_position_mean": [
+          0.0,
+          0.5
+        ],
+        "first_rms_support_displacement": 0.0,
+        "joint_max_support_displacement": 0.05333333333333329,
+        "joint_rms_support_displacement": 0.04,
+        "minimum_probability": 0.0,
+        "second_max_support_displacement": 0.05333333333333329,
+        "second_position_max_abs_error": 0.0,
+        "second_position_mean": [
+          0.28,
+          0.5
+        ],
+        "second_rms_support_displacement": 0.04,
+        "support_size": 2,
+        "total_mass": 1.0
+      },
+      "kappa_bar": 2.265200692930772,
+      "kappa_bar_relative_gap_to_continuum": 0.006685519904618742,
+      "matched_budget": 0.17932599856529668,
+      "n": 13,
+      "product_states": 28561,
+      "setup_seconds": 0.11825549998320639,
+      "single_walker_states": 169,
+      "spacing": 0.08333333333333333,
+      "subsamples_per_axis": 4,
+      "subsamples_per_product_cell": 256,
+      "tube_control_volume_measure": 0.07916561173804001
+    }
+  ],
+  "model": {
+    "boundary": "reflecting by omitted outward CTMC jumps",
+    "budget_matching": "trapezoidal control-volume quadrature on the 4D product grid; kappa_bar_h recomputed per grid for exact theta invariance",
+    "continuation": "kappa_theta=(1-theta) kappa_bar_h chi_tube_cell + theta [0.5 chi_near_cell + 15 chi_far_cell] with cell-averaged chi",
+    "declared_ladder_levels": [
+      9,
+      13,
+      17,
+      21,
+      25
+    ],
+    "discretizations": [
+      "upwind",
+      "scharfetter_gummel"
+    ],
+    "domain": [
+      1.0,
+      1.0
+    ],
+    "family_id": "M2D-F-refined",
+    "far_patch": {
+      "centre": [
+        0.72,
+        0.5
+      ],
+      "radius": 0.2,
+      "rate": 15.0
+    },
+    "initial_distribution": "contact-safe hierarchical selector against the binary node mask (byte-identical bilinear product when already safe)",
+    "levels_run": [
+      9,
+      13
+    ],
+    "near_patch": {
+      "centre": [
+        0.25,
+        0.5
+      ],
+      "radius": 0.18,
+      "rate": 0.5
+    },
+    "reaction_model": "finite-radius Doi volume sink with cell-averaged masks",
+    "reaction_radius": 0.17,
+    "start_one": [
+      0.0,
+      0.5
+    ],
+    "start_two": [
+      0.28,
+      0.5
+    ],
+    "walker_one": {
+      "diffusion": 0.0025,
+      "drift_x": 0.115,
+      "transverse_confinement": 1.5
+    },
+    "walker_two": {
+      "diffusion": 0.0008,
+      "drift_x": 0.02,
+      "transverse_confinement": 1.5
+    }
+  },
+  "richardson": {
+    "cross_discretization_theta_star_gap": null,
+    "cross_discretization_time_star_gap": null,
+    "scharfetter_gummel": {
+      "normalized_margin_sequence": [
+        {
+          "max_dimensionless_residual": 1.5952749672311709e-13,
+          "n": 9,
+          "normalized_margin_f_ttheta": 0.8428402423779857,
+          "normalized_margin_f_ttt": -27.476733868404985,
+          "spacing": 0.125
+        },
+        {
+          "max_dimensionless_residual": 7.806997526833961e-14,
+          "n": 13,
+          "normalized_margin_f_ttheta": 16.24227062176764,
+          "normalized_margin_f_ttt": -31.59260810881293,
+          "spacing": 0.08333333333333333
+        }
+      ],
+      "theta_c": {
+        "fit_form": "y(h) = y_star + C h^p on the three finest levels",
+        "levels_available": [
+          9,
+          13
+        ],
+        "note": "three-point least squares is exactly determined and reduces to interpolation",
+        "quantity": "theta_c",
+        "status": "insufficient_levels",
+        "values": [
+          0.21480811423771412,
+          -0.11782646118549032
+        ]
+      },
+      "time_c": {
+        "fit_form": "y(h) = y_star + C h^p on the three finest levels",
+        "levels_available": [
+          9,
+          13
+        ],
+        "note": "three-point least squares is exactly determined and reduces to interpolation",
+        "quantity": "time_c",
+        "status": "insufficient_levels",
+        "values": [
+          18.607082121025243,
+          19.32733590072239
+        ]
+      }
+    },
+    "upwind": {
+      "normalized_margin_sequence": [
+        {
+          "max_dimensionless_residual": 1.2407284905708052e-13,
+          "n": 9,
+          "normalized_margin_f_ttheta": -87.8722975035121,
+          "normalized_margin_f_ttt": -43.03641688461082,
+          "spacing": 0.125
+        },
+        {
+          "max_dimensionless_residual": 2.136208418688975e-12,
+          "n": 13,
+          "normalized_margin_f_ttheta": -98.90417949358329,
+          "normalized_margin_f_ttt": -56.22589796306445,
+          "spacing": 0.08333333333333333
+        }
+      ],
+      "theta_c": {
+        "fit_form": "y(h) = y_star + C h^p on the three finest levels",
+        "levels_available": [
+          9,
+          13
+        ],
+        "note": "three-point least squares is exactly determined and reduces to interpolation",
+        "quantity": "theta_c",
+        "status": "insufficient_levels",
+        "values": [
+          -0.18366819083629005,
+          -0.17576422151938542
+        ]
+      },
+      "time_c": {
+        "fit_form": "y(h) = y_star + C h^p on the three finest levels",
+        "levels_available": [
+          9,
+          13
+        ],
+        "note": "three-point least squares is exactly determined and reduces to interpolation",
+        "quantity": "time_c",
+        "status": "insufficient_levels",
+        "values": [
+          10.386720642542073,
+          10.577994028542106
+        ]
+      }
+    }
+  },
+  "scaling_spot_check": {
+    "scharfetter_gummel": {
+      "fit": {
+        "expected_prominence_exponent": 1.5,
+        "expected_separation_exponent": 0.5,
+        "fit_mu_max": 0.01,
+        "fit_points": 6,
+        "prominence_exponent": 1.457420104194466,
+        "prominence_prefactor": 0.008146129210452576,
+        "separation_exponent": 0.48730064640814746,
+        "separation_prefactor": 35.46903444868825,
+        "status": "ok"
+      },
+      "fold_theta": -0.11782646118549032,
+      "fold_time": 19.32733590072239,
+      "mu_values": [
+        0.0002,
+        0.0005,
+        0.001,
+        0.002,
+        0.005,
+        0.01,
+        0.02,
+        0.05
+      ],
+      "n": 13,
+      "normal_form_half_separation_coefficient": 19.59826489349403,
+      "normal_form_prominence_coefficient": 0.011392035461330823,
+      "normal_form_separation_coefficient": 39.19652978698806,
+      "row_failures": [],
+      "rows": [
+        {
+          "maximum_f_t_residual": 2.710505431213761e-19,
+          "maximum_time": 19.6062158991498,
+          "minimum_f_t_residual": 0.0,
+          "minimum_time": 19.052511453588707,
+          "mu": 0.0002,
+          "normal_form_prominence": 3.222154210489858e-08,
+          "normal_form_separation": 0.5543226402271951,
+          "prominence": 3.2098337308635386e-08,
+          "prominence_ratio_to_normal_form": 0.9961763221678809,
+          "separation": 0.5537044455610918,
+          "separation_ratio_to_normal_form": 0.99888477463982,
+          "theta": -0.11762646118549032
+        },
+        {
+          "maximum_f_t_residual": -3.2526065174565133e-19,
+          "maximum_time": 19.769390093632754,
+          "minimum_f_t_residual": 8.131516293641283e-20,
+          "minimum_time": 18.89536882459535,
+          "mu": 0.0005,
+          "normal_form_prominence": 1.2736682846811947e-07,
+          "normal_form_separation": 0.8764610508580065,
+          "prominence": 1.261547668005361e-07,
+          "prominence_ratio_to_normal_form": 0.9904836943640569,
+          "separation": 0.874021269037403,
+          "separation_ratio_to_normal_form": 0.9972163260213159,
+          "theta": -0.11732646118549032
+        },
+        {
+          "maximum_f_t_residual": -2.710505431213761e-20,
+          "maximum_time": 19.953647552060612,
+          "minimum_f_t_residual": 3.5236570605778894e-19,
+          "minimum_time": 18.721027036450383,
+          "mu": 0.001,
+          "normal_form_prominence": 3.602477924321244e-07,
+          "normal_form_separation": 1.2395031050151677,
+          "prominence": 3.534423217584591e-07,
+          "prominence_ratio_to_normal_form": 0.9811089177598569,
+          "separation": 1.232620515610229,
+          "separation_ratio_to_normal_form": 0.9944472995855428,
+          "theta": -0.11682646118549032
+        },
+        {
+          "maximum_f_t_residual": -3.2526065174565133e-19,
+          "maximum_time": 20.21377894008857,
+          "minimum_f_t_residual": -1.8973538018496328e-19,
+          "minimum_time": 18.480220862246235,
+          "mu": 0.002,
+          "normal_form_prominence": 1.0189346277449558e-06,
+          "normal_form_separation": 1.752922101716013,
+          "prominence": 9.810031580525375e-07,
+          "prominence_ratio_to_normal_form": 0.9627734020813818,
+          "separation": 1.7335580778423356,
+          "separation_ratio_to_normal_form": 0.9889532889940055,
+          "theta": -0.11582646118549032
+        },
+        {
+          "maximum_f_t_residual": -7.047314121155779e-19,
+          "maximum_time": 20.72218383923135,
+          "minimum_f_t_residual": -4.336808689942018e-19,
+          "minimum_time": 18.025890877542633,
+          "mu": 0.005,
+          "normal_form_prominence": 4.027692763112322e-06,
+          "normal_form_separation": 2.7716132011359758,
+          "prominence": 3.6688227464571916e-06,
+          "prominence_ratio_to_normal_form": 0.9108993565890015,
+          "separation": 2.696292961688716,
+          "separation_ratio_to_normal_form": 0.972824404423969,
+          "theta": -0.11282646118549032
+        },
+        {
+          "maximum_f_t_residual": 6.2341624917916505e-19,
+          "maximum_time": 21.26926838643144,
+          "minimum_f_t_residual": 3.2526065174565133e-19,
+          "minimum_time": 17.55690628626285,
+          "mu": 0.01,
+          "normal_form_prominence": 1.1392035461330822e-05,
+          "normal_form_separation": 3.919652978698806,
+          "prominence": 9.498698580047795e-06,
+          "prominence_ratio_to_normal_form": 0.8338017040317528,
+          "separation": 3.712362100168587,
+          "separation_ratio_to_normal_form": 0.9471149921544757,
+          "theta": -0.10782646118549033
+        },
+        {
+          "maximum_f_t_residual": -8.673617379884035e-19,
+          "maximum_time": 21.96636644578191,
+          "minimum_f_t_residual": -3.7947076036992655e-19,
+          "minimum_time": 16.97777914818864,
+          "mu": 0.02,
+          "normal_form_prominence": 3.222154210489858e-05,
+          "normal_form_separation": 5.5432264022719515,
+          "prominence": 2.281409344418784e-05,
+          "prominence_ratio_to_normal_form": 0.7080385342798183,
+          "separation": 4.98858729759327,
+          "separation_ratio_to_normal_form": 0.8999429097012244,
+          "theta": -0.09782646118549032
+        },
+        {
+          "maximum_f_t_residual": -1.0842021724855044e-19,
+          "maximum_time": 22.998445320242542,
+          "minimum_f_t_residual": 7.15573433840433e-18,
+          "minimum_time": 16.09794990875544,
+          "mu": 0.05,
+          "normal_form_prominence": 0.0001273668284681195,
+          "normal_form_separation": 8.764610508580065,
+          "prominence": 6.028972578587627e-05,
+          "prominence_ratio_to_normal_form": 0.47335500546727566,
+          "separation": 6.900495411487103,
+          "separation_ratio_to_normal_form": 0.7873134128130285,
+          "theta": -0.06782646118549032
+        }
+      ],
+      "spot_check_seconds": 57.53975337499287,
+      "status": "ok",
+      "supercritical_side": 1.0
+    },
+    "upwind": {
+      "fit": {
+        "expected_prominence_exponent": 1.5,
+        "expected_separation_exponent": 0.5,
+        "fit_mu_max": 0.01,
+        "fit_points": 6,
+        "prominence_exponent": 1.5397122931812284,
+        "prominence_prefactor": 0.890467524686391,
+        "separation_exponent": 0.5030435686175031,
+        "separation_prefactor": 40.62934221467763,
+        "status": "ok"
+      },
+      "fold_theta": -0.17576422151938542,
+      "fold_time": 10.577994028542106,
+      "mu_values": [
+        0.0002,
+        0.0005,
+        0.001,
+        0.002,
+        0.005,
+        0.01,
+        0.02,
+        0.05
+      ],
+      "n": 13,
+      "normal_form_half_separation_coefficient": 19.840720423575338,
+      "normal_form_prominence_coefficient": 0.6517766045829688,
+      "normal_form_separation_coefficient": 39.681440847150675,
+      "row_failures": [],
+      "rows": [
+        {
+          "maximum_f_t_residual": -1.951563910473908e-18,
+          "maximum_time": 10.864755114713109,
+          "minimum_f_t_residual": 1.5178830414797062e-18,
+          "minimum_time": 10.303475670787373,
+          "mu": 0.0002,
+          "normal_form_prominence": 1.8435026276774412e-06,
+          "normal_form_separation": 0.561180318205462,
+          "prominence": 1.8497310958856018e-06,
+          "prominence_ratio_to_normal_form": 1.0033786055493763,
+          "separation": 0.561279443925736,
+          "separation_ratio_to_normal_form": 1.0001766379130883,
+          "theta": -0.17596422151938543
+        },
+        {
+          "maximum_f_t_residual": -1.0842021724855044e-19,
+          "maximum_time": 11.03720068032455,
+          "minimum_f_t_residual": 2.168404344971009e-19,
+          "minimum_time": 10.14949919443299,
+          "mu": 0.0005,
+          "normal_form_prominence": 7.287083969957597e-06,
+          "normal_form_separation": 0.8873039917936575,
+          "prominence": 7.348804399610193e-06,
+          "prominence_ratio_to_normal_form": 1.0084698392260951,
+          "separation": 0.8877014858915615,
+          "separation_ratio_to_normal_form": 1.0004479796119259,
+          "theta": -0.17626422151938542
+        },
+        {
+          "maximum_f_t_residual": -2.168404344971009e-19,
+          "maximum_time": 11.236876990949366,
+          "minimum_f_t_residual": 2.0599841277224584e-18,
+          "minimum_time": 9.980888359654541,
+          "mu": 0.001,
+          "normal_form_prominence": 2.0610985960931217e-05,
+          "normal_form_separation": 1.2548373391423757,
+          "prominence": 2.096174674876992e-05,
+          "prominence_ratio_to_normal_form": 1.0170181469486022,
+          "separation": 1.2559886312948247,
+          "separation_ratio_to_normal_form": 1.0009174831801195,
+          "theta": -0.17676422151938542
+        },
+        {
+          "maximum_f_t_residual": 1.1926223897340549e-18,
+          "maximum_time": 11.529503000449493,
+          "minimum_f_t_residual": -8.673617379884035e-19,
+          "minimum_time": 9.751482595007221,
+          "mu": 0.002,
+          "normal_form_prominence": 5.8296671759660775e-05,
+          "normal_form_separation": 1.774607983587315,
+          "prominence": 6.02994921005337e-05,
+          "prominence_ratio_to_normal_form": 1.0343556549699773,
+          "separation": 1.7780204054422715,
+          "separation_ratio_to_normal_form": 1.0019229158701621,
+          "theta": -0.17776422151938542
+        },
+        {
+          "maximum_f_t_residual": -6.505213034913027e-19,
+          "maximum_time": 12.150632286326164,
+          "minimum_f_t_residual": -4.575333167888829e-17,
+          "minimum_time": 9.329280351226771,
+          "mu": 0.005,
+          "normal_form_prominence": 0.00023043782845968012,
+          "normal_form_separation": 2.80590159102731,
+          "prominence": 0.00025080846495805506,
+          "prominence_ratio_to_normal_form": 1.08839970691678,
+          "separation": 2.8213519350993934,
+          "separation_ratio_to_normal_form": 1.005506374179868,
+          "theta": -0.18076422151938543
+        },
+        {
+          "maximum_f_t_residual": -3.903127820947816e-18,
+          "maximum_time": 12.934455232389382,
+          "minimum_f_t_residual": 2.168404344971009e-19,
+          "minimum_time": 8.912175374539148,
+          "mu": 0.01,
+          "normal_form_prominence": 0.0006517766045829688,
+          "normal_form_separation": 3.9681440847150675,
+          "prominence": 0.0007730203528888502,
+          "prominence_ratio_to_normal_form": 1.1860204055398056,
+          "separation": 4.022279857850235,
+          "separation_ratio_to_normal_form": 1.0136425926023436,
+          "theta": -0.18576422151938543
+        },
+        {
+          "maximum_f_t_residual": -3.642919299551295e-17,
+          "maximum_time": 14.298366130738664,
+          "minimum_f_t_residual": -1.5178830414797062e-18,
+          "minimum_time": 8.457658854130866,
+          "mu": 0.02,
+          "normal_form_prominence": 0.001843502627677441,
+          "normal_form_separation": 5.61180318205462,
+          "prominence": 0.002612034459490849,
+          "prominence_ratio_to_normal_form": 1.4168867569131987,
+          "separation": 5.840707276607798,
+          "separation_ratio_to_normal_form": 1.0407897581449694,
+          "theta": -0.1957642215193854
+        },
+        {
+          "maximum_f_t_residual": 3.469446951953614e-18,
+          "maximum_time": 20.9192423627683,
+          "minimum_f_t_residual": 2.6020852139652106e-18,
+          "minimum_time": 8.620057895059492,
+          "mu": 0.05,
+          "normal_form_prominence": 0.0072870839699575975,
+          "normal_form_separation": 8.873039917936575,
+          "prominence": 0.019628446528350326,
+          "prominence_ratio_to_normal_form": 2.6935941193037385,
+          "separation": 12.299184467708809,
+          "separation_ratio_to_normal_form": 1.386129734731204,
+          "theta": -0.2257642215193854
+        }
+      ],
+      "spot_check_seconds": 46.44143504201202,
+      "status": "ok",
+      "supercritical_side": -1.0
+    }
+  },
+  "schema_version": 1,
+  "search_protocol": {
+    "continuation_seeding": "each level is first seeded from the accepted fold of the previous coarser level for the same discretization",
+    "default_seeds": [
+      [
+        17.0,
+        0.25
+      ],
+      [
+        16.5,
+        0.3
+      ],
+      [
+        18.0,
+        0.15
+      ],
+      [
+        18.5,
+        0.28
+      ],
+      [
+        19.5,
+        -0.1
+      ],
+      [
+        20.0,
+        -0.3
+      ],
+      [
+        15.0,
+        0.4
+      ],
+      [
+        14.0,
+        0.45
+      ]
+    ],
+    "residual_gate": "|f_t| t / f and |f_tt| t^2 / f both below 1e-08",
+    "theta_interval": [
+      -0.5,
+      1.0
+    ],
+    "time_interval": [
+      0.0,
+      60.0
+    ]
+  },
+  "selftest": {
+    "checks": [
+      "sg_equals_central_at_zero_drift",
+      "sg_stable_form_continuous_at_peclet_switch",
+      "sg_forward_minus_backward_equals_advection",
+      "sg_nonnegative_on_peclet_sweep",
+      "sg_pure_diffusion_matches_central_generator",
+      "cell_fractions_and_weights_sane_on_n5"
+    ],
+    "status": "passed"
+  }
+}

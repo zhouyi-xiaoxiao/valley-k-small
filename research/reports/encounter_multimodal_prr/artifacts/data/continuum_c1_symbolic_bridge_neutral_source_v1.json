@@ -1,0 +1,176 @@
+{
+  "claim_boundary": {
+    "budget_present": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "control_specific_killing_constructed": false,
+    "exact_controls_present": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "production_member_sources_complete": false,
+    "record_is_production_authority": false,
+    "release_submission_science_execution": false,
+    "symbolic_bridge_accepted": false,
+    "symbolic_machine_contract_complete": false
+  },
+  "contract_schema": {
+    "application_policy_input_sources": [],
+    "application_schema_name": "encounter_c1_gauge_killing_control_budget_application_candidate_v1",
+    "budget_value_sources": [],
+    "control_value_sources": [],
+    "native_record_digest_domain": "encounter-source-native-record-v1",
+    "production_symbolic_schema_name": "encounter_c1_gauge_killing_symbolic_candidate_v1",
+    "required_production_payload_roles": [
+      "reference_density_source",
+      "ideal_formula_source",
+      "factorization_source",
+      "configuration_source",
+      "member_spec_manifest",
+      "outward_method_registry_source",
+      "anti_vacuity_policy_source",
+      "raw_axis_enclosure_source",
+      "stationary_integral_source",
+      "killing_geometry_source",
+      "symbolic_control_method_source"
+    ],
+    "symbolic_formulae": {
+      "common_flux": "kappa_e=mu_i*q_ij=mu_j*q_ji",
+      "discrete_killing_diagonal": "k=B*V",
+      "global_gauge": "G=M_L/(S_z*S_r*S_y)",
+      "map_ratio": "rho=M_pi/pi_h",
+      "physical_weight_identity": "M_pi*K=pi_h*V",
+      "reconstructed_killed_multiplier": "B*K",
+      "reconstructed_multiplier": "K=V/rho",
+      "tensor_conductance": "c_e=G*kappa_e*product_other_axis_masses"
+    }
+  },
+  "native_interval_records": [
+    {
+      "axis_or_factor_role": "neutral_common_flux",
+      "cell_or_edge_id": "edge_i_j",
+      "configuration_geometry_sha256": "0c560042ba4ece02b852583bd9fa5058e4a7302ad596cadb7807f7c5ee162ac7",
+      "configuration_id": "neutral_symbolic_witnesses_v1",
+      "coordinate_order": "z,r,y",
+      "ideal_formula_id": "neutral_common_flux_formula",
+      "ideal_formula_version": "v1",
+      "ideal_quantity_id": "kappa_e",
+      "lower_exact_p_over_q": "6/5",
+      "member_spec_manifest_sha256": "a885b05b3154414554d18eb75c0dfc559bdd3d2514aa45c2bae5498b6b39a93d",
+      "normalization_convention": "single_global_gauge",
+      "outward_method_id": "neutral_exact_fraction_v1",
+      "outward_method_registry_sha256": "005265fcef08b7710d53c554ddea34c8eca3cdaf85949db0ec887950f96bfe42",
+      "partition_sha256": "19678e150cbfb839852037adc6a51dc904bbe60ba5fb1527f256ad959a669801",
+      "physical_parameter_bundle_sha256": "6e8b1258746c75e19c6d2200e63ccd43c8a419e984206c1afe74a732e20a45ca",
+      "refinement_family_id": "neutral_fixture_only",
+      "refinement_member_id": "v1",
+      "schema": "encounter_source_native_interval_record_v1",
+      "unit": "dimensionless_neutral_fixture",
+      "upper_exact_p_over_q": "6/5"
+    }
+  ],
+  "neutral_descriptors": {
+    "configuration_geometry": {
+      "axis_roles": [
+        "z",
+        "r",
+        "y"
+      ],
+      "configuration_id": "neutral_symbolic_witnesses_v1",
+      "shape": [
+        1,
+        1,
+        2
+      ]
+    },
+    "member_spec_manifest_descriptor": {
+      "configuration_id": "neutral_symbolic_witnesses_v1",
+      "production_member_source_complete": false,
+      "refinement_family_id": "neutral_fixture_only",
+      "refinement_member_id": "v1"
+    },
+    "outward_method_registry_descriptor": {
+      "analytic_remainder_rule": "exact_rational_only",
+      "method_id": "neutral_exact_fraction_v1",
+      "precision_bits": "unbounded_integer_fraction",
+      "rounding_mode": "exact",
+      "special_function_backend_and_version": "none"
+    },
+    "partition": {
+      "raw_axis_masses": {
+        "r": [
+          "1/1"
+        ],
+        "y": [
+          "1/1",
+          "1/1"
+        ],
+        "z": [
+          "1/1"
+        ]
+      }
+    },
+    "physical_parameter_bundle": {
+      "M_L": "1/2",
+      "W": "2/1",
+      "coordinate_order": [
+        "z",
+        "r",
+        "y"
+      ],
+      "unit": "dimensionless_neutral_fixture"
+    }
+  },
+  "rational_sanity_witnesses": {
+    "common_flux": {
+      "G": "1/7",
+      "expected_forward_flux": "6/5",
+      "expected_reverse_flux": "6/5",
+      "expected_tensor_conductance": "6/7",
+      "mu_i": "2/1",
+      "mu_j": "3/1",
+      "q_ij": "3/5",
+      "q_ji": "2/5",
+      "spectator_axis_mass_product": "5/1"
+    },
+    "global_gauge": {
+      "M_L": "1/2",
+      "S_r": "1/1",
+      "S_y": "2/1",
+      "S_z": "1/1",
+      "expected_G": "1/4",
+      "expected_gauged_cell_masses": [
+        "1/4",
+        "1/4"
+      ],
+      "raw_tensor_cell_masses": [
+        "1/1",
+        "1/1"
+      ]
+    },
+    "interval_division": {
+      "M_pi_interval": [
+        "3/10",
+        "31/100"
+      ],
+      "expected_rho_interval": [
+        "15/13",
+        "31/25"
+      ],
+      "pi_h_interval": [
+        "1/4",
+        "13/50"
+      ]
+    },
+    "reconstruction": {
+      "M_pi": "3/10",
+      "V": "2/5",
+      "expected_K": "1/3",
+      "expected_physical_weight_identity": "1/10",
+      "expected_rho": "6/5",
+      "pi_h": "1/4"
+    }
+  },
+  "schema": "encounter_continuum_c1_symbolic_bridge_neutral_source_v1",
+  "status": "NEUTRAL_SYMBOLIC_CONTRACT_WITNESSES_ONLY_NO_PRODUCTION_NO_CONTROL_NO_BUDGET"
+}

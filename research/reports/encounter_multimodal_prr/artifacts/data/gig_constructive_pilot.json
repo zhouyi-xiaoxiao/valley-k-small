@@ -1,0 +1,1166 @@
+{
+  "claim_scope": "normalized free-space GIG channel screening only; not bounded-domain, finite-radius, continuum Doi/Robin, or physical catalyst-realizability evidence",
+  "cusp_candidate": {
+    "actions": [
+      0.876225,
+      2.51,
+      3.7725
+    ],
+    "b": 0.01,
+    "control_directions": [
+      [
+        1.0,
+        0.0,
+        -1.0
+      ],
+      [
+        0.0,
+        1.0,
+        -1.0
+      ]
+    ],
+    "cusp_time": 0.5728883706366283,
+    "density": 0.32026620255951704,
+    "derivative_crosscheck": {
+      "maximum_error": 1.3326532998187722e-13,
+      "maximum_relative_real_error": 1.3326532998187722e-13,
+      "maximum_scaled_imaginary_residue": 2.737838793884531e-14,
+      "method": "analytic Bell recurrence versus 256-point Cauchy integral",
+      "orders": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "passed": true,
+      "threshold": 2e-10,
+      "time": 0.7
+    },
+    "dimension": 2,
+    "fixture_role": "canonical_preliminary_result",
+    "gates": {
+      "fourth_derivative_crosscheck": true,
+      "fourth_derivative_reference_reproduced": true,
+      "nonzero_fourth_derivative": true,
+      "normalization": true,
+      "positive_interior_weights": true,
+      "reference_reproduced": true,
+      "solver_converged": true,
+      "triple_derivative_residual": true,
+      "unfolding_rank_two": true,
+      "unfolding_raw_dimensionless_svd_conditioning": true,
+      "unfolding_row_angle_reference_reproduced": true,
+      "unfolding_row_angle_transversality": true,
+      "weights_sum_to_one": true
+    },
+    "maximum_reference_error": 1.4432899320127035e-15,
+    "normalization_audit": {
+      "integrals": [
+        0.9999999999999997,
+        1.0,
+        0.9999999999999996
+      ],
+      "maximum_absolute_normalization_error": 4.440892098500626e-16,
+      "passed": true,
+      "reported_quadrature_errors": [
+        1.2344411006352504e-13,
+        4.066767362616506e-13,
+        6.243783226119038e-14
+      ],
+      "threshold": 2e-10
+    },
+    "p": 2.5,
+    "raw_derivatives": {
+      "f_t": -2.4889683846358806e-16,
+      "f_tt": -4.2668029450900805e-16,
+      "f_ttt": 5.689070593453441e-15,
+      "f_tttt": -40.46749507015272
+    },
+    "reference_candidate": [
+      0.5728883706366298,
+      0.2769343322238386,
+      0.3200588141402115
+    ],
+    "reference_row_angle_sine_magnitude": 0.9632674238749193,
+    "reference_scaled_fourth_derivative": -13.61053628261525,
+    "row_angle_sine_reference_error": 3.3306690738754696e-16,
+    "scaled_derivative_residuals": {
+      "t2_f_tt_over_f": 4.372516818094463e-16,
+      "t3_f_ttt_over_f": 3.3399520473325223e-15,
+      "t_f_t_over_f": 4.452237017345427e-16
+    },
+    "scaled_fourth_derivative": -13.61053628261525,
+    "scaled_fourth_derivative_reference_error": 0.0,
+    "solver_message": "The solution converged.",
+    "status": "PASS",
+    "target_isolated_modes": [
+      0.35,
+      1.0,
+      1.5
+    ],
+    "unfolding_transversality": {
+      "dimensionless_raw_matrix": [
+        [
+          -3.10300674833379,
+          0.7533701595881144
+        ],
+        [
+          0.09818179218665612,
+          -2.912086221304552
+        ]
+      ],
+      "dimensionless_raw_matrix_determinant": 8.962255963989566,
+      "dimensionless_raw_matrix_singular_values": [
+        3.4616813350684263,
+        2.5889893079405613
+      ],
+      "dimensionless_raw_matrix_svd_ratio": 0.7478993752870627,
+      "rank": 2,
+      "raw_derivative_matrix": [
+        [
+          -1.734697785366214,
+          0.42116232847390295
+        ],
+        [
+          0.09580806146305743,
+          -2.8416810231580616
+        ]
+      ],
+      "raw_derivative_matrix_determinant": 4.889107031337136,
+      "row_angle_normalized_determinant": 0.9632674238749189,
+      "row_angle_sine_magnitude": 0.9632674238749189,
+      "row_normalized_dimensionless_matrix": [
+        [
+          -0.9717693006048683,
+          0.23593309730074996
+        ],
+        [
+          0.03369613042383377,
+          -0.9994321241557428
+        ]
+      ]
+    },
+    "weights": [
+      0.2769343322238388,
+      0.32005881414021176,
+      0.40300685363594946
+    ]
+  },
+  "cusp_robustness_cases": [
+    {
+      "actions": [
+        0.88725,
+        2.6,
+        3.975
+      ],
+      "b": 0.1,
+      "control_directions": [
+        [
+          1.0,
+          0.0,
+          -1.0
+        ],
+        [
+          0.0,
+          1.0,
+          -1.0
+        ]
+      ],
+      "cusp_time": 0.5688427124927922,
+      "density": 0.3720455057546513,
+      "derivative_crosscheck": {
+        "maximum_error": 1.4803207192605118e-14,
+        "maximum_relative_real_error": 1.4803207192605118e-14,
+        "maximum_scaled_imaginary_residue": 1.3984273601870502e-15,
+        "method": "analytic Bell recurrence versus 256-point Cauchy integral",
+        "orders": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "passed": true,
+        "threshold": 2e-10,
+        "time": 0.7
+      },
+      "dimension": 2,
+      "fixture_role": "robustness_case_not_canonical",
+      "gates": {
+        "fourth_derivative_crosscheck": true,
+        "fourth_derivative_reference_reproduced": true,
+        "nonzero_fourth_derivative": true,
+        "normalization": true,
+        "positive_interior_weights": true,
+        "reference_reproduced": true,
+        "solver_converged": true,
+        "triple_derivative_residual": true,
+        "unfolding_rank_two": true,
+        "unfolding_raw_dimensionless_svd_conditioning": true,
+        "unfolding_row_angle_reference_reproduced": true,
+        "unfolding_row_angle_transversality": true,
+        "weights_sum_to_one": true
+      },
+      "maximum_reference_error": 5.551115123125783e-17,
+      "normalization_audit": {
+        "integrals": [
+          0.9999999999999999,
+          0.9999999999999992,
+          1.0
+        ],
+        "maximum_absolute_normalization_error": 7.771561172376096e-16,
+        "passed": true,
+        "reported_quadrature_errors": [
+          8.65131166721548e-14,
+          2.791737480137722e-13,
+          9.152576733695609e-14
+        ],
+        "threshold": 2e-10
+      },
+      "p": 2.5,
+      "raw_derivatives": {
+        "f_t": -2.891374406879875e-16,
+        "f_tt": 5.78274881375975e-16,
+        "f_ttt": 3.6348706829347e-15,
+        "f_tttt": -50.77262073927782
+      },
+      "reference_candidate": [
+        0.5688427124927922,
+        0.3010366159998996,
+        0.3545331447801361
+      ],
+      "reference_row_angle_sine_magnitude": 0.9806334944999429,
+      "reference_scaled_fourth_derivative": -14.289015686061406,
+      "row_angle_sine_reference_error": 1.1102230246251565e-16,
+      "scaled_derivative_residuals": {
+        "t2_f_tt_over_f": 5.029475105040819e-16,
+        "t3_f_ttt_over_f": 1.7983304498760168e-15,
+        "t_f_t_over_f": 4.4207959375980825e-16
+      },
+      "scaled_fourth_derivative": -14.289015686061406,
+      "scaled_fourth_derivative_reference_error": 0.0,
+      "solver_message": "The solution converged.",
+      "status": "PASS",
+      "target_isolated_modes": [
+        0.35,
+        1.0,
+        1.5
+      ],
+      "unfolding_transversality": {
+        "dimensionless_raw_matrix": [
+          [
+            -2.932062140031544,
+            0.814451567197205
+          ],
+          [
+            -0.21460582081763854,
+            -2.9019626901807136
+          ]
+        ],
+        "dimensionless_raw_matrix_determinant": 8.68352098275753,
+        "dimensionless_raw_matrix_singular_values": [
+          3.2623436406947715,
+          2.6617431941989484
+        ],
+        "dimensionless_raw_matrix_svd_ratio": 0.8158990858584367,
+        "rank": 2,
+        "raw_derivative_matrix": [
+          [
+            -1.917683953463539,
+            0.5326833561823858
+          ],
+          [
+            -0.24674772811089696,
+            -3.336594963438313
+          ]
+        ],
+        "raw_derivative_matrix_determinant": 6.529973028533408,
+        "row_angle_normalized_determinant": 0.9806334944999427,
+        "row_angle_sine_magnitude": 0.9806334944999427,
+        "row_normalized_dimensionless_matrix": [
+          [
+            -0.9635187687811284,
+            0.26764077082256826
+          ],
+          [
+            -0.07375056528895002,
+            -0.9972767189298868
+          ]
+        ]
+      },
+      "weights": [
+        0.30103661599989967,
+        0.3545331447801361,
+        0.3444302392199643
+      ]
+    }
+  ],
+  "deterministic_parameters": {
+    "cusp": {
+      "b": 0.01,
+      "dimension": 2,
+      "fixture_role": "canonical_preliminary_result",
+      "p": 2.5,
+      "target_modes": [
+        0.35,
+        1.0,
+        1.5
+      ]
+    },
+    "cusp_robustness_cases": [
+      {
+        "b": 0.1,
+        "dimension": 2,
+        "fixture_role": "robustness_case_not_canonical",
+        "p": 2.5,
+        "target_modes": [
+          0.35,
+          1.0,
+          1.5
+        ]
+      }
+    ],
+    "well_separated": {
+      "b": 0.01,
+      "mode_counts": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "p": 2.5,
+      "scan_points": 120000,
+      "separation_factor": 10.0
+    }
+  },
+  "generator": "code/validate_gig_constructive.py",
+  "limitations": [
+    "the GIG channel form is a free-space narrow-patch screening law",
+    "abstract mixture weights are not yet realized by a Doi or Robin catalyst field",
+    "finite sign-change and inflection scans are not interval-exhaustive root proofs",
+    "no bounded-domain PDE, Brownian dynamics, mesh refinement, or continuum limit is evaluated"
+  ],
+  "schema_version": 2,
+  "status": "PASS",
+  "summary": {
+    "canonical_cusp_b": 0.01,
+    "cusp_passed": true,
+    "maximum_root_residual": 5.106975414370374e-09,
+    "maximum_verified_mode_count": 6,
+    "minimum_curvature_margin": 2.5199868714442872,
+    "minimum_prominence_ratio": 2.695647755849697,
+    "passed_mode_counts": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "robustness_cusp_cases_passed": true
+  },
+  "thresholds": {
+    "cusp_invariant_reference_tolerance": 2e-08,
+    "cusp_minimum_absolute_scaled_fourth": 0.01,
+    "cusp_minimum_raw_dimensionless_svd_ratio": 0.1,
+    "cusp_minimum_row_angle_sine": 0.1,
+    "cusp_minimum_weight": 0.05,
+    "cusp_scaled_residual_tolerance": 1e-10,
+    "derivative_crosscheck_tolerance": 2e-10,
+    "maximum_weight_dynamic_range": 100000.0,
+    "minimum_dimensionless_curvature": 0.1,
+    "minimum_inflection_score_margin": 0.1,
+    "minimum_log_root_spacing": 0.2,
+    "minimum_peak_to_valley_ratio": 1.5,
+    "normalization_tolerance": 2e-10,
+    "root_scaled_residual_tolerance": 1e-07
+  },
+  "well_separated_constructions": [
+    {
+      "actions": [
+        2.51,
+        26.0
+      ],
+      "b": 0.01,
+      "early_dimensionless_score": 122.99979999999998,
+      "gates": {
+        "alternating_topology": true,
+        "expected_extrema_counts": true,
+        "expected_root_count": true,
+        "nondegenerate_curvature": true,
+        "positive_normalized_weights": true,
+        "prescribed_isolated_modes": true,
+        "prominence": true,
+        "root_residuals": true,
+        "root_spacing": true,
+        "tail_derivative_signs": true,
+        "tangency_falsifier": true,
+        "weight_conditioning": true
+      },
+      "inflection_root_count": 4,
+      "late_dimensionless_score": -2.481976698308036,
+      "maximum_isolated_mode_residual": 2.1337098754514727e-16,
+      "maximum_scaled_root_residual": 5.579423322244813e-16,
+      "minimum_absolute_dimensionless_curvature": 2.5199868714442895,
+      "minimum_inflection_score_margin": 0.8738665906124218,
+      "minimum_log_root_spacing": 1.0683616778151686,
+      "minimum_peak_to_adjacent_valley_ratio": 2.6956477558497007,
+      "mode_count": 2,
+      "p": 2.5,
+      "prominence": [
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.6956477558497007
+          ],
+          "maximum_root_index": 1,
+          "minimum_ratio": 2.6956477558497007
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.7724434375230316
+          ],
+          "maximum_root_index": 3,
+          "minimum_ratio": 2.7724434375230316
+        }
+      ],
+      "roots": [
+        {
+          "dimensionless_curvature": -2.5199868714442895,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.9999999761988535,
+          "kind": "maximum",
+          "log_density": -3.241443221803119,
+          "root_index": 1,
+          "scaled_first_derivative_residual": 4.1353512912387323e-16,
+          "time": 1.0000002218606876
+        },
+        {
+          "dimensionless_curvature": 6.759514662459718,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.7455054562506936,
+          "kind": "minimum",
+          "log_density": -4.233081751958736,
+          "root_index": 2,
+          "scaled_first_derivative_residual": 5.579423322244813e-16,
+          "time": 3.3503318393338657
+        },
+        {
+          "dimensionless_curvature": -2.534166500058423,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.9714630210474765,
+          "kind": "maximum",
+          "log_density": -3.2133527131785504,
+          "root_index": 3,
+          "scaled_first_derivative_residual": 1.4378731945968484e-16,
+          "time": 9.751499570285013
+        }
+      ],
+      "scan_interval": [
+        0.02,
+        50.0
+      ],
+      "scan_points": 120000,
+      "status": "PASS",
+      "target_isolated_modes": [
+        1.0,
+        10.0
+      ],
+      "weight_dynamic_range": 8.623994425839513,
+      "weights": [
+        0.10390695960038118,
+        0.8960930403996188
+      ]
+    },
+    {
+      "actions": [
+        2.51,
+        26.0,
+        350.0
+      ],
+      "b": 0.01,
+      "early_dimensionless_score": 122.99979999999998,
+      "gates": {
+        "alternating_topology": true,
+        "expected_extrema_counts": true,
+        "expected_root_count": true,
+        "nondegenerate_curvature": true,
+        "positive_normalized_weights": true,
+        "prescribed_isolated_modes": true,
+        "prominence": true,
+        "root_residuals": true,
+        "root_spacing": true,
+        "tail_derivative_signs": true,
+        "tangency_falsifier": true,
+        "weight_conditioning": true
+      },
+      "inflection_root_count": 6,
+      "late_dimensionless_score": -6.800648814209749,
+      "maximum_isolated_mode_residual": 2.1337098754514727e-16,
+      "maximum_scaled_root_residual": 3.306932652164658e-14,
+      "minimum_absolute_dimensionless_curvature": 2.5199868714442877,
+      "minimum_inflection_score_margin": 0.8738665906124206,
+      "minimum_log_root_spacing": 0.9702436138191537,
+      "minimum_peak_to_adjacent_valley_ratio": 2.6956477558496994,
+      "mode_count": 3,
+      "p": 2.5,
+      "prominence": [
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.6956477558496994
+          ],
+          "maximum_root_index": 1,
+          "minimum_ratio": 2.6956477558496994
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.7724434375421914,
+            4.078211262345046
+          ],
+          "maximum_root_index": 3,
+          "minimum_ratio": 2.7724434375421914
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            4.019199171873512
+          ],
+          "maximum_root_index": 5,
+          "minimum_ratio": 4.019199171873512
+        }
+      ],
+      "roots": [
+        {
+          "dimensionless_curvature": -2.5199868714442877,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.9999999761988535,
+          "kind": "maximum",
+          "log_density": -5.091105532419261,
+          "root_index": 1,
+          "scaled_first_derivative_residual": 4.746400994955864e-16,
+          "time": 1.000000221860688
+        },
+        {
+          "dimensionless_curvature": 6.759514662459716,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.7455054562506936,
+          "kind": "minimum",
+          "log_density": -6.082744062574878,
+          "root_index": 2,
+          "scaled_first_derivative_residual": 5.579423322244813e-16,
+          "time": 3.3503318393338657
+        },
+        {
+          "dimensionless_curvature": -2.5341664924804985,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.971463021046826,
+          "kind": "maximum",
+          "log_density": -5.063015023787782,
+          "root_index": 3,
+          "scaled_first_derivative_residual": 1.3961404562239166e-16,
+          "time": 9.751499571170218
+        },
+        {
+          "dimensionless_curvature": 10.850824420902523,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.743294563254723,
+          "kind": "minimum",
+          "log_density": -6.468673499979518,
+          "root_index": 4,
+          "scaled_first_derivative_residual": 3.306932652164658e-14,
+          "time": 37.525922922905394
+        },
+        {
+          "dimensionless_curvature": -4.33616337992001,
+          "dominant_channel": 3,
+          "dominant_channel_share": 0.9863584849292932,
+          "kind": "maximum",
+          "log_density": -5.077590828170469,
+          "root_index": 5,
+          "scaled_first_derivative_residual": 1.803525904926115e-15,
+          "time": 99.0154190430877
+        }
+      ],
+      "scan_interval": [
+        0.02,
+        500.0
+      ],
+      "scan_points": 120000,
+      "status": "PASS",
+      "target_isolated_modes": [
+        1.0,
+        10.0,
+        100.0
+      ],
+      "weight_dynamic_range": 51.562207789049175,
+      "weights": [
+        0.01634355400075257,
+        0.1409467186008972,
+        0.84270972739835
+      ]
+    },
+    {
+      "actions": [
+        2.51,
+        26.0,
+        350.0,
+        12500.0
+      ],
+      "b": 0.01,
+      "early_dimensionless_score": 122.99979999999998,
+      "gates": {
+        "alternating_topology": true,
+        "expected_extrema_counts": true,
+        "expected_root_count": true,
+        "nondegenerate_curvature": true,
+        "positive_normalized_weights": true,
+        "prescribed_isolated_modes": true,
+        "prominence": true,
+        "root_residuals": true,
+        "root_spacing": true,
+        "tail_derivative_signs": true,
+        "tangency_falsifier": true,
+        "weight_conditioning": true
+      },
+      "inflection_root_count": 8,
+      "late_dimensionless_score": -50.00000000133012,
+      "maximum_isolated_mode_residual": 2.1337098754514727e-16,
+      "maximum_scaled_root_residual": 2.14007672111323e-14,
+      "minimum_absolute_dimensionless_curvature": 2.5199868714442895,
+      "minimum_inflection_score_margin": 0.8738665906124206,
+      "minimum_log_root_spacing": 0.7113645246366316,
+      "minimum_peak_to_adjacent_valley_ratio": 2.6956477558496994,
+      "mode_count": 4,
+      "p": 2.5,
+      "prominence": [
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.6956477558496994
+          ],
+          "maximum_root_index": 1,
+          "minimum_ratio": 2.6956477558496994
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.772443437542189,
+            4.078211262345053
+          ],
+          "maximum_root_index": 3,
+          "minimum_ratio": 2.772443437542189
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            4.019199171873509,
+            121.21279880907679
+          ],
+          "maximum_root_index": 5,
+          "minimum_ratio": 4.019199171873509
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            119.58675062069631
+          ],
+          "maximum_root_index": 7,
+          "minimum_ratio": 119.58675062069631
+        }
+      ],
+      "roots": [
+        {
+          "dimensionless_curvature": -2.5199868714442895,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.9999999761988535,
+          "kind": "maximum",
+          "log_density": -6.552581690718347,
+          "root_index": 1,
+          "scaled_first_derivative_residual": 4.1353512912387323e-16,
+          "time": 1.0000002218606876
+        },
+        {
+          "dimensionless_curvature": 6.759514662459724,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.7455054562506936,
+          "kind": "minimum",
+          "log_density": -7.544220220873964,
+          "root_index": 2,
+          "scaled_first_derivative_residual": 5.579423322244811e-16,
+          "time": 3.350331839333865
+        },
+        {
+          "dimensionless_curvature": -2.5341664924804985,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.971463021046826,
+          "kind": "maximum",
+          "log_density": -6.5244911820868685,
+          "root_index": 3,
+          "scaled_first_derivative_residual": 1.4378731947273733e-16,
+          "time": 9.751499571170218
+        },
+        {
+          "dimensionless_curvature": 10.85082442090255,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.7432945632547183,
+          "kind": "minimum",
+          "log_density": -7.930149658278607,
+          "root_index": 4,
+          "scaled_first_derivative_residual": 1.8227187846576908e-15,
+          "time": 37.52592292290551
+        },
+        {
+          "dimensionless_curvature": -4.336163379919987,
+          "dominant_channel": 3,
+          "dominant_channel_share": 0.9863584849292941,
+          "kind": "maximum",
+          "log_density": -6.5390669864695585,
+          "root_index": 5,
+          "scaled_first_derivative_residual": 2.14007672111323e-14,
+          "time": 99.01541904308814
+        },
+        {
+          "dimensionless_curvature": 108.57107429980832,
+          "dominant_channel": 3,
+          "dominant_channel_share": 0.7286276338030975,
+          "kind": "minimum",
+          "log_density": -11.336614655264365,
+          "root_index": 6,
+          "scaled_first_derivative_residual": 3.4067983011015405e-15,
+          "time": 490.97137789975477
+        },
+        {
+          "dimensionless_curvature": -22.498556065326632,
+          "dominant_channel": 4,
+          "dominant_channel_share": 0.9999908858974711,
+          "kind": "maximum",
+          "log_density": -6.552572600647884,
+          "root_index": 7,
+          "scaled_first_derivative_residual": 5.571742069453e-15,
+          "time": 999.9950782788079
+        }
+      ],
+      "scan_interval": [
+        0.02,
+        5000.0
+      ],
+      "scan_points": 120000,
+      "status": "PASS",
+      "target_isolated_modes": [
+        1.0,
+        10.0,
+        100.0,
+        1000.0
+      ],
+      "weight_dynamic_range": 202.6683119125407,
+      "weights": [
+        0.003789967373903055,
+        0.03268465750665355,
+        0.19541908524690638,
+        0.7681062898725372
+      ]
+    },
+    {
+      "actions": [
+        2.51,
+        26.0,
+        350.0,
+        12500.0,
+        1025000.0
+      ],
+      "b": 0.01,
+      "early_dimensionless_score": 122.99979999999998,
+      "gates": {
+        "alternating_topology": true,
+        "expected_extrema_counts": true,
+        "expected_root_count": true,
+        "nondegenerate_curvature": true,
+        "positive_normalized_weights": true,
+        "prescribed_isolated_modes": true,
+        "prominence": true,
+        "root_residuals": true,
+        "root_spacing": true,
+        "tail_derivative_signs": true,
+        "tangency_falsifier": true,
+        "weight_conditioning": true
+      },
+      "inflection_root_count": 10,
+      "late_dimensionless_score": -482.0000000000001,
+      "maximum_isolated_mode_residual": 2.1337098754514727e-16,
+      "maximum_scaled_root_residual": 1.212673500528223e-12,
+      "minimum_absolute_dimensionless_curvature": 2.5199868714442877,
+      "minimum_inflection_score_margin": 0.8738665906124226,
+      "minimum_log_root_spacing": 0.6116082921546759,
+      "minimum_peak_to_adjacent_valley_ratio": 2.695647755849697,
+      "mode_count": 5,
+      "p": 2.5,
+      "prominence": [
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.695647755849697
+          ],
+          "maximum_root_index": 1,
+          "minimum_ratio": 2.695647755849697
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.772443437542189,
+            4.078211262345053
+          ],
+          "maximum_root_index": 3,
+          "minimum_ratio": 2.772443437542189
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            4.019199171873512,
+            121.2127988090769
+          ],
+          "maximum_root_index": 5,
+          "minimum_ratio": 4.019199171873512
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            119.58675062069631,
+            2.9838601881262964e+16
+          ],
+          "maximum_root_index": 7,
+          "minimum_ratio": 119.58675062069631
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.983832993731787e+16
+          ],
+          "maximum_root_index": 9,
+          "minimum_ratio": 2.983832993731787e+16
+        }
+      ],
+      "roots": [
+        {
+          "dimensionless_curvature": -2.5199868714442877,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.9999999761988535,
+          "kind": "maximum",
+          "log_density": -7.810288348930122,
+          "root_index": 1,
+          "scaled_first_derivative_residual": 4.7463819367103225e-16,
+          "time": 1.000000221860688
+        },
+        {
+          "dimensionless_curvature": 6.759514662459716,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.7455054562506936,
+          "kind": "minimum",
+          "log_density": -8.801926879085737,
+          "root_index": 2,
+          "scaled_first_derivative_residual": 5.579423322244813e-16,
+          "time": 3.3503318393338657
+        },
+        {
+          "dimensionless_curvature": -2.5341664924804985,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.971463021046826,
+          "kind": "maximum",
+          "log_density": -7.782197840298642,
+          "root_index": 3,
+          "scaled_first_derivative_residual": 1.4378731947273733e-16,
+          "time": 9.751499571170218
+        },
+        {
+          "dimensionless_curvature": 10.85082442090255,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.7432945632547183,
+          "kind": "minimum",
+          "log_density": -9.18785631649038,
+          "root_index": 4,
+          "scaled_first_derivative_residual": 1.8227187846576908e-15,
+          "time": 37.52592292290551
+        },
+        {
+          "dimensionless_curvature": -4.336163379920011,
+          "dominant_channel": 3,
+          "dominant_channel_share": 0.9863584849292932,
+          "kind": "maximum",
+          "log_density": -7.796773644681331,
+          "root_index": 5,
+          "scaled_first_derivative_residual": 1.8840404542531736e-15,
+          "time": 99.0154190430877
+        },
+        {
+          "dimensionless_curvature": 108.57107429980833,
+          "dominant_channel": 3,
+          "dominant_channel_share": 0.7286276338030975,
+          "kind": "minimum",
+          "log_density": -12.594321313476138,
+          "root_index": 6,
+          "scaled_first_derivative_residual": 3.4067983011015405e-15,
+          "time": 490.97137789975477
+        },
+        {
+          "dimensionless_curvature": -22.498556065326632,
+          "dominant_channel": 4,
+          "dominant_channel_share": 0.9999908858974711,
+          "kind": "maximum",
+          "log_density": -7.810279258859658,
+          "root_index": 7,
+          "scaled_first_derivative_residual": 5.571755304277662e-15,
+          "time": 999.9950782788079
+        },
+        {
+          "dimensionless_curvature": 7086.443637483292,
+          "dominant_channel": 4,
+          "dominant_channel_share": 0.7083022194643379,
+          "kind": "minimum",
+          "log_density": -45.74485857416315,
+          "root_index": 8,
+          "scaled_first_derivative_residual": 1.212673500528223e-12,
+          "time": 5424.777044746292
+        },
+        {
+          "dimensionless_curvature": -202.50000000000014,
+          "dominant_channel": 5,
+          "dominant_channel_share": 1.0,
+          "kind": "maximum",
+          "log_density": -7.810288372731193,
+          "root_index": 9,
+          "scaled_first_derivative_residual": 1.7347234759768056e-13,
+          "time": 9999.99999999999
+        }
+      ],
+      "scan_interval": [
+        0.02,
+        50000.0
+      ],
+      "scan_points": 120000,
+      "status": "PASS",
+      "target_isolated_modes": [
+        1.0,
+        10.0,
+        100.0,
+        1000.0,
+        10000.0
+      ],
+      "weight_dynamic_range": 664.2130409956297,
+      "weights": [
+        0.0010775077681359122,
+        0.009292420986202879,
+        0.05555867943493853,
+        0.21837668044075467,
+        0.7156947113699681
+      ]
+    },
+    {
+      "actions": [
+        2.51,
+        26.0,
+        350.0,
+        12500.0,
+        1025000.0,
+        100250000.0
+      ],
+      "b": 0.01,
+      "early_dimensionless_score": 122.99979999999998,
+      "gates": {
+        "alternating_topology": true,
+        "expected_extrema_counts": true,
+        "expected_root_count": true,
+        "nondegenerate_curvature": true,
+        "positive_normalized_weights": true,
+        "prescribed_isolated_modes": true,
+        "prominence": true,
+        "root_residuals": true,
+        "root_spacing": true,
+        "tail_derivative_signs": true,
+        "tangency_falsifier": true,
+        "weight_conditioning": true
+      },
+      "inflection_root_count": 12,
+      "late_dimensionless_score": -4801.999999999997,
+      "maximum_isolated_mode_residual": 1.734723475976807e-13,
+      "maximum_scaled_root_residual": 5.106975414370374e-09,
+      "minimum_absolute_dimensionless_curvature": 2.5199868714442872,
+      "minimum_inflection_score_margin": 0.8738665906124231,
+      "minimum_log_root_spacing": 0.5992419751256453,
+      "minimum_peak_to_adjacent_valley_ratio": 2.695647755849702,
+      "mode_count": 6,
+      "p": 2.5,
+      "prominence": [
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.695647755849702
+          ],
+          "maximum_root_index": 1,
+          "minimum_ratio": 2.695647755849702
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.7724434375421865,
+            4.078211262345049
+          ],
+          "maximum_root_index": 3,
+          "minimum_ratio": 2.7724434375421865
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            4.019199171873516,
+            121.21279880907679
+          ],
+          "maximum_root_index": 5,
+          "minimum_ratio": 4.019199171873516
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            119.58675062069642,
+            2.9838601881262964e+16
+          ],
+          "maximum_root_index": 7,
+          "minimum_ratio": 119.58675062069642
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.9838329937317236e+16,
+            2.4241265565871797e+160
+          ],
+          "maximum_root_index": 9,
+          "minimum_ratio": 2.9838329937317236e+16
+        },
+        {
+          "adjacent_peak_to_valley_ratios": [
+            2.4241265565873177e+160
+          ],
+          "maximum_root_index": 11,
+          "minimum_ratio": 2.4241265565873177e+160
+        }
+      ],
+      "roots": [
+        {
+          "dimensionless_curvature": -2.5199868714442872,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.9999999761988526,
+          "kind": "maximum",
+          "log_density": -8.995708388189074,
+          "root_index": 1,
+          "scaled_first_derivative_residual": 4.1353555264044083e-16,
+          "time": 1.0000002218606876
+        },
+        {
+          "dimensionless_curvature": 6.759514662459724,
+          "dominant_channel": 1,
+          "dominant_channel_share": 0.7455054562506936,
+          "kind": "minimum",
+          "log_density": -9.987346918344691,
+          "root_index": 2,
+          "scaled_first_derivative_residual": 5.579423322244811e-16,
+          "time": 3.350331839333865
+        },
+        {
+          "dimensionless_curvature": -2.5341664924805007,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.9714630210468268,
+          "kind": "maximum",
+          "log_density": -8.967617879557597,
+          "root_index": 3,
+          "scaled_first_derivative_residual": 1.6070347470482407e-16,
+          "time": 9.751499571170218
+        },
+        {
+          "dimensionless_curvature": 10.850824420902562,
+          "dominant_channel": 2,
+          "dominant_channel_share": 0.7432945632547183,
+          "kind": "minimum",
+          "log_density": -10.373276355749335,
+          "root_index": 4,
+          "scaled_first_derivative_residual": 1.0415535912329662e-15,
+          "time": 37.52592292290551
+        },
+        {
+          "dimensionless_curvature": -4.336163379920016,
+          "dominant_channel": 3,
+          "dominant_channel_share": 0.9863584849292932,
+          "kind": "maximum",
+          "log_density": -8.982193683940285,
+          "root_index": 5,
+          "scaled_first_derivative_residual": 2.635509581305719e-15,
+          "time": 99.0154190430876
+        },
+        {
+          "dimensionless_curvature": 108.57107429980867,
+          "dominant_channel": 3,
+          "dominant_channel_share": 0.7286276338030963,
+          "kind": "minimum",
+          "log_density": -13.77974135273509,
+          "root_index": 6,
+          "scaled_first_derivative_residual": 3.832648088739233e-14,
+          "time": 490.97137789975477
+        },
+        {
+          "dimensionless_curvature": -22.498556065326657,
+          "dominant_channel": 4,
+          "dominant_channel_share": 0.999990885897472,
+          "kind": "maximum",
+          "log_density": -8.995699298118609,
+          "root_index": 7,
+          "scaled_first_derivative_residual": 5.571265615765153e-15,
+          "time": 999.9950782788079
+        },
+        {
+          "dimensionless_curvature": 7086.443637483256,
+          "dominant_channel": 4,
+          "dominant_channel_share": 0.7083022194643379,
+          "kind": "minimum",
+          "log_density": -46.930278613422104,
+          "root_index": 8,
+          "scaled_first_derivative_residual": 9.36343565100417e-13,
+          "time": 5424.777044746292
+        },
+        {
+          "dimensionless_curvature": -202.49999999999983,
+          "dominant_channel": 5,
+          "dominant_channel_share": 1.0,
+          "kind": "maximum",
+          "log_density": -8.995708411990165,
+          "root_index": 9,
+          "scaled_first_derivative_residual": 1.9081958235744896e-13,
+          "time": 10000.00000000001
+        },
+        {
+          "dimensionless_curvature": 677790.7593668313,
+          "dominant_channel": 5,
+          "dominant_channel_share": 0.7049390242888549,
+          "kind": "minimum",
+          "log_density": -378.29479456769485,
+          "root_index": 10,
+          "scaled_first_derivative_residual": 5.106975414370374e-09,
+          "time": 54922.78066794213
+        },
+        {
+          "dimensionless_curvature": -2002.5,
+          "dominant_channel": 6,
+          "dominant_channel_share": 1.0,
+          "kind": "maximum",
+          "log_density": -8.995708411990108,
+          "root_index": 11,
+          "scaled_first_derivative_residual": 5.204170427930422e-13,
+          "time": 100000.00000000001
+        }
+      ],
+      "scan_interval": [
+        0.02,
+        500000.0
+      ],
+      "scan_points": 120000,
+      "status": "PASS",
+      "target_isolated_modes": [
+        1.0,
+        10.0,
+        100.0,
+        1000.0,
+        10000.0,
+        100000.0
+      ],
+      "weight_dynamic_range": 2108.626029522073,
+      "weights": [
+        0.00032930553318136603,
+        0.0028399290825542106,
+        0.01697972032798124,
+        0.06673979651332668,
+        0.21872902961108254,
+        0.6943822189318732
+      ]
+    }
+  ]
+}

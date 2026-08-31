@@ -1,0 +1,95 @@
+%apsrev4-2.bst 2019-01-14 (MD) hand-edited version of apsrev4-1.bst
+%Control: key (0)
+%Control: author (8) initials jnrlst
+%Control: editor formatted (1) identically to author
+%Control: production of article title (0) allowed
+%Control: page (0) single
+%Control: year (1) truncated
+%Control: production of eprint (0) enabled
+\begin{thebibliography}{4}%
+\makeatletter
+\providecommand \@ifxundefined [1]{%
+ \@ifx{#1\undefined}
+}%
+\providecommand \@ifnum [1]{%
+ \ifnum #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \@ifx [1]{%
+ \ifx #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \natexlab [1]{#1}%
+\providecommand \enquote  [1]{``#1''}%
+\providecommand \bibnamefont  [1]{#1}%
+\providecommand \bibfnamefont [1]{#1}%
+\providecommand \citenamefont [1]{#1}%
+\providecommand \href@noop [0]{\@secondoftwo}%
+\providecommand \href [0]{\begingroup \@sanitize@url \@href}%
+\providecommand \@href[1]{\@@startlink{#1}\@@href}%
+\providecommand \@@href[1]{\endgroup#1\@@endlink}%
+\providecommand \@sanitize@url [0]{\catcode `\\12\catcode `\$12\catcode
+  `\&12\catcode `\#12\catcode `\^12\catcode `\_12\catcode `\%12\relax}%
+\providecommand \@@startlink[1]{}%
+\providecommand \@@endlink[0]{}%
+\providecommand \url  [0]{\begingroup\@sanitize@url \@url }%
+\providecommand \@url [1]{\endgroup\@href {#1}{\urlprefix }}%
+\providecommand \urlprefix  [0]{URL }%
+\providecommand \Eprint [0]{\href }%
+\providecommand \doibase [0]{https://doi.org/}%
+\providecommand \selectlanguage [0]{\@gobble}%
+\providecommand \bibinfo  [0]{\@secondoftwo}%
+\providecommand \bibfield  [0]{\@secondoftwo}%
+\providecommand \translation [1]{[#1]}%
+\providecommand \BibitemOpen [0]{}%
+\providecommand \bibitemStop [0]{}%
+\providecommand \bibitemNoStop [0]{.\EOS\space}%
+\providecommand \EOS [0]{\spacefactor3000\relax}%
+\providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
+\let\auto@bib@innerbib\@empty
+%</preamble>
+\bibitem [{\citenamefont {Bressloff}(2022)}]{bressloff2022feynmanKac}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~C.}\ \bibnamefont
+  {Bressloff}},\ }\bibfield  {title} {\bibinfo {title} {Diffusion-mediated
+  absorption by partially-reactive targets: {Brownian} functionals and
+  generalized propagators},\ }\href {https://doi.org/10.1088/1751-8121/ac5e75}
+  {\bibfield  {journal} {\bibinfo  {journal} {Journal of Physics A:
+  Mathematical and Theoretical}\ }\textbf {\bibinfo {volume} {55}},\ \bibinfo
+  {pages} {205001} (\bibinfo {year} {2022})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Grebenkov}(2020)}]{grebenkov2020multiple}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.~S.}\ \bibnamefont
+  {Grebenkov}},\ }\bibfield  {title} {\bibinfo {title} {Joint distribution of
+  multiple boundary local times and related first-passage time problems with
+  multiple targets},\ }\href {https://doi.org/10.1088/1742-5468/abb6e4}
+  {\bibfield  {journal} {\bibinfo  {journal} {Journal of Statistical Mechanics:
+  Theory and Experiment}\ }\textbf {\bibinfo {volume} {2020}},\ \bibinfo
+  {pages} {103205} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Carreira-Perpi{\~n}{\'a}n}\ and\ \citenamefont
+  {Williams}(2003)}]{carreiraPerpinanWilliams2003modes}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.~A.}\ \bibnamefont
+  {Carreira-Perpi{\~n}{\'a}n}}\ and\ \bibinfo {author} {\bibfnamefont
+  {C.~K.~I.}\ \bibnamefont {Williams}},\ }\bibfield  {title} {\bibinfo {title}
+  {On the number of modes of a {Gaussian} mixture},\ }in\ \href
+  {https://doi.org/10.1007/3-540-44935-3_44} {\emph {\bibinfo {booktitle}
+  {Scale-Space Methods in Computer Vision}}},\ \bibinfo {series} {Lecture Notes
+  in Computer Science}, Vol.\ \bibinfo {volume} {2695}\ (\bibinfo  {publisher}
+  {Springer},\ \bibinfo {year} {2003})\ pp.\ \bibinfo {pages}
+  {625--640}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Am{\'e}ndola}\ \emph {et~al.}(2020)\citenamefont
+  {Am{\'e}ndola}, \citenamefont {Engstr{\"o}m},\ and\ \citenamefont
+  {Haase}}]{amendolaEngstromHaase2020modes}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Am{\'e}ndola}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Engstr{\"o}m}},\ and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
+  {Haase}},\ }\bibfield  {title} {\bibinfo {title} {Maximum number of modes of
+  {Gaussian} mixtures},\ }\href {https://doi.org/10.1093/imaiai/iaz013}
+  {\bibfield  {journal} {\bibinfo  {journal} {Information and Inference: A
+  Journal of the IMA}\ }\textbf {\bibinfo {volume} {9}},\ \bibinfo {pages}
+  {587} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\end{thebibliography}%

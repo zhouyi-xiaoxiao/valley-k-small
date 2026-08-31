@@ -1,0 +1,243 @@
+{
+  "authority_root": {
+    "ctime_ns": 1784428886960640196,
+    "dev": 16777234,
+    "gid": 20,
+    "ino": 86097262,
+    "mode": "0555",
+    "mtime_ns": 1784428886952330884,
+    "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1",
+    "uid": 502
+  },
+  "claim_boundary": {
+    "candidate_execution_performed": false,
+    "complete_runtime_closure_claimed": false,
+    "current_static_tree_observed": true,
+    "historical_fsync_and_rename_attestation_independently_reproven_by_validator": false,
+    "host_runtime_bytes_complete": false,
+    "import_resolution_observed": false,
+    "only_declared_os_managed_xattrs_permitted": true,
+    "operation_model_runtime_closure_substitution_allowed": false,
+    "pathname_toctou_closure_claimed": false,
+    "root_receipt_substitutes_for_runtime_probe": false,
+    "runtime_metadata_observed": false,
+    "runtime_probe_performed": false,
+    "scientific_claim_made": false,
+    "static_root_materialized": true,
+    "trust_boundary": "THIS_INVOCATION_STATIC_BYTE_TREE_PUBLICATION_ONLY_HOST_RUNTIME_AND_CONCURRENT_EXTERNAL_WRITERS_OUT_OF_SCOPE",
+    "xattr_values_claimed": false
+  },
+  "entries": [
+    {
+      "ctime_ns": 1784428886960640196,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097262,
+      "mode": "0555",
+      "mtime_ns": 1784428886952330884,
+      "nlink": 4,
+      "path": ".",
+      "type": "directory",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886959954829,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097263,
+      "mode": "0555",
+      "mtime_ns": 1784428886951733184,
+      "nlink": 3,
+      "path": "bin",
+      "type": "directory",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886952026305,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097264,
+      "mode": "0555",
+      "mtime_ns": 1784428886951941889,
+      "nlink": 1,
+      "path": "bin/python3.12",
+      "sha256": "31b9c9a8d50289f3a13f014b3efd8ea3534fc3eea7ca7d9809e166139910b805",
+      "size": 52448,
+      "type": "file",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886959987204,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097265,
+      "mode": "0555",
+      "mtime_ns": 1784428886955785341,
+      "nlink": 4,
+      "path": "site-packages",
+      "type": "directory",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886959871997,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097266,
+      "mode": "0555",
+      "mtime_ns": 1784428886954502982,
+      "nlink": 4,
+      "path": "site-packages/gmpy2",
+      "type": "directory",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886959921455,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097269,
+      "mode": "0555",
+      "mtime_ns": 1784428886959363212,
+      "nlink": 5,
+      "path": "site-packages/gmpy2.libs",
+      "type": "directory",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886957638400,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097270,
+      "mode": "0444",
+      "mtime_ns": 1784428886957470903,
+      "nlink": 1,
+      "path": "site-packages/gmpy2.libs/libgmp.10.dylib",
+      "sha256": "22cec4689e503d590cfbf3373ae7f442ef6d40c3e6c93a3612bbd1b7e2bce049",
+      "size": 468768,
+      "type": "file",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886959784998,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097272,
+      "mode": "0444",
+      "mtime_ns": 1784428886959681000,
+      "nlink": 1,
+      "path": "site-packages/gmpy2.libs/libmpc.3.dylib",
+      "sha256": "d3c10c39234c095f5c1938ad607c87a0633152f51271d9ed1c494724430c2b0c",
+      "size": 152112,
+      "type": "file",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886958568139,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097271,
+      "mode": "0444",
+      "mtime_ns": 1784428886958411766,
+      "nlink": 1,
+      "path": "site-packages/gmpy2.libs/libmpfr.6.dylib",
+      "sha256": "d314a427a901f8ece38b67966cd2fbf5642ceb7d1c2e5136f8282ca7ab859aed",
+      "size": 469360,
+      "type": "file",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886954071446,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097267,
+      "mode": "0444",
+      "mtime_ns": 1784428886954018655,
+      "nlink": 1,
+      "path": "site-packages/gmpy2/__init__.py",
+      "sha256": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2",
+      "size": 412,
+      "type": "file",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    },
+    {
+      "ctime_ns": 1784428886955451012,
+      "dev": 16777234,
+      "gid": 20,
+      "ino": 86097268,
+      "mode": "0444",
+      "mtime_ns": 1784428886954847436,
+      "nlink": 1,
+      "path": "site-packages/gmpy2/gmpy2.cpython-312-darwin.so",
+      "sha256": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+      "size": 573056,
+      "type": "file",
+      "uid": 502,
+      "xattrs": [
+        "com.apple.provenance"
+      ]
+    }
+  ],
+  "materializer": {
+    "atomic_publish_flags": 20,
+    "atomic_publish_primitive": "renameatx_np",
+    "directories_bottom_up_fchmod_0555_and_fsync": true,
+    "files_write_fsync_fchmod_fsync": true,
+    "fixed_o_excl_lock_name": ".encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1.materialize-v1.lock",
+    "no_ordinary_rename_fallback": true,
+    "parent_fsync_after_atomic_publish": true,
+    "parent_identity_rechecked": true,
+    "permitted_os_managed_xattr_names": [
+      "com.apple.provenance"
+    ],
+    "post_publish_independent_fd_tree_readback": true,
+    "schema": "encounter_continuum_c1_n0_sealed_runtime_root_materializer_v1",
+    "source_same_fd_read_hash_with_pre_post_fstat": true,
+    "stage_is_hidden_and_same_parent": true
+  },
+  "schema": "encounter_continuum_c1_n0_sealed_runtime_root_receipt_v1",
+  "static_inventory": {
+    "byte_length": 11715,
+    "schema": "encounter_continuum_c1_n0_runtime_byte_pin_inventory_v1",
+    "sha256": "13b70ec6194bbad62e19cea2538f19a8351e6f6ad820ac7a09d0adf25433b8c6"
+  },
+  "status": "STATIC_RUNTIME_ROOT_MATERIALIZED_ONLY_NO_PROBE_NO_IMPORT_NO_RUNTIME_CLOSURE_NO_CANDIDATE_EXECUTION_NO_SCIENCE",
+  "summary": {
+    "directory_count": 5,
+    "file_count": 6,
+    "total_file_bytes": 1716156
+  },
+  "validator_scope": {
+    "can_rebuild_current_tree_from_independent_fds": true,
+    "cannot_independently_prove_historical_fsync_or_rename_syscalls": true,
+    "does_not_read_or_claim_xattr_values": true
+  }
+}

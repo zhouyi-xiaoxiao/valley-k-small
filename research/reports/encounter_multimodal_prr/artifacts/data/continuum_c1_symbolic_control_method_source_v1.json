@@ -1,0 +1,69 @@
+{
+  "claim_boundary": {
+    "actual_control_values_present": false,
+    "budget_present": false,
+    "complete_C0": false,
+    "control_specific_killing_constructed": false,
+    "exact_controls_present": false,
+    "release_eligible": false,
+    "science_executed": false
+  },
+  "control_contract": {
+    "control_count": 3,
+    "control_ids": [
+      "m1",
+      "m2",
+      "m3"
+    ],
+    "each_weight_nonnegative": true,
+    "exact_sum_one_required": true,
+    "finite_control_ids_only": true,
+    "first_application_v1_strict_positivity_is_a_later_requirement": true,
+    "future_weight_representation": "reduced_exact_p_over_q",
+    "future_weight_vector_length": 4
+  },
+  "no_value_contract": {
+    "actual_weight_rows": [],
+    "budget_sources": [],
+    "control_payload_paths": [],
+    "result_or_positive_budget_sources": []
+  },
+  "profile_basis_contract": {
+    "profile_centres_exact_in_order": [
+      "3152519739159347/9007199254740992",
+      "5404319552844595/9007199254740992",
+      "3/4",
+      "8106479329266893/9007199254740992"
+    ],
+    "profile_count": 4,
+    "profile_ids_in_order": [
+      "phi_0",
+      "phi_1",
+      "phi_2",
+      "phi_3"
+    ],
+    "profile_index_order": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "schema": "encounter_continuum_c1_symbolic_control_method_source_v1",
+  "source_pins": {
+    "control_method_commitment": {
+      "path": "artifacts/data/continuum_c0_control_method_commitment_v2.json",
+      "sha256": "288ad85d5992446a8f3b58416e445a88f1c15a4c71114ba008939d8fbd9a4a97"
+    },
+    "factorization_source": {
+      "path": "artifacts/data/continuum_c1_factorization_source_v1.json",
+      "sha256": "70cb49e63c496d489887c764c812671b03a7352d5752f6663c377734739a1dca"
+    },
+    "killing_geometry_authority": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    }
+  },
+  "status": "FROZEN_SYMBOLIC_CONTROL_METHOD_ROLE11_ONLY_NO_VALUES_NO_BUDGET_NO_COMPLETE_C0",
+  "symbolic_formula": "V_c_mab=W^-1*C_ab*sum_j(w_j^(c)*Phi_jm)"
+}

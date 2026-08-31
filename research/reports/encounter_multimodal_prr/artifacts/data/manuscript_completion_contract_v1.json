@@ -1,0 +1,283 @@
+{
+  "authorized_scientific_command": null,
+  "claim_ceiling": {
+    "forbidden_numerical_claims": [
+      "allocation_cusp",
+      "phase_diagram",
+      "strict_numerical_continuum_limit",
+      "unbounded_time_topology",
+      "finite_parameter_arbitrary_dimension",
+      "positive_budget_physical_d3"
+    ],
+    "numerical_claim": "finite_window_continuum_consistent_physical_d2_evidence",
+    "numerical_tail_checks_end": "100/1",
+    "numerical_topology_window": [
+      "1/2",
+      "35/1"
+    ],
+    "strict_continuum_claimed": false,
+    "strict_continuum_gate": "CONDITIONAL_ONLY_IF_STRICT_NUMERICAL_CONTINUUM_CLAIMED",
+    "theorem_claim": "accepted_exact_m_doi_theorem_at_frozen_hypotheses_and_sequential_limits"
+  },
+  "current_state": {
+    "f0_independently_accepted": false,
+    "f1_authorized": false,
+    "manuscript_complete": false,
+    "science_branch_selected": false,
+    "submission_eligible": false
+  },
+  "exact_controls": {
+    "budget_binary64_hex": "0x1.47ae147ae147bp-7",
+    "budget_human_label": "0.01",
+    "lp_m1": [
+      "3/100",
+      "91/100",
+      "3/100",
+      "3/100"
+    ],
+    "lp_m2": [
+      "26283290493583468211604731104755904933345/48490981725852599599478842590487770043566",
+      "3/100",
+      "350917481779792215769355334742286319173303/7273647258877889939921826388573165506534900",
+      "27620267852942407942141065964602984821638/72736472588778899399218263885731655065349"
+    ],
+    "lp_m3": [
+      "26036491379493507141660506705923271294/64827294513711540691991929804781870657",
+      "127119166530009747123445480310208680739259/460273791047351938913142701613951281664700",
+      "3/100",
+      "1344873219915177329165133426432688362881/4602737910473519389131427016139512816647"
+    ]
+  },
+  "f0_acceptance": {
+    "actual_largest_shape": [
+      207,
+      215,
+      161
+    ],
+    "actual_largest_states": 7165305,
+    "clean_canonical_replicas": 2,
+    "independent_semantic_replay_required": true,
+    "positive_budget_primary_controls_evaluated": false,
+    "production_resource_measurement_required": true,
+    "required_capabilities": [
+      "exact_rational_parser_without_production_evaluation",
+      "retired_selector_v1_rejection",
+      "t_5_5_one_ulp_fixture",
+      "all_12_configuration_constructors",
+      "half_volume_and_periodic_alignment_semantics",
+      "canonical_packed_owned_readonly_inputs",
+      "derived_diagonal_only",
+      "sub_markov_detailed_balance_killing_witnesses",
+      "directed_p_and_q_action_roundoff",
+      "absolute_time_uniformization_no_state_chaining",
+      "directed_poisson_tail_enclosure",
+      "scalar_j0_to_j3_and_m2_to_m4",
+      "complete_window_tiles_and_root_roles",
+      "twelve_step_interval_newton",
+      "canonical_schema_and_claim_field_mutations",
+      "two_clean_replicas",
+      "independent_semantic_replay",
+      "actual_mr_plus_f_resource_schedule"
+    ],
+    "science_free": true
+  },
+  "f1_contract": {
+    "configuration_order": [
+      "O113/Base",
+      "E128/Base",
+      "O129/Base",
+      "O161/Base",
+      "M+",
+      "R+",
+      "MR+",
+      "MR+F",
+      "A_M",
+      "A_R",
+      "A_Y",
+      "A_MRY"
+    ],
+    "control_order": [
+      "lp_m1",
+      "lp_m2",
+      "lp_m3"
+    ],
+    "no_refit": true,
+    "ordered_rows": 36,
+    "replicas": 2,
+    "stop_after_first_hold": true
+  },
+  "immutable_sources": {
+    "configuration_contract": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "continuum_scope_at_freeze": {
+      "path": "notes/continuum_next_stage_path.md",
+      "sha256": "65caeb28baffdf45e6675e10a522f9fbd5b5d724ad3899f63928be5f62175782"
+    },
+    "exact_control_selector_result": {
+      "path": "scratch/modal_certificate_exact_selector_method_only_result.json",
+      "sha256": "77e8d4a0e567b313d23ce737bf584515a2de84b901fbfeca40917202be9cfd98"
+    },
+    "exact_m_full_proof": {
+      "path": "manuscript/exact_m_theorem_full_proof.tex",
+      "sha256": "a372b5a33d2203b8f3214a153f4aaf1e81497bf146c0ac1db1cfda97919c1c7b"
+    },
+    "exact_m_spine": {
+      "path": "manuscript/exact_m_theorem_spine.tex",
+      "sha256": "79b0a4467a67999f605b8a5d8ec07e41a88c07edc8cdf1639ad6b8d4ce70658e"
+    },
+    "fixed_control_design": {
+      "path": "notes/positive_b_fixed_control_robustness_design_v2.md",
+      "sha256": "264cf2d2ef17feedcb3c1a5469e18b5c57ba5981b57dc6201147955df3684dcd"
+    },
+    "round149_independent_audit": {
+      "path": "audits/round_149_exact_m_supplement_migration_independent_attack.md",
+      "sha256": "f689002b01b1fff3549ed446c9b05efe3fbe3cfc4aa1a3b64c859bbb18dfea78"
+    },
+    "selector_design": {
+      "path": "notes/f1_to_f2_common_observable_selector_v1.md",
+      "sha256": "9ab69dbd9662577aa72760bf003240ef0cd1edba167f03ceb72cd8335045c1af"
+    },
+    "selector_implementation": {
+      "path": "code/f1_to_f2_common_observable_selector_v2.py",
+      "sha256": "b80e720a0a88df053b3e9133582a0a27c31d513b3bb091da006f520a4e3bace6"
+    }
+  },
+  "limitations": [
+    "This pre-F0 freeze is not an F0 record or an independent F0 acceptance.",
+    "No F1, F2, or F3 scientific result exists at this freeze.",
+    "Strict C0-C3 and root transfer remain available only for a separately elected strict numerical continuum claim.",
+    "Author metadata, overlap identifiers, archive identifiers, and final release audits remain separate gates."
+  ],
+  "no_refit": {
+    "after_independent_f0_acceptance": true,
+    "forbidden_changes": [
+      "control",
+      "budget",
+      "geometry",
+      "supports",
+      "initial_law",
+      "contact_rule",
+      "configuration",
+      "grid",
+      "box",
+      "alignment",
+      "reference_grid",
+      "root_band",
+      "time_window",
+      "checkpoints",
+      "metric_definitions",
+      "threshold",
+      "interval_method",
+      "bisection_limits",
+      "newton_limits",
+      "schema",
+      "hard_stop_semantics",
+      "precision",
+      "solver_tolerance",
+      "resource_cap",
+      "selector_logic",
+      "sample_size",
+      "power_rule",
+      "multiplicity_rule",
+      "pool_separation",
+      "chunk_rule",
+      "seed_domain"
+    ]
+  },
+  "schema_version": "encounter_manuscript_completion_contract_v1",
+  "stage": "pre_f0_claim_and_terminal_branch_freeze",
+  "status": "FROZEN_PRE_F0_NO_SCIENTIFIC_EXECUTION",
+  "terminal_branches": {
+    "HOLD_F0_METHOD_OR_RESOURCE": {
+      "f1_permitted": false,
+      "f2_permitted": false,
+      "f3_permitted": false,
+      "independent_validation_claim_permitted": false,
+      "manuscript_action": "complete_honest_theorem_first_pre_science_limit_and_reassess_fit",
+      "required_failure_class": "METHOD_OR_RESOURCE",
+      "required_statuses": {
+        "f0": "HOLD_F0",
+        "f1": "NOT_RUN",
+        "f2": "NOT_RUN",
+        "f3": "NOT_RUN"
+      }
+    },
+    "HOLD_F1_METHOD_OR_RESOURCE": {
+      "f2_permitted": false,
+      "f3_permitted": false,
+      "independent_validation_claim_permitted": false,
+      "manuscript_action": "report_unresolved_computational_boundary_without_physical_failure_claim",
+      "required_failure_class": "METHOD_OR_RESOURCE",
+      "required_statuses": {
+        "f0": "PASS_F0_ACCEPTED",
+        "f1": "HOLD_F1",
+        "f2": "NOT_RUN",
+        "f3": "NOT_RUN"
+      }
+    },
+    "HOLD_F1_SCIENCE": {
+      "f2_permitted": false,
+      "f3_permitted": false,
+      "independent_validation_claim_permitted": false,
+      "manuscript_action": "report_frozen_negative_result_without_refit_or_remove_finite_parameter_headline",
+      "required_failure_class": "SCIENCE",
+      "required_statuses": {
+        "f0": "PASS_F0_ACCEPTED",
+        "f1": "HOLD_F1",
+        "f2": "NOT_RUN",
+        "f3": "NOT_RUN"
+      }
+    },
+    "HOLD_F2_PLAN_OR_RESOURCE": {
+      "deterministic_f1_claim_permitted_at_exact_scope": true,
+      "f3_permitted": false,
+      "independent_validation_claim_permitted": false,
+      "manuscript_action": "retain_f1_at_exact_scope_and_report_selector_or_feasibility_boundary",
+      "required_failure_class": "METHOD_OR_RESOURCE",
+      "required_statuses": {
+        "f0": "PASS_F0_ACCEPTED",
+        "f1": "PASS_F1_ALL_ROWS",
+        "f2": "HOLD_F2",
+        "f3": "NOT_RUN"
+      }
+    },
+    "HOLD_F3_METHOD_OR_RESOURCE": {
+      "deterministic_f1_claim_permitted_at_exact_scope": true,
+      "independent_validation_claim_permitted": false,
+      "manuscript_action": "retain_deterministic_finite_window_result_and_report_unresolved_independent_method_boundary",
+      "required_failure_class": "METHOD_OR_RESOURCE",
+      "required_statuses": {
+        "f0": "PASS_F0_ACCEPTED",
+        "f1": "PASS_F1_ALL_ROWS",
+        "f2": "PASS_F2_PLAN",
+        "f3": "HOLD_F3"
+      }
+    },
+    "HOLD_F3_SCIENCE": {
+      "deterministic_f1_claim_permitted_at_exact_scope": true,
+      "independent_validation_claim_permitted": false,
+      "manuscript_action": "retain_deterministic_finite_window_result_and_report_cross_method_disagreement",
+      "required_failure_class": "SCIENCE",
+      "required_statuses": {
+        "f0": "PASS_F0_ACCEPTED",
+        "f1": "PASS_F1_ALL_ROWS",
+        "f2": "PASS_F2_PLAN",
+        "f3": "HOLD_F3"
+      }
+    },
+    "PASS_VALIDATED_D2": {
+      "independent_validation_claim_permitted": true,
+      "manuscript_action": "write_theorem_first_finite_window_continuum_consistent_physical_d2_result",
+      "required_failure_class": null,
+      "required_statuses": {
+        "f0": "PASS_F0_ACCEPTED",
+        "f1": "PASS_F1_ALL_ROWS",
+        "f2": "PASS_F2_PLAN",
+        "f3": "PASS_F3_ALL_ASSERTIONS"
+      },
+      "submission_still_requires_editorial_and_final_audits": true
+    }
+  }
+}

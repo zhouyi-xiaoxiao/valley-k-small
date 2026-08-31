@@ -1,0 +1,109 @@
+{
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "external_predecessor_commitment_present": false,
+    "formal_outer_open_operation_model_present": false,
+    "formal_selected_source_dag_complete": false,
+    "formal_symbolic_candidate_materialized": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "policy_predecessor_order_independently_sealed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "root_transfer_complete": false,
+    "science_executed": false,
+    "submission_eligible": false,
+    "symbolic_acceptance_receipt_materialized": false
+  },
+  "join_requirements": {
+    "axis_order_exact": [
+      "midpoint",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "axis_partition_path_sha_cell_count_equal": true,
+    "cell_and_edge_native_record_keys_unique": true,
+    "configuration_count_exactly_12": true,
+    "configuration_index_and_label_unique": true,
+    "killing_member_partition_formula_method_unit_binding_equal": true,
+    "profile_index_order_exact": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "raw_stationary_member_partition_formula_method_unit_binding_equal": true
+  },
+  "ordering": {
+    "current_enclosure_sources_eligible_for_acceptance": false,
+    "external_predecessor_commitment_present": false,
+    "future_fresh_roles_8_10_replay_required": true,
+    "future_replay_must_pin_exact_member_registry_policy_hashes": true,
+    "future_replay_must_pin_exact_member_registry_policy_replay_plan_hashes": true,
+    "future_replay_required": true,
+    "policy_predecessor_order_independently_sealed": false,
+    "prototype_enclosure_sources_eligible_for_acceptance": false,
+    "result_blind_replay_plan_required": true,
+    "retroactive_acceptance_authorized": false,
+    "roles_8_10_outputs_read_while_constructing_this_policy": false,
+    "roles_8_9_10_may_execute_in_parallel_after_commitment": true,
+    "timestamp_ordering_is_sufficient": false
+  },
+  "requirements": {
+    "all_box_mass_and_gauge_denominator_lowers_strictly_positive": true,
+    "all_common_flux_forward_reverse_intersections_nonempty": true,
+    "all_formula_values_contained_by_saved_raw_intervals": true,
+    "all_map_ratio_interval_lowers_strictly_positive": true,
+    "every_configuration_and_axis_present_exactly_once": true,
+    "maximum_gauge_relative_width": "1/1099511627776",
+    "maximum_map_anchor_constant": "1000000/1",
+    "maximum_reconstructed_killing_anchor_constant": "1000000/1",
+    "maximum_reference_cell_mass_relative_width": "1/1099511627776",
+    "maximum_stationary_axis_relative_width": "1/1099511627776",
+    "minimum_configuration_count": 12
+  },
+  "schema": "encounter_continuum_c1_c2_n0_anti_vacuity_policy_v4_candidate",
+  "source_pins": {
+    "member_spec_v4_candidate": {
+      "member_identity_sha256": "68c8f9eeaca5127e9fb49c4671731990869350b358c67632fb11513f26472193",
+      "path": "artifacts/data/continuum_c1_c2_n0_member_spec_v4_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_member_spec_v4_candidate",
+      "sha256": "b2982e4e2b0bac208f80472d0de959fa152a5494c895677d081836c482e5f2d5"
+    },
+    "method_parameter_registry_v4_candidate": {
+      "path": "artifacts/data/continuum_c1_c2_n0_method_parameter_registry_v4_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_method_parameter_registry_v4_candidate",
+      "sha256": "e403a9576abb08d3ada884cd283cce29ce8f877b0e9843cc8d5b911c8c0b0ac5"
+    },
+    "policy_v3_lineage": {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_anti_vacuity_policy_v3_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_anti_vacuity_policy_v3_candidate",
+      "sha256": "e0b3a649b45494881a534ecd84fe6f98f73012f0e5e6d7ca14b90fddffbccac8"
+    }
+  },
+  "status": "RESULT_BLIND_SUCCESSOR_POLICY_CANDIDATE_ONLY_NOT_EXTERNALLY_COMMITTED_CURRENT_AND_PROTOTYPE_ENCLOSURES_PERMANENTLY_INELIGIBLE",
+  "successor_binding_counts": {
+    "future_fresh_replay_role_catalog_order": [
+      8,
+      9,
+      10
+    ],
+    "future_fresh_replay_role_catalog_order_implies_dependency_edges": false,
+    "future_fresh_replay_role_count": 3,
+    "member_axis_partition_count": 36,
+    "member_configuration_count": 12,
+    "member_n0_sequence_count": 12,
+    "member_profile_index_count": 48,
+    "member_source_role_count": 4,
+    "registry_parameter_count": 10
+  },
+  "threshold_lineage": {
+    "all_exact_thresholds_equal_to_legacy_policy": true,
+    "post_enclosure_adaptation_allowed": false,
+    "threshold_loosening_detected": false
+  }
+}

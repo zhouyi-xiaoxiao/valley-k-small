@@ -1,0 +1,731 @@
+{
+  "channel_curve_digest_sha256": "e91e25145232c092c162e6d39a95cff74c79402d9134f56a076b849061ae2e68",
+  "claim_scope": "Reproduce a B=0 first-exposure cusp in the fixed finite-volume quotient and screen its 0.01 catalyst-weight simplex; this is a design diagnostic for a future B-to-zero theorem, not finite-B Doi or continuum evidence",
+  "continuum_verified": false,
+  "cusp_reproduction": {
+    "control_directions": [
+      [
+        1.0,
+        0.0,
+        -1.0
+      ],
+      [
+        0.0,
+        1.0,
+        -1.0
+      ]
+    ],
+    "cusp_time": 9.447750380547092,
+    "density_per_unit_budget": 0.16618063735017263,
+    "determinant_bracket": [
+      9.0,
+      10.0
+    ],
+    "mixture_raw_jets_orders_0_to_4": [
+      0.16618063735017263,
+      -2.3245294578089215e-16,
+      -1.1281123604711674e-15,
+      -3.338041648648371e-15,
+      -0.000362860884031449
+    ],
+    "raw_derivative_matrix": [
+      [
+        -0.04070617976036983,
+        0.008875156048607918,
+        0.029780948972660308
+      ],
+      [
+        0.00851398605557754,
+        -0.01368720140145334,
+        0.0017535189452602812
+      ],
+      [
+        -4.6046198587568156e-05,
+        0.00401116598748626,
+        -0.002665908716360638
+      ]
+    ],
+    "raw_derivative_matrix_singular_values": [
+      0.05190531871476075,
+      0.014649409133730598,
+      6.042217842193655e-15
+    ],
+    "row_normalized_determinant_at_bracket": [
+      0.06172107301896969,
+      -0.05030318593895972
+    ],
+    "row_normalized_determinant_at_root": -1.148643920426511e-12,
+    "scaled_derivative_residuals_orders_1_to_3": [
+      1.3215483115117773e-14,
+      6.05938793600659e-13,
+      1.6939342980059135e-11
+    ],
+    "scaled_fourth_derivative": -17.396960403479653,
+    "unfolding": {
+      "dimensionless_matrix": [
+        [
+          -4.007354935749172,
+          -1.1885422766652392
+        ],
+        [
+          3.6312245380341888,
+          -8.293616652959214
+        ]
+      ],
+      "dimensionless_singular_values": [
+        9.072471323502928,
+        4.1390408599789
+      ],
+      "dimensionless_svd_ratio": 0.45621977875602643,
+      "rank": 2,
+      "raw_matrix": [
+        [
+          -0.07048712873303015,
+          -0.02090579292405239
+        ],
+        [
+          0.006760467110317259,
+          -0.015440720346713621
+        ]
+      ],
+      "row_angle_sine_magnitude": 0.9922766558739565
+    },
+    "weights": [
+      0.34413181348516925,
+      0.2642370731628536,
+      0.39163111335197714
+    ]
+  },
+  "design_mesh": {
+    "midpoint_cells": 65,
+    "relative_parallel_cells": 65,
+    "relative_perp_cells": 49,
+    "state_count_if_formed": 207025
+  },
+  "evidence_timing": "RESULT_INFORMED_REPRODUCTION_NOT_PREREGISTERED_DISCOVERY",
+  "factorization_identity": "h_j^(n)=sum_{q=0}^n binom(n,q) a_j^(q)c^(n-q), using free-generator actions through n=4",
+  "finite_B_Doi_cusp_verified": false,
+  "finite_volume_free_factorization_verified": true,
+  "full_kronecker_reference": {
+    "comparison_rows": [
+      {
+        "maximum_absolute_difference": 0.0,
+        "maximum_scaled_absolute_difference": 0.0,
+        "time": 0.0
+      },
+      {
+        "maximum_absolute_difference": 2.2065682614424986e-15,
+        "maximum_scaled_absolute_difference": 2.117588667851345e-15,
+        "time": 1.0
+      },
+      {
+        "maximum_absolute_difference": 2.6944592390609756e-15,
+        "maximum_scaled_absolute_difference": 2.687967897027047e-15,
+        "time": 5.0
+      },
+      {
+        "maximum_absolute_difference": 7.806635112656002e-15,
+        "maximum_scaled_absolute_difference": 7.804865014231881e-15,
+        "time": 10.0
+      }
+    ],
+    "derivative_orders": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "maximum_absolute_difference": 7.806635112656002e-15,
+    "maximum_scaled_absolute_difference": 7.804865014231881e-15,
+    "mesh": {
+      "midpoint_cells": 17,
+      "relative_parallel_cells": 19,
+      "relative_perp_cells": 13,
+      "state_count": 4199
+    },
+    "times": [
+      0.0,
+      1.0,
+      5.0,
+      10.0
+    ]
+  },
+  "gates": {
+    "complete_simplex_enumerated": true,
+    "cusp_weights_sum_to_one": true,
+    "full_kronecker_factorization_reference": true,
+    "g1a_input_preflight": true,
+    "inward_max_min_max": true,
+    "inward_three_roots": true,
+    "inward_weights_positive": true,
+    "negative_claim_flags_preserved": true,
+    "nonzero_fourth_derivative": true,
+    "positive_interior_cusp_weights": true,
+    "result_informed_label_preserved": true,
+    "simplex_maximum_mode_count_reproduced": true,
+    "simplex_vertex_window_bracketed": true,
+    "triple_derivative_residual": true,
+    "unfolding_conditioning": true,
+    "unfolding_rank_two": true
+  },
+  "limitations": [
+    "the cusp and current-geometry mode count were known before this reproduction protocol",
+    "B=0 first-exposure derivative only; no positive finite-B killed-semigroup cusp is verified",
+    "one finite-volume mesh only; continuum_verified remains false",
+    "the 0.01 simplex and 0.01 time grids are finite screens, not exhaustive root proofs",
+    "the current fixed geometry reaches two sampled modes and is not a trimodality result",
+    "the more promising redesigned-centre trimodal wedge remains unfrozen scratch excluded from this artifact claim"
+  ],
+  "next_theorem_target": "uniform compact-time C4 expansion f_B^(q)=B H^(q)+O(B^2), followed by positive-B persistence and mesh refinement",
+  "normal_form_inward_check": {
+    "control_direction_2d": [
+      0.28434736680011424,
+      -0.9587213229055883
+    ],
+    "control_direction_3d": [
+      0.28434736680011424,
+      -0.9587213229055883,
+      0.674373956105474
+    ],
+    "normal_form_cubic_coefficient": -6.04768140052415e-05,
+    "perturbed_weights": [
+      0.34555355031916984,
+      0.2594434665483257,
+      0.3950029831325045
+    ],
+    "root_count": 3,
+    "sampled_sign_brackets": [
+      [
+        8.36,
+        8.370000000000001
+      ],
+      [
+        9.44,
+        9.450000000000001
+      ],
+      [
+        10.700000000000001,
+        10.71
+      ]
+    ],
+    "second_unfolding_row_projection": 0.01672566885857401,
+    "stationary_roots": [
+      {
+        "raw_first_derivative_residual": -1.8908485888147197e-16,
+        "scaled_first_derivative_residual": 9.56582368533919e-15,
+        "scaled_second_derivative": -0.09070669092547352,
+        "time": 8.366499566718444,
+        "topology": "maximum"
+      },
+      {
+        "raw_first_derivative_residual": 1.734723475976807e-18,
+        "scaled_first_derivative_residual": 9.911816306037901e-17,
+        "scaled_second_derivative": 0.04514450523405463,
+        "time": 9.447750380548666,
+        "topology": "minimum"
+      },
+      {
+        "raw_first_derivative_residual": 5.0306980803327406e-17,
+        "scaled_first_derivative_residual": 3.2572622708376764e-15,
+        "scaled_second_derivative": -0.08573898328766981,
+        "time": 10.707921286059916,
+        "topology": "maximum"
+      }
+    ],
+    "step": 0.005,
+    "topology": [
+      "maximum",
+      "minimum",
+      "maximum"
+    ]
+  },
+  "project_gate_passed": false,
+  "provenance": {
+    "g1a_preflight": {
+      "artifact": "artifacts/data/continuum_g1_smoke.json",
+      "artifact_sha256": "a0a1894dbe6dd37bad6973ca6f3dd29b651441f7b911a5406186bb86a18fd3c3",
+      "continuum_verified": false,
+      "producer_code": "code/continuum_g1_smoke.py",
+      "producer_code_sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701",
+      "stage": "G1a_pre_fold_foundations",
+      "status": "PASS"
+    },
+    "generated_utc": "2026-07-13T17:53:51.256590Z",
+    "manifest": "artifacts/data/continuum_weak_budget_design_manifest.json",
+    "manifest_sha256": "b912aa5d9d6cd21601bab8ec847670b28934a20887319872571ed014622d5949",
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "protocol_note": "notes/weak_budget_design_protocol.md",
+    "protocol_note_sha256": "fdde0374ee931337875574443ebdfe9b2fffb914923dac779c1ea16f6712be57",
+    "python": "3.12.13",
+    "python_executable": "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python",
+    "scipy": "1.18.0",
+    "script": "code/continuum_weak_budget_design.py",
+    "script_sha256": "7fa9ea6114328736c89739459c293aefa9311514764ec3cfe4f0ceb5a1875201"
+  },
+  "schema_version": 1,
+  "selected_channel_jet_samples": [
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "time": 0.0
+    },
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.001798747317631286,
+          3.2045212056882434e-07,
+          3.086666471993979e-12
+        ],
+        [
+          0.011459485662094804,
+          3.7435269920647983e-06,
+          5.3493263992346464e-11
+        ],
+        [
+          0.05577061006517714,
+          3.876836224243035e-05,
+          8.606385545839487e-10
+        ],
+        [
+          0.17328139801674464,
+          0.000347407187089472,
+          1.2750965154469871e-08
+        ],
+        [
+          0.10327603495577214,
+          0.002592328292770011,
+          1.7217416692884064e-07
+        ]
+      ],
+      "time": 1.0
+    },
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.36195382224443645,
+          0.09156480777872672,
+          0.0029379012877233123
+        ],
+        [
+          -0.0012803255152362397,
+          0.062306245609216854,
+          0.004383097218253611
+        ],
+        [
+          -0.05770380527844192,
+          0.009754850702162535,
+          0.004820763759520248
+        ],
+        [
+          0.03829247634592736,
+          -0.019663486758124744,
+          0.0029438705892820445
+        ],
+        [
+          -0.0009680309230304333,
+          0.0005889288085344376,
+          -0.0007159155714752416
+        ]
+      ],
+      "time": 5.0
+    },
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.187240338253866,
+          0.27778793647634886,
+          0.07237099240676852
+        ],
+        [
+          -0.04449297003125181,
+          0.015395952558998609,
+          0.02872466166670577
+        ],
+        [
+          0.008326297697396616,
+          -0.015411634292926033,
+          0.0029710374793441643
+        ],
+        [
+          0.0009538385913555674,
+          0.003632855394031533,
+          -0.0027504557255148875
+        ],
+        [
+          -0.0027231157049064127,
+          0.0012589132648287722,
+          3.3853551115809756e-05
+        ]
+      ],
+      "time": 9.0
+    },
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.16807172676989138,
+          0.28321271320419866,
+          0.0855563045410081
+        ],
+        [
+          -0.040687026651629515,
+          0.008844375204804265,
+          0.029784886977816
+        ],
+        [
+          0.008513877939086353,
+          -0.013678176611385698,
+          0.0017475224984380643
+        ],
+        [
+          -5.0072114573926373e-05,
+          0.004012225391401741,
+          -0.002665167420769466
+        ],
+        [
+          -0.001787611642852697,
+          0.0004692582941531675,
+          0.00033014889568378967
+        ]
+      ],
+      "time": 9.450000000000001
+    },
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.14697407536372495,
+          0.28612076135866177,
+          0.10212987860414748
+        ],
+        [
+          -0.03605531425823334,
+          0.0019360519036812616,
+          0.030354020379096902
+        ],
+        [
+          0.008260333733725957,
+          -0.01143739871451349,
+          0.000345458530298773
+        ],
+        [
+          -0.0007990466802470296,
+          0.0040761215847193765,
+          -0.0024109884757180103
+        ],
+        [
+          -0.0009909321906622158,
+          -0.00018596667043015044,
+          0.0005732696588796032
+        ]
+      ],
+      "time": 10.0
+    },
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.01711660979416822,
+          0.14618539751179696,
+          0.26616012197685435
+        ],
+        [
+          -0.002805317524365996,
+          -0.011613152902154658,
+          0.0023618432385675526
+        ],
+        [
+          0.0006516328903784685,
+          0.0013753489938420588,
+          -0.0015571639992337323
+        ],
+        [
+          -0.00017373376591903758,
+          -9.511613276890922e-05,
+          0.0003891755685499406
+        ],
+        [
+          5.0402893237734446e-05,
+          -3.3394726927451975e-05,
+          -5.9556285823368856e-05
+        ]
+      ],
+      "time": 20.0
+    },
+    {
+      "jets_orders_0_to_4_by_channel": [
+        [
+          0.0025022293764705244,
+          0.051096912267837045,
+          0.22571977065367346
+        ],
+        [
+          -1.4279237966206008e-06,
+          -1.7337860202819396e-05,
+          -2.4564478304760735e-05
+        ],
+        [
+          1.4243082549153752e-07,
+          1.7245913845904743e-06,
+          2.4322237309879946e-06
+        ],
+        [
+          -1.427957278191066e-08,
+          -1.7195224150845445e-07,
+          -2.402965452026663e-07
+        ],
+        [
+          1.4459408397174375e-09,
+          1.7224959399074084e-08,
+          2.3634909294562375e-08
+        ]
+      ],
+      "time": 80.0
+    }
+  ],
+  "simplex_screen": {
+    "all_vertex_entry_derivatives_positive": true,
+    "all_vertex_tail_derivatives_negative": true,
+    "control_count": 5151,
+    "integer_denominator": 100,
+    "interpretation": "finite sampled screen only; no interval-exhaustive assertion and no trimodality claim",
+    "maximum_sampled_mode_count": 2,
+    "representative_controls_by_mode_count": {
+      "1": [
+        {
+          "sampled_maximum_times": [
+            21.945
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            21.835
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.01,
+            0.99
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            21.735
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.02,
+            0.98
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            21.634999999999998
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.03,
+            0.97
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            21.525
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.04,
+            0.96
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            21.425
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.05,
+            0.95
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            21.314999999999998
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.06,
+            0.94
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            21.205
+          ],
+          "sampled_minimum_count": 0,
+          "weights": [
+            0.0,
+            0.07,
+            0.93
+          ]
+        }
+      ],
+      "2": [
+        {
+          "sampled_maximum_times": [
+            5.605,
+            21.395000000000003
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.21,
+            0.0,
+            0.79
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            5.495,
+            21.355
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.22,
+            0.0,
+            0.78
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            5.675,
+            21.215
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.22,
+            0.01,
+            0.77
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            5.425,
+            21.325000000000003
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.23,
+            0.0,
+            0.77
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            5.555,
+            21.175
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.23,
+            0.01,
+            0.76
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            5.745,
+            21.025
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.23,
+            0.02,
+            0.75
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            5.375,
+            21.285
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.24,
+            0.0,
+            0.76
+          ]
+        },
+        {
+          "sampled_maximum_times": [
+            5.475,
+            21.134999999999998
+          ],
+          "sampled_minimum_count": 1,
+          "weights": [
+            0.24,
+            0.01,
+            0.75
+          ]
+        }
+      ]
+    },
+    "sampled_mode_count_histogram": {
+      "1": 4696,
+      "2": 455
+    },
+    "spacing": 0.01,
+    "time_grid": {
+      "points": 8001,
+      "spacing": 0.01,
+      "start": 0.0,
+      "stop": 80.0
+    },
+    "vertex_derivatives_at_minimum_analysis_time": [
+      0.00017991132689695524,
+      1.2089176850623683e-09,
+      3.071757176235727e-16
+    ],
+    "vertex_derivatives_at_time_stop": [
+      -1.4279237966206008e-06,
+      -1.7337860202819396e-05,
+      -2.4564478304760735e-05
+    ]
+  },
+  "stage": "G1w_result_informed_weak_budget_design_diagnostic",
+  "status": "PASS_RESULT_INFORMED_WEAK_BUDGET_DESIGN_DIAGNOSTIC"
+}

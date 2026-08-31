@@ -1,0 +1,281 @@
+{
+  "claim_scope": "exact finite 4x4 CTMC matrix audit only; no continuum operator meromorphic-continuation claim",
+  "conventions": {
+    "default_accuracy_tolerance": 1e-08,
+    "green_domain": "finite complex s outside sigma(L0)",
+    "green_method": "finite_free_green_woodbury",
+    "row_generator": true,
+    "state_order": [
+      "(0,0)",
+      "(0,1)",
+      "(1,0)",
+      "(1,1)"
+    ]
+  },
+  "coupled_killed_pole": {
+    "api_rejection_at_exact_pole": {
+      "exception": "ValueError",
+      "message": "hotspot renewal matrix is numerically singular; det(I + G(s) K)=0 (within numerical resolution), so s is a finite killed-generator pole rather than a killed-resolvent point"
+    },
+    "distance_to_free_spectrum": 0.5,
+    "eigenvalue": -2.5,
+    "killed_eigen_residual_inf_norm": 0.0,
+    "near_pole": {
+      "epsilon": 0.0001,
+      "epsilon_times_channel_transform": [
+        {
+          "imag": 0.0,
+          "real": 0.25000312433557
+        },
+        {
+          "imag": 0.0,
+          "real": -0.249996875663663
+        }
+      ],
+      "epsilon_times_total_transform": {
+        "imag": 0.0,
+        "real": 6.24867190723855e-06
+      },
+      "green_accuracy_diagnostic": 2.87946022581309e-09,
+      "green_method": "finite_free_green_woodbury",
+      "max_difference_from_eigenprojector_residue": 3.12433633714582e-06,
+      "s": -2.4999
+    },
+    "normalized_vector": [
+      0.707106781186547,
+      0.0,
+      0.0,
+      -0.707106781186547
+    ],
+    "renewal_determinant": 0.0,
+    "renewal_matrix_at_pole": [
+      [
+        0.533333333333333,
+        0.533333333333333
+      ],
+      [
+        0.533333333333333,
+        0.533333333333333
+      ]
+    ],
+    "renewal_null_residual_inf_norm": 0.0,
+    "renewal_null_vector": [
+      0.707106781186547,
+      -0.707106781186547
+    ],
+    "renewal_smallest_singular_value": 0.0,
+    "restricted_green_at_pole": [
+      [
+        -0.933333333333333,
+        1.06666666666667
+      ],
+      [
+        1.06666666666667,
+        -0.933333333333333
+      ]
+    ],
+    "selector_coupling_l2_norm": 1.0
+  },
+  "dark_shared_mode": {
+    "eigenvalue": -2.0,
+    "free_eigen_residual_inf_norm": 0.0,
+    "interpretation": "shared free/killed eigenmode invisible to U; the restricted determinant is not defined at this free eigenvalue",
+    "killed_eigen_residual_inf_norm": 0.0,
+    "normalized_vector": [
+      0.0,
+      0.707106781186547,
+      -0.707106781186547,
+      0.0
+    ],
+    "selector_coupling_inf_norm": 0.0
+  },
+  "determinant_lemma_checks": [
+    {
+      "absolute_error": 3.97205464519564e-15,
+      "det_sI_minus_L0_times_det_renewal": {
+        "imag": 9.48966096,
+        "real": 17.72163028
+      },
+      "det_sI_minus_T": {
+        "imag": 9.48966096,
+        "real": 17.72163028
+      },
+      "green_accuracy_diagnostic": 2.33511734455872e-15,
+      "green_direct_resolvent_error": 0.0,
+      "s": {
+        "imag": 0.19,
+        "real": 0.37
+      }
+    },
+    {
+      "absolute_error": 2.48020568549724e-15,
+      "det_sI_minus_L0_times_det_renewal": {
+        "imag": 1.78275504,
+        "real": -0.174257719999999
+      },
+      "det_sI_minus_T": {
+        "imag": 1.78275504,
+        "real": -0.174257720000002
+      },
+      "green_accuracy_diagnostic": 3.99680288865056e-15,
+      "green_direct_resolvent_error": 3.99680288865056e-15,
+      "s": {
+        "imag": 0.11,
+        "real": -0.23
+      }
+    }
+  ],
+  "model": {
+    "free_generator": [
+      [
+        -2.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      [
+        1.0,
+        -2.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        -2.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0,
+        1.0,
+        -2.0
+      ]
+    ],
+    "free_spectrum": [
+      -4.0,
+      -2.0,
+      -2.0,
+      0.0
+    ],
+    "killed_generator": [
+      [
+        -2.5,
+        1.0,
+        1.0,
+        0.0
+      ],
+      [
+        1.0,
+        -2.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        -2.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0,
+        1.0,
+        -2.5
+      ]
+    ],
+    "killed_spectrum": [
+      -4.26556443707464,
+      -2.5,
+      -2.0,
+      -0.234435562925362
+    ],
+    "rate_matrix": [
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.0,
+        0.5
+      ]
+    ],
+    "selector": [
+      [
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0
+      ]
+    ],
+    "walker_generator": [
+      [
+        -1.0,
+        1.0
+      ],
+      [
+        1.0,
+        -1.0
+      ]
+    ]
+  },
+  "not_certified": [
+    "continuum Fredholm or meromorphic continuation",
+    "unbounded or trace-space reaction operators",
+    "production-model pole isolation or Jordan structure",
+    "Bromwich inversion or time-domain mode visibility beyond this fixture"
+  ],
+  "residue_cancellation": {
+    "channel_residues": [
+      0.25,
+      -0.25
+    ],
+    "initial_state": [
+      0,
+      0
+    ],
+    "interpretation": "each channel is coupled to the pole, but antisymmetric residues cancel in the summed observable",
+    "minimum_absolute_channel_residue": 0.25,
+    "observable": "total channel flux",
+    "observable_channel_weights": [
+      1.0,
+      1.0
+    ],
+    "total_observable_residue": 0.0
+  },
+  "zero_rate_inverse_free_check": {
+    "channel_transform": [
+      {
+        "imag": 0.0,
+        "real": 0.0
+      },
+      {
+        "imag": -0.289152531843322,
+        "real": -0.380511941588448
+      }
+    ],
+    "direct_resolvent_error": 0.0,
+    "reaction_rates": [
+      0.0,
+      0.5
+    ],
+    "s": {
+      "imag": 0.2,
+      "real": -0.3
+    },
+    "zero_channel_transform": {
+      "imag": 0.0,
+      "real": 0.0
+    }
+  }
+}

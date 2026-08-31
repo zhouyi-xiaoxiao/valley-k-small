@@ -1,0 +1,86 @@
+{
+  "base_contract": {
+    "path": "artifacts/data/continuum_c0_model_contract_candidate_v2.json",
+    "semantic_verification_required": true,
+    "sha256": "688ec0416e414737705631852bb5ecf44530c5fe93e3ca95f3dfdbe8807ead7e"
+  },
+  "claim_boundary": {
+    "complete_c0_independently_accepted": false,
+    "configuration_geometry_checked_for_every_declared_configuration": true,
+    "control_values_committed_for_c0": false,
+    "map_and_gauge_well_definedness_preconditions_explicit": true,
+    "positive_budget_scientific_values_read": false,
+    "production_raw_to_gauged_bridge_proved": false,
+    "raw_mass_positivity_is_ideal_model_precondition_only": true,
+    "release_eligible": false
+  },
+  "frozen_sources": {
+    "base_contract": {
+      "path": "artifacts/data/continuum_c0_model_contract_candidate_v2.json",
+      "sha256": "688ec0416e414737705631852bb5ecf44530c5fe93e3ca95f3dfdbe8807ead7e"
+    },
+    "measure_partition_preconditions": {
+      "path": "artifacts/data/continuum_c0_measure_partition_preconditions_v1.json",
+      "sha256": "652e0b1a1528eebff2f78ae4aae7854412da03ad8d5ad33887c77a072d439d15"
+    }
+  },
+  "measure_and_partition_preconditions": {
+    "configuration_geometry_preconditions": {
+      "actual_tensor_control_volumes_are_measurable": true,
+      "actual_tensor_control_volumes_cover_Omega_L_up_to_null_sets": true,
+      "actual_tensor_control_volumes_pairwise_disjoint_up_to_null_sets": true,
+      "cell_centred_nonperiodic_cells_partition_each_interval": true,
+      "declared_configuration_count": 12,
+      "each_control_volume_has_finite_positive_physical_volume": true,
+      "periodic_cells_include_wrapped_segments_and_partition_the_torus": true,
+      "vertex_dual_nonperiodic_cells_include_positive_endpoint_half_volumes": true
+    },
+    "continuum_measure_preconditions": {
+      "M_L_finite_and_strictly_positive": true,
+      "M_i_pi_formula": "M_i_pi=integral_C_i_pi_dx",
+      "M_i_pi_strictly_positive_for_every_declared_cell": true,
+      "pi_finite_and_strictly_positive_on_every_fixed_box": true
+    },
+    "discrete_mass_preconditions": {
+      "free_graph_connected": true,
+      "g_h_L_finite_and_strictly_positive": true,
+      "g_h_L_formula": "g_h_L=M_L/sum_i_tilde_pi_h_i",
+      "pi_h_i_formula": "pi_h_i=g_h_L*tilde_pi_h_i",
+      "pi_h_i_strictly_positive": true,
+      "sum_i_tilde_pi_h_i_finite_and_strictly_positive": true,
+      "tilde_pi_h_i_strictly_positive_for_every_declared_cell": true
+    },
+    "map_well_definedness_consequences": {
+      "A_h_denominator_nonzero": true,
+      "H_h_is_a_positive_weight_Hilbert_space": true,
+      "P_h_denominator_nonzero": true,
+      "conditional_expectation_E_h_well_defined": true,
+      "exact_adjoint_identity_well_defined": true,
+      "rho_i_finite_and_strictly_positive": true
+    },
+    "schema": "encounter_continuum_c0_measure_partition_preconditions_v1",
+    "status": "FROZEN_C0_WELL_DEFINEDNESS_PRECONDITIONS_ONLY_COMPLETE_C0_FALSE",
+    "verification_boundary": {
+      "complete_c0": false,
+      "geometry_checked_for_every_declared_configuration": true,
+      "positive_budget_scientific_values_read": false,
+      "production_raw_to_gauged_bridge_proved": false,
+      "raw_mass_positivity_is_an_ideal_model_precondition_not_a_production_interval_claim": true,
+      "release_eligible": false
+    }
+  },
+  "schema": "encounter_continuum_c0_model_contract_candidate_v3",
+  "source_policy": {
+    "base_v2_verifier_must_pass": true,
+    "embedded_paths_followed": false,
+    "positive_budget_design_note_opened": false,
+    "scratch_control_or_result_payload_opened": false,
+    "v2_bytes_mutated": false
+  },
+  "status": "HOLD_C0_V3_CANDIDATE_WELL_DEFINEDNESS_EXPLICIT_COMPLETE_C0_AND_GAUGE_BRIDGE_OPEN",
+  "supersession": {
+    "finding": "v2_did_not_explicitly_freeze_partition_and_positive_mass_preconditions",
+    "repair": "versioned_wrapper_adds_machine_checked_well_definedness_preconditions",
+    "v2_retained_as_immutable_base": true
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "claim_boundary": {
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "concrete_killing_constructed": false,
+    "formal_production_bridge_accepted": false,
+    "killing_map_reconstructed": false,
+    "release_eligible": false,
+    "same_correlated_member_certified": false
+  },
+  "configuration_binding": {
+    "authority_join_key": "authority_label",
+    "configuration_count": 12,
+    "geometry_join_key": "configuration_label",
+    "partition_join_rule": "geometry_row_partition_references_must_equal_raw_axis_partition_sha256_for_all_three_coordinates",
+    "semantic_mapping_source": "configuration_semantic_ids",
+    "strict_join_rule": "configuration_label_equals_authority_label_exactly_once_in_each_source"
+  },
+  "geometry_role_binding": {
+    "contact_average_role": "C_ab_cell_average_of_contact_indicator",
+    "contact_record_format": ">dd",
+    "factorized_basis_formula": "H_j[i_M,a,b]=Phi_j[i_M]*C[a,b]",
+    "periodic_normalization_deferred_factor": "W^-1",
+    "profile_average_role": "Phi_jm_cell_average_of_normalized_midpoint_profile",
+    "profile_count": 4,
+    "profile_record_format": ">dd",
+    "tensor_storage_order": "C:midpoint_outer_relative_parallel_middle_relative_perpendicular_inner"
+  },
+  "schema": "encounter_continuum_c2_killing_geometry_production_binding_v1",
+  "source_pins": {
+    "factorization_source": {
+      "path": "artifacts/data/continuum_c1_factorization_source_v1.json",
+      "sha256": "70cb49e63c496d489887c764c812671b03a7352d5752f6663c377734739a1dca"
+    },
+    "geometry_authority": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "member_spec": {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_member_spec_v1.json",
+      "sha256": "e2166e62ae2e5e67a8e3eb058fe4333f59192525ca5614939f417ba285d8d2ef"
+    },
+    "method_registry": {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_outward_method_registry_v1.json",
+      "sha256": "ac00450edf826029b157a98ad2835592630c07b2a75334c25d8d1232a4fe69c3"
+    },
+    "production_geometry_bundle": {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/bundle.json",
+      "sha256": "f29c29360f3d7db58694aeaeddc7cae8e1eaaac25d8ce6d5792a9ebacf455684"
+    },
+    "production_initial_bundle": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    "two_repeat_outer_receipt": {
+      "path": "artifacts/data/physical_production_killing_geometry_two_repeat_outer_receipt_v1.json",
+      "sha256": "d635dfb7dd24fc15731dfd69e20264a5515c3bf82b92569a58cd2bed3264fcd9"
+    }
+  },
+  "status": "FROZEN_KILLING_GEOMETRY_SOURCE_BINDING_ONLY_NO_CONCRETE_KILLING_NO_SAME_MEMBER"
+}

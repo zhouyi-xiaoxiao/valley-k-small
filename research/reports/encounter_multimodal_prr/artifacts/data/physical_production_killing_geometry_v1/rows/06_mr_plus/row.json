@@ -1,0 +1,314 @@
+{
+  "configuration_index": 6,
+  "configuration_label": "MR+",
+  "contact_fraction_relative": {
+    "active_cell_count": 424,
+    "area_enclosure_exact": {
+      "lower_exact": "289545974404704536173565469266441995/3600208834286586106932332892272984064",
+      "upper_exact": "2316367795237652477276543882270459755/28801670674292688855458663138183872512"
+    },
+    "file": {
+      "byte_length": 355008,
+      "path": "rows/06_mr_plus/contact_fraction_relative.be64",
+      "sha256": "b1312b8509a5db3d29b479522e882dfc55091f9d1d0116ad521578a7a45b60e8"
+    },
+    "full_cell_count": 318,
+    "manifest": {
+      "byte_order": "big",
+      "logical_shape": [
+        172,
+        129
+      ],
+      "raw_byte_length": 355008,
+      "raw_sha256": "b1312b8509a5db3d29b479522e882dfc55091f9d1d0116ad521578a7a45b60e8",
+      "record_count": 22188,
+      "record_format": ">dd",
+      "role": "physical_contact_fraction_relative",
+      "schema": "encounter_big_endian_binary64_interval_file_v1"
+    },
+    "quality_ledger": {
+      "aggregate_contains_analytic_enclosure": true,
+      "aggregate_width_exact": "16187888020128138923795/28801670674292688855458663138183872512",
+      "aggregate_width_over_radius_squared_cap_exact": "1/10000000000",
+      "aggregate_width_over_radius_squared_exact": "3237577604025627784759/147464553852378573079393717879514460",
+      "analytic_area_enclosure_exact": {
+        "lower_exact": "2897607783230849/36028797018963968",
+        "upper_exact": "5795215566461699/72057594037927936"
+      },
+      "analytic_area_precision_bits": 256,
+      "analytic_width_exact": "1/72057594037927936",
+      "analytic_width_over_radius_squared_cap_exact": "1/1000000000000",
+      "analytic_width_over_radius_squared_exact": "18014398509481984/33230699894622898206100982035225",
+      "backend": "gmpy2_mpfr_same_backend_as_producer_core",
+      "independent_backend": false,
+      "separately_directed_formula": "pi*radius_exact^2"
+    },
+    "relation_sha256": "fcd775eb5f86efcad962356e50d3453b289fc83d13d637111fa27a2e33e0d9ab"
+  },
+  "expected_states": 3683208,
+  "factorization_contract_sha256": "de42fefbfc163fdcffd573d49d1156d761341c78b3756903755579dc8e9b23af",
+  "flags": {
+    "authorizes_scientific_execution": false,
+    "concrete_killing_constructed": false,
+    "contact_fraction_geometry_producer_consistent": true,
+    "contains_budget_value": false,
+    "contains_control_values": false,
+    "continuum_verified": false,
+    "f0_pass": false,
+    "full_operator_bound": false,
+    "independent_killing_geometry_replay": false,
+    "killing_geometry_bound": true,
+    "positive_budget_executed": false,
+    "producer_consistent_control_free_killing_geometry": true,
+    "production_resource_gate": false,
+    "propagation_executed": false,
+    "same_core_producer_consistency_only": true,
+    "science_executed": false,
+    "single_physical_operator_bound": false,
+    "support_density_basis_producer_consistent": true,
+    "topology_complete": false
+  },
+  "gates": {
+    "analytic_disk_area_anchor_is_contained_and_quality_capped": true,
+    "contact_area_enclosure_is_positive_and_domain_bounded": true,
+    "contact_area_overlaps_direct_core_domain_enclosure": true,
+    "contact_fraction_intervals_are_canonical_and_in_unit_range": true,
+    "geometrically_full_contact_cells_are_exact_unit_intervals": true,
+    "partition_bytes_match_same_core_exact_reconstruction": true,
+    "support_centres_are_strictly_distinct_and_pairwise_disjoint": true,
+    "support_density_intervals_are_canonical_and_nonnegative": true,
+    "support_integral_enclosures_contain_analytic_unit_mass": true,
+    "support_integral_widths_pass_predeclared_cap": true,
+    "support_ranges_are_strictly_inside_midpoint_domain": true
+  },
+  "partition_source": {
+    "bundle_manifest_sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e",
+    "bundle_row_manifest": {
+      "byte_length": 12047,
+      "path": "rows/06_mr_plus/row.json",
+      "sha256": "74237cb9f22eb319f61f42aca1ff7dcd1566d503938b2f2f22a5f639e13d7313"
+    },
+    "bundle_row_relation_sha256": "3ce81b792b065e8d215f5145b391c5361cd1c9bda19648ae77dde1a505efe92d",
+    "partitions": [
+      {
+        "axis_relation_sha256": "dcc3b60f6c80d6327719f9c296d7d84a201f499db907e5123b97bca230c10ed8",
+        "coordinate": "midpoint",
+        "file": {
+          "byte_length": 36350,
+          "path": "rows/06_mr_plus/midpoint.partition.json",
+          "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714"
+        }
+      },
+      {
+        "axis_relation_sha256": "8b541ffed1124e7bc9be3270118a561967404b33cd165c8d671fa19ec294aec9",
+        "coordinate": "relative_parallel",
+        "file": {
+          "byte_length": 37020,
+          "path": "rows/06_mr_plus/relative_parallel.partition.json",
+          "sha256": "28faea90b701a889d43293c1a7d17e008356d1598117562498bf781eb6fc641d"
+        }
+      },
+      {
+        "axis_relation_sha256": "9b38fe12ec779c65665789d1cd5d7196c88129854954d89ef84d7e57b072384a",
+        "coordinate": "relative_perpendicular",
+        "file": {
+          "byte_length": 12123,
+          "path": "rows/06_mr_plus/relative_perpendicular.partition.json",
+          "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+        }
+      }
+    ]
+  },
+  "row_relation_sha256": "371a0de921aa76fe0fbec6e1939286828d673c800f49feee571939ee098418eb",
+  "schema": "encounter_control_free_production_killing_geometry_row_v1",
+  "shape": [
+    166,
+    172,
+    129
+  ],
+  "source_pins": {
+    "configuration": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "f0_core": {
+      "path": "code/rate_defined_tensor_f0.py",
+      "sha256": "321f12aa8a5df44ca9c9162704cccd0f2c526abf9577832b4824538b0afdb8e5"
+    },
+    "killing_geometry_source": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "partition_bundle_manifest": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    "producer": {
+      "path": "code/rate_defined_tensor_f0_production_killing_geometry.py",
+      "sha256": "2cada45143914edf1142daf6a5b7a8b5367757c664855dd6d836e7f43935dd9b"
+    },
+    "production_initial_stream": {
+      "path": "code/rate_defined_tensor_f0_production_initial_stream.py",
+      "sha256": "2871976855a0c598b26b8d83b33f4ea3a027a2c826ccdb2ad9b678761093e6cb"
+    }
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NO_CONCRETE_KILLING_NOT_FULL_OPERATOR_NOT_F0",
+  "support_densities": [
+    {
+      "centre_binary64_hex": "0x1.6666666666666p-2",
+      "centre_exact": "3152519739159347/9007199254740992",
+      "file": {
+        "byte_length": 2656,
+        "path": "rows/06_mr_plus/midpoint_support_density_00.be64",
+        "sha256": "9f95d7e2aea474824b25f6f335dcfd083ba8f5482e771f1d72221633a15e99cb"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "27581480912530825631330089711236554421/27581480912537004362753996500817149952",
+        "upper_exact": "220651847300345445717259525902429129811/220651847300296034902031972006537199616"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          166
+        ],
+        "raw_byte_length": 2656,
+        "raw_sha256": "9f95d7e2aea474824b25f6f335dcfd083ba8f5482e771f1d72221633a15e99cb",
+        "record_count": 166,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_00",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 0,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "98840666618808212536694443/220651847300296034902031972006537199616",
+        "midpoint_domain_lower_exact": "-2476979795053773/4503599627370496",
+        "midpoint_domain_upper_exact": "4841369599423283/2251799813685248",
+        "support_lower_exact": "44675708303515317/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "56204923349583787/144115188075855872"
+      },
+      "relation_sha256": "e57504916898150a1a878617a6dad5f4f10146821445c7fa6b388e8b5b5d5a5c"
+    },
+    {
+      "centre_binary64_hex": "0x1.3333333333333p-1",
+      "centre_exact": "5404319552844595/9007199254740992",
+      "file": {
+        "byte_length": 2656,
+        "path": "rows/06_mr_plus/midpoint_support_density_01.be64",
+        "sha256": "9a746f74231bbcc909593dc999b73c52227bae9f3d54e0150489c4775b90ff58"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "1723842557033176506863808197591802273/1723842557033562772672124781301071872",
+        "upper_exact": "6895370228135795553596755651155403647/6895370228134251090688499125204287488"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          166
+        ],
+        "raw_byte_length": 2656,
+        "raw_sha256": "9a746f74231bbcc909593dc999b73c52227bae9f3d54e0150489c4775b90ff58",
+        "record_count": 166,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_01",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 1,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "3089526141522860788194555/6895370228134251090688499125204287488",
+        "midpoint_domain_lower_exact": "-2476979795053773/4503599627370496",
+        "midpoint_domain_upper_exact": "4841369599423283/2251799813685248",
+        "support_lower_exact": "80704505322479285/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "92233720368547755/144115188075855872"
+      },
+      "relation_sha256": "e967fd966b574a433d0966d01becbc2cb68b9a1a8c41728bedc365d0b878acf6"
+    },
+    {
+      "centre_binary64_hex": "0x1.8000000000000p-1",
+      "centre_exact": "3/4",
+      "file": {
+        "byte_length": 2656,
+        "path": "rows/06_mr_plus/midpoint_support_density_02.be64",
+        "sha256": "325d481bcdee86511c7cd5a0daacb3644181ac32a988a970f175c23fb81ccf2a"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "26935039953643384689936094746269699/26935039953649418323001949707829248",
+        "upper_exact": "6733759988413862716052943752490443/6733759988412354580750487426957312"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          166
+        ],
+        "raw_byte_length": 2656,
+        "raw_sha256": "325d481bcdee86511c7cd5a0daacb3644181ac32a988a970f175c23fb81ccf2a",
+        "record_count": 166,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_02",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 2,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "12066174275680263692073/26935039953649418323001949707829248",
+        "midpoint_domain_lower_exact": "-2476979795053773/4503599627370496",
+        "midpoint_domain_upper_exact": "4841369599423283/2251799813685248",
+        "support_lower_exact": "102321783533857669/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "113850998579926139/144115188075855872"
+      },
+      "relation_sha256": "eeaef640fba1673c7e3871ed04c51770eda19ec605a9075aba580c8fd4c263c6"
+    },
+    {
+      "centre_binary64_hex": "0x1.ccccccccccccdp-1",
+      "centre_exact": "8106479329266893/9007199254740992",
+      "file": {
+        "byte_length": 2656,
+        "path": "rows/06_mr_plus/midpoint_support_density_03.be64",
+        "sha256": "dc89ba403342d56c8cd758dab88d84a7e7f09e3c005bd6722f3bcc99780bfee1"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "107740159814573533251391674748225229/107740159814597673292007798831316992",
+        "upper_exact": "26935039953655452724648781076713639/26935039953649418323001949707829248"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          166
+        ],
+        "raw_byte_length": 2656,
+        "raw_sha256": "dc89ba403342d56c8cd758dab88d84a7e7f09e3c005bd6722f3bcc99780bfee1",
+        "record_count": 166,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_03",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 3,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "48277647203449558629327/107740159814597673292007798831316992",
+        "midpoint_domain_lower_exact": "-2476979795053773/4503599627370496",
+        "midpoint_domain_upper_exact": "4841369599423283/2251799813685248",
+        "support_lower_exact": "123939061745236053/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "135468276791304523/144115188075855872"
+      },
+      "relation_sha256": "2cc11cbc361d590ecc93fb2fb446a4d41c4c074da07b4b9c8362c42ce16fc5bb"
+    }
+  ]
+}

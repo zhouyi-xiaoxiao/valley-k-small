@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "stage": "G1d_post_result_single_segment_finite_grid_fold_confirmation",
+  "status": "FROZEN_BEFORE_G1D_RUN",
+  "frozen_utc": "2026-07-13T18:00:00Z",
+  "claim_scope": "one result-informed finite-grid fold on the frozen G1 family; never continuum or project-gate evidence",
+  "execution_amendments_before_first_result": [
+    "The first attempt produced no result artifact because np.arange accumulation failed the inherited strict uniform-grid check. The side grid is now constructed as spacing times an integer index; all physical parameters, candidate selection, numerical tolerances, and scientific acceptance gates are unchanged.",
+    "The inherited helper still re-inferred decimal spacing from adjacent binary floats and rejected 0.02. Before any result artifact existed, G1d added a local chunk evaluator whose uniform grid is defined by frozen integer ticks times 0.02. Exponential chunk durations use the same integer ticks; all scientific settings remain unchanged."
+  ],
+  "selected_segment": {
+    "selection_rule": "maximize minimum interpolated weight; then minimize endpoint extremum-time separation; then lexicographic endpoints",
+    "left_control_id": "w_02_00_08",
+    "right_control_id": "w_02_01_07",
+    "left_weights": [0.2, 0.0, 0.8],
+    "right_weights": [0.2, 0.1, 0.7],
+    "parameterization": "w(lambda)=(0.2,0.1 lambda,0.8-0.1 lambda)",
+    "g1c_seed_control": 0.680921303950179,
+    "g1c_seed_weights": [0.2, 0.06809213039501791, 0.7319078696049821]
+  },
+  "solve": {
+    "initial_guess": [10.5, 0.68],
+    "time_bounds": [8.0, 14.0],
+    "control_bounds": [0.45, 0.9],
+    "maximum_iterations": 12,
+    "newton_scaled_residual_tolerance": 1e-11,
+    "state_and_control_sensitivity": "exact augmented sparse exponential",
+    "jacobian": "exact fold jet"
+  },
+  "side_topology": {
+    "control_offset": 0.02,
+    "analysis_start": 3.0,
+    "stop": 18.0,
+    "spacing": 0.02,
+    "points": 901,
+    "chunk_points": 51,
+    "root_absolute_tolerance": 5e-10,
+    "root_relative_tolerance": 1e-12
+  },
+  "finite_difference_check": {
+    "steps": [0.001, 0.0005],
+    "method": "centered control differences at the confirmed fold time"
+  },
+  "acceptance": {
+    "maximum_scaled_fold_residual": 1e-9,
+    "minimum_weight": 0.02,
+    "minimum_abs_scaled_f_ttt": 0.001,
+    "minimum_abs_scaled_f_tlambda": 0.001,
+    "minimum_abs_dimensionless_jacobian_determinant": 0.0001,
+    "maximum_finite_difference_relative_error": 0.0002,
+    "required_side_root_counts": [1, 3],
+    "required_three_root_topology": ["maximum", "minimum", "maximum"]
+  },
+  "outcome_policy": {
+    "pass_status": "PASS_FINITE_GRID_FOLD_ONLY",
+    "fail_status": "FAIL_G1D_FOLD_CONFIRMATION",
+    "continuum_verified_always_false": true,
+    "project_gate_passed_always_false": true,
+    "maximum_confirmation_segments": 1,
+    "retuning_after_result_forbidden": true
+  },
+  "pinned_inputs": {
+    "g1c_result_sha256": "cce1e34c599564dc932da6af4d4146c2c396836990e9b51414fc2f843e123bb4",
+    "g1c_manifest_sha256": "543ee21928cf009867bd194d3bb2f6929a3557458733c50ff613c2f664f1d593",
+    "topology_review_sha256": "ec25be8159d7d28c73f758a9545731cef44621abd12aa5d4ef2789305c8c1870",
+    "protocol_sha256": "572ca5b9b18fc614bf45811c02700c5fa62d57e969181ce4c7c5c02099c1ff4c",
+    "runner_sha256": "5fa43e9482e5ee60cd5fb5c19427b1e749b750116f0861f5277e9fe1be46f3ec"
+  }
+}

@@ -1,0 +1,1653 @@
+%% ---------------------------------------------------------------------------
+%% Prescribed finite-window reaction-time modality by conserved-budget
+%% support design.
+%%
+%% Single self-contained submission draft for
+%% Journal of Physics A: Mathematical and Theoretical (IOP Publishing).
+%%
+%% Converted from the two-file APS RevTeX package
+%%   encounter_multimodal_prr_submission.tex            (main text)
+%%   + exact_m_theorem_spine.tex                        (\input)
+%%   encounter_multimodal_prr_submission_supplement.tex (Supplemental Material)
+%%   + exact_m_theorem_full_proof.tex                   (\input)
+%% into ONE document: the former separate Supplemental Material file is now
+%% appendices A-C of this article.  Accordingly there is no separate SM, the
+%% SM placeholder bibliography entry has been dropped from references.bib,
+%% and no citation to it remains anywhere in the text.
+%%
+%% Class: iopjournal.cls, IOP Publishing's current official LaTeX class
+%% (2025 template, https://publishingsupport.iopscience.iop.org/questions/latex-template/).
+%% It supersedes the older iopart.cls, which IOP no longer distributes.
+%% Bibliography style: iopart-num (IOP numeric).
+%%
+%% Build:  latexmk -pdf encounter_multimodal_jpa.tex
+%% ---------------------------------------------------------------------------
+
+\documentclass{iopjournal}
+
+% Options available in this class:
+%   [anonymous]  suppress author names, affiliations and acknowledgments
+%                for double-anonymous peer review.
+
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{microtype}
+
+% hyperref is loaded by iopjournal.cls; only adjust its settings here.
+\hypersetup{
+  pdftitle={Prescribed finite-window reaction-time modality by conserved-budget support design},
+  pdfauthor={Xiaoxiao Zhouyi},
+  pdfsubject={Exact finite-modality theorem for Doi encounter reactions},
+  pdfkeywords={encounter reaction, reaction-time density, multimodality, conserved reactivity, Doi model}
+}
+
+%% ---- shared macros (union of the four source files) -----------------------
+\newcommand{\dd}{\mathrm d}
+\newcommand{\e}{\mathrm e}
+\newcommand{\Lfree}{\mathcal L}
+\newcommand{\Qbox}{\mathcal Q_d^{\mathrm{box}}}
+\newcommand{\Qinf}{\mathcal Q_d^{\infty}}
+
+%% ---- theorem environments, defined once for the whole document ------------
+%% One shared counter; plain numbering in the main text (Theorem 1), and
+%% section-qualified numbering inside the appendices (Lemma C.1, ...).
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+%% ---- section-number prefix, so that appendix headings read "Appendix A" ---
+%% \secprefix is empty in the main text and set to "Appendix~" after \appendix.
+%% Only \section-level headings are prefixed, so subsections stay "C.1" and
+%% equation numbers stay "(C.1)".
+\makeatletter
+\newcommand{\secprefix}{}
+\renewcommand{\@seccntformat}[1]{%
+  \expandafter\ifx\csname #1\endcsname\section\secprefix\fi
+  \csname the#1\endcsname\quad}
+\makeatother
+
+\date{\today}
+
+\begin{document}
+
+\articletype{Paper}
+
+\title{Prescribed finite-window reaction-time modality by conserved-budget
+support design}
+
+% ORCID: https://orcid.org/0009-0003-7118-9621
+\author{Xiaoxiao Zhouyi\orcid{0009-0003-7118-9621}}
+
+\affil{School of Engineering Mathematics and Technology, University of Bristol,
+Bristol BS8 1TW, United Kingdom}
+
+\email{xiaoxiao.zhouyi@bristol.ac.uk}
+
+\keywords{encounter reaction, reaction-time density, multimodality,
+conserved reactivity, Doi model}
+
+\begin{abstract}
+Can a fixed amount of spatial reactivity be arranged to prescribe the
+finite-window topology of an encounter-reaction-time density?  We answer this
+existence question for a Doi encounter process.  For every fixed finite
+physical dimension \(d\ge2\), prescribed fixed finite integer \(m\), and
+compact family of interior catalyst weights, an \(m\)-dependent design of
+ordered narrow catalyst slabs along a monotone exposure trajectory produces
+exactly \(m\) nondegenerate maxima and \(m-1\) nondegenerate minima on a
+declared compact positive-time window.  A global zero bound for the separated
+Gaussian exposure clocks, a whole-window complement certificate, and
+compact-positive-time mixed-jet convergence transfer the complete stationary
+signature to the positive-budget killed process.  The construction first
+fixes a sufficiently small noise-and-width scale and only then takes a
+sufficiently small installed reactivity budget.  It is deliberately
+nonuniform: the geometry and admissible scales may depend on \(d\) and \(m\),
+and no useful budget threshold, event-mass floor, or stationary-point count
+outside the declared window is obtained.  The theorem therefore establishes
+prescribed finite modality under a conserved spatial resource without
+asserting a particular finite-parameter two-dimensional realization.
+\end{abstract}
+
+\vspace{3mm}
+\noindent{\fontsize{8}{10}\selectfont\raggedright
+{\bfseries Draft compiled:} \today}\vspace{2mm} % placeholder date, replace at submission
+
+\section{Introduction}
+\label{sec:introduction}
+
+First-passage and reaction-time densities may develop several peaks when
+distinct trajectory families reach a reactive region on separated time
+scales \cite{godecMetzler2017twochannel,
+grebenkovMetzlerOshanin2018defocusing}.  Continuum trap placement can alter
+capture-time topology \cite{lindsaySpoonmoreTzou2016narrow}, and
+two-particle encounter laws in physical dimensions two and three show related
+multirate mechanisms \cite{leVotEtAl2022encounter,giuggioli2020confined,
+giuggioliEtAl2024multitarget}.  Spatially heterogeneous absorption and
+fixed-total-reactivity optimization are also well established
+\cite{nguyenGrebenkov2010porous,grebenkov2019heterogeneous,
+nicolaouMulder2023flux}.  Here we ask a narrower existence question: can the
+finite-window timing topology of a two-particle reaction be prescribed by
+support design while the installed amount of static reactivity remains fixed?
+
+The fact that a univariate mixture of \(m\) Gaussian components has at most
+\(m\) modes is classical \cite{carreiraPerpinanWilliams2003modes,
+amendolaEngstromHaase2020modes}; that upper bound is not our contribution.
+The issue for an encounter process is to construct every stationary point
+with a strict margin, exclude additional stationary points throughout a
+declared time window after the contact factor is included, and carry the
+complete signature from free exposure to a killed Doi law.
+
+We prove that this can be done for every prescribed fixed finite \(m\) in
+every fixed finite dimension \(d\ge2\).  The supports, contact geometry,
+transport, initial law, and total installed centre-space reactivity are fixed
+within each constructed family.  All interior allocations in that family
+share the same alternating signature.  Thus the result concerns
+support-geometry design under a conserved budget; it is not a statement that
+one fixed support family switches among different mode counts when its
+weights are reallocated.
+
+The Doi killing representation, the associated reactivity-times-occupancy
+identity, and Gaussian-mixture mode bounds are prior ingredients
+\cite{doi1976stochastic,isaacsonMauroNewby2016uniform,
+pruestelMeierSchellersheim2014area,bressloff2022feynmanKac}.  The new content
+is their margin-bearing combination: a separated-clock construction with a
+global zero count, a uniform whole-window sign certificate, stability under
+the slowly varying contact probability, and a positive-budget transfer of
+the full finite stationary signature.  The result concerns a transient
+density under static spatial allocation and is distinct from universal
+mean-first-passage response to rare activation
+\cite{keidarReuveni2026linear}.
+
+This article is self-contained.  Sections~\ref{sec:model}--\ref{sec:transfer}
+fix the model and the positive-time transfer estimate,
+section~\ref{sec:exact-m-spine} states the modality theorem and explains its
+mechanism, and sections~\ref{sec:finite-scope}--\ref{sec:discussion} set out
+the scope.  The analytic realizations of the generator, the mixed-jet bound
+with its explicit constant, and the complete proof of the theorem are given
+in appendices~\ref{app:doi-model}--\ref{app:full-proof}.
+
+\section{Conserved-reactivity encounter model}
+\label{sec:model}
+
+Let \(q(x,t)\) be the unreacted configuration density of two mobile
+particles, with conservative generator \(\mathcal L\).  Write \(r\) for the
+relative coordinate and \(c\) for an encounter-centre coordinate.  For a
+fixed contact profile \(\chi_a(r)\) and normalized nonnegative centre-space
+profiles \(\phi_j(c)\), define
+\begin{align}
+ \kappa_{\bm w}(c)&=B\sum_{j=1}^{J}w_j\phi_j(c),
+ &w_j&\ge0,\nonumber\\
+ \sum_jw_j&=1,
+ &\int\phi_j(c)\,\dd c&=1,\nonumber\\
+ K_{B,\bm w}(x)&=\chi_a(r)\kappa_{\bm w}(c).
+ \label{eq:budget-field}
+\end{align}
+Every admissible allocation has the same installed centre-space resource,
+\begin{equation}
+ \int\kappa_{\bm w}(c)\,\dd c=B.
+ \label{eq:conserved-budget}
+\end{equation}
+This is not an integral over the complete two-particle configuration space.
+The killed evolution, reaction-time density, and survival probability are
+\begin{align}
+ \partial_tq_{B,\bm w}&=(\mathcal L-K_{B,\bm w})q_{B,\bm w},
+ &q_{B,\bm w}(0)&=q_0,\nonumber\\
+ f_{B,\bm w}(t)&=\langle K_{B,\bm w},q_{B,\bm w}(t)\rangle,
+ &-S'_{B,\bm w}(t)&=f_{B,\bm w}(t).
+ \label{eq:killed-law}
+\end{align}
+Equation~\eqref{eq:killed-law} is the usual mass balance for a Doi
+volume-reaction process, not a novelty claim.
+
+For longitudinal catalyst slabs, translation invariance of the common
+transverse coordinate gives an exact quotient
+\begin{equation}
+ \Omega_\infty
+ =\mathbb R_z\times\mathbb R_{r_\parallel}\times
+   \mathbb T_W^{d-1}.
+ \label{eq:quotient}
+\end{equation}
+In the construction below the midpoint \(Z_t\) moves monotonically in mean,
+the relative process remains a positive distance inside the contact region
+along its deterministic trajectory on the chosen window, and each normalized
+slab is centred at the midpoint mean at a target time.  The
+\(W^{-(d-1)}\) factor in the killing field accounts for the omitted common
+transverse directions and preserves Eq.~\eqref{eq:conserved-budget}.
+Appendix~\ref{app:doi-model} records the bounded reflecting/periodic and
+unbounded natural-decay realizations of this quotient together with the
+analyticity and positivity properties of the killed semigroup that the
+transfer estimate uses.
+
+\section{Positive-time transfer}
+\label{sec:transfer}
+
+Write \(K_{B,\bm w}=BV_{\bm w}\) and introduce interior affine control
+coordinates \(\bm w(\bm\theta)=\bar{\bm w}+P\bm\theta\).  The normalized
+reaction density and the free-exposure law are
+\begin{equation}
+ F_B(t,\bm\theta)=B^{-1}f_{B,\bm w(\bm\theta)}(t),
+ \qquad
+ G(t,\bm\theta)=
+ \langle V_{\bm w(\bm\theta)},\e^{t\mathcal L}q_0\rangle.
+ \label{eq:normalized-exposure}
+\end{equation}
+On either a bounded reflecting/periodic quotient or the reversible
+natural-decay realization of Eq.~\eqref{eq:quotient}, assume \(q_0\) belongs
+to the corresponding state space and \(V_{\bm w}\) is bounded on a complex
+control neighbourhood of a compact interior control set.  A
+Dyson expansion followed by time and control Cauchy estimates gives, for
+every fixed time order \(r\) and finite control multi-index \(\alpha\),
+\begin{equation}
+ \sup_{(t,\bm\theta)\in[\tau,T]\times\Theta}
+ \left|
+ \partial_t^r\partial_{\bm\theta}^{\alpha}(F_B-G)
+ \right|
+ \le C_{r,\alpha,\tau,T,\Theta}B.
+ \label{eq:mixed-jet}
+\end{equation}
+Appendix~\ref{app:mixed-jet} gives the explicit constant and the proof.  In
+particular, \(C^2\) convergence on a compact positive-time window preserves
+disjoint stationary-point neighbourhoods, curvature signs, endpoint slopes,
+and a nonzero derivative margin on their complement.  The estimate is local
+in positive time and provides neither a useful numerical value of \(B\) nor
+control on the scale \(t=O(B^{-1})\).
+
+\section{Prescribed finite modality from separated exposure clocks}
+\label{sec:exact-m-spine}
+
+The conserved-budget support construction admits encounter processes with any
+prescribed \emph{fixed finite} number of reaction-time modes.  We state this
+existence result in an exact quotient of a two-particle Doi process; the
+construction depends on the prescribed dimension and mode count and does not
+assert mode-count switching by weight redistribution on one fixed support.
+
+Fix finite $d\ge2$, finite $m\ge1$, a transverse period $W>0$, a contact
+radius $0<a<W/2$, positive scales $\ell_0,\rho>0$, and a compact interval
+$I=[\tau,T]\subset(0,\infty)$.
+On $\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}$, consider the
+independent midpoint and relative processes
+
+\begin{equation}
+ \begin{aligned}
+ dZ_t&=-\gamma(Z_t-\bar z)\,dt
+       +\varepsilon\sqrt{D_0}\,dW_t,\\
+ dR_{\parallel,t}&=-\gamma R_{\parallel,t}\,dt
+       +2\varepsilon\sqrt{D_0}\,dW_{\parallel,t},\\
+ dR_{\perp,t}&=2\varepsilon\sqrt{D_0}\,dW_{\perp,t}\pmod W.
+ \end{aligned}
+ \label{eq:exact-m-process}
+\end{equation}
+
+The mutually independent initial laws satisfy
+
+\begin{equation}
+ \begin{aligned}
+ Z_0&\sim N\!\left(z_0,\varepsilon^2D_0/(2\gamma)\right),\\
+ R_{\parallel,0}&\sim N(r_{\parallel,0},\varepsilon^2u_0^2),\\
+ R_{\perp,0}&\sim
+ \operatorname{WN}(r_{\perp,0},\varepsilon^2\Sigma_{\perp,0}),
+ \end{aligned}
+ \qquad
+ \begin{gathered}
+ D_0,\gamma,u_0>0,\quad z_0\ne\bar z,\\
+ u_0^2<4D_0/\gamma,\quad \Sigma_{\perp,0}\succ0.
+ \end{gathered}
+ \label{eq:exact-m-initial}
+\end{equation}
+
+Here $\operatorname{WN}$ is the wrapped Gaussian on
+$\mathbb T_W^{d-1}$, $\Sigma_{\perp,0}$ is a positive-definite
+$(d-1)\times(d-1)$ covariance matrix, and $|r|_{\rm mi}$ is the Euclidean norm
+of the longitudinal relative coordinate together with the shortest transverse
+representatives modulo $W$.
+
+All driving Brownian motions are also independent.  Thus
+$\mu(t)=\bar z+(z_0-\bar z)e^{-\gamma t}$ is strictly monotone and
+$\operatorname{Var}Z_t=\varepsilon^2D_0/(2\gamma)$.  Under the minimum-image
+convention, assume the deterministic relative trajectory
+$r_*(t)=(r_{\parallel,0}e^{-\gamma t},r_{\perp,0})$ obeys
+$\sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta$ for some $\eta>0$.
+
+Choose target times
+
+\begin{equation}
+ \begin{aligned}
+  &\tau<t_1<\cdots<t_m<T,\qquad c_j=x(t_j),\\
+  &x(t)=\frac{\operatorname{sgn}(\mu')\mu(t)}{\ell_0},
+ \end{aligned}
+ \label{eq:exact-m-centres}
+\end{equation}
+
+so that $x'(t)$ is bounded away from zero.  At the corresponding physical
+centres, place normalized Gaussian catalyst slabs of width
+$\varepsilon\rho$.  Their nonnegative weights belong to a compact subset of
+the simplex,
+
+\begin{equation}
+ \mathcal W_{w_*}
+ =\left\{\bm w:\
+   \substack{\sum_{j=1}^{m}w_j=1,\\ w_j\ge w_*>0}\right\},
+ \qquad 0<w_*\le\frac1m,
+ \label{eq:exact-m-simplex}
+\end{equation}
+
+and define
+
+\begin{equation}
+ \begin{aligned}
+ \phi_{j,\varepsilon}(z)
+ &=\frac{\exp[-(z-\mu(t_j))^2/(2\varepsilon^2\rho^2)]}
+        {\sqrt{2\pi}\,\varepsilon\rho},\\
+ K_{B,\bm w,\varepsilon}(Z,R)
+ &=\bm1_{\{|R|_{\rm mi}<a\}}\frac{B}{W^{d-1}}
+   \sum_{j=1}^{m}w_j\phi_{j,\varepsilon}(Z).
+ \end{aligned}
+ \label{eq:exact-m-killing}
+\end{equation}
+
+The slab normalization makes $B$ the same installed centre-space budget for
+every allocation.  Set $K_{B,\bm w,\varepsilon}=B V_{\bm w,\varepsilon}$,
+and let $T_0(t)$ and $q_0$ denote the unkilled semigroup and initial law.  Then
+
+\begin{equation}
+ \begin{aligned}
+ G_{\varepsilon,\bm w}(t)
+ &=B^{-1}\mathbb E_0[K_{B,\bm w,\varepsilon}(Z_t,R_t)]
+ =\langle V_{\bm w,\varepsilon},T_0(t)q_0\rangle,\\
+ f_{B,\varepsilon,\bm w}(t)
+ &=\mathbb E_0\!\left[K_{B,\bm w,\varepsilon}(Z_t,R_t)
+  e^{-\int_0^tK_{B,\bm w,\varepsilon}(Z_s,R_s)\,ds}\right].
+ \end{aligned}
+ \label{eq:exact-m-observables}
+\end{equation}
+
+The expectation $\mathbb E_0$ is with respect to the unkilled process started
+from Eq.~\eqref{eq:exact-m-initial}.  Independence gives the exact
+factorization
+
+\begin{align}
+ G_{\varepsilon,\bm w}(t)
+ &=A_\varepsilon(t)H_{\sigma,\bm w}(x(t)),\nonumber\\
+ A_\varepsilon(t)
+ &=\frac{c_{d,\varepsilon}(t)}
+ {W^{d-1}\sqrt{2\pi}\,\varepsilon
+  \sqrt{D_0/(2\gamma)+\rho^2}},
+ \label{eq:exact-m-factorization}
+\end{align}
+
+where $c_{d,\varepsilon}(t)=
+\mathbb P_0(|R_t|_{\rm mi}<a)$ and $H_{\sigma,\bm w}$ is defined below.
+
+\begin{theorem}[Exact prescribed finite modality]
+\label{thm:main-modality}
+Fix finite $d\ge2$, finite $m\ge1$, the data above, and the compact window
+$I$.  There is $\varepsilon_0>0$ such that, for every
+$0<\varepsilon<\varepsilon_0$ and every
+$\bm w\in\mathcal W_{w_*}$, the unit-budget free-exposure clock has exactly
+$m$ nondegenerate maxima and $m-1$ nondegenerate minima on $I$, ordered
+alternately, and no stationary endpoint.  For each fixed such
+$\varepsilon$, there is $B_0(\varepsilon)>0$, uniform over
+$\mathcal W_{w_*}$, such that the budget-rescaled Doi reaction-time density
+$f_{B,\varepsilon,\bm w}/B$ has the same complete stationary signature for
+every $0<B<B_0(\varepsilon)$.  Multiplication by $B$ leaves the stationary
+points unchanged, so the conclusion also holds for the physical density
+$f_{B,\varepsilon,\bm w}$.
+\end{theorem}
+
+\noindent
+Theorem~\ref{thm:main-modality} is proved in
+appendix~\ref{app:full-proof}, where it is restated with its complete
+hypothesis list as theorem~\ref{thm:exactmfull-doi}.  The remainder of this
+section explains the mechanism.
+
+The mechanism can be seen without invoking a normal form.  Gaussian
+convolution reduces the longitudinal part of the unit-budget exposure to
+
+\begin{equation}
+ \begin{aligned}
+  H_{\sigma,\bm w}(x)
+  &=\sum_{j=1}^{m}w_j
+    \exp\!\left[-\frac{(x-c_j)^2}{2\sigma^2}\right],\\
+  \sigma&=\frac{\varepsilon}{\ell_0}
+  \sqrt{\frac{D_0}{2\gamma}+\rho^2}.
+ \end{aligned}
+ \label{eq:exact-m-mixture}
+\end{equation}
+
+Writing $q_j(x)=w_j\exp[-(x-c_j)^2/(2\sigma^2)]$,
+$\pi_j(x)=q_j(x)/H_{\sigma,\bm w}(x)$, and
+$L=\partial_x\log H$, let $\bar c(x)$ and
+$\operatorname{Var}_{\pi(x)}(c)$ denote the mean and variance of the centres
+under the finite probability vector $\bm\pi(x)$.  Then
+
+\begin{equation}
+ L(x)=\frac{\bar c(x)-x}{\sigma^2},
+ \qquad
+ L'(x)=\frac{\operatorname{Var}_{\pi(x)}(c)}{\sigma^4}
+       -\frac{1}{\sigma^2}.
+ \label{eq:exact-m-log-slope}
+\end{equation}
+
+The univariate upper bound of $m$ modes for an $m$-component Gaussian mixture
+is classical \cite{carreiraPerpinanWilliams2003modes,
+amendolaEngstromHaase2020modes}.  Here a direct affine--exponential proof is
+retained because the Doi transfer needs all critical zeros counted with
+multiplicity together with uniform root-tube, complement, curvature, and
+endpoint margins.
+
+For the adjacent pair $c_j<c_{j+1}$, the weighted crossover is
+
+\begin{equation}
+ s_j=\frac{c_j+c_{j+1}}{2}
+ +\frac{\sigma^2}{c_{j+1}-c_j}
+  \log\!\frac{w_j}{w_{j+1}}.
+ \label{eq:exact-m-crossover}
+\end{equation}
+
+The adjacent ratio obeys
+$q_{j+1}/q_j=1/9$ at
+$s_j-\sigma^2\log(9)/(c_{j+1}-c_j)$ and $q_{j+1}/q_j=9$ at the corresponding
+plus edge.  Thus both adjacent components remain uniformly present throughout
+the crossover, while all nonadjacent components are exponentially small.
+Equation~\eqref{eq:exact-m-log-slope} then yields one simple minimum at
+
+\begin{equation}
+ r_j=s_j+O(\sigma^4),
+ \qquad
+ L'(r_j)=\frac{(c_{j+1}-c_j)^2}{4\sigma^4}
+          +O(\sigma^{-2}).
+ \label{eq:exact-m-valley}
+\end{equation}
+
+Each centre similarly contributes one simple maximum at
+$p_j=c_j+O(\exp[-q/\sigma^2])$, with
+$L'(p_j)=-\sigma^{-2}+o(\sigma^{-2})$.  These constructions give
+$2m-1$ simple stationary points.  They are exhaustive: after multiplication
+by a positive Gaussian factor, $H'$ is an exponential polynomial
+
+\begin{equation}
+ \sum_{j=1}^{m}(a_j+b_jx)e^{\lambda_jx},
+ \qquad \lambda_1<\cdots<\lambda_m,
+ \label{eq:exact-m-exp-polynomial}
+\end{equation}
+
+which has at most $2m-1$ real zeros counted with multiplicity.  The extreme
+affine--exponential terms dominate in the two tails, so all zeros lie in a
+compact interval and real analyticity makes their number finite.  A
+generalized Rolle induction then proves the bound by differentiating twice to
+remove the lowest-exponent affine term.
+
+The remaining relative-coordinate contact probability is a positive slow
+factor.  Uniform bounds on its first two logarithmic time derivatives, peak
+boxes of width $O(\sigma^2)$, valley boxes of width $O(\sigma^4)$, and a
+posterior-sector sign certificate exclude stationary points on the full box
+complement.  Consequently the slow factor moves maxima by $O(\sigma^2)$ and
+minima by $O(\sigma^4)$ without changing their number or type.  Finally, on
+every fixed positive $\varepsilon$, compact-positive-time mixed-jet
+convergence
+
+\begin{equation}
+ \sup_{\bm w\in\mathcal W_{w_*}}
+ \left\|\frac{f_{B,\varepsilon,\bm w}}{B}
+       -G_{\varepsilon,\bm w}\right\|_{C^2(I)}
+ \longrightarrow0
+ \qquad (B\downarrow0)
+ \label{eq:exact-m-weak-budget}
+\end{equation}
+
+preserves the disjoint root tubes, signed curvature margins, complement
+margin, and endpoint slopes.
+
+The quantifier order is essential: the geometry and admissible scales may
+depend on fixed $(d,m)$; one first fixes a sufficiently small
+$\varepsilon>0$ and only then chooses $B<B_0(\varepsilon)$.  The theorem does
+not provide a useful uniform lower bound for $B_0$, a uniform-in-$d$ or
+uniform-in-$m$ construction, an event-mass floor, or a stationary-point count
+outside $I$; it also uses a whole-window contact-interior condition whose
+small-noise limit is asymptotically saturated contact.  The proof permits
+$B_0(\varepsilon)$ to shrink rapidly as $\varepsilon$ decreases---potentially
+exponentially in $1/\varepsilon^2$---and no rate is claimed; this is why no
+common useful budget is asserted across the family.  Nontrivial contact,
+observability at a common positive budget, and finite-parameter robustness
+remain separate numerical validation gates.
+
+\section{Finite-parameter scope}
+\label{sec:finite-scope}
+
+The theorem is complete without a discretized example.  Its proof establishes
+an exact existence statement for the continuum Doi process: it uses no
+finite-volume approximation, and no discretized convergence statement is
+needed for its conclusion.  What the sequential small-parameter construction
+does not do is identify a practically resolved physical parameter set.
+
+Accordingly, this article includes no numerical evidence for a particular
+finite-parameter realization, no off-lattice validation, no phase diagram,
+and no finite-parameter dimensional comparison.  Its scientific conclusions
+rest only on the exact theorem.
+
+We also make no rigorous numerical claim that a particular finite-volume
+scheme converges, together with its stationary roots, from bounded grids to
+the unbounded continuum process.  Such a stronger numerical statement would
+require quantitative consistency, spatial and box-truncation error bounds,
+and componentwise margin-preserving transfer of each stationary component.
+Those additional ingredients are unnecessary for the theorem proved here and
+do not limit its scope.
+
+%% =========================================================================
+%% OPTIONAL: Numerical illustration (pending Isambard campaign)
+%% -------------------------------------------------------------------------
+%% Uncomment and populate this block when the Isambard numerical campaign is
+%% complete.  It is deliberately placed after "Finite-parameter scope" and
+%% before "Discussion", so that the caveats in section~\ref{sec:finite-scope}
+%% can be relaxed in the same edit that adds the supporting evidence.
+%% Remember to (i) revise section~\ref{sec:finite-scope}, (ii) add the figure
+%% files to this directory, and (iii) add a real data-availability statement
+%% in place of the purely-mathematical one below.
+%%
+%\section{Numerical illustration}
+%\label{sec:numerics}
+%
+%TODO: describe the discretization, the parameter set, and the measured
+%stationary signature; state explicitly which theorem hypotheses are
+%satisfied numerically and which are only approximated.
+%
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.8\textwidth]{FIGURE_FILENAME}
+%  \caption{\label{fig:numerics}TODO caption.}
+%\end{figure}
+%% =========================================================================
+
+\section{Discussion}
+\label{sec:discussion}
+
+The construction turns catalyst locations into separated exposure clocks.
+Narrow Gaussian convolution creates one peak near each target time; an
+affine-exponential zero bound makes the count exhaustive; posterior-sector
+estimates control the complement after multiplication by the contact
+probability; and the positive-time estimate
+Eq.~\eqref{eq:mixed-jet} transfers the strict topology to the Doi law.
+Together these steps establish arbitrary prescribed fixed finite modality
+under a conserved centre-space reactivity budget.
+
+The restrictions are substantive.  Geometry and admissible scales depend on
+\(d\) and \(m\).  The deterministic relative trajectory stays strictly
+inside the contact set on the design window, and its free contact probability
+approaches one there as the noise scale vanishes.  The limits are sequential,
+observability at a common useful budget is not guaranteed, and nothing is
+proved about topology outside the declared window.  These limits distinguish
+the exact existence theorem from a finite-parameter design rule while leaving
+its finite-window conclusion intact.
+
+%TODO(author): decide whether an Acknowledgments and/or Funding section is
+%needed before submission.  If so, uncomment and complete the two commands
+%below.  JPA requires a funding statement only where funding was received;
+%if there was none, leave both commented out.
+%\ack{TODO}
+%\funding{TODO}
+
+\data{This is a purely mathematical work.  No new data were created or
+analysed in this study, and therefore no data-availability statement beyond
+this one is applicable.}
+
+%% ===========================================================================
+%% APPENDICES
+%% These absorb, in full, the former Supplemental Material of the APS version:
+%%   appendix A  = SM section S1  (Doi model and analytic realizations)
+%%   appendix B  = SM section S2  (uniform mixed-jet theorem and proof)
+%%   appendix C  = exact_m_theorem_full_proof.tex (complete proof)
+%% The SM's own "Scope of the analytical result" section has been merged into
+%% section~\ref{sec:finite-scope} of the main text and is not repeated here.
+%% ===========================================================================
+
+\appendix
+
+%% From here on, equations and theorem-like environments are numbered by
+%% appendix letter: (A.1), (B.1), Lemma C.1, ...
+\numberwithin{equation}{section}
+\numberwithin{theorem}{section}
+\makeatletter\renewcommand{\secprefix}{Appendix~}\makeatother
+
+\section{Doi model and analytic realizations}
+\label{app:doi-model}
+
+For a fixed finite physical dimension \(d\ge2\), the longitudinal-slab
+symmetry reduction gives
+\begin{equation}
+ \Qbox=I_z\times I_\parallel\times\mathbb T_W^{d-1},
+ \qquad
+ \Qinf=\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}.
+ \label{eq:supp-domains}
+\end{equation}
+With \(x=(z,r_\parallel,r_\perp)\), equal particle diffusivities give the free
+forward operator
+\begin{equation}
+ \Lfree q=-\nabla\!\cdot(bq)+\nabla\!\cdot(\bm D\nabla q),
+ \qquad
+ \bm D=\operatorname{diag}(D/2,2D,\ldots,2D),
+ \label{eq:supp-free-generator}
+\end{equation}
+where
+\begin{equation}
+ b(x)=\bigl(-\gamma(z-\bar z),-\gamma r_\parallel,0,\ldots,0\bigr).
+ \label{eq:supp-drift}
+\end{equation}
+The bounded quotient has zero forward flux on its nonperiodic faces and
+periodic transverse coordinates.  Natural decay on the unbounded quotient is
+specified by the reversible density
+\begin{equation}
+ \pi(x)=Z_\pi^{-1}
+ \exp\!\left[-\frac{\gamma(z-\bar z)^2}{D}
+              -\frac{\gamma r_\parallel^2}{4D}\right],
+ \label{eq:supp-pi}
+\end{equation}
+including the normalized uniform torus factor.
+
+Let \(0<a<W/2\), let \(\chi_a(r)\) be the embedded minimum-image contact-ball
+indicator, and let normalized nonnegative longitudinal profiles obey
+\(\phi_j\in L^\infty\) and \(\int\phi_j(z)\,\dd z=1\).  Put
+\begin{equation}
+ V_j(z,r)=W^{-(d-1)}\chi_a(r)\phi_j(z),\qquad
+ V_w=\sum_{j=1}^Jw_jV_j,\qquad K_{B,w}=BV_w,
+ \label{eq:supp-profiles}
+\end{equation}
+where \(w_j\ge0\) and \(\sum_jw_j=1\).  The installed centre-space catalyst
+amount is \(B\) for every \(w\).  The killed state and normalized reaction
+density are
+\begin{equation}
+ q_{B,w}(t)=\e^{t(\Lfree-BM_{V_w})}q_0,\qquad
+ F_B(t,w)=\langle V_w,q_{B,w}(t)\rangle .
+ \label{eq:supp-state}
+\end{equation}
+
+\begin{proposition}[Analytic killed semigroups]
+\label{prop:supp-analytic}
+On \(\Qbox\), the reflecting/periodic realization of \(\Lfree\) on
+\(L^2(\Qbox)\) generates a positive analytic semigroup.  On \(\Qinf\), the
+natural-decay realization on \(X_\pi=L^2(\pi^{-1}\dd x)\) does the same.
+For real \(B\ge0\) and simplex control \(w\), bounded multiplication by
+\(-BV_w\) preserves the generator domain and yields a positive,
+mass-decreasing analytic semigroup.  At positive time the state is entire in
+every finite affine complexification of the control amplitudes.  On
+\(\Qinf\), the observable pairing is continuous when
+\(V_w\in L^2(\pi\dd x)\cap L^\infty\).
+\end{proposition}
+
+\begin{proof}
+Set \(q=\pi u\).  The identity
+\begin{equation}
+ \Lfree(\pi u)=\pi\mathcal Gu,\qquad
+ \mathcal G=\pi^{-1}\nabla\!\cdot(\pi\bm D\nabla)
+ \label{eq:supp-similarity}
+\end{equation}
+follows from \(b=\bm D\nabla\log\pi\).  On \(L^2(\pi\dd x)\), the closed
+weighted form has
+\begin{equation}
+ \langle u,\mathcal Gv\rangle_{L^2(\pi)}
+ =-\int(\nabla u)^{\mathsf T}\bm D\nabla v\,\pi\dd x.
+ \label{eq:supp-form}
+\end{equation}
+It therefore realizes \(\mathcal G\) as a nonpositive self-adjoint generator.
+Multiplication by \(\pi\) is a bounded isomorphism on the bounded quotient and
+a unitary map into \(X_\pi\) on the unbounded quotient.  Bounded multiplication
+by \(-BV_w\) preserves analyticity and the domain.  The norm-convergent
+Dyson--Phillips series gives entire dependence on the finite control
+amplitudes.  Positivity and mass decrease for real nonnegative data follow
+from the product formula, equivalently from Feynman--Kac
+\cite{bressloff2022feynmanKac,grebenkov2020multiple}.
+\end{proof}
+
+\section{Uniform compact-positive-time mixed derivatives}
+\label{app:mixed-jet}
+
+Choose an interior affine control chart \(w(\theta)=w_*+P\theta\) and a
+compact real control set \(\Theta\).  Fix \(\delta>0\) such that each closed
+coordinate polydisc of radius \(\delta\) about a point of \(\Theta\) lies in
+the complex tube
+\begin{equation}
+ \Theta_\delta^+
+ =\{\zeta\in\mathbb C^{J-1}:
+   \operatorname{dist}_\infty(\zeta,\Theta)<2\delta\}.
+ \label{eq:supp-tube}
+\end{equation}
+Define
+\begin{equation}
+ G(t,\theta)=\langle V_{w(\theta)},\e^{t\Lfree}q_0\rangle,\qquad
+ v_{\infty,\delta}=
+ \sup_{\zeta\in\Theta_\delta^+}\|V_{w(\zeta)}\|_\infty .
+ \label{eq:supp-free-exposure}
+\end{equation}
+Let \(v_{*,\delta}\) be the supremum of
+\(\|V_{w(\zeta)}\|_{L^2}\) on the bounded quotient and of
+\(\|V_{w(\zeta)}\|_{L^2(\pi\dd x)}\) on the unbounded quotient.  Write
+\(\kappa_\pi\) for the bounded-quotient similarity bound and set
+\(\kappa_\pi=1\) on the unbounded quotient.
+
+\begin{theorem}[Uniform weak-reaction mixed-jet bridge]
+\label{thm:mixed-jet}
+Fix \(0<\tau\le T<\infty\), \(0\le B\le B_{\max}\), an integer \(r\ge0\),
+and a finite control multi-index \(\alpha\).  The normalized density
+\(F_B(t,\theta)\) in Eq.~\eqref{eq:supp-state} extends continuously to
+\(F_0=G\), and
+\begin{align}
+ &\sup_{(t,\theta)\in[\tau,T]\times\Theta}
+ \left|\partial_t^r\partial_\theta^\alpha(F_B-G)\right|
+ \nonumber\\
+ &\quad\le
+ r!\,\alpha!\left(\frac2\tau\right)^r
+ \delta^{-|\alpha|}v_{*,\delta}\kappa_\pi
+ \left[\exp\!\left(\frac32Bv_{\infty,\delta}T\right)-1\right]
+ \|q_0\|_X .
+ \label{eq:supp-mixed-bound}
+\end{align}
+In particular, the left side is at most \(BC_{r,\alpha}\) for a finite
+constant independent of \(B\in[0,B_{\max}]\).  This is the explicit form of
+Eq.~\eqref{eq:mixed-jet}.
+\end{theorem}
+
+\begin{proof}
+For complex time \(z\) with \(\operatorname{Re}z>0\), the
+norm-convergent Dyson expansion in the self-adjoint representation is
+\begin{align}
+ \e^{z(\mathcal G-BV_w)}
+ ={}&\e^{z\mathcal G}
+ +\sum_{n=1}^{\infty}(-Bz)^n
+ \int_{\Delta_n}\e^{z(1-s_1)\mathcal G}V_w
+ \left[\prod_{k=1}^{n-1}
+ \e^{z(s_k-s_{k+1})\mathcal G}V_w\right]
+ \e^{zs_n\mathcal G}\,\dd\bm s ,
+ \label{eq:supp-dyson}
+\end{align}
+where
+\(\Delta_n=\{1\ge s_1\ge\cdots\ge s_n\ge0\}\) has volume \(1/n!\).
+Every free factor is contractive.  Consequently,
+\begin{equation}
+ \|\e^{z(\Lfree-BV_w)}-\e^{z\Lfree}\|_{X\to X}
+ \le\kappa_\pi\{\e^{B|z|\|V_w\|_\infty}-1\}.
+ \label{eq:supp-operator-bound}
+\end{equation}
+The complex-bilinear observable remainder thus satisfies
+\begin{equation}
+ \left|\left\langle V_{w(\zeta)},
+ [\e^{z(\Lfree-BV_{w(\zeta)})}-\e^{z\Lfree}]q_0
+ \right\rangle\right|
+ \le v_{*,\delta}\kappa_\pi
+ \{\e^{Bv_{\infty,\delta}|z|}-1\}\|q_0\|_X .
+ \label{eq:supp-remainder}
+\end{equation}
+For \(t\in[\tau,T]\), the disk \(|z-t|\le\tau/2\) remains in the open
+right half-plane and has \(|z|\le3T/2\).  Cauchy's estimate on this disk and
+on each radius-\(\delta\) control polydisc proves
+Eq.~\eqref{eq:supp-mixed-bound}.  Finally,
+\(\e^{Bx}-1\le Bx\e^{B_{\max}x}\) gives the linear bound.
+\end{proof}
+
+The estimate transfers any fixed finite collection of strict
+stationary-point neighbourhood, curvature, endpoint, and complement
+inequalities.  It is asserted only on compact positive-time intervals and
+does not supply a useful numerical budget threshold.
+
+\section{Exact prescribed finite modality: complete proof}
+\label{app:full-proof}
+
+This appendix proves the exact finite-mode statement announced as
+theorem~\ref{thm:main-modality} in section~\ref{sec:exact-m-spine}.  The
+construction is pointwise in a fixed finite dimension and a fixed finite mode
+count.  Its two small parameters are ordered: first the narrow-noise
+parameter is fixed sufficiently small, and only then is the Doi budget taken
+sufficiently small.  All stationary-point counts below are on the declared
+compact positive-time window.
+
+\subsection{Exact quotient, stationary midpoint variance, and whole-window
+contact}
+\label{subsec:exactmfull-physical}
+
+Fix finite integers \(d\ge2\) and \(m\ge1\), a transverse period \(W>0\), a
+contact radius \(0<a<W/2\), and a compact positive-time interval
+\(I=[\tau,T]\subset(0,\infty)\).  On
+\(\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}\), let the longitudinal
+midpoint and relative coordinates solve
+\begin{align}
+ \dd Z_t&=-\gamma(Z_t-\bar z)\,\dd t
+       +\varepsilon\sqrt{D_0}\,\dd W_t,
+ \label{eq:exactmfull-midpoint-sde}\\
+ \dd R_{\parallel,t}&=-\gamma R_{\parallel,t}\,\dd t
+       +2\varepsilon\sqrt{D_0}\,\dd W_{\parallel,t},
+ \label{eq:exactmfull-relative-long-sde}\\
+ \dd R_{\perp,t}&=2\varepsilon\sqrt{D_0}\,\dd W_{\perp,t}
+       \pmod W,
+ \label{eq:exactmfull-relative-perp-sde}
+\end{align}
+where \(D_0,\gamma>0\).  All Brownian drivers and all initial variables are
+mutually independent, and
+\begin{align}
+ Z_0&\sim N\!\left(z_0,\varepsilon^2\frac{D_0}{2\gamma}\right),
+ &z_0&\ne\bar z,
+ \label{eq:exactmfull-midpoint-initial}\\
+ R_{\parallel,0}&\sim
+ N(r_{\parallel,0},\varepsilon^2u_0^2),
+ &0<u_0^2&<\frac{4D_0}{\gamma},
+ \label{eq:exactmfull-relative-long-initial}\\
+ R_{\perp,0}&\sim
+ \operatorname{WN}(r_{\perp,0},\varepsilon^2\Sigma_{\perp,0}),
+ &\Sigma_{\perp,0}&\succ0.
+ \label{eq:exactmfull-relative-perp-initial}
+\end{align}
+Here \(\operatorname{WN}\) denotes the wrapped Gaussian on the transverse
+torus.  The two strict variance inequalities
+\(D_0/(2\gamma)<D_0/\gamma\) and
+\(u_0^2<4D_0/\gamma\) are precisely the unbounded Gaussian conditions that
+place this initial law in the weighted state space used by
+theorem~\ref{thm:mixed-jet}; the wrapped factor is square integrable against
+the uniform torus measure.
+
+The midpoint has mean and variance
+\begin{equation}
+ \mu(t)=\bar z+(z_0-\bar z)\e^{-\gamma t},
+ \qquad
+ \operatorname{Var}Z_t=\varepsilon^2\frac{D_0}{2\gamma}
+ \quad(t\ge0).
+ \label{eq:exactmfull-stationary-variance}
+\end{equation}
+Thus only the variance, not the mean, is stationary.  This constant variance
+is what produces a common-variance Gaussian mixture below.
+
+Let \(\varsigma=\operatorname{sgn}\mu'\in\{-1,1\}\), fix a physical
+reference length \(\ell_0>0\), and define
+\begin{equation}
+ x(t)=\frac{\varsigma\mu(t)}{\ell_0},
+ \qquad v_0:=\inf_{t\in I}x'(t)>0.
+ \label{eq:exactmfull-increasing-coordinate}
+\end{equation}
+Choose target times and their dimensionless centres by
+\begin{equation}
+ \tau<t_1<\cdots<t_m<T,
+ \qquad c_j=x(t_j).
+ \label{eq:exactmfull-targets}
+\end{equation}
+Then \(c_1<\cdots<c_m\), and the physical centre of slab \(j\) is
+\(\varsigma\ell_0c_j=\mu(t_j)\).  In particular, reversing the trajectory
+orientation reverses the physical centres at the same time; no centre is
+held fixed under the coordinate reversal.
+
+Write
+\begin{equation}
+ r_*(t)=(r_{\parallel,0}\e^{-\gamma t},r_{\perp,0})
+ \label{eq:exactmfull-relative-deterministic-path}
+\end{equation}
+and impose the whole-window, minimum-image contact margin
+\begin{equation}
+ \sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta
+ \quad\text{for some }\eta>0.
+ \label{eq:exactmfull-whole-window-contact}
+\end{equation}
+The word ``whole-window'' is essential: the condition is required on every
+point of \(I\), not merely near the target times.
+
+\begin{lemma}[Whole-window differentiated contact tail]
+\label{lem:exactmfull-contact-tail}
+Let
+\begin{equation}
+ c_{d,\varepsilon}(t)
+ =\mathbb P\{|R_t|_{\rm mi}<a\}.
+ \label{eq:exactmfull-contact-probability}
+\end{equation}
+Under Eqs.~\eqref{eq:exactmfull-relative-long-sde}--
+\eqref{eq:exactmfull-whole-window-contact}, for \(r=0,1,2\) there are finite
+constants \(C_{r,d},N_{r,d},q_d>0\), independent of all sufficiently small
+\(\varepsilon\), such that
+\begin{equation}
+ \left\|\partial_t^r(c_{d,\varepsilon}-1)\right\|_{L^\infty(I)}
+ \le C_{r,d}\varepsilon^{-N_{r,d}}
+       \exp(-q_d/\varepsilon^2).
+ \label{eq:exactmfull-contact-tail-bound}
+\end{equation}
+Consequently, \(c_{d,\varepsilon}\ge1/2\) for sufficiently small
+\(\varepsilon\), and the first two logarithmic derivatives of
+\(c_{d,\varepsilon}\) are uniformly bounded on \(I\) and converge to zero
+faster than any power of \(\varepsilon\).
+\end{lemma}
+
+\begin{proof}
+In an unwrapped transverse chart the relative Gaussian has mean \(r_*(t)\)
+and covariance \(\varepsilon^2\Sigma_R(t)\), with longitudinal and transverse
+blocks
+\begin{align}
+ u_0^2\e^{-2\gamma t}
+ +\frac{2D_0}{\gamma}(1-\e^{-2\gamma t}),
+ \qquad
+ \Sigma_{\perp,0}+4D_0t I_{d-1}.
+ \label{eq:exactmfull-relative-covariance}
+\end{align}
+Because \(I\subset(0,\infty)\), \(u_0>0\), and
+\(\Sigma_{\perp,0}\succ0\), this covariance and its first two time
+derivatives are uniformly bounded on \(I\), and its eigenvalues lie between
+two positive constants.  The reverse triangle inequality and
+Eq.~\eqref{eq:exactmfull-whole-window-contact} give
+\begin{equation}
+ \inf_{t\in I}\inf_{|r|_{\rm mi}\ge a}
+ d_{\rm cyl}(r,r_*(t))\ge\eta.
+ \label{eq:exactmfull-contact-separation}
+\end{equation}
+The assumption \(a<W/2\) keeps the contact ball away from the transverse cut
+locus.  Express the wrapped density as its Gaussian lattice-image sum.
+Every time derivative of order at most two is the same Gaussian multiplied
+by a polynomial in the scaled displacement and in \(\varepsilon^{-1}\),
+with degree bounded independently of \(t\).  Equation
+\eqref{eq:exactmfull-contact-separation}, the uniform covariance bounds, and
+a standard Gaussian tail estimate therefore give, after summing the lattice
+images,
+\begin{equation}
+ \sup_{t\in I}\int_{|r|_{\rm mi}\ge a}
+ |\partial_t^r p_{\varepsilon,t}(r)|\,\dd r
+ \le C_{r,d}\varepsilon^{-N_{r,d}}
+       \e^{-q_d/\varepsilon^2},
+ \qquad r=0,1,2.
+ \label{eq:exactmfull-density-tail}
+\end{equation}
+Differentiation under the integral is justified by the same integrable
+majorant and yields Eq.~\eqref{eq:exactmfull-contact-tail-bound}.  For small
+\(\varepsilon\), its \(r=0\) case gives \(c_{d,\varepsilon}\ge1/2\), while
+\begin{align}
+ |\partial_t\log c_{d,\varepsilon}|
+ &\le2|\partial_t c_{d,\varepsilon}|,\nonumber\\
+ |\partial_t^2\log c_{d,\varepsilon}|
+ &\le2|\partial_t^2c_{d,\varepsilon}|
+      +4|\partial_tc_{d,\varepsilon}|^2.
+ \label{eq:exactmfull-log-contact-bounds}
+\end{align}
+This proves the logarithmic-derivative statement.
+\end{proof}
+
+Fix \(\rho>0\), put
+\begin{equation}
+ S_*^2=\frac{D_0}{2\gamma}+\rho^2,
+ \qquad \sigma=\frac{\varepsilon S_*}{\ell_0},
+ \label{eq:exactmfull-common-width}
+\end{equation}
+and use the normalized physical slabs
+\begin{equation}
+ \phi_{j,\varepsilon}(z)
+ =\frac{1}{\sqrt{2\pi}\,\varepsilon\rho}
+  \exp\!\left[-\frac{(z-\mu(t_j))^2}
+  {2\varepsilon^2\rho^2}\right].
+ \label{eq:exactmfull-slabs}
+\end{equation}
+Let \(0<w_*\le1/m\) and
+\begin{equation}
+ \mathcal W_{w_*}
+ =\left\{w=(w_1,\ldots,w_m):
+   \sum_{j=1}^m w_j=1,\quad w_j\ge w_*>0\right\}.
+ \label{eq:exactmfull-weight-set}
+\end{equation}
+For \(w\in\mathcal W_{w_*}\), define the Doi killing field
+\begin{equation}
+ K_{B,w,\varepsilon}(Z,R)
+ =\mathbf{1}_{\{|R|_{\rm mi}<a\}}
+  \frac{B}{W^{d-1}}\sum_{j=1}^m
+  w_j\phi_{j,\varepsilon}(Z)
+ =B V_{w,\varepsilon}(Z,R).
+ \label{eq:exactmfull-killing}
+\end{equation}
+Every slab has unit full longitudinal integral, so \(B\) is the same
+installed centre-space budget for every allocation.
+
+\begin{lemma}[Exact common-variance free-exposure factorization]
+\label{lem:exactmfull-factorization}
+Let \(T_0(t)\) be the unkilled semigroup and \(q_0\) the initial law above.
+The unit-budget free-exposure clock is exactly
+\begin{align}
+ G_{\varepsilon,w}(t)
+ &:=\langle V_{w,\varepsilon},T_0(t)q_0\rangle
+ =a_\varepsilon(t)H_{\sigma,w}(x(t)),
+ \label{eq:exactmfull-factorization}\\
+ a_\varepsilon(t)
+ &:=\frac{c_{d,\varepsilon}(t)}
+ {W^{d-1}\sqrt{2\pi}\,\varepsilon S_*},
+ \label{eq:exactmfull-slow-factor}\\
+ H_{\sigma,w}(x)
+ &:=\sum_{j=1}^m w_j
+ \exp\!\left[-\frac{(x-c_j)^2}{2\sigma^2}\right].
+ \label{eq:exactmfull-mixture}
+\end{align}
+The positive factor \(a_\varepsilon\) has uniformly bounded first two
+logarithmic time derivatives for all sufficiently small \(\varepsilon\).
+\end{lemma}
+
+\begin{proof}
+Independence factors the contact event from every longitudinal slab
+expectation.  By Eq.~\eqref{eq:exactmfull-stationary-variance}, convolution
+of \(\phi_{j,\varepsilon}\) with the law of \(Z_t\) gives
+\begin{equation}
+ \mathbb E[\phi_{j,\varepsilon}(Z_t)]
+ =\frac{1}{\sqrt{2\pi}\,\varepsilon S_*}
+ \exp\!\left[-\frac{(\mu(t)-\mu(t_j))^2}
+ {2\varepsilon^2S_*^2}\right].
+ \label{eq:exactmfull-gaussian-convolution}
+\end{equation}
+Since
+\(\mu(t)-\mu(t_j)=\varsigma\ell_0(x(t)-c_j)\),
+Eqs.~\eqref{eq:exactmfull-common-width} and
+\eqref{eq:exactmfull-gaussian-convolution} give
+Eqs.~\eqref{eq:exactmfull-factorization}--
+\eqref{eq:exactmfull-mixture}.  The last assertion follows from
+lemma~\ref{lem:exactmfull-contact-tail}, because the remaining factors in
+\(a_\varepsilon\) are independent of time.
+\end{proof}
+
+\subsection{The pure common-variance mixture}
+\label{subsec:exactmfull-pure-mixture}
+
+Set \(J=x(I)=[\alpha,\beta]\).  The targets are interior, so
+\begin{equation}
+ \alpha<c_1<\cdots<c_m<\beta.
+ \label{eq:exactmfull-centre-order}
+\end{equation}
+For \(m\ge2\), let
+\begin{equation}
+ \Delta_j=c_{j+1}-c_j,
+ \qquad \Delta_*:=\min_{1\le j<m}\Delta_j>0.
+ \label{eq:exactmfull-gaps}
+\end{equation}
+No empty minimum is used when \(m=1\).
+
+Define
+\begin{equation}
+ q_j(x)=w_j\e^{-(x-c_j)^2/(2\sigma^2)},
+ \qquad
+ \pi_j(x)=\frac{q_j(x)}{H_{\sigma,w}(x)},
+ \qquad
+ \bar c(x)=\sum_{j=1}^m\pi_j(x)c_j.
+ \label{eq:exactmfull-posterior}
+\end{equation}
+The logarithmic slope \(L_{\sigma,w}=\partial_x\log H_{\sigma,w}\) obeys
+the exact identities
+\begin{align}
+ L_{\sigma,w}(x)
+ &=\frac{\bar c(x)-x}{\sigma^2},
+ \label{eq:exactmfull-log-slope}\\
+ L_{\sigma,w}'(x)
+ &=\frac{\operatorname{Var}_{\pi(x)}(c)}{\sigma^4}
+   -\frac{1}{\sigma^2}.
+ \label{eq:exactmfull-log-slope-derivative}
+\end{align}
+Indeed, differentiation of \(q_j\) gives the first identity, while
+\(\pi_j'=\pi_j(c_j-\bar c)/\sigma^2\) gives the second.
+
+The mode cap for univariate Gaussian mixtures is classical
+\cite{carreiraPerpinanWilliams2003modes,amendolaEngstromHaase2020modes}.
+We retain the direct multiplicity-counting proof because the later Doi
+transfer also needs explicit uniform root locations, curvature scales, and
+full-complement margins.
+
+\begin{lemma}[Global extended-Chebyshev zero bound]
+\label{lem:exactmfull-zero-bound}
+For distinct real centres and positive weights,
+\(H_{\sigma,w}'\) has at most \(2m-1\) real zeros counted with
+multiplicity.  Its real zero set is finite.
+\end{lemma}
+
+\begin{proof}
+Multiplication by a nowhere-zero function preserves both zeros and their
+multiplicities, and direct differentiation gives
+\begin{equation}
+ \sigma^2\e^{x^2/(2\sigma^2)}H_{\sigma,w}'(x)
+ =\sum_{j=1}^m w_j(c_j-x)
+   \e^{-c_j^2/(2\sigma^2)}\e^{c_jx/\sigma^2}.
+ \label{eq:exactmfull-exponential-polynomial}
+\end{equation}
+We prove the slightly more general claim that a nonzero function
+\begin{equation}
+ P_m(x)=\sum_{j=1}^m(a_j+b_jx)\e^{\lambda_jx},
+ \qquad \lambda_1<\cdots<\lambda_m,
+ \label{eq:exactmfull-general-exp-polynomial}
+\end{equation}
+with no identically zero summand has at most \(2m-1\) real zeros counted
+with multiplicity.
+
+First, the zero set is finite.  After multiplication by
+\(\e^{-\lambda_1x}\), the first affine term dominates as \(x\to-\infty\);
+the last affine-exponential term dominates as \(x\to+\infty\).  Each
+dominating affine factor has a fixed sign sufficiently far in its tail.
+Thus all zeros lie in a compact interval.  A nonzero real-analytic function
+has only finitely many zeros there.
+
+Now induct on \(m\).  The \(m=1\) case is the affine zero bound.  For
+\(m>1\), put \(Q=\e^{-\lambda_1x}P_m\).  Two derivatives annihilate the first
+affine term.  For every \(j\ge2\), the second derivative of
+\((a_j+b_jx)\e^{(\lambda_j-\lambda_1)x}\) is a nonzero affine polynomial
+times the same exponential, and the remaining positive exponents are
+distinct.  If a \(C^2\) function has \(N\ge2\) real zeros counted with
+multiplicity, generalized Rolle counting gives at least \(N-2\) zeros of
+its second derivative counted with multiplicity: differentiation reduces
+the multiplicity at each root, and ordinary Rolle supplies a root between
+each pair of distinct roots.  Hence
+\begin{equation}
+ N(Q)-2\le N(Q'')\le2(m-1)-1,
+ \label{eq:exactmfull-rolle-count}
+\end{equation}
+so \(N(P_m)\le2m-1\); the cases \(N<2\) are immediate.  In
+Eq.~\eqref{eq:exactmfull-exponential-polynomial}, every affine coefficient
+has nonzero slope
+\(-w_j\e^{-c_j^2/(2\sigma^2)}\), so the claim applies.
+\end{proof}
+
+\begin{lemma}[Uniform adjacent isolation]
+\label{lem:exactmfull-adjacent-isolation}
+For the fixed finite centre set and the compact weight family, there are
+\(C_{\rm iso},q_{\rm iso}>0\) such that, for every \(j<m\),
+\begin{equation}
+ \sup_{x\in[c_j,c_{j+1}]}
+ \frac{\sum_{k\notin\{j,j+1\}}q_k(x)}
+      {q_j(x)+q_{j+1}(x)}
+ \le C_{\rm iso}\e^{-q_{\rm iso}/\sigma^2}
+ \label{eq:exactmfull-adjacent-isolation}
+\end{equation}
+for all sufficiently small \(\sigma\), uniformly in \(w\).  On
+\([\alpha,c_1]\), component \(1\) has the analogous one-component bound, and
+on \([c_m,\beta]\), component \(m\) does.
+\end{lemma}
+
+\begin{proof}
+For \(x\in[c_j,c_{j+1}]\) and \(k<j\),
+\begin{equation}
+ (x-c_k)^2-(x-c_j)^2
+ =(c_j-c_k)(2x-c_j-c_k)\ge(c_j-c_k)^2.
+ \label{eq:exactmfull-left-square-comparison}
+\end{equation}
+For \(k>j+1\), comparison with \(c_{j+1}\) gives the corresponding positive
+lower bound.  Since \(w_k/w_j\le1/w_*\), summation over the finite centre set
+proves Eq.~\eqref{eq:exactmfull-adjacent-isolation}.  The same
+difference-of-squares comparison proves the two tail statements.  The
+posterior mean and variance of the full mixture therefore differ from those
+of the isolated adjacent pair by \(O(\e^{-q/\sigma^2})\), uniformly in the
+gap, the allocation, and sufficiently small \(\sigma\).
+\end{proof}
+
+\begin{theorem}[Exact topology of the pure mixture]
+\label{thm:exactmfull-pure-topology}
+Uniformly for \(w\in\mathcal W_{w_*}\), every sufficiently small
+\(\sigma>0\) gives exactly \(m\) simple local maxima and \(m-1\) simple local
+minima of \(H_{\sigma,w}\) on \(J\), ordered alternately, with nonzero
+endpoint derivatives.  The maximum near \(c_j\), denoted \(p_j(\sigma,w)\),
+satisfies
+\begin{equation}
+ p_j=c_j+O(\e^{-q/\sigma^2}),
+ \qquad L_{\sigma,w}'(p_j)
+ =-\sigma^{-2}+o(\sigma^{-2}).
+ \label{eq:exactmfull-peak-location}
+\end{equation}
+For \(m\ge2\), define the weighted equality point
+\begin{equation}
+ s_j(\sigma,w)
+ =\frac{c_j+c_{j+1}}2
+  +\frac{\sigma^2}{\Delta_j}\log\frac{w_j}{w_{j+1}}.
+ \label{eq:exactmfull-weighted-crossover}
+\end{equation}
+The minimum in the \(j\)-th gap, denoted \(r_j(\sigma,w)\), satisfies
+\begin{align}
+ r_j&=s_j+O(\sigma^4),
+ \label{eq:exactmfull-valley-location}\\
+ L_{\sigma,w}'(r_j)
+ &=\frac{\Delta_j^2}{4\sigma^4}+O(\sigma^{-2}).
+ \label{eq:exactmfull-valley-curvature}
+\end{align}
+All remainders are uniform on the compact weight set.
+\end{theorem}
+
+\begin{proof}
+Fix a constant \(A>1\).  On
+\(|x-c_j|\le A\sigma^2\), one-component isolation gives
+\begin{align}
+ L_{\sigma,w}(x)
+ &=\frac{c_j-x}{\sigma^2}
+   +O(\sigma^{-2}\e^{-q/\sigma^2}),
+ \label{eq:exactmfull-peak-slope-expansion}\\
+ L_{\sigma,w}'(x)
+ &=-\sigma^{-2}
+   +O(\sigma^{-4}\e^{-q/\sigma^2}).
+ \label{eq:exactmfull-peak-derivative-expansion}
+\end{align}
+At \(c_j-\sigma^2\) the slope is positive, at
+\(c_j+\sigma^2\) it is negative, and it is strictly decreasing between
+them.  Hence there is one simple maximum with the location and derivative in
+Eq.~\eqref{eq:exactmfull-peak-location}.
+
+For a gap, the isolated adjacent odds are exactly
+\begin{equation}
+ \frac{q_{j+1}(x)}{q_j(x)}
+ =\exp\!\left[\frac{\Delta_j(x-s_j)}{\sigma^2}\right].
+ \label{eq:exactmfull-adjacent-odds}
+\end{equation}
+Put \(h_j=(\log9)/\Delta_j\) and
+\begin{equation}
+ C_j=[s_j-h_j\sigma^2,s_j+h_j\sigma^2].
+ \label{eq:exactmfull-crossover-interval}
+\end{equation}
+At the left and right endpoints the adjacent posterior masses are,
+respectively, \((9/10,1/10)\) and \((1/10,9/10)\).  By
+lemma~\ref{lem:exactmfull-adjacent-isolation}, after reducing a common
+\(\sigma_0\), both adjacent posterior masses are bounded below throughout
+\(C_j\), and
+\begin{equation}
+ \operatorname{Var}_{\pi(x)}(c)\ge\kappa_0\Delta_*^2,
+ \qquad
+ L_{\sigma,w}'(x)\ge\frac{\kappa_v}{\sigma^4}>0
+ \quad(x\in C_j)
+ \label{eq:exactmfull-crossover-monotonicity}
+\end{equation}
+for constants independent of \(j,w,\sigma\).  At the two endpoints of
+\(C_j\), Eq.~\eqref{eq:exactmfull-log-slope} gives, for sufficiently small
+\(\sigma\),
+\begin{equation}
+ L_{\sigma,w}(s_j-h_j\sigma^2)
+ \le-\frac{\Delta_j}{5\sigma^2},
+ \qquad
+ L_{\sigma,w}(s_j+h_j\sigma^2)
+ \ge \frac{\Delta_j}{5\sigma^2}.
+ \label{eq:exactmfull-crossover-signs}
+\end{equation}
+Thus \(C_j\) contains exactly one simple minimum root.
+
+At \(s_j\), the adjacent posterior masses are equal and the adjacent
+posterior mean is \((c_j+c_{j+1})/2\).  Hence
+\begin{equation}
+ L_{\sigma,w}(s_j)
+ =-\frac{1}{\Delta_j}\log\frac{w_j}{w_{j+1}}
+ +O(\sigma^{-2}\e^{-q/\sigma^2})=O(1)
+ \label{eq:exactmfull-slope-at-crossover}
+\end{equation}
+uniformly in \(w\).  The mean-value theorem and
+Eq.~\eqref{eq:exactmfull-crossover-monotonicity} give
+\(r_j-s_j=O(\sigma^4)\).  At \(r_j\), the two adjacent posterior masses are
+\(1/2+O(\sigma^2)\); substitution in
+Eq.~\eqref{eq:exactmfull-log-slope-derivative} proves
+Eq.~\eqref{eq:exactmfull-valley-curvature}.
+
+For small \(\sigma\), the constructed peak and gap neighbourhoods are
+pairwise disjoint and contained in \((\alpha,\beta)\).  They contain
+\(m+(m-1)=2m-1\) distinct simple stationary points.  The global bound in
+lemma~\ref{lem:exactmfull-zero-bound} excludes every additional real
+stationary point, including multiple ones.  Tail isolation and the fixed
+separations \(c_1-\alpha>0\) and \(\beta-c_m>0\) give
+\begin{equation}
+ L_{\sigma,w}(\alpha)>0,
+ \qquad L_{\sigma,w}(\beta)<0,
+ \label{eq:exactmfull-endpoint-signs}
+\end{equation}
+so neither endpoint is stationary.  When \(m=1\), there are no gaps or
+valley definitions: the exact identity
+\(L_{\sigma,w}(x)=(c_1-x)/\sigma^2\) gives one maximum and both endpoint
+signs directly.
+\end{proof}
+
+\subsection{Full posterior-sector certificate and a slow positive factor}
+\label{subsec:exactmfull-slow-factor}
+
+The zero bound above does not apply after multiplication by a nonconstant
+positive factor.  We therefore certify the complete complement of small peak
+and valley boxes.
+
+\begin{lemma}[Posterior-sector certificate]
+\label{lem:exactmfull-posterior-sectors}
+Fix \(K>0\).  There are constants
+\(A_{\rm p},A_{\rm v},C_{\rm p},C_{\rm v},
+\kappa_{\rm p},\kappa_{\rm v}>0\) and \(\sigma_K>0\), depending only on the
+fixed centre set, \(J\), \(w_*\), and \(K\), such that, for every
+\(0<\sigma<\sigma_K\) and every admissible \(w\), the boxes
+\begin{align}
+ P_j&=[c_j-A_{\rm p}\sigma^2,c_j+A_{\rm p}\sigma^2],
+ \label{eq:exactmfull-peak-boxes}\\
+ V_j&=[r_j-A_{\rm v}\sigma^4,r_j+A_{\rm v}\sigma^4]
+ \quad(j<m)
+ \label{eq:exactmfull-valley-boxes}
+\end{align}
+are pairwise disjoint and contained in \((\alpha,\beta)\), and the following
+hold:
+\begin{align}
+ |L_{\sigma,w}|&\le C_{\rm p},&
+ L_{\sigma,w}'&\le-\kappa_{\rm p}\sigma^{-2}
+ &&\text{on }P_j,
+ \label{eq:exactmfull-peak-box-control}\\
+ |L_{\sigma,w}|&\le C_{\rm v},&
+ L_{\sigma,w}'&\ge \kappa_{\rm v}\sigma^{-4}
+ &&\text{on }V_j.
+ \label{eq:exactmfull-valley-box-control}
+\end{align}
+At the left and right box boundaries, respectively, the slope signs are
+\begin{equation}
+ \begin{array}{c|cc}
+ &\text{left boundary}&\text{right boundary}\\ \hline
+ P_j&L_{\sigma,w}\ge2K&L_{\sigma,w}\le-2K\\
+ V_j&L_{\sigma,w}\le-2K&L_{\sigma,w}\ge2K.
+ \end{array}
+ \label{eq:exactmfull-box-boundary-signs}
+\end{equation}
+On the entire complement in \(J\) of the open boxes,
+\begin{equation}
+ |L_{\sigma,w}(x)|\ge2K,
+ \label{eq:exactmfull-complement-margin}
+\end{equation}
+with the exhaustive alternating sign order
+\begin{equation}
+ +\;P_1\;-\;V_1\;+\;P_2\;-\;\cdots\;+\;P_m\;-.
+ \label{eq:exactmfull-complement-sign-order}
+\end{equation}
+For \(m=1\), every valley clause is omitted.
+\end{lemma}
+
+\begin{proof}
+Choose \(A_{\rm p}\ge4K\).  The uniform expansions
+\eqref{eq:exactmfull-peak-slope-expansion}--
+\eqref{eq:exactmfull-peak-derivative-expansion} give, after reducing
+\(\sigma_K\), Eq.~\eqref{eq:exactmfull-peak-box-control} and the peak row of
+Eq.~\eqref{eq:exactmfull-box-boundary-signs}.  The convex-hull property
+\(\bar c(x)\in[c_1,c_m]\) gives the full outer-tail estimates without any
+local expansion:
+\begin{align}
+ x\le c_1-A_{\rm p}\sigma^2&\Longrightarrow
+ L_{\sigma,w}(x)\ge A_{\rm p},\nonumber\\
+ x\ge c_m+A_{\rm p}\sigma^2&\Longrightarrow
+ L_{\sigma,w}(x)\le-A_{\rm p}.
+ \label{eq:exactmfull-outer-tail-sector}
+\end{align}
+
+Fix a gap and abbreviate \(\Delta=\Delta_j\), \(s=s_j\).  The right
+adjacent posterior mass is
+\begin{equation}
+ p(x)=\frac{q_{j+1}(x)}{q_j(x)+q_{j+1}(x)}
+ =\frac{1}{1+\exp[-\Delta(x-s)/\sigma^2]}.
+ \label{eq:exactmfull-logistic-posterior}
+\end{equation}
+On the crossover interval \(C_j\) in
+Eq.~\eqref{eq:exactmfull-crossover-interval}, its edge odds are \(1/9\) and
+\(9\), not exponentially small or large.  Both adjacent masses are therefore
+bounded below throughout \(C_j\), and
+Eq.~\eqref{eq:exactmfull-crossover-monotonicity} holds there.  Conversely,
+the fixed finite centre diameter bounds the posterior variance, so
+\(|L'|\le C\sigma^{-4}\) on \(C_j\).
+
+The pure root satisfies \(L(r_j)=0\).  Choose \(A_{\rm v}\) large enough that
+\(\kappa_vA_{\rm v}\ge2K\).  Since
+\(A_{\rm v}\sigma^4=o(\sigma^2)\), the valley box lies in \(C_j\) for small
+\(\sigma\).  Integrating the lower and upper bounds for \(L'\) from \(r_j\)
+proves Eq.~\eqref{eq:exactmfull-valley-box-control}, the valley row of
+Eq.~\eqref{eq:exactmfull-box-boundary-signs}, and the required negative and
+positive bounds on \(C_j\setminus\operatorname{int}V_j\).
+
+It remains to cover both outer sectors of every gap; this is the step that
+prevents an unproved dominance claim at a crossover edge.  Consider first
+\begin{equation}
+ [c_j+A_{\rm p}\sigma^2,s_j-h_j\sigma^2]
+ \label{eq:exactmfull-left-gap-sector}
+\end{equation}
+and split it at \(c_j+\Delta_j/4\), which lies in the stated interval for all
+sufficiently small \(\sigma\), uniformly in \(w\).  On the portion nearer
+\(c_j\), every other component is exponentially small relative to component
+\(j\), so
+\begin{equation}
+ \bar c(x)-x\le-\tfrac12A_{\rm p}\sigma^2,
+ \qquad L_{\sigma,w}(x)\le-A_{\rm p}/2\le-2K.
+ \label{eq:exactmfull-left-near-peak-sector}
+\end{equation}
+On the remaining portion, monotonicity of
+Eq.~\eqref{eq:exactmfull-logistic-posterior} and the left crossover edge give
+\(p(x)\le1/10\), while \(x-c_j\ge\Delta_j/4\).  The adjacent-pair mean then
+obeys
+\begin{equation}
+ c_j+\Delta_jp(x)-x
+ \le\frac{\Delta_j}{10}-\frac{\Delta_j}{4}
+ =-\frac{3\Delta_j}{20}.
+ \label{eq:exactmfull-left-crossover-sector}
+\end{equation}
+The nonadjacent correction is exponentially small by
+lemma~\ref{lem:exactmfull-adjacent-isolation}; hence this sector also has
+\(L\le-2K\) for small \(\sigma\), including its \(1/9\)-odds edge.
+
+Symmetrically, split
+\([s_j+h_j\sigma^2,c_{j+1}-A_{\rm p}\sigma^2]\) at
+\(c_{j+1}-\Delta_j/4\).  On the portion nearer the crossover,
+\(p(x)\ge9/10\) and \(c_{j+1}-x\ge\Delta_j/4\), giving the positive analogue
+of Eq.~\eqref{eq:exactmfull-left-crossover-sector}; on the portion nearer
+\(c_{j+1}\), one-component isolation gives
+\(L\ge A_{\rm p}/2\ge2K\).  Thus the right outer sector has \(L\ge2K\).
+
+The fixed centre and endpoint separations make all boxes disjoint and
+interior for one common sufficiently small \(\sigma_K\).  The outer tails,
+all peak boundaries, both outer sectors of every gap, and every
+crossover-minus-valley sector cover every point of the box complement.
+This proves Eqs.~\eqref{eq:exactmfull-complement-margin}--
+\eqref{eq:exactmfull-complement-sign-order}.  When \(m=1\), the same result
+follows directly from \(L=(c_1-x)/\sigma^2\) and
+Eq.~\eqref{eq:exactmfull-outer-tail-sector}.
+\end{proof}
+
+\begin{theorem}[Slow positive factors preserve the exact topology]
+\label{thm:exactmfull-slow-factor}
+Let \(x\in C^2(I)\) be strictly increasing with
+\(\inf_Ix'=v_0>0\).  Let \(a_\sigma\in C^2(I)\) be positive and assume
+\begin{equation}
+ M_0:=\sup_{\sigma<\sigma_0}
+ \|\partial_t\log a_\sigma\|_{L^\infty(I)}<\infty,
+ \qquad
+ M_1:=\sup_{\sigma<\sigma_0}
+ \|\partial_t^2\log a_\sigma\|_{L^\infty(I)}<\infty.
+ \label{eq:exactmfull-slow-factor-hypothesis}
+\end{equation}
+Then, uniformly for \(w\in\mathcal W_{w_*}\), all sufficiently small
+\(\sigma>0\) give exactly \(m\) nondegenerate maxima and \(m-1\)
+nondegenerate minima of
+\begin{equation}
+ F_{\sigma,w}(t)=a_\sigma(t)H_{\sigma,w}(x(t))
+ \label{eq:exactmfull-slow-product}
+\end{equation}
+on \(I\), ordered alternately, with no stationary endpoint.  Relative to the
+pure roots in the \(x\) coordinate,
+\begin{align}
+ x(t_{j,\sigma}^{\max})-p_j(\sigma,w)&=O(\sigma^2),
+ \label{eq:exactmfull-slow-peak-shift}\\
+ x(t_{j,\sigma}^{\min})-r_j(\sigma,w)&=O(\sigma^4),
+ \label{eq:exactmfull-slow-valley-shift}
+\end{align}
+uniformly in \(w\).  Thus
+\begin{equation}
+ x(t_{j,\sigma}^{\min})=s_j(\sigma,w)+O(\sigma^4).
+ \label{eq:exactmfull-slow-valley-location}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Put
+\begin{equation}
+ b_\sigma=\partial_t\log a_\sigma,
+ \qquad
+ D_{\sigma,w}(t)=\partial_t\log F_{\sigma,w}(t)
+ =b_\sigma(t)+x'(t)L_{\sigma,w}(x(t)).
+ \label{eq:exactmfull-stationarity-function}
+\end{equation}
+Since \(F_{\sigma,w}>0\), its stationary points are precisely the zeros of
+\(D_{\sigma,w}\), and
+\begin{equation}
+ D_{\sigma,w}'
+ =b_\sigma'+x''L_{\sigma,w}+(x')^2L_{\sigma,w}'.
+ \label{eq:exactmfull-stationarity-derivative}
+\end{equation}
+Choose \(K>(M_0+1)/v_0\) and apply
+lemma~\ref{lem:exactmfull-posterior-sectors}.  On the full complement of the
+open boxes, the term \(x'L\) strictly dominates \(b_\sigma\), so \(D\) has
+the alternating signs in Eq.~\eqref{eq:exactmfull-complement-sign-order} and
+has no complement zero.
+
+On a peak box, Eqs.~\eqref{eq:exactmfull-peak-box-control} and
+\eqref{eq:exactmfull-stationarity-derivative} give
+\begin{equation}
+ D_{\sigma,w}'
+ \le M_1+\|x''\|_\infty C_{\rm p}
+ -v_0^2\kappa_{\rm p}\sigma^{-2}<0
+ \label{eq:exactmfull-peak-root-monotonicity}
+\end{equation}
+for small \(\sigma\).  Its boundary signs give exactly one zero.  At that
+zero \(F''=FD'<0\), hence the root is a nondegenerate maximum.  Similarly,
+on a valley box,
+\begin{equation}
+ D_{\sigma,w}'
+ \ge-M_1-\|x''\|_\infty C_{\rm v}
+ +v_0^2\kappa_{\rm v}\sigma^{-4}>0,
+ \label{eq:exactmfull-valley-root-monotonicity}
+\end{equation}
+so its unique zero is a nondegenerate minimum.  The certified tail signs
+exclude endpoint stationary points.
+
+At a slow-factor root, Eq.~\eqref{eq:exactmfull-stationarity-function} gives
+\(|L|\le M_0/v_0\).  The pure peak root has \(L(p_j)=0\), and the uniform
+negative \(L'=\Theta(\sigma^{-2})\) on its box implies the peak displacement
+in Eq.~\eqref{eq:exactmfull-slow-peak-shift}.  The uniform positive
+\(L'=\Theta(\sigma^{-4})\) on a valley box gives
+Eq.~\eqref{eq:exactmfull-slow-valley-shift}.  Combining the latter with
+Eq.~\eqref{eq:exactmfull-valley-location} proves
+Eq.~\eqref{eq:exactmfull-slow-valley-location}.  Every constant is uniform
+over the compact allocation family.
+\end{proof}
+
+\subsection{Fixed-\texorpdfstring{\(\varepsilon\)}{epsilon} Doi transfer and
+theorem boundary}
+\label{subsec:exactmfull-doi-transfer}
+
+For \(B>0\), let
+\begin{equation}
+ f_{B,\varepsilon,w}(t)
+ =\mathbb E_0\!\left[
+ K_{B,w,\varepsilon}(Z_t,R_t)
+ \exp\!\left(-\int_0^tK_{B,w,\varepsilon}(Z_s,R_s)\,\dd s\right)
+ \right]
+ \label{eq:exactmfull-reaction-density}
+\end{equation}
+be the Doi reaction-time density and set
+\begin{equation}
+ \mathcal F_{B,\varepsilon,w}=f_{B,\varepsilon,w}/B.
+ \label{eq:exactmfull-rescaled-density}
+\end{equation}
+This is budget-rescaling, not normalization to unit time integral.
+
+\begin{theorem}[Exact \(m\) Doi modes for fixed finite \((d,m)\)]
+\label{thm:exactmfull-doi}
+Fix all data in Eqs.~\eqref{eq:exactmfull-midpoint-sde}--
+\eqref{eq:exactmfull-killing}, including the stationary midpoint variance,
+mutual independence, the strict weighted-space variance inequalities, target
+times strictly inside \(I\), consistently oriented physical centres,
+normalized slabs of physical width \(\varepsilon\rho\), the whole-window
+contact margin, and the compact allocation family.  Then there is
+\(\varepsilon_0>0\), depending on these fixed data, such that for every
+\(0<\varepsilon<\varepsilon_0\) and every
+\(w\in\mathcal W_{w_*}\), the continuum free-exposure clock
+\(G_{\varepsilon,w}\) has exactly \(m\) nondegenerate maxima and \(m-1\)
+nondegenerate minima on \(I\), ordered alternately, and no stationary
+endpoint.
+
+For each fixed such \(\varepsilon\), there is
+\(B_0(\varepsilon)>0\), uniform over \(w\in\mathcal W_{w_*}\), such that
+\(\mathcal F_{B,\varepsilon,w}\) has the same complete stationary signature
+for every \(0<B<B_0(\varepsilon)\).  Multiplication by \(B>0\) changes no
+stationary point, so the statement also holds for the physical density
+\(f_{B,\varepsilon,w}\).  This is theorem~\ref{thm:main-modality} of
+section~\ref{sec:exact-m-spine}, with its hypotheses written out in full.
+\end{theorem}
+
+\begin{proof}
+In lemma~\ref{lem:exactmfull-factorization}, take
+\(a_\sigma=a_\varepsilon\), with
+\(\sigma=\varepsilon S_*/\ell_0\).  Lemma
+\ref{lem:exactmfull-contact-tail} supplies
+Eq.~\eqref{eq:exactmfull-slow-factor-hypothesis}; hence
+theorem~\ref{thm:exactmfull-slow-factor} proves the exact stationary
+signature of \(G_{\varepsilon,w}\), uniformly over the compact allocation
+family.
+
+Fix one \(0<\varepsilon<\varepsilon_0\).  The ordered simple roots depend
+continuously on \(w\) by the implicit-function theorem.  Their finitely many
+graphs over the compact set \(\mathcal W_{w_*}\) are compact and disjoint.
+Continuity of the second time derivative gives pairwise disjoint root tubes
+on which \(G''\) has a uniform nonzero sign and magnitude.  After shrinking
+the tubes if necessary, \(G'\) has fixed opposite signs at the two boundaries
+of each tube.  On the compact complement in
+\(I\times\mathcal W_{w_*}\), \(|G'|\) has a positive minimum; the two endpoint
+slopes have positive uniform absolute minima as well.
+
+For this fixed \(\varepsilon\), \(V_{w,\varepsilon}\) is bounded uniformly in
+\(w\), and Eqs.~\eqref{eq:exactmfull-midpoint-initial}--
+\eqref{eq:exactmfull-relative-perp-initial} put \(q_0\) in the required
+weighted state space.  Because \(w_j\ge w_*>0\), the compact allocation set
+lies strictly inside the simplex and admits the affine control chart and a
+complex tube required by theorem~\ref{thm:mixed-jet}.  (If the set is the
+singleton \(w_j=1/m\), the same conclusion is the corresponding pointwise
+case.)  Applying that theorem with time orders \(0,1,2\) and no control
+derivative gives
+\begin{equation}
+ \sup_{w\in\mathcal W_{w_*}}
+ \|\mathcal F_{B,\varepsilon,w}-G_{\varepsilon,w}\|_{C^2(I)}
+ \longrightarrow0
+ \qquad(B\downarrow0).
+ \label{eq:exactmfull-fixed-epsilon-c2-transfer}
+\end{equation}
+Choose \(B_0(\varepsilon)\) so that the \(C^1\) error is smaller than all
+boundary, complement, and endpoint margins and the second-derivative error
+is smaller than the root-tube curvature margin.  In each tube,
+\(\mathcal F'\) has opposite boundary signs and \(\mathcal F''\) keeps the
+sign of \(G''\), so it has exactly one root of the same type.  The complement
+and endpoints contain none.  This proves the complete finite-window
+signature.
+\end{proof}
+
+\begin{remark}[Quantifiers, saturation, and scope]
+\label{rem:exactmfull-scope}
+The quantifier order is
+\begin{equation}
+ \text{fix }(d,m,\text{all geometric and probabilistic data})
+ \ \Longrightarrow\
+ 0<\varepsilon<\varepsilon_0
+ \ \Longrightarrow\
+ 0<B<B_0(\varepsilon).
+ \label{eq:exactmfull-quantifier-order}
+\end{equation}
+There is no asserted lower bound for \(B_0(\varepsilon)\) uniform as
+\(\varepsilon\downarrow0\), and no interchange of the two limits.  The proof
+permits \(B_0(\varepsilon)\) to shrink rapidly as \(\varepsilon\)
+decreases---potentially exponentially in \(1/\varepsilon^2\)---and no rate is
+claimed; this is why no common useful budget is asserted across the family.
+The construction is not uniform in \(d\) or \(m\), does not provide one
+geometry with arbitrarily many modes, does not count stationary points
+outside \(I\), and gives no process-level event-mass floor.  It treats
+normalized longitudinal Gaussian slabs, not arbitrary localized catalyst
+patches.
+
+Moreover, lemma~\ref{lem:exactmfull-contact-tail} shows that the relative
+contact factor is asymptotically saturated on the theorem window:
+\begin{equation}
+ c_{d,\varepsilon}=1
+ +O(\varepsilon^{-N}\e^{-q/\varepsilon^2})
+ \quad\text{in }C^2(I).
+ \label{eq:exactmfull-saturated-contact}
+\end{equation}
+Thus the exact Doi embedding is rigorous, but the modal basis is created by
+the ordered narrow slabs sampled by the monotone constant-variance midpoint;
+the relative encounter factor is a slow perturbation in this asymptotic
+family.  Nontrivial contact, a useful common positive budget, deterministic
+finite-parameter complement certificates, survival, and event-basin masses
+remain separate continuum-validation requirements rather than consequences
+of theorem~\ref{thm:exactmfull-doi}.
+\end{remark}
+
+\nocite{grebenkov2020multiple}
+\bibliographystyle{iopart-num}
+\bibliography{references}
+
+\end{document}

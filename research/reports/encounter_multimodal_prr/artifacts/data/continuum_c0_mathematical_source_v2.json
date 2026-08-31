@@ -1,0 +1,217 @@
+{
+  "boundary_contract": {
+    "actual_control_volumes_include_endpoint_half_volumes": true,
+    "actual_control_volumes_include_wrapped_periodic_segments": true,
+    "artificial_longitudinal_box_faces": "reflecting_zero_flux_approximants_only",
+    "cellwise_pi_h_i_equals_M_i_pi_claimed": false,
+    "target_longitudinal_boundary": "natural_decay_form_realization",
+    "target_transverse_boundary": "periodic_torus_exact"
+  },
+  "field_convention": {
+    "complex_continuum_inner_product": "integral_conjugate(u)*v*pi_dx",
+    "complex_discrete_inner_product": "sum_i_pi_h_i*conjugate(u_i)*v_i",
+    "complex_forms_conjugate_first_factor": true,
+    "complexification_optional": true,
+    "primary_scalar_field": "real"
+  },
+  "gate_ownership": {
+    "C0": [
+      "exact_continuum_and_discrete_definitions",
+      "exact_identification_map_algebra",
+      "global_stationary_mass_gauge_definition",
+      "ideal_common_conductance_definition",
+      "raw_production_interval_semantics_and_nonclaims"
+    ],
+    "C1": [
+      "rho_i_converges_uniformly_to_one",
+      "norm_equivalence_and_pointwise_strong_map_convergence",
+      "mosco_liminf_and_recovery",
+      "relative_periodic_tensor_vertex_dual_boundary_and_killing_consistency",
+      "resolvent_and_functional_calculus_consequences"
+    ],
+    "C4": [
+      "outward_box_mass_and_gauge_enclosures",
+      "outward_gauged_mass_and_common_conductance_enclosures",
+      "outward_initial_killing_and_evaluator_enclosures",
+      "gauged_ideal_member_containment_for_every_declared_configuration",
+      "production_centre_to_ideal_error_charged_to_E_eval"
+    ]
+  },
+  "identification_maps": {
+    "A_h": {
+      "denominator": "M_i_pi",
+      "formula": "A_h[u]_i=integral_C_i_u_pi_dx/M_i_pi",
+      "kind": "literal_pi_weighted_cell_average"
+    },
+    "J_h": {
+      "formula": "J_h[v]=sum_i_v_i*indicator_C_i",
+      "kind": "piecewise_constant_actual_control_volume_reconstruction"
+    },
+    "P_h": {
+      "denominator": "pi_h_i",
+      "exact_adjoint_of_J_h": true,
+      "formula": "P_h[u]_i=integral_C_i_u_pi_dx/pi_h_i",
+      "kind": "exact_adjoint_weighted_cell_map"
+    },
+    "S_h": {
+      "defined_on_all_H_L": false,
+      "formula": "S_h[u]_i=u(x_i_rep)",
+      "kind": "representative_point_or_nodal_sampling",
+      "smooth_or_continuous_recovery_core_only": true
+    },
+    "cell_mass": {
+      "formula": "M_i_pi=integral_C_i_pi_dx"
+    },
+    "exact_identities": {
+      "A_h_J_h": "I",
+      "J_h_A_h": "E_h_pi_weighted_cell_conditional_expectation",
+      "J_h_P_h": "rho_h_pc*E_h",
+      "P_h": "J_h_adjoint",
+      "P_h_J_h": "diag(rho_i)",
+      "P_h_relation_to_A_h": "P_h=diag(rho_i)*A_h"
+    },
+    "nonclaims": {
+      "J_h_P_h_equals_E_h_claimed": false,
+      "J_h_P_h_operator_norm_convergence_claimed": false,
+      "P_h_J_h_equals_I_claimed": false
+    },
+    "rho_i": {
+      "denominator": "pi_h_i",
+      "formula": "rho_i=M_i_pi/pi_h_i",
+      "numerator": "M_i_pi"
+    }
+  },
+  "initial_law": {
+    "active_route_unique": true,
+    "finite_box_mass_exact_when_support_contained": "sum_i_p0_h_i=1",
+    "initial_density_ratio": "u0=q0/pi",
+    "initial_probability_cell_mass": "p0_h_i=integral_C_i_q0_dx",
+    "initial_reference_mass": "pi_h_i",
+    "meshwise_probability_renormalization_allowed": false,
+    "periodic_images_combined_before_cell_integration": true,
+    "required_support_condition": "support_closure_strictly_inside_every_declared_nonperiodic_box",
+    "unique_discrete_density_ratio": "u0_h_i=p0_h_i/pi_h_i=P_h[u0]_i",
+    "unit_mass": "integral_q0_dx=1"
+  },
+  "production_boundary": {
+    "common_conductance_intervals_constructed_for_every_declared_edge": false,
+    "current_single_axis_diagnostic_generalized_to_all_configurations": false,
+    "current_single_axis_diagnostic_raw_containment": true,
+    "gauge_enclosures_frozen_for_every_declared_configuration": false,
+    "gauged_ideal_member_containment_proved_for_every_declared_configuration": false,
+    "ideal_analytic_common_conductance_is_mosco_object": true,
+    "production_centre_h_to_zero_theorem_claimed": false,
+    "production_centres_accepted_as_exactly_reversible": false,
+    "production_interval_width_belongs_to": "E_eval_not_E_space",
+    "raw_containment_scope": "ungauged_primitives_and_directed_rates_only",
+    "raw_to_gauged_bridge_proved": false
+  },
+  "row_generator_and_form": {
+    "density_ratio_forward_equation": "u_prime=Q_c*u",
+    "directed_edge_form": "one_half*sum_i_j_pi_h_i*q_ij*(u_i-u_j)*(v_i-v_j)+sum_i_pi_h_i*k_i*u_i*v_i",
+    "free_detailed_balance": "pi_h_i*q_ij=pi_h_j*q_ji",
+    "free_graph_connected": true,
+    "free_offdiagonal_rates_nonnegative": true,
+    "free_row_sum": "Q_0*one=0",
+    "killed_generator": "Q_c=Q_0-diag(k_i)",
+    "killing": "k_i=B*V_h_i>=0",
+    "nonnegative_operator": "H_h=-Q_c",
+    "probability_forward_equation": "p_prime=transpose(Q_c)*p",
+    "row_generator_convention": true,
+    "undirected_edge_form": "sum_each_undirected_edge_once_c_ij*(u_i-u_j)*(v_i-v_j)+sum_i_pi_h_i*k_i*u_i*v_i",
+    "undirected_edge_has_extra_one_half": false,
+    "undirected_edge_single_common_conductance": "c_ij=pi_h_i*q_ij=pi_h_j*q_ji"
+  },
+  "schema": "encounter_continuum_c0_mathematical_source_v2",
+  "stationary_mass_gauge": {
+    "box_mass": "M_L=integral_Omega_L_pi_dx",
+    "conditional_renormalization_to_one": false,
+    "gauged_mass": "pi_h_i=g_h_L*tilde_pi_h_i",
+    "global_mass_identity": "sum_i_pi_h_i=M_L",
+    "ideal_common_conductance": "c_ij=g_h_L*tilde_pi_h_i*q_ij=g_h_L*tilde_pi_h_j*q_ji",
+    "raw_reversible_mass": "tilde_pi_h_i",
+    "scale_formula": "g_h_L=M_L/sum_i_tilde_pi_h_i",
+    "target": "restricted_fixed_box_mass_not_full_space_probability_one"
+  },
+  "status": "FROZEN_RESULT_BLIND_C0_MATHEMATICAL_SOURCE_ONLY_NO_C1_NO_PRODUCTION_BRIDGE",
+  "witnesses": {
+    "complex_positivity": {
+      "bilinear_edge_square_wrong": "-1/1",
+      "conductance": "1/1",
+      "sesquilinear_edge_square_correct": "1/1",
+      "u": [
+        "i",
+        "0"
+      ]
+    },
+    "global_gauge": {
+      "box_mass": "1/2",
+      "correct_gauge": "1/4",
+      "gauged_masses": [
+        "1/4",
+        "1/4"
+      ],
+      "raw_masses": [
+        "1/1",
+        "1/1"
+      ],
+      "unit_sum_normalization_is_wrong": true
+    },
+    "map_denominators": {
+      "A_h_u": [
+        "1/1",
+        "0/1"
+      ],
+      "M_i_pi": [
+        "1/3",
+        "2/3"
+      ],
+      "P_h_u": [
+        "2/3",
+        "0/1"
+      ],
+      "cell_integrals_of_u_pi": [
+        "1/3",
+        "0/1"
+      ],
+      "inner_Jv_u": "1/3",
+      "inner_v_Au_wrong_for_adjoint": "1/2",
+      "inner_v_Pu": "1/3",
+      "pi_h_i": [
+        "1/2",
+        "1/2"
+      ],
+      "rho_i": [
+        "2/3",
+        "4/3"
+      ],
+      "u": "indicator_C_1",
+      "v": [
+        "1/1",
+        "0/1"
+      ]
+    },
+    "row_column": {
+      "Q": [
+        [
+          "-1/1",
+          "1/1"
+        ],
+        [
+          "2/1",
+          "-2/1"
+        ]
+      ],
+      "incorrect_Q_p_total_derivative": "1/1",
+      "pi_h": [
+        "2/1",
+        "1/1"
+      ],
+      "probability_column": [
+        "1/1",
+        "0/1"
+      ],
+      "transpose_Q_p_total_derivative": "0/1"
+    }
+  }
+}

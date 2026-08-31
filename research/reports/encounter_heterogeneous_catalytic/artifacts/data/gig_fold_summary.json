@@ -1,0 +1,172 @@
+{
+  "canonical_channel_comparison": {
+    "CTMC_far_mode": 196.14587000696656,
+    "CTMC_far_mode_details": {
+      "bracket_left": 196.0,
+      "bracket_right": 196.5,
+      "channel_index": 1,
+      "density": 0.004346142124470289,
+      "dimensionless_curvature": -6.84159402343075,
+      "dimensionless_first_residual": 1.174347854967298e-13,
+      "first_derivative": 2.6020852139652106e-18,
+      "root_count": 1,
+      "root_method": "Brent root refinement of detected alpha exp(T t) T b_channel sign changes within the declared horizon",
+      "scan_points": 1001,
+      "search_horizon": 500.0,
+      "second_derivative": -7.728636606807449e-07,
+      "time": 196.14587000696656
+    },
+    "CTMC_fold_near_splitting_probability": 8.945768022901476e-06,
+    "CTMC_near_mode": 32.15340615430589,
+    "CTMC_near_mode_details": {
+      "bracket_left": 32.0,
+      "bracket_right": 32.5,
+      "channel_index": 0,
+      "density": 0.0010536188202400559,
+      "dimensionless_curvature": -3.7445162574170063,
+      "dimensionless_first_residual": 8.271680453981586e-15,
+      "first_derivative": -2.710505431213761e-19,
+      "root_count": 1,
+      "root_method": "Brent root refinement of detected alpha exp(T t) T b_channel sign changes within the declared horizon",
+      "scan_points": 1001,
+      "search_horizon": 500.0,
+      "second_derivative": -3.8161485075206445e-06,
+      "time": 32.15340615430589
+    },
+    "GIG_lower_fold_early_weight": 3.6723487761529104e-05,
+    "boundary_IG_late_mode": 180.1898050140316,
+    "early_mode_relative_error": 0.17592020350762813,
+    "joint_GIG_early_mode": 26.496972400176976,
+    "late_mode_relative_error": 0.08134795289020483
+  },
+  "channels": {
+    "boundary_IG": {
+      "A": 562.5,
+      "B": 0.009,
+      "channel": "boundary_IG",
+      "log_normalization": -7.093830624114587,
+      "mode": 180.1898050140316,
+      "normalization": 0.0008302110402645753,
+      "nu": 1.5
+    },
+    "joint_relative_centre_GIG": {
+      "A": 81.42857142857144,
+      "B": 0.04050000000000001,
+      "channel": "joint_relative_centre_GIG",
+      "log_normalization": -7.069423994436894,
+      "mode": 26.496972400176976,
+      "normalization": 0.0008507229892408159,
+      "nu": 2.0
+    },
+    "relative_IG": {
+      "A": 80.00000000000001,
+      "B": 0.0125,
+      "channel": "relative_IG",
+      "log_normalization": -3.61864837441224,
+      "mode": 40.00000000000001,
+      "normalization": 0.02681890111904543,
+      "nu": 1.5
+    }
+  },
+  "claim_boundary": {
+    "GIG": "leading narrow-patch/free-motion screening law; no remainder bound claimed",
+    "physical_fold": "numerically located nondegenerate fold for the stated finite L=31 independent-clock CTMC within the declared search domain",
+    "spatial_limit": "no lattice-to-continuum convergence claim is made by this artifact",
+    "time_grid": "fold candidate uses finite-matrix semigroup derivative evaluations; sampled grids provide validation but not exhaustive root isolation"
+  },
+  "controls": {
+    "canonical_channel_modes": "largest detected negative-curvature maxima from Brent-refined alpha exp(T t) T b_channel sign changes within the declared horizon",
+    "continuation_points_were_not_used_to_locate_fold": true,
+    "one_peak_side_points": 7,
+    "parameter_sensitivity": "finite-matrix evaluation of the exact augmented CTMC sensitivity identity",
+    "time_derivatives": "alpha exp(T t) T^n b",
+    "two_peak_side_points": 7
+  },
+  "evidence_grade": "validated_finite_state_fold_with_asymptotic_screening",
+  "fixed_shape_GIG_folds": [
+    {
+      "determinant_residual": 2.2214323091023692e-27,
+      "early_weight": 3.6723487761529104e-05,
+      "mixture_first_derivative": 0.0,
+      "mixture_second_derivative": -9.098986738083304e-24,
+      "mixture_third_derivative": 2.9970286415477965e-09,
+      "time": 28.041093744754253,
+      "weight_transversality": -0.00021753329955446788
+    },
+    {
+      "determinant_residual": -1.6155871338926322e-27,
+      "early_weight": 0.8780596892215297,
+      "mixture_first_derivative": 4.235164736271502e-22,
+      "mixture_second_derivative": 7.940933880509066e-23,
+      "mixture_third_derivative": -4.4934959892377774e-09,
+      "time": 157.52784734713586,
+      "weight_transversality": -1.9603764534321365e-05
+    }
+  ],
+  "geometry": {
+    "D1": 0.35,
+    "D2": 0.1,
+    "D_centre": 0.07777777777777778,
+    "D_relative": 0.44999999999999996,
+    "bias1": 0.3,
+    "bias2": 0.3,
+    "centre_offset_to_near_patch": 0.6666666666666661,
+    "centre_start": 12.333333333333334,
+    "centre_velocity": 0.09333333333333334,
+    "closing_speed": 0.15,
+    "far_distance": 15.0,
+    "far_site": 30.0,
+    "initial_separation": 12.0,
+    "near_site": 13.0,
+    "q1": 0.7,
+    "q2": 0.2,
+    "start1": 3.0,
+    "start2": 15.0,
+    "v1": 0.21,
+    "v2": 0.06
+  },
+  "normal_form": {
+    "held_out_fit_max_delta": 0.032,
+    "held_out_prominence_loglog_intercept": -19.413383688421074,
+    "held_out_prominence_loglog_slope": 1.5087696422885413,
+    "held_out_separation_loglog_intercept": 1.7206724481247624,
+    "held_out_separation_loglog_slope": 0.5009544129153759,
+    "normal_form_half_separation_coefficient": 2.777015289509253,
+    "normal_form_prominence_coefficient": 3.5021814378459388e-09,
+    "normal_form_separation_coefficient": 5.554030579018506
+  },
+  "physical_CTMC_fold": {
+    "density": 1.7873048347153275e-07,
+    "density_parameter_derivative": 1.7692486699563937e-07,
+    "dimensionless_first_residual": 7.120827884034825e-15,
+    "dimensionless_second_residual": 6.775052656330525e-13,
+    "dimensionless_third_derivative": 69.94207037115673,
+    "dimensionless_transversality": -0.1962021126613908,
+    "far_splitting_probability": 0.9999910542319812,
+    "first_derivative": -3.432799542095065e-23,
+    "kappa_far": 0.916290731874155,
+    "kappa_near": 5.755410148483769e-05,
+    "mass_closure_error": 3.9968028886505635e-15,
+    "near_splitting_probability": 8.945768022901476e-06,
+    "root_acceptance_guard": {
+      "maximum_dimensionless_fold_residual": 1e-08,
+      "minimum_abs_dimensionless_third_derivative": 0.001,
+      "minimum_abs_dimensionless_transversality": 1e-05,
+      "minimum_positive_density": 1e-14,
+      "theta_domain": [
+        -25.0,
+        10.0
+      ],
+      "time_domain": [
+        1e-06,
+        5000.0
+      ]
+    },
+    "second_derivative": 8.809473523689745e-23,
+    "tail_at_5000": 1.3230041874002605e-21,
+    "theta_log_kappa_near_over_far": -9.675363585346341,
+    "third_derivative": 2.452986106009531e-10,
+    "time": 37.074958640153255,
+    "time_parameter_transversality": -9.45848619669871e-10
+  }
+}

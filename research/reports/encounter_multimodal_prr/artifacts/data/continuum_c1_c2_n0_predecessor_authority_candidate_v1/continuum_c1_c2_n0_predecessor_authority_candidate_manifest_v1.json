@@ -1,0 +1,939 @@
+{
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "external_predecessor_commitment_present": false,
+    "formal_outer_open_operation_model_present": false,
+    "formal_selected_source_dag_complete": false,
+    "formal_symbolic_candidate_materialized": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "policy_predecessor_order_independently_sealed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "root_transfer_complete": false,
+    "science_executed": false,
+    "submission_eligible": false,
+    "symbolic_acceptance_receipt_materialized": false
+  },
+  "code_inventory": [
+    {
+      "path": "code/rate_defined_tensor_f0.py",
+      "role": "code_killing_f0_core",
+      "sha256": "321f12aa8a5df44ca9c9162704cccd0f2c526abf9577832b4824538b0afdb8e5"
+    },
+    {
+      "path": "code/rate_defined_tensor_f0_production_initial_stream.py",
+      "role": "code_killing_partition_producer",
+      "sha256": "2871976855a0c598b26b8d83b33f4ea3a027a2c826ccdb2ad9b678761093e6cb"
+    },
+    {
+      "path": "code/rate_defined_tensor_f0_production_killing_geometry.py",
+      "role": "code_killing_producer",
+      "sha256": "2cada45143914edf1142daf6a5b7a8b5367757c664855dd6d836e7f43935dd9b"
+    },
+    {
+      "path": "code/verified_uniformization_enclosure.py",
+      "role": "code_killing_uniformization_dependency",
+      "sha256": "a4646f946b891133c972f62cd36a1cb177516793050c2b6e520cffceb57782ed"
+    },
+    {
+      "path": "code/rate_defined_tensor_f0_production_killing_geometry_independent.py",
+      "role": "code_killing_verifier",
+      "sha256": "70942ed70eabd1cca48499d004550670bd12acfe714e4d6ca43308a210f1fb4d"
+    },
+    {
+      "path": "code/build_continuum_c1_fixed_row_raw_flux_source_v1.py",
+      "role": "code_raw_flux_producer",
+      "sha256": "48b29162e533c02950b673d8b207efc771091b9b16581967a5e9ef487bf20a92"
+    },
+    {
+      "path": "code/validate_continuum_c1_fixed_row_raw_flux_source_v1.py",
+      "role": "code_raw_flux_verifier",
+      "sha256": "8f86118ea279b80746b8d981bbe0e0ce2cf2b0cef286bb981b74d8ea79195c1a"
+    },
+    {
+      "path": "code/build_continuum_c1_stationary_integral_source_v1.py",
+      "role": "code_stationary_producer",
+      "sha256": "a85aede0700a2ae13001edfa527f2929860da00dec413c3c5a5755198b220f17"
+    },
+    {
+      "path": "code/validate_continuum_c1_stationary_integral_source_v1.py",
+      "role": "code_stationary_verifier",
+      "sha256": "0dc5ee8ae5e3d7ff051e90855c246ef65ceaad7ccf7d9a9f50b40175321668a2"
+    }
+  ],
+  "forbidden_selected_roles": {
+    "budget_value_sources": [],
+    "control_value_sources": [],
+    "result_or_scratch_sources": [],
+    "role10_killing_geometry_sources": [],
+    "role8_raw_axis_enclosure_sources": [],
+    "role9_stationary_integral_sources": []
+  },
+  "predecessor_prefix_dag": {
+    "edges": [
+      [
+        "role1_reference_density_source",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "role2_ideal_formula_source",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "role3_factorization_source",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "role4_configuration_source",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "joint_refinement_family",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "legacy_member_spec",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "round176_member_candidate",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "method_parameter_registry_candidate",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "role5_member_spec_candidate",
+        "role7_anti_vacuity_policy_candidate"
+      ],
+      [
+        "role6_outward_method_registry_candidate",
+        "role7_anti_vacuity_policy_candidate"
+      ],
+      [
+        "legacy_policy",
+        "role7_anti_vacuity_policy_candidate"
+      ],
+      [
+        "round176_policy_candidate",
+        "role7_anti_vacuity_policy_candidate"
+      ],
+      [
+        "role3_factorization_source",
+        "role11_symbolic_control_method_source"
+      ],
+      [
+        "control_method_commitment",
+        "role11_symbolic_control_method_source"
+      ],
+      [
+        "killing_geometry_authority",
+        "role11_symbolic_control_method_source"
+      ],
+      [
+        "code_killing_f0_core",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_killing_partition_producer",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_killing_producer",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_killing_uniformization_dependency",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_killing_verifier",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_raw_flux_producer",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_raw_flux_verifier",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_stationary_producer",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "code_stationary_verifier",
+        "role6_outward_method_registry_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_00"
+      ],
+      [
+        "initial_partition_row_00",
+        "initial_partition_00_midpoint"
+      ],
+      [
+        "initial_partition_00_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_00",
+        "initial_partition_00_relative_parallel"
+      ],
+      [
+        "initial_partition_00_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_00",
+        "initial_partition_00_relative_perpendicular"
+      ],
+      [
+        "initial_partition_00_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_01"
+      ],
+      [
+        "initial_partition_row_01",
+        "initial_partition_01_midpoint"
+      ],
+      [
+        "initial_partition_01_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_01",
+        "initial_partition_01_relative_parallel"
+      ],
+      [
+        "initial_partition_01_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_01",
+        "initial_partition_01_relative_perpendicular"
+      ],
+      [
+        "initial_partition_01_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_02"
+      ],
+      [
+        "initial_partition_row_02",
+        "initial_partition_02_midpoint"
+      ],
+      [
+        "initial_partition_02_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_02",
+        "initial_partition_02_relative_parallel"
+      ],
+      [
+        "initial_partition_02_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_02",
+        "initial_partition_02_relative_perpendicular"
+      ],
+      [
+        "initial_partition_02_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_03"
+      ],
+      [
+        "initial_partition_row_03",
+        "initial_partition_03_midpoint"
+      ],
+      [
+        "initial_partition_03_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_03",
+        "initial_partition_03_relative_parallel"
+      ],
+      [
+        "initial_partition_03_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_03",
+        "initial_partition_03_relative_perpendicular"
+      ],
+      [
+        "initial_partition_03_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_04"
+      ],
+      [
+        "initial_partition_row_04",
+        "initial_partition_04_midpoint"
+      ],
+      [
+        "initial_partition_04_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_04",
+        "initial_partition_04_relative_parallel"
+      ],
+      [
+        "initial_partition_04_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_04",
+        "initial_partition_04_relative_perpendicular"
+      ],
+      [
+        "initial_partition_04_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_05"
+      ],
+      [
+        "initial_partition_row_05",
+        "initial_partition_05_midpoint"
+      ],
+      [
+        "initial_partition_05_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_05",
+        "initial_partition_05_relative_parallel"
+      ],
+      [
+        "initial_partition_05_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_05",
+        "initial_partition_05_relative_perpendicular"
+      ],
+      [
+        "initial_partition_05_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_06"
+      ],
+      [
+        "initial_partition_row_06",
+        "initial_partition_06_midpoint"
+      ],
+      [
+        "initial_partition_06_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_06",
+        "initial_partition_06_relative_parallel"
+      ],
+      [
+        "initial_partition_06_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_06",
+        "initial_partition_06_relative_perpendicular"
+      ],
+      [
+        "initial_partition_06_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_07"
+      ],
+      [
+        "initial_partition_row_07",
+        "initial_partition_07_midpoint"
+      ],
+      [
+        "initial_partition_07_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_07",
+        "initial_partition_07_relative_parallel"
+      ],
+      [
+        "initial_partition_07_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_07",
+        "initial_partition_07_relative_perpendicular"
+      ],
+      [
+        "initial_partition_07_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_08"
+      ],
+      [
+        "initial_partition_row_08",
+        "initial_partition_08_midpoint"
+      ],
+      [
+        "initial_partition_08_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_08",
+        "initial_partition_08_relative_parallel"
+      ],
+      [
+        "initial_partition_08_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_08",
+        "initial_partition_08_relative_perpendicular"
+      ],
+      [
+        "initial_partition_08_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_09"
+      ],
+      [
+        "initial_partition_row_09",
+        "initial_partition_09_midpoint"
+      ],
+      [
+        "initial_partition_09_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_09",
+        "initial_partition_09_relative_parallel"
+      ],
+      [
+        "initial_partition_09_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_09",
+        "initial_partition_09_relative_perpendicular"
+      ],
+      [
+        "initial_partition_09_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_10"
+      ],
+      [
+        "initial_partition_row_10",
+        "initial_partition_10_midpoint"
+      ],
+      [
+        "initial_partition_10_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_10",
+        "initial_partition_10_relative_parallel"
+      ],
+      [
+        "initial_partition_10_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_10",
+        "initial_partition_10_relative_perpendicular"
+      ],
+      [
+        "initial_partition_10_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_bundle",
+        "initial_partition_row_11"
+      ],
+      [
+        "initial_partition_row_11",
+        "initial_partition_11_midpoint"
+      ],
+      [
+        "initial_partition_11_midpoint",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_11",
+        "initial_partition_11_relative_parallel"
+      ],
+      [
+        "initial_partition_11_relative_parallel",
+        "role5_member_spec_candidate"
+      ],
+      [
+        "initial_partition_row_11",
+        "initial_partition_11_relative_perpendicular"
+      ],
+      [
+        "initial_partition_11_relative_perpendicular",
+        "role5_member_spec_candidate"
+      ]
+    ],
+    "formal_selected_source_dag_complete": false,
+    "nodes": [
+      "role1_reference_density_source",
+      "role2_ideal_formula_source",
+      "role3_factorization_source",
+      "role4_configuration_source",
+      "role5_member_spec_candidate",
+      "role6_outward_method_registry_candidate",
+      "role7_anti_vacuity_policy_candidate",
+      "role11_symbolic_control_method_source",
+      "joint_refinement_family",
+      "initial_partition_bundle",
+      "legacy_member_spec",
+      "legacy_policy",
+      "round176_member_candidate",
+      "round176_policy_candidate",
+      "control_method_commitment",
+      "killing_geometry_authority",
+      "method_parameter_registry_candidate",
+      "initial_partition_row_00",
+      "initial_partition_00_midpoint",
+      "initial_partition_00_relative_parallel",
+      "initial_partition_00_relative_perpendicular",
+      "initial_partition_row_01",
+      "initial_partition_01_midpoint",
+      "initial_partition_01_relative_parallel",
+      "initial_partition_01_relative_perpendicular",
+      "initial_partition_row_02",
+      "initial_partition_02_midpoint",
+      "initial_partition_02_relative_parallel",
+      "initial_partition_02_relative_perpendicular",
+      "initial_partition_row_03",
+      "initial_partition_03_midpoint",
+      "initial_partition_03_relative_parallel",
+      "initial_partition_03_relative_perpendicular",
+      "initial_partition_row_04",
+      "initial_partition_04_midpoint",
+      "initial_partition_04_relative_parallel",
+      "initial_partition_04_relative_perpendicular",
+      "initial_partition_row_05",
+      "initial_partition_05_midpoint",
+      "initial_partition_05_relative_parallel",
+      "initial_partition_05_relative_perpendicular",
+      "initial_partition_row_06",
+      "initial_partition_06_midpoint",
+      "initial_partition_06_relative_parallel",
+      "initial_partition_06_relative_perpendicular",
+      "initial_partition_row_07",
+      "initial_partition_07_midpoint",
+      "initial_partition_07_relative_parallel",
+      "initial_partition_07_relative_perpendicular",
+      "initial_partition_row_08",
+      "initial_partition_08_midpoint",
+      "initial_partition_08_relative_parallel",
+      "initial_partition_08_relative_perpendicular",
+      "initial_partition_row_09",
+      "initial_partition_09_midpoint",
+      "initial_partition_09_relative_parallel",
+      "initial_partition_09_relative_perpendicular",
+      "initial_partition_row_10",
+      "initial_partition_10_midpoint",
+      "initial_partition_10_relative_parallel",
+      "initial_partition_10_relative_perpendicular",
+      "initial_partition_row_11",
+      "initial_partition_11_midpoint",
+      "initial_partition_11_relative_parallel",
+      "initial_partition_11_relative_perpendicular",
+      "code_killing_f0_core",
+      "code_killing_partition_producer",
+      "code_killing_producer",
+      "code_killing_uniformization_dependency",
+      "code_killing_verifier",
+      "code_raw_flux_producer",
+      "code_raw_flux_verifier",
+      "code_stationary_producer",
+      "code_stationary_verifier"
+    ],
+    "predecessor_prefix_dag_complete": true,
+    "role8_to_role10_outputs_materialized": false
+  },
+  "reconstruction_counts": {
+    "axis_cell_count": 5037,
+    "axis_count": 36,
+    "axis_edge_count": 5013,
+    "configuration_count": 12,
+    "periodic_seam_count": 12,
+    "profile_index_count": 48,
+    "total_virtual_tensor_state_count": 34787462
+  },
+  "role_catalog": [
+    {
+      "path": "artifacts/data/continuum_c1_reference_density_source_v1.json",
+      "role": "role1_reference_density_source",
+      "sha256": "7b890d727ad0b229557de1841ae82befb8d8f83e79edc6b5348b277c3024e575"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_ideal_formula_source_v1.json",
+      "role": "role2_ideal_formula_source",
+      "sha256": "f31b637b659483102d787da7263cd45c72829b3fce3df2ff9100066dec94c2be"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_factorization_source_v1.json",
+      "role": "role3_factorization_source",
+      "sha256": "70cb49e63c496d489887c764c812671b03a7352d5752f6663c377734739a1dca"
+    },
+    {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "role": "role4_configuration_source",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_member_spec_v3_candidate.json",
+      "role": "role5_member_spec_candidate",
+      "sha256": "b5eea6553d329bcbc4a1eb301dd3d5fb5b5acd387b80bfee5094286d3ca8ab71"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_outward_method_registry_v2_candidate.json",
+      "role": "role6_outward_method_registry_candidate",
+      "sha256": "2a455a3bb4808fb722a83b815a7c8cf8995669360394ee6f8adc73c87cc280fb"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_anti_vacuity_policy_v3_candidate.json",
+      "role": "role7_anti_vacuity_policy_candidate",
+      "sha256": "e0b3a649b45494881a534ecd84fe6f98f73012f0e5e6d7ca14b90fddffbccac8"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_symbolic_control_method_source_v1.json",
+      "role": "role11_symbolic_control_method_source",
+      "sha256": "fd6edf9046956d311366ff51f229523ab605d80073515b9768d5fa5cafa8904f"
+    }
+  ],
+  "schema": "encounter_continuum_c1_c2_n0_predecessor_authority_candidate_manifest_v1",
+  "stage": "preproduction_predecessor_authority_candidate_only",
+  "status": "PREDECESSOR_PREFIX_COMPLETE_ONLY_NO_FORMAL_OUTER_OPEN_NO_ROLES_8_10_NO_ACCEPTANCE",
+  "subordinate_inventory": [
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/row.json",
+      "role": "initial_partition_row_00",
+      "sha256": "b4db6d90683d24f785f431dc5251685da66133cd1bbc6649f61dd2a7c72d9744"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/midpoint.partition.json",
+      "role": "initial_partition_00_midpoint",
+      "sha256": "f36127a87a19a13df6108a527a2285361be082ca81f2184e68c3c47655e7ca94"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_parallel.partition.json",
+      "role": "initial_partition_00_relative_parallel",
+      "sha256": "318ee1287c419f8ed91e19e4426657e2ec28d4e367859f71373061ada7382424"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_00_relative_perpendicular",
+      "sha256": "66f21ab3a8314dbede0f1aac6cd0bbba0738d22f75f8a7334bd79463a204d9d8"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/row.json",
+      "role": "initial_partition_row_01",
+      "sha256": "001387cd97f104ff85a5be75d29a63c4974fe1c51916c81e29436c8b79d09636"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/midpoint.partition.json",
+      "role": "initial_partition_01_midpoint",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_parallel.partition.json",
+      "role": "initial_partition_01_relative_parallel",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_01_relative_perpendicular",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/row.json",
+      "role": "initial_partition_row_02",
+      "sha256": "a74502b0f355c419f4f390ee4e3f8b1bbc7a6ae425e797258d66a7d34e317047"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/midpoint.partition.json",
+      "role": "initial_partition_02_midpoint",
+      "sha256": "01fd7ebcc9735870dcc083dd49206bf509b60b34d861c9bff7e9556f0c012e7b"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_parallel.partition.json",
+      "role": "initial_partition_02_relative_parallel",
+      "sha256": "95df8fa2e5113047035d1429d13ae60402c4e77bce9a452e924c5d2b0c71d226"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_02_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/row.json",
+      "role": "initial_partition_row_03",
+      "sha256": "a11ee6881778ca60b74b6b45ee945f108d95c75c311f9bdf98ac3b5646e5411a"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/midpoint.partition.json",
+      "role": "initial_partition_03_midpoint",
+      "sha256": "f720e9cec6f231a2dc064a188923490b0ddb307a357ad5f647e185da9ced2716"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_parallel.partition.json",
+      "role": "initial_partition_03_relative_parallel",
+      "sha256": "294d3964773e8b2eb1912824eb086fa86e4178fdce16b5035ce10560749e48cd"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_03_relative_perpendicular",
+      "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/row.json",
+      "role": "initial_partition_row_04",
+      "sha256": "004747eccb1169dd572406a790857db2f9923125d49d7a87570048d08ace6095"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/midpoint.partition.json",
+      "role": "initial_partition_04_midpoint",
+      "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_parallel.partition.json",
+      "role": "initial_partition_04_relative_parallel",
+      "sha256": "95df8fa2e5113047035d1429d13ae60402c4e77bce9a452e924c5d2b0c71d226"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_perpendicular.partition.json",
+      "role": "initial_partition_04_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/row.json",
+      "role": "initial_partition_row_05",
+      "sha256": "895e57646e5e160351811f6507843dcc855b7f04e6945f3c2d141eb74762beff"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/midpoint.partition.json",
+      "role": "initial_partition_05_midpoint",
+      "sha256": "01fd7ebcc9735870dcc083dd49206bf509b60b34d861c9bff7e9556f0c012e7b"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_parallel.partition.json",
+      "role": "initial_partition_05_relative_parallel",
+      "sha256": "28faea90b701a889d43293c1a7d17e008356d1598117562498bf781eb6fc641d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_perpendicular.partition.json",
+      "role": "initial_partition_05_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/row.json",
+      "role": "initial_partition_row_06",
+      "sha256": "74237cb9f22eb319f61f42aca1ff7dcd1566d503938b2f2f22a5f639e13d7313"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/midpoint.partition.json",
+      "role": "initial_partition_06_midpoint",
+      "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_parallel.partition.json",
+      "role": "initial_partition_06_relative_parallel",
+      "sha256": "28faea90b701a889d43293c1a7d17e008356d1598117562498bf781eb6fc641d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_perpendicular.partition.json",
+      "role": "initial_partition_06_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/row.json",
+      "role": "initial_partition_row_07",
+      "sha256": "a2a8cbf13c05218cf674d7bb5d90778dfb93e769caa8f5b3a67610b2e70b26b0"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/midpoint.partition.json",
+      "role": "initial_partition_07_midpoint",
+      "sha256": "b2ccec4070f1ce541d6559bfb3e79fac3c3deb561a15e627d8353856540c99b6"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_parallel.partition.json",
+      "role": "initial_partition_07_relative_parallel",
+      "sha256": "2e03048c7ed614d6cd3f76df1ccabde6e2c883b0a6a471d2c1ad5b696db80bed"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_perpendicular.partition.json",
+      "role": "initial_partition_07_relative_perpendicular",
+      "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/row.json",
+      "role": "initial_partition_row_08",
+      "sha256": "da69e05bf1725be9669926d78dabebe505c438f1175fb8e89a09e9a1687e8bf1"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/midpoint.partition.json",
+      "role": "initial_partition_08_midpoint",
+      "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_parallel.partition.json",
+      "role": "initial_partition_08_relative_parallel",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_perpendicular.partition.json",
+      "role": "initial_partition_08_relative_perpendicular",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/row.json",
+      "role": "initial_partition_row_09",
+      "sha256": "2e1cd5db309ad568aec518dab478c4d84cd2043064d5d9a9a6fbae20f406c12a"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/midpoint.partition.json",
+      "role": "initial_partition_09_midpoint",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_parallel.partition.json",
+      "role": "initial_partition_09_relative_parallel",
+      "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_perpendicular.partition.json",
+      "role": "initial_partition_09_relative_perpendicular",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/row.json",
+      "role": "initial_partition_row_10",
+      "sha256": "a6dd081d9cb20982a51aa504f4c5e030f0e6413d72ad2217090d1aa13e3b8475"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/midpoint.partition.json",
+      "role": "initial_partition_10_midpoint",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_parallel.partition.json",
+      "role": "initial_partition_10_relative_parallel",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_perpendicular.partition.json",
+      "role": "initial_partition_10_relative_perpendicular",
+      "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/row.json",
+      "role": "initial_partition_row_11",
+      "sha256": "c24b12dd924facd095ecca5baae6fa7bb33252f3282d7ae4c41f35ef240efa12"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/midpoint.partition.json",
+      "role": "initial_partition_11_midpoint",
+      "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_parallel.partition.json",
+      "role": "initial_partition_11_relative_parallel",
+      "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_perpendicular.partition.json",
+      "role": "initial_partition_11_relative_perpendicular",
+      "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550"
+    }
+  ],
+  "supporting_evidence": [
+    {
+      "path": "artifacts/data/continuum_c1_genuine_joint_refinement_family_v2.json",
+      "role": "joint_refinement_family",
+      "sha256": "1f7bc61ac37444c0fdb2c0b74924a4b81ed8e6d6ab70c794ebe3401156b5bee9"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "role": "initial_partition_bundle",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_member_spec_v1.json",
+      "role": "legacy_member_spec",
+      "sha256": "e2166e62ae2e5e67a8e3eb058fe4333f59192525ca5614939f417ba285d8d2ef"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_anti_vacuity_policy_v1.json",
+      "role": "legacy_policy",
+      "sha256": "c8b9f3aca2b3a516935eeb1fdfb2bf542ba0da2d12ae4c11581f6f1ee607f628"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_member_spec_v2.json",
+      "role": "round176_member_candidate",
+      "sha256": "cbf967d795648fe5c433ed827d1365e70b84ff1a2444811e3a14244abedadc21"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_anti_vacuity_policy_v2.json",
+      "role": "round176_policy_candidate",
+      "sha256": "7e36369a9a1e22aa9c2c256ff8eaa4a0c8bf973316e2b6265247c8beff4ddb13"
+    },
+    {
+      "path": "artifacts/data/continuum_c0_control_method_commitment_v2.json",
+      "role": "control_method_commitment",
+      "sha256": "288ad85d5992446a8f3b58416e445a88f1c15a4c71114ba008939d8fbd9a4a97"
+    },
+    {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "role": "killing_geometry_authority",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_method_parameter_registry_v2_candidate.json",
+      "role": "method_parameter_registry_candidate",
+      "sha256": "3fc83a81046f92f24e3adc51645462aa68953cc5991573fe63e6f0e941ed6961"
+    }
+  ]
+}

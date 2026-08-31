@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "evidence_timing": "POST_RESULT_REPRODUCIBILITY_AUDIT",
+  "pre_refreeze_reference_result": {
+    "historical_path_now_overwritten_by_deterministic_result": "artifacts/data/continuum_broad_patch_b0_bridge_result.json",
+    "sha256": "22d95b68df21ca05c9377277166eae6a882016970b7531caff292bde3b389ba0"
+  },
+  "complete_rerun": {
+    "temporary_path": "/tmp/continuum_broad_patch_b0_bridge_result.rerun.json",
+    "sha256": "cc154498603ba7eb25e8bd7533e8bc1a6bb54fc39271f49f2d870e94d22465e8"
+  },
+  "byte_identical": false,
+  "comparison": {
+    "different_fields": 40,
+    "different_numeric_fields": 40,
+    "different_nonnumeric_fields": 0,
+    "maximum_absolute_numeric_difference": 6.691225351573848e-11,
+    "maximum_scaled_numeric_difference_using_denominator_max_1_abs": 3.311634622260481e-11,
+    "maximum_root_time_absolute_difference": 1.2896350654045818e-12,
+    "maximum_valley_ratio_absolute_difference": 1.326716514427062e-12,
+    "maximum_difference_path": "/finite_volume_mesh_rows/3/bridge_candidate_stationary_structures/1/stationary_structure/roots/4/scaled_second_derivative"
+  },
+  "scientific_invariants": {
+    "status_equal": true,
+    "status": "PASS_RESULT_INFORMED_B0_NUMERICAL_BRIDGE",
+    "selected_step_equal": true,
+    "selected_step": 0.13,
+    "all_boolean_gates_equal": true,
+    "all_boolean_gates_true": true,
+    "all_categorical_fields_equal": true,
+    "all_four_mesh_topologies_equal": true
+  },
+  "declared_absolute_comparison_tolerance": 1e-9,
+  "tolerance_level_reproducibility_passed": true,
+  "interpretation": "The pre-refreeze complete rerun preserved every scientific invariant but was not bitwise reproducible. This historical failed audit is retained after the deterministic repair.",
+  "resolution": {
+    "status": "P2_CLOSED_BY_DETERMINISTIC_REFREEZE",
+    "numpy_global_seed": 1729,
+    "rng_state_restored_after_run": true,
+    "scientific_configuration_changed": false,
+    "new_manifest_sha256": "263d4bd5e95f4cf477916948f2e4bbf3cd99066ac9dc9a9ab5726f2030a6f1e8",
+    "new_official_result_sha256": "6a18e668401ae5776eebd7bd58c7bd553838db21998efdba2865cea094ae207b",
+    "second_complete_result_sha256": "6a18e668401ae5776eebd7bd58c7bd553838db21998efdba2865cea094ae207b",
+    "complete_results_byte_identical": true,
+    "focused_tests_passed": 9,
+    "ruff_lint_and_format_passed": true
+  }
+}

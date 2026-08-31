@@ -1,0 +1,64 @@
+{
+  "classifier_spec": null,
+  "classifier_spec_sha256": null,
+  "command": [
+    "python",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_finite_green_spectrum.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:42:46.374685+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_finite_green_spectrum.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": null,
+  "inputs": [],
+  "model_spec": {
+    "catalytic_sites": [
+      0,
+      1
+    ],
+    "continuum_continuation_claimed": false,
+    "coupled_pole": -2.5,
+    "near_pole_epsilon": 0.0001,
+    "reaction_rates": [
+      0.5,
+      0.5
+    ],
+    "scope": "finite 4x4 matrix only",
+    "walker_jump_rate": 2.0
+  },
+  "model_spec_sha256": "e89d705db8d92761f9c86be1f812c8db6d8be2eb655f41b0898114d485291cc9",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_matrix_green_spectral_audit.json",
+      "sha256": "ca0f532bbe3ff4715df4bc9082d2a7cc5e4578283f78fd199c8086056fdcdebf"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_finite_green_spectrum.py",
+      "sha256": "e70858e11fa8acafee9270070b6427387695f4ccf9e59fb98fe4df266d2339d2"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_matrix_green_spectral_audit.md",
+      "sha256": "787ca1839ccdbf7f8b77608a652094a7ce12457f0b4b128056cab9e57f300cd5"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/encounter.py",
+      "sha256": "9687bf78c93d7dd69bc30a85c92c044d07fa13d8f67e841082deffb5a6cb62b4"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

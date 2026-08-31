@@ -1,0 +1,503 @@
+{
+  "accepted_authorities": {
+    "configuration": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "schema": "encounter_physical_configuration_family_control_free_v1",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+      "status": "CONTROL_FREE_GEOMETRY_SPEC_ONLY_NOT_F0_NOT_F1"
+    },
+    "factorization_v2": {
+      "path": "artifacts/data/continuum_c1_factorization_source_v2_candidate.json",
+      "schema": "encounter_continuum_c1_factorization_source_v2_candidate",
+      "sha256": "1cf32a65081dc4f381daae45a556e0e26dc9411eb248cd99e555b754ffad3e26",
+      "status": "OUTCOME_FREE_CONTROL_FREE_FACTORIZATION_CANDIDATE_ONLY_NOT_EXTERNALLY_COMMITTED_NO_NUMERIC_ENCLOSURES_NO_CONCRETE_KILLING"
+    },
+    "initial_partition_bundle": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "schema": "encounter_control_free_production_initial_stream_v1",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e",
+      "status": "PASS_CONTROL_FREE_12_ROW_FILE_BACKED_PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NOT_F0_NOT_F1"
+    },
+    "member_v4": {
+      "member_identity_sha256": "68c8f9eeaca5127e9fb49c4671731990869350b358c67632fb11513f26472193",
+      "path": "artifacts/data/continuum_c1_c2_n0_member_spec_v4_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_member_spec_v4_candidate",
+      "sha256": "b2982e4e2b0bac208f80472d0de959fa152a5494c895677d081836c482e5f2d5",
+      "status": "STRUCTURAL_PARTITION_IDENTITY_V4_CANDIDATE_ONLY_NOT_EXTERNALLY_COMMITTED_NOT_PRODUCTION_MEMBER"
+    }
+  },
+  "claim_boundary": {
+    "candidate_authoritative": false,
+    "external_predecessor_commitment_present": false,
+    "numerical_killing_artifact_present": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "role10_acceptance_receipt_present": false,
+    "science_executed": false,
+    "submission_eligible": false
+  },
+  "coverage": {
+    "configuration_authority_lineage_file_count": 3,
+    "configuration_initial_geometry_file_count": 1,
+    "exact_writable_precommit_input_closure_mirrored": true,
+    "member_v4_partition_file_count": 36,
+    "original_report_relative_suffix_preserved_under_files": true,
+    "standalone_content_addressed_validation_without_original_writable_sources": true
+  },
+  "entries": [
+    {
+      "byte_length": 49390,
+      "mirror_relative_path": "files/notes/positive_b_fixed_control_robustness_design_v2.md",
+      "ordinal": 0,
+      "semantic_role": "configuration_design",
+      "sha256": "264cf2d2ef17feedcb3c1a5469e18b5c57ba5981b57dc6201147955df3684dcd",
+      "source_report_relative_path": "notes/positive_b_fixed_control_robustness_design_v2.md"
+    },
+    {
+      "byte_length": 162520,
+      "mirror_relative_path": "files/code/rate_defined_tensor_f0.py",
+      "ordinal": 1,
+      "semantic_role": "configuration_implementation",
+      "sha256": "321f12aa8a5df44ca9c9162704cccd0f2c526abf9577832b4824538b0afdb8e5",
+      "source_report_relative_path": "code/rate_defined_tensor_f0.py"
+    },
+    {
+      "byte_length": 42963,
+      "mirror_relative_path": "files/code/test_rate_defined_tensor_f0.py",
+      "ordinal": 2,
+      "semantic_role": "configuration_test",
+      "sha256": "f646ab3d545f698f225296baf774ae629776c17c2882b3f30d3a95cefa6bbd8d",
+      "source_report_relative_path": "code/test_rate_defined_tensor_f0.py"
+    },
+    {
+      "byte_length": 987,
+      "mirror_relative_path": "files/artifacts/data/physical_initial_analytic_source_v1.json",
+      "ordinal": 3,
+      "semantic_role": "configuration_initial_geometry",
+      "sha256": "0b2efec5dc1abea1380ab862e46825e7b79658fe9bfa0ac6637e1426ed9f7f5f",
+      "source_report_relative_path": "artifacts/data/physical_initial_analytic_source_v1.json"
+    },
+    {
+      "byte_length": 24349,
+      "configuration_index": 0,
+      "configuration_label": "O113/Base",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/midpoint.partition.json",
+      "ordinal": 4,
+      "semantic_role": "member_v4_partition",
+      "sha256": "f36127a87a19a13df6108a527a2285361be082ca81f2184e68c3c47655e7ca94",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/midpoint.partition.json"
+    },
+    {
+      "byte_length": 24622,
+      "configuration_index": 0,
+      "configuration_label": "O113/Base",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_parallel.partition.json",
+      "ordinal": 5,
+      "semantic_role": "member_v4_partition",
+      "sha256": "318ee1287c419f8ed91e19e4426657e2ec28d4e367859f71373061ada7382424",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 10795,
+      "configuration_index": 0,
+      "configuration_label": "O113/Base",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_perpendicular.partition.json",
+      "ordinal": 6,
+      "semantic_role": "member_v4_partition",
+      "sha256": "66f21ab3a8314dbede0f1aac6cd0bbba0738d22f75f8a7334bd79463a204d9d8",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 27566,
+      "configuration_index": 1,
+      "configuration_label": "E128/Base",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/midpoint.partition.json",
+      "ordinal": 7,
+      "semantic_role": "member_v4_partition",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/midpoint.partition.json"
+    },
+    {
+      "byte_length": 27742,
+      "configuration_index": 1,
+      "configuration_label": "E128/Base",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_parallel.partition.json",
+      "ordinal": 8,
+      "semantic_role": "member_v4_partition",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 11987,
+      "configuration_index": 1,
+      "configuration_label": "E128/Base",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_perpendicular.partition.json",
+      "ordinal": 9,
+      "semantic_role": "member_v4_partition",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 27631,
+      "configuration_index": 2,
+      "configuration_label": "O129/Base",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/midpoint.partition.json",
+      "ordinal": 10,
+      "semantic_role": "member_v4_partition",
+      "sha256": "01fd7ebcc9735870dcc083dd49206bf509b60b34d861c9bff7e9556f0c012e7b",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/midpoint.partition.json"
+    },
+    {
+      "byte_length": 27968,
+      "configuration_index": 2,
+      "configuration_label": "O129/Base",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_parallel.partition.json",
+      "ordinal": 11,
+      "semantic_role": "member_v4_partition",
+      "sha256": "95df8fa2e5113047035d1429d13ae60402c4e77bce9a452e924c5d2b0c71d226",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 12123,
+      "configuration_index": 2,
+      "configuration_label": "O129/Base",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_perpendicular.partition.json",
+      "ordinal": 12,
+      "semantic_role": "member_v4_partition",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 34488,
+      "configuration_index": 3,
+      "configuration_label": "O161/Base",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/midpoint.partition.json",
+      "ordinal": 13,
+      "semantic_role": "member_v4_partition",
+      "sha256": "f720e9cec6f231a2dc064a188923490b0ddb307a357ad5f647e185da9ced2716",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/midpoint.partition.json"
+    },
+    {
+      "byte_length": 34898,
+      "configuration_index": 3,
+      "configuration_label": "O161/Base",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_parallel.partition.json",
+      "ordinal": 14,
+      "semantic_role": "member_v4_partition",
+      "sha256": "294d3964773e8b2eb1912824eb086fa86e4178fdce16b5035ce10560749e48cd",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 15171,
+      "configuration_index": 3,
+      "configuration_label": "O161/Base",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_perpendicular.partition.json",
+      "ordinal": 15,
+      "semantic_role": "member_v4_partition",
+      "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 36350,
+      "configuration_index": 4,
+      "configuration_label": "M+",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/midpoint.partition.json",
+      "ordinal": 16,
+      "semantic_role": "member_v4_partition",
+      "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/midpoint.partition.json"
+    },
+    {
+      "byte_length": 27968,
+      "configuration_index": 4,
+      "configuration_label": "M+",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_parallel.partition.json",
+      "ordinal": 17,
+      "semantic_role": "member_v4_partition",
+      "sha256": "95df8fa2e5113047035d1429d13ae60402c4e77bce9a452e924c5d2b0c71d226",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 12123,
+      "configuration_index": 4,
+      "configuration_label": "M+",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_perpendicular.partition.json",
+      "ordinal": 18,
+      "semantic_role": "member_v4_partition",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 27631,
+      "configuration_index": 5,
+      "configuration_label": "R+",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/midpoint.partition.json",
+      "ordinal": 19,
+      "semantic_role": "member_v4_partition",
+      "sha256": "01fd7ebcc9735870dcc083dd49206bf509b60b34d861c9bff7e9556f0c012e7b",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/midpoint.partition.json"
+    },
+    {
+      "byte_length": 37020,
+      "configuration_index": 5,
+      "configuration_label": "R+",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_parallel.partition.json",
+      "ordinal": 20,
+      "semantic_role": "member_v4_partition",
+      "sha256": "28faea90b701a889d43293c1a7d17e008356d1598117562498bf781eb6fc641d",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 12123,
+      "configuration_index": 5,
+      "configuration_label": "R+",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_perpendicular.partition.json",
+      "ordinal": 21,
+      "semantic_role": "member_v4_partition",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 36350,
+      "configuration_index": 6,
+      "configuration_label": "MR+",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/midpoint.partition.json",
+      "ordinal": 22,
+      "semantic_role": "member_v4_partition",
+      "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/midpoint.partition.json"
+    },
+    {
+      "byte_length": 37020,
+      "configuration_index": 6,
+      "configuration_label": "MR+",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_parallel.partition.json",
+      "ordinal": 23,
+      "semantic_role": "member_v4_partition",
+      "sha256": "28faea90b701a889d43293c1a7d17e008356d1598117562498bf781eb6fc641d",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 12123,
+      "configuration_index": 6,
+      "configuration_label": "MR+",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_perpendicular.partition.json",
+      "ordinal": 24,
+      "semantic_role": "member_v4_partition",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 45017,
+      "configuration_index": 7,
+      "configuration_label": "MR+F",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/midpoint.partition.json",
+      "ordinal": 25,
+      "semantic_role": "member_v4_partition",
+      "sha256": "b2ccec4070f1ce541d6559bfb3e79fac3c3deb561a15e627d8353856540c99b6",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/midpoint.partition.json"
+    },
+    {
+      "byte_length": 45354,
+      "configuration_index": 7,
+      "configuration_label": "MR+F",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_parallel.partition.json",
+      "ordinal": 26,
+      "semantic_role": "member_v4_partition",
+      "sha256": "2e03048c7ed614d6cd3f76df1ccabde6e2c883b0a6a471d2c1ad5b696db80bed",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 15171,
+      "configuration_index": 7,
+      "configuration_label": "MR+F",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_perpendicular.partition.json",
+      "ordinal": 27,
+      "semantic_role": "member_v4_partition",
+      "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 27835,
+      "configuration_index": 8,
+      "configuration_label": "A_M",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/midpoint.partition.json",
+      "ordinal": 28,
+      "semantic_role": "member_v4_partition",
+      "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/midpoint.partition.json"
+    },
+    {
+      "byte_length": 27742,
+      "configuration_index": 8,
+      "configuration_label": "A_M",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_parallel.partition.json",
+      "ordinal": 29,
+      "semantic_role": "member_v4_partition",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 11987,
+      "configuration_index": 8,
+      "configuration_label": "A_M",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_perpendicular.partition.json",
+      "ordinal": 30,
+      "semantic_role": "member_v4_partition",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 27566,
+      "configuration_index": 9,
+      "configuration_label": "A_R",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/midpoint.partition.json",
+      "ordinal": 31,
+      "semantic_role": "member_v4_partition",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/midpoint.partition.json"
+    },
+    {
+      "byte_length": 28070,
+      "configuration_index": 9,
+      "configuration_label": "A_R",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_parallel.partition.json",
+      "ordinal": 32,
+      "semantic_role": "member_v4_partition",
+      "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 11987,
+      "configuration_index": 9,
+      "configuration_label": "A_R",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_perpendicular.partition.json",
+      "ordinal": 33,
+      "semantic_role": "member_v4_partition",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 27566,
+      "configuration_index": 10,
+      "configuration_label": "A_Y",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/midpoint.partition.json",
+      "ordinal": 34,
+      "semantic_role": "member_v4_partition",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/midpoint.partition.json"
+    },
+    {
+      "byte_length": 27742,
+      "configuration_index": 10,
+      "configuration_label": "A_Y",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_parallel.partition.json",
+      "ordinal": 35,
+      "semantic_role": "member_v4_partition",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 12184,
+      "configuration_index": 10,
+      "configuration_label": "A_Y",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_perpendicular.partition.json",
+      "ordinal": 36,
+      "semantic_role": "member_v4_partition",
+      "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_perpendicular.partition.json"
+    },
+    {
+      "byte_length": 27835,
+      "configuration_index": 11,
+      "configuration_label": "A_MRY",
+      "coordinate": "midpoint",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/midpoint.partition.json",
+      "ordinal": 37,
+      "semantic_role": "member_v4_partition",
+      "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/midpoint.partition.json"
+    },
+    {
+      "byte_length": 28070,
+      "configuration_index": 11,
+      "configuration_label": "A_MRY",
+      "coordinate": "relative_parallel",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_parallel.partition.json",
+      "ordinal": 38,
+      "semantic_role": "member_v4_partition",
+      "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_parallel.partition.json"
+    },
+    {
+      "byte_length": 12184,
+      "configuration_index": 11,
+      "configuration_label": "A_MRY",
+      "coordinate": "relative_perpendicular",
+      "mirror_relative_path": "files/artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_perpendicular.partition.json",
+      "ordinal": 39,
+      "semantic_role": "member_v4_partition",
+      "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550",
+      "source_report_relative_path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_perpendicular.partition.json"
+    }
+  ],
+  "entry_count": 40,
+  "exclusions": {
+    "external_commitment_not_created": true,
+    "legacy_role10_result_and_output_bytes_excluded": true,
+    "numerical_execution_results_excluded": true,
+    "replay_requests_plans_bundles_and_commitments_excluded": true,
+    "role8_and_role9_outputs_excluded": true
+  },
+  "inventory_digests": {
+    "configuration_row_inventory": {
+      "domain": "encounter-continuum-c1-n0-configuration-row-inventory-v1",
+      "sha256": "8da99e7910cac1f2ba6b69fb2d0ec52b21412abfa1d59c898462e138d82ebbb2"
+    },
+    "member_v4_partition_inventory": {
+      "domain": "encounter-continuum-c1-n0-partition-inventory-v1",
+      "sha256": "f3507f4eec07e216bd54bcf4486ab5cef1589511367f781174b89fdfe2e7b51f"
+    }
+  },
+  "mirrored_source_pin": {
+    "path": "artifacts/data/physical_initial_analytic_source_v1.json",
+    "schema": "encounter_physical_initial_analytic_source_v1",
+    "sha256": "0b2efec5dc1abea1380ab862e46825e7b79658fe9bfa0ac6637e1426ed9f7f5f"
+  },
+  "schema": "encounter_continuum_c1_n0_role10_sealed_authentication_mirror_v1_candidate",
+  "status": "RESULT_BLIND_SEALED_AUTHENTICATION_CLOSURE_MIRROR_CANDIDATE_ONLY_NOT_EXTERNAL_COMMITMENT_NOT_REPLAY"
+}

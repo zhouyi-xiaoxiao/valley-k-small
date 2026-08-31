@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "stage": "G1c_result_informed_full_simplex_discovery_not_confirmation",
+  "status": "FROZEN_BEFORE_G1C_RUN",
+  "date_frozen": "2026-07-13",
+  "claim_scope": "Result-informed sequential full-simplex grid discovery in one fixed physical family; candidate seeds only, never continuum fold or project-gate evidence",
+  "evidence_timing": "PROSPECTIVE_FOR_G1C_VALUES_AFTER_G1B_AND_MANUAL_REVIEW_RESULTS_WERE_KNOWN",
+  "sequential_design_record": {
+    "prior_line_outcome": "G1b line contained no near-zero or adjacent-sign candidate and had an unmatched-extrema manual-review flag",
+    "post_result_diagnostic_outcome": "the reviewed theta=0.7 extra extrema remained strictly below f_t=0 and were not a fold",
+    "old_line_empty_action_authorized": false,
+    "reason_for_new_stage": "freeze a new result-informed full-simplex design rather than retroactively relabel the G1b line as empty"
+  },
+  "pre_run_amendments": [
+    "An unmatched or changed topology with no eligible candidate is INCONCLUSIVE_MANUAL_REVIEW, not a failed family gate.",
+    "Sign-edge interior eligibility is determined by the linearly interpolated crossing weight; an exact-zero endpoint uses that endpoint weight.",
+    "Formal execution must match the externally frozen runner and protocol-note SHA-256 pins recorded in the manifest.",
+    "A matched extremum that is exactly zero at both edge endpoints is an unresolved whole-edge-zero manual-review case, not a boundary diagnostic."
+  ],
+  "mesh": {
+    "midpoint_cells": 65,
+    "relative_parallel_cells": 65,
+    "relative_perp_cells": 49,
+    "state_count": 207025
+  },
+  "simplex_control": {
+    "component_names": ["left_patch", "middle_patch", "right_patch"],
+    "integer_denominator": 10,
+    "spacing": 0.1,
+    "enumeration": "i=0..10, j=0..10-i, k=10-i-j, in increasing (i,j)",
+    "control_count": 66,
+    "constraints": "i,j,k are nonnegative integers; weights=(i,j,k)/10; i+j+k=10",
+    "physical_retuning_allowed": false
+  },
+  "time_grid": {
+    "start": 0.0,
+    "stop": 80.0,
+    "spacing": 0.25,
+    "points": 321,
+    "chunk_points": 41
+  },
+  "observables": ["f", "f_t", "f_tt", "f_ttt", "survival"],
+  "candidate_rules": {
+    "dimensionless_extremum_height_max": 0.05,
+    "minimum_analysis_time": 0.5,
+    "relative_density_floor": 1e-12,
+    "time_match_tolerance": 2.0,
+    "simplex_edge_l1_integer_distance": 2,
+    "matched_extremum_sign_change": true
+  },
+  "outcome_policy": {
+    "candidate_sources": ["near_zero_extremum_at_strictly_interior_control", "matched_extremum_sign_change_at_strictly_interior_interpolated_crossing"],
+    "candidate_eligibility": "all three weights must be strictly positive at a near-zero control or at the interpolated sign crossing; exact-zero evidence uses the zero endpoint weight",
+    "boundary_flags_are_diagnostic_only": true,
+    "unmatched_topology_is_candidate": false,
+    "unmatched_topology_requires_manual_review": true,
+    "candidate_automatically_confirms_fold": false,
+    "candidate_automatically_selects_segment": false,
+    "maximum_later_confirmation_segments": 1,
+    "later_confirmation_requires_new_frozen_manifest": true,
+    "no_candidate_no_manual_review_action": "mark this fixed physical family discovery gate failed; do not retune inside G1c",
+    "no_candidate_with_manual_review_action": "mark G1c inconclusive and require manual review; do not promote the topology flag or retune inside G1c"
+  },
+  "required_inputs": {
+    "g1a_foundation": {
+      "artifact": "artifacts/data/continuum_g1_smoke.json",
+      "artifact_sha256": "a0a1894dbe6dd37bad6973ca6f3dd29b651441f7b911a5406186bb86a18fd3c3",
+      "producer_code": "code/continuum_g1_smoke.py",
+      "producer_code_sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701",
+      "required_status": "PASS",
+      "required_stage": "G1a_pre_fold_foundations",
+      "required_schema_version": 3,
+      "required_gate_count": 42,
+      "required_continuum_verified": false
+    },
+    "g1b_formal_line": {
+      "artifact": "artifacts/data/continuum_g1_discovery_result.json",
+      "artifact_sha256": "2052c1d26211661995d6048b2cd3ca909f04ce48efb9a96c32bd153c7c63d40d",
+      "producer_code": "code/continuum_g1_discovery.py",
+      "producer_code_sha256": "1411384398ed4e476dba15371cdfd662e94ed3a53cffdc02a1562201cfa7b52e",
+      "required_status": "DISCOVERY_LINE_COMPLETE",
+      "required_stage": "G1b_discovery_not_continuum_confirmation",
+      "required_formal_frozen_run_completed": true,
+      "required_near_zero_extremum_count": 0,
+      "required_adjacent_sign_bracket_count": 0,
+      "required_manual_review": true,
+      "required_continuum_verified": false,
+      "required_project_gate_passed": false
+    },
+    "g1b_manual_review": {
+      "artifact": "artifacts/data/continuum_g1_manual_review_result.json",
+      "artifact_sha256": "6f869fb4e961297a9ba4784c394fa56fbb083f1a89091aa0c27738331127de65",
+      "producer_code": "code/continuum_g1_manual_review.py",
+      "producer_code_sha256": "4453444abd878d771b59185aaee5371ae5d9c786fdb0da9222f25c0605035451",
+      "required_status": "PASS_NEGATIVE_DERIVATIVE_WIGGLE_NOT_FOLD_AT_REVIEWED_CONTROL",
+      "required_stage": "G1b_post_result_manual_review",
+      "required_evidence_timing": "POST_RESULT_DIAGNOSTIC_NOT_PREDECLARED_DISCOVERY_EVIDENCE",
+      "required_original_line_empty_action_authorized": false,
+      "required_continuum_verified": false,
+      "required_project_gate_passed": false
+    }
+  },
+  "required_runtime": "repository .venv",
+  "protocol_note": "notes/g1c_simplex_protocol.md",
+  "frozen_implementation": {
+    "runner": "code/continuum_g1c_simplex.py",
+    "runner_sha256": "0625212963c85d2068fa209924bfa7086f7b192edbbbbde6ffc6f9109cfb63a5",
+    "protocol_note": "notes/g1c_simplex_protocol.md",
+    "protocol_note_sha256": "af337ba273a1b12be4317c7f6e40caf219855f240f56fa9411cfa1edde9e2f99"
+  }
+}

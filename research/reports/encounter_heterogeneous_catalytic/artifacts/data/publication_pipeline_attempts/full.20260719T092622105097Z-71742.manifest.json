@@ -1,0 +1,47 @@
+{
+  "execution": {
+    "complete": false,
+    "expected_stages": [
+      "lean4_static_integrity",
+      "model_schematic",
+      "finite_green_spectrum",
+      "discovery_and_ctmc",
+      "gig_and_finite_ctmc_fold",
+      "modality_susceptibility",
+      "multid_gig_design",
+      "finite_radius_2d_matched_fold",
+      "finite_radius_2d",
+      "finite_radius_2d_trimodal",
+      "spectral_modality",
+      "finite_radius_2d_centre_coordinate",
+      "finite_radius_2d_mechanisms",
+      "finite_radius_2d_matched_control",
+      "finite_radius_2d_capacity",
+      "finite_radius_3d_capacity",
+      "reader_notebook",
+      "manuscript_compile",
+      "legacy_manifest_refresh",
+      "audit_ledger"
+    ],
+    "failures": [
+      "publication run started but did not reach its final manifest"
+    ],
+    "observed_stages": [],
+    "run_id": "20260719T092622105097Z-71742"
+  },
+  "generated_at_utc": "2026-07-19T09:26:23.653513+00:00",
+  "profile": "full",
+  "release": {
+    "requested": false,
+    "start_gate_passed": false
+  },
+  "schema_version": 3,
+  "stages": [],
+  "start_git": {
+    "branch": "dpma-audit-20260630",
+    "captured_at_utc": "2026-07-19T09:26:23.653337+00:00",
+    "clean": false,
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "exact_tag": null
+  }
+}

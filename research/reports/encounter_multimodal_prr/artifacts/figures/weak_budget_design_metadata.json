@@ -1,0 +1,108 @@
+{
+  "caption": "Weak-budget/free-exposure design diagnostic for the frozen current geometry. (a) The three B=0 free-exposure clocks and their reproduced cusp mixture on one 207,025-state finite-volume quotient. (b) The cusp derivative and the frozen inward perturbation, whose three stationary roots have max-min-max topology. (c) The complete 0.01 catalyst-weight simplex screen: 4696 controls have one sampled mode and 455 have two. This result-informed finite-grid diagnostic is neither a finite-B or continuum verification nor a trimodality claim.",
+  "chart_contract": {
+    "analytical_question": "Does the frozen current geometry show a B=0 free-exposure cusp, its local two-mode unfolding, and a sampled two-mode region on the full 0.01 simplex?",
+    "palette_policy": "explicit restrained channel colours plus neutral cusp mixture; mode classes also differ by marker shape and fill",
+    "panels": {
+      "a": "three free-exposure channel clocks and their cusp mixture",
+      "b": "local derivative at the cusp and at the frozen inward perturbation",
+      "c": "complete 0.01 sampled simplex map of one versus two sampled modes"
+    },
+    "renderer": "Matplotlib static PDF and PNG",
+    "takeaway": "The result-informed discrete diagnostic reproduces the cusp and a local max-min-max unfolding; 455 of 5151 sampled controls are bimodal, and none is trimodal."
+  },
+  "claim_scope": "Reproduce a B=0 first-exposure cusp in the fixed finite-volume quotient and screen its 0.01 catalyst-weight simplex; this is a design diagnostic for a future B-to-zero theorem, not finite-B Doi or continuum evidence",
+  "continuum_verified": false,
+  "evidence_timing": "RESULT_INFORMED_REPRODUCTION_NOT_PREREGISTERED_DISCOVERY",
+  "finite_B_Doi_cusp_verified": false,
+  "limitations": [
+    "the cusp and current-geometry mode count were known before this reproduction protocol",
+    "B=0 first-exposure derivative only; no positive finite-B killed-semigroup cusp is verified",
+    "one finite-volume mesh only; continuum_verified remains false",
+    "the 0.01 simplex and 0.01 time grids are finite screens, not exhaustive root proofs",
+    "the current fixed geometry reaches two sampled modes and is not a trimodality result",
+    "the more promising redesigned-centre trimodal wedge remains unfrozen scratch excluded from this artifact claim"
+  ],
+  "manifest_stage": "G1w_result_informed_weak_budget_design_diagnostic",
+  "outputs": {
+    "pdf": "artifacts/figures/weak_budget_design.pdf",
+    "pdf_sha256": "29f12a5debce35339c74b7d6260455f4fc1cce118751296e572cbaa9c17bca7e",
+    "png": "artifacts/figures/weak_budget_design.png",
+    "png_sha256": "312fcb38273395bc26bc5450804946811ff5f0361b92c3c769f9a484483028d7"
+  },
+  "pdf_qa": {
+    "raster_image_xobject_tokens": 0,
+    "transparency_graphics_state_tokens": 0,
+    "type3_font_tokens": 0
+  },
+  "project_gate_passed": false,
+  "provenance": {
+    "matplotlib": "3.11.0",
+    "numpy": "2.5.1",
+    "plot_script": "code/plot_weak_budget_design.py",
+    "plot_script_sha256": "3be729f1f7e045cf1cba40654e5edd7625641cdda2738b615c824960f74de5c5",
+    "python": "3.12.13",
+    "python_executable": "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python",
+    "source_result_generated_utc": "2026-07-13T17:53:51.256590Z"
+  },
+  "recomputation": {
+    "channel_curve_digest_sha256": "e91e25145232c092c162e6d39a95cff74c79402d9134f56a076b849061ae2e68",
+    "cusp_time": 9.447750380547092,
+    "cusp_weights": [
+      0.34413181348516925,
+      0.2642370731628536,
+      0.39163111335197714
+    ],
+    "inward_stationary_roots": [
+      {
+        "raw_first_derivative_residual": -1.8908485888147197e-16,
+        "scaled_first_derivative_residual": 9.56582368533919e-15,
+        "scaled_second_derivative": -0.09070669092547352,
+        "time": 8.366499566718444,
+        "topology": "maximum"
+      },
+      {
+        "raw_first_derivative_residual": 1.734723475976807e-18,
+        "scaled_first_derivative_residual": 9.911816306037901e-17,
+        "scaled_second_derivative": 0.04514450523405463,
+        "time": 9.447750380548666,
+        "topology": "minimum"
+      },
+      {
+        "raw_first_derivative_residual": 5.0306980803327406e-17,
+        "scaled_first_derivative_residual": 3.2572622708376764e-15,
+        "scaled_second_derivative": -0.08573898328766981,
+        "time": 10.707921286059916,
+        "topology": "maximum"
+      }
+    ],
+    "inward_step": 0.005,
+    "maximum_sampled_mode_count": 2,
+    "sampled_mode_count_histogram": {
+      "1": 4696,
+      "2": 455
+    },
+    "simplex_control_count": 5151
+  },
+  "render_policy": {
+    "figure_inches": [
+      7.2,
+      6.7
+    ],
+    "font_family": "DejaVu Sans",
+    "pdf_fonttype": 42,
+    "transparent_background": false
+  },
+  "schema_version": 1,
+  "source_pins": {
+    "manifest": "artifacts/data/continuum_weak_budget_design_manifest.json",
+    "manifest_sha256": "b912aa5d9d6cd21601bab8ec847670b28934a20887319872571ed014622d5949",
+    "producer": "code/continuum_weak_budget_design.py",
+    "producer_sha256": "7fa9ea6114328736c89739459c293aefa9311514764ec3cfe4f0ceb5a1875201",
+    "result": "artifacts/data/continuum_weak_budget_design_result.json",
+    "result_sha256": "dcbfb9c9ccee4378a8ceeebe00be01de0bf5c5db7914b83032333e066439369f"
+  },
+  "stage": "G1w_weak_budget_figure",
+  "status": "PASS_BOUNDED_FIGURE_REPRODUCTION",
+  "trimodality_verified": false
+}

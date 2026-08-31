@@ -1,0 +1,45 @@
+{
+  "claim_boundary": {
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "production_geometry_evidence": false,
+    "release_submission_science_execution": false,
+    "source_bound_cut_layer_constant": false
+  },
+  "geometry": {
+    "circle_pi_upper": "355/113",
+    "contact_radius": "1/4",
+    "density_upper": "1/1",
+    "midpoint_length": "1/1",
+    "sqrt_two_upper": "3/2",
+    "torus_width": "1/1"
+  },
+  "method": {
+    "boundary_intersection_rule": "closed_rectangle_rmin2_le_radius2_le_rmax2",
+    "cell_face_formula": "(integer_index+face_shift_in_cell_units)/N",
+    "contact_fraction_values_computed": false,
+    "face_shift_units": [
+      "0/1",
+      "1/2"
+    ],
+    "periodic_chart_rule": "one_length_shifted_chart_with_contact_tube_strictly_inside",
+    "rational_arithmetic_only": true
+  },
+  "pi_upper_certificate": {
+    "atan_1_over_239_lower_term_count": 2,
+    "atan_1_over_5_upper_term_count": 5,
+    "certified_pi_upper_from_series": "5277328977275528/1679825970703125",
+    "identity": "pi_eq_16_atan_1_over_5_minus_4_atan_1_over_239",
+    "target_circle_pi_upper": "355/113"
+  },
+  "refinement_counts": [
+    16,
+    32,
+    64,
+    128,
+    256
+  ],
+  "schema": "encounter_continuum_c2_cut_layer_neutral_source_v1",
+  "status": "NEUTRAL_GEOMETRY_SOURCE_ONLY_NO_PRODUCTION_NO_C2"
+}

@@ -1,0 +1,702 @@
+{
+  "claim_scope": "G1 operator/geometry/mass-balance smoke only; not a continuum fold, mesh-convergence result, cusp, trimodality result, or PRR claim",
+  "continuum_verified": false,
+  "frozen_configuration": {
+    "box": {
+      "midpoint_bounds": [
+        -0.25,
+        1.85
+      ],
+      "relative_parallel_bounds": [
+        -1.8,
+        1.8
+      ],
+      "relative_perpendicular_bounds": [
+        -0.5,
+        0.5
+      ]
+    },
+    "control_endpoints": {
+      "lower_weights": [
+        0.7,
+        0.25,
+        0.05
+      ],
+      "upper_weights": [
+        0.05,
+        0.25,
+        0.7
+      ]
+    },
+    "control_theta": 0.5,
+    "grid_shape": [
+      25,
+      25,
+      25
+    ],
+    "physical_parameters": {
+      "contact_radius": 0.16,
+      "diffusion": 0.0045,
+      "installed_budget": 0.6,
+      "midpoint_bounds": [
+        -0.25,
+        1.85
+      ],
+      "midpoint_bump_half_width": 0.02,
+      "midpoint_start": 0.14,
+      "ou_mean": 0.95,
+      "ou_stiffness": 0.1,
+      "patch_centres": [
+        0.48,
+        0.67,
+        0.86
+      ],
+      "patch_half_widths": [
+        0.08,
+        0.08,
+        0.08
+      ],
+      "relative_bump_half_width": 0.02,
+      "relative_parallel_bounds": [
+        -1.8,
+        1.8
+      ],
+      "relative_parallel_start": -0.35,
+      "relative_perp_start": 0.0,
+      "transverse_width": 1.0
+    },
+    "time_points": 161,
+    "time_window": [
+      0.0,
+      40.0
+    ]
+  },
+  "gates": {
+    "affine_control_line_certified": true,
+    "budget_derivative_zero": true,
+    "contact_area": true,
+    "contact_centroid": true,
+    "contact_quadrature_error_estimate": true,
+    "contact_reference_l1": true,
+    "contact_reference_per_cell": true,
+    "contact_reflections": true,
+    "current_kappa_killing_nonnegative": true,
+    "dense_sparse_exponential": true,
+    "density_nonnegative": true,
+    "differential_mass_balance": true,
+    "endpoint_kappa_nonnegative": true,
+    "endpoint_killing_nonnegative": true,
+    "endpoint_physical_budgets": true,
+    "endpoint_weight_nonnegative": true,
+    "endpoint_weight_sums": true,
+    "free_generator_offdiagonal_nonnegative": true,
+    "free_generator_row_sums": true,
+    "initial_circular_resultant": true,
+    "initial_contact_safe": true,
+    "initial_mass": true,
+    "initial_profile_first_moments": true,
+    "initial_profile_reference_l1": true,
+    "initial_profile_reference_per_cell": true,
+    "initial_profile_zeroth_moments": true,
+    "initial_reconstructed_moments": true,
+    "killed_mass_balance": true,
+    "main_transport_rate_reference": true,
+    "one_step_two_half_step": true,
+    "patch_profile_first_moments": true,
+    "patch_profile_reference_l1": true,
+    "patch_profile_reference_per_cell": true,
+    "patch_profile_zeroth_moments": true,
+    "patch_quadrature_error_estimates": true,
+    "patchwise_integrals": true,
+    "physical_budget": true,
+    "state_nonnegative": true,
+    "survival_monotone": true,
+    "tensor_killing_order": true,
+    "tensor_operator_sentinel": true,
+    "time_jet_references": true
+  },
+  "generator": "research/reports/encounter_multimodal_prr/code/continuum_g1_smoke.py",
+  "geometry_and_budget": {
+    "base_bump_integral": 0.4439938161680793,
+    "budget_diagnostics": {
+      "affine_line_certificate": "weights are affine in theta; endpoint unit sums and componentwise nonnegativity imply the same for every theta in [0,1]",
+      "affine_line_weight_nonnegativity_certified": true,
+      "current_kappa_minimum": 0.0,
+      "current_killing_minimum": 0.0,
+      "current_weights": [
+        0.375,
+        0.25,
+        0.375
+      ],
+      "endpoint_budget_relative_errors": [
+        0.0,
+        3.7007434154171886e-16
+      ],
+      "endpoint_component_minima": [
+        0.05,
+        0.05
+      ],
+      "endpoint_kappa_minima": [
+        0.0,
+        0.0
+      ],
+      "endpoint_killing_minima": [
+        0.0,
+        0.0
+      ],
+      "endpoint_physical_budgets": [
+        0.6,
+        0.6000000000000002
+      ],
+      "endpoint_weight_sum_errors": [
+        0.0,
+        0.0
+      ],
+      "endpoint_weight_sums": [
+        1.0,
+        1.0
+      ],
+      "endpoint_weights": [
+        [
+          0.7,
+          0.25,
+          0.05
+        ],
+        [
+          0.05,
+          0.25,
+          0.7
+        ]
+      ],
+      "expected_per_transverse_integral": 0.6,
+      "installed_budget": 0.6,
+      "patch_integral_absolute_errors": [
+        0.0,
+        2.220446049250313e-16,
+        4.440892098500626e-16
+      ],
+      "patch_integral_error_estimates": [
+        1.3257171675566207e-14,
+        3.91839447650756e-14,
+        7.623362755469945e-14
+      ],
+      "patch_integrals": [
+        1.0,
+        1.0000000000000002,
+        1.0000000000000004
+      ],
+      "per_transverse_integral": 0.6000000000000001,
+      "physical_budget": 0.6000000000000001,
+      "physical_budget_derivative": 7.460698725481054e-17,
+      "scaled_budget_derivative_error": 1.2434497875801757e-16
+    },
+    "budget_relative_error": 1.8503717077085943e-16,
+    "bump_profile_reference": {
+      "catalyst_profiles": [
+        {
+          "declared_centre": 0.48,
+          "first_moment": 0.48232995893278496,
+          "first_moment_error": 0.0023299589327849812,
+          "first_moment_kind": "linear",
+          "first_moment_tolerance": 0.04200000000050004,
+          "half_width": 0.08,
+          "label": "near",
+          "maximum_per_cell_mass_error": 4.9960036108132044e-15,
+          "period": null,
+          "reference_order": 192,
+          "relative_l1_mass_error": 7.712580574192823e-15,
+          "zeroth_moment": 1.0000000000000002,
+          "zeroth_moment_error": 2.220446049250313e-16
+        },
+        {
+          "declared_centre": 0.67,
+          "first_moment": 0.6705229130397767,
+          "first_moment_error": 0.0005229130397766957,
+          "first_moment_kind": "linear",
+          "first_moment_tolerance": 0.04200000000050004,
+          "half_width": 0.08,
+          "label": "middle",
+          "maximum_per_cell_mass_error": 3.885780586188048e-15,
+          "period": null,
+          "reference_order": 192,
+          "relative_l1_mass_error": 7.60502771868226e-15,
+          "zeroth_moment": 1.0000000000000004,
+          "zeroth_moment_error": 4.440892098500626e-16
+        },
+        {
+          "declared_centre": 0.86,
+          "first_moment": 0.8577123594364191,
+          "first_moment_error": -0.002287640563580884,
+          "first_moment_kind": "linear",
+          "first_moment_tolerance": 0.04200000000050004,
+          "half_width": 0.08,
+          "label": "far",
+          "maximum_per_cell_mass_error": 4.3298697960381105e-15,
+          "period": null,
+          "reference_order": 192,
+          "relative_l1_mass_error": 7.243337873941103e-15,
+          "zeroth_moment": 1.0000000000000004,
+          "zeroth_moment_error": 4.440892098500626e-16
+        }
+      ],
+      "initial_marginals": [
+        {
+          "declared_centre": 0.14,
+          "first_moment": 0.1280000000000001,
+          "first_moment_error": -0.0119999999999999,
+          "first_moment_kind": "linear",
+          "first_moment_tolerance": 0.04200000000050004,
+          "half_width": 0.02,
+          "label": "midpoint",
+          "maximum_per_cell_mass_error": 6.661338147750939e-16,
+          "period": null,
+          "reference_order": 192,
+          "relative_l1_mass_error": 6.661338147750939e-16,
+          "zeroth_moment": 1.0000000000000007,
+          "zeroth_moment_error": 6.661338147750939e-16
+        },
+        {
+          "declared_centre": -0.35,
+          "first_moment": -0.305707288791936,
+          "first_moment_error": 0.044292711208063995,
+          "first_moment_kind": "linear",
+          "first_moment_tolerance": 0.07200000000050007,
+          "half_width": 0.02,
+          "label": "relative_parallel",
+          "maximum_per_cell_mass_error": 3.552713678800501e-15,
+          "period": null,
+          "reference_order": 192,
+          "relative_l1_mass_error": 4.884981308350662e-15,
+          "zeroth_moment": 1.0000000000000007,
+          "zeroth_moment_error": 6.661338147750939e-16
+        },
+        {
+          "declared_centre": 0.0,
+          "first_moment": 0.0,
+          "first_moment_error": 0.0,
+          "first_moment_kind": "circular",
+          "first_moment_tolerance": 0.020000000000500017,
+          "half_width": 0.02,
+          "label": "relative_perpendicular_wrapped",
+          "maximum_per_cell_mass_error": 6.661338147750939e-16,
+          "period": 1.0,
+          "reference_order": 192,
+          "relative_l1_mass_error": 6.661338147750939e-16,
+          "zeroth_moment": 1.0000000000000007,
+          "zeroth_moment_error": 6.661338147750939e-16
+        }
+      ],
+      "production_initial_error_estimates": [
+        1.2224300147358463e-13,
+        1.2161669970351516e-14,
+        1.2224300147358463e-13
+      ],
+      "production_patch_error_estimates": [
+        1.3257171675566207e-14,
+        3.91839447650756e-14,
+        7.623362755469945e-14
+      ]
+    },
+    "contact_area_error_estimate": 1.0239279062532312e-15,
+    "contact_area_relative_error": 0.0,
+    "contact_reference": {
+      "centroid": [
+        -5.963540027744093e-17,
+        3.975693351829395e-18
+      ],
+      "maximum_parallel_reflection_error": 3.1086244689504383e-15,
+      "maximum_per_cell_fraction_error": 2.886579864025407e-15,
+      "maximum_perpendicular_reflection_error": 8.326672684688674e-16,
+      "reference_order": 128,
+      "relative_l1_area_error": 1.3744717359777687e-15
+    },
+    "expected_contact_area": 0.0804247719318987,
+    "expected_physical_budget": 0.6,
+    "initial_contact_mass": 0.0,
+    "initial_mass_error": 6.661338147750939e-16,
+    "initial_reconstruction": {
+      "circular_resultant_magnitude": 1.0000000000000007,
+      "declared_means": {
+        "midpoint": 0.14,
+        "relative_parallel": -0.35,
+        "relative_perpendicular_circular": 0.0
+      },
+      "errors": {
+        "midpoint": -0.0119999999999999,
+        "relative_parallel": 0.044292711208063995,
+        "relative_perpendicular_circular": 0.0
+      },
+      "reconstructed_means": {
+        "midpoint": 0.1280000000000001,
+        "relative_parallel": -0.305707288791936,
+        "relative_perpendicular_circular": 0.0
+      },
+      "tolerance_rule": "absolute moment error <= one half of the corresponding cell width",
+      "tolerances": {
+        "midpoint": 0.04200000000050001,
+        "relative_parallel": 0.07200000000049996,
+        "relative_perpendicular_circular": 0.02000000000049999
+      }
+    },
+    "integrated_contact_area": 0.0804247719318987,
+    "physical_budget": 0.6000000000000001
+  },
+  "grid": {
+    "midpoint_cells": 25,
+    "midpoint_spacing": 0.08400000000000002,
+    "relative_parallel_cells": 25,
+    "relative_parallel_spacing": 0.1439999999999999,
+    "relative_perp_cells": 25,
+    "relative_perp_spacing": 0.03999999999999998,
+    "state_count": 15625,
+    "theta": 0.5
+  },
+  "limitations": [
+    "The grid is deliberately too coarse for continuum confirmation.",
+    "No fold solve or parameter continuation is performed.",
+    "Trapezoid closure is reported but is not a solver gate; differential mass balance is exact.",
+    "The unbounded longitudinal process is represented by a finite zero-flux smoke box.",
+    "Only the transversely invariant slab family is represented."
+  ],
+  "operator": {
+    "free_nnz": 106875,
+    "free_row_error": 2.6922908347160046e-15,
+    "killed_mass_balance_error": 2.6922908347160046e-15,
+    "killed_nnz": 106875,
+    "minimum_free_offdiagonal": 0.02092802197503455,
+    "tensor_killing_max_abs_error": 0.0,
+    "transport_rate_reference": {
+      "maximum_absolute_rate_error": 0.0,
+      "maximum_relative_rate_error": 0.0,
+      "sample_count": 12,
+      "samples": [
+        {
+          "absolute_error": 0.0,
+          "expected": 0.3874716053724551,
+          "label": "z_interior_right",
+          "observed": 0.3874716053724551,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            12
+          ],
+          "target": [
+            13,
+            12,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 0.2181296636866475,
+          "label": "z_interior_left",
+          "observed": 0.2181296636866475,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            12
+          ],
+          "target": [
+            11,
+            12,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 1.3494994505464628,
+          "label": "z_left_boundary_inward",
+          "observed": 1.3494994505464628,
+          "relative_error": 0.0,
+          "source": [
+            0,
+            12,
+            12
+          ],
+          "target": [
+            1,
+            12,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 1.0199043431329442,
+          "label": "z_right_boundary_inward",
+          "observed": 1.0199043431329442,
+          "relative_error": 0.0,
+          "source": [
+            24,
+            12,
+            12
+          ],
+          "target": [
+            23,
+            12,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 0.4095076716429938,
+          "label": "r_parallel_interior_right",
+          "observed": 0.4095076716429938,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            12
+          ],
+          "target": [
+            12,
+            13,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 0.409507671642994,
+          "label": "r_parallel_interior_left",
+          "observed": 0.409507671642994,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            12
+          ],
+          "target": [
+            12,
+            11,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 1.2374632586485659,
+          "label": "r_parallel_left_boundary_inward",
+          "observed": 1.2374632586485659,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            0,
+            12
+          ],
+          "target": [
+            12,
+            1,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 1.237463258648566,
+          "label": "r_parallel_right_boundary_inward",
+          "observed": 1.237463258648566,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            24,
+            12
+          ],
+          "target": [
+            12,
+            23,
+            12
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 5.625000000000005,
+          "label": "r_perp_interior_right",
+          "observed": 5.625000000000005,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            12
+          ],
+          "target": [
+            12,
+            12,
+            13
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 5.625000000000005,
+          "label": "r_perp_interior_left",
+          "observed": 5.625000000000005,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            12
+          ],
+          "target": [
+            12,
+            12,
+            11
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 5.625000000000005,
+          "label": "r_perp_periodic_wrap_left",
+          "observed": 5.625000000000005,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            0
+          ],
+          "target": [
+            12,
+            12,
+            24
+          ]
+        },
+        {
+          "absolute_error": 0.0,
+          "expected": 5.625000000000005,
+          "label": "r_perp_periodic_wrap_right",
+          "observed": 5.625000000000005,
+          "relative_error": 0.0,
+          "source": [
+            12,
+            12,
+            24
+          ],
+          "target": [
+            12,
+            12,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "parameters": {
+    "contact_radius": 0.16,
+    "diffusion": 0.0045,
+    "installed_budget": 0.6,
+    "midpoint_bounds": [
+      -0.25,
+      1.85
+    ],
+    "midpoint_bump_half_width": 0.02,
+    "midpoint_start": 0.14,
+    "ou_mean": 0.95,
+    "ou_stiffness": 0.1,
+    "patch_centres": [
+      0.48,
+      0.67,
+      0.86
+    ],
+    "patch_half_widths": [
+      0.08,
+      0.08,
+      0.08
+    ],
+    "relative_bump_half_width": 0.02,
+    "relative_parallel_bounds": [
+      -1.8,
+      1.8
+    ],
+    "relative_parallel_start": -0.35,
+    "relative_perp_start": 0.0,
+    "transverse_width": 1.0
+  },
+  "reference_checks": {
+    "analytic_jets": [
+      -0.007578642437944738,
+      0.01178199635969343,
+      -0.0525793195002926
+    ],
+    "dense_sparse_state_relative_error": 4.413687082037008e-15,
+    "finite_difference_jets": [
+      -0.007578642437933993,
+      0.011781996359372382,
+      -0.05257932041711002
+    ],
+    "finite_difference_step": 0.01,
+    "jet_relative_errors": [
+      1.4177838970740861e-12,
+      2.724909542870826e-11,
+      1.7436844548511666e-08
+    ],
+    "observed_neighbours": [
+      [
+        0,
+        2,
+        3
+      ],
+      [
+        1,
+        1,
+        3
+      ],
+      [
+        1,
+        2,
+        2
+      ],
+      [
+        1,
+        2,
+        4
+      ],
+      [
+        1,
+        3,
+        3
+      ],
+      [
+        2,
+        2,
+        3
+      ]
+    ],
+    "one_step_two_half_step_relative_error": 5.634494147281299e-16,
+    "shape": [
+      4,
+      5,
+      6
+    ],
+    "tensor_order_sentinel": true,
+    "time": 0.37
+  },
+  "schema_version": 3,
+  "solve": {
+    "differential_mass_balance_error": 3.585657140951296e-16,
+    "final_boundary_layer_fraction": 9.325330478295714e-07,
+    "final_survival": 0.26727988620478943,
+    "jet_ranges": {
+      "f_t": [
+        -0.002348356239177433,
+        0.015089866050034453
+      ],
+      "f_tt": [
+        -0.006366027761768811,
+        0.012462567532238534
+      ],
+      "f_ttt": [
+        -0.013681111201031992,
+        0.01960016597964966
+      ]
+    },
+    "maximum_boundary_layer_fraction": 6.342341672563415e-06,
+    "maximum_density": 0.04113234975568145,
+    "maximum_survival_increase": -5.5243279162287e-07,
+    "minimum_density": 0.0,
+    "minimum_state_mass": 0.0,
+    "sampled_sign_change_count_f_t": 1,
+    "time_points": 161,
+    "time_stop": 40.0,
+    "trapezoid_closure_error": 1.1283624232749645e-06,
+    "trapezoid_reaction_mass": 0.7327189854327874
+  },
+  "stage": "G1a_pre_fold_foundations",
+  "status": "PASS"
+}

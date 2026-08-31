@@ -1,0 +1,120 @@
+{
+  "classifier_spec": {
+    "analytic_derivatives": true,
+    "claim_boundary": "free-space narrow-patch GIG screening construction",
+    "expected_simple_roots": "2m-1 alternating maxima/minima",
+    "root_bracketing": "Brent on 240000-point logarithmic sign scan"
+  },
+  "classifier_spec_sha256": "8971fe6c162ed5f31f3278bb59390d0e88032c60d9f095de4a56be8a7724121c",
+  "command": [
+    "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python3",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_multid_gig_design.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:43:16.291536+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_multid_gig_design.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "grid_points": 240000,
+    "time_max_factor_over_last_mode": 5.0,
+    "time_min": 0.02
+  },
+  "inputs": [],
+  "model_spec": {
+    "D1": 0.5,
+    "D2": 0.5,
+    "Dc": 0.25,
+    "Dr": 1.0,
+    "a_rule": "a_j=b*m_j^2+p*m_j",
+    "b": 0.01,
+    "catalytic_coordinate": "diffusivity-weighted eta=D2/(D1+D2), hence C_eta=R",
+    "centre_drift_speed": 0.1,
+    "distance_feasibility": "a_j>=ell^2/(4*Dr), here b*m_j^2+p*m_j>=1/4",
+    "distance_rule": "|z_j-R0|=sqrt(a_j-1/4)",
+    "initial_gap": 1.0,
+    "minimum_feasible_mode_by_dimension": {
+      "1": 0.124921972503933,
+      "2": 0.09996003196803827,
+      "3": 0.08331019803633488,
+      "4": 0.07141400011596577
+    },
+    "relative_drift": 0.0,
+    "target_modes": {
+      "2": [
+        1.0,
+        10.0
+      ],
+      "3": [
+        1.0,
+        10.0,
+        100.0
+      ],
+      "4": [
+        1.0,
+        10.0,
+        100.0,
+        1000.0
+      ]
+    },
+    "weight_rule": "w_j proportional to inverse isolated peak height"
+  },
+  "model_spec_sha256": "6309b68eb5ccb95454ecc181cfff7145a6117b9ab8dbdb20cce2ed2e6c2aead6",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_parameters.csv",
+      "sha256": "6bd8a93b2fedda71efcb4479ca9bc061b121505412702237cdc34aebf7fdc8c8"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_roots.csv",
+      "sha256": "2a89cfa1d9fb22eb3d3d5301b53d6e3e5e2011d094668b9c7cf50e44f69902c6"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_cases.csv",
+      "sha256": "593a302edf8f209b52b2e3506e347135333791899a61d241ff78bbbae177e2d6"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_summary.json",
+      "sha256": "4cf5c5b9aea62c28a6294f0d65be8e7915d34197aa4bed7892930b3732a6e059"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/multid_gig_channel_design.pdf",
+      "sha256": "8a63bc13ad3b16f46fa10de9969f804cb7918ec41e35abfbde6298ff77dc9ae6"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/multid_gig_channel_design.png",
+      "sha256": "b93b359bcf40cb4deb3a6709babd7ba6321537553d777dcdb802d85ec394133e"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_multid_gig_design.py",
+      "sha256": "30d8217f66ad324ba7cb65e9cb4207d5f59b49999ae9772063ae469ab20f64fc"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "b397bbbdee40a96f8462cf442c1539810f834d8bd1d579ee86ad53fc6ff783b0"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/continuum_multid_theory.md",
+      "sha256": "0269d56295dfc5067a98b0aae1925e10421a72a06c06f2fe641324b9cb9f1459"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/multid_gig_channel_design.md",
+      "sha256": "986ff7d7d46a4040f97cf2d808a18f66252fc8c58d861cd3d4a6ef77088a9501"
+    }
+  ]
+}

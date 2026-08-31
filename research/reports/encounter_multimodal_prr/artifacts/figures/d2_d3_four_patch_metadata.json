@@ -1,0 +1,243 @@
+{
+  "caption": "Physical-dimension comparison of the frozen four-slab B=0 free-exposure shape. Panels (a) and (b) show the exact-kernel selected mixture, normalized by its largest refined peak, for physical d=2 disk contact and physical d=3 sphere contact on the common dimensionless-time interval 0.1 <= t <= 30; circles/squares mark maxima and open triangles mark minima. Each dimension uses its separately frozen selected conserved weights at the same physical parameters and slab geometry. Panel (c) compares the relative peak-balance and valley ratios with the frozen peak floor 0.10 and valley ceiling 0.85. Both dimensions pass these relative-shape gates, while d=3 has lower peak balance (0.6338 versus 0.8541) and its second valley is closer to the ceiling (0.8448; margin 0.0052). This is a result-informed, relative-shape-only B=0 comparison: continuum_verified=false, finite_B=false, independent_PDE=false, project=false, with no event-mass observability claim.",
+  "chart_contract": {
+    "analytical_question": "With the same four-slab geometry and physical parameters, do the exact physical-d=2 disk and physical-d=3 sphere B=0 free-exposure kernels both retain relative-prominence-qualified three-peak shape under their separately frozen selected conserved allocations?",
+    "canonical_family": "small-multiple trend plus benchmarked dot comparison",
+    "comparison_scope": "shared diffusion, drift, contact radius, slab centres, slab widths, and initial law; each dimension uses its own frozen selected weight vector",
+    "data_sufficiency": {
+      "grain": "exact-kernel density shape on a common time grid; refined stationary roots and dimension-level relative-height metrics",
+      "shape_metrics_per_dimension": 3,
+      "stationary_roots_per_dimension": 5,
+      "trend_points_per_dimension": 2401,
+      "trend_time_range": [
+        0.1,
+        30.0
+      ]
+    },
+    "non_colour_distinction": "d2 solid line and filled circles; d3 dashed line and open squares; maxima and minima use different marker shapes",
+    "output_footprint": "7.2 x 3.15 inch static figure* for a double-column manuscript",
+    "palette_policy": "hard two-root cap: d2 blue and d3 orange plus neutrals",
+    "renderer": "Matplotlib static vector PDF with a PNG review preview",
+    "static_variant": "two normalized line panels with refined root markers and one connected-dot panel with category-specific benchmark segments",
+    "takeaway": "Both dimensions pass the frozen relative-shape gates, but physical d=3 has weaker peak balance and its second valley lies closer to the 0.85 ceiling.",
+    "visible_scope_note": "B=0; result-informed; relative shape only; continuum_verified=false; finite_B=false; independent_PDE=false; project=false"
+  },
+  "claim_flags": {
+    "continuum_verified": false,
+    "d2_relative_shape_gate_passed": true,
+    "d3_relative_shape_gate_passed": true,
+    "event_mass_observability_verified": false,
+    "finite_B_Doi_verified": false,
+    "independent_PDE_solver_verified": false,
+    "preregistered_discovery": false,
+    "project_gate_passed": false,
+    "relative_shape_only": true
+  },
+  "evidence_timing": "RESULT_INFORMED_CONFIRMATION_NOT_PREREGISTERED_DISCOVERY",
+  "limitations": [
+    "result-informed confirmation rather than preregistered discovery",
+    "relative height and prominence only; no event-mass observability evidence",
+    "floating-point exact-kernel quadrature rather than interval certification",
+    "B=0 free exposure rather than a positive-B killed-Doi calculation",
+    "no independent PDE solver and no passed project or publication gate"
+  ],
+  "outputs": {
+    "pdf": "artifacts/figures/d2_d3_four_patch.pdf",
+    "pdf_sha256": "1581aac239e77f17a837d24bd9b38a0fb4ef3eb2286bea3ee7889b446d0c5b0f",
+    "png": "artifacts/figures/d2_d3_four_patch.png",
+    "png_sha256": "1de19aa27d5c3b326b1a18ea9d1ac23988808734212fe095c7102ef9a17993fd"
+  },
+  "pdf_qa": {
+    "raster_image_xobject_tokens": 0,
+    "transparency_graphics_state_tokens": 0,
+    "type3_font_tokens": 0
+  },
+  "provenance": {
+    "matplotlib": "3.11.0",
+    "numpy": "2.5.1",
+    "plot_script": "code/plot_d2_d3_four_patch.py",
+    "plot_script_sha256": "154347ad81ede0db1080cc8d1a79edc3273ef69782f9b395e7099d342c6863ef",
+    "python": "3.12.13",
+    "python_executable": "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python"
+  },
+  "recomputation": {
+    "d2": {
+      "normalizer_maximum_peak_density": 0.24057986327311612,
+      "peak_minimum_to_maximum_ratio": 0.8541266673541323,
+      "physical_dimension": 2,
+      "selected_step": 0.11,
+      "selected_weights": [
+        0.28,
+        0.26950477032608894,
+        0.1065877491928744,
+        0.3439074804810367
+      ],
+      "stationary_roots": [
+        {
+          "density": 0.2054856768499765,
+          "scaled_first_derivative_residual": 2.4504901921866693e-12,
+          "scaled_second_derivative": -7.61780716794694,
+          "time": 3.2040378793988538,
+          "topology": "maximum"
+        },
+        {
+          "density": 0.1370148569453657,
+          "scaled_first_derivative_residual": 8.292955561669595e-14,
+          "scaled_second_derivative": 12.834240024526432,
+          "time": 5.085467473830983,
+          "topology": "minimum"
+        },
+        {
+          "density": 0.24057986327311287,
+          "scaled_first_derivative_residual": 4.385429961044708e-16,
+          "scaled_second_derivative": -5.943783752848712,
+          "time": 8.688467026035141,
+          "topology": "maximum"
+        },
+        {
+          "density": 0.20003153413564162,
+          "scaled_first_derivative_residual": 1.9800988401310576e-14,
+          "scaled_second_derivative": 4.414947118107225,
+          "time": 13.328031989459689,
+          "topology": "minimum"
+        },
+        {
+          "density": 0.23883144769665815,
+          "scaled_first_derivative_residual": 2.016214333850298e-14,
+          "scaled_second_derivative": -2.059609469232173,
+          "time": 22.660102216665226,
+          "topology": "maximum"
+        }
+      ],
+      "time_grid": {
+        "points": 2401,
+        "start": 0.1,
+        "stop": 30.0
+      },
+      "valley_to_smaller_adjacent_peak_ratios": [
+        0.6667854375339218,
+        0.8375426940831657
+      ]
+    },
+    "d3": {
+      "normalizer_maximum_peak_density": 0.09741380388762683,
+      "peak_minimum_to_maximum_ratio": 0.6338081056471816,
+      "physical_dimension": 3,
+      "selected_step": 0.1,
+      "selected_weights": [
+        0.28,
+        0.2113497668133628,
+        0.11201163825953668,
+        0.3966385949271005
+      ],
+      "stationary_roots": [
+        {
+          "density": 0.09741380388755955,
+          "scaled_first_derivative_residual": 7.733979548299871e-16,
+          "scaled_second_derivative": -8.108066821040596,
+          "time": 3.0747145946679315,
+          "topology": "maximum"
+        },
+        {
+          "density": 0.048322447291742315,
+          "scaled_first_derivative_residual": 6.793652695086963e-13,
+          "scaled_second_derivative": 11.590147840343956,
+          "time": 5.501277641837092,
+          "topology": "minimum"
+        },
+        {
+          "density": 0.06281803472778126,
+          "scaled_first_derivative_residual": 5.039612407050776e-14,
+          "scaled_second_derivative": -5.428196839553885,
+          "time": 8.267049036576434,
+          "topology": "maximum"
+        },
+        {
+          "density": 0.052159361005507096,
+          "scaled_first_derivative_residual": 2.795809804359673e-16,
+          "scaled_second_derivative": 4.313958679891428,
+          "time": 12.809739960480089,
+          "topology": "minimum"
+        },
+        {
+          "density": 0.061741658505870545,
+          "scaled_first_derivative_residual": 7.402659444974062e-14,
+          "scaled_second_derivative": -2.184800342097896,
+          "time": 21.464180167449786,
+          "topology": "maximum"
+        }
+      ],
+      "time_grid": {
+        "points": 2401,
+        "start": 0.1,
+        "stop": 30.0
+      },
+      "valley_to_smaller_adjacent_peak_ratios": [
+        0.7692448116396359,
+        0.8448001279484577
+      ]
+    },
+    "shape_gates": {
+      "d2_pass": true,
+      "d3_pass": true,
+      "d3_second_valley_margin": 0.005199872051542265,
+      "peak_floor": 0.1,
+      "valley_ceiling": 0.85
+    }
+  },
+  "render_policy": {
+    "figure_inches": [
+      7.2,
+      3.15
+    ],
+    "figure_role": "double-column manuscript figure*",
+    "font_family": "DejaVu Sans",
+    "non_colour_distinction": "d2 solid line and filled circles; d3 dashed line and open squares; maxima and minima use different marker shapes",
+    "palette": {
+      "d2": "#2F6B9A",
+      "d3": "#C46A2B"
+    },
+    "pdf_fonttype": 42,
+    "transparent_background": false
+  },
+  "schema_version": 1,
+  "source_pins": {
+    "d2": {
+      "claim_flags": {
+        "continuum_verified": false,
+        "finite_B_Doi_verified": false,
+        "observable_free_exposure_confirmation_passed": true,
+        "preregistered_discovery": false,
+        "project_gate_passed": false
+      },
+      "manifest": "artifacts/data/continuum_observable_four_patch_manifest.json",
+      "manifest_sha256": "1c79fcb31abbc622cee20e915d60f55337376d7555c1c25dab210b3cc5976a69",
+      "producer": "code/continuum_observable_four_patch.py",
+      "producer_sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da",
+      "result": "artifacts/data/continuum_observable_four_patch_result.json",
+      "result_sha256": "4a929cdaf915a9b6180acc0c272a16ae77087d097f2d078b6483c6c9b320a9fc",
+      "test": "code/test_continuum_observable_four_patch.py",
+      "test_sha256": "c3a2c11c71daf9fcb04e1db9e7c4e489a515d7dfbbb51bc470d310d0c3f76243"
+    },
+    "d3": {
+      "claim_flags": {
+        "continuum_verified": false,
+        "finite_B_Doi_verified": false,
+        "independent_PDE_solver_verified": false,
+        "observable_d3_free_exposure_confirmation_passed": true,
+        "preregistered_discovery": false,
+        "project_gate_passed": false
+      },
+      "manifest": "artifacts/data/continuum_observable_four_patch_d3_manifest.json",
+      "manifest_sha256": "a11e1c4a7842ae69efc76e21a4b6587981d612a457070d601e7001810f16b8cb",
+      "producer": "code/continuum_observable_four_patch_d3.py",
+      "producer_sha256": "f8fde83ecdf435acf28a32fb0dec6a22f216bf9f5a817d954f165e62811bf885",
+      "result": "artifacts/data/continuum_observable_four_patch_d3_result.json",
+      "result_sha256": "125234df2817287c30699d80e30af0e711c036193f0a64a404c8f3e98f98f984",
+      "test": "code/test_continuum_observable_four_patch_d3.py",
+      "test_sha256": "bcb0b4264d0d89f140017004b083cb16ad7bf8f8ac7a8ab7b59f48ff9cef3a56"
+    }
+  },
+  "stage": "G1q_physical_d2_d3_four_slab_relative_shape_figure",
+  "status": "PASS_RESULT_INFORMED_D2_D3_RELATIVE_SHAPE_COMPARISON_FIGURE"
+}

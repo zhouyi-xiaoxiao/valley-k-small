@@ -1,0 +1,331 @@
+{
+  "axes": [
+    {
+      "axis_relation_sha256": "8c1ec5cc460befe5efec4d7d6d4d7c6130f59f09c9c50eb409a1339bda9f1479",
+      "coordinate": "midpoint",
+      "partition_file": {
+        "byte_length": 45017,
+        "path": "rows/07_mr_plusf/midpoint.partition.json",
+        "sha256": "b2ccec4070f1ce541d6559bfb3e79fac3c3deb561a15e627d8353856540c99b6"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 3312,
+            "path": "rows/07_mr_plusf/midpoint.backward.be64",
+            "sha256": "2fd0a1c99b0dd27a068c6e36a74058d357c272d605409ac537520ed0b98df92e"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              207
+            ],
+            "raw_byte_length": 3312,
+            "raw_sha256": "2fd0a1c99b0dd27a068c6e36a74058d357c272d605409ac537520ed0b98df92e",
+            "record_count": 207,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 3312,
+            "path": "rows/07_mr_plusf/midpoint.forward.be64",
+            "sha256": "8ee6a8b2328759f562fb3be28645080ab5f22219ea12347b57595ed98dfbe4cb"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              207
+            ],
+            "raw_byte_length": 3312,
+            "raw_sha256": "8ee6a8b2328759f562fb3be28645080ab5f22219ea12347b57595ed98dfbe4cb",
+            "record_count": 207,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 3312,
+            "path": "rows/07_mr_plusf/midpoint.stationary_mass.be64",
+            "sha256": "bd31750145033d0200a6d7b18fa50a9c10b7710aff5e1d82ac189a3523723945"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              207
+            ],
+            "raw_byte_length": 3312,
+            "raw_sha256": "bd31750145033d0200a6d7b18fa50a9c10b7710aff5e1d82ac189a3523723945",
+            "record_count": 207,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "c0c657c96c26bdee2bd0ef0900bfbed0d6fad7f7d9dcc7ca98a4535214510398",
+      "coordinate": "relative_parallel",
+      "partition_file": {
+        "byte_length": 45354,
+        "path": "rows/07_mr_plusf/relative_parallel.partition.json",
+        "sha256": "2e03048c7ed614d6cd3f76df1ccabde6e2c883b0a6a471d2c1ad5b696db80bed"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 3440,
+            "path": "rows/07_mr_plusf/relative_parallel.backward.be64",
+            "sha256": "25c4e2d4a6898b8323e8a3dbda8a74e1dde71135144e34bd4f75e4fea9b223bf"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              215
+            ],
+            "raw_byte_length": 3440,
+            "raw_sha256": "25c4e2d4a6898b8323e8a3dbda8a74e1dde71135144e34bd4f75e4fea9b223bf",
+            "record_count": 215,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 3440,
+            "path": "rows/07_mr_plusf/relative_parallel.forward.be64",
+            "sha256": "581df7c694efc068b4ec406e3494bc202e9abed5a2f0923f759875ba33d8b2f1"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              215
+            ],
+            "raw_byte_length": 3440,
+            "raw_sha256": "581df7c694efc068b4ec406e3494bc202e9abed5a2f0923f759875ba33d8b2f1",
+            "record_count": 215,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 3440,
+            "path": "rows/07_mr_plusf/relative_parallel.stationary_mass.be64",
+            "sha256": "d8d66ba9eb1fa3bee2fe7272e0aca722ad938470bff0b728ca1019dec8be0d87"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              215
+            ],
+            "raw_byte_length": 3440,
+            "raw_sha256": "d8d66ba9eb1fa3bee2fe7272e0aca722ad938470bff0b728ca1019dec8be0d87",
+            "record_count": 215,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "9a2b9b16015f527bc0629196d8bc44e4e251cd5e745e7c2d55fc643cf9a39ec4",
+      "coordinate": "relative_perpendicular",
+      "partition_file": {
+        "byte_length": 15171,
+        "path": "rows/07_mr_plusf/relative_perpendicular.partition.json",
+        "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/07_mr_plusf/relative_perpendicular.backward.be64",
+            "sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/07_mr_plusf/relative_perpendicular.forward.be64",
+            "sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/07_mr_plusf/relative_perpendicular.stationary_mass.be64",
+            "sha256": "535f5ab38a2ba32a9b0d2fbc71eae48710d39406dfbe35023b238d511ed926b7"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "535f5ab38a2ba32a9b0d2fbc71eae48710d39406dfbe35023b238d511ed926b7",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    }
+  ],
+  "configuration_index": 7,
+  "configuration_label": "MR+F",
+  "configuration_sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+  "expected_states": 7165305,
+  "flags": {
+    "analytic_source_to_sparse_box_producer_consistent": true,
+    "free_axis_geometry_rate_producer_consistent": true,
+    "full_operator_bound": false,
+    "independent_geometry_relation_replay": false,
+    "independent_source_box_replay": false,
+    "killing_contact_geometry_bound": false,
+    "positive_budget_executed": false
+  },
+  "initial_marginals": [
+    {
+      "active_indices": [
+        51,
+        52,
+        53,
+        54
+      ],
+      "coordinate": "midpoint",
+      "file": {
+        "byte_length": 3312,
+        "path": "rows/07_mr_plusf/midpoint.initial_marginal.be64",
+        "sha256": "77f27e112c10e90f485e7bb28825aa623055797b441421d9259178a357ba839b"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          207
+        ],
+        "raw_byte_length": 3312,
+        "raw_sha256": "77f27e112c10e90f485e7bb28825aa623055797b441421d9259178a357ba839b",
+        "record_count": 207,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_midpoint",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        90,
+        91,
+        92
+      ],
+      "coordinate": "relative_parallel",
+      "file": {
+        "byte_length": 3440,
+        "path": "rows/07_mr_plusf/relative_parallel.initial_marginal.be64",
+        "sha256": "6382dcf2621e5ce614548dd2c3329d4ea15965008addfc584cb071b91df0dec8"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          215
+        ],
+        "raw_byte_length": 3440,
+        "raw_sha256": "6382dcf2621e5ce614548dd2c3329d4ea15965008addfc584cb071b91df0dec8",
+        "record_count": 215,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_parallel",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83
+      ],
+      "coordinate": "relative_perpendicular",
+      "file": {
+        "byte_length": 2576,
+        "path": "rows/07_mr_plusf/relative_perpendicular.initial_marginal.be64",
+        "sha256": "10b862d97287f948c25b86ee144508bc08b78a48588e524b85a4a947182ffc7d"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          161
+        ],
+        "raw_byte_length": 2576,
+        "raw_sha256": "10b862d97287f948c25b86ee144508bc08b78a48588e524b85a4a947182ffc7d",
+        "record_count": 161,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_perpendicular",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    }
+  ],
+  "row_relation_sha256": "9abcf2780c3211174c614dbf66deed91deff688378bfcb55e7ad21aba88a4fac",
+  "schema": "encounter_control_free_production_initial_row_v1",
+  "source_box_relation_sha256": "cb4f3051a1096150f57e028a4dedaa72633012a344ff3c0eec17fbe864fa992e",
+  "sparse_component_box": {
+    "active_component_count": 84,
+    "active_index_sha256": "9bc0dc30148422224c714c04e5a2f57631a38d916e7655e85eb51cb5c0c04b95",
+    "dense_expansion_byte_length": 114644880,
+    "dense_expansion_record_format": ">dd",
+    "dense_expansion_sha256": "0c2c54584a0d86a4c0a4a519510504b9dae29b2956841a0189476055c1578653",
+    "file": {
+      "byte_length": 2080,
+      "path": "rows/07_mr_plusf/initial_component_box.sparse.be64",
+      "sha256": "c11ce4825043897bf046e57f8171c1f9e61e204bce381526b1d4ca2fdea32e5e"
+    },
+    "implicit_background": "positive_zero_interval_[0x0.0p+0,0x0.0p+0]",
+    "lower_mass_exact": "75557863725863532303603/75557863725914323419136",
+    "record_format": ">Qdd",
+    "schema": "encounter_sparse_component_interval_box_v1",
+    "shape": [
+      207,
+      215,
+      161
+    ],
+    "state_count": 7165305,
+    "tensor_order": "C:midpoint_outer_relative_parallel_middle_transverse_inner",
+    "upper_mass_exact": "151115727451930196747313/151115727451828646838272"
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NOT_F0"
+}

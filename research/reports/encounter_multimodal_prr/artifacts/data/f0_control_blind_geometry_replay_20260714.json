@@ -1,0 +1,208 @@
+{
+  "authorized_scientific_command": null,
+  "configuration_count": 12,
+  "configuration_order": [
+    "O113/Base",
+    "E128/Base",
+    "O129/Base",
+    "O161/Base",
+    "M+",
+    "R+",
+    "MR+",
+    "MR+F",
+    "A_M",
+    "A_R",
+    "A_Y",
+    "A_MRY"
+  ],
+  "one_control_base_state_workload": 34787462,
+  "panels_per_unit": 16384,
+  "positive_budget_primary_control_evaluated": false,
+  "precision_bits": 192,
+  "prospective_control_values_read": false,
+  "rows": [
+    {
+      "contact_area_interval_width": 4.958618682861665e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "O113/Base",
+      "maximum_initial_marginal_interval_width": 4.4805825716309755e-13,
+      "maximum_support_mass_interval_width": 4.4790776990155656e-13,
+      "seconds": 4.562499209016096,
+      "shape": [
+        113,
+        113,
+        113
+      ],
+      "states": 1442897
+    },
+    {
+      "contact_area_interval_width": 5.636848409915074e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "E128/Base",
+      "maximum_initial_marginal_interval_width": 4.481276461021366e-13,
+      "maximum_support_mass_interval_width": 4.4816591843882536e-13,
+      "seconds": 4.157512083998881,
+      "shape": [
+        128,
+        128,
+        128
+      ],
+      "states": 2097152
+    },
+    {
+      "contact_area_interval_width": 5.626600456511473e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "O129/Base",
+      "maximum_initial_marginal_interval_width": 4.4805153510962814e-13,
+      "maximum_support_mass_interval_width": 4.4807325656149387e-13,
+      "seconds": 4.428875792014878,
+      "shape": [
+        129,
+        129,
+        129
+      ],
+      "states": 2146689
+    },
+    {
+      "contact_area_interval_width": 6.957220764539507e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "O161/Base",
+      "maximum_initial_marginal_interval_width": 4.480786253408637e-13,
+      "maximum_support_mass_interval_width": 4.4784314806394464e-13,
+      "seconds": 4.376920874987263,
+      "shape": [
+        161,
+        161,
+        161
+      ],
+      "states": 4173281
+    },
+    {
+      "contact_area_interval_width": 5.626600456511473e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "M+",
+      "maximum_initial_marginal_interval_width": 4.480305015874819e-13,
+      "maximum_support_mass_interval_width": 4.4789367527331425e-13,
+      "seconds": 4.049744249990908,
+      "shape": [
+        166,
+        129,
+        129
+      ],
+      "states": 2762406
+    },
+    {
+      "contact_area_interval_width": 5.773221648953688e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "R+",
+      "maximum_initial_marginal_interval_width": 4.4805153510962814e-13,
+      "maximum_support_mass_interval_width": 4.4807325656149387e-13,
+      "seconds": 4.180575125006726,
+      "shape": [
+        129,
+        172,
+        129
+      ],
+      "states": 2862252
+    },
+    {
+      "contact_area_interval_width": 5.773221648953688e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "MR+",
+      "maximum_initial_marginal_interval_width": 4.480305015874819e-13,
+      "maximum_support_mass_interval_width": 4.4789367527331425e-13,
+      "seconds": 4.0970503330172505,
+      "shape": [
+        166,
+        172,
+        129
+      ],
+      "states": 3683208
+    },
+    {
+      "contact_area_interval_width": 6.958508438286831e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "MR+F",
+      "maximum_initial_marginal_interval_width": 4.4819279310017585e-13,
+      "maximum_support_mass_interval_width": 4.478709002514285e-13,
+      "seconds": 4.388966458005598,
+      "shape": [
+        207,
+        215,
+        161
+      ],
+      "states": 7165305
+    },
+    {
+      "contact_area_interval_width": 5.636848409915074e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "A_M",
+      "maximum_initial_marginal_interval_width": 4.4807213495090537e-13,
+      "maximum_support_mass_interval_width": 4.4814902606075827e-13,
+      "seconds": 3.909083666978404,
+      "shape": [
+        129,
+        128,
+        128
+      ],
+      "states": 2113536
+    },
+    {
+      "contact_area_interval_width": 5.426906635256886e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "A_R",
+      "maximum_initial_marginal_interval_width": 4.481970350411757e-13,
+      "maximum_support_mass_interval_width": 4.4816591843882536e-13,
+      "seconds": 3.9745290410064626,
+      "shape": [
+        128,
+        129,
+        128
+      ],
+      "states": 2113536
+    },
+    {
+      "contact_area_interval_width": 5.484026090296743e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "A_Y",
+      "maximum_initial_marginal_interval_width": 4.481276461021366e-13,
+      "maximum_support_mass_interval_width": 4.4816591843882536e-13,
+      "seconds": 3.9730884579767007,
+      "shape": [
+        128,
+        128,
+        128
+      ],
+      "states": 2097152
+    },
+    {
+      "contact_area_interval_width": 5.409803054818352e-16,
+      "contact_area_oracle_contained": true,
+      "installed_budget_relative_radius_exact": "0/1",
+      "label": "A_MRY",
+      "maximum_initial_marginal_interval_width": 4.481970350411757e-13,
+      "maximum_support_mass_interval_width": 4.4814902606075827e-13,
+      "seconds": 4.120431957999244,
+      "shape": [
+        129,
+        129,
+        128
+      ],
+      "states": 2130048
+    }
+  ],
+  "stage": "rate_defined_tensor_f0_control_blind_geometry_benchmark",
+  "status": "PASS_F0_CONTROL_BLIND_GEOMETRY_METHOD_ONLY",
+  "total_seconds": 51.98015391698573
+}

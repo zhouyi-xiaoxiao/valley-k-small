@@ -1,0 +1,22 @@
+{
+  "component_centre": "rn64_ties_to_even_of_exact_endpoint_midpoint",
+  "component_order": "certified_state_blob_order",
+  "forbidden_repairs": [
+    "alternate_admissible_path",
+    "clipping",
+    "isotonic_projection",
+    "midpoint_of_scalar_survival_interval",
+    "normalization",
+    "solver_point",
+    "state_component_reordering"
+  ],
+  "projection": "rn64_ties_to_even_of_one_exact_sum_of_all_central_alive_state_components",
+  "reconciliation": [
+    "canonical_point_in_exact_state_ball_projection_hull_intersected_with_[0,1]",
+    "canonical_point_in_independent_scalar_survival_enclosure",
+    "nonincreasing_over_strictly_increasing_required_times",
+    "all_derived_event_probabilities_exactly_coherent"
+  ],
+  "schema_version": 1,
+  "state_blob_format": "F1SBV2\\0 || uint32_be(dimension) || repeated(binary64_be(lower),binary64_be(upper))"
+}

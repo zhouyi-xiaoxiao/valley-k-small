@@ -1,0 +1,2069 @@
+{
+  "artifact_contract": {
+    "directory_paths": [
+      ".",
+      "rows",
+      "rows/row_00",
+      "rows/row_01",
+      "rows/row_02",
+      "rows/row_03",
+      "rows/row_04",
+      "rows/row_05",
+      "rows/row_06",
+      "rows/row_07",
+      "rows/row_08",
+      "rows/row_09",
+      "rows/row_10",
+      "rows/row_11"
+    ],
+    "encoding": {
+      "byte_order": "big",
+      "endpoint_semantics": "closed_outward_binary64",
+      "record_byte_length": 16,
+      "record_format": ">dd"
+    },
+    "file_paths": [
+      "manifest.json",
+      "rows/row_00/row.json",
+      "rows/row_00/contact.intervals.be64",
+      "rows/row_00/profile_00.intervals.be64",
+      "rows/row_00/profile_01.intervals.be64",
+      "rows/row_00/profile_02.intervals.be64",
+      "rows/row_00/profile_03.intervals.be64",
+      "rows/row_01/row.json",
+      "rows/row_01/contact.intervals.be64",
+      "rows/row_01/profile_00.intervals.be64",
+      "rows/row_01/profile_01.intervals.be64",
+      "rows/row_01/profile_02.intervals.be64",
+      "rows/row_01/profile_03.intervals.be64",
+      "rows/row_02/row.json",
+      "rows/row_02/contact.intervals.be64",
+      "rows/row_02/profile_00.intervals.be64",
+      "rows/row_02/profile_01.intervals.be64",
+      "rows/row_02/profile_02.intervals.be64",
+      "rows/row_02/profile_03.intervals.be64",
+      "rows/row_03/row.json",
+      "rows/row_03/contact.intervals.be64",
+      "rows/row_03/profile_00.intervals.be64",
+      "rows/row_03/profile_01.intervals.be64",
+      "rows/row_03/profile_02.intervals.be64",
+      "rows/row_03/profile_03.intervals.be64",
+      "rows/row_04/row.json",
+      "rows/row_04/contact.intervals.be64",
+      "rows/row_04/profile_00.intervals.be64",
+      "rows/row_04/profile_01.intervals.be64",
+      "rows/row_04/profile_02.intervals.be64",
+      "rows/row_04/profile_03.intervals.be64",
+      "rows/row_05/row.json",
+      "rows/row_05/contact.intervals.be64",
+      "rows/row_05/profile_00.intervals.be64",
+      "rows/row_05/profile_01.intervals.be64",
+      "rows/row_05/profile_02.intervals.be64",
+      "rows/row_05/profile_03.intervals.be64",
+      "rows/row_06/row.json",
+      "rows/row_06/contact.intervals.be64",
+      "rows/row_06/profile_00.intervals.be64",
+      "rows/row_06/profile_01.intervals.be64",
+      "rows/row_06/profile_02.intervals.be64",
+      "rows/row_06/profile_03.intervals.be64",
+      "rows/row_07/row.json",
+      "rows/row_07/contact.intervals.be64",
+      "rows/row_07/profile_00.intervals.be64",
+      "rows/row_07/profile_01.intervals.be64",
+      "rows/row_07/profile_02.intervals.be64",
+      "rows/row_07/profile_03.intervals.be64",
+      "rows/row_08/row.json",
+      "rows/row_08/contact.intervals.be64",
+      "rows/row_08/profile_00.intervals.be64",
+      "rows/row_08/profile_01.intervals.be64",
+      "rows/row_08/profile_02.intervals.be64",
+      "rows/row_08/profile_03.intervals.be64",
+      "rows/row_09/row.json",
+      "rows/row_09/contact.intervals.be64",
+      "rows/row_09/profile_00.intervals.be64",
+      "rows/row_09/profile_01.intervals.be64",
+      "rows/row_09/profile_02.intervals.be64",
+      "rows/row_09/profile_03.intervals.be64",
+      "rows/row_10/row.json",
+      "rows/row_10/contact.intervals.be64",
+      "rows/row_10/profile_00.intervals.be64",
+      "rows/row_10/profile_01.intervals.be64",
+      "rows/row_10/profile_02.intervals.be64",
+      "rows/row_10/profile_03.intervals.be64",
+      "rows/row_11/row.json",
+      "rows/row_11/contact.intervals.be64",
+      "rows/row_11/profile_00.intervals.be64",
+      "rows/row_11/profile_01.intervals.be64",
+      "rows/row_11/profile_02.intervals.be64",
+      "rows/row_11/profile_03.intervals.be64"
+    ],
+    "path_templates": {
+      "contact": "rows/row_{configuration_index:02d}/contact.intervals.be64",
+      "profile": "rows/row_{configuration_index:02d}/profile_{profile_index:02d}.intervals.be64",
+      "row_directory": "rows/row_{configuration_index:02d}",
+      "row_manifest": "rows/row_{configuration_index:02d}/row.json",
+      "top_manifest": "manifest.json"
+    },
+    "rows": [
+      {
+        "configuration_index": 0,
+        "configuration_semantic_id": {
+          "authority_label": "O113/Base",
+          "refinement_family_id": "finite_mesh_anchor_family",
+          "refinement_member_id": "o113_base"
+        },
+        "contact": {
+          "byte_length": 204304,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            113,
+            113
+          ],
+          "path": "rows/row_00/contact.intervals.be64",
+          "record_count": 12769,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            113,
+            113,
+            113
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 1808,
+            "flat_index": "m",
+            "logical_shape": [
+              113
+            ],
+            "path": "rows/row_00/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 113,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 1808,
+            "flat_index": "m",
+            "logical_shape": [
+              113
+            ],
+            "path": "rows/row_00/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 113,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 1808,
+            "flat_index": "m",
+            "logical_shape": [
+              113
+            ],
+            "path": "rows/row_00/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 113,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 1808,
+            "flat_index": "m",
+            "logical_shape": [
+              113
+            ],
+            "path": "rows/row_00/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 113,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_00",
+        "row_manifest_path": "rows/row_00/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          113,
+          113,
+          113
+        ],
+        "virtual_state_count": 1442897
+      },
+      {
+        "configuration_index": 1,
+        "configuration_semantic_id": {
+          "authority_label": "E128/Base",
+          "refinement_family_id": "finite_mesh_anchor_family",
+          "refinement_member_id": "e128_base"
+        },
+        "contact": {
+          "byte_length": 262144,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            128,
+            128
+          ],
+          "path": "rows/row_01/contact.intervals.be64",
+          "record_count": 16384,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            128,
+            128,
+            128
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_01/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_01/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_01/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_01/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 128,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_01",
+        "row_manifest_path": "rows/row_01/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          128,
+          128,
+          128
+        ],
+        "virtual_state_count": 2097152
+      },
+      {
+        "configuration_index": 2,
+        "configuration_semantic_id": {
+          "authority_label": "O129/Base",
+          "refinement_family_id": "finite_mesh_anchor_family",
+          "refinement_member_id": "o129_base"
+        },
+        "contact": {
+          "byte_length": 266256,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            129,
+            129
+          ],
+          "path": "rows/row_02/contact.intervals.be64",
+          "record_count": 16641,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            129,
+            129,
+            129
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_02/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_02/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_02/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_02/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 129,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_02",
+        "row_manifest_path": "rows/row_02/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          129,
+          129,
+          129
+        ],
+        "virtual_state_count": 2146689
+      },
+      {
+        "configuration_index": 3,
+        "configuration_semantic_id": {
+          "authority_label": "O161/Base",
+          "refinement_family_id": "finite_mesh_anchor_family",
+          "refinement_member_id": "o161_base"
+        },
+        "contact": {
+          "byte_length": 414736,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            161,
+            161
+          ],
+          "path": "rows/row_03/contact.intervals.be64",
+          "record_count": 25921,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            161,
+            161,
+            161
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2576,
+            "flat_index": "m",
+            "logical_shape": [
+              161
+            ],
+            "path": "rows/row_03/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 161,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2576,
+            "flat_index": "m",
+            "logical_shape": [
+              161
+            ],
+            "path": "rows/row_03/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 161,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2576,
+            "flat_index": "m",
+            "logical_shape": [
+              161
+            ],
+            "path": "rows/row_03/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 161,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2576,
+            "flat_index": "m",
+            "logical_shape": [
+              161
+            ],
+            "path": "rows/row_03/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 161,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_03",
+        "row_manifest_path": "rows/row_03/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          161,
+          161,
+          161
+        ],
+        "virtual_state_count": 4173281
+      },
+      {
+        "configuration_index": 4,
+        "configuration_semantic_id": {
+          "authority_label": "M+",
+          "refinement_family_id": "finite_box_challenge_family",
+          "refinement_member_id": "m_plus"
+        },
+        "contact": {
+          "byte_length": 266256,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            129,
+            129
+          ],
+          "path": "rows/row_04/contact.intervals.be64",
+          "record_count": 16641,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            166,
+            129,
+            129
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_04/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 166,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_04/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 166,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_04/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 166,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_04/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 166,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_04",
+        "row_manifest_path": "rows/row_04/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          166,
+          129,
+          129
+        ],
+        "virtual_state_count": 2762406
+      },
+      {
+        "configuration_index": 5,
+        "configuration_semantic_id": {
+          "authority_label": "R+",
+          "refinement_family_id": "finite_box_challenge_family",
+          "refinement_member_id": "r_plus"
+        },
+        "contact": {
+          "byte_length": 355008,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            172,
+            129
+          ],
+          "path": "rows/row_05/contact.intervals.be64",
+          "record_count": 22188,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            129,
+            172,
+            129
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_05/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_05/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_05/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_05/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 129,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_05",
+        "row_manifest_path": "rows/row_05/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          129,
+          172,
+          129
+        ],
+        "virtual_state_count": 2862252
+      },
+      {
+        "configuration_index": 6,
+        "configuration_semantic_id": {
+          "authority_label": "MR+",
+          "refinement_family_id": "finite_box_challenge_family",
+          "refinement_member_id": "mr_plus"
+        },
+        "contact": {
+          "byte_length": 355008,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            172,
+            129
+          ],
+          "path": "rows/row_06/contact.intervals.be64",
+          "record_count": 22188,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            166,
+            172,
+            129
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_06/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 166,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_06/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 166,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_06/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 166,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2656,
+            "flat_index": "m",
+            "logical_shape": [
+              166
+            ],
+            "path": "rows/row_06/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 166,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_06",
+        "row_manifest_path": "rows/row_06/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          166,
+          172,
+          129
+        ],
+        "virtual_state_count": 3683208
+      },
+      {
+        "configuration_index": 7,
+        "configuration_semantic_id": {
+          "authority_label": "MR+F",
+          "refinement_family_id": "finite_box_challenge_family",
+          "refinement_member_id": "mr_plus_fine"
+        },
+        "contact": {
+          "byte_length": 553840,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            215,
+            161
+          ],
+          "path": "rows/row_07/contact.intervals.be64",
+          "record_count": 34615,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            207,
+            215,
+            161
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 3312,
+            "flat_index": "m",
+            "logical_shape": [
+              207
+            ],
+            "path": "rows/row_07/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 207,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 3312,
+            "flat_index": "m",
+            "logical_shape": [
+              207
+            ],
+            "path": "rows/row_07/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 207,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 3312,
+            "flat_index": "m",
+            "logical_shape": [
+              207
+            ],
+            "path": "rows/row_07/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 207,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 3312,
+            "flat_index": "m",
+            "logical_shape": [
+              207
+            ],
+            "path": "rows/row_07/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 207,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_07",
+        "row_manifest_path": "rows/row_07/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          207,
+          215,
+          161
+        ],
+        "virtual_state_count": 7165305
+      },
+      {
+        "configuration_index": 8,
+        "configuration_semantic_id": {
+          "authority_label": "A_M",
+          "refinement_family_id": "finite_alignment_challenge_family",
+          "refinement_member_id": "a_midpoint"
+        },
+        "contact": {
+          "byte_length": 262144,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            128,
+            128
+          ],
+          "path": "rows/row_08/contact.intervals.be64",
+          "record_count": 16384,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            129,
+            128,
+            128
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_08/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_08/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_08/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_08/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 129,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_08",
+        "row_manifest_path": "rows/row_08/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          129,
+          128,
+          128
+        ],
+        "virtual_state_count": 2113536
+      },
+      {
+        "configuration_index": 9,
+        "configuration_semantic_id": {
+          "authority_label": "A_R",
+          "refinement_family_id": "finite_alignment_challenge_family",
+          "refinement_member_id": "a_relative_parallel"
+        },
+        "contact": {
+          "byte_length": 264192,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            129,
+            128
+          ],
+          "path": "rows/row_09/contact.intervals.be64",
+          "record_count": 16512,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            128,
+            129,
+            128
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_09/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_09/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_09/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_09/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 128,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_09",
+        "row_manifest_path": "rows/row_09/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          128,
+          129,
+          128
+        ],
+        "virtual_state_count": 2113536
+      },
+      {
+        "configuration_index": 10,
+        "configuration_semantic_id": {
+          "authority_label": "A_Y",
+          "refinement_family_id": "finite_alignment_challenge_family",
+          "refinement_member_id": "a_relative_perpendicular"
+        },
+        "contact": {
+          "byte_length": 262144,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            128,
+            128
+          ],
+          "path": "rows/row_10/contact.intervals.be64",
+          "record_count": 16384,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            128,
+            128,
+            128
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_10/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_10/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_10/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 128,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2048,
+            "flat_index": "m",
+            "logical_shape": [
+              128
+            ],
+            "path": "rows/row_10/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 128,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_10",
+        "row_manifest_path": "rows/row_10/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          128,
+          128,
+          128
+        ],
+        "virtual_state_count": 2097152
+      },
+      {
+        "configuration_index": 11,
+        "configuration_semantic_id": {
+          "authority_label": "A_MRY",
+          "refinement_family_id": "finite_alignment_challenge_family",
+          "refinement_member_id": "a_all_axes"
+        },
+        "contact": {
+          "byte_length": 264192,
+          "flat_index": "a*n_Y+b",
+          "logical_shape": [
+            129,
+            128
+          ],
+          "path": "rows/row_11/contact.intervals.be64",
+          "record_count": 16512,
+          "units": "dimensionless"
+        },
+        "future_V_metadata_only": {
+          "flat_index": "(m*n_R+a)*n_Y+b",
+          "logical_shape": [
+            129,
+            129,
+            128
+          ],
+          "materialization": "forbidden"
+        },
+        "profile_order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profiles": [
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_11/profile_00.intervals.be64",
+            "profile_index": 0,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_11/profile_01.intervals.be64",
+            "profile_index": 1,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_11/profile_02.intervals.be64",
+            "profile_index": 2,
+            "record_count": 129,
+            "units": "inverse_length"
+          },
+          {
+            "byte_length": 2064,
+            "flat_index": "m",
+            "logical_shape": [
+              129
+            ],
+            "path": "rows/row_11/profile_03.intervals.be64",
+            "profile_index": 3,
+            "record_count": 129,
+            "units": "inverse_length"
+          }
+        ],
+        "row_directory": "rows/row_11",
+        "row_manifest_path": "rows/row_11/row.json",
+        "row_schema": "encounter_c1_n0_killing_factor_geometry_row_v1",
+        "shape_order": [
+          "n_M",
+          "n_R",
+          "n_Y"
+        ],
+        "state_shape": [
+          129,
+          129,
+          128
+        ],
+        "virtual_state_count": 2130048
+      }
+    ],
+    "schema_key_contracts": {
+      "contact_section_exact_keys": [
+        "analytic_area_anchor_reference",
+        "flat_index",
+        "full_cell_count",
+        "logical_shape",
+        "partial_cell_count",
+        "quality_gate_ledger",
+        "raw_file",
+        "raw_manifest",
+        "record_count",
+        "units",
+        "weighted_area_enclosure_exact",
+        "zero_cell_count"
+      ],
+      "profile_section_exact_keys": [
+        "centre_exact",
+        "flat_index",
+        "half_width_exact",
+        "logical_shape",
+        "profile_index",
+        "quality_gate_ledger",
+        "raw_file",
+        "raw_manifest",
+        "record_count",
+        "units",
+        "weighted_unit_mass_enclosure_exact"
+      ],
+      "raw_manifest_exact_keys": [
+        "byte_length",
+        "byte_order",
+        "endpoint_semantics",
+        "flat_index",
+        "logical_role",
+        "logical_shape",
+        "normalization",
+        "path",
+        "record_count",
+        "record_format",
+        "schema",
+        "sha256",
+        "units"
+      ],
+      "row_manifest_exact_keys": [
+        "authority_bindings",
+        "claim_boundary",
+        "configuration_binding",
+        "contact",
+        "expected_states",
+        "layout_and_units",
+        "member_binding",
+        "partition_bindings",
+        "producer_closure_binding",
+        "profiles",
+        "request_binding",
+        "row_relation_sha256",
+        "schema",
+        "shape",
+        "status"
+      ],
+      "top_manifest_exact_keys": [
+        "authority_bindings",
+        "candidate_bundle_binding",
+        "claim_boundary",
+        "external_commitment_binding",
+        "family_relation_sha256",
+        "file_inventory",
+        "member_binding",
+        "method_selection",
+        "normalization_anchor",
+        "operation_model_binding",
+        "partition_reference_digest",
+        "producer_runtime_closure",
+        "representation_contract",
+        "replay_plan_binding",
+        "request_binding",
+        "rows",
+        "schema",
+        "sealed_authentication_mirror_binding",
+        "shared_precommit_context_sha256",
+        "status",
+        "totals"
+      ]
+    },
+    "schemas": {
+      "raw_interval_file": "encounter_c1_n0_killing_factor_geometry_raw_interval_file_v1",
+      "row": "encounter_c1_n0_killing_factor_geometry_row_v1",
+      "source": "encounter_c1_n0_killing_factor_geometry_source_v3"
+    },
+    "stored_precision_policy": {
+      "analytic_disk_area_anchor": "one_global_256_bit_outward_interval_saved_at_manifest.json#/normalization_anchor/analytic_disk_area_enclosure_exact_256",
+      "contact_and_profile_payloads": "producer_192_bit_outward_intervals_only",
+      "verifier_384_512_oracle_values": "forbidden_from_artifact_payload_and_not_retained_as_scientific_values"
+    },
+    "top_file_inventory": {
+      "entry_count": 72,
+      "excludes_self_referential_top_manifest": "required",
+      "ordered_paths": [
+        "rows/row_00/row.json",
+        "rows/row_00/contact.intervals.be64",
+        "rows/row_00/profile_00.intervals.be64",
+        "rows/row_00/profile_01.intervals.be64",
+        "rows/row_00/profile_02.intervals.be64",
+        "rows/row_00/profile_03.intervals.be64",
+        "rows/row_01/row.json",
+        "rows/row_01/contact.intervals.be64",
+        "rows/row_01/profile_00.intervals.be64",
+        "rows/row_01/profile_01.intervals.be64",
+        "rows/row_01/profile_02.intervals.be64",
+        "rows/row_01/profile_03.intervals.be64",
+        "rows/row_02/row.json",
+        "rows/row_02/contact.intervals.be64",
+        "rows/row_02/profile_00.intervals.be64",
+        "rows/row_02/profile_01.intervals.be64",
+        "rows/row_02/profile_02.intervals.be64",
+        "rows/row_02/profile_03.intervals.be64",
+        "rows/row_03/row.json",
+        "rows/row_03/contact.intervals.be64",
+        "rows/row_03/profile_00.intervals.be64",
+        "rows/row_03/profile_01.intervals.be64",
+        "rows/row_03/profile_02.intervals.be64",
+        "rows/row_03/profile_03.intervals.be64",
+        "rows/row_04/row.json",
+        "rows/row_04/contact.intervals.be64",
+        "rows/row_04/profile_00.intervals.be64",
+        "rows/row_04/profile_01.intervals.be64",
+        "rows/row_04/profile_02.intervals.be64",
+        "rows/row_04/profile_03.intervals.be64",
+        "rows/row_05/row.json",
+        "rows/row_05/contact.intervals.be64",
+        "rows/row_05/profile_00.intervals.be64",
+        "rows/row_05/profile_01.intervals.be64",
+        "rows/row_05/profile_02.intervals.be64",
+        "rows/row_05/profile_03.intervals.be64",
+        "rows/row_06/row.json",
+        "rows/row_06/contact.intervals.be64",
+        "rows/row_06/profile_00.intervals.be64",
+        "rows/row_06/profile_01.intervals.be64",
+        "rows/row_06/profile_02.intervals.be64",
+        "rows/row_06/profile_03.intervals.be64",
+        "rows/row_07/row.json",
+        "rows/row_07/contact.intervals.be64",
+        "rows/row_07/profile_00.intervals.be64",
+        "rows/row_07/profile_01.intervals.be64",
+        "rows/row_07/profile_02.intervals.be64",
+        "rows/row_07/profile_03.intervals.be64",
+        "rows/row_08/row.json",
+        "rows/row_08/contact.intervals.be64",
+        "rows/row_08/profile_00.intervals.be64",
+        "rows/row_08/profile_01.intervals.be64",
+        "rows/row_08/profile_02.intervals.be64",
+        "rows/row_08/profile_03.intervals.be64",
+        "rows/row_09/row.json",
+        "rows/row_09/contact.intervals.be64",
+        "rows/row_09/profile_00.intervals.be64",
+        "rows/row_09/profile_01.intervals.be64",
+        "rows/row_09/profile_02.intervals.be64",
+        "rows/row_09/profile_03.intervals.be64",
+        "rows/row_10/row.json",
+        "rows/row_10/contact.intervals.be64",
+        "rows/row_10/profile_00.intervals.be64",
+        "rows/row_10/profile_01.intervals.be64",
+        "rows/row_10/profile_02.intervals.be64",
+        "rows/row_10/profile_03.intervals.be64",
+        "rows/row_11/row.json",
+        "rows/row_11/contact.intervals.be64",
+        "rows/row_11/profile_00.intervals.be64",
+        "rows/row_11/profile_01.intervals.be64",
+        "rows/row_11/profile_02.intervals.be64",
+        "rows/row_11/profile_03.intervals.be64"
+      ]
+    },
+    "totals": {
+      "configuration_rows": 12,
+      "contact_interval_bytes": 3730224,
+      "contact_interval_records": 233139,
+      "directories": 14,
+      "files": 73,
+      "profile_files": 48,
+      "profile_interval_bytes": 109632,
+      "profile_interval_records": 6852,
+      "raw_numerical_leaves": 60,
+      "row_manifests": 12,
+      "top_manifests": 1
+    }
+  },
+  "authority_bindings": {
+    "anti_vacuity_policy": {
+      "path": "artifacts/data/continuum_c1_c2_n0_anti_vacuity_policy_v4_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_anti_vacuity_policy_v4_candidate",
+      "sha256": "599252aa1a9fd1d65d9ff3d0faa1e21bb2609da96cca6b6fff1e61a89ebff196"
+    },
+    "configuration": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "schema": "encounter_physical_configuration_family_control_free_v1",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "factorization": {
+      "path": "artifacts/data/continuum_c1_factorization_source_v2_candidate.json",
+      "schema": "encounter_continuum_c1_factorization_source_v2_candidate",
+      "sha256": "1cf32a65081dc4f381daae45a556e0e26dc9411eb248cd99e555b754ffad3e26"
+    },
+    "ideal_formula": {
+      "path": "artifacts/data/continuum_c1_ideal_formula_source_v1.json",
+      "schema": "encounter_continuum_c1_ideal_formula_source_v1",
+      "sha256": "f31b637b659483102d787da7263cd45c72829b3fce3df2ff9100066dec94c2be"
+    },
+    "initial_geometry": {
+      "path": "artifacts/data/physical_initial_analytic_source_v1.json",
+      "schema": "encounter_physical_initial_analytic_source_v1",
+      "sha256": "0b2efec5dc1abea1380ab862e46825e7b79658fe9bfa0ac6637e1426ed9f7f5f"
+    },
+    "initial_partition_bundle": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "schema": "encounter_control_free_production_initial_stream_v1",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    "killing_geometry": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "schema": "encounter_physical_killing_geometry_source_v1",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "member_spec": {
+      "path": "artifacts/data/continuum_c1_c2_n0_member_spec_v4_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_member_spec_v4_candidate",
+      "sha256": "b2982e4e2b0bac208f80472d0de959fa152a5494c895677d081836c482e5f2d5"
+    },
+    "method_parameter_registry": {
+      "path": "artifacts/data/continuum_c1_c2_n0_method_parameter_registry_v4_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_method_parameter_registry_v4_candidate",
+      "sha256": "e403a9576abb08d3ada884cd283cce29ce8f877b0e9843cc8d5b911c8c0b0ac5"
+    },
+    "reference_density": {
+      "path": "artifacts/data/continuum_c1_reference_density_source_v1.json",
+      "schema": "encounter_continuum_c1_reference_density_source_v1",
+      "sha256": "7b890d727ad0b229557de1841ae82befb8d8f83e79edc6b5348b277c3024e575"
+    },
+    "sealed_authentication_mirror": {
+      "path": "artifacts/data/continuum_c1_n0_role10_sealed_authentication_mirror_v1_candidate/manifest.json",
+      "schema": "encounter_continuum_c1_n0_role10_sealed_authentication_mirror_v1_candidate",
+      "sha256": "1ba1b582c17e90ab19f04f1aefce1ea5cf9a9dad8cbcfcaed309314014d8dc51"
+    }
+  },
+  "authority_model": {
+    "authentication_closure_roles": [
+      "anti_vacuity_policy",
+      "configuration_design",
+      "configuration_implementation",
+      "configuration_initial_geometry",
+      "configuration_test",
+      "external_predecessor_commitment",
+      "ideal_formula",
+      "initial_partition_bundle",
+      "killing_geometry",
+      "member_spec",
+      "method_parameter_registry",
+      "partition_path_bindings",
+      "producer_runtime_closure",
+      "reference_density",
+      "verifier_runtime_closure"
+    ],
+    "configuration_row_inventory_sha256": "8da99e7910cac1f2ba6b69fb2d0ec52b21412abfa1d59c898462e138d82ebbb2",
+    "member_identity_sha256": "68c8f9eeaca5127e9fb49c4671731990869350b358c67632fb11513f26472193",
+    "normative_direct_role_dependencies": [
+      1,
+      3,
+      5,
+      6,
+      7
+    ],
+    "partition_inventory_sha256": "f3507f4eec07e216bd54bcf4486ab5cef1589511367f781174b89fdfe2e7b51f",
+    "sealed_authentication_mirror": {
+      "directory_count": 20,
+      "entry_count": 40,
+      "file_count": 41,
+      "future_execution_source": "sealed_mirror_copies_only_original_paths_retained_as_semantic_lineage",
+      "manifest_path": "artifacts/data/continuum_c1_n0_role10_sealed_authentication_mirror_v1_candidate/manifest.json",
+      "manifest_schema": "encounter_continuum_c1_n0_role10_sealed_authentication_mirror_v1_candidate",
+      "manifest_sha256": "1ba1b582c17e90ab19f04f1aefce1ea5cf9a9dad8cbcfcaed309314014d8dc51",
+      "total_bytes": 1176207,
+      "validated_coverage": {
+        "configuration_authority_lineage_file_count": 3,
+        "configuration_initial_geometry_file_count": 1,
+        "exact_writable_precommit_input_closure_mirrored": true,
+        "member_v4_partition_file_count": 36,
+        "original_report_relative_suffix_preserved_under_files": true,
+        "standalone_content_addressed_validation_without_original_writable_sources": true
+      }
+    },
+    "separation_rule": "authentication_closure_roles_authenticate_nested_lineage_or_execution_bytes_but_are_not_additional_mathematical_dependency_edges"
+  },
+  "claim_boundary": {
+    "B06_cleared": false,
+    "B06_structural_remedy_prepared": false,
+    "backend_independence_claimed": false,
+    "complete_C1": false,
+    "external_predecessor_commitment_present": false,
+    "numerical_execution_performed": false,
+    "numerical_implementation_present": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "role10_numerical_source_materialized": false,
+    "same_member_acceptance": false,
+    "science_executed": false,
+    "submission_eligible": false
+  },
+  "forbidden_surface": {
+    "forbidden_legacy_import_prefixes": [
+      "numpy",
+      "rate_defined_tensor_f0",
+      "scipy"
+    ],
+    "forbidden_legacy_result_basenames": [
+      "continuum_c2_killing_geometry_production_binding_v1.json",
+      "physical_production_killing_geometry_two_repeat_outer_receipt_v1.json",
+      "physical_production_killing_geometry_v1"
+    ],
+    "forbidden_precommit_or_artifact_fields": [
+      "acceptance_bit",
+      "artifact_sha256",
+      "budget",
+      "concrete_V",
+      "control_weights",
+      "discrete_diagonal_k",
+      "independent_trust_domain_receipt_hash",
+      "observed_output_digest",
+      "observed_result",
+      "reconstructed_K",
+      "result_summary",
+      "role10_result_digest",
+      "tree_digest"
+    ],
+    "forbidden_scientific_payloads": [
+      "384_bit_oracle_interval_values",
+      "512_bit_sentinel_interval_values",
+      "dense_V",
+      "dense_k",
+      "dense_K",
+      "pi_h",
+      "role8_result",
+      "role9_result"
+    ],
+    "future_code_hashes": "required_in_runtime_closure_before_commitment_but_not_yet_available_in_this_contract",
+    "legacy_import_scope": "forbidden_in_future_producer_verifier_shared_protocol_and_numerical_runtime_dependency_edges_but_allowed_as_sealed_configuration_lineage_evidence_in_the_authentication_mirror",
+    "legacy_result_bytes_read": "forbidden",
+    "unknown_future_output_or_result_hash_pins": "forbidden"
+  },
+  "invocation_contract": {
+    "child_semantic_verifier_argv": [
+      "{python_executable}",
+      "-I",
+      "-B",
+      "{verifier_entrypoint}",
+      "--semantic-child",
+      "--request",
+      "{request}",
+      "--output",
+      "{artifact}",
+      "--semantic-receipt",
+      "{temporary_semantic_receipt}"
+    ],
+    "outer_verifier_argv": [
+      "{python_executable}",
+      "-I",
+      "-B",
+      "{verifier_entrypoint}",
+      "--request",
+      "{request}",
+      "--output",
+      "{artifact}",
+      "--semantic-receipt",
+      "{semantic_receipt}",
+      "--receipt",
+      "{outer_receipt}"
+    ],
+    "process_isolation_and_cleanup": {
+      "ack_protocol": "one_bounded_canonical_ack_per_child_after_semantic_receipt_fsync",
+      "child_environment": "fixed_allowlist_no_PYTHONPATH_no_python_startup_no_user_site_locale_C_utf8_hash_seed_zero",
+      "child_process_group": "one_new_process_group_per_clean_child",
+      "cleanup": "on_timeout_error_or_interrupt_terminate_process_group_then_kill_after_bounded_grace_and_reap_before_owned_temporary_cleanup",
+      "observation_bytes_maximum": 65536,
+      "semantic_deadline_seconds": 1140,
+      "stderr_bytes_maximum": 4096,
+      "stdout_ack_bytes_maximum": 4096,
+      "wall_deadline_seconds": 1200
+    },
+    "producer_argv": [
+      "{python_executable}",
+      "-I",
+      "-B",
+      "{producer_entrypoint}",
+      "--request",
+      "{request}",
+      "--output",
+      "{artifact}"
+    ],
+    "runtime_closure_rule": "future_entrypoints_and_all_transitive_runtime_bytes_are_bound_only_in_a_later_result_blind_replay_plan_before_external_commitment",
+    "shared_module_boundary": {
+      "allowed_shared_surface": "one_separately_pinned_protocol_only_module_with_no_geometry_partition_interval_package_or_receipt_semantics",
+      "numerical_source_sets": "producer_and_verifier_disjoint",
+      "shared_unpinned_module": "forbidden"
+    }
+  },
+  "method_contract": {
+    "digest_domain": "encounter-outward-method-parameters-v4",
+    "method_count": 4,
+    "method_record_digests": [
+      "b48ff460eb56ab91f27b26104b69874f0e0169e658ea69c71c2a6dd6f1fd30df",
+      "0ade3fb790db8845715652762776073a1c2db6570bc562fec7b46a6a66c41057",
+      "40907be35641ad4cfc2d64b9479d45df572adcd4ee2f7e9afdf39340ebe6b421",
+      "ca866475725fe801833f8f2ec9702fe825010a69a59712c4d87f1584048fe631"
+    ],
+    "method_record_order": [
+      "killing_contact_profile_mpfr_192_v3",
+      "killing_analytic_disk_area_mpfr_256_v3",
+      "killing_source_independent_same_backend_verifier_v3",
+      "killing_exact_contact_cell_classification_v3"
+    ],
+    "registry_binding": {
+      "path": "artifacts/data/continuum_c1_c2_n0_method_parameter_registry_v4_candidate.json",
+      "schema": "encounter_continuum_c1_c2_n0_method_parameter_registry_v4_candidate",
+      "sha256": "e403a9576abb08d3ada884cd283cce29ce8f877b0e9843cc8d5b911c8c0b0ac5"
+    },
+    "registry_record_count": 10,
+    "role_scope": [
+      "role10_killing_factor_geometry"
+    ],
+    "selected_records": [
+      {
+        "method_parameter_sha256": "b48ff460eb56ab91f27b26104b69874f0e0169e658ea69c71c2a6dd6f1fd30df",
+        "parameter_id": "killing_contact_profile_mpfr_192_v3",
+        "parameters": {
+          "contact_algorithm": "directed_disk_primitive_over_exact_wrapped_segments_with_sqrt_asin_quadrant_inclusion_exclusion_and_[0,1]_clipping",
+          "contact_area_relative_width_gate": "1/10000000000",
+          "contact_fraction_record_format": ">dd",
+          "panels_per_unit": 16384,
+          "precision_bits": 192,
+          "profile_algorithm": "directed_compact_bump_cell_mass_composite_Simpson",
+          "profile_cell_mass_width_gate": "1/1099511627776",
+          "profile_integral_relative_width_gate": "1/10000000000",
+          "published_contact_width_gate": "1/1099511627776",
+          "rounding_mode": "directed_RoundDown_RoundUp",
+          "source_role_scope": [
+            "role10_killing_factor_geometry"
+          ],
+          "support_density_record_format": ">dd",
+          "support_fourth_derivative_global_bound": "322000/1",
+          "support_normalization_division": "outward_positive_interval_division",
+          "support_panel_rule": "even(max(2,ceil_exact(length*16384)))",
+          "support_simpson_remainder": "length*h^4*M4/180"
+        }
+      },
+      {
+        "method_parameter_sha256": "0ade3fb790db8845715652762776073a1c2db6570bc562fec7b46a6a66c41057",
+        "parameter_id": "killing_analytic_disk_area_mpfr_256_v3",
+        "parameters": {
+          "analytic_area_precision_bits": 256,
+          "analytic_area_relative_width_gate": "1/1000000000000",
+          "containment_chain": [
+            "saved_256_contains_oracle_384",
+            "oracle_384_contains_sentinel_512"
+          ],
+          "formula": "pi_times_radius_squared",
+          "oracle_precision_bits": 384,
+          "rounding_mode": "directed_RoundDown_RoundUp",
+          "sentinel_precision_bits": 512,
+          "source_role_scope": [
+            "role10_killing_factor_geometry"
+          ]
+        }
+      },
+      {
+        "method_parameter_sha256": "40907be35641ad4cfc2d64b9479d45df572adcd4ee2f7e9afdf39340ebe6b421",
+        "parameter_id": "killing_source_independent_same_backend_verifier_v3",
+        "parameters": {
+          "accumulation": "balanced_exact_bin_accumulation",
+          "aggregate_profile_relative_width_gate": "1/10000000000",
+          "analytic_area_containment": "saved_256_contains_oracle_384_contains_sentinel_512",
+          "child_process_deadline_seconds": 1200,
+          "contact_aggregate_identity": "each_row_volume_weighted_contact_cell_sum_contains_analytic_pi_times_radius_squared",
+          "contact_cell_verification": "every_partial_contact_cell_independently_recomputed_at_384_bits_and_first_partial_contact_cell_per_row_at_512_bits",
+          "contact_containment_relations": [
+            "published_192_contains_primary_384_for_every_partial_contact_cell",
+            "primary_384_contains_sentinel_512_for_first_partial_contact_cell_per_row",
+            "published_192_contains_sentinel_512_for_first_partial_contact_cell_per_row"
+          ],
+          "contact_oracle": "exact_disk_rectangle_oracle_not_Simpson_contact_quadrature",
+          "contact_oracle_width_gate": "1/1532495540865888858358347027150309183618739122183602176",
+          "dfs_order": "right_push_left_first_depth_first",
+          "flat_tail_policy_digest_domain": "killing-geometry-independent-flat-tail-policy-v1",
+          "flat_tail_policy_preimage": {
+            "bump_upper_exact": "1/32317006071311007300714876688669951960444102669715484032130345427524655138867890893197201411522913463688717960921898019494119559150490921095088152386448283120630877367300996091750197750389652106796057638384067568276792218642619756161838094338476170470581645852036305042887575891541065808607552399123930385521914333389668342420684974786564569494856176035326322058077805659331026192708460314150258592864177116725943603718461857357598351152301645904403697613233287231227125684710820209725157101726931323469678542580656697935045997268352998638215525166389437335543602135433229604645318478604952148193555853611059596230656",
+            "derivative_coefficients": [
+              [
+                3,
+                24
+              ],
+              [
+                4,
+                300
+              ],
+              [
+                5,
+                672
+              ],
+              [
+                6,
+                624
+              ],
+              [
+                7,
+                192
+              ],
+              [
+                8,
+                16
+              ]
+            ],
+            "derivative_upper_exact": "72480476870290435/470274332784334653125768479202378540655541330775529554115642465003833860666314880555687725595240968158595467116129264752003939926369507463752061483485861144736276435539199098882821239391191223793372884951300039658625496939095606738728210538661750185864826865902233185521437202864633084516500128653190482662785715851200342038947346369773215985258228844545757195127630339401818145309639808171054153250067278229485143728648281210300022956686758638598311483121262968506593107081583296672399695696759318866966038223190941759604116629173993695268516969610783232718583925968170363989270386498609909150306424324096",
+            "elementary_bound": "exp(-s)<2^-s_for_s_positive_because_e>2",
+            "schema": "encounter_independent_compact_bump_flat_tail_policy_v1",
+            "threshold_exact": "2048/1"
+          },
+          "flat_tail_policy_sha256": "b7720e13964c58cb14a6f1ca9aa4060a45b0cfaf8108587a62333dcf14933f9a",
+          "flat_tail_threshold": 2048,
+          "independent_backend": false,
+          "maximum_bump_breakpoints": 20000,
+          "maximum_child_ack_bytes": 4096,
+          "maximum_child_observation_bytes": 65536,
+          "maximum_child_semantic_receipt_bytes": 2097152,
+          "maximum_child_stderr_bytes": 4096,
+          "maximum_dyadic_coordinate_component_bits": 256,
+          "maximum_json_file_bytes": 2097152,
+          "maximum_mpfr_to_mpq_denominator_bits": 4096,
+          "maximum_outer_receipt_bytes": 262144,
+          "maximum_raw_contact_file_bytes": 553840,
+          "maximum_raw_support_file_bytes": 3312,
+          "maximum_simpson_dfs_stack": 65,
+          "maximum_simpson_dyadic_depth": 64,
+          "maximum_simpson_exact_component_bits": 8192,
+          "maximum_simpson_panels": 4194304,
+          "maximum_tree_directories": 64,
+          "maximum_tree_files": 256,
+          "maximum_tree_relative_depth": 3,
+          "maximum_tree_total_bytes": 67108864,
+          "oracle_to_nonzero_producer_width_max": "1/8",
+          "outer_deadline_seconds": 2700,
+          "outer_nonchild_reserve_seconds": 300,
+          "paired_simpson_policy_digest_domain": "killing-geometry-independent-paired-simpson-policy-v2",
+          "paired_simpson_policy_preimage": {
+            "accepted_panel_rule": "exact_panel_enclosure_width_le_root_target_width_over_2^depth",
+            "accumulation": "per_segment_exact_balanced_binary_bins",
+            "coordinate_component_bit_cap": 256,
+            "dyadic_depth_cap": 64,
+            "exact_component_bit_cap": 8192,
+            "execution_model": "single_threaded_child",
+            "flat_tail_threshold": 2048,
+            "maximum_stack_nodes": 65,
+            "mpfr_to_mpq_denominator_bit_cap": 4096,
+            "panel_cap": 4194304,
+            "primary_target_width_exact": "1/18446744073709551616",
+            "remainder_prefilter": "split_without_estimate_when_exact_root_local_R_exceeds_allowance",
+            "root_derivative_rule": "one_rigorous_M4_upper_per_frozen_root_and_precision",
+            "sample_rule": "paired_384_512_samples_with_parent_endpoint_and_midpoint_reuse",
+            "schema": "encounter_independent_paired_root_local_simpson_policy_v2",
+            "sentinel_rule": "512_bit_containment_only_on_primary_accepted_leaves_not_2^-68_adaptive",
+            "traversal": "per_root_explicit_DFS_push_right_then_left_execute_left_first"
+          },
+          "paired_simpson_policy_sha256": "0fb7e19ff04a60c0ebee938fc725fe49ba5c030bb3a18f2570bbabb519a25895",
+          "parent_sample_reuse": true,
+          "primary_precision_bits": 384,
+          "primary_target_width": "1/18446744073709551616",
+          "same_backend": "MPFR_directed_RoundDown_RoundUp",
+          "semantic_deadline_seconds": 1140,
+          "sentinel_evaluation_rule": "512_bits_only_on_leaves_accepted_by_384_bit_primary",
+          "sentinel_precision_bits": 512,
+          "simpson_applicability": "compact_support_bump_cells_only_not_disk_contact_cells",
+          "source_independence": "oracle_reconstruction_from_frozen_role3_sources_without_using_published_192_bit_producer_values_while_the_verifier_reads_those_values_as_candidate_enclosures_for_containment",
+          "source_role_scope": [
+            "role10_killing_factor_geometry"
+          ],
+          "support_aggregate_identity": "each_compact_support_profile_volume_weighted_cell_mass_sum_contains_exact_one",
+          "support_cell_verification": "every_support_cell_and_aggregate_at_384_and_512_bits",
+          "support_containment_relations": [
+            "published_192_contains_primary_384_per_cell_and_aggregate",
+            "primary_384_contains_sentinel_512_per_cell_and_aggregate",
+            "published_192_contains_sentinel_512_per_cell_and_aggregate"
+          ]
+        }
+      },
+      {
+        "method_parameter_sha256": "ca866475725fe801833f8f2ec9702fe825010a69a59712c4d87f1584048fe631",
+        "parameter_id": "killing_exact_contact_cell_classification_v3",
+        "parameters": {
+          "full_rule": "all_corners_of_every_exact_wrapped_segment_inside_or_on_closed_disk",
+          "full_serialization": "exact_[1,1]",
+          "partial_rule": "otherwise_partial_directed_interval",
+          "partial_serialization": "exact_[lower,upper]",
+          "periodic_segmentation": "exact_wrapped_periodic_segments",
+          "precision_bits": "exact_rational",
+          "rounding_mode": "exact",
+          "source_role_scope": [
+            "role10_killing_factor_geometry"
+          ],
+          "tangency_convention": "boundary_tangency_is_measure_zero",
+          "zero_rule": "nearest_squared_distance_of_every_wrapped_segment_outside_closed_disk",
+          "zero_serialization": "exact_[0,0]"
+        }
+      }
+    ]
+  },
+  "numerical_semantics": {
+    "contact": {
+      "cell_classification": {
+        "cell_full": "full_if_every_positive_area_wrapped_segment_pair_is_full",
+        "cell_partial": "partial_otherwise",
+        "cell_zero": "zero_if_every_positive_area_wrapped_segment_pair_is_zero",
+        "full_segment_pair": "all_four_corner_squared_distances_less_than_or_equal_to_radius_squared",
+        "partial_segment_pair": "otherwise",
+        "zero_segment_pair": "nearest_squared_distance_greater_than_or_equal_to_radius_squared"
+      },
+      "derived_count_role": "geometry_derived_expected_count_not_method_threshold_or_scientific_result",
+      "derived_expected_partial_cell_count": 1304,
+      "flat_index": "a*n_Y+b",
+      "normalization": "divide_contact_area_by_exact_R_cell_volume_times_exact_Y_cell_volume",
+      "tangent_equality_convention": "zero_measure_tangency_is_exact_zero_and_zero_test_has_equality",
+      "units": "dimensionless",
+      "wrapped_periodic_segments": "exact_minimum_image_positive_area_segments"
+    },
+    "normalization_boundary": {
+      "W_inverse_in_contact": "forbidden",
+      "W_inverse_in_profile": "forbidden",
+      "later_factorization_only": "V_jmab=W^-1*C_ab*Phi_jm"
+    },
+    "precision": {
+      "analytic_area_saved_bits": 256,
+      "producer_contact_bits": 192,
+      "producer_profile_bits": 192,
+      "verifier_primary_bits": 384,
+      "verifier_sentinel_bits": 512
+    },
+    "producer_gates": {
+      "analytic_area_relative_width": "1/1000000000000",
+      "contact_area_relative_width_over_radius_squared": "1/10000000000",
+      "profile_cell_mass_width": "1/1099511627776",
+      "profile_integral_relative_width": "1/10000000000",
+      "published_contact_interval_width": "1/1099511627776"
+    },
+    "profile": {
+      "cell_mass_width_definition": "cell_volume_exact*(published_upper_exact-published_lower_exact)",
+      "density_definition": "Phi_jm=integral_over_M_cell_phi_j_dM_divided_by_exact_cell_volume",
+      "flat_index": "m",
+      "profile_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "stored_quantity": "cell_average_density_not_cell_mass",
+      "unit_mass_identity": "sum_m_exact_cell_volume_times_Phi_jm_contains_exact_one",
+      "units": "inverse_length"
+    }
+  },
+  "publication_contract": {
+    "artifact_install": "stage_below_authenticated_output_parent_on_same_filesystem_fsync_every_file_fsync_directories_postorder_and_install_without_replacement",
+    "component_reads": "component_anchored_no_symlink_regular_single_link_bounded_reads_only",
+    "destination_policy": "existing_destination_is_terminal_failure_never_replaced",
+    "directory_mode_transition": "0700_staging_to_0555_published",
+    "file_mode_transition": "0600_staging_to_0444_published",
+    "outer_receipt_install": "stage_fsync_install_without_replacement_then_fsync_parent",
+    "output_parent": {
+      "creation_by_role10": "forbidden",
+      "group_or_world_writable": "forbidden",
+      "mode": "0700",
+      "must_preexist": "required",
+      "owner": "effective_uid",
+      "same_filesystem_for_all_three_outputs": "required"
+    },
+    "publication_order": [
+      "artifact_directory",
+      "canonical_semantic_receipt_sibling",
+      "outer_validation_receipt_sibling"
+    ],
+    "semantic_receipt_install": "stage_fsync_install_without_replacement_then_fsync_parent",
+    "temporary_cleanup": "remove_only_stage_or_child_paths_owned_by_the_current_inode_identity"
+  },
+  "receipt_contract": {
+    "child_observation_count": 2,
+    "child_semantic_body_rule": "two_clean_isolated_children_create_byte_identical_canonical_temporary_semantic_receipt_bodies",
+    "outer_receipt": {
+      "claim_boundary": {
+        "B06_cleared": false,
+        "B06_structural_remedy_prepared": false,
+        "backend_independence_claimed": false,
+        "complete_C1": false,
+        "external_predecessor_commitment_present": false,
+        "numerical_execution_performed": false,
+        "numerical_implementation_present": false,
+        "ordered_roles_8_10_replay_executed": false,
+        "production_same_member_bridge_accepted": false,
+        "release_eligible": false,
+        "role10_numerical_source_materialized": false,
+        "same_member_acceptance": false,
+        "science_executed": false,
+        "submission_eligible": false
+      },
+      "exact_sections": [
+        "schema",
+        "status",
+        "claim_boundary",
+        "request_binding",
+        "artifact_binding",
+        "authority_bindings",
+        "method_bindings",
+        "producer_runtime_closure_binding",
+        "verifier_runtime_closure_binding",
+        "canonical_semantic_receipt_binding",
+        "run_observations",
+        "tree_stability_evidence",
+        "cleanup_evidence"
+      ],
+      "maximum_bytes": 262144,
+      "schema": "encounter_c1_n0_killing_factor_geometry_validation_receipt_v2"
+    },
+    "retention_rule": "outer_binds_one_canonical_semantic_receipt_sibling_and_retains_two_run_observations_tree_stability_evidence_and_child_cleanup_evidence",
+    "semantic_receipt": {
+      "claim_boundary": {
+        "B06_cleared": false,
+        "B06_structural_remedy_prepared": false,
+        "backend_independence_claimed": false,
+        "complete_C1": false,
+        "external_predecessor_commitment_present": false,
+        "numerical_execution_performed": false,
+        "numerical_implementation_present": false,
+        "ordered_roles_8_10_replay_executed": false,
+        "production_same_member_bridge_accepted": false,
+        "release_eligible": false,
+        "role10_numerical_source_materialized": false,
+        "same_member_acceptance": false,
+        "science_executed": false,
+        "submission_eligible": false
+      },
+      "exact_sections": [
+        "schema",
+        "status",
+        "claim_boundary",
+        "request_binding",
+        "artifact_binding",
+        "authority_bindings",
+        "method_bindings",
+        "verification_counts",
+        "precision_coverage",
+        "containment_ledger",
+        "tree_inventory_sha256"
+      ],
+      "maximum_bytes": 2097152,
+      "schema": "encounter_c1_n0_killing_factor_geometry_semantic_receipt_v1"
+    },
+    "slot_contract": {
+      "global_plan_v2_slot_count": 10,
+      "role10_output_count": 3,
+      "role10_slots_including_request": 4,
+      "roles8_9_slots_each": 3,
+      "slots": {
+        "artifact": "{output_parent}/role10.killing-factor-geometry",
+        "outer_validation_receipt": "{output_parent}/role10.killing-factor-geometry.validation-receipt.json",
+        "request": "{request_parent}/role10.request.json",
+        "semantic_receipt": "{output_parent}/role10.killing-factor-geometry.semantic-receipt.json"
+      }
+    },
+    "temporary_child_receipts": "both_are_removed_after_outer_rechecks_byte_identity_and_retains_one_body"
+  },
+  "resource_caps": {
+    "child_process_deadline_seconds": 1200,
+    "maximum_bump_breakpoints": 20000,
+    "maximum_child_ack_bytes": 4096,
+    "maximum_child_observation_bytes": 65536,
+    "maximum_child_semantic_receipt_bytes": 2097152,
+    "maximum_child_stderr_bytes": 4096,
+    "maximum_dyadic_coordinate_component_bits": 256,
+    "maximum_json_file_bytes": 2097152,
+    "maximum_mpfr_to_mpq_denominator_bits": 4096,
+    "maximum_outer_receipt_bytes": 262144,
+    "maximum_raw_contact_file_bytes": 553840,
+    "maximum_raw_support_file_bytes": 3312,
+    "maximum_simpson_dfs_stack": 65,
+    "maximum_simpson_dyadic_depth": 64,
+    "maximum_simpson_exact_component_bits": 8192,
+    "maximum_simpson_panels": 4194304,
+    "maximum_tree_directories": 64,
+    "maximum_tree_files": 256,
+    "maximum_tree_relative_depth": 3,
+    "maximum_tree_total_bytes": 67108864,
+    "outer_deadline_seconds": 2700,
+    "outer_nonchild_reserve_seconds": 300,
+    "semantic_deadline_seconds": 1140
+  },
+  "schema": "encounter_continuum_c1_n0_role10_numerical_operation_model_v1_candidate",
+  "status": "RESULT_BLIND_CONTRACT_ONLY_CANDIDATE_NO_NUMERICAL_IMPLEMENTATION_OR_EXECUTION",
+  "verification_contract": {
+    "analytic_area": {
+      "containment_chain": "saved_256_contains_oracle_384_contains_sentinel_512",
+      "formula": "pi_times_radius_squared",
+      "relative_width_gate": "1/1000000000000"
+    },
+    "backend_boundary": "source_independent_same_MPFR_backend_not_backend_independent",
+    "contact_coverage": {
+      "all_partial_cells_at_384": 1304,
+      "first_partial_cell_per_row_at_512": 12,
+      "oracle_relative_width_gate_per_partial_cell": "1/1532495540865888858358347027150309183618739122183602176",
+      "published_contains_primary_for_every_partial": 1304,
+      "published_contains_sentinel_for_first_partial_per_row": 12,
+      "ratio_gate": "oracle_cell_width_divided_by_nonzero_producer_cell_width_at_most_1/8",
+      "ratio_scope": "partial_nonzero_producer_widths_only"
+    },
+    "profile_coverage": {
+      "aggregate_relative_width_gate": "1/10000000000",
+      "all_profile_aggregates_at_paired_384_512": 48,
+      "all_profile_cells_at_paired_384_512": 6852,
+      "cell_mass_width_gate": "1/1099511627776",
+      "ratio_gate": "oracle_cell_mass_width_divided_by_nonzero_producer_cell_mass_width_at_most_1/8",
+      "ratio_scope": "nonzero_profile_cell_mass_widths_only_exact_zero_cells_excluded"
+    },
+    "scientific_source_separation": {
+      "candidate_values_used_for_oracle_branching": "forbidden",
+      "producer_imports_verifier_numerics": "forbidden",
+      "shared_numerical_implementation": "forbidden",
+      "verifier_imports_producer_numerics": "forbidden",
+      "verifier_reconstructs_from_frozen_authorities": "required"
+    }
+  }
+}

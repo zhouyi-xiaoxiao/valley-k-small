@@ -1,0 +1,142 @@
+{
+  "allowed_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "axiom_reports": [
+    {
+      "driver": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/AxiomsReport.lean",
+      "driver_sha256": "1dedc0b7288e12327cf4a349723665e97fa464862776e0165a5b51b43db36d2b",
+      "report": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/axioms_report_20260714.txt",
+      "report_sha256": "dc216af52fa00a861558e736906f83934b1b202b1446b806176b880c35b3361f",
+      "theorem_count": 80
+    },
+    {
+      "driver": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/EncounterAxioms.lean",
+      "driver_sha256": "f1f0f6c25a0b627ed8408e1d141c010b80017176ce3c4b915a9dee14afc35d96",
+      "report": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/encounter_axioms_report_20260711.txt",
+      "report_sha256": "21d6b8e058c016b14493dcd8aa247840c9e48b6fde4c76687fa5a4a80265d7eb",
+      "theorem_count": 14
+    },
+    {
+      "driver": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/EncounterContinuumAxioms.lean",
+      "driver_sha256": "e0fa346609d67fc233c779648c839ea1d757aed83c8540d68a2a0710566b04f6",
+      "report": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/encounter_continuum_axioms_report_20260711.txt",
+      "report_sha256": "a439fbec5af910977482b8c7a11a6bcef2cca34ce51decc1d076001b7da1ab44",
+      "theorem_count": 28
+    },
+    {
+      "driver": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/EncounterDesignAxioms.lean",
+      "driver_sha256": "990841673881eb76a6f7a7ac90d2390e67b1dfc2f3828d6877de7f8fe5045e81",
+      "report": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/encounter_design_axioms_report_20260711.txt",
+      "report_sha256": "c9ec39f348af143462cc68fc0b56696d65f4b95b4a00b4a9e967f0e5cad487d1",
+      "theorem_count": 18
+    }
+  ],
+  "default_build_targets": [
+    "FormalLean",
+    "FormalLean.MarkedTransfer",
+    "FormalLean.SlowFast",
+    "FormalLean.CertificateAudit",
+    "FormalLean.Encounter",
+    "FormalLean.EncounterContinuum",
+    "FormalLean.EncounterDesign"
+  ],
+  "forbidden_declarations": [
+    "admit",
+    "axiom declaration",
+    "constant declaration",
+    "native_decide",
+    "opaque declaration",
+    "sorry",
+    "unsafe declaration"
+  ],
+  "module_inventory": [
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/CertificateAudit.lean",
+      "sha256": "f5087a1577cb69d392d95ee8eb11fd6adf39aa91721c87d39020926f4a9bcbde",
+      "theorem_count": 6
+    },
+    {
+      "group": "encounter",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/Encounter.lean",
+      "sha256": "d2c11759c831228eb6641f3944d1d860c34615982d15b883e6d029f0a670e754",
+      "theorem_count": 14
+    },
+    {
+      "group": "encounter",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/EncounterContinuum.lean",
+      "sha256": "ae23060be3166c392eab2d8a0a5af5dcd1d3a4adf2a8b912fd8a0c2161e538b4",
+      "theorem_count": 28
+    },
+    {
+      "group": "encounter",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/EncounterDesign.lean",
+      "sha256": "fa45ceb3c40e7c9769d4f7d6ab5aa1495e89a361c675b89f362dfc11798b8330",
+      "theorem_count": 18
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/HalfLine.lean",
+      "sha256": "df87b921e98027229db57268388d71d894b08b4605f900bad08debc09cd6a64b",
+      "theorem_count": 14
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/JumpCondition.lean",
+      "sha256": "de5adc146034796128dc438a59a5bc4c7fcb8aef0ad836ff43cad26edb534ac3",
+      "theorem_count": 7
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/MarkedTransfer.lean",
+      "sha256": "497d183c0156990a0827a4d6156abebeaf2a8d2307a7335b6768d7ece3723e4b",
+      "theorem_count": 9
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/MinimalModes.lean",
+      "sha256": "d86d8b50e26a7abba2558a95e7c2b7795b3bf1c130dc5b4c0142a19eb49207e0",
+      "theorem_count": 6
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/NormalForm.lean",
+      "sha256": "37b64738b38226645aeb5eea8b15205b66c57929f01e5395811f05e4f869fc74",
+      "theorem_count": 6
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/Normalization.lean",
+      "sha256": "459174d887e7e4162fff785c7f7859cc6c2280e22a6ad3a2f09bfc7b003c9dea",
+      "theorem_count": 5
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/PiSc.lean",
+      "sha256": "913e0276384f15efabbe4b15bf44511088a077e7b26ed24e326402e56fd7daeb",
+      "theorem_count": 4
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/SlowFast.lean",
+      "sha256": "70db019b87ea0b8740661cb6dd0ec23151f220bf5dc206dbb9d394572ef15c83",
+      "theorem_count": 15
+    },
+    {
+      "group": "legacy",
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/Trig.lean",
+      "sha256": "9561f05301b6e6b8a12f27c5cc3485aea2842319dbc1c1b75e633ed856c877b4",
+      "theorem_count": 8
+    }
+  ],
+  "schema_version": 1,
+  "status": "pass",
+  "theorem_counts": {
+    "encounter_specific": 60,
+    "legacy": 80,
+    "total": 140
+  }
+}

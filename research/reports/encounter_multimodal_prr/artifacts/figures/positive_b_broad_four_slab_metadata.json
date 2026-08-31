@@ -1,0 +1,131 @@
+{
+  "caption": "Positive-budget broad-four-slab fixed-control evidence. Saved density traces retain max-min-max-min-max topology on N=113 and N=129 on the saved root screen t<=35. All three valley-partitioned event basins on each mesh exceed the frozen 0.005 mass floor through t=100. No interval-global or post-35 root exclusion is claimed; this is a fixed-box, same-solver-family point result.",
+  "claim_flags": {
+    "allocation_cusp_verified": false,
+    "continuum_interval_verified": false,
+    "independent_solver_verified": false,
+    "physical_d3_verified": false,
+    "preregistered_discovery": false,
+    "project_gate_passed": false,
+    "publication_gate_passed": false,
+    "unbounded_domain_FV_limit_verified": false
+  },
+  "claim_scope": "One result-informed broad four-slab geometry with fixed absolute weights and fixed B=0.01, tested by a matrix-free killed-Doi finite-volume semigroup on two held-out odd cubic meshes in one fixed reflecting box.",
+  "evidence_timing": "RESULT_INFORMED_FIXED_CONTROL_WITH_HELDOUT_FINE_MESHES",
+  "figure_contract": {
+    "analytical_question": "Does one unchanged result-informed fixed control retain three saved density modes and three event basins above the frozen 0.005 reaction-mass floor on held-out odd meshes N=113 and N=129?",
+    "canonical_family": "two-panel line-and-marker plus grouped-bar comparison",
+    "non_colour_distinction": "solid versus dashed mesh lines; filled maximum versus open minimum markers; solid versus hatched grouped bars",
+    "palette_policy": "hard two-root cap: blue and gold plus neutral ink and grey",
+    "panels": {
+      "a": "saved encounter-density traces for t<=35 with five alternating stationary roots on each held-out mesh",
+      "b": "three grouped event-basin reaction masses per mesh on an explicit log scale with the neutral frozen 0.005 floor"
+    },
+    "renderer": "deterministic Matplotlib static vector PDF",
+    "takeaway": "Within one fixed reflected box and the same solver family, both held-out odd meshes retain five alternating roots on the saved t<=35 root screen; all six valley-partitioned event-basin masses through t=100 exceed 0.005, without interval-global or post-35 root exclusion.",
+    "visible_scope_note": "B=0.01; unchanged result-informed control; fixed box; same solver family; five retained roots on saved screen t<=35; valley-partitioned basin-mass and tail checks through t=100; no interval-global or post-35 root exclusion; no continuum, box/parity, independent-solver, physical-d3, allocation-cusp, or publication-gate claim"
+  },
+  "limitations": [
+    "result-informed fixed control and selected budget",
+    "two fixed-box finite-volume meshes, not a PDE or unbounded-domain proof",
+    "same solver family on both meshes, not independent-solver verification",
+    "floating-point sign-screen and root refinement, not interval certification",
+    "no physical d=3 or project/publication gate"
+  ],
+  "outputs": {
+    "metadata": "artifacts/figures/positive_b_broad_four_slab_metadata.json",
+    "pdf": "artifacts/figures/positive_b_broad_four_slab.pdf",
+    "pdf_bytes": 97680,
+    "pdf_sha256": "a55531cb9bd0f21f4bd0ee7ff0e6ddc6cdfe9bf73aa632542d7ba345bbb2e871"
+  },
+  "pdf_qa": {
+    "raster_image_xobject_tokens": 0,
+    "transparency_graphics_state_tokens": 0,
+    "type3_font_tokens": 0
+  },
+  "plotted_data": {
+    "basin_reaction_masses": {
+      "113": [
+        0.0052114278399768565,
+        0.01662828849270659,
+        0.14837901353866123
+      ],
+      "129": [
+        0.005227839493313069,
+        0.01659738181932957,
+        0.14848157030018083
+      ]
+    },
+    "event_mass_floor": 0.005,
+    "finite_gate_time_max": 100.0,
+    "mesh_order": [
+      113,
+      129
+    ],
+    "root_times": {
+      "113": [
+        3.3367649300617077,
+        5.094308494728989,
+        8.622283801381938,
+        13.561466700696581,
+        22.54889593965799
+      ],
+      "129": [
+        3.3066991730834485,
+        5.085151669158436,
+        8.588476632538264,
+        13.529173700011155,
+        22.51481807006199
+      ]
+    },
+    "saved_trace_points_per_mesh": [
+      351,
+      351
+    ],
+    "saved_trace_time_max": 35.0,
+    "stationary_topology": [
+      "maximum",
+      "minimum",
+      "maximum",
+      "minimum",
+      "maximum"
+    ]
+  },
+  "renderer": {
+    "backend": "Agg/PDF",
+    "deterministic_fixed_pdf_dates": true,
+    "font_family": "DejaVu Sans",
+    "matplotlib_version": "3.11.0",
+    "pdf_fonttype": 42,
+    "raster_layers": false,
+    "transparent_background": false
+  },
+  "schema_version": 1,
+  "scope_constraints": {
+    "finite_gate_time_max": 100.0,
+    "finite_time_window_only": true,
+    "fixed_box_two_mesh_semidiscrete_point_only": true,
+    "heldout_odd_meshes": [
+      113,
+      129
+    ],
+    "positive_budget": 0.01,
+    "same_solver_family_only": true,
+    "saved_trace_time_max": 35.0,
+    "weights_refit": false
+  },
+  "source_pins": {
+    "canonical_result": "artifacts/data/positive_b_broad_four_slab_result.json",
+    "canonical_result_sha256": "51e8eb4bdb652124865d0c39e6f36b99d13ed61578b161e0f75b142cada49401",
+    "independent_audit": "artifacts/data/positive_b_broad_four_slab_independent_audit.json",
+    "independent_audit_sha256": "60c541a6f0decd5431cefa5c203311176e61006586ce69043d5fcf5380ed517d",
+    "plotter": "code/plot_positive_b_broad_four_slab.py",
+    "plotter_sha256": "2158835dbd4b85ea6acfebf426d22ccec4f19c856acd54fd793b38585335a39b",
+    "reproducibility_evidence": "artifacts/data/positive_b_broad_four_slab_reproducibility.json",
+    "reproducibility_evidence_sha256": "6c0eccaae09ef95923843ddd7a141a27311e1575ee68d3301b4757b785ee9890",
+    "test": "code/test_plot_positive_b_broad_four_slab.py",
+    "test_sha256": "8d53ec95a85f8ae865ae4e1c067d61b8d130dfcfa28a54660a1ad1df2ae6572f"
+  },
+  "stage": "positive_B_broad_four_slab_figure_provenance",
+  "status": "PASS_PINNED_FIXED_CONTROL_FIGURE_WITH_PROVENANCE"
+}

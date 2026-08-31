@@ -1,0 +1,287 @@
+{
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "external_predecessor_commitment_present": false,
+    "formal_outer_open_operation_model_present": false,
+    "formal_selected_source_dag_complete": false,
+    "formal_symbolic_candidate_materialized": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "policy_predecessor_order_independently_sealed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "root_transfer_complete": false,
+    "science_executed": false,
+    "submission_eligible": false,
+    "symbolic_acceptance_receipt_materialized": false
+  },
+  "parameter_count": 10,
+  "parameters": [
+    {
+      "method_parameter_sha256": "1226335c739734613508bacbaba3d8fb7f6c0607557d11190fe846ba08000da7",
+      "parameter_id": "stationary_directed_mpfr_320_v2",
+      "parameters": {
+        "aggregation": "exact_Fraction_endpoint_sums_and_nonnegative_products",
+        "dense_tensor_materialized": false,
+        "precision_bits": 320,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role9_stationary_physical_integral"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "67d76049763a982144e2b41fc1722ce6e4663bccb8bdcec9e2af398d7c1511f9",
+      "parameter_id": "stationary_directed_mpfr_640_sentinel_v2",
+      "parameters": {
+        "containment_relation": "primary_interval_contains_higher_precision_same_backend_sentinel",
+        "independent_backend": false,
+        "precision_bits": 640,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role9_stationary_physical_integral"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "2393d646b5a5d1d0e0c6c3a97e91b62e9f3e74b3c4007b38b01107161a18cc38",
+      "parameter_id": "raw_flux_directed_mpfr_320_v2",
+      "parameters": {
+        "aggregation": "exact_Fraction_endpoint_algebra",
+        "common_kappa_rule": "intersection_after_formula_witness",
+        "precision_bits": 320,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "d1f3f3074f74ab276b375ef977a467d208a6d730e0b5baeeece19c1178c3caaa",
+      "parameter_id": "raw_flux_directed_mpfr_640_sentinel_v2",
+      "parameters": {
+        "containment_relation": "primary_interval_contains_higher_precision_same_backend_sentinel",
+        "independent_backend": false,
+        "precision_bits": 640,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "47e7248b048b4d042397e8f0123f5eceed2433a8b552099eb7883c2dfb60d6f8",
+      "parameter_id": "raw_flux_binary64_decode_v2",
+      "parameters": {
+        "decode": "exact_binary64_endpoint_to_reduced_dyadic_fraction",
+        "precision_bits": 53,
+        "rounding_mode": "stored_outward_endpoints",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "c1e11de7305a3035973e98d1913e14075f0ba3b2a32180a73689aee4c9b4b851",
+      "parameter_id": "exact_fraction_expression_dag_v2",
+      "parameters": {
+        "arithmetic": "Python_Fraction_exact_reduced_rationals",
+        "precision_bits": "unbounded_integer_fraction",
+        "rounding_mode": "exact",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive",
+          "role9_stationary_physical_integral",
+          "same_member_mass_flux_composition",
+          "symbolic_killing_composition"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "b48ff460eb56ab91f27b26104b69874f0e0169e658ea69c71c2a6dd6f1fd30df",
+      "parameter_id": "killing_contact_profile_mpfr_192_v3",
+      "parameters": {
+        "contact_algorithm": "directed_disk_primitive_over_exact_wrapped_segments_with_sqrt_asin_quadrant_inclusion_exclusion_and_[0,1]_clipping",
+        "contact_area_relative_width_gate": "1/10000000000",
+        "contact_fraction_record_format": ">dd",
+        "panels_per_unit": 16384,
+        "precision_bits": 192,
+        "profile_algorithm": "directed_compact_bump_cell_mass_composite_Simpson",
+        "profile_cell_mass_width_gate": "1/1099511627776",
+        "profile_integral_relative_width_gate": "1/10000000000",
+        "published_contact_width_gate": "1/1099511627776",
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ],
+        "support_density_record_format": ">dd",
+        "support_fourth_derivative_global_bound": "322000/1",
+        "support_normalization_division": "outward_positive_interval_division",
+        "support_panel_rule": "even(max(2,ceil_exact(length*16384)))",
+        "support_simpson_remainder": "length*h^4*M4/180"
+      }
+    },
+    {
+      "method_parameter_sha256": "0ade3fb790db8845715652762776073a1c2db6570bc562fec7b46a6a66c41057",
+      "parameter_id": "killing_analytic_disk_area_mpfr_256_v3",
+      "parameters": {
+        "analytic_area_precision_bits": 256,
+        "analytic_area_relative_width_gate": "1/1000000000000",
+        "containment_chain": [
+          "saved_256_contains_oracle_384",
+          "oracle_384_contains_sentinel_512"
+        ],
+        "formula": "pi_times_radius_squared",
+        "oracle_precision_bits": 384,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "sentinel_precision_bits": 512,
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "40907be35641ad4cfc2d64b9479d45df572adcd4ee2f7e9afdf39340ebe6b421",
+      "parameter_id": "killing_source_independent_same_backend_verifier_v3",
+      "parameters": {
+        "accumulation": "balanced_exact_bin_accumulation",
+        "aggregate_profile_relative_width_gate": "1/10000000000",
+        "analytic_area_containment": "saved_256_contains_oracle_384_contains_sentinel_512",
+        "child_process_deadline_seconds": 1200,
+        "contact_aggregate_identity": "each_row_volume_weighted_contact_cell_sum_contains_analytic_pi_times_radius_squared",
+        "contact_cell_verification": "every_partial_contact_cell_independently_recomputed_at_384_bits_and_first_partial_contact_cell_per_row_at_512_bits",
+        "contact_containment_relations": [
+          "published_192_contains_primary_384_for_every_partial_contact_cell",
+          "primary_384_contains_sentinel_512_for_first_partial_contact_cell_per_row",
+          "published_192_contains_sentinel_512_for_first_partial_contact_cell_per_row"
+        ],
+        "contact_oracle": "exact_disk_rectangle_oracle_not_Simpson_contact_quadrature",
+        "contact_oracle_width_gate": "1/1532495540865888858358347027150309183618739122183602176",
+        "dfs_order": "right_push_left_first_depth_first",
+        "flat_tail_policy_digest_domain": "killing-geometry-independent-flat-tail-policy-v1",
+        "flat_tail_policy_preimage": {
+          "bump_upper_exact": "1/32317006071311007300714876688669951960444102669715484032130345427524655138867890893197201411522913463688717960921898019494119559150490921095088152386448283120630877367300996091750197750389652106796057638384067568276792218642619756161838094338476170470581645852036305042887575891541065808607552399123930385521914333389668342420684974786564569494856176035326322058077805659331026192708460314150258592864177116725943603718461857357598351152301645904403697613233287231227125684710820209725157101726931323469678542580656697935045997268352998638215525166389437335543602135433229604645318478604952148193555853611059596230656",
+          "derivative_coefficients": [
+            [
+              3,
+              24
+            ],
+            [
+              4,
+              300
+            ],
+            [
+              5,
+              672
+            ],
+            [
+              6,
+              624
+            ],
+            [
+              7,
+              192
+            ],
+            [
+              8,
+              16
+            ]
+          ],
+          "derivative_upper_exact": "72480476870290435/470274332784334653125768479202378540655541330775529554115642465003833860666314880555687725595240968158595467116129264752003939926369507463752061483485861144736276435539199098882821239391191223793372884951300039658625496939095606738728210538661750185864826865902233185521437202864633084516500128653190482662785715851200342038947346369773215985258228844545757195127630339401818145309639808171054153250067278229485143728648281210300022956686758638598311483121262968506593107081583296672399695696759318866966038223190941759604116629173993695268516969610783232718583925968170363989270386498609909150306424324096",
+          "elementary_bound": "exp(-s)<2^-s_for_s_positive_because_e>2",
+          "schema": "encounter_independent_compact_bump_flat_tail_policy_v1",
+          "threshold_exact": "2048/1"
+        },
+        "flat_tail_policy_sha256": "b7720e13964c58cb14a6f1ca9aa4060a45b0cfaf8108587a62333dcf14933f9a",
+        "flat_tail_threshold": 2048,
+        "independent_backend": false,
+        "maximum_bump_breakpoints": 20000,
+        "maximum_child_ack_bytes": 4096,
+        "maximum_child_observation_bytes": 65536,
+        "maximum_child_semantic_receipt_bytes": 2097152,
+        "maximum_child_stderr_bytes": 4096,
+        "maximum_dyadic_coordinate_component_bits": 256,
+        "maximum_json_file_bytes": 2097152,
+        "maximum_mpfr_to_mpq_denominator_bits": 4096,
+        "maximum_outer_receipt_bytes": 262144,
+        "maximum_raw_contact_file_bytes": 553840,
+        "maximum_raw_support_file_bytes": 3312,
+        "maximum_simpson_dfs_stack": 65,
+        "maximum_simpson_dyadic_depth": 64,
+        "maximum_simpson_exact_component_bits": 8192,
+        "maximum_simpson_panels": 4194304,
+        "maximum_tree_directories": 64,
+        "maximum_tree_files": 256,
+        "maximum_tree_relative_depth": 3,
+        "maximum_tree_total_bytes": 67108864,
+        "oracle_to_nonzero_producer_width_max": "1/8",
+        "outer_deadline_seconds": 2700,
+        "outer_nonchild_reserve_seconds": 300,
+        "paired_simpson_policy_digest_domain": "killing-geometry-independent-paired-simpson-policy-v2",
+        "paired_simpson_policy_preimage": {
+          "accepted_panel_rule": "exact_panel_enclosure_width_le_root_target_width_over_2^depth",
+          "accumulation": "per_segment_exact_balanced_binary_bins",
+          "coordinate_component_bit_cap": 256,
+          "dyadic_depth_cap": 64,
+          "exact_component_bit_cap": 8192,
+          "execution_model": "single_threaded_child",
+          "flat_tail_threshold": 2048,
+          "maximum_stack_nodes": 65,
+          "mpfr_to_mpq_denominator_bit_cap": 4096,
+          "panel_cap": 4194304,
+          "primary_target_width_exact": "1/18446744073709551616",
+          "remainder_prefilter": "split_without_estimate_when_exact_root_local_R_exceeds_allowance",
+          "root_derivative_rule": "one_rigorous_M4_upper_per_frozen_root_and_precision",
+          "sample_rule": "paired_384_512_samples_with_parent_endpoint_and_midpoint_reuse",
+          "schema": "encounter_independent_paired_root_local_simpson_policy_v2",
+          "sentinel_rule": "512_bit_containment_only_on_primary_accepted_leaves_not_2^-68_adaptive",
+          "traversal": "per_root_explicit_DFS_push_right_then_left_execute_left_first"
+        },
+        "paired_simpson_policy_sha256": "0fb7e19ff04a60c0ebee938fc725fe49ba5c030bb3a18f2570bbabb519a25895",
+        "parent_sample_reuse": true,
+        "primary_precision_bits": 384,
+        "primary_target_width": "1/18446744073709551616",
+        "same_backend": "MPFR_directed_RoundDown_RoundUp",
+        "semantic_deadline_seconds": 1140,
+        "sentinel_evaluation_rule": "512_bits_only_on_leaves_accepted_by_384_bit_primary",
+        "sentinel_precision_bits": 512,
+        "simpson_applicability": "compact_support_bump_cells_only_not_disk_contact_cells",
+        "source_independence": "oracle_reconstruction_from_frozen_role3_sources_without_using_published_192_bit_producer_values_while_the_verifier_reads_those_values_as_candidate_enclosures_for_containment",
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ],
+        "support_aggregate_identity": "each_compact_support_profile_volume_weighted_cell_mass_sum_contains_exact_one",
+        "support_cell_verification": "every_support_cell_and_aggregate_at_384_and_512_bits",
+        "support_containment_relations": [
+          "published_192_contains_primary_384_per_cell_and_aggregate",
+          "primary_384_contains_sentinel_512_per_cell_and_aggregate",
+          "published_192_contains_sentinel_512_per_cell_and_aggregate"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "ca866475725fe801833f8f2ec9702fe825010a69a59712c4d87f1584048fe631",
+      "parameter_id": "killing_exact_contact_cell_classification_v3",
+      "parameters": {
+        "full_rule": "all_corners_of_every_exact_wrapped_segment_inside_or_on_closed_disk",
+        "full_serialization": "exact_[1,1]",
+        "partial_rule": "otherwise_partial_directed_interval",
+        "partial_serialization": "exact_[lower,upper]",
+        "periodic_segmentation": "exact_wrapped_periodic_segments",
+        "precision_bits": "exact_rational",
+        "rounding_mode": "exact",
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ],
+        "tangency_convention": "boundary_tangency_is_measure_zero",
+        "zero_rule": "nearest_squared_distance_of_every_wrapped_segment_outside_closed_disk",
+        "zero_serialization": "exact_[0,0]"
+      }
+    }
+  ],
+  "schema": "encounter_continuum_c1_c2_n0_method_parameter_registry_v4_candidate",
+  "status": "RESULT_BLIND_CANDIDATE_NATIVE_METHOD_PARAMETERS_ONLY_NOT_EXTERNALLY_COMMITTED"
+}

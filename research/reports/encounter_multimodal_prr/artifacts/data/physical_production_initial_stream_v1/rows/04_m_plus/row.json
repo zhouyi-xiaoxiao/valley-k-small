@@ -1,0 +1,329 @@
+{
+  "axes": [
+    {
+      "axis_relation_sha256": "dcc3b60f6c80d6327719f9c296d7d84a201f499db907e5123b97bca230c10ed8",
+      "coordinate": "midpoint",
+      "partition_file": {
+        "byte_length": 36350,
+        "path": "rows/04_m_plus/midpoint.partition.json",
+        "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2656,
+            "path": "rows/04_m_plus/midpoint.backward.be64",
+            "sha256": "fe1fd9b377413f1bf5a7fdbc3a14e0faa85c62393c038f8ee9f7a7e0bde13323"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              166
+            ],
+            "raw_byte_length": 2656,
+            "raw_sha256": "fe1fd9b377413f1bf5a7fdbc3a14e0faa85c62393c038f8ee9f7a7e0bde13323",
+            "record_count": 166,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2656,
+            "path": "rows/04_m_plus/midpoint.forward.be64",
+            "sha256": "de2eb6accd330379d5b960af08903295d4bdbe3974419fb4cd98fad185129c30"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              166
+            ],
+            "raw_byte_length": 2656,
+            "raw_sha256": "de2eb6accd330379d5b960af08903295d4bdbe3974419fb4cd98fad185129c30",
+            "record_count": 166,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2656,
+            "path": "rows/04_m_plus/midpoint.stationary_mass.be64",
+            "sha256": "3adabfe6b55db9f610620c403704894870e69acbe00f9085aba1fc404a8419ed"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              166
+            ],
+            "raw_byte_length": 2656,
+            "raw_sha256": "3adabfe6b55db9f610620c403704894870e69acbe00f9085aba1fc404a8419ed",
+            "record_count": 166,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "d476fa849228a5d86e5974a8a705b33a70877662336d9b37d7ce6da1decad87d",
+      "coordinate": "relative_parallel",
+      "partition_file": {
+        "byte_length": 27968,
+        "path": "rows/04_m_plus/relative_parallel.partition.json",
+        "sha256": "95df8fa2e5113047035d1429d13ae60402c4e77bce9a452e924c5d2b0c71d226"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/04_m_plus/relative_parallel.backward.be64",
+            "sha256": "6e8f295bc9ad8389f36b8c75f1954a47358c50a8f82cbff45146bcd74cddc239"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "6e8f295bc9ad8389f36b8c75f1954a47358c50a8f82cbff45146bcd74cddc239",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/04_m_plus/relative_parallel.forward.be64",
+            "sha256": "9c359bf4f508794e78963e4193496349f4b45b0c9594da33ca0a2da6de54de13"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "9c359bf4f508794e78963e4193496349f4b45b0c9594da33ca0a2da6de54de13",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/04_m_plus/relative_parallel.stationary_mass.be64",
+            "sha256": "bfff595afcbbb99b209b76a74069281d9ebee1b0c4dd1b766443a485b131dad5"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "bfff595afcbbb99b209b76a74069281d9ebee1b0c4dd1b766443a485b131dad5",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "9b38fe12ec779c65665789d1cd5d7196c88129854954d89ef84d7e57b072384a",
+      "coordinate": "relative_perpendicular",
+      "partition_file": {
+        "byte_length": 12123,
+        "path": "rows/04_m_plus/relative_perpendicular.partition.json",
+        "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/04_m_plus/relative_perpendicular.backward.be64",
+            "sha256": "07481eaf65bae9e92ebad4f17fc1a6dffbd1abfe212c12664cc654462ddbb4d5"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "07481eaf65bae9e92ebad4f17fc1a6dffbd1abfe212c12664cc654462ddbb4d5",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/04_m_plus/relative_perpendicular.forward.be64",
+            "sha256": "07481eaf65bae9e92ebad4f17fc1a6dffbd1abfe212c12664cc654462ddbb4d5"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "07481eaf65bae9e92ebad4f17fc1a6dffbd1abfe212c12664cc654462ddbb4d5",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/04_m_plus/relative_perpendicular.stationary_mass.be64",
+            "sha256": "b81ce5e809e22d2ff7f69fb1b75394bc5f425a109923dee86ebfd8990f4335ee"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "b81ce5e809e22d2ff7f69fb1b75394bc5f425a109923dee86ebfd8990f4335ee",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    }
+  ],
+  "configuration_index": 4,
+  "configuration_label": "M+",
+  "configuration_sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+  "expected_states": 2762406,
+  "flags": {
+    "analytic_source_to_sparse_box_producer_consistent": true,
+    "free_axis_geometry_rate_producer_consistent": true,
+    "full_operator_bound": false,
+    "independent_geometry_relation_replay": false,
+    "independent_source_box_replay": false,
+    "killing_contact_geometry_bound": false,
+    "positive_budget_executed": false
+  },
+  "initial_marginals": [
+    {
+      "active_indices": [
+        41,
+        42,
+        43
+      ],
+      "coordinate": "midpoint",
+      "file": {
+        "byte_length": 2656,
+        "path": "rows/04_m_plus/midpoint.initial_marginal.be64",
+        "sha256": "f003574b68a62781055cb6042f3d2af37bcdce212dd6ac478ade7d55e2a8a99a"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          166
+        ],
+        "raw_byte_length": 2656,
+        "raw_sha256": "f003574b68a62781055cb6042f3d2af37bcdce212dd6ac478ade7d55e2a8a99a",
+        "record_count": 166,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_midpoint",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        51,
+        52
+      ],
+      "coordinate": "relative_parallel",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/04_m_plus/relative_parallel.initial_marginal.be64",
+        "sha256": "32619adef599485776b3b83827123f6c69c1c286035e9b6f0ac9efe1693d23b1"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "32619adef599485776b3b83827123f6c69c1c286035e9b6f0ac9efe1693d23b1",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_parallel",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67
+      ],
+      "coordinate": "relative_perpendicular",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/04_m_plus/relative_perpendicular.initial_marginal.be64",
+        "sha256": "5032a80fe2655fce371352eb57b97bcbada15fa0bc641e488cec3a5bd3a631d1"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "5032a80fe2655fce371352eb57b97bcbada15fa0bc641e488cec3a5bd3a631d1",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_perpendicular",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    }
+  ],
+  "row_relation_sha256": "ff46a26832ae280a3f9e0b511869401c5570ccea8ef3452bf271c346fe3a2102",
+  "schema": "encounter_control_free_production_initial_row_v1",
+  "source_box_relation_sha256": "39dba3676bdcd8cb7528005fa8fa106999995a5005b1d557854f8637f5ad1d25",
+  "sparse_component_box": {
+    "active_component_count": 42,
+    "active_index_sha256": "718f1be7c05d8b0ad1d5b9a27139fece47ef799c7cafbf628e664001d1a3d604",
+    "dense_expansion_byte_length": 44198496,
+    "dense_expansion_record_format": ">dd",
+    "dense_expansion_sha256": "53d56bc73a37ea49e060c71c0f55a57d6b91addaca10fd9e8d31d26a85731bfb",
+    "file": {
+      "byte_length": 1072,
+      "path": "rows/04_m_plus/initial_component_box.sparse.be64",
+      "sha256": "dbba4ca299a98352a6ae23c969be5ec8049b2ddf44daba4f9adf43700572246d"
+    },
+    "implicit_background": "positive_zero_interval_[0x0.0p+0,0x0.0p+0]",
+    "lower_mass_exact": "77371252455284257132383867/77371252455336267181195264",
+    "record_format": ">Qdd",
+    "schema": "encounter_sparse_component_interval_box_v1",
+    "shape": [
+      166,
+      129,
+      129
+    ],
+    "state_count": 2762406,
+    "tensor_order": "C:midpoint_outer_relative_parallel_middle_transverse_inner",
+    "upper_mass_exact": "154742504910776527978523237/154742504910672534362390528"
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NOT_F0"
+}

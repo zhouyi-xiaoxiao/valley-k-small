@@ -1,0 +1,219 @@
+{
+  "artifact": {
+    "builder_self_pin": {
+      "path": "code/build_continuum_c1_fixed_row_raw_flux_source_v1.py",
+      "sha256": "48b29162e533c02950b673d8b207efc771091b9b16581967a5e9ef487bf20a92"
+    },
+    "path": "artifacts/data/continuum_c1_fixed_row_raw_flux_source_v1.json",
+    "sha256": "04fee91f8708d90febc23e1f1ee4cfc1cb4800b9e35980eb99006fad327b40f3"
+  },
+  "authority": {
+    "path": "code/continuum_c1_mpfr_execution_authority_v1.json",
+    "sha256": "1697b0e1ebd9c1dcc38d827a62d07c2e75b397e25e5e7e0f88bad4d9edac32ab"
+  },
+  "authorization": "FIXED-ROW-SOURCE-EXECUTION-ONLY-NO-SCIENTIFIC-PROMOTION",
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "formal_production_bridge_accepted": false,
+    "genuine_refinement_sequence_present": false,
+    "one_correlated_distinguished_member_certified": false,
+    "release_eligible": false,
+    "same_member_acceptance_receipt_present": false,
+    "scientific_promotion_authorized": false
+  },
+  "execution": {
+    "ambient_mpfr_precision_bits": 53,
+    "ambient_mpfr_rounding": "RoundToNearest",
+    "argv": [
+      "--check"
+    ],
+    "cwd_excluded_from_sys_path": true,
+    "isolated": true,
+    "no_site": true,
+    "safe_path": true,
+    "target_exit_code": 0,
+    "target_stderr": "",
+    "target_stdout": "04fee91f8708d90febc23e1f1ee4cfc1cb4800b9e35980eb99006fad327b40f3\n"
+  },
+  "launcher": {
+    "execution": "OPERATOR-PINNED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC",
+    "path": "code/run_continuum_c1_mpfr_authenticated_v1.py",
+    "sha256": "f73f61f40ad658c00bb40f27c6676998763d84383b5c86deff7e3bac48a12df4"
+  },
+  "runtime_attestation": {
+    "entry": {
+      "external_attestation_schema": "positive-b-stage-b-t0-external-attestation-v2",
+      "external_attestation_sha256": "2572938fad9fdb74e4a0d8053651601af7359fa7df2ce47747ffd4fbb57fbb43",
+      "external_attestation_status": "INDEPENDENT-ATTACK-PASS",
+      "mode": "VERIFIED-ISOLATED",
+      "production_eligible": true,
+      "trust_contract": {
+        "bootstrap_trust_base": "CPYTHON-STDLIB-IMPORT-MACHINERY-OS-LOADER-SYSTEM-LIBRARIES",
+        "native_image_execution": "PATH-LOADED-UNDER-NO-HOSTILE-SAME-UID-WRITER-CONTRACT",
+        "protection_claim": "DEFENSE-IN-DEPTH-NOT-CRYPTOGRAPHIC-IMMUTABILITY",
+        "runtime_tree_concurrency": "NO-HOSTILE-SAME-UID-WRITER-DURING-LOAD-AND-PUBLIC-CALLS",
+        "schema": "positive-b-stage-b-t0-execution-trust-contract-v1",
+        "wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC"
+      }
+    },
+    "implementation_filename": "positive_b_stage_b_t1_selector_v5.py",
+    "implementation_sha256": "c7344bb8d6818f609c57614dd0d500c75fcc2229606865b1d9a4d05bc94cecfc",
+    "runtime": {
+      "bundled_libraries_sha256": {
+        "libgmp.10.dylib": "22cec4689e503d590cfbf3373ae7f442ef6d40c3e6c93a3612bbd1b7e2bce049",
+        "libmpc.3.dylib": "d3c10c39234c095f5c1938ad607c87a0633152f51271d9ed1c494724430c2b0c",
+        "libmpfr.6.dylib": "d314a427a901f8ece38b67966cd2fbf5642ceb7d1c2e5136f8282ca7ab859aed"
+      },
+      "cpython_trust_base": {
+        "critical_module_origins": {
+          "_ctypes": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/lib-dynload/_ctypes.cpython-312-darwin.so",
+          "ctypes": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ctypes/__init__.py",
+          "ctypes._endian": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ctypes/_endian.py",
+          "platform": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/platform.py",
+          "sysconfig": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/sysconfig.py"
+        },
+        "executable": "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python",
+        "executable_realpath": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+        "stdlib_root": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12"
+      },
+      "extension_sha256": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+      "gmp": "GMP 6.3.0",
+      "gmpy2": "2.2.1",
+      "loaded_native_images": [
+        "gmpy2.cpython-312-darwin.so",
+        "libgmp.10.dylib",
+        "libmpc.3.dylib",
+        "libmpfr.6.dylib"
+      ],
+      "mpc": "MPC 1.3.1",
+      "mpfr": "MPFR 4.2.1",
+      "package_files_sha256": {
+        "__init__.pxd": "de9ed5a04d31e6b5b1381d783bca4210e0a547a037dd543ed66cb068d78e7e53",
+        "__init__.py": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2",
+        "__pycache__/__init__.cpython-312.pyc": "54d8fdae082333ac0e23fd407c9682998158ee614b767b491289a6de13dade94",
+        "gmp.h": "c8ec93de51c0c3a329af7702ca8f98469bc7eb90225d4405711eea1a6555e76b",
+        "gmpy2.cpython-312-darwin.so": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+        "gmpy2.h": "c15fa409c1f49bb7ff1c4481459c72c0379a0bb35a62491debc13c86734c54a5",
+        "gmpy2.pxd": "f36a87076d4fd08e64f11bc915fcefb66a3e17248b8c09f670f07702395eb8e2",
+        "mpc.h": "bca641f4c59f5303d3212650cc00fec0ee2659a220067535dee9029761e83849",
+        "mpfr.h": "0f1bf63d924c33f3f73d3fc68b049d9f01523a021f89fa4d8910e35122151e33"
+      },
+      "package_init_sha256": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2",
+      "python_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -O3 -Wall",
+      "python_compiler": "clang",
+      "python_wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC",
+      "runtime_lock_sha256": "7321fb3ce442276f4b2ff1b7c6f58c844926fba63bcca2270e10e53fb5f44ecf"
+    },
+    "trust_contract": {
+      "bootstrap_trust_base": "CPYTHON-STDLIB-IMPORT-MACHINERY-OS-LOADER-SYSTEM-LIBRARIES",
+      "native_image_execution": "PATH-LOADED-UNDER-NO-HOSTILE-SAME-UID-WRITER-CONTRACT",
+      "protection_claim": "DEFENSE-IN-DEPTH-NOT-CRYPTOGRAPHIC-IMMUTABILITY",
+      "runtime_tree_concurrency": "NO-HOSTILE-SAME-UID-WRITER-DURING-LOAD-AND-PUBLIC-CALLS",
+      "schema": "positive-b-stage-b-t0-execution-trust-contract-v1",
+      "wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC"
+    }
+  },
+  "schema": "encounter_continuum_c1_mpfr_authenticated_outer_receipt_v1",
+  "status": "PASS_AUTHENTICATED_FIXED_ROW_SOURCE_EXECUTION_ONLY_NO_SCIENTIFIC_PROMOTION",
+  "target": {
+    "authenticated_context": {
+      "authority_sha256": "1697b0e1ebd9c1dcc38d827a62d07c2e75b397e25e5e7e0f88bad4d9edac32ab",
+      "launcher_sha256": "f73f61f40ad658c00bb40f27c6676998763d84383b5c86deff7e3bac48a12df4",
+      "runtime_attestation": {
+        "entry": {
+          "external_attestation_schema": "positive-b-stage-b-t0-external-attestation-v2",
+          "external_attestation_sha256": "2572938fad9fdb74e4a0d8053651601af7359fa7df2ce47747ffd4fbb57fbb43",
+          "external_attestation_status": "INDEPENDENT-ATTACK-PASS",
+          "mode": "VERIFIED-ISOLATED",
+          "production_eligible": true,
+          "trust_contract": {
+            "bootstrap_trust_base": "CPYTHON-STDLIB-IMPORT-MACHINERY-OS-LOADER-SYSTEM-LIBRARIES",
+            "native_image_execution": "PATH-LOADED-UNDER-NO-HOSTILE-SAME-UID-WRITER-CONTRACT",
+            "protection_claim": "DEFENSE-IN-DEPTH-NOT-CRYPTOGRAPHIC-IMMUTABILITY",
+            "runtime_tree_concurrency": "NO-HOSTILE-SAME-UID-WRITER-DURING-LOAD-AND-PUBLIC-CALLS",
+            "schema": "positive-b-stage-b-t0-execution-trust-contract-v1",
+            "wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC"
+          }
+        },
+        "implementation_filename": "positive_b_stage_b_t1_selector_v5.py",
+        "implementation_sha256": "c7344bb8d6818f609c57614dd0d500c75fcc2229606865b1d9a4d05bc94cecfc",
+        "runtime": {
+          "bundled_libraries_sha256": {
+            "libgmp.10.dylib": "22cec4689e503d590cfbf3373ae7f442ef6d40c3e6c93a3612bbd1b7e2bce049",
+            "libmpc.3.dylib": "d3c10c39234c095f5c1938ad607c87a0633152f51271d9ed1c494724430c2b0c",
+            "libmpfr.6.dylib": "d314a427a901f8ece38b67966cd2fbf5642ceb7d1c2e5136f8282ca7ab859aed"
+          },
+          "cpython_trust_base": {
+            "critical_module_origins": {
+              "_ctypes": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/lib-dynload/_ctypes.cpython-312-darwin.so",
+              "ctypes": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ctypes/__init__.py",
+              "ctypes._endian": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ctypes/_endian.py",
+              "platform": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/platform.py",
+              "sysconfig": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/sysconfig.py"
+            },
+            "executable": "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python",
+            "executable_realpath": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+            "stdlib_root": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12"
+          },
+          "extension_sha256": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+          "gmp": "GMP 6.3.0",
+          "gmpy2": "2.2.1",
+          "loaded_native_images": [
+            "gmpy2.cpython-312-darwin.so",
+            "libgmp.10.dylib",
+            "libmpc.3.dylib",
+            "libmpfr.6.dylib"
+          ],
+          "mpc": "MPC 1.3.1",
+          "mpfr": "MPFR 4.2.1",
+          "package_files_sha256": {
+            "__init__.pxd": "de9ed5a04d31e6b5b1381d783bca4210e0a547a037dd543ed66cb068d78e7e53",
+            "__init__.py": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2",
+            "__pycache__/__init__.cpython-312.pyc": "54d8fdae082333ac0e23fd407c9682998158ee614b767b491289a6de13dade94",
+            "gmp.h": "c8ec93de51c0c3a329af7702ca8f98469bc7eb90225d4405711eea1a6555e76b",
+            "gmpy2.cpython-312-darwin.so": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+            "gmpy2.h": "c15fa409c1f49bb7ff1c4481459c72c0379a0bb35a62491debc13c86734c54a5",
+            "gmpy2.pxd": "f36a87076d4fd08e64f11bc915fcefb66a3e17248b8c09f670f07702395eb8e2",
+            "mpc.h": "bca641f4c59f5303d3212650cc00fec0ee2659a220067535dee9029761e83849",
+            "mpfr.h": "0f1bf63d924c33f3f73d3fc68b049d9f01523a021f89fa4d8910e35122151e33"
+          },
+          "package_init_sha256": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2",
+          "python_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -O3 -Wall",
+          "python_compiler": "clang",
+          "python_wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC",
+          "runtime_lock_sha256": "7321fb3ce442276f4b2ff1b7c6f58c844926fba63bcca2270e10e53fb5f44ecf"
+        },
+        "trust_contract": {
+          "bootstrap_trust_base": "CPYTHON-STDLIB-IMPORT-MACHINERY-OS-LOADER-SYSTEM-LIBRARIES",
+          "native_image_execution": "PATH-LOADED-UNDER-NO-HOSTILE-SAME-UID-WRITER-CONTRACT",
+          "protection_claim": "DEFENSE-IN-DEPTH-NOT-CRYPTOGRAPHIC-IMMUTABILITY",
+          "runtime_tree_concurrency": "NO-HOSTILE-SAME-UID-WRITER-DURING-LOAD-AND-PUBLIC-CALLS",
+          "schema": "positive-b-stage-b-t0-execution-trust-contract-v1",
+          "wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC"
+        }
+      },
+      "schema": "encounter_continuum_c1_authenticated_target_context_v1",
+      "target_key": "raw_flux_builder",
+      "target_source_path": "code/build_continuum_c1_fixed_row_raw_flux_source_v1.py",
+      "target_source_sha256": "48b29162e533c02950b673d8b207efc771091b9b16581967a5e9ef487bf20a92"
+    },
+    "key": "raw_flux_builder",
+    "kind": "builder_check",
+    "source_path": "code/build_continuum_c1_fixed_row_raw_flux_source_v1.py",
+    "source_sha256": "48b29162e533c02950b673d8b207efc771091b9b16581967a5e9ef487bf20a92"
+  },
+  "trust_contract": {
+    "bootstrap_execution": "OPERATOR-PINNED-LAUNCHER-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC",
+    "bootstrap_trust_base": "CPYTHON-STDLIB-IMPORT-MACHINERY-OS-LOADER-SYSTEM-LIBRARIES",
+    "gmpy2_wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC",
+    "native_image_execution": "PATH-LOADED-UNDER-NO-HOSTILE-SAME-UID-WRITER-CONTRACT",
+    "protection_claim": "DEFENSE-IN-DEPTH-NOT-CRYPTOGRAPHIC-IMMUTABILITY",
+    "runtime_tree_concurrency": "NO-HOSTILE-SAME-UID-WRITER-DURING-LOAD-AND-TARGET-EXECUTION",
+    "schema": "encounter_continuum_c1_mpfr_execution_trust_contract_v1",
+    "target_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "claim_scope": "Discovery-grid topology screening only; never a continuum fold claim",
+  "configuration": {
+    "mesh": {
+      "midpoint_cells": 65,
+      "relative_parallel_cells": 65,
+      "relative_perp_cells": 49,
+      "state_count": 207025
+    },
+    "theta_values": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "time_grid": {
+      "chunk_points": 41,
+      "points": 321,
+      "spacing": 0.25,
+      "start": 0.0,
+      "stop": 80.0
+    }
+  },
+  "configuration_hash": "5ba499a4840f3ff35d181d9906c1895ac795794d2b92f58e04169d15568356a2",
+  "entries": {
+    "theta_000.json": {
+      "sha256": "3cb726d5c67d92a563c90b2ed78c3ea05dae7ca150df748d1070ab01764ca496",
+      "theta": 0.0,
+      "theta_index": 0
+    },
+    "theta_001.json": {
+      "sha256": "a456a1d63922442e063ec3b4c6566146a062d5caf4139337af2957cd6b6f88ff",
+      "theta": 0.1,
+      "theta_index": 1
+    },
+    "theta_002.json": {
+      "sha256": "de3c7e1559b581be0c5b4c7ef40db07f3f398aea266eeb6622eae638ef6234f6",
+      "theta": 0.2,
+      "theta_index": 2
+    },
+    "theta_003.json": {
+      "sha256": "c97190fd48653a3d8b1f2fc8afedf47a6d19d643b8f34d0f661f9d87ed43dc16",
+      "theta": 0.3,
+      "theta_index": 3
+    },
+    "theta_004.json": {
+      "sha256": "0e8afeaa09a155bdd9ae3fa83faeaa03e49c8afbedd7c9adac929f166702158b",
+      "theta": 0.4,
+      "theta_index": 4
+    },
+    "theta_005.json": {
+      "sha256": "9ed12cf24df17bd49faddb537fee72fcc3d0960644e515412d42f90000857d3f",
+      "theta": 0.5,
+      "theta_index": 5
+    },
+    "theta_006.json": {
+      "sha256": "85ae9aa873f6d6902c887de804d85258920237c64b4b7f762385d74a7439389b",
+      "theta": 0.6,
+      "theta_index": 6
+    },
+    "theta_007.json": {
+      "sha256": "5c82d71935c5eaa64f04caf647c9614e218790347ad0a1febb872b21a636ba11",
+      "theta": 0.7,
+      "theta_index": 7
+    },
+    "theta_008.json": {
+      "sha256": "b3bdb969ba4b4a7023de9fc74586fa6f5f764446833b389cff973a1b52277cdb",
+      "theta": 0.8,
+      "theta_index": 8
+    },
+    "theta_009.json": {
+      "sha256": "95ca4541cc8f7f8793313ac613ae041039de350cd3d073808957cb7592a1dd79",
+      "theta": 0.9,
+      "theta_index": 9
+    },
+    "theta_010.json": {
+      "sha256": "295991bfea85a1231078b11b9f96a4788d6ca5476414699261bb363db2151080",
+      "theta": 1.0,
+      "theta_index": 10
+    }
+  },
+  "provenance": {
+    "discovery_code": "code/continuum_g1_discovery.py",
+    "discovery_code_sha256": "1411384398ed4e476dba15371cdfd662e94ed3a53cffdc02a1562201cfa7b52e",
+    "g1a_foundation_preflight": {
+      "all_gates_true": true,
+      "artifact": "artifacts/data/continuum_g1_smoke.json",
+      "continuum_verified": false,
+      "gate_count": 42,
+      "model_contract": {
+        "control_endpoints": {
+          "lower_weights": [
+            0.7,
+            0.25,
+            0.05
+          ],
+          "upper_weights": [
+            0.05,
+            0.25,
+            0.7
+          ]
+        },
+        "physical_parameters": {
+          "contact_radius": 0.16,
+          "diffusion": 0.0045,
+          "installed_budget": 0.6,
+          "midpoint_bounds": [
+            -0.25,
+            1.85
+          ],
+          "midpoint_bump_half_width": 0.02,
+          "midpoint_start": 0.14,
+          "ou_mean": 0.95,
+          "ou_stiffness": 0.1,
+          "patch_centres": [
+            0.48,
+            0.67,
+            0.86
+          ],
+          "patch_half_widths": [
+            0.08,
+            0.08,
+            0.08
+          ],
+          "relative_bump_half_width": 0.02,
+          "relative_parallel_bounds": [
+            -1.8,
+            1.8
+          ],
+          "relative_parallel_start": -0.35,
+          "relative_perp_start": 0.0,
+          "transverse_width": 1.0
+        }
+      },
+      "model_contract_sha256": "d434d127f7f2fb28c37c749f55fda35bd71535fdd378d438fcc759d89ef09020",
+      "producer_code": "code/continuum_g1_smoke.py",
+      "producer_code_sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701",
+      "schema_version": 3,
+      "sha256": "a0a1894dbe6dd37bad6973ca6f3dd29b651441f7b911a5406186bb86a18fd3c3",
+      "stage": "G1a_pre_fold_foundations",
+      "status": "PASS",
+      "validation_status": "PASS"
+    },
+    "manifest": "artifacts/data/continuum_g1_discovery_manifest.json",
+    "manifest_sha256": "193c0fc1b7281dee2dd38b6c1152b73591dc0e0b82f5d3510edcd1e7e2dc7390",
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "protocol_note": "notes/discovery_protocol.md",
+    "protocol_note_sha256": "8cbf2469fab0c18982028450f5c3f0c1ff188c3105ae280c5448fcf1cf23125d",
+    "python": "3.12.13",
+    "python_base_prefix": "/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12",
+    "python_executable": "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python",
+    "python_prefix": "/Users/ae23069/.local-build/valley-k-small/.venv",
+    "repository_venv": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/.venv",
+    "running_in_repository_venv": true,
+    "scipy": "1.18.0",
+    "smoke_code": "code/continuum_g1_smoke.py",
+    "smoke_code_sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701"
+  },
+  "run_mode": "frozen_formal_discovery",
+  "schema_version": 1,
+  "stage": "G1b_discovery_not_continuum_confirmation",
+  "status": "ACTIVE_CHECKPOINT_INTEGRITY_LEDGER"
+}

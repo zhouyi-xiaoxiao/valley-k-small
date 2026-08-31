@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "stage": "G1b_post_result_manual_review",
+  "status": "FROZEN_AFTER_FORMAL_RESULT_BEFORE_DIAGNOSTIC",
+  "date_frozen": "2026-07-13",
+  "claim_scope": "Post-result numerical diagnosis of the theta=0.7 derivative wiggle only; not predeclared discovery evidence, not continuum verification, and not authorization of the frozen line-empty action",
+  "trigger": {
+    "formal_result": "artifacts/data/continuum_g1_discovery_result.json",
+    "formal_result_sha256": "2052c1d26211661995d6048b2cd3ca909f04ce48efb9a96c32bd153c7c63d40d",
+    "formal_runner_sha256": "1411384398ed4e476dba15371cdfd662e94ed3a53cffdc02a1562201cfa7b52e",
+    "theta": 0.7,
+    "manual_review_reasons": [
+      "unmatched_right_f_tt_extrema_between_theta_0.6_and_0.7",
+      "unmatched_left_f_tt_extrema_between_theta_0.7_and_0.8"
+    ]
+  },
+  "mesh": {
+    "midpoint_cells": 65,
+    "relative_parallel_cells": 65,
+    "relative_perp_cells": 49,
+    "state_count": 207025
+  },
+  "control": {
+    "theta": 0.7,
+    "weights": [0.245, 0.25, 0.505]
+  },
+  "time_grid": {
+    "start": 0.0,
+    "stop": 20.0,
+    "spacing": 0.05,
+    "points": 401,
+    "chunk_points": 41
+  },
+  "candidate_rules_reused_without_change": {
+    "dimensionless_extremum_height_max": 0.05,
+    "minimum_analysis_time": 0.5,
+    "relative_density_floor": 1e-12
+  },
+  "comparison_to_formal_curve": {
+    "common_time_spacing": 0.25,
+    "maximum_absolute_difference_per_observable": 5e-11,
+    "observables": ["f", "f_t", "f_tt", "f_ttt", "survival"]
+  },
+  "classification_rules": {
+    "required_retained_f_t_root_count": 1,
+    "required_retained_root_topology": "sampled_maximum_of_f",
+    "required_near_zero_extremum_count": 0,
+    "extra_f_tt_extrema_must_have_strictly_negative_interpolated_f_t": true,
+    "minimum_absolute_negative_margin": 0.0001,
+    "original_frozen_line_empty_action_authorized": false,
+    "continuum_verified": false,
+    "project_gate_passed": false
+  },
+  "required_runtime": "repository .venv"
+}

@@ -1,0 +1,34 @@
+{
+  "execution": {
+    "complete": false,
+    "expected_stages": [
+      "pytest_publication_gates",
+      "lean4_static_integrity",
+      "lean4_build",
+      "lean4_legacy_axioms",
+      "lean4_encounter_axioms",
+      "lean4_continuum_axioms",
+      "lean4_design_axioms"
+    ],
+    "failures": [
+      "publication run started but did not reach its final manifest"
+    ],
+    "observed_stages": [],
+    "run_id": "20260713T234214488089Z-31930"
+  },
+  "generated_at_utc": "2026-07-13T23:42:18.690363+00:00",
+  "profile": "verify",
+  "release": {
+    "requested": false,
+    "start_gate_passed": false
+  },
+  "schema_version": 3,
+  "stages": [],
+  "start_git": {
+    "branch": "dpma-audit-20260630",
+    "captured_at_utc": "2026-07-13T23:42:18.690205+00:00",
+    "clean": false,
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "exact_tag": null
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "authorization": "FIXED-ROW-SOURCE-EXECUTION-ONLY-NO-SCIENTIFIC-PROMOTION",
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "formal_production_bridge_accepted": false,
+    "genuine_refinement_sequence_present": false,
+    "one_correlated_distinguished_member_certified": false,
+    "release_eligible": false,
+    "same_member_acceptance_receipt_present": false,
+    "scientific_promotion_authorized": false
+  },
+  "runtime": {
+    "external_attestation": {
+      "path": "code/positive_b_stage_b_t0_external_attestation_v2.json",
+      "sha256": "2572938fad9fdb74e4a0d8053651601af7359fa7df2ce47747ffd4fbb57fbb43"
+    },
+    "requirements_lock": {
+      "path": "code/positive_b_stage_b_t0_requirements.lock",
+      "sha256": "52f905ed765f2fa9422dd28e082b3abeb9e46c0b391b9fd6a9b32a5f2fc0a2a2"
+    },
+    "runtime_lock": {
+      "path": "code/positive_b_stage_b_t0_runtime_lock_v2.json",
+      "sha256": "7321fb3ce442276f4b2ff1b7c6f58c844926fba63bcca2270e10e53fb5f44ecf"
+    },
+    "runtime_site_root": "/Users/ae23069/.local-build/valley-k-small/.venv/lib/python3.12/site-packages",
+    "verified_loader": {
+      "path": "code/positive_b_stage_b_t0_verified_loader.py",
+      "sha256": "9a3cd379f4a19c5b0cf6317d9e3bfbfd39bf6914714de7fb014754a4d0ca4cad"
+    },
+    "versions": {
+      "gmp": "GMP 6.3.0",
+      "gmpy2": "2.2.1",
+      "mpc": "MPC 1.3.1",
+      "mpfr": "MPFR 4.2.1",
+      "python_abi": "CPython 3.12",
+      "system": "Darwin arm64"
+    }
+  },
+  "schema": "encounter_continuum_c1_mpfr_execution_authority_v1",
+  "status": "AUTHORITY_FIXED_12_ROW_EXECUTION_ONLY_NO_REFINEMENT_NO_C1_C2",
+  "targets": {
+    "raw_flux_builder": {
+      "artifact_builder_target": "raw_flux_builder",
+      "artifact_path": "artifacts/data/continuum_c1_fixed_row_raw_flux_source_v1.json",
+      "artifact_sha256": "04fee91f8708d90febc23e1f1ee4cfc1cb4800b9e35980eb99006fad327b40f3",
+      "expected_argv": [
+        "--check"
+      ],
+      "receipt_path": "artifacts/data/continuum_c1_fixed_row_raw_flux_authenticated_outer_receipt_v1.json",
+      "source_path": "code/build_continuum_c1_fixed_row_raw_flux_source_v1.py",
+      "source_sha256": "48b29162e533c02950b673d8b207efc771091b9b16581967a5e9ef487bf20a92",
+      "target_kind": "builder_check"
+    },
+    "raw_flux_validator": {
+      "artifact_builder_target": "raw_flux_builder",
+      "artifact_path": "artifacts/data/continuum_c1_fixed_row_raw_flux_source_v1.json",
+      "artifact_sha256": "04fee91f8708d90febc23e1f1ee4cfc1cb4800b9e35980eb99006fad327b40f3",
+      "expected_argv": [],
+      "receipt_path": "artifacts/data/continuum_c1_fixed_row_raw_flux_validator_authenticated_outer_receipt_v1.json",
+      "source_path": "code/validate_continuum_c1_fixed_row_raw_flux_source_v1.py",
+      "source_sha256": "8f86118ea279b80746b8d981bbe0e0ce2cf2b0cef286bb981b74d8ea79195c1a",
+      "target_kind": "independent_validator"
+    },
+    "stationary_builder": {
+      "artifact_builder_target": "stationary_builder",
+      "artifact_path": "artifacts/data/continuum_c1_stationary_integral_source_v1.json",
+      "artifact_sha256": "03db61b4aa9c2b7a4ab2fd78c86fbbf90dd1548657c615d91c1526ae3ed77212",
+      "expected_argv": [
+        "--check"
+      ],
+      "receipt_path": "artifacts/data/continuum_c1_stationary_integral_authenticated_outer_receipt_v1.json",
+      "source_path": "code/build_continuum_c1_stationary_integral_source_v1.py",
+      "source_sha256": "a85aede0700a2ae13001edfa527f2929860da00dec413c3c5a5755198b220f17",
+      "target_kind": "builder_check"
+    },
+    "stationary_validator": {
+      "artifact_builder_target": "stationary_builder",
+      "artifact_path": "artifacts/data/continuum_c1_stationary_integral_source_v1.json",
+      "artifact_sha256": "03db61b4aa9c2b7a4ab2fd78c86fbbf90dd1548657c615d91c1526ae3ed77212",
+      "expected_argv": [],
+      "receipt_path": "artifacts/data/continuum_c1_stationary_integral_validator_authenticated_outer_receipt_v1.json",
+      "source_path": "code/validate_continuum_c1_stationary_integral_source_v1.py",
+      "source_sha256": "0dc5ee8ae5e3d7ff051e90855c246ef65ceaad7ccf7d9a9f50b40175321668a2",
+      "target_kind": "independent_validator"
+    }
+  },
+  "trust_contract": {
+    "bootstrap_execution": "OPERATOR-PINNED-LAUNCHER-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC",
+    "bootstrap_trust_base": "CPYTHON-STDLIB-IMPORT-MACHINERY-OS-LOADER-SYSTEM-LIBRARIES",
+    "gmpy2_wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC",
+    "native_image_execution": "PATH-LOADED-UNDER-NO-HOSTILE-SAME-UID-WRITER-CONTRACT",
+    "protection_claim": "DEFENSE-IN-DEPTH-NOT-CRYPTOGRAPHIC-IMMUTABILITY",
+    "runtime_tree_concurrency": "NO-HOSTILE-SAME-UID-WRITER-DURING-LOAD-AND-TARGET-EXECUTION",
+    "schema": "encounter_continuum_c1_mpfr_execution_trust_contract_v1",
+    "target_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC"
+  }
+}

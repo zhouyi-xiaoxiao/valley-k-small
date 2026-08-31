@@ -1,0 +1,101 @@
+{
+  "classifier_spec": null,
+  "classifier_spec_sha256": null,
+  "command": [
+    "python",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_capacity.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:58:46.014727+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_capacity.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "quantity": "mean reaction time from sparse backward solve",
+    "theory_log_slope": 0.15915494309189535
+  },
+  "inputs": [],
+  "model_spec": {
+    "capacity_grids": [
+      161,
+      241,
+      321,
+      401
+    ],
+    "capacity_radii": [
+      0.05,
+      0.04,
+      0.03,
+      0.025,
+      0.02
+    ],
+    "fixed_kappa": 1.0,
+    "fixed_kappa_grid": 241,
+    "fixed_kappa_radii": [
+      0.12,
+      0.08,
+      0.05,
+      0.03,
+      0.02
+    ],
+    "geometry": "unit flat two-torus in relative coordinates",
+    "reaction_model": "cell-averaged finite-radius Doi volume sink",
+    "relative_diffusivity": 1.0,
+    "renormalized_chi": 1.0,
+    "subcell_samples": 8
+  },
+  "model_spec_sha256": "5f9838f8abe8e10c0e07dc28aa28b9554adba87ee3622280c59c37acb9dda421",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_capacity_metrics.json",
+      "sha256": "dca0dca558da95f44df4fa64e05b5c88069a532b7cd161516a0f68182074e0d1"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fixed_kappa.csv",
+      "sha256": "67e4d878b2cd0d82b1f99c559266d72250009ea875771bf2a677fdd897f1509a"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_capacity_rows.csv",
+      "sha256": "318770867acb7329b79deda60b03ed96acdd3dfbe093673dfc46387b57410a1e"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_capacity_fits.csv",
+      "sha256": "0f410363f9a86e4a2da68c4fc72d49af46c32b0a18f050073cb460b73ac74a63"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_capacity_scaling.pdf",
+      "sha256": "167d66240dc1e4c5a3a990c43fe51eab4490026e87e6dc1536a27d8139b3a438"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_capacity_scaling.png",
+      "sha256": "1fe6118ee1437c1aceda338314154fc6ddb292fab8b3a4ebc3725c1b4fa37698"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_capacity.py",
+      "sha256": "10e3e53e94488fcb852d2fccb42f5e284ec2dc0cf8409df65aeac7c7b8e4c882"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/encounter2d.py",
+      "sha256": "43d5b8174c50b625d33b0fb030d238ebe9d7d985197ecb9d0f1319359ce6b650"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "b397bbbdee40a96f8462cf442c1539810f834d8bd1d579ee86ad53fc6ff783b0"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

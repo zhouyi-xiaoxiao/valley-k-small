@@ -1,0 +1,30 @@
+{
+  "claim_boundary": {
+    "complete_production_payload_roles_1_through_11": false,
+    "control_or_budget_source_selected": false,
+    "outer_manifest_authorizes_itself": false,
+    "symbolic_bridge_accepted": false
+  },
+  "forbidden_selected_roles": {
+    "budget_value_sources": [],
+    "control_value_sources": [],
+    "result_or_scratch_sources": []
+  },
+  "payload_sources": [
+    {
+      "path": "artifacts/data/continuum_c1_symbolic_bridge_neutral_source_v1.json",
+      "role": "neutral_symbolic_witness_source",
+      "schema": "encounter_continuum_c1_symbolic_bridge_neutral_source_v1",
+      "sha256": "2d038789cef7e863d45775d51fda0023e6082e22228be5314edc3b9185a6b6b6"
+    }
+  ],
+  "schema": "encounter_continuum_c1_symbolic_bridge_neutral_outer_manifest_v1",
+  "source_dependency_dag": {
+    "edges": [],
+    "nodes": [
+      "neutral_symbolic_witness_source"
+    ]
+  },
+  "stage": "symbolic_contract_neutral_fixture",
+  "status": "NEUTRAL_OUTER_MANIFEST_ONLY_PRODUCTION_ROLE_SET_INCOMPLETE"
+}

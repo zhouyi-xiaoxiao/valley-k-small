@@ -1,0 +1,403 @@
+{
+  "child": {
+    "ack_max_bytes": 4096,
+    "argv": [
+      "{absolute_verified_venv_python_launcher}",
+      "-I",
+      "-B",
+      "{absolute_staged_verifier_source}",
+      "--report-root",
+      "{absolute_staged_report_root}",
+      "--bundle",
+      "{absolute_staged_candidate_root}",
+      "--semantic-receipt",
+      "{previously_absent_semantic_path}",
+      "--observation",
+      "{previously_absent_observation_path}",
+      "--launch-nonce",
+      "{outer_generated_64_lower_hex}",
+      "--run-index",
+      "{zero_or_one}"
+    ],
+    "cli_policy": {
+      "abbreviation_allowed": false,
+      "absolute_paths_required": true,
+      "duplicate_or_extra_arguments_allowed": false,
+      "named_arguments_exactly_once": true,
+      "output_paths_distinct_and_outside_inputs": true,
+      "output_paths_previously_absent": true,
+      "positional_arguments_allowed": false
+    },
+    "hold_exit_code": 2,
+    "process_deadline_seconds": 1200,
+    "semantic_deadline_seconds": 1140,
+    "stderr_max_bytes": 4096,
+    "stderr_must_be_empty": true,
+    "stdin": "DEVNULL",
+    "subprocess": {
+      "close_fds": true,
+      "shell": false,
+      "start_new_session": true
+    },
+    "success_exit_code": 0
+  },
+  "cleanup_state_machine": {
+    "direct_child_reap_required": true,
+    "intentional_parent_read_close_does_not_count_as_eof": true,
+    "kill_wait_seconds": 2,
+    "normal_exit_with_live_descendant_is_cleanup_failure": true,
+    "order": [
+      "capture_both_pipes_nonblocking_while_polling_direct_child",
+      "detect_timeout_output_overflow_capture_error_or_live_descendant",
+      "send_process_group_sigterm_if_cleanup_triggered_or_group_survives_parent",
+      "continue_draining_both_pipes_while_polling_group_during_term_grace",
+      "send_process_group_sigkill_if_still_present",
+      "continue_draining_both_pipes_while_polling_group_during_kill_wait",
+      "wait_and_reap_direct_child_within_cleanup_deadline",
+      "confirm_process_group_absence",
+      "drain_stdout_and_stderr_until_independent_eof_within_pipe_drain_limit",
+      "unregister_and_close_stdout_and_stderr_parent_read_fds",
+      "close_selector_and_confirm_no_registered_fds",
+      "take_stage_post_exit_input_snapshot",
+      "remove_private_stage",
+      "confirm_private_stage_absence"
+    ],
+    "pipe_drain_seconds": 2,
+    "process_group_absence_required": true,
+    "selector_empty_and_closed_required": true,
+    "stage_absence_required_before_next_launch": true,
+    "stderr_eof_required": true,
+    "stdout_eof_required": true,
+    "term_grace_seconds": 3,
+    "unconfirmed_cleanup_overrides_ordinary_hold": true,
+    "unconfirmed_cleanup_status": "HOLD_KILLING_GEOMETRY_VERIFY_CLEANUP",
+    "wait_must_return_child_exit_code": true
+  },
+  "comparison_policy": {
+    "claimed_digest_is_not_a_substitute": true,
+    "input_snapshot_canonical_bytes_compared_across_all_eight_phases": true,
+    "parsed_object_equality_is_not_a_substitute": true,
+    "semantic_files_compared_after_stable_reread": true,
+    "semantic_files_must_match_complete_raw_bytes": true
+  },
+  "environment_policy": {
+    "child_cwd": "{private_stage}",
+    "child_cwd_mode_decimal": 448,
+    "darwin_os_injected_cf_user_text_encoding_is_not_parent_inheritance": true,
+    "exact_environment": {
+      "HOME": "{private_stage}/home",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "TMPDIR": "{private_stage}/tmp",
+      "TZ": "UTC"
+    },
+    "exact_environment_is_the_five_key_parent_Popen_mapping": true,
+    "home_and_tmp_mode_decimal": 448,
+    "inherit_environment": false,
+    "stage_must_not_be_within_input_roots": true,
+    "stage_parent": "resolved_system_temporary_directory",
+    "staged_inputs_read_only": true
+  },
+  "failure_wire": {
+    "child_exception_text_emitted": false,
+    "outer_hold_retains_outer_receipt": false,
+    "outer_success_requires_complete_success_wire": true,
+    "partial_outputs_never_accepted": true,
+    "stderr_remains_empty": true,
+    "timeout_with_confirmed_cleanup_status": "HOLD_KILLING_GEOMETRY_VERIFY_TIMEOUT"
+  },
+  "input_snapshot_encoding": {
+    "canonical_encoding": "ascii_json_sorted_keys_indent_2_trailing_newline",
+    "component_order_is_exact": true,
+    "directories_include_root_dot": true,
+    "directory_paths_sorted_ascii": true,
+    "file_component_required_keys": [
+      "byte_length",
+      "component",
+      "kind",
+      "sha256"
+    ],
+    "file_paths_sorted_ascii": true,
+    "file_record_required_keys": [
+      "byte_length",
+      "path",
+      "sha256"
+    ],
+    "runtime_versions_required_keys": [
+      "gmp",
+      "gmpy2",
+      "mpc",
+      "mpfr",
+      "python"
+    ],
+    "snapshot_required_keys": [
+      "components",
+      "runtime_versions",
+      "schema"
+    ],
+    "snapshot_schema": "encounter_killing_geometry_input_snapshot_v1",
+    "snapshot_sha256_domain_ascii_nul": "encounter-killing-geometry-input-snapshot-v1\u0000",
+    "tree_component_required_keys": [
+      "component",
+      "directories",
+      "directory_count",
+      "file_count",
+      "files",
+      "kind",
+      "total_byte_length"
+    ]
+  },
+  "outer": {
+    "argv": [
+      "{resolved_python}",
+      "-I",
+      "-B",
+      "{absolute_outer_runner_source}",
+      "--report-root",
+      "{absolute_report_root}",
+      "--bundle",
+      "{absolute_candidate_root}",
+      "--outer-receipt",
+      "{previously_absent_outer_receipt_path}"
+    ],
+    "cli_policy": {
+      "abbreviation_allowed": false,
+      "absolute_paths_required": true,
+      "duplicate_or_extra_arguments_allowed": false,
+      "named_arguments_exactly_once": true,
+      "output_path_outside_inputs": true,
+      "output_path_previously_absent": true,
+      "positional_arguments_allowed": false
+    },
+    "global_monotonic_deadline_seconds": 2700,
+    "hold_exit_code": 2,
+    "nonchild_reserve_seconds": 300,
+    "stderr_max_bytes": 4096,
+    "stderr_must_be_empty": true,
+    "stdout_ack_max_bytes": 4096,
+    "success_exit_code": 0
+  },
+  "publication_policy": {
+    "cap_is_inclusive_and_cap_plus_one_is_overflow": true,
+    "child_observation_max_bytes": 65536,
+    "child_semantic_receipt_max_bytes": 2097152,
+    "close_before_acknowledgement": true,
+    "create_flags": [
+      "O_WRONLY",
+      "O_CREAT",
+      "O_EXCL",
+      "O_NOFOLLOW"
+    ],
+    "no_overwrite_or_replace": true,
+    "outer_receipt_max_bytes": 262144,
+    "regular_nonsymlink_single_link_required": true,
+    "stable_reread_required": true
+  },
+  "receipt_schemas": {
+    "canonical_encoding": "ascii_json_sorted_keys_indent_2_trailing_newline",
+    "child_bound_ack_required_keys": [
+      "launch_nonce",
+      "observation_byte_length",
+      "observation_sha256",
+      "run_index",
+      "schema",
+      "semantic_receipt_byte_length",
+      "semantic_receipt_sha256",
+      "status"
+    ],
+    "child_bound_ack_schema": "encounter_killing_geometry_child_ack_v1",
+    "child_observation_required_keys": [
+      "elapsed_monotonic_ns",
+      "launch_nonce",
+      "peak_rss_bytes",
+      "pgid",
+      "pid",
+      "ppid",
+      "run_index",
+      "schema",
+      "semantic_receipt_byte_length",
+      "semantic_receipt_sha256",
+      "status",
+      "verifier_staged_file_sha256_at_observation"
+    ],
+    "child_observation_schema": "encounter_killing_geometry_child_observation_v1",
+    "child_semantic_hold_required_keys": [
+      "schema",
+      "status"
+    ],
+    "child_semantic_hold_schema": "encounter_killing_geometry_separate_source_hold_v1",
+    "child_semantic_success_required_keys": [
+      "candidate",
+      "contact_summary",
+      "flags",
+      "frozen_sources",
+      "independent_partition_semantic_sha256s",
+      "precision_bits",
+      "runtime",
+      "schema",
+      "status",
+      "support_policy_digests",
+      "support_summary",
+      "verifier_staged_file_sha256_at_receipt"
+    ],
+    "child_semantic_success_schema": "encounter_killing_geometry_separate_source_child_semantic_receipt_v2",
+    "child_unbound_hold_ack_required_keys": [
+      "schema",
+      "status"
+    ],
+    "child_unbound_hold_ack_schema": "encounter_killing_geometry_child_unbound_hold_ack_v1",
+    "outer_child_cleanup_required_keys": [
+      "direct_child_reaped",
+      "parent_pipe_fds_closed",
+      "process_group_absent",
+      "selector_closed",
+      "stage_absent",
+      "stderr_eof_observed",
+      "stdout_eof_observed"
+    ],
+    "outer_child_run_required_keys": [
+      "cleanup",
+      "exit_code",
+      "launch_nonce",
+      "observation_byte_length",
+      "observation_sha256",
+      "pgid",
+      "pid",
+      "run_index",
+      "semantic_receipt_byte_length",
+      "semantic_receipt_sha256",
+      "snapshot_sha256s",
+      "stderr_byte_length",
+      "stderr_sha256",
+      "stdout_byte_length",
+      "stdout_sha256"
+    ],
+    "outer_child_snapshot_sha256s_required_keys": [
+      "origin_pre_copy",
+      "stage_post_copy",
+      "stage_pre_launch",
+      "stage_post_exit"
+    ],
+    "outer_hold_ack_required_keys": [
+      "schema",
+      "status"
+    ],
+    "outer_hold_ack_schema": "encounter_killing_geometry_outer_hold_ack_v1",
+    "outer_receipt_required_keys": [
+      "child_runs",
+      "flags",
+      "input_snapshot_sha256",
+      "operation_model_sha256",
+      "runtime",
+      "schema",
+      "semantic_receipt_byte_length",
+      "semantic_receipt_sha256",
+      "status",
+      "verifier_source_sha256"
+    ],
+    "outer_receipt_schema": "encounter_killing_geometry_two_repeat_outer_receipt_v1",
+    "outer_success_ack_required_keys": [
+      "outer_receipt_byte_length",
+      "outer_receipt_sha256",
+      "schema",
+      "status"
+    ],
+    "outer_success_ack_schema": "encounter_killing_geometry_outer_ack_v1"
+  },
+  "replay": {
+    "distinct_child_pids_required": true,
+    "fresh_private_stage_per_run": true,
+    "input_snapshot_components": [
+      "candidate_tree",
+      "accepted_partition_tree",
+      "authority_bytes",
+      "control_free_configuration_bytes",
+      "producer_source",
+      "producer_test_source",
+      "f0_core_source",
+      "initial_stream_source",
+      "design_bytes",
+      "independent_verifier_source",
+      "operation_model_bytes",
+      "runtime_executable",
+      "gmpy2_extension"
+    ],
+    "launch_run_indices": [
+      0,
+      1
+    ],
+    "repeat_count": 2,
+    "serialized": true,
+    "stage_zero_removed_before_stage_one": true
+  },
+  "runtime_launcher_policy": {
+    "child_argv_zero_is_absolute_outer_sys_executable": true,
+    "executing_only_the_physically_resolved_target_is_forbidden": true,
+    "full_binary_dependency_filesystem_closure": false,
+    "launcher_may_be_a_venv_symlink": true,
+    "launcher_symlink_chain_stable_pre_launch_post_exit": true,
+    "python_stdlib_and_dynamic_library_bytes_fully_snapshotted": false,
+    "resolved_regular_target_bytes_are_the_runtime_executable_component": true,
+    "runtime_executable_and_gmpy2_extension_bytes_bound": true
+  },
+  "schema": "encounter_killing_geometry_independent_operation_model_v2",
+  "source_attestation": {
+    "post_copy_snapshot_required": true,
+    "post_exit_snapshot_required": true,
+    "pre_copy_snapshot_required": true,
+    "pre_launch_snapshot_required": true,
+    "runtime_launcher_chain_stable_required": true,
+    "staged_launch_path_byte_identity_required": true,
+    "verifier_executed_source_attested": false
+  },
+  "wire_emission_matrix": {
+    "child_complete_file_wire_publication_order": [
+      "create_semantic_with_O_EXCL_O_NOFOLLOW",
+      "close_and_stably_reread_semantic",
+      "create_observation_with_O_EXCL_O_NOFOLLOW",
+      "close_and_stably_reread_observation",
+      "emit_bound_stdout_ack_last"
+    ],
+    "child_semantic_hold_after_safe_cli": {
+      "exit_code": 2,
+      "observation": "same_hold_status",
+      "semantic": "two_key_hold_schema",
+      "stderr": "empty",
+      "stdout": "full_bound_child_ack"
+    },
+    "child_success": {
+      "exit_code": 0,
+      "observation": "same_child_pass_status",
+      "semantic": "complete_success_schema",
+      "stderr": "empty",
+      "stdout": "full_bound_child_ack"
+    },
+    "child_unbound_hold": {
+      "exit_code": 2,
+      "observation": "not_required_and_partial_never_accepted",
+      "semantic": "not_required_and_partial_never_accepted",
+      "status": "HOLD_KILLING_GEOMETRY_VERIFY_API",
+      "stderr": "empty",
+      "stdout": "two_key_unbound_hold_ack"
+    },
+    "outer_cleanup_unconfirmed": {
+      "exit_code": 2,
+      "outer_receipt": "absent",
+      "status": "HOLD_KILLING_GEOMETRY_VERIFY_CLEANUP",
+      "stderr": "empty",
+      "stdout": "two_key_outer_hold_ack"
+    },
+    "outer_ordinary_hold_after_confirmed_cleanup": {
+      "exit_code": 2,
+      "outer_receipt": "absent",
+      "stderr": "empty",
+      "stdout": "two_key_outer_hold_ack"
+    },
+    "outer_success": {
+      "exit_code": 0,
+      "outer_receipt": "complete_exclusive_stable_reread",
+      "stderr": "empty",
+      "stdout": "outer_success_ack_after_receipt"
+    }
+  }
+}

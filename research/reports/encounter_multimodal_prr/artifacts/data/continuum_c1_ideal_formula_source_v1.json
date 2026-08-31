@@ -1,0 +1,50 @@
+{
+  "claim_boundary": {
+    "binary64_centres_define_ideal_member": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "every_interval_endpoint_combination_is_a_model": false,
+    "production_bridge_accepted": false,
+    "release_eligible": false
+  },
+  "formulae": {
+    "bernoulli": "Bernoulli(s)=s/(exp(s)-1),Bernoulli(0)=1",
+    "common_axis_flux": "kappa_edge=mu_i*q_i_to_j=mu_j*q_j_to_i",
+    "discrete_killing": "k=B*V",
+    "exact_adjoint_map": "P_h[u]_i=integral_C_i_u*pi_dx/pi_h_i",
+    "global_gauge": "G=M_L/(S_midpoint*S_relative_parallel*S_relative_perpendicular)",
+    "ideal_axis_mass": "mu_i=cell_volume_i*exp(-potential(representative_i))",
+    "map_ratio": "rho_i=M_i_pi/pi_h_i",
+    "periodic_axis_mass": "mu_i=cell_volume_i",
+    "periodic_rate": "q=D_axis/(cell_width^2)",
+    "physical_cell_mass": "M_i_pi=integral_C_i_pi_dx",
+    "reconstructed_killing_multiplier": "K=V/rho",
+    "reflecting_sg_rate": "q_i_to_j=D_axis/(cell_volume_i*distance_ij)*Bernoulli(potential_j-potential_i)",
+    "tensor_common_conductance": "c_edge=G*kappa_axis_edge*product_spectator_axis_mu",
+    "tensor_gauged_mass": "pi_h_tensor=G*product_axis_mu"
+  },
+  "member_semantics": {
+    "common_flux_uses_one_formula_defined_exact_value": true,
+    "formula_defined_member_is_independent_of_production_centres": true,
+    "global_gauge_is_single_scalar_per_configuration": true,
+    "one_correlated_distinguished_member_required": true
+  },
+  "potential_formulae": {
+    "midpoint": "ou_stiffness*(x-ou_mean)^2/particle_diffusion",
+    "relative_parallel": "ou_stiffness*x^2/(4*particle_diffusion)",
+    "relative_perpendicular": "0/1"
+  },
+  "schema": "encounter_continuum_c1_ideal_formula_source_v1",
+  "source_pins": {
+    "c0_mathematical_source": {
+      "path": "artifacts/data/continuum_c0_mathematical_source_v2.json",
+      "sha256": "522bd667e5f6fd6a4d12f270f0c2f4b9e86be9b207d471961d4f67db972df559"
+    },
+    "production_bridge_design": {
+      "path": "notes/continuum_c1_production_gauge_killing_bridge_design_v1.md",
+      "sha256": "d23c088f917832bb9d8078a046133556e8ee8547d8a062d3102a922881ba67e4"
+    }
+  },
+  "status": "FROZEN_CONTROL_FREE_IDEAL_FORMULA_AUTHORITY_ONLY_NO_PRODUCTION_ACCEPTANCE"
+}

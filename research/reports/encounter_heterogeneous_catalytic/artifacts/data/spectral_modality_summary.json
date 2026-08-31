@@ -1,0 +1,236 @@
+{
+  "classical_corollary": "After repeated decay rates are grouped and zero residues removed, the number of positive-time zeros of f' counted with multiplicity does not exceed the sign variations of the ordered residues.",
+  "evidence_level": "finite reversible spectral diagnostic plus exact/numerical counterexamples",
+  "hypoexponential_non_sufficiency": {
+    "coefficients": [
+      4.0,
+      -12.0,
+      12.0,
+      -4.0
+    ],
+    "conclusion": "three sign variations are not sufficient for bimodality",
+    "critical_point_type": "maximum",
+    "decay_rates": [
+      1.0,
+      2.0,
+      3.0,
+      4.0
+    ],
+    "density": "4 exp(-t) (1-exp(-t))^3",
+    "density_at_critical_point": 0.421875,
+    "retained_coefficients": 4,
+    "sign_variations": 3,
+    "unique_positive_critical_point": 1.3862943611198906
+  },
+  "mode_necessity": "m nondegenerate interior modes require at least 2m-1 ordered spectral-residue sign variations.",
+  "not_claimed": [
+    "novelty of the generalized Descartes rule",
+    "sufficiency of the sign-variation condition",
+    "a mode-count bound for nonreversible or Jordan-block phase-type laws",
+    "a mode-count bound based on reaction-channel or killing-support rank",
+    "a continuum spectral theorem without convergence and domain hypotheses"
+  ],
+  "production_cases": [
+    {
+      "case": "finite_encounter_supercritical",
+      "coefficient_absolute_sum": 216629.48062755243,
+      "coefficient_sum_f0": 5.866240826435387e-11,
+      "contact_safe_initial_flux": 0.0,
+      "critical_point_count": 3,
+      "critical_times": [
+        36.62354843071856,
+        37.62075276703339,
+        198.2746135693127
+      ],
+      "distinct_decay_group_count": 961,
+      "eigen_residual_max": 9.590716892535212e-16,
+      "minimum_retained_sign_variations": 444,
+      "orthogonality_residual_max": 4.1384489825361005e-15,
+      "reconstruction": [
+        {
+          "density_relative_error": 8.826832586357434e-06,
+          "direct_density": 1.8449232940587096e-07,
+          "direct_scaled_derivative_residual": 6.568140653293355e-15,
+          "spectral_density": 1.844939578887761e-07,
+          "spectral_scaled_derivative_residual": 2.247980334957148e-06,
+          "time": 36.62354843071856
+        },
+        {
+          "density_relative_error": 8.780980373853316e-06,
+          "direct_density": 1.8447159108764945e-07,
+          "direct_scaled_derivative_residual": 1.2145931596970643e-14,
+          "spectral_density": 1.8447321092907032e-07,
+          "spectral_scaled_derivative_residual": 2.2868074122537495e-06,
+          "time": 37.62075276703339
+        },
+        {
+          "density_relative_error": 4.115565433155186e-11,
+          "direct_density": 0.004459776486173512,
+          "direct_scaled_derivative_residual": 1.9280765970853998e-13,
+          "spectral_density": 0.004459776486357057,
+          "spectral_scaled_derivative_residual": 1.1360227310027178e-10,
+          "time": 198.2746135693127
+        }
+      ],
+      "reversibility": {
+        "log_weight_range": 37.142352504373406,
+        "maximum_cycle_log_balance_error": 2.398081733190338e-14
+      },
+      "state_count": 961,
+      "symmetry_residual": 2.7755575615628914e-15,
+      "threshold_robustness": [
+        {
+          "absolute_threshold": 2.1662948062755244e-07,
+          "relative_threshold": 1e-12,
+          "retained_group_count": 961,
+          "sign_variations": 452
+        },
+        {
+          "absolute_threshold": 2.1662948062755245e-05,
+          "relative_threshold": 1e-10,
+          "retained_group_count": 961,
+          "sign_variations": 452
+        },
+        {
+          "absolute_threshold": 0.0021662948062755242,
+          "relative_threshold": 1e-08,
+          "retained_group_count": 961,
+          "sign_variations": 452
+        },
+        {
+          "absolute_threshold": 0.2166294806275524,
+          "relative_threshold": 1e-06,
+          "retained_group_count": 947,
+          "sign_variations": 444
+        }
+      ]
+    },
+    {
+      "case": "M2D-T_9x5",
+      "coefficient_absolute_sum": 1810.4466771684042,
+      "coefficient_sum_f0": -9.790085409022709e-13,
+      "contact_safe_initial_flux": 0.0,
+      "critical_point_count": 5,
+      "critical_times": [
+        1.1222943703627026,
+        3.7010886530693217,
+        8.554299502790336,
+        17.850451012372186,
+        34.32921317082577
+      ],
+      "distinct_decay_group_count": 2025,
+      "eigen_residual_max": 1.63202784619898e-14,
+      "minimum_retained_sign_variations": 191,
+      "orthogonality_residual_max": 7.549516567451064e-15,
+      "reconstruction": [
+        {
+          "density_relative_error": 4.4837801500714675e-11,
+          "direct_density": 0.0096842088313548,
+          "direct_scaled_derivative_residual": 8.393234826831364e-15,
+          "spectral_density": 0.009684208830920582,
+          "spectral_scaled_derivative_residual": 4.323068783621117e-11,
+          "time": 1.1222943703627026
+        },
+        {
+          "density_relative_error": 1.3155791089913867e-11,
+          "direct_density": 0.00527282030272911,
+          "direct_scaled_derivative_residual": 0.0,
+          "spectral_density": 0.005272820302659742,
+          "spectral_scaled_derivative_residual": 1.4494715354215398e-11,
+          "time": 3.7010886530693217
+        },
+        {
+          "density_relative_error": 2.4345851794458285e-12,
+          "direct_density": 0.011957024505091682,
+          "direct_scaled_derivative_residual": 6.825811295226025e-15,
+          "spectral_density": 0.011957024505062572,
+          "spectral_scaled_derivative_residual": 5.947143223040566e-12,
+          "time": 8.554299502790336
+        },
+        {
+          "density_relative_error": 2.574219943305738e-12,
+          "direct_density": 0.006489157911839969,
+          "direct_scaled_derivative_residual": 5.964871877180874e-15,
+          "spectral_density": 0.006489157911856673,
+          "spectral_scaled_derivative_residual": 5.4309785637239526e-12,
+          "time": 17.850451012372186
+        },
+        {
+          "density_relative_error": 3.0669322830926588e-12,
+          "direct_density": 0.008063503067823753,
+          "direct_scaled_derivative_residual": 5.5390031632352295e-15,
+          "spectral_density": 0.008063503067848483,
+          "spectral_scaled_derivative_residual": 5.011963947049824e-13,
+          "time": 34.32921317082577
+        }
+      ],
+      "reversibility": {
+        "log_weight_range": 43.885447827093735,
+        "maximum_cycle_log_balance_error": 9.059419880941277e-14
+      },
+      "state_count": 2025,
+      "symmetry_residual": 3.291811268013589e-14,
+      "threshold_robustness": [
+        {
+          "absolute_threshold": 1.8104466771684042e-09,
+          "relative_threshold": 1e-12,
+          "retained_group_count": 727,
+          "sign_variations": 335
+        },
+        {
+          "absolute_threshold": 1.8104466771684044e-07,
+          "relative_threshold": 1e-10,
+          "retained_group_count": 706,
+          "sign_variations": 327
+        },
+        {
+          "absolute_threshold": 1.8104466771684043e-05,
+          "relative_threshold": 1e-08,
+          "retained_group_count": 603,
+          "sign_variations": 281
+        },
+        {
+          "absolute_threshold": 0.001810446677168404,
+          "relative_threshold": 1e-06,
+          "retained_group_count": 425,
+          "sign_variations": 191
+        }
+      ]
+    }
+  ],
+  "rank_one_killing_bimodality": {
+    "branch_rates": [
+      12.0,
+      1.2
+    ],
+    "branch_shape": 12,
+    "conclusion": "one reactive state can support a bimodal reaction-time density",
+    "critical_points": [
+      {
+        "density": 0.7157939847646317,
+        "scaled_derivative_residual": 4.2318405560342117e-13,
+        "time": 0.9267643199813732,
+        "type": "maximum"
+      },
+      {
+        "density": 0.0002887078778501543,
+        "scaled_derivative_residual": 9.586842026409521e-14,
+        "time": 2.659210391991385,
+        "type": "minimum"
+      },
+      {
+        "density": 0.0716263666366129,
+        "scaled_derivative_residual": 1.137922705597395e-13,
+        "time": 9.176677467885796,
+        "type": "maximum"
+      }
+    ],
+    "initial_branch_weights": [
+      0.5,
+      0.5
+    ],
+    "killing_support_rank": 1,
+    "reactive_state_count": 1,
+    "reactive_state_killing_rate": 100.0
+  }
+}

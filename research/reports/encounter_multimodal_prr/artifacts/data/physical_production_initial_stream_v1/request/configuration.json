@@ -1,0 +1,435 @@
+{
+  "authority": {
+    "design_path": "notes/positive_b_fixed_control_robustness_design_v2.md",
+    "design_sha256": "264cf2d2ef17feedcb3c1a5469e18b5c57ba5981b57dc6201147955df3684dcd",
+    "implementation_path": "code/rate_defined_tensor_f0.py",
+    "implementation_sha256": "321f12aa8a5df44ca9c9162704cccd0f2c526abf9577832b4824538b0afdb8e5",
+    "test_path": "code/test_rate_defined_tensor_f0.py",
+    "test_sha256": "f646ab3d545f698f225296baf774ae629776c17c2882b3f30d3a95cefa6bbd8d"
+  },
+  "authorizes_scientific_execution": false,
+  "axis_construction_contracts": {
+    "cell_centred_periodic_base": {
+      "boundary_rule": "periodic_endpoints_identified_no_duplicate_endpoint",
+      "cardinality_semantics": "size_equal_periodic_control_volumes",
+      "cell_segments_formula": "[domain_start+mod(i*h+shift,width),domain_start+mod(i*h+shift,width)+h] split into two ordered segments when it crosses domain_start+width",
+      "cell_volumes_formula": "h for every cell",
+      "positions_formula": "domain_start+mod((i+1/2)*h+shift,width), i=0,...,size-1",
+      "shift_formula": "shift=0",
+      "source_construction_tag": "cell_centred_periodic_diffusion",
+      "step_formula": "h=width/size"
+    },
+    "cell_centred_periodic_half_shift": {
+      "boundary_rule": "periodic_endpoints_identified_no_duplicate_endpoint",
+      "cardinality_semantics": "size_equal_periodic_control_volumes",
+      "cell_segments_formula": "[domain_start+mod(i*h+shift,width),domain_start+mod(i*h+shift,width)+h] split into two ordered segments when it crosses domain_start+width",
+      "cell_volumes_formula": "h for every cell",
+      "positions_formula": "domain_start+mod((i+1/2)*h+shift,width), i=0,...,size-1",
+      "shift_formula": "shift=h/2",
+      "source_construction_tag": "cell_centred_periodic_diffusion_half_shift",
+      "step_formula": "h=width/size"
+    },
+    "cell_centred_reflecting": {
+      "boundary_rule": "reflecting_zero_flux_no_transition_through_endpoints",
+      "cardinality_semantics": "size_equal_control_volumes",
+      "cell_segments_formula": "C_i=[lower+i*h,lower+(i+1)*h], i=0,...,size-1",
+      "cell_volumes_formula": "h for every cell",
+      "positions_formula": "lower+(i+1/2)*h, i=0,...,size-1",
+      "source_construction_tag": "cell_centred_reflecting_scharfetter_gummel",
+      "step_formula": "h=(upper-lower)/size"
+    },
+    "vertex_centred_reflecting_dual": {
+      "boundary_rule": "reflecting_zero_flux_no_transition_through_endpoints",
+      "cardinality_semantics": "size_vertices_and_size_dual_control_volumes_with_size_minus_one_intervals",
+      "cell_segments_formula": "with x_i=lower+i*h and boundaries=(x_0,(x_0+x_1)/2,...,(x_(size-2)+x_(size-1))/2,x_(size-1)), C_i=[boundary_i,boundary_(i+1)]",
+      "cell_volumes_formula": "h/2 at i=0 and i=size-1; h otherwise",
+      "positions_formula": "lower+i*h, i=0,...,size-1",
+      "source_construction_tag": "vertex_centred_reflecting_scharfetter_gummel",
+      "step_formula": "h=(upper-lower)/(size-1)"
+    }
+  },
+  "configuration_count": 12,
+  "configuration_order": [
+    "O113/Base",
+    "E128/Base",
+    "O129/Base",
+    "O161/Base",
+    "M+",
+    "R+",
+    "MR+",
+    "MR+F",
+    "A_M",
+    "A_R",
+    "A_Y",
+    "A_MRY"
+  ],
+  "configurations": [
+    {
+      "expected_states": 1442897,
+      "label": "O113/Base",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 113,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "coarse odd refinement",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 113,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 113
+      },
+      "shape": [
+        113,
+        113,
+        113
+      ]
+    },
+    {
+      "expected_states": 2097152,
+      "label": "E128/Base",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 128,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "even parity baseline",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 128,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 128
+      },
+      "shape": [
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "expected_states": 2146689,
+      "label": "O129/Base",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 129,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "primary odd refinement",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 129,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 129
+      },
+      "shape": [
+        129,
+        129,
+        129
+      ]
+    },
+    {
+      "expected_states": 4173281,
+      "label": "O161/Base",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 161,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "fine odd refinement",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 161,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 161
+      },
+      "shape": [
+        161,
+        161,
+        161
+      ]
+    },
+    {
+      "expected_states": 2762406,
+      "label": "M+",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.199999999999ap-1",
+        "size": 166,
+        "upper_binary64_hex": "0x1.1333333333333p+1"
+      },
+      "purpose": "midpoint-box enlargement",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 129,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 129
+      },
+      "shape": [
+        166,
+        129,
+        129
+      ]
+    },
+    {
+      "expected_states": 2862252,
+      "label": "R+",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 129,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "relative-box enlargement",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.3333333333333p+1",
+        "size": 172,
+        "upper_binary64_hex": "0x1.3333333333333p+1"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 129
+      },
+      "shape": [
+        129,
+        172,
+        129
+      ]
+    },
+    {
+      "expected_states": 3683208,
+      "label": "MR+",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.199999999999ap-1",
+        "size": 166,
+        "upper_binary64_hex": "0x1.1333333333333p+1"
+      },
+      "purpose": "combined box enlargement",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.3333333333333p+1",
+        "size": 172,
+        "upper_binary64_hex": "0x1.3333333333333p+1"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 129
+      },
+      "shape": [
+        166,
+        172,
+        129
+      ]
+    },
+    {
+      "expected_states": 7165305,
+      "label": "MR+F",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.199999999999ap-1",
+        "size": 207,
+        "upper_binary64_hex": "0x1.1333333333333p+1"
+      },
+      "purpose": "fine combined-box reference",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.3333333333333p+1",
+        "size": 215,
+        "upper_binary64_hex": "0x1.3333333333333p+1"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 161
+      },
+      "shape": [
+        207,
+        215,
+        161
+      ]
+    },
+    {
+      "expected_states": 2113536,
+      "label": "A_M",
+      "midpoint": {
+        "alignment": "vertex_centred_reflecting_dual",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 129,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "midpoint half-cell alignment",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 128,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 128
+      },
+      "shape": [
+        129,
+        128,
+        128
+      ]
+    },
+    {
+      "expected_states": 2113536,
+      "label": "A_R",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 128,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "relative half-cell alignment",
+      "relative_parallel": {
+        "alignment": "vertex_centred_reflecting_dual",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 129,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_base",
+        "periodic_shift_exact": "0/1",
+        "size": 128
+      },
+      "shape": [
+        128,
+        129,
+        128
+      ]
+    },
+    {
+      "expected_states": 2097152,
+      "label": "A_Y",
+      "midpoint": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 128,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "periodic half-cell alignment",
+      "relative_parallel": {
+        "alignment": "cell_centred_reflecting",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 128,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_half_shift",
+        "periodic_shift_exact": "1/256",
+        "size": 128
+      },
+      "shape": [
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "expected_states": 2130048,
+      "label": "A_MRY",
+      "midpoint": {
+        "alignment": "vertex_centred_reflecting_dual",
+        "lower_binary64_hex": "-0x1.0000000000000p-2",
+        "size": 129,
+        "upper_binary64_hex": "0x1.d99999999999ap+0"
+      },
+      "purpose": "combined half-cell alignment",
+      "relative_parallel": {
+        "alignment": "vertex_centred_reflecting_dual",
+        "lower_binary64_hex": "-0x1.ccccccccccccdp+0",
+        "size": 129,
+        "upper_binary64_hex": "0x1.ccccccccccccdp+0"
+      },
+      "relative_perpendicular": {
+        "alignment": "cell_centred_periodic_half_shift",
+        "periodic_shift_exact": "1/256",
+        "size": 128
+      },
+      "shape": [
+        129,
+        129,
+        128
+      ]
+    }
+  ],
+  "contains_budget_value": false,
+  "contains_control_values": false,
+  "coordinate_order": [
+    "midpoint",
+    "relative_parallel",
+    "relative_perpendicular"
+  ],
+  "dynamics": {
+    "directed_precision_bits": 192,
+    "midpoint_diffusion_formula": "particle_diffusion/2",
+    "midpoint_potential_formula": "ou_stiffness*(x-ou_mean)^2/(2*midpoint_diffusion)",
+    "ou_mean_binary64_hex": "0x1.e666666666666p-1",
+    "ou_stiffness_binary64_hex": "0x1.999999999999ap-4",
+    "particle_diffusion_binary64_hex": "0x1.0624dd2f1a9fcp-9",
+    "relative_diffusion_formula": "2*particle_diffusion",
+    "relative_parallel_mean_exact": "0/1",
+    "relative_parallel_potential_formula": "ou_stiffness*x^2/(2*relative_diffusion)",
+    "relative_perpendicular_potential_formula": "0/1",
+    "transverse_domain_start_exact": "-1/2",
+    "transverse_period_exact": "1/1"
+  },
+  "initial_geometry": {
+    "construction": "independent_product_of_three_analytically_normalized_compact_bumps",
+    "half_width_binary64_hex": "0x1.47ae147ae147bp-6",
+    "normalization": "I_b=integral_-1^1_b(u)_du",
+    "periodic_wrap": "sum_over_periodic_images_before_cell_integration",
+    "shape_definition": "b(u)=indicator(abs(u)<1)*exp(-1/(1-u^2))",
+    "source_path": "artifacts/data/physical_initial_analytic_source_v1.json",
+    "source_schema": "encounter_physical_initial_analytic_source_v1",
+    "source_sha256": "0b2efec5dc1abea1380ab862e46825e7b79658fe9bfa0ac6637e1426ed9f7f5f",
+    "starts_binary64_hex": {
+      "midpoint": "0x1.1eb851eb851ecp-3",
+      "relative_parallel": "-0x1.6666666666666p-2",
+      "relative_perpendicular": "0x0.0p+0"
+    }
+  },
+  "physical_dimension": 2,
+  "quotient_dimension": 3,
+  "schema": "encounter_physical_configuration_family_control_free_v1",
+  "scope": "physical_d2_control_free_axis_and_initial_geometry_only",
+  "status": "CONTROL_FREE_GEOMETRY_SPEC_ONLY_NOT_F0_NOT_F1",
+  "total_state_workload": 34787462,
+  "workload_semantics": "sum_of_state_counts_across_the_12_prescribed_axis_triples_for_one_future_control"
+}

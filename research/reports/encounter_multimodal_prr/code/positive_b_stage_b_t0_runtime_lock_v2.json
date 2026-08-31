@@ -1,0 +1,57 @@
+{
+  "authorization": "AUTHORIZED-SCIENTIFIC-COMMAND: NONE",
+  "bundled_dynamic_libraries": {
+    "libgmp.10.dylib": "22cec4689e503d590cfbf3373ae7f442ef6d40c3e6c93a3612bbd1b7e2bce049",
+    "libmpc.3.dylib": "d3c10c39234c095f5c1938ad607c87a0633152f51271d9ed1c494724430c2b0c",
+    "libmpfr.6.dylib": "d314a427a901f8ece38b67966cd2fbf5642ceb7d1c2e5136f8282ca7ab859aed"
+  },
+  "dependency_edges": {
+    "gmpy2.cpython-312-darwin.so": [
+      "libgmp.10.dylib",
+      "libmpc.3.dylib",
+      "libmpfr.6.dylib"
+    ],
+    "libgmp.10.dylib": [],
+    "libmpc.3.dylib": [
+      "libgmp.10.dylib",
+      "libmpfr.6.dylib"
+    ],
+    "libmpfr.6.dylib": [
+      "libgmp.10.dylib"
+    ]
+  },
+  "extension": {
+    "filename": "gmpy2.cpython-312-darwin.so",
+    "sha256": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b"
+  },
+  "host": {
+    "machine": "arm64",
+    "python_abi": "CPython 3.12",
+    "system": "Darwin"
+  },
+  "package_init": {
+    "filename": "__init__.py",
+    "sha256": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2"
+  },
+  "package_files": {
+    "__init__.pxd": "de9ed5a04d31e6b5b1381d783bca4210e0a547a037dd543ed66cb068d78e7e53",
+    "__init__.py": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2",
+    "__pycache__/__init__.cpython-312.pyc": "54d8fdae082333ac0e23fd407c9682998158ee614b767b491289a6de13dade94",
+    "gmp.h": "c8ec93de51c0c3a329af7702ca8f98469bc7eb90225d4405711eea1a6555e76b",
+    "gmpy2.cpython-312-darwin.so": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+    "gmpy2.h": "c15fa409c1f49bb7ff1c4481459c72c0379a0bb35a62491debc13c86734c54a5",
+    "gmpy2.pxd": "f36a87076d4fd08e64f11bc915fcefb66a3e17248b8c09f670f07702395eb8e2",
+    "mpc.h": "bca641f4c59f5303d3212650cc00fec0ee2659a220067535dee9029761e83849",
+    "mpfr.h": "0f1bf63d924c33f3f73d3fc68b049d9f01523a021f89fa4d8910e35122151e33"
+  },
+  "schema": "positive-b-stage-b-t0-runtime-lock-v2",
+  "system_trust_base": [
+    "/usr/lib/libSystem.B.dylib"
+  ],
+  "versions": {
+    "gmp": "GMP 6.3.0",
+    "gmpy2": "2.2.1",
+    "mpc": "MPC 1.3.1",
+    "mpfr": "MPFR 4.2.1"
+  }
+}

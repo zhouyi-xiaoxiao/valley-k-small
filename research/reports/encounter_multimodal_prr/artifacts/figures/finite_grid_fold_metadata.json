@@ -1,0 +1,206 @@
+{
+  "caption": "Finite-grid G1d fold diagnostic. (a) The frozen catalyst-weight simplex segment and the confirmed control. (b) Recomputed finite-volume f_t curves at lambda*, lambda*-0.02, and lambda*+0.02, with the artifact's retained sign-changing roots marked. (c) The local quadratic fold jet and the retained lower-side local pair. This is one 65x65x49 finite-grid B=0.6 fold only. The side roots are retained sign-changing roots from the frozen 0.02 scan, not an interval-global root proof. The continuum_verified and project_gate_passed flags are false, and the figure is not evidence of observable trimodality.",
+  "chart_contract": {
+    "analytical_question": "Where is the frozen G1d fold on its simplex segment, how do the retained stationary roots unfold at lambda* plus or minus 0.02, and do the exact local jets have the expected nondegenerate fold geometry?",
+    "palette_policy": "hard two-root cap: blue and orange plus neutrals; line style, marker shape, and open fill provide non-colour distinctions",
+    "panels": {
+      "a": "selected catalyst-weight simplex segment, G1c seed, and fold control",
+      "b": "recomputed scaled f_t curves with retained strict sign-change roots",
+      "c": "local quadratic fold branch and exact lower-side local root pair"
+    },
+    "renderer": "Matplotlib static PDF and PNG",
+    "takeaway": "The pinned 65x65x49 B=0.6 model has one nondegenerate finite-grid fold; the lower side retains a local min-max pair while the upper side does not."
+  },
+  "claim_scope": "one 65x65x49 finite-grid B=0.6 fold only",
+  "continuum_verified": false,
+  "evidence_timing": "POST_RESULT_CONFIRMATION_NOT_PREREGISTERED_DISCOVERY",
+  "finite_B_Doi_fold": true,
+  "finite_grid_fold_confirmed": true,
+  "interval_global_root_proof": false,
+  "limitations": [
+    "single 65x65x49 finite-volume mesh and one finite box",
+    "result-informed segment selected after G1c",
+    "no odd/even convergence or independent solver",
+    "no continuum fold, cusp, trimodality, or project-gate claim"
+  ],
+  "manifest_stage": "G1d_post_result_single_segment_finite_grid_fold_confirmation",
+  "normal_form": {
+    "definition": "f_t approximately f_tlambda*delta_lambda + 0.5*f_ttt*delta_t^2",
+    "dimensionless_jacobian_determinant": -2.5931584283918703,
+    "f_tlambda": -0.0007985425141329341,
+    "f_ttt": -0.00017526530104250426,
+    "predicted_abs_time_offset_at_lambda_minus_0p02": 0.4269048074329419,
+    "retained_local_time_offsets_at_lambda_minus_0p02": [
+      -0.39573013236094745,
+      0.45912060625991735
+    ],
+    "scope": "local quadratic jet diagnostic, not global continuation"
+  },
+  "observable_trimodality_verified": false,
+  "outputs": {
+    "pdf": "artifacts/figures/finite_grid_fold.pdf",
+    "pdf_sha256": "edad5a98e4db21519b718e364f3091e21cdc41302a2ec489e8a3b880a00d4bf8",
+    "png": "artifacts/figures/finite_grid_fold.png",
+    "png_sha256": "00d536ce15021db1eb9a4332bbb3eb92ddba046ea716c0c2c7d208648576666b"
+  },
+  "pdf_qa": {
+    "raster_image_xobject_tokens": 0,
+    "transparency_graphics_state_tokens": 0,
+    "type3_font_tokens": 0
+  },
+  "project_gate_passed": false,
+  "provenance": {
+    "matplotlib": "3.11.0",
+    "numpy": "2.5.1",
+    "plot_script": "code/plot_g1d_fold.py",
+    "plot_script_sha256": "7f019156e4f69b01ce093a75ddbf7cef9e3918accd4a25815e3ba1cdf07c271d",
+    "python": "3.12.13",
+    "python_executable": "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python",
+    "source_result_generated_utc": "2026-07-13T19:16:19.565902Z"
+  },
+  "recomputation": {
+    "chunk_diagnostics": [
+      {
+        "chunk_count": 10,
+        "chunk_points_limit": 51,
+        "control": 0.618807742086895,
+        "full_state_history_stored": false,
+        "installed_budget": 0.6,
+        "maximum_chunk_state_rows": 51,
+        "maximum_survival_increase": -0.0003839796605479284,
+        "minimum_density": 0.019082102535181004,
+        "minimum_state_mass": 3.84678770210868e-55,
+        "spacing": 0.02,
+        "state_dimension": 207025,
+        "window_start": 3.0,
+        "window_stop": 12.5
+      },
+      {
+        "chunk_count": 10,
+        "chunk_points_limit": 51,
+        "control": 0.6388077420868951,
+        "full_state_history_stored": false,
+        "installed_budget": 0.6,
+        "maximum_chunk_state_rows": 51,
+        "maximum_survival_increase": -0.00038411205362509637,
+        "minimum_density": 0.019088591463157924,
+        "minimum_state_mass": 3.84606624770873e-55,
+        "spacing": 0.02,
+        "state_dimension": 207025,
+        "window_start": 3.0,
+        "window_stop": 12.5
+      },
+      {
+        "chunk_count": 10,
+        "chunk_points_limit": 51,
+        "control": 0.6588077420868951,
+        "full_state_history_stored": false,
+        "installed_budget": 0.6,
+        "maximum_chunk_state_rows": 51,
+        "maximum_survival_increase": -0.0003842439407333309,
+        "minimum_density": 0.01909505570235139,
+        "minimum_state_mass": 3.845345946980343e-55,
+        "spacing": 0.02,
+        "state_dimension": 207025,
+        "window_start": 3.0,
+        "window_stop": 12.5
+      }
+    ],
+    "controls": [
+      0.618807742086895,
+      0.6388077420868951,
+      0.6588077420868951
+    ],
+    "curve_digest_sha256": "e14404e02cfa0d4282a294b14a3adf8d3a65ebe35fbcf7420481b1bb6d66c84f",
+    "installed_budget": 0.6,
+    "mesh": [
+      65,
+      65,
+      49
+    ],
+    "retained_side_root_counts": [
+      3,
+      1
+    ],
+    "sparse_norm_estimator_seed": 20260713,
+    "state_count": 207025,
+    "strict_sign_change_bracket_counts_all_three_controls": [
+      3,
+      1,
+      1
+    ],
+    "strict_sign_change_brackets_all_three_controls": [
+      [
+        [
+          5.0,
+          5.02
+        ],
+        [
+          10.100000000000001,
+          10.120000000000001
+        ],
+        [
+          10.96,
+          10.98
+        ]
+      ],
+      [
+        [
+          5.02,
+          5.04
+        ]
+      ],
+      [
+        [
+          5.02,
+          5.04
+        ]
+      ]
+    ],
+    "time_window": {
+      "points": 476,
+      "spacing": 0.02,
+      "start": 3.0,
+      "stop": 12.5
+    },
+    "weights": [
+      [
+        0.2,
+        0.06188077420868951,
+        0.7381192257913105
+      ],
+      [
+        0.2,
+        0.06388077420868951,
+        0.7361192257913105
+      ],
+      [
+        0.2,
+        0.06588077420868951,
+        0.7341192257913105
+      ]
+    ]
+  },
+  "render_policy": {
+    "figure_inches": [
+      7.2,
+      5.8
+    ],
+    "fixed_pdf_metadata_date": "2026-07-13T00:00:00Z",
+    "font_family": "DejaVu Sans",
+    "pdf_fonttype": 42,
+    "transparent_background": false
+  },
+  "schema_version": 1,
+  "side_root_semantics": "retained strict sign-changing roots on the frozen spacing-0.02 side scan",
+  "source_pins": {
+    "manifest": "artifacts/data/continuum_g1d_fold_confirmation_manifest.json",
+    "manifest_sha256": "2efb66fd4a924b036217368de9429df74872808de45375817b78c79635fad439",
+    "result": "artifacts/data/continuum_g1d_fold_confirmation_result.json",
+    "result_sha256": "268e3f988330a2f28ad79b22cdf1f7e53a0142dc007d2a2a7cbfe40d18f91f92",
+    "runner": "code/continuum_g1d_fold_confirmation.py",
+    "runner_sha256": "5fa43e9482e5ee60cd5fb5c19427b1e749b750116f0861f5277e9fe1be46f3ec"
+  },
+  "stage": "G1d_finite_grid_fold_figure",
+  "status": "PASS_BOUNDED_FIGURE_REPRODUCTION"
+}

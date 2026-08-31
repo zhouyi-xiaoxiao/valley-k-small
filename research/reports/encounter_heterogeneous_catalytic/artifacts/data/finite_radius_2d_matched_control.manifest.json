@@ -1,0 +1,214 @@
+{
+  "classifier_spec": {
+    "bin_offsets": [],
+    "bin_widths": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "classification_semantics": "resolved morphology threshold, not strict root count",
+    "classifier_cutoff_sweep": {
+      "all_grid_endpoint_samples_match_expected": true,
+      "sample_count": 101,
+      "scope": "recorded finite interior sample only; no continuous-interval claim"
+    },
+    "expected_total_mass": 1.0,
+    "mass_tolerance": 0.03,
+    "max_r_valley": 0.8,
+    "min_lobe_mass_rel": 0.01,
+    "min_peak_height": 0.0,
+    "min_peak_height_rel": 0.03,
+    "min_peak_separation_bins": 5,
+    "min_peak_separation_time": 0.0,
+    "min_peak_separation_widths": 1.0,
+    "min_persistence": 0.5,
+    "min_prominence": 0.0,
+    "min_prominence_rel": 0.015,
+    "min_r_peak": 0.05,
+    "min_valley_width_bins": 1,
+    "min_valley_width_time": 0.0,
+    "parity_imbalance_threshold": 0.85,
+    "parity_min_comb_peaks": 4,
+    "persistence_match_bins": 3,
+    "persistence_match_time": 0.0,
+    "poisson_grid_points": 4097,
+    "poisson_index_origin": 0,
+    "poisson_mass_tolerance": 0.005,
+    "poisson_rate": 1.0,
+    "poisson_t_max": null,
+    "poissonize": false,
+    "reject_parity_comb": true,
+    "require_poisson_quality": true,
+    "smoothing_windows": [
+      1,
+      3,
+      5,
+      9,
+      15
+    ],
+    "strict_peak_ratio_separation": {
+      "lower": 0.018099049560591177,
+      "margin": 0.02624726799199497,
+      "upper": 0.04434631755258615
+    },
+    "strict_root_audit": "finite sign-change scan with Brent refinement using finite-matrix semigroup derivative evaluations on the declared shape window",
+    "strict_secondary_maxima_retained": true,
+    "tail_window": 12,
+    "weak_threshold_factor": 0.5
+  },
+  "classifier_spec_sha256": "47d3acc389017a4992b7884c163e4c76453aabbfecc84f322131d609e316e779",
+  "command": [
+    "python",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_homogeneous.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:58:28.892516+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_homogeneous.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "late_derivative_mesh_samples": 221,
+    "late_derivative_mesh_step": 4.0,
+    "shape_dt": 0.1,
+    "shape_tmax": 80.0,
+    "tail_check_time": 960.0
+  },
+  "inputs": [],
+  "model_spec": {
+    "boundary": "reflecting",
+    "catalytic_coordinate": "arithmetic midpoint C_eta with eta=0.5",
+    "continuum_encounter_tube_volume": 0.04737705417900085,
+    "continuum_finite_a_matched_rate": 2.169402270805009,
+    "continuum_patterned_area_weight": 1.9358493931420309,
+    "continuum_relative_disk_area": 0.05309291584566751,
+    "discretization": "boundary-node nearest-neighbour lattice CTMC with binary masks",
+    "domain": [
+      1.0,
+      1.0
+    ],
+    "family_id": "M2D-E",
+    "grids": [
+      [
+        9,
+        5
+      ],
+      [
+        11,
+        7
+      ],
+      [
+        13,
+        9
+      ],
+      [
+        15,
+        11
+      ],
+      [
+        17,
+        13
+      ]
+    ],
+    "initial_distribution": "hierarchical contact-safe selector: minimum physical Euclidean spread on the smallest feasible local stencil, followed by a strictly convex closest-to-product QP on the optimal LP face; exact product-bilinear return when already contact-safe",
+    "matching_rule": {
+      "principal": "equal sum of statewise killing rates on the same discrete encounter tube",
+      "sensitivity": "exact matching under tensor-product boundary-node trapezoidal/control-volume quadrature"
+    },
+    "patterned_patches": [
+      {
+        "centre": [
+          0.25,
+          0.5
+        ],
+        "label": "near",
+        "radius": 0.18,
+        "reaction_rate": 0.5
+      },
+      {
+        "centre": [
+          0.72,
+          0.5
+        ],
+        "label": "far",
+        "radius": 0.2,
+        "reaction_rate": 15.0
+      }
+    ],
+    "reaction_model": "finite-radius Doi volume sink",
+    "reaction_radius": 0.13,
+    "start_one": [
+      0.1,
+      0.5
+    ],
+    "start_two": [
+      0.35,
+      0.5
+    ],
+    "walker_one": {
+      "diffusion": 0.0025,
+      "drift_x": 0.18,
+      "transverse_confinement": 1.5
+    },
+    "walker_two": {
+      "diffusion": 0.0008,
+      "drift_x": 0.02,
+      "transverse_confinement": 1.5
+    }
+  },
+  "model_spec_sha256": "00f3a4a406fe5a62df7a58bb984f6b3555a9a03e248db0e5636588465a640463",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_matched_control.json",
+      "sha256": "f3e17158cb039859d5d199a1172489193d9c0b3a857f966b04e13e243175d566"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_matched_control.csv",
+      "sha256": "061945a56eaf20f3110942afdf76e66cbd91b99d806b3e68998b1fddf257bf08"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_matched_control_series.npz",
+      "sha256": "bdbbbf10ce0043074c9c6242e685fc9c40a20ab8a5812033fa372d66dca54705"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_matched_homogeneous.pdf",
+      "sha256": "a7d4175a4c681715567d93db0bc191812be7e563f5a75c7057883f01fc13398d"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_matched_homogeneous.png",
+      "sha256": "82971122104da58ed9ba7d85ac4963d37706ce9c4510b873dffeee0d223103db"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_homogeneous.py",
+      "sha256": "3186130c34d9c28f510d0ce72002b399bb67803663dc49fef13e9884905bce7c"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/encounter2d.py",
+      "sha256": "43d5b8174c50b625d33b0fb030d238ebe9d7d985197ecb9d0f1319359ce6b650"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/morphology.py",
+      "sha256": "fe0bffe48b8f1ef345c333898f5bb698d8db95cde3c31d9fbd8c852c75ad4ea2"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "b397bbbdee40a96f8462cf442c1539810f834d8bd1d579ee86ad53fc6ff783b0"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

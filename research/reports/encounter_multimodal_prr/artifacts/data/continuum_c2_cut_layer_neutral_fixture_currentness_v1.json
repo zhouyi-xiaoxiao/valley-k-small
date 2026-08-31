@@ -1,0 +1,41 @@
+{
+  "claim_boundary": {
+    "complete_C2": false,
+    "production_geometry_evidence": false,
+    "release_submission_science_execution": false
+  },
+  "files": [
+    {
+      "path": "artifacts/data/continuum_c2_cut_layer_neutral_source_v1.json",
+      "role": "neutral_source",
+      "sha256": "6d512f1a03e7259c8342b248755cd7a1f33e500f12ebe83e6177505e0a417b6e"
+    },
+    {
+      "path": "artifacts/data/continuum_c2_cut_layer_neutral_fixture_v1.json",
+      "role": "neutral_fixture",
+      "sha256": "4b09d65fe5092face47f30a43e7f5ad793dd03cf5368b441b332a1d611a59f2c"
+    },
+    {
+      "path": "code/build_continuum_c2_cut_layer_neutral_fixture_v1.py",
+      "role": "builder",
+      "sha256": "817642704714de27374b437eac60f238795612a77874b29f84c027cc5acf3db0"
+    },
+    {
+      "path": "code/validate_continuum_c2_cut_layer_neutral_fixture_v1.py",
+      "role": "independent_integer_validator",
+      "sha256": "0b5c517310228a1d3b1312c632e48a5af626414f1301d0890001e0d58b75b032"
+    },
+    {
+      "path": "code/test_continuum_c2_cut_layer_neutral_fixture_v1.py",
+      "role": "static_two_build_tests",
+      "sha256": "4cb7d58a01dcaaf8c2ad30f7f1e789cf4495c31882a42858d0e85f112d6c8338"
+    },
+    {
+      "path": "code/test_continuum_c2_cut_layer_neutral_fixture_mutations_v1.py",
+      "role": "adversarial_mutation_tests",
+      "sha256": "0f3f177b194c8a2643e651c4b3e40e07186e6212f489b3410559fb144072ff2b"
+    }
+  ],
+  "schema": "encounter_continuum_c2_cut_layer_neutral_fixture_currentness_v1",
+  "status": "CURRENTNESS_ONLY_NEUTRAL_FIXTURE_NO_C2_PROMOTION"
+}

@@ -1,0 +1,62 @@
+{
+  "configuration_bundle": {
+    "configuration_path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+    "configuration_sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+    "partition_bundle_path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+    "partition_bundle_sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+  },
+  "contact_geometry": {
+    "cell_fraction_definition": "physical_area_of_contact_disk_intersection_with_relative_cell_divided_by_exact_relative_cell_volume",
+    "contact_set": "r_parallel_squared_plus_minimum_image_r_perpendicular_squared_less_than_or_equal_to_radius_squared",
+    "radius_binary64_hex": "0x1.47ae147ae147bp-3",
+    "radius_exact": "5764607523034235/36028797018963968",
+    "transverse_cut_locus_condition": "2*radius<transverse_period",
+    "transverse_period_exact": "1/1"
+  },
+  "coordinate_order": [
+    "midpoint",
+    "relative_parallel",
+    "relative_perpendicular"
+  ],
+  "flags": {
+    "authorizes_scientific_execution": false,
+    "concrete_killing_constructed": false,
+    "contact_geometry_defined": true,
+    "contains_budget_value": false,
+    "contains_control_values": false,
+    "continuum_verified": false,
+    "f0_pass": false,
+    "full_operator_bound": false,
+    "positive_budget_executed": false,
+    "production_resource_gate": false,
+    "propagation_executed": false,
+    "science_executed": false,
+    "support_basis_defined": true,
+    "topology_complete": false
+  },
+  "physical_dimension": 2,
+  "quotient_dimension": 3,
+  "schema": "encounter_physical_killing_geometry_source_v1",
+  "status": "FROZEN_CONTROL_FREE_CONTACT_AND_SUPPORT_BASIS_SOURCE_ONLY_NO_CONCRETE_KILLING_NOT_FULL_OPERATOR_NOT_F0_NOT_F1",
+  "support_basis": {
+    "analytic_integral_each": "1/1",
+    "centres_binary64_hex": [
+      "0x1.6666666666666p-2",
+      "0x1.3333333333333p-1",
+      "0x1.8000000000000p-1",
+      "0x1.ccccccccccccdp-1"
+    ],
+    "centres_exact": [
+      "3152519739159347/9007199254740992",
+      "5404319552844595/9007199254740992",
+      "3/4",
+      "8106479329266893/9007199254740992"
+    ],
+    "density_definition": "phi_j(M)=b((M-centre_j)/half_width)/(half_width*I_b)",
+    "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+    "half_width_exact": "5764607523034235/144115188075855872",
+    "normalizer_definition": "I_b=integral_from_minus_one_to_one_b(u)_du",
+    "profile_count": 4,
+    "shape_definition": "b(u)=indicator(abs(u)<1)*exp(-1/(1-u^2))"
+  }
+}

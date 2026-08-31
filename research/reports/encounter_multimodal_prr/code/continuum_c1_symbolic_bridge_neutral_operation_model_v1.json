@@ -1,0 +1,45 @@
+{
+  "bootstrap_sources": [
+    {
+      "path": "code/build_continuum_c1_symbolic_bridge_neutral_fixture_v1.py",
+      "role": "builder_entry_source",
+      "sha256": "27a3ed5b4c1066a590463ad43f68bebb60362780edd05903309848b4a0f76718"
+    },
+    {
+      "path": "notes/continuum_c1_production_gauge_killing_bridge_design_v1.md",
+      "role": "design_authority_source",
+      "sha256": "d23c088f917832bb9d8078a046133556e8ee8547d8a062d3102a922881ba67e4"
+    },
+    {
+      "path": "code/validate_continuum_c1_symbolic_bridge_neutral_fixture_v1.py",
+      "role": "verifier_entry_source",
+      "sha256": "727ec3bb18a22e098b3e977fbfa17a3be14f09b54ccc707433f7ba559e35523d"
+    }
+  ],
+  "claim_boundary": {
+    "complete_production_payload_roles_1_through_11": false,
+    "control_or_budget_source_allowed": false,
+    "symbolic_bridge_accepted": false
+  },
+  "outer_manifest_source": {
+    "path": "artifacts/data/continuum_c1_symbolic_bridge_neutral_outer_manifest_v1.json",
+    "schema": "encounter_continuum_c1_symbolic_bridge_neutral_outer_manifest_v1",
+    "sha256": "c196209e09cb7f0d4f51208e2f5c6173d201762bbd73f217110b8604c41158f1"
+  },
+  "payload_roles_allowed": [
+    "neutral_symbolic_witness_source"
+  ],
+  "resource_caps": {
+    "maximum_file_bytes": 131072,
+    "maximum_json_depth": 16,
+    "maximum_report_file_opens": 6
+  },
+  "schema": "encounter_continuum_c1_symbolic_bridge_neutral_operation_model_v1",
+  "stage": "symbolic_contract_neutral_fixture",
+  "status": "NEUTRAL_OPERATION_MODEL_EXTERNALLY_PINNED_NO_PRODUCTION_ACCEPTANCE",
+  "two_repeat_snapshot_policy": {
+    "byte_identical_required": true,
+    "snapshot_before_parse": true
+  },
+  "verifier_dependency_closure": []
+}

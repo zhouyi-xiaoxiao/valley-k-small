@@ -1,0 +1,345 @@
+{
+  "adversarial_preflight": {
+    "circle_radius_strictly_below_half_period": true,
+    "contact_tube_away_from_periodic_cut_locus_on_common_tail": true,
+    "contact_tube_strictly_inside_every_relative_box_on_common_tail": true,
+    "dense_tensor_allocation_required": false,
+    "global_unconditioned_reference_density_required": true,
+    "sharp_contact_indicator_differentiated": false,
+    "vertex_endpoint_half_cells_included": true,
+    "wrapped_periodic_cells_included": true
+  },
+  "build_provenance": {
+    "arithmetic": "python_stdlib_Fraction_exact_geometry_only",
+    "builder_path": "code/build_continuum_c2_source_bound_map_cut_killing_contract_v1.py",
+    "builder_sha256": "aa82d83dbe3dc16cd8e6d56500d3d81415938faeb56b6b86d2fa54828afc8831",
+    "canonical_json": "utf8_ascii_subset_indent2_sort_keys_newline",
+    "executed_builder_bytes_authenticated": false,
+    "network_access_used": false,
+    "project_module_imports_used": false,
+    "snapshot_model": "descriptor_O_NOFOLLOW_fstat_before_after_path_identity_no_hostile_concurrent_writer_assumed",
+    "source_snapshots_atomic_against_hostile_writer": false
+  },
+  "claim_boundary": {
+    "F0_complete": false,
+    "F1_complete": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "concrete_control_selected": false,
+    "numerical_theorem_constants_evaluated": false,
+    "positive_budget_present": false,
+    "production_n0_correlated_containment_receipt_present": false,
+    "production_raw_acceptance": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "submission_eligible": false
+  },
+  "family_scope": {
+    "common_sufficient_tail_start_n": 0,
+    "finite_family_cardinality": 12,
+    "global_max_h0_exact": "8106479329266893/254453378946433024",
+    "global_strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+    "labels": [
+      "O113/Base",
+      "E128/Base",
+      "O129/Base",
+      "O161/Base",
+      "M+",
+      "R+",
+      "MR+",
+      "MR+F",
+      "A_M",
+      "A_R",
+      "A_Y",
+      "A_MRY"
+    ],
+    "mesh_rule": "h_f(n)=h_f(0)*2^-n",
+    "quantifier": "for_each_of_exactly_12_families_for_every_integer_n_at_or_above_common_tail_start",
+    "uniform_tail_squared_condition": "2*h_f(n)^2<=global_strict_tube_clearance^2 and h_f(n)<=1"
+  },
+  "geometry_rows": [
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "O113/Base",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/254453378946433024",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "E128/Base",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/288230376151711744",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "O129/Base",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/290482175965396992",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "O161/Base",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/362539770003324928",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "M+",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/290482175965396992",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "R+",
+      "relative_lower_exact": "-5404319552844595/2251799813685248",
+      "relative_lower_margin_exact": "80704505322479285/36028797018963968",
+      "relative_upper_exact": "5404319552844595/2251799813685248",
+      "relative_upper_margin_exact": "80704505322479285/36028797018963968",
+      "row_max_h0_exact": "5404319552844595/193654783976931328",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "MR+",
+      "relative_lower_exact": "-5404319552844595/2251799813685248",
+      "relative_lower_margin_exact": "80704505322479285/36028797018963968",
+      "relative_upper_exact": "5404319552844595/2251799813685248",
+      "relative_upper_margin_exact": "80704505322479285/36028797018963968",
+      "row_max_h0_exact": "5404319552844595/193654783976931328",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "MR+F",
+      "relative_lower_exact": "-5404319552844595/2251799813685248",
+      "relative_lower_margin_exact": "80704505322479285/36028797018963968",
+      "relative_upper_exact": "5404319552844595/2251799813685248",
+      "relative_upper_margin_exact": "80704505322479285/36028797018963968",
+      "row_max_h0_exact": "1080863910568919/48413695994232832",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "A_M",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/288230376151711744",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "A_R",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/288230376151711744",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "A_Y",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/288230376151711744",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    },
+    {
+      "contact_radius_exact": "5764607523034235/36028797018963968",
+      "label": "A_MRY",
+      "relative_lower_exact": "-8106479329266893/4503599627370496",
+      "relative_lower_margin_exact": "59087227111100909/36028797018963968",
+      "relative_upper_exact": "8106479329266893/4503599627370496",
+      "relative_upper_margin_exact": "59087227111100909/36028797018963968",
+      "row_max_h0_exact": "8106479329266893/288230376151711744",
+      "strict_tube_clearance_exact": "5764607523034235/72057594037927936",
+      "torus_cut_locus_margin_exact": "12249790986447749/36028797018963968"
+    }
+  ],
+  "schema": "encounter_continuum_c2_source_bound_map_cut_killing_contract_v1",
+  "source_inventory": {
+    "configuration_family": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "factorization": {
+      "path": "artifacts/data/continuum_c1_factorization_source_v1.json",
+      "sha256": "70cb49e63c496d489887c764c812671b03a7352d5752f6663c377734739a1dca"
+    },
+    "genuine_refinement_family": {
+      "path": "artifacts/data/continuum_c1_genuine_joint_refinement_family_v2.json",
+      "sha256": "1f7bc61ac37444c0fdb2c0b74924a4b81ed8e6d6ab70c794ebe3401156b5bee9"
+    },
+    "ideal_formula": {
+      "path": "artifacts/data/continuum_c1_ideal_formula_source_v1.json",
+      "sha256": "f31b637b659483102d787da7263cd45c72829b3fce3df2ff9100066dec94c2be"
+    },
+    "killing_geometry": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "reference_density": {
+      "path": "artifacts/data/continuum_c1_reference_density_source_v1.json",
+      "sha256": "7b890d727ad0b229557de1841ae82befb8d8f83e79edc6b5348b277c3024e575"
+    },
+    "round10_free_residual_audit": {
+      "path": "audits/continuum_c2_one_sided_free_sg_residual_round10_20260717.md",
+      "sha256": "c00351acc5ff3be67cbb579ccab768e8e226bd29bc730f5d9acb15c5dcc3163d"
+    },
+    "round10_free_residual_note": {
+      "path": "notes/continuum_c2_one_sided_free_sg_residual_candidate.md",
+      "sha256": "ba3d41da0f16ab4ceb0f2f0c8eceeb29214b0b5b765c9300f373a3513bb21fc4"
+    },
+    "round11_sector_audit": {
+      "path": "audits/continuum_c2_mixed_neumann_periodic_sector_h2_round11_20260717.md",
+      "sha256": "d3b0aca6203999ba18f08a380847f7253e41fc72272d28f4c4fcde92dbb89a2c"
+    },
+    "round11_sector_note": {
+      "path": "notes/continuum_c2_mixed_neumann_periodic_sector_h2_candidate.md",
+      "sha256": "4339385e8489984701aabedbd4ab0a28d69db5b2ffd7e2d1c91d1d4ba63564d9"
+    },
+    "round170_geometry_receipt": {
+      "path": "artifacts/data/physical_production_killing_geometry_two_repeat_outer_receipt_v1.json",
+      "sha256": "d635dfb7dd24fc15731dfd69e20264a5515c3bf82b92569a58cd2bed3264fcd9"
+    },
+    "round4_map_audit": {
+      "path": "audits/continuum_c1_refinement_functional_bridge_round4_20260717.md",
+      "sha256": "6ccdcd76a4049e198d13ae45d86570c17d7876a4ef28de8fb3fed0ea1b513134"
+    },
+    "round4_map_note": {
+      "path": "notes/continuum_c1_free_form_and_functional_bridge_candidate.md",
+      "sha256": "17b987d5090618e5346f81217afed7e57daccf878d4b93b8402724b3e002a562"
+    },
+    "round9_residual_audit": {
+      "path": "audits/continuum_c2_qf2_checkerboard_residual_route_round9_20260717.md",
+      "sha256": "ed1f15c20c93db274989827dae9ccf5f3d36d5d80e1c9ba90052de8edf18b260"
+    },
+    "round9_residual_note": {
+      "path": "notes/continuum_c2_qf2_checkerboard_and_residual_route_candidate.md",
+      "sha256": "4b20189814c763816ea707630ff098c98995afd7d3207808225a320a742508c2"
+    },
+    "successor_theory_note": {
+      "path": "notes/continuum_c2_source_bound_map_cut_killing_lemma_v1.md",
+      "sha256": "09c84f471e4d0b3b4e927e5c99a12999827b7e060bcc7ce02122a4107d8460ed"
+    }
+  },
+  "status": "IDEAL_SOURCE_BOUND_SYMBOLIC_MAP_CUT_KILLING_CONTRACT_NO_NUMERIC_CONSTANT_EVALUATION_NO_PRODUCTION_SAME_MEMBER_NO_COMPLETE_C2",
+  "symbolic_theorem_contract": {
+    "contact_profile": {
+      "field": "V=W^-1*psi(M)*indicator_Da(R,Y)",
+      "profile_lipschitz_bound": "L_Psi=norm_b_prime_infinity/(profile_half_width^2*I_b)",
+      "profile_sup_bound": "Psi_star=norm_b_infinity/(profile_half_width*I_b)",
+      "simplex_scope": "weights_j>=0 and sum_j_weights_j=1",
+      "w_normalization_present": true
+    },
+    "cut_layer": {
+      "cut_cell_union": "subset_of_closed_delta_neighborhood_of_circle_boundary",
+      "delta": "sqrt(h_R^2+h_Y^2)<=sqrt(2)*h",
+      "physical_volume_average": true,
+      "profile_average_bound": "norm_QM_psi_minus_psi_L2_pi<=(L_Psi/W)*h",
+      "sharp_indicator_derivative_used": false,
+      "tube_area": "area<=pi_circle*((a+delta)^2-(a-delta)^2)=4*pi_circle*a*delta",
+      "tube_area_hypotheses": [
+        "delta<a",
+        "a+delta<W/2",
+        "R_lower<-a-delta",
+        "R_upper>a+delta"
+      ],
+      "weighted_cut_bound": "norm_Vh_minus_V_L2_pi<=C_V_cut*h^(1/2)+(L_Psi/W)*h"
+    },
+    "killing_multiplier": {
+      "definition": "K_h_pc=V_h_pc/rho_h_pc",
+      "linfinity_bound": "norm_K_h_pc_infinity<=exp(Lambda_star*H_star)*Psi_star/W",
+      "mixed_error_bound": "norm_K_h_pc_minus_V_L2_pi<=C_K_cut*h^(1/2)+C_K_map*h"
+    },
+    "map": {
+      "exact_adjoint": "P_h=J_h_star",
+      "exact_compositions": [
+        "P_h*J_h=diag(rho)",
+        "J_h*P_h=rho_h_pc*E_h"
+      ],
+      "jp_h1_to_l2": "norm_JhPhu_minus_u_L2_pi<=C_P*h*norm_u_H1",
+      "norm": "norm_J_h=norm_P_h<=exp(Lambda_star*h/2)",
+      "pj_defect": "norm_P_hJ_h_minus_I<=exp(Lambda_star*h)-1<=Lambda_star*exp(Lambda_star*H_star)*h"
+    },
+    "rho": {
+      "axis_cell_integral_ratio": "r_a_i=integral_C_exp_minus_Phi_a_dx/(cell_volume_i*exp_minus_Phi_a_at_representative)",
+      "global_gauge": "G=Z^-1*bar_r_M*bar_r_R=M_L/(S_M*S_R*S_Y)",
+      "physical_cell_mass_not_representative_mass": true,
+      "tensor_factorization": "rho_ijk=(r_M_i/bar_r_M)*(r_R_j/bar_r_R)",
+      "two_sided_enclosure": "exp(-eta_f(n))<=rho_ijk<=exp(eta_f(n))",
+      "uniform_exponent": "eta_f(n)=L_M_f*h_M_f(n)+L_R_f*h_R_f(n)<=Lambda_star*h_f(n)"
+    },
+    "round9_residual": {
+      "authoritative_complex_convention": "complex_inner_product_conjugate_first_factor",
+      "bound": "abs_R_h_kill<=C_kill*h^(1/2)*norm_u_H2*norm_v_h_1h",
+      "budget_factor_selected": false,
+      "hypotheses": [
+        "quotient_dimension_is_3_for_H2_to_Linfinity",
+        "u_in_H2_on_fixed_mixed_boundary_box",
+        "J_hP_h_map_bound",
+        "K_h_linfinity_bound",
+        "K_h_minus_V_weighted_L2_bound",
+        "uniform_J_h_norm",
+        "h<=1"
+      ]
+    },
+    "symbolic_constant_definitions": {
+      "C_K": "exp(Lambda_star*H_star)*Psi_star/W",
+      "C_K_cut": "exp(Lambda_star*H_star)*C_V_cut",
+      "C_K_map": "exp(Lambda_star*H_star)*(L_Psi/W+Lambda_star*Psi_star/W)",
+      "C_P": "sqrt(pi_plus_star)*(C_av+Lambda_star*exp(Lambda_star*H_star))",
+      "C_V_cut": "2*2^(1/4)*(Psi_star/W)*sqrt(pi_circle*a*pi_plus_star*L_M_star)",
+      "C_av": "sqrt(3)*sqrt(pi_plus_star/pi_minus_star)/pi_circle",
+      "C_kill": "exp(Lambda_star*H_star/2)*(C_K*C_P+C_emb*(C_K_cut+C_K_map))",
+      "L_M_f": "(2*ou_stiffness/particle_diffusion)*max_endpoint_abs(M-ou_mean)",
+      "L_R_f": "(ou_stiffness/(2*particle_diffusion))*max_endpoint_abs(R)",
+      "Lambda_star": "max_over_12(L_M_f+L_R_f)",
+      "theorem_constants_numerically_evaluated": false
+    }
+  },
+  "validation_scope": {
+    "authenticated_execution_attested": false,
+    "exact_geometry_and_source_pins_independently_reconstructible": true,
+    "human_mathematical_referee_separate_and_required": true,
+    "symbolic_analysis_representation": "exact_string_contract_not_backend_or_machine_proof_replication",
+    "validator_is_independent_numerical_backend": false
+  }
+}

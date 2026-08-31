@@ -1,0 +1,1187 @@
+{
+  "execution": {
+    "complete": true,
+    "expected_stages": [
+      "pytest_publication_gates",
+      "lean4_static_integrity",
+      "lean4_build",
+      "lean4_legacy_axioms",
+      "lean4_encounter_axioms",
+      "lean4_continuum_axioms",
+      "lean4_design_axioms"
+    ],
+    "failures": [],
+    "observed_stages": [
+      "pytest_publication_gates",
+      "lean4_static_integrity",
+      "lean4_build",
+      "lean4_legacy_axioms",
+      "lean4_encounter_axioms",
+      "lean4_continuum_axioms",
+      "lean4_design_axioms"
+    ],
+    "run_id": "20260711T084820143237Z-74851"
+  },
+  "formal_evidence": [
+    {
+      "bytes": 3775,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/axioms_report_20260705.txt",
+      "sha256": "20d4cbe7d169b17d4933668dd5b114efc2b7749b07e3fe2b19066b8e1b5a592d"
+    },
+    {
+      "bytes": 2157,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/encounter_axioms_report_20260711.txt",
+      "sha256": "21d6b8e058c016b14493dcd8aa247840c9e48b6fde4c76687fa5a4a80265d7eb"
+    },
+    {
+      "bytes": 3757,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/encounter_continuum_axioms_report_20260711.txt",
+      "sha256": "a439fbec5af910977482b8c7a11a6bcef2cca34ce51decc1d076001b7da1ab44"
+    },
+    {
+      "bytes": 1916,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/encounter_design_axioms_report_20260711.txt",
+      "sha256": "3b873eb3ab91de0a0dd78973212d4755167cbc14ff2e1c450464a2f470336fd4"
+    }
+  ],
+  "generated_at_utc": "2026-07-11T08:49:41.813804+00:00",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "outputs": [
+    {
+      "bytes": 560,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/continuous_time.csv",
+      "sha256": "6d416687325abbf9a9f9973676bbdc9091789bf14bbc1c7b1ee26582069151aa"
+    },
+    {
+      "bytes": 2020,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/encounter_model_and_fold.manifest.json",
+      "sha256": "7ca5543a0e9ad34fba7dc5aa40f2a52337ec88ebe9db4a54f6fae8ba53dd50e6"
+    },
+    {
+      "bytes": 5802,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_matrix_green_spectral_audit.json",
+      "sha256": "ca0f532bbe3ff4715df4bc9082d2a7cc5e4578283f78fd199c8086056fdcdebf"
+    },
+    {
+      "bytes": 2050,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_matrix_green_spectral_audit.manifest.json",
+      "sha256": "e50fd494cf16b6d042e2b58e9f2c8b3fb38fb4a73f3a9900018a5af5a67db9d3"
+    },
+    {
+      "bytes": 4893,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d.manifest.json",
+      "sha256": "63717e6c790d35250e26907a039f604dd3b162a596889fc521155139b02b7be1"
+    },
+    {
+      "bytes": 3413,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_capacity.manifest.json",
+      "sha256": "1c5c5b1b5a9f4708f9db8120b540b3fd8691e9c1db72ac080ea56b34278e517f"
+    },
+    {
+      "bytes": 804,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_capacity_fits.csv",
+      "sha256": "0f410363f9a86e4a2da68c4fc72d49af46c32b0a18f050073cb460b73ac74a63"
+    },
+    {
+      "bytes": 12143,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_capacity_metrics.json",
+      "sha256": "de0e68a2485158dafa6509985be2925f12b9add342b54ad2c7610ba3545e9608"
+    },
+    {
+      "bytes": 2893,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_capacity_rows.csv",
+      "sha256": "318770867acb7329b79deda60b03ed96acdd3dfbe093673dfc46387b57410a1e"
+    },
+    {
+      "bytes": 40931,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_centre_coordinate.json",
+      "sha256": "59734431add6f0d0997caf4a7c6de9712050d76cdcb84aae691bbc235e7e3d3c"
+    },
+    {
+      "bytes": 6546,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_centre_coordinate.manifest.json",
+      "sha256": "adb8190874511dacb73c052aa8446260d19e3c43689aef99466e6f5b9106556c"
+    },
+    {
+      "bytes": 1728,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_centre_coordinate_endpoints.csv",
+      "sha256": "eb846b30a3f24364db785ebfd6643cd7d8f0768ec0226c3043ccea214b3fe2e1"
+    },
+    {
+      "bytes": 1113,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_centre_coordinate_masks.csv",
+      "sha256": "1c756208838a1d8fbcb4f63f7ce18314bb96eaf7f827f190bc02be414b607777"
+    },
+    {
+      "bytes": 342787,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_centre_coordinate_series.npz",
+      "sha256": "f8247e513570fcc96e7003aa919d561253254db6c8d663922b21f719069cd2a8"
+    },
+    {
+      "bytes": 2975,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_control_metrics.csv",
+      "sha256": "ce75ec376b6aa527d728e50f3e7b354563a06a04593922362e1386ce5b6547f1"
+    },
+    {
+      "bytes": 5119,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_control_metrics.json",
+      "sha256": "a316e148e13a5b4a5677a9a80c1dba000bf3fd18909f03a376a9db1f2cd3981f"
+    },
+    {
+      "bytes": 404,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_domain_scaling.csv",
+      "sha256": "a9337b8ea348839d64f8717639c0dfdd582d9ce82c9d1ca0f94c27be4079215d"
+    },
+    {
+      "bytes": 1362,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_domain_scaling.json",
+      "sha256": "590f42b7f4d66fe58351cdd93195398cbbb77703501d66b92e9f3937bfe6b1d6"
+    },
+    {
+      "bytes": 832,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fixed_kappa.csv",
+      "sha256": "67e4d878b2cd0d82b1f99c559266d72250009ea875771bf2a677fdd897f1509a"
+    },
+    {
+      "bytes": 6386,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fold.manifest.json",
+      "sha256": "3a6838328209590edeac382056a755d64363480ea27122537a19751383956690"
+    },
+    {
+      "bytes": 11593,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fold_metrics.csv",
+      "sha256": "d02b3876ea94392357591610bf22fb7c315d0827cb29150fb8ecbbf55eecf503"
+    },
+    {
+      "bytes": 79221,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fold_metrics.json",
+      "sha256": "76dcc5e8d4e76f968a201d5601518f5207829adb263abfefcc4f7f5c4db8f656"
+    },
+    {
+      "bytes": 212263,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_fold_series.npz",
+      "sha256": "c35fe201e61df8b31c31a829410cc2cc63b86d2b7407540f11f1bc260016fc1d"
+    },
+    {
+      "bytes": 1164,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_interior_metrics.csv",
+      "sha256": "d9e2c61c8f8ea5269345c6b9a87a574556ae7f51561c601deb276749c2469a8d"
+    },
+    {
+      "bytes": 2636,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_interior_metrics.json",
+      "sha256": "515d98d9a682d19f33ac5975e13bb18c894eb780f37cede92c85aa5b91e706d0"
+    },
+    {
+      "bytes": 14880,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_matched_control.csv",
+      "sha256": "37e6ec6d524cc06f62c6ed833aec99356a37a5b86ae3d33db3465fe48168a185"
+    },
+    {
+      "bytes": 27409,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_matched_control.json",
+      "sha256": "e82ddc22aa908075e815f460fdc5a8f4b9bf0cc7cb18fd4d0d64e483805dbea0"
+    },
+    {
+      "bytes": 6056,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_matched_control.manifest.json",
+      "sha256": "f765748aecb15ff6de933da0959334305b3a5895f0a4e775e676b2600a0346db"
+    },
+    {
+      "bytes": 247766,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_matched_control_series.npz",
+      "sha256": "a8c5f2fe290699c86d77db7ee2f3e678bd4e059e93815b5d19f32097ac9408e9"
+    },
+    {
+      "bytes": 210080,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_mechanism_series.npz",
+      "sha256": "add16ef37087f3ffcf04af80c3e6db39f1ca717d32c84cb36af1491da8a787b1"
+    },
+    {
+      "bytes": 6381,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_mechanisms.manifest.json",
+      "sha256": "abb253bab09bbb8bbcfa24de5beae787e9839c7303451c345bc5316f765fb1f2"
+    },
+    {
+      "bytes": 1507,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_metrics.csv",
+      "sha256": "79f8a7afdd807d67195ee8a67eb3d483046cc14a1e90ef6498eeb276f2b07990"
+    },
+    {
+      "bytes": 3448,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_metrics.json",
+      "sha256": "9c0f2c38a28b253b9cc74729dc54aedd18f6301993864e7e6b1971c310fc7069"
+    },
+    {
+      "bytes": 115285,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_series.npz",
+      "sha256": "d3313ef9acf2ff7a4227bbacb9b9d1b0cf79f137ad6488ee336aae9244461ccb"
+    },
+    {
+      "bytes": 5878,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_trimodal.manifest.json",
+      "sha256": "af071665def4dec432304fb31f402ff6a2b47f654598161ef49b8214f3ddc3d2"
+    },
+    {
+      "bytes": 1759,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_trimodal_metrics.csv",
+      "sha256": "b6b3c53a3280519a5990c085bbc1e4d91290784a8184b04840d4262e1588d23a"
+    },
+    {
+      "bytes": 20655,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_trimodal_metrics.json",
+      "sha256": "d4494d390912f422efef6aea9550e9ea81a50cc939ee4f0073d127a1188809c6"
+    },
+    {
+      "bytes": 5029,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_trimodal_roots.csv",
+      "sha256": "c34d4eb54e5c8024e4517346b6f0194611164a68b8e4707dff9bd86d43bc2616"
+    },
+    {
+      "bytes": 1103200,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_trimodal_series.npz",
+      "sha256": "27a672ba04ef5046b151d30f24b9e4815e844f71ce5cc2b1e448f1131fcac281"
+    },
+    {
+      "bytes": 4002,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_capacity.manifest.json",
+      "sha256": "dd7383bc3dd912d963a6c0e7f278c4ab6e5aba2b975b26ef8d02d93c37159b5c"
+    },
+    {
+      "bytes": 17877,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_capacity_metrics.json",
+      "sha256": "ceaf82924cd3e2abf3daa523bfe890325b4da11fac6fecc17e0700a0eee21ed0"
+    },
+    {
+      "bytes": 2057,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_fixed_kappa.csv",
+      "sha256": "dffdcf05bad39223e791dbd28656f6ab6f02138211efd0800ee5d64b82645f7b"
+    },
+    {
+      "bytes": 1777,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_grid_convergence.csv",
+      "sha256": "58a59554159114292182dfe9c0432cb6a2d299f5406197ef7529c6bbfd19f097"
+    },
+    {
+      "bytes": 1809,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_radius_convergence.csv",
+      "sha256": "c7aca3e93004da40b50f24d4e1dc1a71f40207b243fc1d9fcf7726a25e812fc8"
+    },
+    {
+      "bytes": 1112,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_size.csv",
+      "sha256": "796d4e15575d24060cd5cb9407f5c327cb6fac9e4802e407dc8174addcb5011e"
+    },
+    {
+      "bytes": 364,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_channel_parameters.csv",
+      "sha256": "4f823adc457442ef72cae9c90e7496e5927619c39839f1f06848e0ce44bde74f"
+    },
+    {
+      "bytes": 988,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_drift_scaling.csv",
+      "sha256": "e4762c8d00f129cf606645b8442278596cbc95025169b8badd4f91fa3a50212a"
+    },
+    {
+      "bytes": 4268,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_fold.manifest.json",
+      "sha256": "66939d422949329215adb5e1a12dc132c42a492f2b994525ae651bf130c45f3e"
+    },
+    {
+      "bytes": 1989,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_fold_continuation.csv",
+      "sha256": "8c9e72da5f39582ca480c7d7380e693401c980785ab333968fcb7f9117e8a7f5"
+    },
+    {
+      "bytes": 2563,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_fold_convergence.csv",
+      "sha256": "40e78765c3c0ec342be608ada8354b3e69253c524a655ddc2a016f67a7e5486e"
+    },
+    {
+      "bytes": 643,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_fold_points.csv",
+      "sha256": "656e5682318ec1bd51581e2ab743312d6a67f13944ed4d5057e7f3aec87b118f"
+    },
+    {
+      "bytes": 190226,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_fold_series.npz",
+      "sha256": "5fa2b3cab997669e96c38f8c50cc44e1280ed09bfb7c49b49186ac3e852995ca"
+    },
+    {
+      "bytes": 6340,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/gig_fold_summary.json",
+      "sha256": "a77812df3fd694b5b98a1602e93ccf4b4e1474bb8cddc0f5b7142ce75797436a"
+    },
+    {
+      "bytes": 4622,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/lean_formal_integrity.json",
+      "sha256": "15ed5f3933396b8e89b47a724280410f2ae2cbfd3dc13d6a4fb4833cc42ba4d0"
+    },
+    {
+      "bytes": 2169,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/manuscript_compile.json",
+      "sha256": "89753496651490e2828af62902a4fd0ff241bf6f824489f12a383998aef1008e"
+    },
+    {
+      "bytes": 5541,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/manuscript_compile.manifest.json",
+      "sha256": "c423949581a2113ae5a34e939335383cd8c359dd470b111d35dea1ba998739fd"
+    },
+    {
+      "bytes": 4305,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design.manifest.json",
+      "sha256": "8b6612b2406590debac73a2a91cc075e4695b3ef11c50137be4de9fc23decd34"
+    },
+    {
+      "bytes": 707,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_cases.csv",
+      "sha256": "593a302edf8f209b52b2e3506e347135333791899a61d241ff78bbbae177e2d6"
+    },
+    {
+      "bytes": 3860,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_parameters.csv",
+      "sha256": "6bd8a93b2fedda71efcb4479ca9bc061b121505412702237cdc34aebf7fdc8c8"
+    },
+    {
+      "bytes": 6020,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_roots.csv",
+      "sha256": "2a89cfa1d9fb22eb3d3d5301b53d6e3e5e2011d094668b9c7cf50e44f69902c6"
+    },
+    {
+      "bytes": 4440,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/multid_gig_design_summary.json",
+      "sha256": "4cf5c5b9aea62c28a6294f0d65be8e7915d34197aa4bed7892930b3732a6e059"
+    },
+    {
+      "bytes": 8198,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/perturbation_audit.csv",
+      "sha256": "b6704c8c20247a18ab77427acdc969e44a2349768cc73f045536ae6387bac0e2"
+    },
+    {
+      "bytes": 429805,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/series.npz",
+      "sha256": "d7f4edf2b38ba225316155a462d406311c9aa1f44551217f84368b06b88caa38"
+    },
+    {
+      "bytes": 5081,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/summary.json",
+      "sha256": "89dfd9f383f714c6a2d1331766ac8b90569ea01a90ca683a9062dba08492b422"
+    },
+    {
+      "bytes": 19003,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_clock_check.pdf",
+      "sha256": "cd24093c2080a520ddf3bdbf2c6e784083a59dd8a606dac579f52a9603344517"
+    },
+    {
+      "bytes": 173224,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_clock_check.png",
+      "sha256": "d9061a602b7838b7eb9766d43361a134eeba5d9f821adb96c14a9bd83d7f2bdd"
+    },
+    {
+      "bytes": 27171,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_family.pdf",
+      "sha256": "1bf9c71a01e27d001b869ac4930a9fd328e6c7e3ccfa39da203f28fbd00e5e87"
+    },
+    {
+      "bytes": 505331,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_family.png",
+      "sha256": "571c6298b501023aa807dcf8986061010179f12e1ac66f10ce33be74e1f32b6b"
+    },
+    {
+      "bytes": 18608,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_robustness.pdf",
+      "sha256": "147ef759e7607915cb95cad25f8a92ada41e6daf4616df1388ed84c90b1ac59c"
+    },
+    {
+      "bytes": 131319,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_robustness.png",
+      "sha256": "f9af0529b3c3a4ab604ea6ffce58d399fa11201937544f2a12a78bbd9a053f85"
+    },
+    {
+      "bytes": 41558,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/encounter_model_and_fold.pdf",
+      "sha256": "167f6497b93fdb3b657d80bb6ffded7ba21844199a1bb293081e5a4f4ed86e8e"
+    },
+    {
+      "bytes": 212492,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/encounter_model_and_fold.png",
+      "sha256": "f6b303ebd84855b611156503cf63ff006edee3bb408442a906bf6c11f62b3c47"
+    },
+    {
+      "bytes": 28783,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_capacity_scaling.pdf",
+      "sha256": "7a10c53a7fbcfc07fcc59f61b3a8024209a559ad73d87ee689d6eb2930a240eb"
+    },
+    {
+      "bytes": 487132,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_capacity_scaling.png",
+      "sha256": "2fa7ff61130fb7471e2c2e98d3e1ca4b7d5839ce84cbf0d03ae9a7fc72cdafa2"
+    },
+    {
+      "bytes": 24160,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_centre_coordinate_sensitivity.pdf",
+      "sha256": "c4ec111e62a38585fcc6b635c346f5aa028eb2260996dd7f3063b107d95adeee"
+    },
+    {
+      "bytes": 349168,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_centre_coordinate_sensitivity.png",
+      "sha256": "c70d035040d8d4603d2be64dc8d7363c93bc3913464b064d69b6bd5af6d36bdc"
+    },
+    {
+      "bytes": 35880,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_fold_validation.pdf",
+      "sha256": "36a67d670fc9297ae1222aedca3599b4deed4077f41e50516f081ba4dc111439"
+    },
+    {
+      "bytes": 592418,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_fold_validation.png",
+      "sha256": "60174f32c06ff393fabc2279f11f686da2aec79f754949b1fe42f571cdaab76e"
+    },
+    {
+      "bytes": 26078,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_matched_homogeneous.pdf",
+      "sha256": "79a841ad8214c86f85fd52b6fe0f63c6038bdbd8750ac7e91b86c973bbcc0770"
+    },
+    {
+      "bytes": 491944,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_matched_homogeneous.png",
+      "sha256": "6fd011d6c0b9cf5d5cc57e53b34856a133e85849540ec734dab012cfb832e93e"
+    },
+    {
+      "bytes": 29762,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_mechanism_controls.pdf",
+      "sha256": "126cc177279ec3234a4951c3e0958774b0514386bbbd7e9f4b77137250a0bac5"
+    },
+    {
+      "bytes": 525851,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_mechanism_controls.png",
+      "sha256": "57f57e18b05ff957f045db802aff2867c47bb491565ce2a15be079b3c9916ada"
+    },
+    {
+      "bytes": 33662,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_trimodality.pdf",
+      "sha256": "b7d705f2866f3305171999fd3010674fc9c0fcd653dab8c63906bcc0a5c876f5"
+    },
+    {
+      "bytes": 528833,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_trimodality.png",
+      "sha256": "41cb13b21934ac332d82a34bcb8c750d51cd703550d55bae63215b75967354d9"
+    },
+    {
+      "bytes": 26755,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_validation.pdf",
+      "sha256": "4582f66fa22628707ae9b509e70302dc529de1271ca8221217f780e7b60d37e0"
+    },
+    {
+      "bytes": 449824,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_validation.png",
+      "sha256": "de60c6e379cf632aaa2babbe58e75276732b89f6d2191839b8ceddc89e9fa6aa"
+    },
+    {
+      "bytes": 33184,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_3d_capacity_validation.pdf",
+      "sha256": "ce8619183810f36017a4b46eef287b89ded5cfafaa0e0ec195efbc10f8c6da11"
+    },
+    {
+      "bytes": 528554,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_3d_capacity_validation.png",
+      "sha256": "d4db6ec02f22e55242dfa446a9124a08affe3b3396a087c96d57b54586cdf4d0"
+    },
+    {
+      "bytes": 35653,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/gig_fold_validation.pdf",
+      "sha256": "ff286f3cf62316fc5b5d4bf1ad2138b2ee55579d7207c86109bb430f179f98c1"
+    },
+    {
+      "bytes": 443804,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/gig_fold_validation.png",
+      "sha256": "68710363e2f54f9ae269113be7e07278e320d6640e3bb0f7e3ce62bee425fcd0"
+    },
+    {
+      "bytes": 527,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/multid_gig_channel_design-1_1.png",
+      "sha256": "1e4d6d3538bfd6ec66ade7daad04e1576766c2d1bba2071891e65d615800632e"
+    },
+    {
+      "bytes": 301,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/multid_gig_channel_design-1_2.png",
+      "sha256": "8eef45dee593f5d9b8dbbdd855ade005c61fa7e269c052c778435a80b9069610"
+    },
+    {
+      "bytes": 52542,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/multid_gig_channel_design.pdf",
+      "sha256": "ce5d0a10cc28db6fcdbdeee10a4acfc3d44873bfcf28daf53bf950bcedaf5d9b"
+    },
+    {
+      "bytes": 327211,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/multid_gig_channel_design.png",
+      "sha256": "09b3fab9a9374389518957249715282b91dd6b4c5d2e31ac86adc0cfe1d26963"
+    },
+    {
+      "bytes": 826685,
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/encounter_modality_jcp.pdf",
+      "sha256": "7800bdeb9f182b8d30eeb50d3f1b0b995370536bc684cce4e313313c0a112022"
+    },
+    {
+      "bytes": 82993,
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/encounter_modality_jcp.tex",
+      "sha256": "3f831c337ef1fb1764a1a88be62595c79300920d3f069c88d0fbe18c3f9e1269"
+    },
+    {
+      "bytes": 4979,
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/figure_table_alt_text.txt",
+      "sha256": "269b2aa54dc54b66f6dcc48d2bba11c50f33fca8df148406cdb2887a631c4a07"
+    },
+    {
+      "bytes": 13301,
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/references.bib",
+      "sha256": "b2c38f91f9d1853e70c7fec99895f5404af3d0163a645b2e7359b2a353c5066e"
+    },
+    {
+      "bytes": 546667,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notebooks/encounter_publication_validation.ipynb",
+      "sha256": "6ab9afefeee13b5762e7aae2ca306c6fac719447956839a1f2ab14c024cc5d3b"
+    },
+    {
+      "bytes": 6235,
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/manifest.json",
+      "sha256": "696929d66832ab140a6175ceea7444e91051f77951d1ac8600a3ed8f7827c2ca"
+    }
+  ],
+  "profile": "verify",
+  "release": {
+    "requested": false,
+    "start_gate_passed": false
+  },
+  "runtime": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "python": "3.12.13",
+    "uv_lock": {
+      "errors": [],
+      "lock_path": "uv.lock",
+      "lock_sha256": "c95c9d1cc665ba6b7dc28a6aad0cfd9345151300dce4fe5bb395b45b80c4e600",
+      "matches_lock": true,
+      "packages": {
+        "matplotlib": {
+          "installed": "3.11.0",
+          "locked": "3.11.0"
+        },
+        "nbclient": {
+          "installed": "0.11.0",
+          "locked": "0.11.0"
+        },
+        "numpy": {
+          "installed": "2.5.1",
+          "locked": "2.5.1"
+        },
+        "pandas": {
+          "installed": "3.0.3",
+          "locked": "3.0.3"
+        },
+        "scipy": {
+          "installed": "1.18.0",
+          "locked": "1.18.0"
+        }
+      }
+    }
+  },
+  "schema_version": 2,
+  "source_files": [
+    {
+      "bytes": 9316,
+      "path": "research/reports/encounter_heterogeneous_catalytic/README.md",
+      "sha256": "595d1b098504424e4609bc9fb72f9aeaa9c96787182d1034be9b745aaadece73"
+    },
+    {
+      "bytes": 1311,
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/SUBMISSION_METADATA_REQUIRED.md",
+      "sha256": "e44940fdfd13f9e3b15031ca81aab3da5ce5c76c5c4ba14be4c712f2f496b4ad"
+    },
+    {
+      "bytes": 849,
+      "path": "pyproject.toml",
+      "sha256": "9bac2f183d7f66290384e8326a21b3e08c8b6937f79af1aa4a014578a5c2c86d"
+    },
+    {
+      "bytes": 252204,
+      "path": "uv.lock",
+      "sha256": "c95c9d1cc665ba6b7dc28a6aad0cfd9345151300dce4fe5bb395b45b80c4e600"
+    },
+    {
+      "bytes": 3292,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/build_audit_ledger.py",
+      "sha256": "1a013b57507a02f0db547b1253b199d021f8951f69c308d686194b37f37ee041"
+    },
+    {
+      "bytes": 76505,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/build_publication_notebook.py",
+      "sha256": "d162aa9ffac480bf0a7deb6ddaf623bd5f809237deb950eb5251d4eb5fca695f"
+    },
+    {
+      "bytes": 20794,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/build_report.py",
+      "sha256": "0a5b10380ba2eedfa7b3bc58067869bd67cce265070d9bee57cbec8418a693e9"
+    },
+    {
+      "bytes": 7281,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/check_publication_proofs.py",
+      "sha256": "93adc01a6ce641f7d1b257e8d2fa15974b5a0b882572a385903a95489e0fba05"
+    },
+    {
+      "bytes": 5954,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/compile_manuscript.py",
+      "sha256": "2412f3324984cbe50343c13f6260a3cb92fa7125198b73a5031965378788abfd"
+    },
+    {
+      "bytes": 7303,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/plot_model_schematic.py",
+      "sha256": "764100d41794a874e9c5f3df06de1b067fb1193899ab71df22572aac004c5750"
+    },
+    {
+      "bytes": 483,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/refresh_legacy_manifest.py",
+      "sha256": "61dded747674aba3f550c73936f4f5e6ae4c26a2b20735dc3a2899f2ca1a20eb"
+    },
+    {
+      "bytes": 45221,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/run_publication_pipeline.py",
+      "sha256": "bb5b279fe3d0083a36b220410ceedf3a45d8dadfe0456c896e0bd7b13ca6fde0"
+    },
+    {
+      "bytes": 11775,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_capacity.py",
+      "sha256": "08ccedb8ed1b3181448814d1dc5edbde83408f4807224c31ff90c6ca4dbe622a"
+    },
+    {
+      "bytes": 31791,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_centre_coordinate.py",
+      "sha256": "c1fb7ae2591920fa63c01ebd5e7aec945faa4b88661bf9bf7e0984e885c6daa5"
+    },
+    {
+      "bytes": 11331,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_finite_radius.py",
+      "sha256": "f26973e9f592d216bde324b59a1c18d1ced8cc78733c143b09a40267631725ba"
+    },
+    {
+      "bytes": 62805,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_fold.py",
+      "sha256": "27167881aa849448450b7ca5db3425b2071b453101db66dc28bfd3ff51671fde"
+    },
+    {
+      "bytes": 27969,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_matched_homogeneous.py",
+      "sha256": "247ab6cc14fa0e837dbe890a86da779df9356bb736a44d44f92b45f1a6dea1df"
+    },
+    {
+      "bytes": 22021,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_mechanisms.py",
+      "sha256": "f57348eca8312567693421b52c53b6e4f1b3b502e9d63b3fb115dfc7642c7b1a"
+    },
+    {
+      "bytes": 32604,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_trimodal.py",
+      "sha256": "90af9ebb5744236666950e71823597c5c5ca91cdeb8577223f52c3406b3b25ec"
+    },
+    {
+      "bytes": 17634,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_3d_capacity.py",
+      "sha256": "87e57d432db35de238dab121e013cf4632a3bc3deb06047ee6c5b70e30ca0ac1"
+    },
+    {
+      "bytes": 11632,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_finite_green_spectrum.py",
+      "sha256": "07a8f4afb1a5115c47b99e7d919dd6240bd8affac82876065bf941bdec67fa71"
+    },
+    {
+      "bytes": 47646,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_gig_fold.py",
+      "sha256": "0ad7b90d822ddfefb5a637e1302f0e3a6ef23a6a3a0390d206d06620151b2bb3"
+    },
+    {
+      "bytes": 22038,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_multid_gig_design.py",
+      "sha256": "cac8e3a1be8fb563f69a3dd1795cf7219d0a06d9198af70d96ab8794e70bac76"
+    },
+    {
+      "bytes": 502,
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/verify_lean_formal.py",
+      "sha256": "f3e2e1359889d403267eacfed0046428e1a61e5b1f2f6afb760a5efe5f1f31a7"
+    },
+    {
+      "bytes": 42910,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/continuum_multid_theory.md",
+      "sha256": "ce677ab77ba9ae5cec11c3589eb7418612af26ab075b7f33d506a667104a51db"
+    },
+    {
+      "bytes": 3465,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_matrix_green_spectral_audit.md",
+      "sha256": "787ca1839ccdbf7f8b77608a652094a7ce12457f0b4b128056cab9e57f300cd5"
+    },
+    {
+      "bytes": 4208,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_radius_2d_centre_coordinate_sensitivity.md",
+      "sha256": "72b5295082b4b7ad23bfdf2d5ad15934622e5f27449bffae5951fc861e4d3d0e"
+    },
+    {
+      "bytes": 10770,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_radius_2d_matched_fold.md",
+      "sha256": "b5bb33f14af61d294bb5382cb2983a75f1041c1ac291f9024b8cd177434d1207"
+    },
+    {
+      "bytes": 5924,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_radius_2d_trimodality.md",
+      "sha256": "538675756a699e8eb01e3cedf48555189497d38b3daf2e399d025bb6efbe2b86"
+    },
+    {
+      "bytes": 3639,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_radius_3d_capacity.md",
+      "sha256": "fcd2db04cfdcd03ea45b286e3985fa07cf75582d77888802a5aad9a760d96d5c"
+    },
+    {
+      "bytes": 5632,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/gig_fold_derivation.md",
+      "sha256": "76b4bd28531950f014340f81cf18c65c166576b8c322cef87d1cb1b76e75048b"
+    },
+    {
+      "bytes": 6298,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/journal_target_20260711.md",
+      "sha256": "01e36e215060845121f3b0c0262e8ca7873a024649a00639d4b90e0af94923b6"
+    },
+    {
+      "bytes": 30683,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/manuscript_outline_jcp.md",
+      "sha256": "43b2297041f48fca3ca41c67c40de13883d5bf5db71382c5d143122eb29716a7"
+    },
+    {
+      "bytes": 7059,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/multid_gig_channel_design.md",
+      "sha256": "986ff7d7d46a4040f97cf2d808a18f66252fc8c58d861cd3d4a6ef77088a9501"
+    },
+    {
+      "bytes": 3086,
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/theory.md",
+      "sha256": "2b9a3a0ac538c5a4dd19ee13259027c4c0c892f003cee9bdefb5874b389d1774"
+    },
+    {
+      "bytes": 10400,
+      "path": "tests/test_encounter.py",
+      "sha256": "66d4605f7a888cef0cd8b4ca4f0698faf5b224fa7cc87722ae5e2fadabc81c19"
+    },
+    {
+      "bytes": 9879,
+      "path": "tests/test_encounter_2d.py",
+      "sha256": "4c88be4197d7fd7b8a84261c8aeb7f8ca2f2a28cbb4df4f507a51f809f835842"
+    },
+    {
+      "bytes": 2404,
+      "path": "tests/test_encounter_2d_artifacts.py",
+      "sha256": "4510d36d10e7cd126bb2d6b3dd74a702281f49a431c664d8584d63bfcb543d61"
+    },
+    {
+      "bytes": 2686,
+      "path": "tests/test_encounter_2d_capacity_artifacts.py",
+      "sha256": "36a499b9f30be489b5e17d0bbb32ff348e19c6fec195c6a70344c080e6a67814"
+    },
+    {
+      "bytes": 5244,
+      "path": "tests/test_encounter_2d_centre_coordinate_artifacts.py",
+      "sha256": "92153ef72d6b677bd16a60ead734485fefc1b945fcf3059a52eb56b4ceb18fe7"
+    },
+    {
+      "bytes": 5770,
+      "path": "tests/test_encounter_2d_matched_control_artifacts.py",
+      "sha256": "953c7310b141053b69faae2e5e7cdb30b5c4c1e40300b00da21e201d650a1018"
+    },
+    {
+      "bytes": 7694,
+      "path": "tests/test_encounter_2d_matched_fold.py",
+      "sha256": "dd0fbc835f769d2780200345d7b280df8d898abe9fda899e4ecaac59659480ec"
+    },
+    {
+      "bytes": 1918,
+      "path": "tests/test_encounter_2d_matched_fold_artifacts.py",
+      "sha256": "e7281161f7ad46a0f2944efcf5493fd2f4a6fa2bffd387ac8ddc2a647202df17"
+    },
+    {
+      "bytes": 4532,
+      "path": "tests/test_encounter_2d_mechanisms_artifacts.py",
+      "sha256": "6ab2ac9c534f85bd409142cad0163dc52e0e820a33c52f6ed5aa7c71226551af"
+    },
+    {
+      "bytes": 4557,
+      "path": "tests/test_encounter_2d_trimodal_artifacts.py",
+      "sha256": "5260128ef8a376a0fde8313da561f2984c91501da2598aa69bc85d622f435c22"
+    },
+    {
+      "bytes": 3852,
+      "path": "tests/test_encounter_3d.py",
+      "sha256": "0acb9215a556ef5a501b7ed8e187f84452445a9282d8a3b86e21084d097b9801"
+    },
+    {
+      "bytes": 4117,
+      "path": "tests/test_encounter_3d_artifacts.py",
+      "sha256": "065ff8fab1fe0cdc193757cabd65d99e1842d76f500bddbe7b678f9321ee76cb"
+    },
+    {
+      "bytes": 1553,
+      "path": "tests/test_encounter_biased.py",
+      "sha256": "f57c303d1dcb94ab62ee8877b0bdafce60886dd47058eb61ba7fb4bcc8a12251"
+    },
+    {
+      "bytes": 9351,
+      "path": "tests/test_encounter_gig_fold.py",
+      "sha256": "365126eb570d4a4440d2ea3d1746b59f1be95908a9c0b34f19a6a1191ea4bd5b"
+    },
+    {
+      "bytes": 13078,
+      "path": "tests/test_encounter_green_ctmc.py",
+      "sha256": "88448be42504f139c085500b093fe4f90a4767f1496aad0f7f14de70ff76f48b"
+    },
+    {
+      "bytes": 1483,
+      "path": "tests/test_encounter_green_formula_comparison.py",
+      "sha256": "10dc7f210a7757c018231a1eed6d722e796a223d579b14cc1f50e0491a31aba4"
+    },
+    {
+      "bytes": 3406,
+      "path": "tests/test_encounter_green_spectral_artifact.py",
+      "sha256": "5e81e8fac833dc1bf3ed6cfa6a063dc878a51f532bbecbf703fb9eee8592db2b"
+    },
+    {
+      "bytes": 4428,
+      "path": "tests/test_encounter_green_uniformization.py",
+      "sha256": "cf455b3592e113b4649abb55a297e4b48968ec7ea42d920b7df38710c43355a6"
+    },
+    {
+      "bytes": 7764,
+      "path": "tests/test_encounter_manuscript.py",
+      "sha256": "b9d3f281b3780a2974e2abbbfd2e6e94eeeeaab09d1125fd3869e99ceffa0934"
+    },
+    {
+      "bytes": 4305,
+      "path": "tests/test_encounter_multid_gig_design.py",
+      "sha256": "513abb1d07719a259a81bb345d2508223d55645c7e63fd50eafc6d331e2a51f6"
+    },
+    {
+      "bytes": 9499,
+      "path": "tests/test_encounter_publication_notebook.py",
+      "sha256": "df10ac56f8fcde4e786eeddc3b2724c4a256502cada75697f0f8e343f1c5f23a"
+    },
+    {
+      "bytes": 18871,
+      "path": "tests/test_encounter_publication_pipeline.py",
+      "sha256": "8f1c9ec130efb8ce81c2e52862f81371be1d19b769e7764787becaaff39f05b7"
+    },
+    {
+      "bytes": 4254,
+      "path": "tests/test_encounter_reflecting_mean_validation.py",
+      "sha256": "8495f8afb153077b7d2db78f7e155caada69a6bdbc6f7ebf5258c3d735c62882"
+    },
+    {
+      "bytes": 4823,
+      "path": "tests/test_encounter_search.py",
+      "sha256": "b3c5c103cdad8fef9707c1367aaac5a5603483b058c7277b60e19f1bb987df69"
+    },
+    {
+      "bytes": 7362,
+      "path": "tests/test_research_audit_artifacts.py",
+      "sha256": "e83e9f0c5e3f2e498429103c72f26599cb60c4f8a057b5828545ee50ae041925"
+    },
+    {
+      "bytes": 2468,
+      "path": "tests/test_fpt.py",
+      "sha256": "3a5ce58622909d28b992ce02a159a42d0fcd83c65f6dee660e4fb74b6720b019"
+    },
+    {
+      "bytes": 7968,
+      "path": "tests/test_morphology.py",
+      "sha256": "be083d2929eae45f6fd913cbff7d6fdf91dad9bde2bc668a9ccf8ed670c0c149"
+    },
+    {
+      "bytes": 1767,
+      "path": "tests/test_provenance.py",
+      "sha256": "d7493e3186fcee1ae0de528a2c7d85b3e1136ee475af66d5168f83169f3f9611"
+    },
+    {
+      "bytes": 54,
+      "path": "packages/vkcore/src/vkcore/__init__.py",
+      "sha256": "dc351ecb9f45a0eb15ff5cdf2a26cf3ffa4f38b3ad15939d59677a6d216f99a4"
+    },
+    {
+      "bytes": 50403,
+      "path": "packages/vkcore/src/vkcore/encounter.py",
+      "sha256": "9687bf78c93d7dd69bc30a85c92c044d07fa13d8f67e841082deffb5a6cb62b4"
+    },
+    {
+      "bytes": 26042,
+      "path": "packages/vkcore/src/vkcore/encounter2d.py",
+      "sha256": "fd122fa421a88f6826b41a31e86a9dfab94bd99ec5376e177e8a3fbfbda07d96"
+    },
+    {
+      "bytes": 15810,
+      "path": "packages/vkcore/src/vkcore/encounter3d.py",
+      "sha256": "41807218fbc8f5bdd995e3fbcbbf95934dca90bbccfd9a086a0ed9aa454864f4"
+    },
+    {
+      "bytes": 7939,
+      "path": "packages/vkcore/src/vkcore/fpt.py",
+      "sha256": "df27c4f581e723c0d846605bfaa1464629c3107011deab5c75e616facf1c0854"
+    },
+    {
+      "bytes": 45771,
+      "path": "packages/vkcore/src/vkcore/morphology.py",
+      "sha256": "fe0bffe48b8f1ef345c333898f5bb698d8db95cde3c31d9fbd8c852c75ad4ea2"
+    },
+    {
+      "bytes": 3372,
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "4eaed0ccb09576c0482a587daa08cdcc77cf8850c699279208544283bbc821b7"
+    },
+    {
+      "bytes": 4263,
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    },
+    {
+      "bytes": 10773,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/README.md",
+      "sha256": "c89e6ecccceadf2a95c3c1e787890ff6a884eb7636230da26c524ad4b129ec61"
+    },
+    {
+      "bytes": 352,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/lakefile.toml",
+      "sha256": "6fe06b8dbc932d7c1fff02cbee81f6f7b5d0f4699aab4bc82ff9d0a531d5d5b4"
+    },
+    {
+      "bytes": 3133,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/lake-manifest.json",
+      "sha256": "4529ce3d3e5906a5756f94e006d7eb2a104b51c7c29e6960c32b12bbed3259d7"
+    },
+    {
+      "bytes": 29,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/lean-toolchain",
+      "sha256": "72681913b978b3f7c2f48229836771f736f6e97d833917726b2263afbc6108ed"
+    },
+    {
+      "bytes": 641,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean.lean",
+      "sha256": "e4693ff185b87d04eb7fa7bca19a25ee33d7a74abb7d93ea7772df55b222575b"
+    },
+    {
+      "bytes": 2218,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/AxiomsReport.lean",
+      "sha256": "e36aa1bd9166516a7c2ee8595ae1d0bb8756d1d552718f153cf3665bde15a555"
+    },
+    {
+      "bytes": 875,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/EncounterAxioms.lean",
+      "sha256": "f1f0f6c25a0b627ed8408e1d141c010b80017176ce3c4b915a9dee14afc35d96"
+    },
+    {
+      "bytes": 2208,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/EncounterContinuumAxioms.lean",
+      "sha256": "e0fa346609d67fc233c779648c839ea1d757aed83c8540d68a2a0710566b04f6"
+    },
+    {
+      "bytes": 1030,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/EncounterDesignAxioms.lean",
+      "sha256": "98923b98bcf31af00ab37f484a1e9dc792c11775d98a65919c0f14f9a4cb254e"
+    },
+    {
+      "bytes": 11098,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/Encounter.lean",
+      "sha256": "d2c11759c831228eb6641f3944d1d860c34615982d15b883e6d029f0a670e754"
+    },
+    {
+      "bytes": 17562,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/EncounterContinuum.lean",
+      "sha256": "ae23060be3166c392eab2d8a0a5af5dcd1d3a4adf2a8b912fd8a0c2161e538b4"
+    },
+    {
+      "bytes": 7178,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/EncounterDesign.lean",
+      "sha256": "03c68e6084162ee8640869f8bbbed6a4322b6e7327bf32dd3cf396ec6426de41"
+    },
+    {
+      "bytes": 9050,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/HalfLine.lean",
+      "sha256": "0cba935f443660b6e81aa76442791f25c0c5efa2e84874873d4bbc0f05306e2b"
+    },
+    {
+      "bytes": 4936,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/JumpCondition.lean",
+      "sha256": "de5adc146034796128dc438a59a5bc4c7fcb8aef0ad836ff43cad26edb534ac3"
+    },
+    {
+      "bytes": 6504,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/MinimalModes.lean",
+      "sha256": "d86d8b50e26a7abba2558a95e7c2b7795b3bf1c130dc5b4c0142a19eb49207e0"
+    },
+    {
+      "bytes": 6621,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/NormalForm.lean",
+      "sha256": "37b64738b38226645aeb5eea8b15205b66c57929f01e5395811f05e4f869fc74"
+    },
+    {
+      "bytes": 6214,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/Normalization.lean",
+      "sha256": "459174d887e7e4162fff785c7f7859cc6c2280e22a6ad3a2f09bfc7b003c9dea"
+    },
+    {
+      "bytes": 7446,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/PiSc.lean",
+      "sha256": "913e0276384f15efabbe4b15bf44511088a077e7b26ed24e326402e56fd7daeb"
+    },
+    {
+      "bytes": 7934,
+      "path": "research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/Trig.lean",
+      "sha256": "9561f05301b6e6b8a12f27c5cc3485aea2842319dbc1c1b75e633ed856c877b4"
+    }
+  ],
+  "stages": [
+    {
+      "command": [
+        "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python3",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_encounter.py",
+        "tests/test_encounter_biased.py",
+        "tests/test_encounter_green_ctmc.py",
+        "tests/test_encounter_green_uniformization.py",
+        "tests/test_encounter_green_spectral_artifact.py",
+        "tests/test_encounter_gig_fold.py",
+        "tests/test_encounter_multid_gig_design.py",
+        "tests/test_encounter_2d.py",
+        "tests/test_encounter_2d_artifacts.py",
+        "tests/test_encounter_2d_mechanisms_artifacts.py",
+        "tests/test_encounter_2d_matched_control_artifacts.py",
+        "tests/test_encounter_2d_matched_fold.py",
+        "tests/test_encounter_2d_matched_fold_artifacts.py",
+        "tests/test_encounter_2d_trimodal_artifacts.py",
+        "tests/test_encounter_2d_centre_coordinate_artifacts.py",
+        "tests/test_encounter_2d_capacity_artifacts.py",
+        "tests/test_encounter_3d.py",
+        "tests/test_encounter_3d_artifacts.py",
+        "tests/test_encounter_manuscript.py",
+        "tests/test_encounter_publication_notebook.py",
+        "tests/test_encounter_publication_pipeline.py",
+        "tests/test_research_audit_artifacts.py",
+        "tests/test_fpt.py",
+        "tests/test_morphology.py",
+        "tests/test_provenance.py"
+      ],
+      "cwd": ".",
+      "duration_seconds": 8.45623920901562,
+      "log": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/verify/20260711T084820143237Z-74851/pytest_publication_gates.log",
+      "log_bytes": 160,
+      "log_sha256": "ea00a3bc20061f3e1451afe7a511de601c578a7c8543a3ac101e0884a38051e5",
+      "name": "pytest_publication_gates",
+      "returncode": 0,
+      "started_at_utc": "2026-07-11T08:48:20.170970+00:00"
+    },
+    {
+      "command": [
+        "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python3",
+        "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/encounter_heterogeneous_catalytic/code/verify_lean_formal.py"
+      ],
+      "cwd": ".",
+      "duration_seconds": 0.1488852080074139,
+      "log": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/verify/20260711T084820143237Z-74851/lean4_static_integrity.log",
+      "log_bytes": 261,
+      "log_sha256": "83bf583086061c171e62118ccb12be12ea0ac2b52d8814af681e651881456188",
+      "name": "lean4_static_integrity",
+      "returncode": 0,
+      "started_at_utc": "2026-07-11T08:48:28.636697+00:00"
+    },
+    {
+      "command": [
+        "/Users/ae23069/.elan/bin/lake",
+        "build"
+      ],
+      "cwd": "/Users/ae23069/.local-build/valley-k-small/encounter_formal_pipeline/run-74851",
+      "duration_seconds": 51.305294790974585,
+      "log": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/verify/20260711T084820143237Z-74851/lean4_build.log",
+      "log_bytes": 838,
+      "log_sha256": "b47b82386ddbe06fa6fdd20c99b01ca4285bce2b1136d23ec76b7c7c33395c56",
+      "name": "lean4_build",
+      "returncode": 0,
+      "started_at_utc": "2026-07-11T08:48:28.788545+00:00"
+    },
+    {
+      "command": [
+        "/Users/ae23069/.elan/bin/lake",
+        "env",
+        "lean",
+        "AxiomsReport.lean"
+      ],
+      "cwd": "/Users/ae23069/.local-build/valley-k-small/encounter_formal_pipeline/run-74851",
+      "duration_seconds": 9.328698666999117,
+      "log": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/verify/20260711T084820143237Z-74851/lean4_legacy_axioms.log",
+      "log_bytes": 3775,
+      "log_sha256": "20d4cbe7d169b17d4933668dd5b114efc2b7749b07e3fe2b19066b8e1b5a592d",
+      "name": "lean4_legacy_axioms",
+      "returncode": 0,
+      "started_at_utc": "2026-07-11T08:49:20.110368+00:00"
+    },
+    {
+      "command": [
+        "/Users/ae23069/.elan/bin/lake",
+        "env",
+        "lean",
+        "EncounterAxioms.lean"
+      ],
+      "cwd": "/Users/ae23069/.local-build/valley-k-small/encounter_formal_pipeline/run-74851",
+      "duration_seconds": 4.10256087500602,
+      "log": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/verify/20260711T084820143237Z-74851/lean4_encounter_axioms.log",
+      "log_bytes": 1319,
+      "log_sha256": "f802b1c5d9a0ac25fbb7c80910b737e3fc0bf553849c165f260bd0c94d251474",
+      "name": "lean4_encounter_axioms",
+      "returncode": 0,
+      "started_at_utc": "2026-07-11T08:49:29.456445+00:00"
+    },
+    {
+      "command": [
+        "/Users/ae23069/.elan/bin/lake",
+        "env",
+        "lean",
+        "EncounterContinuumAxioms.lean"
+      ],
+      "cwd": "/Users/ae23069/.local-build/valley-k-small/encounter_formal_pipeline/run-74851",
+      "duration_seconds": 4.142863832996227,
+      "log": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/verify/20260711T084820143237Z-74851/lean4_continuum_axioms.log",
+      "log_bytes": 2885,
+      "log_sha256": "d3470d4457ec0c1f05b3414a508d2af6a9071d1cbba60579223686042a529aa1",
+      "name": "lean4_continuum_axioms",
+      "returncode": 0,
+      "started_at_utc": "2026-07-11T08:49:33.565833+00:00"
+    },
+    {
+      "command": [
+        "/Users/ae23069/.elan/bin/lake",
+        "env",
+        "lean",
+        "EncounterDesignAxioms.lean"
+      ],
+      "cwd": "/Users/ae23069/.local-build/valley-k-small/encounter_formal_pipeline/run-74851",
+      "duration_seconds": 3.957354749989463,
+      "log": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/verify/20260711T084820143237Z-74851/lean4_design_axioms.log",
+      "log_bytes": 1222,
+      "log_sha256": "5beb311c28ebd1177d0264a1715b3d8fcbc143fe13b86db2ee44630a88c88b5d",
+      "name": "lean4_design_axioms",
+      "returncode": 0,
+      "started_at_utc": "2026-07-11T08:49:37.733775+00:00"
+    }
+  ],
+  "start_git": {
+    "branch": "dpma-audit-20260630",
+    "captured_at_utc": "2026-07-11T08:48:20.142878+00:00",
+    "clean": false,
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "exact_tag": null
+  }
+}

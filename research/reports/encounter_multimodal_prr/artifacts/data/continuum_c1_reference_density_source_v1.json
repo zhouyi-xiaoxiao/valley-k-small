@@ -1,0 +1,74 @@
+{
+  "boundary_and_measure": {
+    "finite_nonperiodic_faces": "reflecting_zero_flux_approximants",
+    "finite_periodic_coordinate": "relative_perpendicular_mod_W",
+    "physical_cell_measure": "d_midpoint*d_relative_parallel*d_relative_perpendicular",
+    "target_nonperiodic_domain": "R_times_R",
+    "target_periodic_domain": "T_W"
+  },
+  "claim_boundary": {
+    "box_truncation_proved": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "continuum_topology_proved": false,
+    "production_bridge_accepted": false,
+    "release_eligible": false
+  },
+  "coordinate_order": [
+    "midpoint",
+    "relative_parallel",
+    "relative_perpendicular"
+  ],
+  "diffusion_and_drift": {
+    "diffusion_diagonal": [
+      "particle_diffusion/2",
+      "2*particle_diffusion",
+      "2*particle_diffusion"
+    ],
+    "drift": [
+      "-ou_stiffness*(midpoint-ou_mean)",
+      "-ou_stiffness*relative_parallel",
+      "0/1"
+    ]
+  },
+  "normalization": {
+    "box_mass": "M_L=integral_Omega_L_pi_dx",
+    "conditional_box_renormalization_used": false,
+    "full_space_normalizer": "Z=2*pi*particle_diffusion*W/ou_stiffness",
+    "periodic_factor": "1/W",
+    "reference_density": "pi=Z^-1*exp[-ou_stiffness*(midpoint-ou_mean)^2/particle_diffusion-ou_stiffness*relative_parallel^2/(4*particle_diffusion)]",
+    "restricted_density_retains_global_normalization": true
+  },
+  "physical_parameter_bundle": {
+    "ou_mean_binary64_hex": "0x1.e666666666666p-1",
+    "ou_stiffness_binary64_hex": "0x1.999999999999ap-4",
+    "particle_diffusion_binary64_hex": "0x1.0624dd2f1a9fcp-9",
+    "physical_dimension": 2,
+    "quotient_dimension": 3,
+    "transverse_period_exact": "1/1"
+  },
+  "schema": "encounter_continuum_c1_reference_density_source_v1",
+  "source_pins": {
+    "c0_mathematical_source": {
+      "path": "artifacts/data/continuum_c0_mathematical_source_v2.json",
+      "sha256": "522bd667e5f6fd6a4d12f270f0c2f4b9e86be9b207d471961d4f67db972df559"
+    },
+    "configuration_source": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    }
+  },
+  "status": "FROZEN_CONTROL_FREE_REFERENCE_DENSITY_AUTHORITY_ONLY_NO_COMPLETE_C0_C1_C2",
+  "unit_table": {
+    "box_mass_M_L": "dimensionless_probability",
+    "diffusion_coefficients": "length_squared_per_time",
+    "full_space_normalizer_Z": "length_cubed",
+    "ou_stiffness": "inverse_time",
+    "physical_cell_measure": "length_cubed",
+    "reference_density_pi": "inverse_length_cubed",
+    "spatial_coordinates": "length",
+    "transverse_period_W": "length"
+  }
+}

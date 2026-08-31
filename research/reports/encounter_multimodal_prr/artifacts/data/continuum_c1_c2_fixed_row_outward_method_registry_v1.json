@@ -1,0 +1,41 @@
+{
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "formal_production_bridge_accepted": false,
+    "release_eligible": false
+  },
+  "methods": [
+    {
+      "analytic_remainder_rule": "MPFR_correct_rounding_for_exp_erf_sqrt_and_exact_rational_algebra",
+      "method_id": "directed_mpfr_320_reference_density_v1",
+      "precision_bits": 320,
+      "rounding_mode": "directed_RoundDown_RoundUp",
+      "special_function_backend_and_version": "gmpy2_2.2.1_MPFR_4.2.1"
+    },
+    {
+      "analytic_remainder_rule": "higher_precision_same_formula_sentinel_must_be_contained_by_primary_interval",
+      "method_id": "directed_mpfr_640_reference_density_sentinel_v1",
+      "precision_bits": 640,
+      "rounding_mode": "directed_RoundDown_RoundUp",
+      "special_function_backend_and_version": "gmpy2_2.2.1_MPFR_4.2.1"
+    },
+    {
+      "analytic_remainder_rule": "exact_binary64_endpoint_to_reduced_dyadic_fraction",
+      "method_id": "binary64_interval_decode_v1",
+      "precision_bits": 53,
+      "rounding_mode": "stored_outward_endpoints",
+      "special_function_backend_and_version": "IEEE_754_binary64"
+    },
+    {
+      "analytic_remainder_rule": "exact_Fraction_partition_and_expression_DAG",
+      "method_id": "exact_rational_tensor_factorization_v1",
+      "precision_bits": "unbounded_integer_fraction",
+      "rounding_mode": "exact",
+      "special_function_backend_and_version": "Python_Fraction_3.12"
+    }
+  ],
+  "schema": "encounter_continuum_c1_c2_fixed_row_outward_method_registry_v1",
+  "status": "FROZEN_RESULT_BLIND_METHOD_REGISTRY_ONLY_NO_ACCEPTANCE"
+}

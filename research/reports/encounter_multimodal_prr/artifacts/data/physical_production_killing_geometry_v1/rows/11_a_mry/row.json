@@ -1,0 +1,314 @@
+{
+  "configuration_index": 11,
+  "configuration_label": "A_MRY",
+  "contact_fraction_relative": {
+    "active_cell_count": 421,
+    "area_enclosure_exact": {
+      "lower_exact": "54734263504126117171434633415644755069/680564733841876926926749214863536422912",
+      "upper_exact": "54734263504126485343552247358050940143/680564733841876926926749214863536422912"
+    },
+    "file": {
+      "byte_length": 264192,
+      "path": "rows/11_a_mry/contact_fraction_relative.be64",
+      "sha256": "6ac56a401d6aab5f32c903defde19b00f1e50cba19810f6ed2352f475b815569"
+    },
+    "full_cell_count": 317,
+    "manifest": {
+      "byte_order": "big",
+      "logical_shape": [
+        129,
+        128
+      ],
+      "raw_byte_length": 264192,
+      "raw_sha256": "6ac56a401d6aab5f32c903defde19b00f1e50cba19810f6ed2352f475b815569",
+      "record_count": 16512,
+      "record_format": ">dd",
+      "role": "physical_contact_fraction_relative",
+      "schema": "encounter_big_endian_binary64_interval_file_v1"
+    },
+    "quality_ledger": {
+      "aggregate_contains_analytic_enclosure": true,
+      "aggregate_width_exact": "184086058806971203092537/340282366920938463463374607431768211456",
+      "aggregate_width_over_radius_squared_cap_exact": "1/10000000000",
+      "aggregate_width_over_radius_squared_exact": "184086058806971203092537/8711228593176025027340135834642022400",
+      "analytic_area_enclosure_exact": {
+        "lower_exact": "2897607783230849/36028797018963968",
+        "upper_exact": "5795215566461699/72057594037927936"
+      },
+      "analytic_area_precision_bits": 256,
+      "analytic_width_exact": "1/72057594037927936",
+      "analytic_width_over_radius_squared_cap_exact": "1/1000000000000",
+      "analytic_width_over_radius_squared_exact": "18014398509481984/33230699894622898206100982035225",
+      "backend": "gmpy2_mpfr_same_backend_as_producer_core",
+      "independent_backend": false,
+      "separately_directed_formula": "pi*radius_exact^2"
+    },
+    "relation_sha256": "29512ce0743fced055db69ba65a7f85a551c6773513a51987d017354816562ba"
+  },
+  "expected_states": 2130048,
+  "factorization_contract_sha256": "de42fefbfc163fdcffd573d49d1156d761341c78b3756903755579dc8e9b23af",
+  "flags": {
+    "authorizes_scientific_execution": false,
+    "concrete_killing_constructed": false,
+    "contact_fraction_geometry_producer_consistent": true,
+    "contains_budget_value": false,
+    "contains_control_values": false,
+    "continuum_verified": false,
+    "f0_pass": false,
+    "full_operator_bound": false,
+    "independent_killing_geometry_replay": false,
+    "killing_geometry_bound": true,
+    "positive_budget_executed": false,
+    "producer_consistent_control_free_killing_geometry": true,
+    "production_resource_gate": false,
+    "propagation_executed": false,
+    "same_core_producer_consistency_only": true,
+    "science_executed": false,
+    "single_physical_operator_bound": false,
+    "support_density_basis_producer_consistent": true,
+    "topology_complete": false
+  },
+  "gates": {
+    "analytic_disk_area_anchor_is_contained_and_quality_capped": true,
+    "contact_area_enclosure_is_positive_and_domain_bounded": true,
+    "contact_area_overlaps_direct_core_domain_enclosure": true,
+    "contact_fraction_intervals_are_canonical_and_in_unit_range": true,
+    "geometrically_full_contact_cells_are_exact_unit_intervals": true,
+    "partition_bytes_match_same_core_exact_reconstruction": true,
+    "support_centres_are_strictly_distinct_and_pairwise_disjoint": true,
+    "support_density_intervals_are_canonical_and_nonnegative": true,
+    "support_integral_enclosures_contain_analytic_unit_mass": true,
+    "support_integral_widths_pass_predeclared_cap": true,
+    "support_ranges_are_strictly_inside_midpoint_domain": true
+  },
+  "partition_source": {
+    "bundle_manifest_sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e",
+    "bundle_row_manifest": {
+      "byte_length": 12010,
+      "path": "rows/11_a_mry/row.json",
+      "sha256": "c24b12dd924facd095ecca5baae6fa7bb33252f3282d7ae4c41f35ef240efa12"
+    },
+    "bundle_row_relation_sha256": "1bce20f1e1b34b65e5bf73794dba6fd638a61d4638da21a6426a9afd01b89326",
+    "partitions": [
+      {
+        "axis_relation_sha256": "3dc0fdfce75cb89c2ab36ace6f2ff7057e49506dc8d48a470b7ff25f2aded442",
+        "coordinate": "midpoint",
+        "file": {
+          "byte_length": 27835,
+          "path": "rows/11_a_mry/midpoint.partition.json",
+          "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a"
+        }
+      },
+      {
+        "axis_relation_sha256": "c726a4b2b7d6f7aa9c5b0eb43c322c41b6ce5847847a9b2234a7d66a78851dbd",
+        "coordinate": "relative_parallel",
+        "file": {
+          "byte_length": 28070,
+          "path": "rows/11_a_mry/relative_parallel.partition.json",
+          "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61"
+        }
+      },
+      {
+        "axis_relation_sha256": "43d9867ae664d0c9ac9f2fc29bf626e7031e3679b77919b38c27ba7ca9410ac6",
+        "coordinate": "relative_perpendicular",
+        "file": {
+          "byte_length": 12184,
+          "path": "rows/11_a_mry/relative_perpendicular.partition.json",
+          "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550"
+        }
+      }
+    ]
+  },
+  "row_relation_sha256": "9ad8543994c360fffcef230ad038f446b1bf28250e56989fd222fe2c925e9a44",
+  "schema": "encounter_control_free_production_killing_geometry_row_v1",
+  "shape": [
+    129,
+    129,
+    128
+  ],
+  "source_pins": {
+    "configuration": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "f0_core": {
+      "path": "code/rate_defined_tensor_f0.py",
+      "sha256": "321f12aa8a5df44ca9c9162704cccd0f2c526abf9577832b4824538b0afdb8e5"
+    },
+    "killing_geometry_source": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    "partition_bundle_manifest": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    "producer": {
+      "path": "code/rate_defined_tensor_f0_production_killing_geometry.py",
+      "sha256": "2cada45143914edf1142daf6a5b7a8b5367757c664855dd6d836e7f43935dd9b"
+    },
+    "production_initial_stream": {
+      "path": "code/rate_defined_tensor_f0_production_initial_stream.py",
+      "sha256": "2871976855a0c598b26b8d83b33f4ea3a027a2c826ccdb2ad9b678761093e6cb"
+    }
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NO_CONCRETE_KILLING_NOT_FULL_OPERATOR_NOT_F0",
+  "support_densities": [
+    {
+      "centre_binary64_hex": "0x1.6666666666666p-2",
+      "centre_exact": "3152519739159347/9007199254740992",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/11_a_mry/midpoint_support_density_00.be64",
+        "sha256": "53b6a7647c86e326e5fa207fae77ad73fed45036c1f61959bb576af554504dca"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "20769187434134655734949440615195807/20769187434139310514121985316880384",
+        "upper_exact": "20769187434143964375439480247946475/20769187434139310514121985316880384"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "53b6a7647c86e326e5fa207fae77ad73fed45036c1f61959bb576af554504dca",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_00",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 0,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "2327160122509908187667/5192296858534827628530496329220096",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "44675708303515317/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "56204923349583787/144115188075855872"
+      },
+      "relation_sha256": "be46a6ca23977690fc7970635616924aa7830cf64000b8b5709063b58a5be38f"
+    },
+    {
+      "centre_binary64_hex": "0x1.3333333333333p-1",
+      "centre_exact": "5404319552844595/9007199254740992",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/11_a_mry/midpoint_support_density_01.be64",
+        "sha256": "06fd5419de7955eecc76862c3ec3fb4d2bd191d03b627dccfda0534dcf887e90"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "21267647932553885186473911683907020981/21267647932558653966460912964485513216",
+        "upper_exact": "10633823966281710097514677039476746067/10633823966279326983230456482242756608"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "06fd5419de7955eecc76862c3ec3fb4d2bd191d03b627dccfda0534dcf887e90",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_01",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 1,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "9535008555442395046471153/21267647932558653966460912964485513216",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "80704505322479285/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "92233720368547755/144115188075855872"
+      },
+      "relation_sha256": "bebf79a3b54f745b3b041e6bc9fdb113f777e3dc86adfc54badd8b7054b7ae63"
+    },
+    {
+      "centre_binary64_hex": "0x1.8000000000000p-1",
+      "centre_exact": "3/4",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/11_a_mry/midpoint_support_density_02.be64",
+        "sha256": "74c71316eff3b0904d499f3b85e7dd5aeb9f62932a02cc30cf3befef2d6d6931"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "40564819207294246868564084652447/40564819207303340847894502572032",
+        "upper_exact": "649037107316998831317097717837925/649037107316853453566312041152512"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "74c71316eff3b0904d499f3b85e7dd5aeb9f62932a02cc30cf3befef2d6d6931",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_02",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 2,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "290881420072363398773/649037107316853453566312041152512",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "102321783533857669/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "113850998579926139/144115188075855872"
+      },
+      "relation_sha256": "195aa5635d456c9de458854ca755b55be83eb151570b2f98d48cd6c8643a270a"
+    },
+    {
+      "centre_binary64_hex": "0x1.ccccccccccccdp-1",
+      "centre_exact": "8106479329266893/9007199254740992",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/11_a_mry/midpoint_support_density_03.be64",
+        "sha256": "cfb6b1d62928d506f93da2f45f1a2bd3b7b9d2184b20cd7939f4ecddcd1e187d"
+      },
+      "half_width_binary64_hex": "0x1.47ae147ae147bp-5",
+      "half_width_exact": "5764607523034235/144115188075855872",
+      "integral_enclosure_exact": {
+        "lower_exact": "324518553658354225573831940387689/324518553658426726783156020576256",
+        "upper_exact": "22835963083300475939484652635114942386470337493/22835963083295358096932575511191922182123945984"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "cfb6b1d62928d506f93da2f45f1a2bd3b7b9d2184b20cd7939f4ecddcd1e187d",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "physical_midpoint_support_density_03",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      },
+      "profile_index": 3,
+      "quality_ledger": {
+        "analytic_mass_exact": "1/1",
+        "integral_width_cap_exact": "1/10000000000",
+        "integral_width_exact": "10219661603574590601116536815958997/22835963083295358096932575511191922182123945984",
+        "midpoint_domain_lower_exact": "-1/4",
+        "midpoint_domain_upper_exact": "4165829655317709/2251799813685248",
+        "support_lower_exact": "123939061745236053/144115188075855872",
+        "support_strictly_inside_midpoint_domain": true,
+        "support_upper_exact": "135468276791304523/144115188075855872"
+      },
+      "relation_sha256": "f470c93dac3ba72a9f0743040936b9f35116d98c22f78437ff274acae2ee0155"
+    }
+  ]
+}

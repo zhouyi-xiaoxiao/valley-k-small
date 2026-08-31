@@ -1,0 +1,70 @@
+{
+  "classifier_spec": {
+    "claim_boundary": "exact finite-state sensitivity identity with numerical cross-checks",
+    "exact_gradient": "basis Frechet derivatives",
+    "held_out_check": "256 budget-zero directions with five-point finite differences",
+    "independent_kernel": "Duhamel convolution with 160-point Gauss-Legendre quadrature",
+    "optimization_check": "closed form versus 20000 random feasible directions"
+  },
+  "classifier_spec_sha256": "d9306354bf7aee93e5beeb259f18ff8cd23605644cf918d962579934a8b85bdb",
+  "command": [
+    "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python3",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_modality_susceptibility.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:43:13.627342+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_modality_susceptibility.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "encounter_fold_time": 37.074958640153255,
+    "finite_ctmc_time": 1.37
+  },
+  "inputs": [],
+  "model_spec": {
+    "budget_constraint": "c^T h=0",
+    "design_target": "directional derivative of f_t",
+    "encounter_application": "two reactive states at the saved finite CTMC fold",
+    "finite_state_density": "f(t;k)=alpha exp((L-diag(k))t) k",
+    "local_metric_constraint": "h^T M h=1",
+    "seed": 20260713
+  },
+  "model_spec_sha256": "a5c984dd1b1050e8d5ea3942f4d08410efeeed26b6141e954af08623f06aa739",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/modality_susceptibility_summary.json",
+      "sha256": "b97b79cd25c7b422b75271ea4fd88cf89dd2333e8e87cb53961b9bfa3bf4e36a"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/modality_susceptibility_directions.csv",
+      "sha256": "554abcd2736afd2c0b39a4efeb515a534a78dd2f0ebcf1d2903c705b20e59a5f"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_modality_susceptibility.py",
+      "sha256": "a97a1e50e25545cdedb3f64427353e4f80ddf422b9cd398afeb60c0dca7aec1a"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_gig_fold.py",
+      "sha256": "4d9673204be28dbc66c015abb65e583b6b5b4bbcc46606999fc373eab619f679"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/modality_susceptibility.md",
+      "sha256": "053e34254cc0aa2fa88ad3858c9f5ce058223e7b114dbdb634ee22f9536aa47b"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

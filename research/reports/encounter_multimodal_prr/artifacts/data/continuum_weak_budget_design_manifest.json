@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "stage": "G1w_result_informed_weak_budget_design_diagnostic",
+  "status": "RESULT_INFORMED_REPRODUCTION_FROZEN_AFTER_SCRATCH",
+  "date_frozen": "2026-07-13",
+  "evidence_timing": "RESULT_INFORMED_REPRODUCTION_NOT_PREREGISTERED_DISCOVERY",
+  "claim_scope": "Reproduce a B=0 first-exposure cusp in the fixed finite-volume quotient and screen its 0.01 catalyst-weight simplex; this is a design diagnostic for a future B-to-zero theorem, not finite-B Doi or continuum evidence",
+  "known_before_freeze": {
+    "current_geometry_scratch_candidate": {
+      "cusp_time_approx": 9.4478,
+      "weights_approx": [0.3441, 0.2642, 0.3916],
+      "simplex_maximum_mode_count_approx": 2
+    },
+    "geometry_redesign_scratch_excluded_from_artifact_claim": {
+      "patch_centres_example": [0.37, 0.61, 0.85],
+      "patch_half_widths": [0.08, 0.08, 0.08],
+      "cusp_time_approx": 8.6926,
+      "weights_approx": [0.29567, 0.32615, 0.37818],
+      "unfolding_svd_ratio_approx": 0.2746,
+      "observed_scratch_structure": "one remote maximum plus a local cusp-created max-min-max triple, suggesting a trimodal wedge",
+      "evidence_status": "UNFROZEN_RESULT_INFORMED_SCRATCH_REQUIRES_SEPARATE_GEOMETRY_DESIGN_STUDY"
+    }
+  },
+  "required_inputs": {
+    "g1a_foundation": {
+      "artifact": "artifacts/data/continuum_g1_smoke.json",
+      "artifact_sha256": "a0a1894dbe6dd37bad6973ca6f3dd29b651441f7b911a5406186bb86a18fd3c3",
+      "producer_code": "code/continuum_g1_smoke.py",
+      "producer_code_sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701",
+      "required_status": "PASS",
+      "required_stage": "G1a_pre_fold_foundations",
+      "required_continuum_verified": false
+    }
+  },
+  "physical_model": {
+    "parameter_source": "code/continuum_g1_smoke.py:PilotParameters",
+    "patch_centres": [0.48, 0.67, 0.86],
+    "patch_half_widths": [0.08, 0.08, 0.08],
+    "installed_budget_limit": 0.0,
+    "observable": "first derivative at B=0 of the Doi density with respect to full installed budget B",
+    "factorization": "h_j(t)=a_j(t)c(t) for the discrete free midpoint/relative Kronecker sum"
+  },
+  "design_mesh": {
+    "midpoint_cells": 65,
+    "relative_parallel_cells": 65,
+    "relative_perp_cells": 49,
+    "state_count_if_formed": 207025
+  },
+  "cusp_reproduction": {
+    "determinant_bracket": [9.0, 10.0],
+    "determinant_rows": [1, 2, 3],
+    "minimum_weight": 0.05,
+    "maximum_scaled_derivative_residual": 1e-8,
+    "minimum_absolute_scaled_fourth_derivative": 0.05,
+    "minimum_dimensionless_unfolding_svd_ratio": 0.05
+  },
+  "normal_form_inward_check": {
+    "control_coordinates": "(w_left,w_middle), with w_right=1-w_left-w_middle",
+    "direction_rule": "unit vector perpendicular to the first unfolding row, signed so its second-row projection has sign opposite to f_tttt/6",
+    "step": 0.005,
+    "local_time_half_width": 3.0,
+    "expected_local_stationary_roots": 3,
+    "expected_local_topology": ["maximum", "minimum", "maximum"]
+  },
+  "simplex_screen": {
+    "integer_denominator": 100,
+    "spacing": 0.01,
+    "control_count": 5151,
+    "enumeration": "i=0..100, j=0..100-i, k=100-i-j, weights=(i,j,k)/100",
+    "time_start": 0.0,
+    "time_stop": 80.0,
+    "time_spacing": 0.01,
+    "time_points": 8001,
+    "chunk_points": 201,
+    "minimum_mode_analysis_time": 0.5,
+    "relative_density_floor": 1e-12,
+    "derivative_zero_relative_tolerance": 5e-13,
+    "expected_maximum_mode_count": 2,
+    "interpretation": "finite sampled screen only; no interval-exhaustive assertion and no trimodality claim"
+  },
+  "full_kronecker_reference": {
+    "mesh": {
+      "midpoint_cells": 17,
+      "relative_parallel_cells": 19,
+      "relative_perp_cells": 13,
+      "state_count": 4199
+    },
+    "times": [0.0, 1.0, 5.0, 10.0],
+    "derivative_orders": [0, 1, 2, 3, 4],
+    "maximum_scaled_absolute_difference": 2e-10
+  },
+  "required_claim_flags": {
+    "continuum_verified": false,
+    "project_gate_passed": false,
+    "finite_B_Doi_cusp_verified": false
+  },
+  "protocol_note": "notes/weak_budget_design_protocol.md",
+  "required_runtime": "repository .venv"
+}

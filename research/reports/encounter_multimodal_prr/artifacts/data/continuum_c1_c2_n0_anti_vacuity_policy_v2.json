@@ -1,0 +1,67 @@
+{
+  "claim_boundary": {
+    "complete_C1": false,
+    "complete_C2": false,
+    "formal_production_bridge_accepted": false,
+    "release_eligible": false
+  },
+  "join_requirements": {
+    "axis_order_exact": [
+      "midpoint",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "axis_partition_path_sha_cell_count_equal": true,
+    "cell_indices_contiguous_and_unique": true,
+    "configuration_count_exactly_12": true,
+    "configuration_index_and_label_unique": true,
+    "edge_key": [
+      "edge_index",
+      "left_cell_index",
+      "right_cell_index"
+    ],
+    "edge_keys_unique": true,
+    "killing_partition_path_sha_equal": true,
+    "profile_index_order_exact": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "raw_stationary_member_tuple_equal": true
+  },
+  "ordering": {
+    "current_enclosure_sources_eligible_for_acceptance": false,
+    "future_replay_must_pin_this_exact_policy_sha256": true,
+    "future_replay_required": true,
+    "policy_predecessor_order_independently_sealed": false,
+    "retroactive_acceptance_authorized": false,
+    "this_policy_externally_sealed_before_current_enclosures": false,
+    "timestamp_ordering_is_sufficient": false
+  },
+  "requirements": {
+    "all_box_mass_and_gauge_denominator_lowers_strictly_positive": true,
+    "all_common_flux_forward_reverse_intersections_nonempty": true,
+    "all_formula_values_contained_by_saved_raw_intervals": true,
+    "all_map_ratio_interval_lowers_strictly_positive": true,
+    "every_configuration_and_axis_present_exactly_once": true,
+    "maximum_gauge_relative_width": "1/1099511627776",
+    "maximum_map_anchor_constant": "1000000/1",
+    "maximum_reconstructed_killing_anchor_constant": "1000000/1",
+    "maximum_reference_cell_mass_relative_width": "1/1099511627776",
+    "maximum_stationary_axis_relative_width": "1/1099511627776",
+    "minimum_configuration_count": 12
+  },
+  "schema": "encounter_continuum_c1_c2_n0_anti_vacuity_policy_v2",
+  "source_pins": {
+    "legacy_policy": {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_anti_vacuity_policy_v1.json",
+      "sha256": "c8b9f3aca2b3a516935eeb1fdfb2bf542ba0da2d12ae4c11581f6f1ee607f628"
+    },
+    "member_spec_v2": {
+      "path": "artifacts/data/continuum_c1_c2_n0_member_spec_v2.json",
+      "sha256": "cbf967d795648fe5c433ed827d1365e70b84ff1a2444811e3a14244abedadc21"
+    }
+  },
+  "status": "FROZEN_PREFLIGHT_JOIN_POLICY_NOT_PREDECESSOR_SEALED_CURRENT_SOURCES_INELIGIBLE"
+}

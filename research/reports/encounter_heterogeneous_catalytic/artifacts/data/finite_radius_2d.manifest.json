@@ -1,0 +1,189 @@
+{
+  "classifier_spec": {
+    "bin_offsets": [],
+    "bin_widths": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "expected_total_mass": 1.0,
+    "mass_tolerance": 0.02,
+    "max_r_valley": 0.8,
+    "min_lobe_mass_rel": 0.01,
+    "min_peak_height": 0.0,
+    "min_peak_height_rel": 0.03,
+    "min_peak_separation_bins": 5,
+    "min_peak_separation_time": 0.0,
+    "min_peak_separation_widths": 1.0,
+    "min_persistence": 0.5,
+    "min_prominence": 0.0,
+    "min_prominence_rel": 0.015,
+    "min_r_peak": 0.05,
+    "min_valley_width_bins": 1,
+    "min_valley_width_time": 0.0,
+    "parity_imbalance_threshold": 0.85,
+    "parity_min_comb_peaks": 4,
+    "persistence_match_bins": 3,
+    "persistence_match_time": 0.0,
+    "poisson_grid_points": 4097,
+    "poisson_index_origin": 0,
+    "poisson_mass_tolerance": 0.005,
+    "poisson_rate": 1.0,
+    "poisson_t_max": null,
+    "poissonize": false,
+    "reject_parity_comb": true,
+    "require_poisson_quality": true,
+    "smoothing_windows": [
+      1,
+      3,
+      5,
+      9,
+      15
+    ],
+    "tail_window": 12,
+    "weak_threshold_factor": 0.5
+  },
+  "classifier_spec_sha256": "76324be61e34130e40968531bd43297d8345da32427e5ffeed6de594c3d0195e",
+  "command": [
+    "python",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_finite_radius.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:45:27.370615+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_finite_radius.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "publication_tail_tolerance": 1e-07,
+    "shape_dt": 0.1,
+    "shape_tmax": 80.0,
+    "tail_check_time": 240.0
+  },
+  "inputs": [],
+  "model_spec": {
+    "boundary": "reflecting by omitted outward CTMC jumps",
+    "branch_id": "separated_boundary",
+    "catalytic_coordinate": "arithmetic midpoint C_eta with eta=0.5",
+    "domain": [
+      1.0,
+      1.0
+    ],
+    "evidence_relationship": "four-grid audit of the M2D-C separated-boundary branch; the 11x7 curve is reused in the mechanism-control artifact and is not independent evidence",
+    "family_id": "M2D-C",
+    "grids": [
+      [
+        9,
+        5
+      ],
+      [
+        11,
+        7
+      ],
+      [
+        13,
+        9
+      ],
+      [
+        15,
+        11
+      ]
+    ],
+    "initial_distribution": "hierarchical contact-safe selector: minimum physical Euclidean spread on the smallest feasible local stencil, followed by a strictly convex closest-to-product QP on the optimal LP face; exact product-bilinear return when already contact-safe",
+    "patches": [
+      {
+        "centre": [
+          0.28,
+          0.5
+        ],
+        "label": "near",
+        "radius": 0.12,
+        "reaction_rate": 0.2
+      },
+      {
+        "centre": [
+          0.9,
+          0.5
+        ],
+        "label": "far",
+        "radius": 0.2,
+        "reaction_rate": 4.0
+      }
+    ],
+    "reaction_model": "finite-radius Doi volume sink",
+    "reaction_radius": 0.13,
+    "start_one": [
+      0.1,
+      0.5
+    ],
+    "start_two": [
+      0.35,
+      0.5
+    ],
+    "walker_one": {
+      "diffusion": 0.0025,
+      "drift_x": 0.18,
+      "transverse_confinement": 1.5
+    },
+    "walker_two": {
+      "diffusion": 0.0008,
+      "drift_x": 0.02,
+      "transverse_confinement": 1.5
+    }
+  },
+  "model_spec_sha256": "0269db97da6e5e87b55e8a83b79bb81c8f9206d39058cfd62e3638ea9bfbd383",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_metrics.json",
+      "sha256": "f4651166e7b31cea8a60de6c4409fd942df6491b6546f2a392317a697333e1a5"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_metrics.csv",
+      "sha256": "62ab5dc1864aadea395e1ea19c4a56fd4e84fbbbd1ea5d81140b5f186c462c72"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_series.npz",
+      "sha256": "3e3c82452c2d0299048fbb3a07ffc729d3419c700fcb91b4ee4523a61685d6a5"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_validation.pdf",
+      "sha256": "1e04a630e3cc16179b764648dd3c8918cf37a34f76a7165c2d9801ac4bee5b60"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_validation.png",
+      "sha256": "399293222a4ae539a3670f7e8c29b5cd82a4b5e5cb1e3c768dcece8a4257aa06"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_finite_radius.py",
+      "sha256": "427ffe8b5a4ef53d94d91cc2e4fd47ca4852a72f4ea470d0a0704361d6c52602"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/encounter2d.py",
+      "sha256": "43d5b8174c50b625d33b0fb030d238ebe9d7d985197ecb9d0f1319359ce6b650"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/morphology.py",
+      "sha256": "fe0bffe48b8f1ef345c333898f5bb698d8db95cde3c31d9fbd8c852c75ad4ea2"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "b397bbbdee40a96f8462cf442c1539810f834d8bd1d579ee86ad53fc6ff783b0"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

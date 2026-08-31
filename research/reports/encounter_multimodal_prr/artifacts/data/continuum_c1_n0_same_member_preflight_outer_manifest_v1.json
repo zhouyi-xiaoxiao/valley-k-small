@@ -1,0 +1,489 @@
+{
+  "claim_boundary": {
+    "complete_process_report_file_open_closure": false,
+    "formal_outer_open_operation_model_present": false,
+    "outer_manifest_authorizes_itself": false,
+    "production_payload_roles_1_through_11_formally_bound": false,
+    "source_dependency_dag_complete": false,
+    "symbolic_bridge_accepted": false
+  },
+  "forbidden_selected_roles": {
+    "budget_value_sources": [],
+    "control_value_sources": [],
+    "result_or_scratch_sources": []
+  },
+  "preflight_role_catalog": {
+    "preflight_role_catalog_cardinality_11": true,
+    "primitive_sources": [
+      {
+        "path": "artifacts/data/continuum_c1_reference_density_source_v1.json",
+        "role": "reference_density_source",
+        "schema": "encounter_continuum_c1_reference_density_source_v1",
+        "sha256": "7b890d727ad0b229557de1841ae82befb8d8f83e79edc6b5348b277c3024e575"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_ideal_formula_source_v1.json",
+        "role": "ideal_formula_source",
+        "schema": "encounter_continuum_c1_ideal_formula_source_v1",
+        "sha256": "f31b637b659483102d787da7263cd45c72829b3fce3df2ff9100066dec94c2be"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_factorization_source_v1.json",
+        "role": "factorization_source",
+        "schema": "encounter_continuum_c1_factorization_source_v1",
+        "sha256": "70cb49e63c496d489887c764c812671b03a7352d5752f6663c377734739a1dca"
+      },
+      {
+        "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+        "role": "configuration_source",
+        "schema": "encounter_physical_configuration_family_control_free_v1",
+        "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_c2_n0_member_spec_v2.json",
+        "role": "member_spec_manifest",
+        "schema": "encounter_continuum_c1_c2_n0_member_spec_v2",
+        "sha256": "cbf967d795648fe5c433ed827d1365e70b84ff1a2444811e3a14244abedadc21"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_c2_fixed_row_outward_method_registry_v1.json",
+        "role": "outward_method_registry_source",
+        "schema": "encounter_continuum_c1_c2_fixed_row_outward_method_registry_v1",
+        "sha256": "ac00450edf826029b157a98ad2835592630c07b2a75334c25d8d1232a4fe69c3"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_c2_n0_anti_vacuity_policy_v2.json",
+        "role": "anti_vacuity_policy_source",
+        "schema": "encounter_continuum_c1_c2_n0_anti_vacuity_policy_v2",
+        "sha256": "7e36369a9a1e22aa9c2c256ff8eaa4a0c8bf973316e2b6265247c8beff4ddb13"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_fixed_row_raw_flux_source_v1.json",
+        "role": "raw_axis_enclosure_source",
+        "schema": "encounter_continuum_c1_fixed_row_raw_flux_source_v1",
+        "sha256": "04fee91f8708d90febc23e1f1ee4cfc1cb4800b9e35980eb99006fad327b40f3"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_stationary_integral_source_v1.json",
+        "role": "stationary_integral_source",
+        "schema": "encounter_continuum_c1_stationary_integral_source_v1",
+        "sha256": "03db61b4aa9c2b7a4ab2fd78c86fbbf90dd1548657c615d91c1526ae3ed77212"
+      },
+      {
+        "path": "artifacts/data/physical_production_killing_geometry_v1/bundle.json",
+        "role": "killing_geometry_source",
+        "schema": "encounter_control_free_production_killing_geometry_v1",
+        "sha256": "f29c29360f3d7db58694aeaeddc7cae8e1eaaac25d8ce6d5792a9ebacf455684"
+      },
+      {
+        "path": "artifacts/data/continuum_c1_symbolic_control_method_source_v1.json",
+        "role": "symbolic_control_method_source",
+        "schema": "encounter_continuum_c1_symbolic_control_method_source_v1",
+        "sha256": "fd6edf9046956d311366ff51f229523ab605d80073515b9768d5fa5cafa8904f"
+      }
+    ]
+  },
+  "preflight_subordinate_inventory": [
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/midpoint.partition.json",
+      "role": "initial_partition_00_midpoint",
+      "sha256": "f36127a87a19a13df6108a527a2285361be082ca81f2184e68c3c47655e7ca94"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_parallel.partition.json",
+      "role": "initial_partition_00_relative_parallel",
+      "sha256": "318ee1287c419f8ed91e19e4426657e2ec28d4e367859f71373061ada7382424"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/00_o113_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_00_relative_perpendicular",
+      "sha256": "66f21ab3a8314dbede0f1aac6cd0bbba0738d22f75f8a7334bd79463a204d9d8"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/midpoint.partition.json",
+      "role": "initial_partition_01_midpoint",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_parallel.partition.json",
+      "role": "initial_partition_01_relative_parallel",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/01_e128_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_01_relative_perpendicular",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/midpoint.partition.json",
+      "role": "initial_partition_02_midpoint",
+      "sha256": "01fd7ebcc9735870dcc083dd49206bf509b60b34d861c9bff7e9556f0c012e7b"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_parallel.partition.json",
+      "role": "initial_partition_02_relative_parallel",
+      "sha256": "95df8fa2e5113047035d1429d13ae60402c4e77bce9a452e924c5d2b0c71d226"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/02_o129_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_02_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/midpoint.partition.json",
+      "role": "initial_partition_03_midpoint",
+      "sha256": "f720e9cec6f231a2dc064a188923490b0ddb307a357ad5f647e185da9ced2716"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_parallel.partition.json",
+      "role": "initial_partition_03_relative_parallel",
+      "sha256": "294d3964773e8b2eb1912824eb086fa86e4178fdce16b5035ce10560749e48cd"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/03_o161_base/relative_perpendicular.partition.json",
+      "role": "initial_partition_03_relative_perpendicular",
+      "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/midpoint.partition.json",
+      "role": "initial_partition_04_midpoint",
+      "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_parallel.partition.json",
+      "role": "initial_partition_04_relative_parallel",
+      "sha256": "95df8fa2e5113047035d1429d13ae60402c4e77bce9a452e924c5d2b0c71d226"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/04_m_plus/relative_perpendicular.partition.json",
+      "role": "initial_partition_04_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/midpoint.partition.json",
+      "role": "initial_partition_05_midpoint",
+      "sha256": "01fd7ebcc9735870dcc083dd49206bf509b60b34d861c9bff7e9556f0c012e7b"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_parallel.partition.json",
+      "role": "initial_partition_05_relative_parallel",
+      "sha256": "28faea90b701a889d43293c1a7d17e008356d1598117562498bf781eb6fc641d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/05_r_plus/relative_perpendicular.partition.json",
+      "role": "initial_partition_05_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/midpoint.partition.json",
+      "role": "initial_partition_06_midpoint",
+      "sha256": "d3b95b5a995300cf1de3c84b8b738ee7306d9a7b22e199ce7c6a95de6a8ea714"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_parallel.partition.json",
+      "role": "initial_partition_06_relative_parallel",
+      "sha256": "28faea90b701a889d43293c1a7d17e008356d1598117562498bf781eb6fc641d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/06_mr_plus/relative_perpendicular.partition.json",
+      "role": "initial_partition_06_relative_perpendicular",
+      "sha256": "6d647366653cb9b56601211c1e1674d75be44ef2a0d57b5ec50db25d17b7f81f"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/midpoint.partition.json",
+      "role": "initial_partition_07_midpoint",
+      "sha256": "b2ccec4070f1ce541d6559bfb3e79fac3c3deb561a15e627d8353856540c99b6"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_parallel.partition.json",
+      "role": "initial_partition_07_relative_parallel",
+      "sha256": "2e03048c7ed614d6cd3f76df1ccabde6e2c883b0a6a471d2c1ad5b696db80bed"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/07_mr_plusf/relative_perpendicular.partition.json",
+      "role": "initial_partition_07_relative_perpendicular",
+      "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/midpoint.partition.json",
+      "role": "initial_partition_08_midpoint",
+      "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_parallel.partition.json",
+      "role": "initial_partition_08_relative_parallel",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/08_a_m/relative_perpendicular.partition.json",
+      "role": "initial_partition_08_relative_perpendicular",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/midpoint.partition.json",
+      "role": "initial_partition_09_midpoint",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_parallel.partition.json",
+      "role": "initial_partition_09_relative_parallel",
+      "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/09_a_r/relative_perpendicular.partition.json",
+      "role": "initial_partition_09_relative_perpendicular",
+      "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/midpoint.partition.json",
+      "role": "initial_partition_10_midpoint",
+      "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_parallel.partition.json",
+      "role": "initial_partition_10_relative_parallel",
+      "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/10_a_y/relative_perpendicular.partition.json",
+      "role": "initial_partition_10_relative_perpendicular",
+      "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/midpoint.partition.json",
+      "role": "initial_partition_11_midpoint",
+      "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_parallel.partition.json",
+      "role": "initial_partition_11_relative_parallel",
+      "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/rows/11_a_mry/relative_perpendicular.partition.json",
+      "role": "initial_partition_11_relative_perpendicular",
+      "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/00_o113_base/row.json",
+      "role": "killing_row_00",
+      "sha256": "63ccb3bc7a339c29bebf5609b699c203ba931844ffdf7d31e675af557589b55a"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/01_e128_base/row.json",
+      "role": "killing_row_01",
+      "sha256": "b72175e11e9732cbbb1f31f987996b2b72c0085dce512cea846ff3b7dd40e830"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/02_o129_base/row.json",
+      "role": "killing_row_02",
+      "sha256": "73390a943f5742b2f739e5b423750686781c99e625c649ac82413c4ebdb03dd9"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/03_o161_base/row.json",
+      "role": "killing_row_03",
+      "sha256": "f281c4c2809b9e390ba2e6a64d00b98cdba824a18a89f238f1de73c04f40190e"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/04_m_plus/row.json",
+      "role": "killing_row_04",
+      "sha256": "247af2f32f4b9a848b40e03e6c534823be39e35f5ae05d547d169b933603370a"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/05_r_plus/row.json",
+      "role": "killing_row_05",
+      "sha256": "2416a1e68692f5e66c38b348824387b5e7b297e9c2d67e6437d6ae2db6875a2d"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/06_mr_plus/row.json",
+      "role": "killing_row_06",
+      "sha256": "26908eda7f88b497791226f33e4d62d32da9757289b75426d690f605e0bd7ca4"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/07_mr_plusf/row.json",
+      "role": "killing_row_07",
+      "sha256": "584347b06bab8934b058bfe5c725fcb87a7ba9549fc15fcf64cf21582632dc62"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/08_a_m/row.json",
+      "role": "killing_row_08",
+      "sha256": "3f07f484a5068bdd5a178ede27fbeb4cf6aef0a72eaa1410033e1425b5dfe8af"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/09_a_r/row.json",
+      "role": "killing_row_09",
+      "sha256": "7618da58dde7beb9104f93cd447d9fe2b2353593336cba91b62d06022fbd3243"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/10_a_y/row.json",
+      "role": "killing_row_10",
+      "sha256": "985d27292bd49707d9f89e93df65a8d468c5264e94d30be75fcb2859884b6dac"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_v1/rows/11_a_mry/row.json",
+      "role": "killing_row_11",
+      "sha256": "c551c5382a178b2b394622d3f8f4cbb1ad89eb5567a49c1c973a995c5acea3f5"
+    }
+  ],
+  "schema": "encounter_continuum_c1_n0_same_member_preflight_outer_manifest_v1",
+  "source_dependency_dag": {
+    "edges": [
+      [
+        "reference_density_source",
+        "member_spec_manifest"
+      ],
+      [
+        "ideal_formula_source",
+        "member_spec_manifest"
+      ],
+      [
+        "factorization_source",
+        "member_spec_manifest"
+      ],
+      [
+        "configuration_source",
+        "member_spec_manifest"
+      ],
+      [
+        "member_spec_manifest",
+        "anti_vacuity_policy_source"
+      ],
+      [
+        "factorization_source",
+        "symbolic_control_method_source"
+      ]
+    ],
+    "nodes": [
+      "reference_density_source",
+      "ideal_formula_source",
+      "factorization_source",
+      "configuration_source",
+      "member_spec_manifest",
+      "outward_method_registry_source",
+      "anti_vacuity_policy_source",
+      "raw_axis_enclosure_source",
+      "stationary_integral_source",
+      "killing_geometry_source",
+      "symbolic_control_method_source"
+    ],
+    "projection_complete_for_generated_preflight_sources": true,
+    "projection_scope": "generated_member_policy_control_sources_only",
+    "semantic_note": "current roles 8 and 9 bind legacy member spec v1; no invented v2-to-current enclosure dependency edge",
+    "support_dependencies_outside_projection": [
+      [
+        "control_method_commitment",
+        "symbolic_control_method_source"
+      ],
+      [
+        "joint_refinement_family",
+        "member_spec_manifest"
+      ],
+      [
+        "killing_geometry_authority",
+        "symbolic_control_method_source"
+      ],
+      [
+        "legacy_member_spec",
+        "member_spec_manifest"
+      ],
+      [
+        "legacy_policy",
+        "anti_vacuity_policy_source"
+      ]
+    ]
+  },
+  "stage": "production_n0_same_member_symbolic_preflight_only",
+  "status": "PREFLIGHT_CATALOG_ONLY_NO_FORMAL_OUTER_OPEN_AUTHORITY_NO_ACCEPTANCE",
+  "supporting_evidence": [
+    {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_member_spec_v1.json",
+      "role": "legacy_member_spec",
+      "sha256": "e2166e62ae2e5e67a8e3eb058fe4333f59192525ca5614939f417ba285d8d2ef"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_anti_vacuity_policy_v1.json",
+      "role": "legacy_policy",
+      "sha256": "c8b9f3aca2b3a516935eeb1fdfb2bf542ba0da2d12ae4c11581f6f1ee607f628"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_raw_axis_production_binding_v1.json",
+      "role": "raw_axis_binding",
+      "sha256": "7028fecf4538abb1df56f03d8cea01d0ed208a43356cb9b1e24c67fb54d47480"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_stationary_integral_validator_authenticated_outer_receipt_v1.json",
+      "role": "stationary_integral_receipt",
+      "sha256": "26d2b9a3fd49f7f8d4cf893431b1f134c2ae2efae3bf15e1615ca28766603571"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_fixed_row_raw_flux_validator_authenticated_outer_receipt_v1.json",
+      "role": "raw_flux_receipt",
+      "sha256": "44af008a9a86cbb249209dd806fbb2633f4976aae5e5fbf234d55dfa36bad0e2"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_genuine_joint_refinement_family_v2.json",
+      "role": "joint_refinement_family",
+      "sha256": "1f7bc61ac37444c0fdb2c0b74924a4b81ed8e6d6ab70c794ebe3401156b5bee9"
+    },
+    {
+      "path": "artifacts/data/continuum_c0_control_method_commitment_v2.json",
+      "role": "control_method_commitment",
+      "sha256": "288ad85d5992446a8f3b58416e445a88f1c15a4c71114ba008939d8fbd9a4a97"
+    },
+    {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "role": "killing_geometry_authority",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    },
+    {
+      "path": "artifacts/data/continuum_c2_killing_geometry_production_binding_v1.json",
+      "role": "killing_binding_sidecar",
+      "sha256": "fc03f0934defbc515ab2940705abc4c020199dc238b576aca5703bb31287ec27"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "role": "initial_bundle",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1_independent_receipt.json",
+      "role": "initial_independent_receipt",
+      "sha256": "2fb16af6545281f988ddf7527b5e88b46e98ec7e5a05fcbe1bb5bf457c6f9136"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_stream_v1_geometry_receipt.json",
+      "role": "initial_geometry_receipt",
+      "sha256": "3b23c641ce82cb30a2f150d9956b235bca918948a40f57365f866e6aa54959fb"
+    },
+    {
+      "path": "artifacts/data/physical_production_initial_clean_process_replay_v1.json",
+      "role": "initial_clean_replay",
+      "sha256": "e1b25ab5221434e26749e9b2103c04c36e27539a810e2a15c236c1806b333891"
+    },
+    {
+      "path": "artifacts/data/physical_production_killing_geometry_two_repeat_outer_receipt_v1.json",
+      "role": "killing_geometry_receipt",
+      "sha256": "d635dfb7dd24fc15731dfd69e20264a5515c3bf82b92569a58cd2bed3264fcd9"
+    },
+    {
+      "path": "notes/continuum_c1_production_gauge_killing_bridge_design_v1.md",
+      "role": "bridge_design",
+      "sha256": "d23c088f917832bb9d8078a046133556e8ee8547d8a062d3102a922881ba67e4"
+    },
+    {
+      "path": "audits/round_170_production_killing_geometry_two_repeat_outer_replay.md",
+      "role": "round170_audit",
+      "sha256": "a794bbf15b8c46aa1bae69a520a8b641b903ee416dfe2da24facdbfbe0808935"
+    },
+    {
+      "path": "audits/round_171_fixed_row_stationary_raw_flux_authenticated_source_audit.md",
+      "role": "round171_audit",
+      "sha256": "4f906b099778ffa4e676d742189df332931edd31c561957d65bfeac4aaeed2d4"
+    },
+    {
+      "path": "audits/round_172_genuine_joint_refinement_family_v2.md",
+      "role": "round172_audit",
+      "sha256": "90415181c06e94e6dd451b3c9c2a8abb32c4127cc0703976b003e26afd10cad0"
+    }
+  ]
+}

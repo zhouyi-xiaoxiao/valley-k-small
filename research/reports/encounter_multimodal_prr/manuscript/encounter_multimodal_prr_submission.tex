@@ -1,0 +1,235 @@
+\documentclass[aps,physrev,reprint,amsmath,amssymb,longbibliography,floatfix]{revtex4-2}
+
+\ifdefined\pdftrailerid
+  \pdftrailerid{}
+\fi
+
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{bm}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={Prescribed finite-window reaction-time modality by conserved-budget support design},
+  pdfauthor={Xiaoxiao Zhouyi},
+  pdfsubject={Exact finite-modality theorem for Doi encounter reactions},
+  pdfkeywords={encounter reaction, reaction-time density, multimodality, conserved reactivity}
+}
+
+\newcommand{\dd}{\mathrm d}
+\newcommand{\e}{\mathrm e}
+
+\begin{document}
+
+\title{Prescribed finite-window reaction-time modality by conserved-budget support design}
+
+\author{Xiaoxiao Zhouyi}
+\email{xiaoxiao.zhouyi@bristol.ac.uk}
+\affiliation{School of Engineering Mathematics and Technology, University of Bristol,
+Bristol BS8 1TW, United Kingdom}
+
+\date{20 July 2026}
+
+\begin{abstract}
+Can a fixed amount of spatial reactivity be arranged to prescribe the
+finite-window topology of an encounter-reaction-time density?  We answer this
+existence question for a Doi encounter process.  For every fixed finite
+physical dimension \(d\ge2\), prescribed fixed finite integer \(m\), and
+compact family of interior catalyst weights, an \(m\)-dependent design of
+ordered narrow catalyst slabs along a monotone exposure trajectory produces
+exactly \(m\) nondegenerate maxima and \(m-1\) nondegenerate minima on a
+declared compact positive-time window.  A global zero bound for the separated
+Gaussian exposure clocks, a whole-window complement certificate, and
+compact-positive-time mixed-jet convergence transfer the complete stationary
+signature to the positive-budget killed process.  The construction first
+fixes a sufficiently small noise-and-width scale and only then takes a
+sufficiently small installed reactivity budget.  It is deliberately
+nonuniform: the geometry and admissible scales may depend on \(d\) and \(m\),
+and no useful budget threshold, event-mass floor, or stationary-point count
+outside the declared window is obtained.  The theorem therefore establishes
+prescribed finite modality under a conserved spatial resource without
+asserting a particular finite-parameter two-dimensional realization.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+First-passage and reaction-time densities may develop several peaks when
+distinct trajectory families reach a reactive region on separated time
+scales \cite{godecMetzler2017twochannel,
+grebenkovMetzlerOshanin2018defocusing}.  Continuum trap placement can alter
+capture-time topology \cite{lindsaySpoonmoreTzou2016narrow}, and
+two-particle encounter laws in physical dimensions two and three show related
+multirate mechanisms \cite{leVotEtAl2022encounter,giuggioli2020confined,
+giuggioliEtAl2024multitarget}.  Spatially heterogeneous absorption and
+fixed-total-reactivity optimization are also well established
+\cite{nguyenGrebenkov2010porous,grebenkov2019heterogeneous,
+nicolaouMulder2023flux}.  Here we ask a narrower existence question: can the
+finite-window timing topology of a two-particle reaction be prescribed by
+support design while the installed amount of static reactivity remains fixed?
+
+The fact that a univariate mixture of \(m\) Gaussian components has at most
+\(m\) modes is classical \cite{carreiraPerpinanWilliams2003modes,
+amendolaEngstromHaase2020modes}; that upper bound is not our contribution.
+The issue for an encounter process is to construct every stationary point
+with a strict margin, exclude additional stationary points throughout a
+declared time window after the contact factor is included, and carry the
+complete signature from free exposure to a killed Doi law.
+
+We prove that this can be done for every prescribed fixed finite \(m\) in
+every fixed finite dimension \(d\ge2\).  The supports, contact geometry,
+transport, initial law, and total installed centre-space reactivity are fixed
+within each constructed family.  All interior allocations in that family
+share the same alternating signature.  Thus the result concerns
+support-geometry design under a conserved budget; it is not a statement that
+one fixed support family switches among different mode counts when its
+weights are reallocated.
+
+The Doi killing representation, the associated reactivity-times-occupancy
+identity, and Gaussian-mixture mode bounds are prior ingredients
+\cite{doi1976stochastic,isaacsonMauroNewby2016uniform,
+pruestelMeierSchellersheim2014area,bressloff2022feynmanKac}.  The new content
+is their margin-bearing combination: a separated-clock construction with a
+global zero count, a uniform whole-window sign certificate, stability under
+the slowly varying contact probability, and a positive-budget transfer of
+the full finite stationary signature.  The result concerns a transient
+density under static spatial allocation and is distinct from universal
+mean-first-passage response to rare activation
+\cite{keidarReuveni2026linear}.
+
+\section{Conserved-reactivity encounter model}
+\label{sec:model}
+
+Let \(q(x,t)\) be the unreacted configuration density of two mobile
+particles, with conservative generator \(\mathcal L\).  Write \(r\) for the
+relative coordinate and \(c\) for an encounter-centre coordinate.  For a
+fixed contact profile \(\chi_a(r)\) and normalized nonnegative centre-space
+profiles \(\phi_j(c)\), define
+\begin{align}
+ \kappa_{\bm w}(c)&=B\sum_{j=1}^{J}w_j\phi_j(c),
+ &w_j&\ge0,\nonumber\\
+ \sum_jw_j&=1,
+ &\int\phi_j(c)\,\dd c&=1,\nonumber\\
+ K_{B,\bm w}(x)&=\chi_a(r)\kappa_{\bm w}(c).
+ \label{eq:budget-field}
+\end{align}
+Every admissible allocation has the same installed centre-space resource,
+\begin{equation}
+ \int\kappa_{\bm w}(c)\,\dd c=B.
+ \label{eq:conserved-budget}
+\end{equation}
+This is not an integral over the complete two-particle configuration space.
+The killed evolution, reaction-time density, and survival probability are
+\begin{align}
+ \partial_tq_{B,\bm w}&=(\mathcal L-K_{B,\bm w})q_{B,\bm w},
+ &q_{B,\bm w}(0)&=q_0,\nonumber\\
+ f_{B,\bm w}(t)&=\langle K_{B,\bm w},q_{B,\bm w}(t)\rangle,
+ &-S'_{B,\bm w}(t)&=f_{B,\bm w}(t).
+ \label{eq:killed-law}
+\end{align}
+Equation~\eqref{eq:killed-law} is the usual mass balance for a Doi
+volume-reaction process, not a novelty claim.
+
+For longitudinal catalyst slabs, translation invariance of the common
+transverse coordinate gives an exact quotient
+\begin{equation}
+ \Omega_\infty
+ =\mathbb R_z\times\mathbb R_{r_\parallel}\times
+   \mathbb T_W^{d-1}.
+ \label{eq:quotient}
+\end{equation}
+In the construction below the midpoint \(Z_t\) moves monotonically in mean,
+the relative process remains a positive distance inside the contact region
+along its deterministic trajectory on the chosen window, and each normalized
+slab is centred at the midpoint mean at a target time.  The
+\(W^{-(d-1)}\) factor in the killing field accounts for the omitted common
+transverse directions and preserves Eq.~\eqref{eq:conserved-budget}.
+
+\section{Positive-time transfer}
+\label{sec:transfer}
+
+Write \(K_{B,\bm w}=BV_{\bm w}\) and introduce interior affine control
+coordinates \(\bm w(\bm\theta)=\bar{\bm w}+P\bm\theta\).  The normalized
+reaction density and the free-exposure law are
+\begin{equation}
+ F_B(t,\bm\theta)=B^{-1}f_{B,\bm w(\bm\theta)}(t),
+ \qquad
+ G(t,\bm\theta)=
+ \langle V_{\bm w(\bm\theta)},\e^{t\mathcal L}q_0\rangle.
+ \label{eq:normalized-exposure}
+\end{equation}
+On either a bounded reflecting/periodic quotient or the reversible
+natural-decay realization of Eq.~\eqref{eq:quotient}, assume \(q_0\) belongs
+to the corresponding state space and \(V_{\bm w}\) is bounded on a complex
+control neighbourhood of a compact interior control set.  A
+Dyson expansion followed by time and control Cauchy estimates gives, for
+every fixed time order \(r\) and finite control multi-index \(\alpha\),
+\begin{equation}
+ \sup_{(t,\bm\theta)\in[\tau,T]\times\Theta}
+ \left|
+ \partial_t^r\partial_{\bm\theta}^{\alpha}(F_B-G)
+ \right|
+ \le C_{r,\alpha,\tau,T,\Theta}B.
+ \label{eq:mixed-jet}
+\end{equation}
+The Supplemental Material accompanying this article
+\cite{supplementalMaterial} gives the explicit constant and proof.  In
+particular, \(C^2\) convergence on a compact positive-time window preserves
+disjoint stationary-point neighbourhoods, curvature signs, endpoint slopes,
+and a nonzero derivative margin on their complement.  The estimate is local
+in positive time and provides neither a useful numerical value of \(B\) nor
+control on the scale \(t=O(B^{-1})\).
+
+\input{exact_m_theorem_spine.tex}
+
+\section{Finite-parameter scope}
+\label{sec:finite-scope}
+
+The theorem is complete without a discretized example, but its sequential
+small-parameter construction does not identify a practically resolved
+physical parameter set.  This article includes no numerical evidence for a
+particular finite-parameter realization, off-lattice validation, phase
+diagram, or finite-parameter dimensional comparison.  Its scientific
+conclusions rest only on the exact theorem.
+
+We also make no rigorous numerical claim that a particular finite-volume
+scheme converges, together with its stationary roots, to the unbounded
+continuum process.  Such a stronger numerical statement would require
+quantitative consistency, spatial and box-truncation bounds, and
+margin-preserving transfer of each stationary component.  Those additional
+ingredients are unnecessary for the theorem proved here and do not limit its
+scope.
+
+\section{Discussion}
+\label{sec:discussion}
+
+The construction turns catalyst locations into separated exposure clocks.
+Narrow Gaussian convolution creates one peak near each target time; an
+affine-exponential zero bound makes the count exhaustive; posterior-sector
+estimates control the complement after multiplication by the contact
+probability; and the positive-time estimate
+Eq.~\eqref{eq:mixed-jet} transfers the strict topology to the Doi law.
+Together these steps establish arbitrary prescribed fixed finite modality
+under a conserved centre-space reactivity budget.
+
+The restrictions are substantive.  Geometry and admissible scales depend on
+\(d\) and \(m\).  The deterministic relative trajectory stays strictly
+inside the contact set on the design window, and its free contact probability
+approaches one there as the noise scale vanishes.  The limits are sequential,
+observability at a common useful budget is not guaranteed, and nothing is
+proved about topology outside the declared window.  These limits distinguish
+the exact existence theorem from a finite-parameter design rule while leaving
+its finite-window conclusion intact.
+
+\section*{Data availability}
+
+This is a purely mathematical work, and no data were created or analyzed.
+
+\nocite{grebenkov2020multiple}
+\bibliography{references}
+
+\end{document}

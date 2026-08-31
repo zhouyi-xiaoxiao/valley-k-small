@@ -1,0 +1,154 @@
+{
+  "classifier_spec": null,
+  "classifier_spec_sha256": null,
+  "command": [
+    "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python3",
+    "research/reports/encounter_heterogeneous_catalytic/code/compile_manuscript.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:59:10.498114+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/compile_manuscript.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": null,
+  "inputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/encounter_modality_jcp.tex",
+      "sha256": "f02520ccd7d04beba3724f6d709462f635c271c1e9ddbf590014032cf83af29b"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/encounter_modality_supplement.tex",
+      "sha256": "a4db7a34cfb099fe3d9d60c60777a8aa6bbcf93a5616d6c9a488f212804a0ce2"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/references.bib",
+      "sha256": "c8200917ef135de0c80d8919c1e951a2d06d1c8312c54310a8303f2b1d3fcfee"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/figure_table_alt_text.txt",
+      "sha256": "d4ccc1375d5d13a321e5d59c06c61ec9c7f7747afed36c0744d95c5d260cc30e"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/SUBMISSION_METADATA_REQUIRED.md",
+      "sha256": "c11b51a76a5dd6b4b34502f8372898dc07c59201b88a4a0222b46870896a6eb3"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/encounter_model_and_fold.pdf",
+      "sha256": "ac37f69d7e0b0efa731e65726445c6cc5ed218bf6f19bfdfd85ded22c58fb900"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/gig_fold_validation.pdf",
+      "sha256": "6e43985e9afb5eff209197fd926323b69831fa4ddba75a6e65eca1e812cacfd3"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_fold_validation.pdf",
+      "sha256": "53a1dba299b8ca103fb0a4735981122b47a2585b4b3956ca3fa2f813174010de"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_family.pdf",
+      "sha256": "d1ebf3a46c0b24104f9b19311889cbaac907a3a5e497c8507d8f63fa877b2e2b"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/catalytic_encounter_clock_check.pdf",
+      "sha256": "02278649cf0ddeb990b8f4c2d631e2e3f4bc82515df7d4da2036542755edb839"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_matched_homogeneous.pdf",
+      "sha256": "a7d4175a4c681715567d93db0bc191812be7e563f5a75c7057883f01fc13398d"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_centre_coordinate_sensitivity.pdf",
+      "sha256": "eb4f7581ebd4999a48e633e77715cad92535a8880b273f5dac5c81cde42e8a45"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_mechanism_controls.pdf",
+      "sha256": "26352355922e6b243bc51d3cf43909db9d159c409c2e3c2c3a909698909a6859"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_trimodality.pdf",
+      "sha256": "0026f103ad1f1e51cae1d36a752e5ea02b7786b12ea6e90c32861a3ac4e6dbb1"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_2d_capacity_scaling.pdf",
+      "sha256": "167d66240dc1e4c5a3a990c43fe51eab4490026e87e6dc1536a27d8139b3a438"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_3d_capacity_validation.pdf",
+      "sha256": "ab5c31f9d1648d5e21a75f6f2e72cd50e4a659809c56c93c5ffc40f23ef66446"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/multid_gig_channel_design.pdf",
+      "sha256": "8a63bc13ad3b16f46fa10de9969f804cb7918ec41e35abfbde6298ff77dc9ae6"
+    }
+  ],
+  "model_spec": {
+    "documentclass": "revtex4-2 aps,pre,reprint",
+    "documents": [
+      "main",
+      "supplement"
+    ],
+    "independent_auxiliary_files": true,
+    "pdf_font_gate": "all fonts embedded; Type 3 forbidden",
+    "pdf_metadata_gate": {
+      "main": {
+        "author": "Xiaoxiao Zhouyi and Luca Giuggioli",
+        "subject_and_keywords_required": true,
+        "title": "Spectral diagnostics and local fixed-budget sensitivity of critical points in finite encounter-reaction models"
+      },
+      "supplement": {
+        "author": "Xiaoxiao Zhouyi and Luca Giuggioli",
+        "subject_and_keywords_required": true,
+        "title": "Supplemental Material: Spectral diagnostics and local fixed-budget sensitivity of critical points in finite encounter-reaction models"
+      }
+    },
+    "warning_gate": {
+      "missing_files": "LaTeX Error: File .* not found",
+      "overfull_boxes": "Overfull \\\\[hv]box",
+      "pdf_string_warnings": "Package hyperref Warning: Token not allowed in a PDF string",
+      "undefined_citations": "Citation .* undefined",
+      "undefined_references": "There were undefined references"
+    }
+  },
+  "model_spec_sha256": "9554cdc4cf2840dc74e5d2021487b39b005fea4e732451fa068905174238f88b",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/encounter_modality_jcp.pdf",
+      "sha256": "4b91812d9914de64b92ee271dd7ae68e2fd27356ceefd3d3b6c24bb406c6b2d2"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/manuscript/encounter_modality_supplement.pdf",
+      "sha256": "729bf75bb572a7da5a196770a08cd954e23ea0b7df799f57740d107c7ee0c757"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/manuscript_compile.json",
+      "sha256": "c279d7eca3c4a4c74db603b0e12f34ced97db13f88cdcb53357cbe6ba4494992"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/manuscript_latexmk.log",
+      "sha256": "c9f2b639fda80dee0b1db2b2bf663ae5de0f705714fb767b206f77c60a6f465a"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/logs/supplement_latexmk.log",
+      "sha256": "598c4b19e128b268e57435c931b1655abb127bbd05b9bbc1bf93971f01f88717"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/compile_manuscript.py",
+      "sha256": "c2171e2a1cdb1d74bd9774708b66a094c1f949e74790247166203c7c867bdd0e"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

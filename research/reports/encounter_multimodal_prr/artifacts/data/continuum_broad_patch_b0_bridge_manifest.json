@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "stage": "result_informed_broad_patch_B0_numerical_bridge",
+  "evidence_timing": "RESULT_INFORMED_NUMERICAL_BRIDGE_NOT_PREREGISTERED_DISCOVERY",
+  "claim_scope": "Exact unbounded-OU x periodic free-exposure observability plus a fixed-box, factorized, cell-centred Scharfetter-Gummel B=0 mesh bridge for one result-informed four-patch geometry only.",
+  "known_before_freeze": {
+    "geometry_and_approximate_exact_cusp": true,
+    "exact_inward_grid_contains_passing_steps": true,
+    "finite_volume_step_0p11_meshes_evaluated": [65, 97, 129],
+    "finite_volume_steps_0p12_0p13_evaluated": false,
+    "finite_volume_mesh_193_evaluated": false
+  },
+  "deterministic_refreeze": {
+    "performed_after_all_scientific_outcomes_were_known": true,
+    "scientific_parameters_rules_meshes_and_thresholds_changed": false,
+    "reason": "The first complete rerun preserved all scientific invariants but was not byte-identical."
+  },
+  "numerical_reproducibility": {
+    "numpy_global_seed": 1729,
+    "restore_numpy_global_rng_state": true,
+    "full_rerun_byte_identity_required": true,
+    "reason": "SciPy sparse one-norm estimation uses the legacy NumPy global RNG"
+  },
+  "physical_parameters": {
+    "particle_diffusion": 0.002,
+    "ou_stiffness": 0.1,
+    "ou_mean": 0.95,
+    "transverse_width": 1.0,
+    "contact_radius": 0.16,
+    "midpoint_start": 0.14,
+    "initial_half_width": 0.02,
+    "relative_parallel_start": -0.35,
+    "relative_perp_start": 0.0,
+    "patch_centres": [0.35, 0.6, 0.75, 0.9],
+    "patch_half_width": 0.04,
+    "fixed_first_weight": 0.28
+  },
+  "exact_continuum": {
+    "cusp_bracket": [13.2, 13.4],
+    "candidate_steps": {
+      "start": 0.02,
+      "stop": 0.2,
+      "spacing": 0.01
+    },
+    "time_screen": {
+      "start": 0.1,
+      "stop": 100.0,
+      "spacing": 0.002,
+      "points": 49951
+    },
+    "eligibility": {
+      "minimum_peak_ratio": 0.1,
+      "maximum_valley_ratio": 0.85,
+      "minimum_absolute_scaled_curvature": 0.05,
+      "maximum_scaled_root_residual": 1e-8,
+      "relative_density_floor": 1e-8,
+      "derivative_zero_relative_tolerance": 1e-12
+    },
+    "selection_priority": [
+      "maximum_minimum_weight",
+      "maximum_worst_valley_margin",
+      "maximum_peak_ratio",
+      "smaller_step"
+    ]
+  },
+  "bridge_selection": {
+    "candidate_steps": [0.11, 0.12, 0.13],
+    "required_meshes": [129, 193],
+    "priority": [
+      "maximum_worst_valley_margin",
+      "maximum_worst_peak_ratio",
+      "maximum_minimum_weight",
+      "smaller_step"
+    ]
+  },
+  "finite_volume": {
+    "scheme": "cell-centred Scharfetter-Gummel OU factors plus periodic central-diffusion factor and cell-integrated observables",
+    "midpoint_bounds": [-0.25, 1.85],
+    "relative_parallel_bounds": [-1.8, 1.8],
+    "odd_cubic_meshes": [65, 97, 129, 193],
+    "cusp_bracket": [12.5, 14.5],
+    "time_screen": {
+      "start": 0.0,
+      "stop": 100.0,
+      "spacing": 0.02,
+      "points": 5001,
+      "minimum_analysis_time": 0.1,
+      "relative_density_floor": 1e-8,
+      "chunk_points": 101
+    }
+  },
+  "gates": {
+    "minimum_peak_ratio": 0.1,
+    "maximum_valley_ratio": 0.85,
+    "minimum_absolute_scaled_curvature": 0.05,
+    "maximum_scaled_root_residual": 1e-8,
+    "maximum_exact_primary_fine_cusp_time_difference": 5e-8,
+    "maximum_exact_primary_fine_weight_difference": 5e-8,
+    "maximum_finest_cusp_time_error": 0.1,
+    "maximum_finest_root_time_error": 0.1,
+    "maximum_mass_or_conservation_error": 1e-10
+  },
+  "required_claim_flags": {
+    "preregistered_discovery": false,
+    "continuum_interval_verified": false,
+    "finite_B_Doi_verified": false,
+    "unbounded_domain_FV_limit_verified": false,
+    "project_gate_passed": false
+  },
+  "pinned_files": {
+    "producer": {
+      "path": "code/continuum_broad_patch_b0_bridge.py",
+      "sha256": "d1d68667f5cbb9c8363a94f2f9ea22540f841065e02696f669beca9758e3a233"
+    },
+    "tests": {
+      "path": "code/test_continuum_broad_patch_b0_bridge.py",
+      "sha256": "0d683f8ed7cfd8fee2cef992078962a05c2cb8074629c8947cb233300c8b4490"
+    },
+    "protocol": {
+      "path": "notes/broad_patch_b0_bridge_protocol.md",
+      "sha256": "56937590efc0ea90841cd7ff32b3386c5d81469ec51034329d7e0e13133bee35"
+    },
+    "exact_continuum_dependency": {
+      "path": "code/continuum_observable_four_patch.py",
+      "sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da"
+    },
+    "finite_volume_dependency": {
+      "path": "code/continuum_weak_budget_design.py",
+      "sha256": "7fa9ea6114328736c89739459c293aefa9311514764ec3cfe4f0ceb5a1875201"
+    },
+    "grid_dependency": {
+      "path": "code/continuum_g1_smoke.py",
+      "sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701"
+    }
+  },
+  "forbidden_promotions": [
+    "preregistered discovery",
+    "interval-certified continuum root count",
+    "unbounded-domain finite-volume convergence proof",
+    "positive-budget killed-Doi result",
+    "physical d=3 result",
+    "project or publication gate pass"
+  ]
+}

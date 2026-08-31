@@ -1,0 +1,157 @@
+{
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "external_predecessor_commitment_present": false,
+    "formal_outer_open_operation_model_present": false,
+    "formal_selected_source_dag_complete": false,
+    "formal_symbolic_candidate_materialized": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "policy_predecessor_order_independently_sealed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "root_transfer_complete": false,
+    "science_executed": false,
+    "submission_eligible": false,
+    "symbolic_acceptance_receipt_materialized": false
+  },
+  "parameter_count": 10,
+  "parameters": [
+    {
+      "method_parameter_sha256": "ee2c2676346862cc8521f89a90cd3a2fb485dfb48112dd11856c371cf5cebc6d",
+      "parameter_id": "stationary_directed_mpfr_320_v2",
+      "parameters": {
+        "aggregation": "exact_Fraction_endpoint_sums_and_nonnegative_products",
+        "dense_tensor_materialized": false,
+        "precision_bits": 320,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role9_stationary_integral"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "35289658a4da22d7703d43b844c4524e4e0eae7c3fc8d082105afd50e5da6aa8",
+      "parameter_id": "stationary_directed_mpfr_640_sentinel_v2",
+      "parameters": {
+        "containment_relation": "primary_320_interval_contains_640_sentinel",
+        "independent_backend": false,
+        "precision_bits": 640,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role9_stationary_integral"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "c03f0f3a43bf04ef9cd6872751c192db0e39ae1382c89c04031ab3e38b313b71",
+      "parameter_id": "raw_flux_directed_mpfr_320_v2",
+      "parameters": {
+        "aggregation": "exact_Fraction_endpoint_algebra",
+        "common_kappa_rule": "intersection_after_formula_witness",
+        "precision_bits": 320,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role8_raw_axis_enclosure"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "b567e9278a39aeaa1eef0eff6c0473b00f99713d524d2409b9f34429acbe37e4",
+      "parameter_id": "raw_flux_directed_mpfr_640_sentinel_v2",
+      "parameters": {
+        "containment_relation": "primary_320_interval_contains_640_sentinel",
+        "independent_backend": false,
+        "precision_bits": 640,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role8_raw_axis_enclosure"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "451f74ad3d501639d6686581b784e654d445e958a33f89067830da19f362400b",
+      "parameter_id": "raw_flux_binary64_decode_v2",
+      "parameters": {
+        "decode": "exact_binary64_endpoint_to_reduced_dyadic_fraction",
+        "precision_bits": 53,
+        "rounding_mode": "stored_outward_endpoints",
+        "source_role_scope": [
+          "role8_raw_axis_enclosure"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "813870b7588339a6c01e79122eac163a907607b8b2792abf1ea2ba8c71e5b630",
+      "parameter_id": "exact_fraction_expression_dag_v2",
+      "parameters": {
+        "arithmetic": "Python_Fraction_exact_reduced_rationals",
+        "precision_bits": "unbounded_integer_fraction",
+        "rounding_mode": "exact",
+        "source_role_scope": [
+          "role8_raw_axis_enclosure",
+          "role9_stationary_integral"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "42993fcf0a18f5ed6a4d100ac15ebd0d84304012356a81ae1c98374c47a13b94",
+      "parameter_id": "killing_contact_profile_mpfr_192_v2",
+      "parameters": {
+        "contact_fraction_record_format": ">dd",
+        "panels_per_unit": 16384,
+        "precision_bits": 192,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role10_killing_geometry"
+        ],
+        "support_density_record_format": ">dd"
+      }
+    },
+    {
+      "method_parameter_sha256": "8486ea422290408294aa1c282e1dd0470323e6a24d42676b6a5d226cd6646e31",
+      "parameter_id": "killing_analytic_disk_area_mpfr_256_v2",
+      "parameters": {
+        "analytic_area_precision_bits": 256,
+        "formula": "pi_times_radius_squared",
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role10_killing_geometry"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "4ff14262823b6fd35a668acd3b8ce204d2b0cd6e07fee9ecba85ae406e34d6fa",
+      "parameter_id": "killing_independent_simpson_remainder_v2",
+      "parameters": {
+        "independent_backend": false,
+        "maximum_panel_count": 4194304,
+        "primary_precision_bits": 384,
+        "remainder_rule": "rigorous_fourth_derivative_simpson_remainder",
+        "sentinel_precision_bits": 512,
+        "source_role_scope": [
+          "role10_killing_geometry"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "ef4aaba455f5db633a48ff68001543c8b233ae87d5138c9ed1d271dda66473f9",
+      "parameter_id": "killing_exact_full_cell_classification_v2",
+      "parameters": {
+        "classification": "every_corner_of_every_exact_partition_segment_inside_or_on_contact_disk",
+        "full_cell_serialization": "exact_[1,1]",
+        "precision_bits": "exact_rational",
+        "rounding_mode": "exact",
+        "source_role_scope": [
+          "role10_killing_geometry"
+        ]
+      }
+    }
+  ],
+  "schema": "encounter_continuum_c1_c2_n0_method_parameter_registry_v2_candidate",
+  "status": "RESULT_BLIND_METHOD_PARAMETER_CANDIDATE_ONLY_NOT_EXTERNALLY_COMMITTED"
+}

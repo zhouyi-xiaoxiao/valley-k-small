@@ -1,0 +1,44 @@
+{
+  "gmp": {
+    "library_sha256": "22cec4689e503d590cfbf3373ae7f442ef6d40c3e6c93a3612bbd1b7e2bce049",
+    "version": "6.3.0"
+  },
+  "gmpy2": {
+    "extension_sha256": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+    "package_init_sha256": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2",
+    "version": "2.2.1"
+  },
+  "jsonschema": {
+    "draft": "2020-12",
+    "version": "4.26.0"
+  },
+  "mpc": {
+    "library_sha256": "d3c10c39234c095f5c1938ad607c87a0633152f51271d9ed1c494724430c2b0c",
+    "version": "1.3.1"
+  },
+  "mpfr": {
+    "emax": 1073741823,
+    "emin": -1073741823,
+    "library_sha256": "d314a427a901f8ece38b67966cd2fbf5642ceb7d1c2e5136f8282ca7ab859aed",
+    "subnormalize": false,
+    "version": "4.2.1"
+  },
+  "python": {
+    "binary_sha256": "31b9c9a8d50289f3a13f014b3efd8ea3534fc3eea7ca7d9809e166139910b805",
+    "implementation": "CPython",
+    "version": "3.12.13"
+  },
+  "schema_version": 1,
+  "special_dag": {
+    "canonical_interval_endpoint_encoding": "mpfr-base16-mantissa-exponent-precision",
+    "precision_bits": [
+      256,
+      512,
+      1024,
+      2048,
+      4096
+    ],
+    "producer_lower_rounding": "MPFR_RNDD",
+    "producer_upper_rounding": "MPFR_RNDU"
+  }
+}

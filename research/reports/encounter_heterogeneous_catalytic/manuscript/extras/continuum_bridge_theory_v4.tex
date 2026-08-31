@@ -1,0 +1,290 @@
+% Continuum-bridge theory package, v3 after TWO adversarial verification rounds.
+% Round-2 fixes: contour orientation phrasing; (H1') affine-theta clause; delta_0 gains the
+% fourth term 5*sigma*r0/(8*sqrt2) (round-2 fatal, counterexample-backed); omega_J entrywise
+% -> operator-norm factor 2 repaired via omega_J(r0) <= sigma/16; margin bookkeeping now
+% direct from the N-wide hypotheses (3/4-machinery removed); converse fully hypothesized
+% (fold existence, boundary distance, uniform moduli) with explicit uniform constant;
+% r0 also capped by dist(q*, boundary N); moduli are data (omega), Lambda is sup-norm bound;
+% R2 same-branch qualifier + "cancel to leading order"; R3 explicit geometric domination.
+
+% ============ MAIN TEXT STATEMENTS ============
+
+\subsection{A continuum bridge with a posteriori control}
+\label{sec:bridge-theory}
+
+The refinement study below is organized by two exact statements and one
+conditioned remark. Write \(F_h(t,\theta)=f_h(t,\theta)\) for the level-\(h\)
+reaction density and \(F\) for a candidate continuum limit on a compact
+rectangle \(N=[t_1,t_2]\times[\theta_1,\theta_2]\) with \(t_1>0\).
+
+\paragraph{Jet convergence from sectorial resolvent convergence.}
+Let \(A_h(\theta)=L_h-\operatorname{diag}k_{h,\theta}\) be the killed
+generators, with
+\(f_h(t,\theta)=\langle k_{h,\theta},\e^{A_h(\theta)t}p_h\rangle\), and let
+\(A(\theta)\) be the continuum killed operator. Assume:
+(H1) the family \(\{A_h(\theta)\}\) is uniformly sectorial---there are
+\(M\ge1\), \(\omega\in\mathbb R\), \(\delta\in(0,\pi/2)\), independent of
+\(h\) and \(\theta\), with \(\|(z-A_h(\theta))^{-1}\|\le M/|z-\omega|\) for
+\(|\arg(z-\omega)|<\tfrac\pi2+\delta\);
+(H1$'$) \(A(\theta)\) is sectorial on the same sector with the analogous
+bound, uniformly in \(\theta\); the continuum family is affine along the
+same path, \(A(\theta)=A(0)-\theta\,(k_{\mathrm{pat}}-\bar k)\) acting by
+multiplication, with \(\theta\)-differentiable resolvent; the pairing
+\(\langle k_\theta,\cdot\,\rangle\) with \(p\) is well defined uniformly in
+\(\theta\); and \(f(t,\theta)=\langle k_\theta,\e^{A(\theta)t}p\rangle\)
+admits the analytic-semigroup representation below, so that
+\(\partial_\theta\partial_t^jf\) has the same two-term Dunford form as its
+discrete counterpart. Fix \(\delta'\in(0,\delta)\), \(\rho>0\), and the
+\emph{unbounded} sectorial contour
+\(\Gamma=\{\omega+r\e^{\pm i(\pi/2+\delta')}:r\ge\rho\}\cup
+\{\omega+\rho\e^{i\varphi}:|\varphi|\le\tfrac\pi2+\delta'\}\),
+oriented from the lower ray to the upper ray (counterclockwise about the
+spectrum). For \(t\ge t_1>0\) the Dunford representation
+\[
+\partial_t^jf_h(t,\theta)
+=\frac1{2\pi i}\int_\Gamma z^j\e^{zt}\,
+\langle k_{h,\theta},(z-A_h(\theta))^{-1}p_h\rangle\,\dd z,
+\qquad j\le3,
+\]
+holds exactly for every \(h\) (and, by (H1$'$), for the continuum pair).
+Define the scalar contour defects
+\[
+\eta_h=\sup_{\theta}\sup_{z\in\Gamma}
+\big|\langle k_{h,\theta},(z-A_h(\theta))^{-1}p_h\rangle
+-\langle k_{\theta},(z-A(\theta))^{-1}p\rangle\big|,
+\]
+and, using
+\(\partial_\theta(z-A_h)^{-1}=-(z-A_h)^{-1}
+\operatorname{diag}(k_{h,\mathrm{pat}}-\bar k_h)(z-A_h)^{-1}\)
+(the path is affine,
+\(A_h(\theta)=A_h(0)-\theta\operatorname{diag}(k_{h,\mathrm{pat}}-\bar k_h)\)),
+the mixed defect \(\eta_h'\) as the same supremum for the two-term derivative
+form
+\(\langle k_{h,\mathrm{pat}}-\bar k_h,(z-A_h)^{-1}p_h\rangle
+-\langle k_{h,\theta},(z-A_h)^{-1}
+\operatorname{diag}(k_{h,\mathrm{pat}}-\bar k_h)(z-A_h)^{-1}p_h\rangle\)
+against its continuum counterpart. Then, for \(j\le3\), \(l\in\{0,1\}\),
+\(j+l\le3\),
+\[
+\sup_N\big|\partial_\theta^l\partial_t^j(f_h-f)\big|
+\;\le\;C_\Gamma^{(j)}(t_1,t_2)\,\big(\eta_h+l\,\eta_h'\big),
+\qquad
+C_\Gamma^{(j)}
+=\frac1{2\pi}\int_\Gamma\max(1,|z|)^{j}\,
+\max\!\big(\e^{t_1\operatorname{Re}z},\e^{t_2\operatorname{Re}z}\big)
+\,|\dd z|,
+\]
+finite because on the rays
+\(\operatorname{Re}z=\omega-r\sin\delta'\), so the integrand decays like
+\(r^{j}\e^{-t_1r\sin\delta'}\); the constant grows like
+\(t_1^{-(j+1)}\) as \(t_1\downarrow0\), which is why the strictly positive
+window is load-bearing. Hypotheses (H1), (H1$'$) and the decay of
+\(\eta_h,\eta_h'\) are \emph{not} proved here for the upwind or
+exponentially fitted schemes; they are the precise analytic content that the
+observed ladder rates instantiate numerically.
+
+\paragraph{Quantitative fold transfer.}
+Let \(F,F_h\) have continuous \(\partial_t^jF\) (\(j\le3\)) and
+\(\partial_\theta\partial_t^jF\) (\(j\le2\)) on \(N\). Assume \(F\) has an
+interior fold at \(q_*=(t_*,\theta_*)\):
+\(F_t(q_*)=F_{tt}(q_*)=0\), with margins
+\(|F_{ttt}|\ge\mu_3>0\) and \(|F_{t\theta}|\ge\mu_\theta>0\) on \(N\).
+Let \(\Lambda\) bound the sup norms
+\(\|F_{t\theta}\|_N,\|F_{ttt}\|_N,\|F_{tt\theta}\|_N\), and let \(\omega\)
+(part of the data) be a common nondecreasing modulus of continuity for
+these three functions on \(N\); write
+\(\hat\omega(r)=\max\big(\omega(r),\sqrt2\,\Lambda r\big)\) for the
+augmented modulus that also controls the \(F_{tt}\) entry. Define
+\[
+\varepsilon_h=\max_{j=1,2}\|\partial_t^j(F_h-F)\|_{N},
+\quad
+\varepsilon_h'=\max\Big(\|\partial_t^3(F_h-F)\|_{N},
+\max_{j\in\{1,2\}}\|\partial_\theta\partial_t^j(F_h-F)\|_{N}\Big),
+\quad
+\bar\varepsilon_h=\max(\varepsilon_h,\varepsilon_h').
+\]
+Let \(H=(F_t,F_{tt})\) with Jacobian
+\(J=\begin{pmatrix}F_{tt}&F_{t\theta}\\F_{ttt}&F_{tt\theta}\end{pmatrix}\),
+so \(\det J(q_*)=-F_{t\theta}(q_*)F_{ttt}(q_*)\) and
+\[
+\sigma:=1/\|J(q_*)^{-1}\|\;\ge\;
+\frac{\mu_3\mu_\theta}{\sqrt{\mu_\theta^2+2\Lambda^2}}\,>0 .
+\]
+Let \(r_0=\min\big(r_\omega,\operatorname{dist}(q_*,\partial N)\big)\),
+where \(r_\omega\) is any radius with \(\hat\omega(r_\omega)\le\sigma/16\)
+(in particular \(r_\omega\le\sigma/(16\sqrt2\Lambda)\); so \(r_0\) is
+determined by \((\mu_3,\mu_\theta,\Lambda,\omega)\) and the
+position of \(q_*\) in \(N\)), and set
+\[
+\delta_0=\min\Big(\frac{\sigma}{32},\ \frac{\mu_3}{2},\
+\frac{\mu_\theta}{2},\ \frac{5\,\sigma r_0}{8\sqrt2}\Big).
+\]
+If \(\bar\varepsilon_h<\delta_0\), then \(F_h\) has exactly one
+solution \(q_h\) of \(F_{h,t}=F_{h,tt}=0\) in \(B(q_*,r_0)\); it is a
+nondegenerate fold of \(F_h\), with margins
+\(|F_{h,ttt}|\ge\mu_3-\bar\varepsilon_h>0\) and
+\(|F_{h,t\theta}|\ge\mu_\theta-\bar\varepsilon_h>0\) on all of \(N\); and
+\[
+\|q_h-q_*\|\;\le\;2\sqrt2\,\|J(q_*)^{-1}\|\,\varepsilon_h .
+\]
+\emph{Converse (ladder version).} Suppose each \(F_h\) has a fold
+\(q_h\in N\) with \(\operatorname{dist}(q_h,\partial N)\ge d>0\) uniformly,
+the margins \(|F_{h,ttt}|\ge\mu_3\), \(|F_{h,t\theta}|\ge\mu_\theta\) hold
+on \(N\), the functions
+\(F_{h,t\theta},F_{h,ttt},F_{h,tt\theta}\) are bounded by \(\Lambda\) with
+a common nondecreasing modulus \(\omega\) uniformly in \(h\), and the jets
+\(\partial_t^jF_h\) (\(j\le3\)), \(\partial_\theta\partial_t^jF_h\)
+(\(j\in\{1,2\}\)) converge uniformly on \(N\) to those of \(F\). Then for all
+sufficiently fine \(h\) the limit \(F\) has a nondegenerate fold \(\bar q\)
+with
+\[
+\|\bar q-q_h\|\le
+2\sqrt2\,\frac{\sqrt{\mu_\theta^2+2\Lambda^2}}{\mu_3\mu_\theta}\,
+\varepsilon_h ,
+\]
+and \(\bar q\) is the \emph{only} fold of \(F\) in \(N\): the \(N\)-wide
+margins force \(F_{ttt}\) and \(F_{t\theta}\) to keep constant signs on the
+connected rectangle, so \(F_t(\cdot,\theta)\) has a one-signed extremum
+with value zero at any fold and strict monotonicity of \(F_t\) in
+\(\theta\) excludes a second fold at any other \(\theta\). The proof (Supplemental
+Material) is a simplified-Newton contraction seeded at the fold; no
+Lipschitz control of the defect \(F_h-F\) is required.
+
+\paragraph{Remark (a posteriori interpretation).}
+Three statements of decreasing strength organize how the ladder is read.
+(R1) \emph{Rigorous-conditional:} if the jets of \(F_h\) converge uniformly
+on \(N\) to some \(F\) and the discrete folds, margins, and interior
+distances satisfy the converse hypotheses uniformly along the ladder, then
+\(F\) has a nondegenerate fold and every located discrete fold lies within
+\(2\sqrt2\,\sqrt{\mu_\theta^2+2\Lambda^2}\,(\mu_3\mu_\theta)^{-1}
+\varepsilon_h\) of it.
+(R2) \emph{Falsification bound:} if two discretizations both satisfy the
+transfer hypotheses toward the same limit and each located fold is the
+unique one of the theorem's ball (both schemes track the same fold branch),
+their located critical controls obey
+\(|\theta_c^{(1)}(h)-\theta_c^{(2)}(h)|
+\le2\sqrt2\,\|J(q_*)^{-1}\|(\varepsilon_h^{(1)}+\varepsilon_h^{(2)})\);
+a large cross-scheme gap therefore falsifies joint convergence at the
+claimed rates, while a small gap is necessary but not sufficient---error
+components shared by both schemes (the cell-averaged masks and the budget
+rule are common to both) cancel to leading order in the gap and are not
+tested by it.
+(R3) \emph{Error estimate under an asymptotic-regime assumption:} if the
+level-to-level jet increments
+\(d_k=\max_{j\le2}\|\partial_t^j(F_{h_{k+1}}-F_{h_k})\|_N\)
+obey the geometric domination \(d_{m+1}\le\varrho\,d_m\) for \emph{all}
+\(m\ge k\) with a fixed \(\varrho<1\)---the observed level ratios certify
+this only on the computed levels, so \(\varrho\) should dominate, not
+average, them, and the extension to uncomputed levels is an assumption---
+then the telescoping bound
+\(\tilde\varepsilon_{h_k}:=\max_{j\le2}\|\partial_t^j(F_{h_k}-F^{\rm lad}_\infty)\|_N
+\le d_k/(1-\varrho)\)
+controls the distance to the ladder's own jet limit \(F^{\rm lad}_\infty\);
+its identification
+with the continuum \(F\) is exactly the (H1)/(H1$'$) content. Richardson
+extrapolants of \(\theta_c(h)\) are reported as estimates only: no
+convergence rate is claimed for them unless the fitted leading coefficient
+is nonzero, the observed order is stable across consecutive level triples,
+and a strengthened remainder \(O(h^{p+s})\), \(s>0\), is assumed. The
+cross-scheme gap of the two extrapolants is reported alongside them as the
+honesty metric.
+
+% ============ SM PROOF BLOCK ============
+
+\section{Proof of the fold-transfer theorem}
+\label{sm:fold-transfer-proof}
+
+Write \(q=(t,\theta)\), \(H(q)=(F_t,F_{tt})(q)\),
+\(H_h(q)=(F_{h,t},F_{h,tt})(q)\), \(J=DH\). The four entries of \(J\)
+admit the augmented modulus \(\hat\omega(r)=\max(\omega(r),\sqrt2\Lambda r)\):
+the entry \(F_{tt}\) is
+\(\sqrt2\Lambda\)-Lipschitz (its gradient is \((F_{ttt},F_{tt\theta})\),
+bounded entrywise by \(\Lambda\)), and \(F_{t\theta},F_{ttt},F_{tt\theta}\)
+carry \(\omega\) by hypothesis, so each entry of \(J(q)-J(q')\) is at most
+\(\hat\omega(\|q-q'\|)\), and \(\hat\omega(r_0)\le\hat\omega(r_\omega)\le
+\sigma/16\) by the (nondecreasing) definition of \(r_\omega\). For a
+\(2\times2\) matrix with entries bounded by \(\hat\omega\), the operator
+norm is at most \(2\hat\omega\); we use this factor explicitly. All norms are
+Euclidean and induced operator norms, and \(B(q_*,r_0)\subseteq N\) by the
+definition of \(r_0\).
+
+\emph{Step 0 (seed conditioning).} At \(q_*\), \(F_{tt}=0\),
+\(|F_{ttt}|\ge\mu_3\), and \(|F_{ttt}|,|F_{tt\theta}|\le\Lambda\), so
+\[
+\sigma=\sigma_{\min}(J(q_*))
+=\frac{|\det J(q_*)|}{\sigma_{\max}(J(q_*))}
+\ge\frac{|F_{t\theta}|\,\mu_3}{\sqrt{F_{t\theta}^2+2\Lambda^2}}
+\ge\frac{\mu_3\mu_\theta}{\sqrt{\mu_\theta^2+2\Lambda^2}},
+\]
+using \(\sigma_{\max}\le\|J\|_F=\sqrt{F_{t\theta}^2+F_{ttt}^2+F_{tt\theta}^2}\)
+and monotonicity of \(x\mapsto x/\sqrt{x^2+2\Lambda^2}\).
+
+\emph{Step 1 (perturbation inventory).} The defect matrix \(DH_h-DH\) has
+entries bounded by \(\varepsilon_h\) (entry \(F_{tt}\)) and
+\(\varepsilon_h'\) (entries \(F_{t\theta},F_{ttt},F_{tt\theta}\)), so
+\(\|DH_h-DH\|\le\sqrt{\varepsilon_h^2+3\varepsilon_h'^2}
+\le2\bar\varepsilon_h\). By \(\hat\omega(r_0)\le\sigma/16\),
+\(\|J(q)-J(q_*)\|\le2\,\hat\omega(r_0)\le\sigma/8\) on \(B(q_*,r_0)\).
+
+\emph{Step 2 (simplified Newton).} Assume
+\(\bar\varepsilon_h<\delta_0\le\sigma/32\), so
+\(2\bar\varepsilon_h\le\sigma/16\) and \(4\bar\varepsilon_h\le\sigma/8\).
+At the seed,
+\(\|DH_h(q_*)-J(q_*)\|\le2\bar\varepsilon_h\le\sigma/16\), so by the
+Neumann series
+\(\|DH_h(q_*)^{-1}\|\le\tfrac{16}{15}\|J(q_*)^{-1}\|
+\le\tfrac87\|J(q_*)^{-1}\|\). Define
+\(\Phi(q)=q-DH_h(q_*)^{-1}H_h(q)\). For \(q\in B(q_*,r_0)\),
+\[
+\|D\Phi(q)\|
+=\|DH_h(q_*)^{-1}\big(DH_h(q_*)-DH_h(q)\big)\|
+\le\frac87\cdot\frac1\sigma\Big(2\,\hat\omega(r_0)+4\bar\varepsilon_h\Big)
+\le\frac87\cdot\frac1\sigma\cdot\frac{\sigma}{4}=\frac27 ,
+\]
+since
+\(\|DH_h(q_*)-DH_h(q)\|\le\|(DH_h-DH)(q_*)\|+\|DH(q_*)-DH(q)\|
++\|(DH-DH_h)(q)\|\le2\bar\varepsilon_h+2\hat\omega(r_0)+2\bar\varepsilon_h\).
+Also \(\|\Phi(q_*)-q_*\|=\|DH_h(q_*)^{-1}H_h(q_*)\|\le\alpha\) with
+\(\alpha:=\tfrac{8\sqrt2}{7}\|J(q_*)^{-1}\|\varepsilon_h\), because
+\(\|H_h(q_*)\|=\|(H_h-H)(q_*)\|\le\sqrt2\,\varepsilon_h\). The fourth term
+of \(\delta_0\) gives
+\(\tfrac75\alpha=\tfrac{8\sqrt2}{5\sigma}\varepsilon_h\le r_0\), so
+\(\Phi\) maps \(B(q_*,\tfrac75\alpha)\subseteq B(q_*,r_0)\) into itself
+(\(\alpha+\tfrac27\cdot\tfrac75\alpha=\tfrac75\alpha\)) and is a
+\(\tfrac27\)-contraction there. The Banach fixed point \(q_h\) satisfies
+\(H_h(q_h)=0\) and
+\[
+\|q_h-q_*\|\le\frac{\alpha}{1-\tfrac27}
+=\frac75\alpha
+=\frac{8\sqrt2}{5}\,\|J(q_*)^{-1}\|\,\varepsilon_h
+\;\le\;2\sqrt2\,\|J(q_*)^{-1}\|\,\varepsilon_h .
+\]
+
+\emph{Step 3 (margins and uniqueness in the fixed ball).} The margin
+hypotheses hold on all of \(N\), so directly
+\(|F_{h,ttt}|\ge\mu_3-\bar\varepsilon_h>\mu_3/2>0\) and
+\(|F_{h,t\theta}|\ge\mu_\theta-\bar\varepsilon_h>\mu_\theta/2>0\)
+everywhere on \(N\), in particular at \(q_h\): the fold is nondegenerate
+with the stated margins. If \(H_h(a)=H_h(b)=0\) with
+\(a,b\in B(q_*,r_0)\), the averaged Jacobian
+\(M=\int_0^1DH_h(a+s(b-a))\,\dd s\) obeys \(M(b-a)=0\) and
+\[
+\|M-J(q_*)\|\le2\,\hat\omega(r_0)+2\bar\varepsilon_h
+\le\frac\sigma8+\frac\sigma{16}=\frac{3\sigma}{16}<\sigma,
+\]
+so \(M\) is invertible and \(a=b\).
+
+\emph{Converse.} Under the ladder hypotheses, apply Steps 0--3 with the
+roles of \(F\) and \(F_h\) exchanged, seeded at \(q_h\): Step 0 gives
+\(\sigma_h=1/\|J_h(q_h)^{-1}\|\ge
+\mu_3\mu_\theta/\sqrt{\mu_\theta^2+2\Lambda^2}\) uniformly in \(h\); the
+common augmented modulus \(\hat\omega\) gives a common \(r_0\), and
+\(\operatorname{dist}(q_h,\partial N)\ge d\) keeps
+\(B(q_h,\min(r_0,d))\subseteq N\); uniform jet convergence makes the
+defects \(\varepsilon_h,\bar\varepsilon_h\to0\), so the threshold
+\(\delta_0\) (with \(r_0\) replaced by \(\min(r_0,d)\)) is met for fine
+\(h\), and \(F\) acquires a unique nondegenerate fold \(\bar q\) in the
+ball with
+\(\|\bar q-q_h\|\le2\sqrt2\|J_h(q_h)^{-1}\|\varepsilon_h
+\le2\sqrt2\,\sqrt{\mu_\theta^2+2\Lambda^2}\,(\mu_3\mu_\theta)^{-1}
+\varepsilon_h\).\hfill\(\square\)

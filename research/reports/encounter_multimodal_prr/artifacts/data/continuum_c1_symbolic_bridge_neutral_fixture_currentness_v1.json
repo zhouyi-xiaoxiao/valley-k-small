@@ -1,0 +1,69 @@
+{
+  "claim_boundary": {
+    "acceptance_pass": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "formal_production_candidate_materialized": false,
+    "production_geometry_evidence": false,
+    "production_member_sources_complete": false,
+    "production_pass": false,
+    "release_submission_science_execution": false,
+    "science_pass": false,
+    "symbolic_acceptance_receipt_materialized": false,
+    "symbolic_machine_contract_complete": false
+  },
+  "files": [
+    {
+      "path": "artifacts/data/continuum_c1_symbolic_bridge_neutral_source_v1.json",
+      "role": "neutral_source",
+      "sha256": "2d038789cef7e863d45775d51fda0023e6082e22228be5314edc3b9185a6b6b6",
+      "size_bytes": 5486
+    },
+    {
+      "path": "artifacts/data/continuum_c1_symbolic_bridge_neutral_outer_manifest_v1.json",
+      "role": "outer_manifest",
+      "sha256": "c196209e09cb7f0d4f51208e2f5c6173d201762bbd73f217110b8604c41158f1",
+      "size_bytes": 1008
+    },
+    {
+      "path": "code/continuum_c1_symbolic_bridge_neutral_operation_model_v1.json",
+      "role": "operation_model",
+      "sha256": "0870dd15d1b76933f87761368cb801e8ec186c50472f7686ce11f0d9ab9dee15",
+      "size_bytes": 1695
+    },
+    {
+      "path": "artifacts/data/continuum_c1_symbolic_bridge_neutral_fixture_v1.json",
+      "role": "canonical_artifact",
+      "sha256": "2aa8facd4f820ae4d28af9eadb4acf095e64f68d3742c4816d9f02337413ebee",
+      "size_bytes": 7335
+    },
+    {
+      "path": "code/build_continuum_c1_symbolic_bridge_neutral_fixture_v1.py",
+      "role": "builder",
+      "sha256": "27a3ed5b4c1066a590463ad43f68bebb60362780edd05903309848b4a0f76718",
+      "size_bytes": 38876
+    },
+    {
+      "path": "code/validate_continuum_c1_symbolic_bridge_neutral_fixture_v1.py",
+      "role": "independent_validator",
+      "sha256": "727ec3bb18a22e098b3e977fbfa17a3be14f09b54ccc707433f7ba559e35523d",
+      "size_bytes": 30359
+    },
+    {
+      "path": "code/test_continuum_c1_symbolic_bridge_neutral_fixture_v1.py",
+      "role": "static_test",
+      "sha256": "88ea2b30061856761c3be057ecfb47c565a7a46afb5c46532384145d9d51cdbc",
+      "size_bytes": 14190
+    },
+    {
+      "path": "code/test_continuum_c1_symbolic_bridge_neutral_fixture_mutations_v1.py",
+      "role": "mutation_test",
+      "sha256": "faabae1c29889f7d0703c63eae860089b19b92a1086bc8d008f2bf5a84ac0284",
+      "size_bytes": 23041
+    }
+  ],
+  "schema": "encounter_continuum_c1_symbolic_bridge_neutral_fixture_currentness_v1",
+  "status": "CURRENTNESS_ONLY_NEUTRAL_FIXTURE_NO_FORMAL_PRODUCTION_CANDIDATE_OR_ACCEPTANCE_RECEIPT"
+}

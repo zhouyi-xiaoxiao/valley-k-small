@@ -1,0 +1,639 @@
+{
+  "$defs": {
+    "contrast": {
+      "additionalProperties": false,
+      "properties": {
+        "high": {
+          "pattern": "^[A-Z][A-Z0-9]*$",
+          "type": "string"
+        },
+        "low": {
+          "pattern": "^[A-Z][A-Z0-9]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "high",
+        "low"
+      ],
+      "type": "object"
+    },
+    "control_m1": {
+      "additionalProperties": false,
+      "properties": {
+        "common_cuts": {
+          "maxItems": 0,
+          "type": "array"
+        },
+        "contrasts": {
+          "items": {
+            "$ref": "#/$defs/contrast"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "cut_hulls": {
+          "maxItems": 0,
+          "type": "array"
+        },
+        "role_hulls": {
+          "items": {
+            "$ref": "#/$defs/named_interval"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "valley_roles": {
+          "maxItems": 0,
+          "type": "array"
+        },
+        "windows": {
+          "items": {
+            "$ref": "#/$defs/window"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "common_cuts",
+        "contrasts",
+        "cut_hulls",
+        "role_hulls",
+        "valley_roles",
+        "windows"
+      ],
+      "type": "object"
+    },
+    "control_m2": {
+      "additionalProperties": false,
+      "properties": {
+        "common_cuts": {
+          "items": {
+            "$ref": "#/$defs/cut"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "contrasts": {
+          "items": {
+            "$ref": "#/$defs/contrast"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "cut_hulls": {
+          "items": {
+            "$ref": "#/$defs/interval"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "role_hulls": {
+          "items": {
+            "$ref": "#/$defs/named_interval"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "valley_roles": {
+          "const": [
+            "Q1"
+          ]
+        },
+        "windows": {
+          "items": {
+            "$ref": "#/$defs/window"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "common_cuts",
+        "contrasts",
+        "cut_hulls",
+        "role_hulls",
+        "valley_roles",
+        "windows"
+      ],
+      "type": "object"
+    },
+    "control_m3": {
+      "additionalProperties": false,
+      "properties": {
+        "common_cuts": {
+          "items": {
+            "$ref": "#/$defs/cut"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "contrasts": {
+          "items": {
+            "$ref": "#/$defs/contrast"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        },
+        "cut_hulls": {
+          "items": {
+            "$ref": "#/$defs/interval"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "role_hulls": {
+          "items": {
+            "$ref": "#/$defs/named_interval"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array"
+        },
+        "valley_roles": {
+          "const": [
+            "Q1",
+            "Q2"
+          ]
+        },
+        "windows": {
+          "items": {
+            "$ref": "#/$defs/window"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array"
+        }
+      },
+      "required": [
+        "common_cuts",
+        "contrasts",
+        "cut_hulls",
+        "role_hulls",
+        "valley_roles",
+        "windows"
+      ],
+      "type": "object"
+    },
+    "cut": {
+      "additionalProperties": false,
+      "properties": {
+        "delta_v_binary64": {
+          "$ref": "#/$defs/float_hex"
+        },
+        "exact_midpoint": {
+          "$ref": "#/$defs/rational"
+        },
+        "role": {
+          "enum": [
+            "Q1",
+            "Q2"
+          ]
+        },
+        "value_binary64": {
+          "$ref": "#/$defs/float_hex"
+        }
+      },
+      "required": [
+        "delta_v_binary64",
+        "exact_midpoint",
+        "role",
+        "value_binary64"
+      ],
+      "type": "object"
+    },
+    "float_hex": {
+      "pattern": "^-?0x[01]\\.[0-9a-f]{13}p[+-][0-9]+$",
+      "type": "string"
+    },
+    "hold": {
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "$ref": "#/$defs/hold_reason"
+        },
+        "secondary": {
+          "items": {
+            "$ref": "#/$defs/hold_reason"
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "primary",
+        "secondary"
+      ],
+      "type": "object"
+    },
+    "hold_reason": {
+      "enum": [
+        "HOLD_DECODE_UTF8",
+        "HOLD_DECODE_JSON",
+        "HOLD_DUPLICATE_KEY",
+        "HOLD_CANONICAL_JSON",
+        "HOLD_SCHEMA",
+        "HOLD_SCHEMA_NULLABILITY",
+        "HOLD_DEPENDENCY_HASH",
+        "HOLD_NUMERIC_LEAF",
+        "HOLD_F1A",
+        "HOLD_SELECTOR_INPUT",
+        "HOLD_ROLE_HULL_OVERLAP",
+        "HOLD_COMMON_CUT",
+        "HOLD_ROLE_WINDOW",
+        "HOLD_F1B_STATE_COVERAGE",
+        "HOLD_REFERENCE_POINT_LAW",
+        "HOLD_CUT_UNCERTAINTY",
+        "HOLD_COMMON_OBSERVABLE",
+        "HOLD_DETERMINISTIC_ENVELOPE",
+        "HOLD_TAU_ZERO",
+        "HOLD_BASIN_FLOOR",
+        "HOLD_CONTRAST_NONPOSITIVE",
+        "HOLD_CONTRAST_PLANNING_INCOHERENT",
+        "HOLD_CONTRAST_SPLIT",
+        "HOLD_SPECIAL_FUNCTION_DAG",
+        "HOLD_SPECIAL_FUNCTION_AMBIGUOUS",
+        "HOLD_POWER_BOUNDARY",
+        "HOLD_N_CAP",
+        "HOLD_RNG_SPEC",
+        "HOLD_TEST_KEY_SET",
+        "HOLD_SEED_COLLISION",
+        "HOLD_NO_REFIT_VIOLATION",
+        "HOLD_APPEND_ONLY",
+        "HOLD_SELECTOR_REPLICA_MISMATCH"
+      ]
+    },
+    "interval": {
+      "items": {
+        "$ref": "#/$defs/float_hex"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "named_interval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "role": {
+          "pattern": "^[PQ][1-3]$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "interval",
+        "role"
+      ],
+      "type": "object"
+    },
+    "rational": {
+      "pattern": "^(0|-?[1-9][0-9]*)(/[1-9][0-9]*)?$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "stage_rows": {
+      "additionalProperties": false,
+      "properties": {
+        "append_only": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "common_observables": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "decode": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "dependencies": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "f1a": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "f1b_coverage": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "geometry": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "numeric_leaves": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "power": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "reference_point_law": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "replica": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "rng": {
+          "$ref": "#/$defs/stage_status"
+        },
+        "schema": {
+          "$ref": "#/$defs/stage_status"
+        }
+      },
+      "required": [
+        "append_only",
+        "common_observables",
+        "decode",
+        "dependencies",
+        "f1a",
+        "f1b_coverage",
+        "geometry",
+        "numeric_leaves",
+        "power",
+        "reference_point_law",
+        "replica",
+        "rng",
+        "schema"
+      ],
+      "type": "object"
+    },
+    "stage_status": {
+      "enum": [
+        "PASS",
+        "PASS_BEFORE_HOLD",
+        "HOLD",
+        "NOT_RUN_AFTER_HOLD",
+        "NOT_RUN_NOT_YET"
+      ]
+    },
+    "window": {
+      "additionalProperties": false,
+      "properties": {
+        "left_closed": {
+          "const": true
+        },
+        "lower": {
+          "$ref": "#/$defs/rational"
+        },
+        "name": {
+          "pattern": "^[LPQR][0-3]?$",
+          "type": "string"
+        },
+        "right_open": {
+          "const": true
+        },
+        "upper": {
+          "$ref": "#/$defs/rational"
+        }
+      },
+      "required": [
+        "left_closed",
+        "lower",
+        "name",
+        "right_open",
+        "upper"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://local.invalid/f1_to_f2_common_observable_selector_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "canonical_payload_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "selector_payload_core": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "PASS_TO_F1B"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "hold": {
+                "type": "null"
+              },
+              "selection": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "HOLD_SELECTION"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "hold": {
+                "$ref": "#/$defs/hold"
+              },
+              "selection": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "authorized_scientific_command": {
+          "type": "null"
+        },
+        "dependencies": {
+          "additionalProperties": false,
+          "properties": {
+            "central_projection_spec_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "f1_manifest_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "f1a_result_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "f1a_verifier_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "philox_spec_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "selector_design_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "selector_implementation_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "selector_runtime_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "selector_schema_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "selector_test_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "test_key_set_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "upstream_f0_audit_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "upstream_f0_implementation_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "central_projection_spec_sha256",
+            "f1_manifest_sha256",
+            "f1a_result_sha256",
+            "f1a_verifier_sha256",
+            "philox_spec_sha256",
+            "selector_design_sha256",
+            "selector_implementation_sha256",
+            "selector_runtime_sha256",
+            "selector_schema_sha256",
+            "selector_test_sha256",
+            "test_key_set_sha256",
+            "upstream_f0_audit_sha256",
+            "upstream_f0_implementation_sha256"
+          ],
+          "type": "object"
+        },
+        "hold": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/hold"
+            }
+          ]
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "selection": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "controls": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "lp_m1": {
+                      "$ref": "#/$defs/control_m1"
+                    },
+                    "lp_m2": {
+                      "$ref": "#/$defs/control_m2"
+                    },
+                    "lp_m3": {
+                      "$ref": "#/$defs/control_m3"
+                    }
+                  },
+                  "required": [
+                    "lp_m1",
+                    "lp_m2",
+                    "lp_m3"
+                  ],
+                  "type": "object"
+                },
+                "required_times": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "lp_m1": {
+                      "items": {
+                        "$ref": "#/$defs/rational"
+                      },
+                      "minItems": 1,
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "lp_m2": {
+                      "items": {
+                        "$ref": "#/$defs/rational"
+                      },
+                      "minItems": 1,
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "lp_m3": {
+                      "items": {
+                        "$ref": "#/$defs/rational"
+                      },
+                      "minItems": 1,
+                      "type": "array",
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "lp_m1",
+                    "lp_m2",
+                    "lp_m3"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "controls",
+                "required_times"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "stage": {
+          "const": "f1_common_observable_selection_v2"
+        },
+        "stage_rows": {
+          "$ref": "#/$defs/stage_rows"
+        },
+        "status": {
+          "enum": [
+            "PASS_TO_F1B",
+            "HOLD_SELECTION"
+          ]
+        }
+      },
+      "required": [
+        "authorized_scientific_command",
+        "dependencies",
+        "hold",
+        "schema_version",
+        "selection",
+        "stage",
+        "stage_rows",
+        "status"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "canonical_payload_sha256",
+    "selector_payload_core"
+  ],
+  "type": "object"
+}

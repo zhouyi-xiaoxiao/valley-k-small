@@ -1,0 +1,171 @@
+{
+  "broad_configuration_smoke": {
+    "basin_counts": [
+      76,
+      286,
+      2487
+    ],
+    "basin_mass_clopper_pearson_intervals": [
+      [
+        0.0034283866343274775,
+        0.006124269716826017
+      ],
+      [
+        0.015024085961345484,
+        0.020152397598223525
+      ],
+      [
+        0.14492131222229648,
+        0.15885638382082284
+      ]
+    ],
+    "basin_mass_estimates": [
+      0.004638671875,
+      0.0174560546875,
+      0.15179443359375
+    ],
+    "candidate_count_maximum": 30,
+    "candidate_count_sum": 193465,
+    "censored_survivor_count": 13535,
+    "mass_partition_count_error": 0,
+    "maximum_acceptance_probability_seen": 0.5687103184716558,
+    "maximum_rate_seen": 0.07393234140131526,
+    "method_smoke_only": true,
+    "reaction_count": 2849,
+    "root_locations": [
+      3.365272251188439,
+      5.116225052518206,
+      8.66151334474662,
+      13.618681444463405,
+      22.603279023438112
+    ],
+    "root_locations_source": "disclosed N=97 feasibility only; not a production freeze",
+    "survival_at_horizon": 0.82611083984375,
+    "trajectory_count": 16384,
+    "valley_partition_times": [
+      5.116225052518206,
+      13.618681444463405
+    ],
+    "window_counts": [
+      25,
+      19,
+      41,
+      26,
+      29
+    ],
+    "window_half_width": 0.4
+  },
+  "claim_flags": {
+    "independent_solver_verified": false,
+    "modality_confirmed": false,
+    "project_gate_passed": false,
+    "publication_evidence": false
+  },
+  "constant_hazard_invariant": {
+    "candidate_count_maximum": 12,
+    "candidate_count_sum": 73592,
+    "constant_hazard": 0.05,
+    "dkw_alpha": 0.001,
+    "dkw_gate_passed": true,
+    "dkw_simultaneous_half_width": 0.010769427436720583,
+    "exact_survival": [
+      0.951229424500714,
+      0.9048374180359595,
+      0.7788007830714049,
+      0.6065306597126334,
+      0.36787944117144233,
+      0.1353352832366127
+    ],
+    "maximum_absolute_survival_error": 0.0025736523102622977,
+    "maximum_acceptance_probability_seen": 0.38461538461538464,
+    "maximum_rate_seen": 0.05,
+    "observed_survival": [
+      0.950225830078125,
+      0.9044189453125,
+      0.780242919921875,
+      0.6087646484375,
+      0.369415283203125,
+      0.137908935546875
+    ],
+    "reaction_count": 28249,
+    "survival_at_horizon": 0.137908935546875,
+    "time_grid": [
+      1.0,
+      2.0,
+      5.0,
+      10.0,
+      20.0,
+      40.0
+    ],
+    "trajectory_count": 32768
+  },
+  "lambda_certificate": {
+    "acceptance_clipping_forbidden": true,
+    "analytic_upper_bound": 0.1245290564385021,
+    "base_bump_integral_binary64": 0.4439938161680794,
+    "binary64_exact_profile_maximum_diagnostic": 0.07393234251040665,
+    "frozen_lambda": 0.13,
+    "strict_margin": 0.00547094356149791
+  },
+  "method": {
+    "candidate_process": "homogeneous Poisson thinning",
+    "free_transition": "exact OU, exact OU, exact wrapped Brownian between Poisson candidates",
+    "killing": "continuous normalized midpoint bumps times unsmoothed disk-contact indicator",
+    "numpy_version": "2.5.1",
+    "rng": "NumPy Philox with distinct 128-bit key per replicate and trajectory",
+    "scipy_version": "1.18.0",
+    "state_space": "R midpoint x R relative_parallel x periodic relative_perp"
+  },
+  "parameters": {
+    "budget": 0.01,
+    "contact_radius": 0.16,
+    "initial_half_width": 0.02,
+    "midpoint_start": 0.14,
+    "ou_mean": 0.95,
+    "ou_stiffness": 0.1,
+    "particle_diffusion": 0.002,
+    "patch_centres": [
+      0.35,
+      0.6,
+      0.75,
+      0.9
+    ],
+    "patch_half_width": 0.04,
+    "relative_parallel_start": -0.35,
+    "relative_perp_start": 0.0,
+    "transverse_width": 1.0,
+    "weights": [
+      0.28,
+      0.27736690132708747,
+      0.0857172266153233,
+      0.3569158720575891
+    ]
+  },
+  "preliminary_power_plan": {
+    "disclosed_smallest_mass_alternative": 0.005307459366939327,
+    "exact_mass_detection_power_at_provisional_size": 0.9999999999999994,
+    "familywise_alpha_allocation": {
+      "four_peak_valley_contrasts": 0.02,
+      "survival_DKW": 0.01,
+      "three_basin_masses": 0.02
+    },
+    "joint_contrast_power_at_least_0p90_certified_at_provisional_size": true,
+    "mass_floor": 0.005,
+    "nominal_CP_precision_at_provisional_size": {
+      "interval": [
+        0.005234372874031841,
+        0.005381356494689576
+      ],
+      "maximum_radius": 7.389712775024947e-05,
+      "nominal_expected_count": 31845,
+      "quarter_margin_passed": true,
+      "quarter_margin_target_radius": 7.686484173483163e-05
+    },
+    "production_run_authorized": false,
+    "provisional_rounded_production_size": 6000000,
+    "source": "already disclosed N=97 feasibility values; must be recomputed after FV target freeze",
+    "target_joint_power": 0.9
+  },
+  "schema_version": 1,
+  "stage": "OFF_LATTICE_DOI_THINNING_PROOF_OF_PRINCIPLE_ONLY"
+}

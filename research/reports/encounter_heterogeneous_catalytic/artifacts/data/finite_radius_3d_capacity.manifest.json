@@ -1,0 +1,125 @@
+{
+  "classifier_spec": null,
+  "classifier_spec_sha256": null,
+  "command": [
+    ".venv/bin/python",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_3d_capacity.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:58:57.868045+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_3d_capacity.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "quantity": "periodic mean reaction time from backward solve",
+    "small_target_boundary": "leading slope plus additive periodic correction",
+    "theory_inverse_effective_radius_slope": 0.07957747154594767
+  },
+  "inputs": [],
+  "model_spec": {
+    "fixed_kappa": 1.0,
+    "geometry": "unit flat three-torus in exact relative coordinates",
+    "grid_radius": 0.09,
+    "grid_sizes": [
+      41,
+      57,
+      73,
+      89,
+      105,
+      121
+    ],
+    "linear_solver": "matrix-free PCG with FFT shifted-Laplacian inverse",
+    "radius_grid_pairs": [
+      [
+        0.18,
+        41
+      ],
+      [
+        0.13,
+        57
+      ],
+      [
+        0.095,
+        79
+      ],
+      [
+        0.07,
+        109
+      ],
+      [
+        0.055,
+        139
+      ],
+      [
+        0.045,
+        169
+      ]
+    ],
+    "reaction_model": "cell-averaged spherical finite-radius Doi sink",
+    "relative_diffusivity": 1.0,
+    "renormalized_chi": 1.0,
+    "subcell_samples": 6,
+    "walker_diffusivities": [
+      0.35,
+      0.65
+    ]
+  },
+  "model_spec_sha256": "e8313728b5eca58f041bdd691a91ce61578f3f3c75a38d6f5ee01bd3e674d9e9",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_capacity_metrics.json",
+      "sha256": "ceaf82924cd3e2abf3daa523bfe890325b4da11fac6fecc17e0700a0eee21ed0"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_grid_convergence.csv",
+      "sha256": "58a59554159114292182dfe9c0432cb6a2d299f5406197ef7529c6bbfd19f097"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_radius_convergence.csv",
+      "sha256": "c7aca3e93004da40b50f24d4e1dc1a71f40207b243fc1d9fcf7726a25e812fc8"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_3d_fixed_kappa.csv",
+      "sha256": "dffdcf05bad39223e791dbd28656f6ab6f02138211efd0800ee5d64b82645f7b"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_3d_capacity_validation.pdf",
+      "sha256": "ab5c31f9d1648d5e21a75f6f2e72cd50e4a659809c56c93c5ffc40f23ef66446"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/finite_radius_3d_capacity_validation.png",
+      "sha256": "d872d89af7979b358af98f0ec454b304349583e704877c56de1b37d767fbe938"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_3d_capacity.py",
+      "sha256": "ef368ad1a164db6059acacccffb604c211b0697fbf6cd47072a49dd94ca23508"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/encounter3d.py",
+      "sha256": "41807218fbc8f5bdd995e3fbcbbf95934dca90bbccfd9a086a0ed9aa454864f4"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "b397bbbdee40a96f8462cf442c1539810f834d8bd1d579ee86ad53fc6ff783b0"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/finite_radius_3d_capacity.md",
+      "sha256": "fcd2db04cfdcd03ea45b286e3985fa07cf75582d77888802a5aad9a760d96d5c"
+    }
+  ]
+}

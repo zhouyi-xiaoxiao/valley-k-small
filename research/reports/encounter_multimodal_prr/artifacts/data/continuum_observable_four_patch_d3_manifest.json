@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "stage": "G1p_observable_four_patch_physical_d3_exact_kernel_confirmation",
+  "status": "REFROZEN_AFTER_MODEL_CONTRACT_AND_FORMAT_CORRECTIONS_BEFORE_FINAL_EXECUTION",
+  "date_frozen": "2026-07-13",
+  "evidence_timing": "RESULT_INFORMED_CONFIRMATION_NOT_PREREGISTERED_DISCOVERY",
+  "claim_scope": "Confirm an observable five-root free-exposure design for a true physical-d=3 spherical contact set on R x T_W^2 at one fixed four-slab geometry; this is not interval certification, finite-B killed-Doi evidence, an independent PDE solve, or a passed project/publication gate",
+  "known_before_freeze": {
+    "source": "scratch/continuum_d3_four_patch_exploration.py and its scratch JSON output",
+    "pre_final_contract_correction": {
+      "issue": "The first protocol wording could be read as transverse point masses although the d2 baseline and scratch implementation used independent compact bumps in every coordinate",
+      "resolution_before_final_execution": "The protocol and producer now state explicitly that midpoint, longitudinal relative, and both transverse relative coordinates use independent normalized bumps of half-width 0.004",
+      "discarded_output_sha256": "027cb049de85f1d4113817b8b726ef822708e150b9f2a2fcb474e0f5331707d2",
+      "discarded_output_status": "PRE_FINAL_OUTPUT_NOT_PART_OF_FROZEN_FINAL_EVIDENCE"
+    },
+    "pre_final_format_refreeze": {
+      "issue": "The model-correct producer and test passed Ruff lint but were not yet Ruff-format clean",
+      "resolution_before_final_execution": "Ruff formatting was applied, both files passed format --check, and the manifest hashes were refrozen before the final execution",
+      "discarded_output_sha256": "522c6eaf6b36529a5c9331b3688c10c85540825c75f649bf5c6980a4855eaeda",
+      "discarded_output_status": "PRE_FINAL_OUTPUT_NOT_PART_OF_FROZEN_FINAL_EVIDENCE"
+    },
+    "geometry": {
+      "patch_centres": [0.35, 0.6, 0.75, 0.9],
+      "patch_half_width": 0.008,
+      "initial_half_width": 0.004,
+      "contact_radius": 0.16,
+      "transverse_width": 1.0
+    },
+    "cusp_time_approx": 12.80973996,
+    "cusp_weights_approx": [0.28, 0.18220393, 0.20766999, 0.33012608],
+    "scaled_fourth_derivative_approx": -39.8723,
+    "unfolding_svd_ratio_approx": 0.2403,
+    "known_candidate_grid_contains_observable_triple_modes": true,
+    "likely_selected_step": 0.1,
+    "likely_selected_weights_approx": [0.28, 0.21134977, 0.11201164, 0.39663859],
+    "likely_selected_root_times_approx": [
+      3.07471459,
+      5.50127764,
+      8.26704904,
+      12.80973996,
+      21.46418017
+    ],
+    "evidence_consequence": "All numerical outputs are result-informed confirmation rather than preregistered discovery"
+  },
+  "frozen_files": {
+    "producer": "code/continuum_observable_four_patch_d3.py",
+    "producer_sha256": "f8fde83ecdf435acf28a32fb0dec6a22f216bf9f5a817d954f165e62811bf885",
+    "test": "code/test_continuum_observable_four_patch_d3.py",
+    "test_sha256": "bcb0b4264d0d89f140017004b083cb16ad7bf8f8ac7a8ab7b59f48ff9cef3a56",
+    "protocol": "notes/observable_four_patch_d3_protocol.md",
+    "protocol_sha256": "280a99653077e7d3ab4f7106d9f078a3588cd7f2ff3ae154f550d99dc47851f9",
+    "base_dependency": "code/continuum_observable_four_patch.py",
+    "base_dependency_sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da",
+    "output": "artifacts/data/continuum_observable_four_patch_d3_result.json"
+  },
+  "physical_model": {
+    "physical_dimension": 3,
+    "domain": "R longitudinal x T_W^2 transverse",
+    "contact_set": "sphere of radius 0.16",
+    "full_budget_factor": "1 / transverse_width^2",
+    "parameters": {
+      "particle_diffusion": 0.002,
+      "ou_stiffness": 0.1,
+      "ou_mean": 0.95,
+      "transverse_width": 1.0,
+      "contact_radius": 0.16,
+      "midpoint_start": 0.14,
+      "initial_half_width": 0.004,
+      "relative_parallel_start": -0.35,
+      "relative_perp_start": 0.0,
+      "patch_centres": [0.35, 0.6, 0.75, 0.9],
+      "patch_half_width": 0.008,
+      "fixed_first_weight": 0.28
+    }
+  },
+  "numerical_configurations": {
+    "coarse": {
+      "bump_order": 56,
+      "patch_order": 56,
+      "contact_angle_order": 56,
+      "transverse_fourier_modes": 12,
+      "cauchy_samples": 48,
+      "cauchy_radius": 0.5
+    },
+    "primary": {
+      "bump_order": 72,
+      "patch_order": 72,
+      "contact_angle_order": 72,
+      "transverse_fourier_modes": 16,
+      "cauchy_samples": 64,
+      "cauchy_radius": 0.4
+    },
+    "fine": {
+      "bump_order": 96,
+      "patch_order": 96,
+      "contact_angle_order": 96,
+      "transverse_fourier_modes": 24,
+      "cauchy_samples": 80,
+      "cauchy_radius": 0.3
+    }
+  },
+  "cusp_confirmation": {
+    "determinant_bracket": [12.0, 14.0],
+    "maximum_scaled_cusp_residual": 1e-08,
+    "minimum_absolute_scaled_fourth_derivative": 0.5,
+    "minimum_unfolding_svd_ratio": 0.1
+  },
+  "inward_step_scan": {
+    "step_start": 0.02,
+    "step_stop": 0.2,
+    "step_spacing": 0.01,
+    "candidate_steps": [
+      0.02,
+      0.03,
+      0.04,
+      0.05,
+      0.06,
+      0.07,
+      0.08,
+      0.09,
+      0.1,
+      0.11,
+      0.12,
+      0.13,
+      0.14,
+      0.15,
+      0.16,
+      0.17,
+      0.18,
+      0.19,
+      0.2
+    ],
+    "time_start": 0.1,
+    "time_stop": 100.0,
+    "time_spacing": 0.002,
+    "relative_density_floor": 1e-12,
+    "derivative_zero_relative_tolerance": 5e-12,
+    "minimum_peak_ratio": 0.1,
+    "maximum_valley_ratio": 0.85,
+    "minimum_abs_scaled_curvature": 0.0001,
+    "maximum_scaled_root_residual": 1e-09,
+    "selection_priority": [
+      "maximum minimum catalyst weight",
+      "maximum worst-valley margin to the 0.85 ceiling",
+      "maximum minimum-to-maximum peak ratio",
+      "smallest step as deterministic final tie-break"
+    ]
+  },
+  "convergence_gates": {
+    "maximum_cusp_time_difference": 2e-08,
+    "maximum_weight_linf_difference": 2e-08,
+    "maximum_scaled_f4_difference": 2e-05,
+    "maximum_root_time_difference": 2e-06
+  },
+  "spherical_coordinate_check": {
+    "times": [1.0, 5.0, 13.0, 25.0],
+    "radial_order": 36,
+    "polar_order": 40,
+    "azimuthal_points": 256,
+    "maximum_relative_difference": 5e-11
+  },
+  "required_claim_flags": {
+    "preregistered_discovery": false,
+    "continuum_verified": false,
+    "finite_B_Doi_verified": false,
+    "independent_PDE_solver_verified": false,
+    "project_gate_passed": false
+  },
+  "required_runtime": "repository .venv"
+}

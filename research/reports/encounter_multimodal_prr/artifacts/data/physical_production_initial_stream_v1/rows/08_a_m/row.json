@@ -1,0 +1,329 @@
+{
+  "axes": [
+    {
+      "axis_relation_sha256": "3dc0fdfce75cb89c2ab36ace6f2ff7057e49506dc8d48a470b7ff25f2aded442",
+      "coordinate": "midpoint",
+      "partition_file": {
+        "byte_length": 27835,
+        "path": "rows/08_a_m/midpoint.partition.json",
+        "sha256": "0fb983e27ec07a35ba420b7b2c52419b7912e07ae47d371d365aee395e7e700a"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/08_a_m/midpoint.backward.be64",
+            "sha256": "1fce809ed93720fcddfe5d5915d897f4c34a2110c67e238c06c2b24b17c11e8a"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "1fce809ed93720fcddfe5d5915d897f4c34a2110c67e238c06c2b24b17c11e8a",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/08_a_m/midpoint.forward.be64",
+            "sha256": "e5ae9f356477342af19d4e181302263eb5614d43127763a4ac97e8242546d8df"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "e5ae9f356477342af19d4e181302263eb5614d43127763a4ac97e8242546d8df",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/08_a_m/midpoint.stationary_mass.be64",
+            "sha256": "76d17cf173ada8250b5dbf8a0b91b603e9d4e18a665b6158f30bfb5fbf235ffe"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "76d17cf173ada8250b5dbf8a0b91b603e9d4e18a665b6158f30bfb5fbf235ffe",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "f13a11c57acc813b1cc771fb6598dcfa4a5111394caaa9751fb3026d3ab57825",
+      "coordinate": "relative_parallel",
+      "partition_file": {
+        "byte_length": 27742,
+        "path": "rows/08_a_m/relative_parallel.partition.json",
+        "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/08_a_m/relative_parallel.backward.be64",
+            "sha256": "f12f9ce0c9c07ba01b0088644a2bc3677d501c3b066fb22ea931268492d3924d"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "f12f9ce0c9c07ba01b0088644a2bc3677d501c3b066fb22ea931268492d3924d",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/08_a_m/relative_parallel.forward.be64",
+            "sha256": "432d450450f514e06cb588d7ad1b41b3efa6e0b5ef3ba32251db6b7c25518619"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "432d450450f514e06cb588d7ad1b41b3efa6e0b5ef3ba32251db6b7c25518619",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/08_a_m/relative_parallel.stationary_mass.be64",
+            "sha256": "9cd2bdb9cad3e3bfc7f48a09d909986de101d0f4c7d6e41b515780e4d6cbb8cf"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "9cd2bdb9cad3e3bfc7f48a09d909986de101d0f4c7d6e41b515780e4d6cbb8cf",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "6a8429a5ae766f46db0242398539b327ac220f0e04cdc5c207c7c30399fdb305",
+      "coordinate": "relative_perpendicular",
+      "partition_file": {
+        "byte_length": 11987,
+        "path": "rows/08_a_m/relative_perpendicular.partition.json",
+        "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/08_a_m/relative_perpendicular.backward.be64",
+            "sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/08_a_m/relative_perpendicular.forward.be64",
+            "sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/08_a_m/relative_perpendicular.stationary_mass.be64",
+            "sha256": "0546f197a4fc89ebd3e5f45bdb083fb4d9b123fff3c5aa9252993683b4a1a358"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0546f197a4fc89ebd3e5f45bdb083fb4d9b123fff3c5aa9252993683b4a1a358",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    }
+  ],
+  "configuration_index": 8,
+  "configuration_label": "A_M",
+  "configuration_sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+  "expected_states": 2113536,
+  "flags": {
+    "analytic_source_to_sparse_box_producer_consistent": true,
+    "free_axis_geometry_rate_producer_consistent": true,
+    "full_operator_bound": false,
+    "independent_geometry_relation_replay": false,
+    "independent_source_box_replay": false,
+    "killing_contact_geometry_bound": false,
+    "positive_budget_executed": false
+  },
+  "initial_marginals": [
+    {
+      "active_indices": [
+        23,
+        24,
+        25
+      ],
+      "coordinate": "midpoint",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/08_a_m/midpoint.initial_marginal.be64",
+        "sha256": "5a4560ce99d8f4d5d2e8bf195d1b2f4a1ada238219fc9c94777a30fccd016270"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "5a4560ce99d8f4d5d2e8bf195d1b2f4a1ada238219fc9c94777a30fccd016270",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_midpoint",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        50,
+        51,
+        52
+      ],
+      "coordinate": "relative_parallel",
+      "file": {
+        "byte_length": 2048,
+        "path": "rows/08_a_m/relative_parallel.initial_marginal.be64",
+        "sha256": "32398adc147e1b3b481f0e0b9311cc90fcc576ab0406d9ebaeac5915be8b3341"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          128
+        ],
+        "raw_byte_length": 2048,
+        "raw_sha256": "32398adc147e1b3b481f0e0b9311cc90fcc576ab0406d9ebaeac5915be8b3341",
+        "record_count": 128,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_parallel",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "coordinate": "relative_perpendicular",
+      "file": {
+        "byte_length": 2048,
+        "path": "rows/08_a_m/relative_perpendicular.initial_marginal.be64",
+        "sha256": "6821e3d8bc64f48f66733593c8ee271985ca3a16ab7e53e1d107b1dcb7a52fdd"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          128
+        ],
+        "raw_byte_length": 2048,
+        "raw_sha256": "6821e3d8bc64f48f66733593c8ee271985ca3a16ab7e53e1d107b1dcb7a52fdd",
+        "record_count": 128,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_perpendicular",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    }
+  ],
+  "row_relation_sha256": "541773680a3d16b4b2c1c228d789b7f3a95f7a3bdaa5c71c8e6ee499736ddfbf",
+  "schema": "encounter_control_free_production_initial_row_v1",
+  "source_box_relation_sha256": "c54ad9e6196809c9e3723ee6c1a4c44a3dc3bfa13cd37538615c445cf1b29c6a",
+  "sparse_component_box": {
+    "active_component_count": 54,
+    "active_index_sha256": "a9387b2391a88700e22c3b42aaf0e1a5ddd14fcb18f9be1586aeb37f38920759",
+    "dense_expansion_byte_length": 33816576,
+    "dense_expansion_record_format": ">dd",
+    "dense_expansion_sha256": "2a15cdff80aff1322e2f2fae8698ff8ae2530c13da60c1ec74a959e931fb2e3c",
+    "file": {
+      "byte_length": 1360,
+      "path": "rows/08_a_m/initial_component_box.sparse.be64",
+      "sha256": "3b8961b0a82403826b4c1e3a6096ad100697dee683e8ecbcb57dc35909222815"
+    },
+    "implicit_background": "positive_zero_interval_[0x0.0p+0,0x0.0p+0]",
+    "lower_mass_exact": "590295810358308860323/590295810358705651712",
+    "record_format": ">Qdd",
+    "schema": "encounter_sparse_component_interval_box_v1",
+    "shape": [
+      129,
+      128,
+      128
+    ],
+    "state_count": 2113536,
+    "tensor_order": "C:midpoint_outer_relative_parallel_middle_transverse_inner",
+    "upper_mass_exact": "590295810359102356887/590295810358705651712"
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NOT_F0"
+}

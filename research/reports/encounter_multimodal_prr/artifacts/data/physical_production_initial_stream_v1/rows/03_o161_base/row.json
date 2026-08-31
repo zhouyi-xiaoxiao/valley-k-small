@@ -1,0 +1,331 @@
+{
+  "axes": [
+    {
+      "axis_relation_sha256": "9edd2d8986de091d5ce65a5516652c29e442e80519eda32795d27e3e9012eb28",
+      "coordinate": "midpoint",
+      "partition_file": {
+        "byte_length": 34488,
+        "path": "rows/03_o161_base/midpoint.partition.json",
+        "sha256": "f720e9cec6f231a2dc064a188923490b0ddb307a357ad5f647e185da9ced2716"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/midpoint.backward.be64",
+            "sha256": "f63677a472c287537a9442b39126f5d252dcd3b6b86ae1c664a6d303bcc6ca41"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "f63677a472c287537a9442b39126f5d252dcd3b6b86ae1c664a6d303bcc6ca41",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/midpoint.forward.be64",
+            "sha256": "e33270462c3791fb9abcc9968bf1e73dff331d59adfcaea41657c64047acf9cc"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "e33270462c3791fb9abcc9968bf1e73dff331d59adfcaea41657c64047acf9cc",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/midpoint.stationary_mass.be64",
+            "sha256": "8d597887d1313f8d8318993d11a185f9c824d9f859214e0f5c07b5b2046fccc0"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "8d597887d1313f8d8318993d11a185f9c824d9f859214e0f5c07b5b2046fccc0",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "4cfd3013dfd569c8dbebfb2c6d59a6aabe786a23cbc53275b282035038d4db25",
+      "coordinate": "relative_parallel",
+      "partition_file": {
+        "byte_length": 34898,
+        "path": "rows/03_o161_base/relative_parallel.partition.json",
+        "sha256": "294d3964773e8b2eb1912824eb086fa86e4178fdce16b5035ce10560749e48cd"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/relative_parallel.backward.be64",
+            "sha256": "adf2fe712c9f62c2f83bf57f3f248fb16e44bf42446f34b7aca90511c65c4f3d"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "adf2fe712c9f62c2f83bf57f3f248fb16e44bf42446f34b7aca90511c65c4f3d",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/relative_parallel.forward.be64",
+            "sha256": "e5a74e7bb07012f054055a5aafdacda7dc83a9a3e123d819d3fcf72f78c6c5fc"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "e5a74e7bb07012f054055a5aafdacda7dc83a9a3e123d819d3fcf72f78c6c5fc",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/relative_parallel.stationary_mass.be64",
+            "sha256": "dfd8c3151743498026d914950753d816def5893b3c3f52a9a9fad9b37d62449a"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "dfd8c3151743498026d914950753d816def5893b3c3f52a9a9fad9b37d62449a",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "9a2b9b16015f527bc0629196d8bc44e4e251cd5e745e7c2d55fc643cf9a39ec4",
+      "coordinate": "relative_perpendicular",
+      "partition_file": {
+        "byte_length": 15171,
+        "path": "rows/03_o161_base/relative_perpendicular.partition.json",
+        "sha256": "54d4e7052fb583addf8ab0821891ba3835806fdf6639756437069b764665888e"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/relative_perpendicular.backward.be64",
+            "sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/relative_perpendicular.forward.be64",
+            "sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "6be25b8f55b11586b1063c0de3943a8c8be9af8d769f545fed1ddba5603f06e0",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2576,
+            "path": "rows/03_o161_base/relative_perpendicular.stationary_mass.be64",
+            "sha256": "535f5ab38a2ba32a9b0d2fbc71eae48710d39406dfbe35023b238d511ed926b7"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              161
+            ],
+            "raw_byte_length": 2576,
+            "raw_sha256": "535f5ab38a2ba32a9b0d2fbc71eae48710d39406dfbe35023b238d511ed926b7",
+            "record_count": 161,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    }
+  ],
+  "configuration_index": 3,
+  "configuration_label": "O161/Base",
+  "configuration_sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+  "expected_states": 4173281,
+  "flags": {
+    "analytic_source_to_sparse_box_producer_consistent": true,
+    "free_axis_geometry_rate_producer_consistent": true,
+    "full_operator_bound": false,
+    "independent_geometry_relation_replay": false,
+    "independent_source_box_replay": false,
+    "killing_contact_geometry_bound": false,
+    "positive_budget_executed": false
+  },
+  "initial_marginals": [
+    {
+      "active_indices": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "coordinate": "midpoint",
+      "file": {
+        "byte_length": 2576,
+        "path": "rows/03_o161_base/midpoint.initial_marginal.be64",
+        "sha256": "61131447a2a609c4872c1193d0041e1651a7ce73a2a74457b5d437f5ab89ef62"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          161
+        ],
+        "raw_byte_length": 2576,
+        "raw_sha256": "61131447a2a609c4872c1193d0041e1651a7ce73a2a74457b5d437f5ab89ef62",
+        "record_count": 161,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_midpoint",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        63,
+        64,
+        65
+      ],
+      "coordinate": "relative_parallel",
+      "file": {
+        "byte_length": 2576,
+        "path": "rows/03_o161_base/relative_parallel.initial_marginal.be64",
+        "sha256": "0682ca55542bdea8a8107d30bd3dacc7211005fb804933cf9c907b0d678c4474"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          161
+        ],
+        "raw_byte_length": 2576,
+        "raw_sha256": "0682ca55542bdea8a8107d30bd3dacc7211005fb804933cf9c907b0d678c4474",
+        "record_count": 161,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_parallel",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83
+      ],
+      "coordinate": "relative_perpendicular",
+      "file": {
+        "byte_length": 2576,
+        "path": "rows/03_o161_base/relative_perpendicular.initial_marginal.be64",
+        "sha256": "10b862d97287f948c25b86ee144508bc08b78a48588e524b85a4a947182ffc7d"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          161
+        ],
+        "raw_byte_length": 2576,
+        "raw_sha256": "10b862d97287f948c25b86ee144508bc08b78a48588e524b85a4a947182ffc7d",
+        "record_count": 161,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_perpendicular",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    }
+  ],
+  "row_relation_sha256": "ee49df0a9e896c6b6f813b4f1bb0e3fdd07852c65de4e4c87f84f4e694146739",
+  "schema": "encounter_control_free_production_initial_row_v1",
+  "source_box_relation_sha256": "a316add80ab5b4ca5fd370dec19160aff8e65bff9bec9a17f66ae6b1944a3c0b",
+  "sparse_component_box": {
+    "active_component_count": 84,
+    "active_index_sha256": "30b54a2a58c52cf41844b823b594bad2912e5c6c28ad4caa5e70291fc41875a8",
+    "dense_expansion_byte_length": 66772496,
+    "dense_expansion_record_format": ">dd",
+    "dense_expansion_sha256": "b58a34c1c80710dcb906ea011811126afde395dd0b8061be682602c014699539",
+    "file": {
+      "byte_length": 2080,
+      "path": "rows/03_o161_base/initial_component_box.sparse.be64",
+      "sha256": "2c3224aa7278ead95d9025a9a848c8d4ea7e4eb7ab333125e5a56ecdc6a3d3da"
+    },
+    "implicit_background": "positive_zero_interval_[0x0.0p+0,0x0.0p+0]",
+    "lower_mass_exact": "9671406556910533314448953/9671406556917033397649408",
+    "record_format": ">Qdd",
+    "schema": "encounter_sparse_component_interval_box_v1",
+    "shape": [
+      161,
+      161,
+      161
+    ],
+    "state_count": 4173281,
+    "tensor_order": "C:midpoint_outer_relative_parallel_middle_transverse_inner",
+    "upper_mass_exact": "9671406556923532482330705/9671406556917033397649408"
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NOT_F0"
+}

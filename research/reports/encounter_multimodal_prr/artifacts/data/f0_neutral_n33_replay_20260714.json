@@ -1,0 +1,53 @@
+{
+  "actions": 200,
+  "authorized_scientific_command": null,
+  "build_seconds": 7.62420000002021,
+  "construction": "rate_defined_tensor_sg_periodic_doi_v1",
+  "delta_p_direct_exact": "35309024162450437288525415030315/96593982970800325605834980147417990360196972544",
+  "delta_p_exact": "35309024162450437288525415030315/96593982970800325605834980147417990360196972544",
+  "delta_p_hex": "0x1.a5708c25eac5cp-52",
+  "delta_p_via_q_exact": "36725045165323460221507481869867/96593982970800325605834980147417990360196972544",
+  "delta_q_exact": "3/2251799813685248",
+  "delta_q_hex": "0x1.8000000000000p-50",
+  "explicit_csr_action_seconds": 0.026696916000219062,
+  "explicit_csr_build_seconds": 4.116146165993996,
+  "explicit_csr_bytes": 3136324,
+  "explicit_csr_nnz": 249381,
+  "label": "science_free_neutral_n33_tensor_benchmark",
+  "matrix_free_action_seconds": 0.046204375015804544,
+  "matrix_free_vs_csr_l1_distance": 3.9926253221547053e-16,
+  "maximum_floating_ops_per_output": 13,
+  "maximum_incoming_terms": 7,
+  "positive_budget_primary_control_evaluated": false,
+  "profile": "neutral-n33",
+  "prospective_control_values_read": false,
+  "rate_exact": "2381225526414017/562949953421312",
+  "rate_hex": "0x1.0eb6c8b439582p+2",
+  "shape": [
+    33,
+    33,
+    33
+  ],
+  "stage": "rate_defined_tensor_f0_method_only",
+  "states": 35937,
+  "status": "PASS_F0_METHOD_OBJECT_ONLY",
+  "structure_certificate": {
+    "axis_detailed_balance_by_sg_or_periodic_construction": true,
+    "diagonal_derived_from_rates_plus_killing": true,
+    "dirichlet_form_nonpositive_by_conductances_and_killing": true,
+    "doi_killing_intervals_nonnegative": true,
+    "half_volume_axes": [
+      "neutral_midpoint"
+    ],
+    "off_diagonal_rate_intervals_nonnegative": true,
+    "periodic_shift_exact": {
+      "neutral_relative": "0/1",
+      "neutral_transverse_shifted": "1/66"
+    },
+    "phat_entries_nonnegative_exact_dyadic": true,
+    "phat_rows_substochastic_exact_dyadic": true,
+    "qhat_rows_nonpositive_exact_dyadic": true,
+    "tensor_stationary_mass_strictly_positive": true
+  },
+  "tensor_numeric_bytes": 865656
+}

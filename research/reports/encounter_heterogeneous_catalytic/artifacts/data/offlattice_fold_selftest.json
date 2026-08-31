@@ -1,0 +1,107 @@
+{
+  "parameters": {
+    "channel_attribution": "geometric midpoint location at the kill step: near/far patch membership, else background",
+    "chunk": 200000,
+    "continuum_convention": "lattice CTMC hop rates D/h^2 give generator D*Laplacian + v.grad as h->0, which is the generator of dX = v dt + sqrt(2D) dW; this script simulates that SDE with the unrescaled lattice parameter values, so the lattice model's diffusive limit is reproduced exactly",
+    "domain": "unit square, reflecting (attempted-step reflection)",
+    "dt": 0.0002,
+    "far_patch": {
+      "centre": [
+        0.72,
+        0.5
+      ],
+      "radius": 0.2,
+      "rate": 15.0
+    },
+    "model": "off-lattice Euler-Maruyama pair with Doi midpoint killing",
+    "near_patch": {
+      "centre": [
+        0.25,
+        0.5
+      ],
+      "radius": 0.18,
+      "rate": 0.5
+    },
+    "pair": {
+      "diffusion_one": 0.0025,
+      "diffusion_two": 0.0008,
+      "drift_one": 0.115,
+      "drift_two": 0.02,
+      "start_one": [
+        0.0,
+        0.5
+      ],
+      "start_two": [
+        0.28,
+        0.5
+      ],
+      "transverse_confinement": 1.5
+    },
+    "reaction_radius": 0.17,
+    "rng": "numpy Philox, one SeedSequence-spawned substream per chunk",
+    "seed": 20260730,
+    "tmax": 120.0,
+    "variance_reduction": "none (plain independent walkers)"
+  },
+  "selftest": {
+    "bin_counts": [
+      5026,
+      4913,
+      5029,
+      4990,
+      4991,
+      4892,
+      5067,
+      5013,
+      5007,
+      4938,
+      4928,
+      5077,
+      4951,
+      5120,
+      5008,
+      5015,
+      5130,
+      4974,
+      4938,
+      4993
+    ],
+    "bin_edges": [
+      0.0,
+      0.05,
+      0.1,
+      0.15000000000000002,
+      0.2,
+      0.25,
+      0.30000000000000004,
+      0.35000000000000003,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6000000000000001,
+      0.65,
+      0.7000000000000001,
+      0.75,
+      0.8,
+      0.8500000000000001,
+      0.9,
+      0.9500000000000001,
+      1.0
+    ],
+    "bins": 20,
+    "diffusion": 0.0025,
+    "dt": 0.005,
+    "ks_distance": 0.0025316026924434576,
+    "ks_distance_scaled": 0.8005630638736067,
+    "max_abs_bin_z": 1.8862382502860302,
+    "mean": 0.5005678004782359,
+    "mean_z": 0.6219942601840499,
+    "pairs": 50000,
+    "passed": true,
+    "runtime_seconds": 99.5464152499917,
+    "samples": 100000,
+    "slowest_mode_residual": 0.000609907470006316,
+    "tmax": 300.0
+  }
+}

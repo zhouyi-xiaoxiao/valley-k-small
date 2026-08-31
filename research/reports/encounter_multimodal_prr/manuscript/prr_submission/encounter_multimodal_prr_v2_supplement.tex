@@ -1,0 +1,643 @@
+\documentclass[aps,physrev,onecolumn,amsmath,amssymb,longbibliography]{revtex4-2}
+
+\ifdefined\pdftrailerid
+  \pdftrailerid{}
+\fi
+
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={Supplemental Material: prescribing finite-window reaction-time modes with a static fixed-budget Doi reactivity field},
+  pdfauthor={Xiaoxiao Zhouyi},
+  pdfsubject={Analytical and numerical details for static fixed-budget reaction-time topology in a Doi process},
+  pdfkeywords={Doi process, reaction-time density, prescribed modality, static reactivity field, fixed integrated reactivity}
+}
+
+\newcommand{\dd}{\mathrm d}
+\newcommand{\e}{\mathrm e}
+\newcommand{\Lfree}{\mathcal L}
+\newcommand{\Qbox}{\mathcal Q_d^{\mathrm{box}}}
+\newcommand{\Qinf}{\mathcal Q_d^{\infty}}
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thetable}{S\Roman{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\makeatletter
+\renewcommand{\p@subsection}{}
+\makeatother
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title{Supplemental Material for ``Prescribing finite-window reaction-time
+modes with a static fixed-budget Doi reactivity field''}
+
+\author{Xiaoxiao Zhouyi}
+\email{xiaoxiao.zhouyi@bristol.ac.uk}
+\affiliation{School of Engineering Mathematics and Technology,
+University of Bristol, Bristol BS8 1TW, United Kingdom}
+
+\date{August 14, 2026}
+
+\begin{abstract}
+This Supplemental Material gives the bounded and natural-decay realizations
+of the two-particle Doi generator, proves compact-positive-time convergence
+of the required time and control mixed derivatives, and supplies the complete
+prescribed-modality proof.  For each fixed finite dimension and fixed finite
+mode count, the construction uses a static, nonnegative lab-frame reactivity
+field of fixed centre-coordinate \(L^1\) mass.  A whole-window stationary
+signature, uniform over a compact family of positive slab weights, is first
+established for the free-exposure clock and then transferred to sufficiently
+small positive reaction budget.  We also derive and evaluate a fixed-
+allocation sufficient threshold \(B_{\rm cert}\), distinct from both the
+uniform topology threshold \(B_{\rm top}^{\rm unif}\) and the operational
+numerical crossing \(B_{\rm op}\), and record the off-lattice methods,
+sanity checks, configuration tables, classifier-sensitivity analysis, and
+supplementary figures.
+\end{abstract}
+
+\maketitle
+
+\section{Doi model and analytic realizations}
+\label{sec:supp-model}
+
+For a fixed finite physical dimension \(d\ge2\), the longitudinal-slab
+symmetry reduction gives
+\begin{equation}
+ \Qbox=I_z\times I_\parallel\times\mathbb T_W^{d-1},
+ \qquad
+ \Qinf=\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}.
+ \label{eq:supp-domains}
+\end{equation}
+With \(x=(z,r_\parallel,r_\perp)\), equal particle diffusivities give the free
+forward operator
+\begin{equation}
+ \Lfree q=-\nabla\!\cdot(bq)+\nabla\!\cdot(\bm D\nabla q),
+ \qquad
+ \bm D=\operatorname{diag}(D/2,2D,\ldots,2D),
+ \label{eq:supp-free-generator}
+\end{equation}
+where
+\begin{equation}
+ b(x)=\bigl(-\gamma(z-\bar z),-\gamma r_\parallel,0,\ldots,0\bigr).
+ \label{eq:supp-drift}
+\end{equation}
+For two independent particles with per-particle Fokker--Planck diffusivity
+\(D\), the linear change of variables
+\(Z=(X_1+X_2)/2\), \(R=X_1-X_2\) gives diffusion entries \(D/2\) and
+\(2D\), respectively; identical longitudinal Ornstein--Uhlenbeck drifts give
+Eq.~\eqref{eq:supp-drift}.  Comparison with the quotient-coordinate
+stochastic differential equations in
+Eqs.~\eqref{eq:exactmfull-midpoint-sde}--%
+\eqref{eq:exactmfull-relative-perp-sde} therefore identifies
+\begin{equation}
+ D=\varepsilon^2D_0.
+ \label{eq:supp-D-identification}
+\end{equation}
+Thus \(D_0\) is the reference diffusion scale before the small-noise factor
+is applied; the physical diffusivity of either particle is \(D\), not
+\(D_0\).
+The bounded quotient has zero forward flux on its nonperiodic faces and
+periodic transverse coordinates.  Natural decay on the unbounded quotient is
+specified by the reversible density
+\begin{equation}
+ \pi(x)=Z_\pi^{-1}
+ \exp\!\left[-\frac{\gamma(z-\bar z)^2}{D}
+              -\frac{\gamma r_\parallel^2}{4D}\right],
+ \label{eq:supp-pi}
+\end{equation}
+including the normalized uniform torus factor.
+
+Let \(0<a<W/2\), let \(\chi_a(r)\) be the embedded minimum-image contact-ball
+indicator, and let normalized nonnegative longitudinal profiles obey
+\(\phi_j\in L^\infty\) and \(\int\phi_j(z)\,\dd z=1\).  Put
+\begin{equation}
+ V_j(z,r)=W^{-(d-1)}\chi_a(r)\phi_j(z),\qquad
+ V_w=\sum_{j=1}^Jw_jV_j,\qquad K_{B,w}=BV_w,
+ \label{eq:supp-profiles}
+\end{equation}
+where \(w_j\ge0\) and \(\sum_jw_j=1\).  The installed centre-space catalyst
+amount is \(B\) for every \(w\).  The killed state and budget-rescaled
+reaction density are
+\begin{equation}
+ q_{B,w}(t)=\e^{t(\Lfree-BM_{V_w})}q_0,\qquad
+ F_B(t,w)=\langle V_w,q_{B,w}(t)\rangle .
+ \label{eq:supp-state}
+\end{equation}
+
+\begin{proposition}[Analytic killed semigroups]
+\label{prop:supp-analytic}
+On \(\Qbox\), the reflecting/periodic realization of \(\Lfree\) on
+\(L^2(\Qbox)\) generates a positive analytic semigroup.  On \(\Qinf\), the
+natural-decay realization on \(X_\pi=L^2(\pi^{-1}\dd x)\) does the same.
+For real \(B\ge0\) and simplex control \(w\), bounded multiplication by
+\(-BV_w\) preserves the generator domain and yields a positive,
+mass-decreasing analytic semigroup.  At positive time the state is entire in
+every finite affine complexification of the control amplitudes.  On
+\(\Qinf\), the observable pairing is continuous when
+\(V_w\in L^2(\pi\dd x)\cap L^\infty\).
+\end{proposition}
+
+\begin{proof}
+Set \(q=\pi u\).  The identity
+\begin{equation}
+ \Lfree(\pi u)=\pi\mathcal Gu,\qquad
+ \mathcal G=\pi^{-1}\nabla\!\cdot(\pi\bm D\nabla)
+ \label{eq:supp-similarity}
+\end{equation}
+follows from \(b=\bm D\nabla\log\pi\).  On \(L^2(\pi\dd x)\), the closed
+weighted form has
+\begin{equation}
+ \langle u,\mathcal Gv\rangle_{L^2(\pi)}
+ =-\int(\nabla u)^{\mathsf T}\bm D\nabla v\,\pi\dd x.
+ \label{eq:supp-form}
+\end{equation}
+It therefore realizes \(\mathcal G\) as a nonpositive self-adjoint generator.
+Multiplication by \(\pi\) is a bounded isomorphism on the bounded quotient and
+a unitary map into \(X_\pi\) on the unbounded quotient.  Bounded multiplication
+by \(-BV_w\) preserves analyticity and the domain.  The norm-convergent
+Dyson--Phillips series gives entire dependence on the finite control
+amplitudes.  Positivity and mass decrease for real nonnegative data follow
+from the product formula, equivalently from Feynman--Kac
+\cite{bressloff2022feynmanKac,grebenkov2020multiple}.
+\end{proof}
+
+\section{Uniform compact-positive-time mixed derivatives}
+\label{sec:supp-mixed}
+
+Choose an interior affine control chart \(w(\theta)=\bar w+P\theta\) and a
+compact real control set \(\Theta\).  Fix \(\delta>0\) such that each closed
+coordinate polydisc of radius \(\delta\) about a point of \(\Theta\) lies in
+the complex tube
+\begin{equation}
+ \Theta_\delta^+
+ =\{\zeta\in\mathbb C^{J-1}:
+   \operatorname{dist}_\infty(\zeta,\Theta)<2\delta\}.
+ \label{eq:supp-tube}
+\end{equation}
+Define
+\begin{equation}
+ G(t,\theta)=\langle V_{w(\theta)},\e^{t\Lfree}q_0\rangle,\qquad
+ v_{\infty,\delta}=
+ \sup_{\zeta\in\Theta_\delta^+}\|V_{w(\zeta)}\|_\infty .
+ \label{eq:supp-free-exposure}
+\end{equation}
+Let \(v_{*,\delta}\) be the supremum of
+\(\|V_{w(\zeta)}\|_{L^2}\) on the bounded quotient and of
+\(\|V_{w(\zeta)}\|_{L^2(\pi\dd x)}\) on the unbounded quotient.  Write
+\(\kappa_\pi\) for the bounded-quotient similarity bound and set
+\(\kappa_\pi=1\) on the unbounded quotient.
+
+\begin{theorem}[Uniform weak-reaction mixed-jet bridge]
+\label{thm:mixed-jet}
+Fix \(0<\tau\le T<\infty\), \(0\le B\le B_{\max}\), an integer \(r\ge0\),
+and a finite control multi-index \(\alpha\).  The budget-rescaled density
+\(F_B(t,\theta)\) in Eq.~\eqref{eq:supp-state} extends continuously to
+\(F_0=G\), and
+\begin{align}
+ &\sup_{(t,\theta)\in[\tau,T]\times\Theta}
+ \left|\partial_t^r\partial_\theta^\alpha(F_B-G)\right|
+ \nonumber\\
+ &\quad\le
+ r!\,\alpha!\left(\frac2\tau\right)^r
+ \delta^{-|\alpha|}v_{*,\delta}\kappa_\pi
+ \left[\exp\!\left(\frac32Bv_{\infty,\delta}T\right)-1\right]
+ \|q_0\|_X .
+ \label{eq:supp-mixed-bound}
+\end{align}
+In particular, the left side is at most \(BC_{r,\alpha}\) for a finite
+constant independent of \(B\in[0,B_{\max}]\).
+\end{theorem}
+
+\begin{proof}
+For complex time \(z\) with \(\operatorname{Re}z>0\), the
+norm-convergent Dyson expansion in the self-adjoint representation is
+\begin{align}
+ \e^{z(\mathcal G-BV_w)}
+ ={}&\e^{z\mathcal G}
+ +\sum_{n=1}^{\infty}(-Bz)^n
+ \int_{\Delta_n}\e^{z(1-s_1)\mathcal G}V_w
+ \left[\prod_{k=1}^{n-1}
+ \e^{z(s_k-s_{k+1})\mathcal G}V_w\right]
+ \e^{zs_n\mathcal G}\,\dd\bm s ,
+ \label{eq:supp-dyson}
+\end{align}
+where
+\(\Delta_n=\{1\ge s_1\ge\cdots\ge s_n\ge0\}\) has volume \(1/n!\).
+Every free factor is contractive.  Consequently,
+\begin{equation}
+ \|\e^{z(\Lfree-BV_w)}-\e^{z\Lfree}\|_{X\to X}
+ \le\kappa_\pi\{\e^{B|z|\|V_w\|_\infty}-1\}.
+ \label{eq:supp-operator-bound}
+\end{equation}
+The complex-bilinear observable remainder thus satisfies
+\begin{equation}
+ \left|\left\langle V_{w(\zeta)},
+ [\e^{z(\Lfree-BV_{w(\zeta)})}-\e^{z\Lfree}]q_0
+ \right\rangle\right|
+ \le v_{*,\delta}\kappa_\pi
+ \{\e^{Bv_{\infty,\delta}|z|}-1\}\|q_0\|_X .
+ \label{eq:supp-remainder}
+\end{equation}
+For \(t\in[\tau,T]\), the disk \(|z-t|\le\tau/2\) remains in the open
+right half-plane and has \(|z|\le3T/2\).  Cauchy's estimate on this disk and
+on each radius-\(\delta\) control polydisc proves
+Eq.~\eqref{eq:supp-mixed-bound}.  Finally,
+\(\e^{Bx}-1\le Bx\e^{B_{\max}x}\) gives the linear bound.
+\end{proof}
+
+The estimate transfers any fixed finite collection of strict
+stationary-point neighbourhood, curvature, endpoint, and complement
+inequalities.  It is asserted only on compact positive-time intervals and
+does not supply a useful numerical budget threshold.
+
+\input{exact_m_theorem_full_proof.tex}
+
+\input{prr_assets/b0_quantitative_bound.tex}
+
+\section{Numerical methods, consistency checks, and supplementary figures}
+\label{sec:supp-numerics}
+
+This section records the off-lattice methodology behind the numerical
+campaigns of the main text, the complete production configuration table,
+the threshold-bisection table, and the supplementary figures.
+
+\subsection{Off-lattice integration and consistency checks}
+\label{sec:supp-numerics-method}
+
+The processes of Eq.~\eqref{eq:exactmfull-midpoint-sde}--%
+\eqref{eq:exactmfull-relative-perp-sde} are simulated directly, with no
+spatial lattice: midpoint, longitudinal, and transverse coordinates evolve
+by Euler--Maruyama steps of size \(\Delta t=10^{-3}\), the transverse
+coordinates are wrapped to \([0,W)\) with minimum-image contact distance,
+and initial conditions are drawn from the laws of
+Eq.~\eqref{eq:exactmfull-midpoint-initial}--%
+\eqref{eq:exactmfull-relative-perp-initial}.  Doi killing is realized by
+per-step thinning with probability
+\(1-\exp(-K_{B,\bm w,\varepsilon}\,\Delta t)\), evaluated at the current
+position (computed via \texttt{expm1} for numerical accuracy).  Random
+numbers come from counter-based Philox streams with one
+\texttt{SeedSequence}-spawned substream per walker chunk; the production
+grid uses seed \(20260808\) and the five campaign streams use seed
+\(20260813\), so every run is deterministic.  The common model parameters
+are \(\gamma=1\), \(D_0=1\), \(\bar z=0\), \(z_0=4\) (stretched to
+\(z_0=8\) for the \(m=5\) demonstration), \(W=1\), \(a=0.4\), \(\rho=1\),
+\(u_0=0.3\), \(\varsigma_\perp=0.3\), \(r_{\parallel,0}=0.1\),
+\(r_{\perp,0}=0\), window \(I=[0.5,3.5]\), \(t_{\max}=4\), and target
+times \((1.0,2.5)\) for \(m=2\) and \((0.8,1.6,2.8)\) for \(m=3\).
+
+Two automated checks accompany every configuration: the per-step kill
+probability remains in the unit interval, with largest value
+\(5.6\times10^{-3}\) over all production configurations, and kills plus
+survivors equal the walker count exactly.  Separately, a campaign-level
+\(B=0\) twin run of \(2\times10^{4}\) walkers for \(500\) steps accumulates
+about \(10^{7}\) contact steps and produces zero kills.  These are
+implementation sanity checks, not an accuracy certificate.  A
+\(\Delta t\)-halving twin
+(\(\Delta t=5\times10^{-4}\)) of the
+\((m,\varepsilon,B)=(2,0.1,1)\) production configuration reproduces both
+peak times at bin resolution and both peak prominences to within
+\(0.3\%\) (Table~\ref{tab:supp-production}, last row), and the \(d=3\)
+spot check passes a per-bin \(\Delta t\)-halving comparison with maximum
+\(|z|=1.67\) over \(26\) populated bins.
+
+Modality is decided by a fixed operational classifier: window reaction times
+are histogrammed with bin width \(0.02\), smoothed with a Gaussian kernel
+of bandwidth \(0.04\), and a local maximum of the smoothed density counts
+as a mode if and only if its topographic prominence (peak height minus
+contour-base height) exceeds both five covariance-aware smoothed-Poisson
+standard deviations and \(5\%\) of the maximum smoothed
+height on \(I\).  Peak and contour base are linear statistics of the raw
+bin counts \(C_j\), so the prominence carries the Poisson variance
+\(\sigma_{\rm prom}^2=\sum_j\bigl(A_{p,j}-A_{b,j}\bigr)^2C_j/(N\delta)^2\),
+where \(A_{p,j}\) and \(A_{b,j}\) are the edge-normalized Gaussian kernel
+weights of the peak bin and of the selected contour-base bin, \(N\) the
+walker count, and \(\delta\) the bin width.  A peak-only convention
+\(\sigma_{\rm peak}^2=\sum_j A_{p,j}^2C_j/(N\delta)^2\), which omits the
+base variance and the peak--base covariance, is not used: across all 606
+stored local maxima of the retained campaign it would inflate \(z\) of
+every counted maximum by a factor \(1.00\)--\(1.55\); the covariance term
+reduces the variance only for maxima that the classifier does not count
+(all far below the five-sigma gate), and no stored maximum crosses the
+five-sigma threshold upward under the covariance-aware statistic.  Classifier verdicts are
+therefore operational; the main
+text discusses the one scanned column, \((m,\varepsilon)=(3,0.2)\), that
+sits at the \(5\%\) floor.  Because bandwidth, prominence rule, seed,
+walker count, and step size enter this operational definition, results near a
+boundary are reported as classifier outcomes rather than exact stationary-
+point counts.
+
+\subsection{Production configuration table}
+\label{sec:supp-numerics-production}
+
+Table~\ref{tab:supp-production} lists all eighteen production
+configurations (\(5\times10^{6}\) walkers each, \(d=2\), seed
+\(20260808\)) with their classifier verdicts.
+
+\begin{table}[t]
+\caption{Off-lattice production grid.  Columns: prescribed \(m\); noise
+scale \(\varepsilon\); installed budget \(B\); allocation \(\bm w\);
+classified mode count; classifier peak times; fraction of walkers
+reacting inside \(I=[0.5,3.5]\); prominence of the weakest counted peak in
+covariance-aware smoothed-Poisson standard deviations.  In the \(B=0.25\)
+recovery row the
+classifier additionally finds a third, subthreshold local maximum at
+\(t=2.49\) with \(4.8\sigma\) prominence and only \(2.7\%\) of the maximum
+smoothed height, below both the five-sigma condition and the \(5\%\)
+floor.
+\label{tab:supp-production}}
+\begin{ruledtabular}
+\begin{tabular}{cccccccc}
+\(m\) & \(\varepsilon\) & \(B\) & \(\bm w\) & modes & peak times &
+event mass & min.\ prom.\ [\(\sigma\)]\\
+\hline
+2 & 0.1 & 0.5 & \((0.5,0.5)\) & 2 & 0.99, 2.41 & 0.53 & 417 \\
+2 & 0.1 & 0.5 & \((0.7,0.3)\) & 2 & 0.99, 2.45 & 0.44 & 309 \\
+2 & 0.1 & 1 & \((0.5,0.5)\) & 2 & 0.99, 2.37 & 0.76 & 545 \\
+2 & 0.1 & 1 & \((0.7,0.3)\) & 2 & 0.99, 2.41 & 0.68 & 398 \\
+2 & 0.1 & 2 & \((0.5,0.5)\) & 2 & 0.99, 2.29 & 0.92 & 618 \\
+2 & 0.1 & 2 & \((0.7,0.3)\) & 2 & 0.97, 2.35 & 0.88 & 448 \\
+2 & 0.2 & 0.5 & \((0.5,0.5)\) & 2 & 0.99, 2.39 & 0.35 & 109 \\
+2 & 0.2 & 0.5 & \((0.7,0.3)\) & 2 & 0.99, 2.43 & 0.29 & 72 \\
+2 & 0.2 & 1 & \((0.5,0.5)\) & 2 & 0.99, 2.31 & 0.57 & 177 \\
+2 & 0.2 & 1 & \((0.7,0.3)\) & 2 & 0.97, 2.35 & 0.49 & 113 \\
+2 & 0.2 & 2 & \((0.5,0.5)\) & 2 & 0.97, 2.21 & 0.79 & 284 \\
+2 & 0.2 & 2 & \((0.7,0.3)\) & 2 & 0.97, 2.29 & 0.72 & 173 \\
+3 & 0.1 & 1 & uniform & 3 & 0.79, 1.57, 2.63 & 0.74 & 255 \\
+3 & 0.1 & 1 & \((0.5,0.3,0.2)\) & 3 & 0.79, 1.59, 2.67 & 0.66 & 167 \\
+3 & 0.2 & 1 & uniform & 2 & 0.79, 1.61 & 0.54 & 167 \\
+3 & 0.2 & 1 & \((0.5,0.3,0.2)\) & 2 & 0.79, 1.61 & 0.48 & 183 \\
+3 & 0.2 & 0.25 & uniform & 2 & 0.79, 1.65 & 0.19 & 45 \\
+2\footnotemark[1] & 0.1 & 1 & \((0.5,0.5)\) & 2 & 0.99, 2.37 & 0.76 & 546 \\
+\end{tabular}
+\end{ruledtabular}
+\footnotetext[1]{\(\Delta t\)-halving twin at \(\Delta t=5\times10^{-4}\);
+all other rows use \(\Delta t=10^{-3}\).}
+\end{table}
+
+\subsection{Threshold-bisection table}
+\label{sec:supp-numerics-thresholds}
+
+Table~\ref{tab:supp-bop} lists the operational budget crossings of the
+equal-weight bisection stream (\(10^{6}\) walkers per probe, six geometric bisection
+iterations, pass rule: a classifier-significant maximum later than the
+last semi-analytic free-clock valley).
+
+\begin{table}[t]
+\caption{Operational classifier crossings
+\(B_{\rm op}(\varepsilon;m,\bm w_{\rm eq},\mathcal P)\) for equal slab
+weights and the fixed protocol \(\mathcal P\).
+These values are protocol-dependent finite-sample outcomes, not estimates of
+the theorem threshold \(B_{\rm top}\).  Right-censored
+entries exceeded the scan limit \(B=8\).  In the \((3,0.2)\) column no
+stored probe certifies the third mode at any scanned budget
+\(B\in[0.125,8]\), so no operational crossing exists there under the
+classifier rule (main text, Sec.~IV\,D).
+\label{tab:supp-bop}}
+\begin{ruledtabular}
+\begin{tabular}{ccccc}
+\(m\) & \(\varepsilon\) & \(B_{\rm op}\) & bisection bracket & status\\
+\hline
+2 & 0.05 & 6.99 & \([6.95,7.03]\) & bisected\\
+2 & 0.10 & 7.62 & \([7.58,7.66]\) & bisected\\
+2 & 0.15 & \(>8\) & --- & right-censored\\
+2 & 0.20 & \(>8\) & --- & right-censored\\
+3 & 0.05 & 4.15 & \([4.13,4.18]\) & bisected\\
+3 & 0.10 & 3.57 & \([3.55,3.59]\) & bisected\\
+3 & 0.15 & 1.55 & \([1.54,1.56]\) & bisected\\
+3 & 0.20 & none & --- & no certified crossing (classifier floor)\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\subsection{Classifier sensitivity and repeated-run checks}
+\label{sec:supp-classifier-sensitivity}
+
+The retained histogram counts allow the operational classifier to be
+re-evaluated without resimulating trajectories.  On the complete 96-cell
+phase grid we crossed Gaussian bandwidths
+\(h\in\{0.03,0.04,0.05\}\) with relative-prominence floors
+\(p_{\rm rel}\in\{0.03,0.05,0.07\}\), retaining the five-standard-deviation
+Poisson condition.  Ninety-two cells keep their baseline verdict under all
+nine settings.  The four cells in Table~\ref{tab:supp-sensitive-cells}, all
+adjacent to the displayed \(m=3\) boundary, change between two and three
+classified modes for at least one setting.  The principal
+\((m,\varepsilon,B)=(2,0.1,1)\) and \((3,0.1,1)\) anchors, the five-mode
+realization, and the
+\(d=3\) spot check retain their target classifier counts on the tested
+\(7\times6\) grid of smoothing bandwidths
+\(h\in\{0.02,0.03,\ldots,0.08\}\) and relative prominence floors
+\(p_{\rm rel}\in\{0,0.01,0.03,0.05,0.07,0.10\}\) spanning these
+endpoints.
+
+The 43 stored threshold probes are deliberately concentrated near the
+decision regions of the eight bisection chains, so their \(28/43\)
+setting-sensitive count is
+not a phase-diagram-wide instability rate.  Table~\ref{tab:supp-bop-sensitivity}
+reports what those stored probes do support: the span of geometric bracket
+midpoints among settings that remain bracketed, and the number of the nine
+settings censored below or above the stored probe range.  No setting has a
+monotonicity violation on its stored chain.  Thus the two-decimal values in
+Table~\ref{tab:supp-bop} describe only the declared baseline protocol, not
+classifier-independent physical constants.
+
+\begin{table}[t]
+\caption{Post-hoc sensitivity of the stored operational-crossing chains to
+the nine \((h,p_{\rm rel})\) settings.  ``Midpoint span'' includes only
+settings bracketed by the stored probes; the last two columns count
+left- and right-censored settings, respectively.
+\label{tab:supp-bop-sensitivity}}
+\begin{ruledtabular}
+\begin{tabular}{ccccc}
+\(m\) & \(\varepsilon\) & midpoint span & \(n_{\rm left}\) & \(n_{\rm right}\)\\
+\hline
+2 & 0.05 & 6.17--7.18 & 0 & 3\\
+2 & 0.10 & 6.17--7.83 & 0 & 3\\
+2 & 0.15 & --- & 0 & 9\\
+2 & 0.20 & --- & 0 & 9\\
+3 & 0.05 & 4.15--5.19 & 4 & 0\\
+3 & 0.10 & 3.08--3.63 & 0 & 3\\
+3 & 0.15 & 1.55--1.55 & 3 & 3\\
+3 & 0.20 & --- & 9 & 0\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Phase-grid cells whose operational mode count is not invariant
+over the nine classifier settings stated in the text.  This table identifies
+classification sensitivity, not uncertainty in an exact continuum root
+count.
+\label{tab:supp-sensitive-cells}}
+\begin{ruledtabular}
+\begin{tabular}{ccc}
+\(m\) & \(\varepsilon\) & \(B\)\\
+\hline
+3 & 0.050 & 4.0\\
+3 & 0.075 & 4.0\\
+3 & 0.100 & 4.0\\
+3 & 0.175 & 0.5\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Three independent deterministic seeds at \(10^6\) walkers were run for each
+of six reviewer-sensitive configurations.  All 18 verdicts agree within each
+configuration: the \(m=3\) interior anchor gives \(3/3/3\) modes; the two sides
+of its \(\varepsilon=0.1\) threshold give \(3/3/3\) at \(B=3.50\) and
+\(2/2/2\) at \(B=3.64\); the two sides of the \(\varepsilon=0.175\) phase
+boundary give \(3/3/3\) at \(B=0.5\) and \(2/2/2\) at \(B=1\); and the
+\(m=5\) anchor gives \(5/5/5\).  The largest common-index peak-time span is
+0.10 at the boundary-adjacent passing cell and at most 0.02 in the other five
+configurations.
+
+Four targeted \(\Delta t\)-halving comparisons use \(5\times10^5\) walkers
+per resolution.  The step size enters the deterministic
+\texttt{SeedSequence} entropy, so the \(\Delta t\) and \(\Delta t/2\) samples
+use independent streams rather than paired common random numbers.  The
+\(m=3\) interior anchor retains \(3\) modes, the
+\(m=5\) anchor retains \(5\), and the baseline \(m=3\),
+\((\varepsilon,B)=(0.1,3.57)\) threshold probe retains \(2\); counted peak
+times move by at most 0.02.  By contrast, the deliberately boundary-adjacent
+\((m,\varepsilon,B)=(3,0.175,0.5)\) cell changes from \(3\) modes at
+\(\Delta t=10^{-3}\) to \(2\) at \(\Delta t=5\times10^{-4}\).  Its late
+candidate peak falls from \(7.32\%\) to \(4.23\%\) of the global maximum
+and from \(7.5\) to \(4.2\) covariance-aware standard deviations, crossing
+both classifier conditions.  Because the streams differ, this one
+comparison cannot isolate time-step error from sampling fluctuation.
+Kill-fraction changes are at most
+\(9.86\times10^{-4}\) across the four pairs.  The full histogram sufficient
+statistics and comparisons are supplied in the versioned reproduction
+archive.  These checks expose joint finite-sample/resolution sensitivity near
+an operational boundary; they do not turn \(B_{\rm op}\) into a theorem
+threshold or establish time-step convergence.
+
+\subsection{Supplementary figures}
+\label{sec:supp-numerics-figures}
+
+Figures~\ref{fig:supp-phase-m2}--\ref{fig:supp-d3} collect the three
+supplementary panels referenced from the main text: the \(m=2\) modality
+phase diagram, the slab-jitter robustness curves, and the \(d=3\) spot
+check.
+
+\begin{figure}[t]
+\includegraphics[width=0.9\textwidth]{figures/exact_m_phase_diagram_m2_prr}
+\caption{Observed modality phase diagram for the equal-weight \(m=2\) design: the
+fixed classifier identifies two significant modes in all \(48\)
+\((\varepsilon,B)\) cells, and the semi-analytic free clock retains both
+window maxima throughout the scanned range.  (Plotting code revised with
+Codex assistance; numerical content author-verified.)
+\label{fig:supp-phase-m2}}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[width=0.9\textwidth]{figures/exact_m_jitter_robustness_prr}
+\caption{Design-rule basin under geometry and weight jitter (\(50\)
+replicas of \(2\times10^{5}\) walkers per point, Wilson \(95\%\)
+intervals).  Left: fraction retaining the target classifier mode count under
+centre jitter of scale \(\eta s\), with the fraction of replicas whose own
+perturbed semi-analytic clock retains \(m\) maxima shown dotted ---
+classifier and perturbed-theory verdicts agree in \(86\)--\(100\%\) of
+replicas, a pattern predominantly consistent with geometric peak merger but
+not excluding sampling-driven mismatches.  Right:
+all \(50\) weight-jitter replicas
+[\(\bm w\sim\mathrm{Dirichlet}(50\,\bar{\bm w})\)] retain the target
+classifier mode count
+for both designs.
+(Plotting code revised with Codex assistance; numerical content
+author-verified.)
+\label{fig:supp-jitter}}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[width=0.75\textwidth]{figures/exact_m_d3_spotcheck_prr}
+\caption{\(d=3\) spot check: two transverse torus directions, killing
+prefactor \(B/W^{2}\), all remaining parameters unchanged from the
+\((m,\varepsilon,B)=(2,0.1,1)\) anchor.  The fixed classifier identifies
+two significant modes at \(t=0.99\) and \(2.37\), with \(0.60\) reaction events per
+walker inside the window and \(\Delta t\)-halving maximum \(|z|=1.67\).
+(Plotting code revised with Codex assistance; numerical content
+author-verified.)
+\label{fig:supp-d3}}
+\end{figure}
+
+\FloatBarrier
+\section{Consistent physical dimensionalization}
+\label{sec:supp-physical-mapping}
+
+\input{prr_assets/physical_units_mapping.tex}
+
+\section{Machine-checked kernels (Lean~4)}
+\label{sec:supp-lean}
+
+A Lean~4 package (toolchain \texttt{v4.32.0-rc1}, \texttt{mathlib4} pinned to
+the same release) accompanies this article. It machine-checks kernels of the
+exact-\(m\) proof chain---the \(2m-1\) zero bound for the exponential
+polynomial of Eq.~\eqref{eq:exactmfull-general-exp-polynomial}, both in the
+distinct-zeros form and in the full count with multiplicity of
+Lemma~\ref{lem:exactmfull-zero-bound}, the mixture log-derivative identities of
+Eq.~\eqref{eq:exactmfull-log-slope}, and the crossover ratio and nonadjacent
+smallness bounds with explicit constants---together with selected scalar,
+Gaussian-integral, and normalization kernels of the explicit
+budget-threshold proposition (Prop.~\ref{prop:exactmfull-b0}), including the two-sided threshold
+inversion, its continuity, the heterogeneous block-product bound reaching
+the displayed \((1-\lambda)^{-1}(1+t_\theta^2)^{(d+1)/4}\) shape, and a
+uniform \(O(1)\) penalty bound under condition (R1). The package was
+developed through two independent encoding efforts, with duplicate
+independent encodings for the distinct-zero, mixture-identity,
+crossover-point, and threshold subkernels. The analytic semigroup,
+Dyson-expansion, and complex-contour scaffolding of Secs.~S1--S3 is
+\emph{not} formalized; four additional kernels anchor to the fold-transfer
+theory of the related manuscript disclosed in the cover letter and are so
+labeled in their file headers. The package contains no \texttt{sorry},
+\texttt{admit}, or added axiom; all 138 audited theorems report exactly the
+standard foundation \([\texttt{propext}, \texttt{Classical.choice},
+\texttt{Quot.sound}]\). The build and the statement-fidelity of every
+public theorem were additionally audited adversarially by an independent
+AI system in two rounds, with all findings resolved. Source files and
+SHA-256 anchors (first 16 hex digits): \texttt{ExpPolyZeros}
+(\texttt{7d99dc72cfe1cfd8}), \texttt{ZeroBound}
+(\texttt{f29cd9d8b637363b}), \texttt{MixtureIdentities}
+(\texttt{74a8fc956adfabe2}), \texttt{GaussianMixture}
+(\texttt{7e7e60bccd99bc74}), \texttt{CrossoverBounds}
+(\texttt{8e1e0816afea792a}), \texttt{BudgetThreshold}
+(\texttt{8166ecfc0e2c9390}), \texttt{BZeroThreshold}
+(\texttt{8f7dce937bf97771}), \texttt{B0ChainKernel}
+(\texttt{5ffaed91d4863c9a}), \texttt{WindowSignature}
+(\texttt{5bd7020e5b91a5da}). The package ships with the public archive
+described in the data-availability statement.
+
+\section{Scope of the analytical and numerical results}
+\label{sec:supp-scope}
+
+The proof establishes an exact existence theorem for the continuum Doi
+process.  It does not use a finite-volume approximation, and no discretized
+convergence statement is needed for its conclusion.  The off-lattice
+campaigns of Sec.~\ref{sec:supp-numerics} are time-discrete approximations of
+the continuum model: no spatial lattice is introduced, but time is
+discretized, and that time discretization is assessed by the
+consistency checks of Sec.~\ref{sec:supp-numerics-method}, not by a
+convergence theorem.  A separate claim that numerically located stationary
+points converge, with quantitative rates, to those of the exact process
+would require discretization-error and sampling-error bounds together with
+componentwise preservation of the root margins.  No such claim is made
+here.
+
+\bibliography{references}
+
+\end{document}

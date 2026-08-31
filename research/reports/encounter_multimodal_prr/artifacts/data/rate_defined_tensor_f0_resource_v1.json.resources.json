@@ -1,0 +1,2285 @@
+{
+  "canonical_artifact": {
+    "absolute_path": "/Users/ae23069/Library/CloudStorage/OneDrive-UniversityofBristol/Desktop/valley-k-small/research/reports/encounter_multimodal_prr/artifacts/data/rate_defined_tensor_f0_resource_v1.json",
+    "byte_count": 7826562,
+    "sha256": "0681015f350f9df702d32c4aaa712b89fce7aa742ebccb345a9336a5b64ad2b1"
+  },
+  "dependencies_after": {
+    "batched_scalar_source": {
+      "accepted": true,
+      "expected_sha256": "56b783f073528146e6cdd3321f078a89978b5e5453b8fdfcabfe35412614b280",
+      "observed_sha256": "56b783f073528146e6cdd3321f078a89978b5e5453b8fdfcabfe35412614b280"
+    },
+    "batched_scalar_test": {
+      "accepted": true,
+      "expected_sha256": "ddddb839f3b50c1dc2ca05fbce2ddad1b5e025d08f549665585b7a866159dac1",
+      "observed_sha256": "ddddb839f3b50c1dc2ca05fbce2ddad1b5e025d08f549665585b7a866159dac1"
+    },
+    "candidate_freeze": {
+      "accepted": true,
+      "expected_sha256": "0f282f7227220c4a0dc6ae13996ee650759d0cf6679a6d360897929386796d9b",
+      "observed_sha256": "0f282f7227220c4a0dc6ae13996ee650759d0cf6679a6d360897929386796d9b"
+    },
+    "compiled_batch_source": {
+      "accepted": true,
+      "expected_sha256": "798d605d5cfc79319a633a5f9e487b4da34a55638b534f35804b3636cb402aa7",
+      "observed_sha256": "798d605d5cfc79319a633a5f9e487b4da34a55638b534f35804b3636cb402aa7"
+    },
+    "compiled_batch_test": {
+      "accepted": true,
+      "expected_sha256": "c1a378aa9851335391d3dfd016be8cf7943abfc388754eb9fb5d59c49d941e4e",
+      "observed_sha256": "c1a378aa9851335391d3dfd016be8cf7943abfc388754eb9fb5d59c49d941e4e"
+    },
+    "compiled_power_c_source": {
+      "accepted": true,
+      "expected_sha256": "9db8c672a04732b23dedb332854c4f4259911cfac32ec130d1d16b64db274917",
+      "observed_sha256": "9db8c672a04732b23dedb332854c4f4259911cfac32ec130d1d16b64db274917"
+    },
+    "compiled_power_python_source": {
+      "accepted": true,
+      "expected_sha256": "13c7fabd4118c3858b03d839dcfea037eb15eb6b64b08f7fb69f0757342eae55",
+      "observed_sha256": "13c7fabd4118c3858b03d839dcfea037eb15eb6b64b08f7fb69f0757342eae55"
+    },
+    "compiled_power_test": {
+      "accepted": true,
+      "expected_sha256": "513c0ce06b4424c4a8c3cf6cfea3bb21cd588fc389af8a9e760e451fb9b6dd51",
+      "observed_sha256": "513c0ce06b4424c4a8c3cf6cfea3bb21cd588fc389af8a9e760e451fb9b6dd51"
+    },
+    "topology_schedule_artifact": {
+      "accepted": true,
+      "expected_sha256": "b42aa67fa9aa85e4c3c46577e3725ca616ba3ff3de156d77f976a99d0b380344",
+      "observed_sha256": "b42aa67fa9aa85e4c3c46577e3725ca616ba3ff3de156d77f976a99d0b380344"
+    },
+    "topology_schedule_source": {
+      "accepted": true,
+      "expected_sha256": "f188cbbf7c9e6c31e90ab01c21c9effd334e4ab449102c5501271f83723d2ca7",
+      "observed_sha256": "f188cbbf7c9e6c31e90ab01c21c9effd334e4ab449102c5501271f83723d2ca7"
+    },
+    "topology_schedule_test": {
+      "accepted": true,
+      "expected_sha256": "0deed13b23eec298047e290513232094c4ba3ca18db1c8177c6e7e0d7607fcaf",
+      "observed_sha256": "0deed13b23eec298047e290513232094c4ba3ca18db1c8177c6e7e0d7607fcaf"
+    }
+  },
+  "dependencies_before": {
+    "batched_scalar_source": {
+      "accepted": true,
+      "expected_sha256": "56b783f073528146e6cdd3321f078a89978b5e5453b8fdfcabfe35412614b280",
+      "observed_sha256": "56b783f073528146e6cdd3321f078a89978b5e5453b8fdfcabfe35412614b280"
+    },
+    "batched_scalar_test": {
+      "accepted": true,
+      "expected_sha256": "ddddb839f3b50c1dc2ca05fbce2ddad1b5e025d08f549665585b7a866159dac1",
+      "observed_sha256": "ddddb839f3b50c1dc2ca05fbce2ddad1b5e025d08f549665585b7a866159dac1"
+    },
+    "candidate_freeze": {
+      "accepted": true,
+      "expected_sha256": "0f282f7227220c4a0dc6ae13996ee650759d0cf6679a6d360897929386796d9b",
+      "observed_sha256": "0f282f7227220c4a0dc6ae13996ee650759d0cf6679a6d360897929386796d9b"
+    },
+    "compiled_batch_source": {
+      "accepted": true,
+      "expected_sha256": "798d605d5cfc79319a633a5f9e487b4da34a55638b534f35804b3636cb402aa7",
+      "observed_sha256": "798d605d5cfc79319a633a5f9e487b4da34a55638b534f35804b3636cb402aa7"
+    },
+    "compiled_batch_test": {
+      "accepted": true,
+      "expected_sha256": "c1a378aa9851335391d3dfd016be8cf7943abfc388754eb9fb5d59c49d941e4e",
+      "observed_sha256": "c1a378aa9851335391d3dfd016be8cf7943abfc388754eb9fb5d59c49d941e4e"
+    },
+    "compiled_power_c_source": {
+      "accepted": true,
+      "expected_sha256": "9db8c672a04732b23dedb332854c4f4259911cfac32ec130d1d16b64db274917",
+      "observed_sha256": "9db8c672a04732b23dedb332854c4f4259911cfac32ec130d1d16b64db274917"
+    },
+    "compiled_power_python_source": {
+      "accepted": true,
+      "expected_sha256": "13c7fabd4118c3858b03d839dcfea037eb15eb6b64b08f7fb69f0757342eae55",
+      "observed_sha256": "13c7fabd4118c3858b03d839dcfea037eb15eb6b64b08f7fb69f0757342eae55"
+    },
+    "compiled_power_test": {
+      "accepted": true,
+      "expected_sha256": "513c0ce06b4424c4a8c3cf6cfea3bb21cd588fc389af8a9e760e451fb9b6dd51",
+      "observed_sha256": "513c0ce06b4424c4a8c3cf6cfea3bb21cd588fc389af8a9e760e451fb9b6dd51"
+    },
+    "topology_schedule_artifact": {
+      "accepted": true,
+      "expected_sha256": "b42aa67fa9aa85e4c3c46577e3725ca616ba3ff3de156d77f976a99d0b380344",
+      "observed_sha256": "b42aa67fa9aa85e4c3c46577e3725ca616ba3ff3de156d77f976a99d0b380344"
+    },
+    "topology_schedule_source": {
+      "accepted": true,
+      "expected_sha256": "f188cbbf7c9e6c31e90ab01c21c9effd334e4ab449102c5501271f83723d2ca7",
+      "observed_sha256": "f188cbbf7c9e6c31e90ab01c21c9effd334e4ab449102c5501271f83723d2ca7"
+    },
+    "topology_schedule_test": {
+      "accepted": true,
+      "expected_sha256": "0deed13b23eec298047e290513232094c4ba3ca18db1c8177c6e7e0d7607fcaf",
+      "observed_sha256": "0deed13b23eec298047e290513232094c4ba3ca18db1c8177c6e7e0d7607fcaf"
+    }
+  },
+  "failure_reasons": [
+    "rss_cap_exceeded",
+    "peak_footprint_cap_exceeded"
+  ],
+  "fixture": {
+    "identity_initial_flat_index": 0,
+    "identity_kernel": true,
+    "killing": {
+      "denominator": 64,
+      "numerator": 1
+    },
+    "maximum_peak_footprint_bytes": 8589934592,
+    "maximum_poisson_terms": 200000,
+    "maximum_process_swap_delta": 0,
+    "maximum_rss_bytes": 4294967296,
+    "maximum_state_radius": {
+      "denominator": 100000000,
+      "numerator": 1
+    },
+    "maximum_wall_seconds": {
+      "denominator": 1,
+      "numerator": 3600
+    },
+    "mpfr_precision_bits": 192,
+    "name": "largest_shape_identity_control_free_v1",
+    "periodic": [
+      false,
+      false,
+      true
+    ],
+    "production_scale": true,
+    "reduction_block_size": 65536,
+    "series_horizon": {
+      "denominator": 1,
+      "numerator": 100
+    },
+    "shape": [
+      207,
+      215,
+      161
+    ],
+    "state_count": 7165305,
+    "tail_tolerance": {
+      "denominator": 1000000000000000000,
+      "numerator": 1
+    },
+    "uniformization_rate": {
+      "denominator": 1,
+      "numerator": 256
+    }
+  },
+  "measurement": {
+    "host_peak_footprint_bytes": 17931596736,
+    "host_peak_footprint_method": "darwin_phys_footprint_peak",
+    "peak_rss_bytes": 5455511552,
+    "process_swap_count_after": 0,
+    "process_swap_count_before": 0,
+    "process_swap_delta": 0,
+    "wall_seconds_hex": "0x1.0317fdfccd100p+10"
+  },
+  "method_counts": {
+    "canonical_scalar_record_count": 27019,
+    "compiled_power_stream_run_count": 1,
+    "mandatory_tail_evaluation_count": 4,
+    "maximum_power_index": 27018,
+    "p_action_call_count": 27018,
+    "repeated_p_actions_during_reevaluation": 0,
+    "topology_evaluation_count": 512
+  },
+  "promotion_flags": {
+    "authorizes_f1": false,
+    "authorizes_scientific_execution": false,
+    "control_exclusion_proved": false,
+    "f0_pass": false,
+    "independent_audit_complete": false,
+    "production_resource_gate": false,
+    "production_scale_execution_classified": false,
+    "resource_pass": false,
+    "science_executed": false,
+    "science_free_proved": false
+  },
+  "resource_caps_satisfied": false,
+  "runner_source_sha256_same_process_observation": "12adb131e416f52579773c11e364d126cd24b4fa3ffed1ed0cc1a97f54051181",
+  "runner_source_sha256_same_process_observation_authoritative": false,
+  "schedule": {
+    "artifact_sha256": "b42aa67fa9aa85e4c3c46577e3725ca616ba3ff3de156d77f976a99d0b380344",
+    "combined_union_count": 515,
+    "generator": "rate_defined_tensor_f0_topology_schedule_v1",
+    "integrated_query_set_frozen": true,
+    "mandatory_tail_times": [
+      {
+        "denominator": 1,
+        "numerator": 35
+      },
+      {
+        "denominator": 1,
+        "numerator": 50
+      },
+      {
+        "denominator": 1,
+        "numerator": 75
+      },
+      {
+        "denominator": 1,
+        "numerator": 100
+      }
+    ],
+    "maximum_union_time_count": 515,
+    "provisional": false,
+    "status": "FIXED_COMPLETE_CONTROL_FREE_SCHEDULE",
+    "topology_time_count": 512,
+    "topology_times": [
+      {
+        "denominator": 2,
+        "numerator": 1
+      },
+      {
+        "denominator": 16,
+        "numerator": 9
+      },
+      {
+        "denominator": 8,
+        "numerator": 5
+      },
+      {
+        "denominator": 16,
+        "numerator": 11
+      },
+      {
+        "denominator": 4,
+        "numerator": 3
+      },
+      {
+        "denominator": 16,
+        "numerator": 13
+      },
+      {
+        "denominator": 8,
+        "numerator": 7
+      },
+      {
+        "denominator": 16,
+        "numerator": 15
+      },
+      {
+        "denominator": 1,
+        "numerator": 1
+      },
+      {
+        "denominator": 16,
+        "numerator": 17
+      },
+      {
+        "denominator": 32,
+        "numerator": 35
+      },
+      {
+        "denominator": 64,
+        "numerator": 71
+      },
+      {
+        "denominator": 4503599627370496,
+        "numerator": 5061605598534793
+      },
+      {
+        "denominator": 1125899906842624,
+        "numerator": 1265448808820377
+      },
+      {
+        "denominator": 4503599627370496,
+        "numerator": 5061807140876903
+      },
+      {
+        "denominator": 2251799813685248,
+        "numerator": 2530903570783937
+      },
+      {
+        "denominator": 4503599627370496,
+        "numerator": 5061807141589427
+      },
+      {
+        "denominator": 2251799813685248,
+        "numerator": 2530903570794729
+      },
+      {
+        "denominator": 8,
+        "numerator": 9
+      },
+      {
+        "denominator": 64,
+        "numerator": 73
+      },
+      {
+        "denominator": 32,
+        "numerator": 37
+      },
+      {
+        "denominator": 16,
+        "numerator": 19
+      },
+      {
+        "denominator": 4,
+        "numerator": 5
+      },
+      {
+        "denominator": 16,
+        "numerator": 21
+      },
+      {
+        "denominator": 8,
+        "numerator": 11
+      },
+      {
+        "denominator": 16,
+        "numerator": 23
+      },
+      {
+        "denominator": 2,
+        "numerator": 3
+      },
+      {
+        "denominator": 16,
+        "numerator": 25
+      },
+      {
+        "denominator": 8,
+        "numerator": 13
+      },
+      {
+        "denominator": 16,
+        "numerator": 27
+      },
+      {
+        "denominator": 4,
+        "numerator": 7
+      },
+      {
+        "denominator": 16,
+        "numerator": 29
+      },
+      {
+        "denominator": 8,
+        "numerator": 15
+      },
+      {
+        "denominator": 16,
+        "numerator": 31
+      },
+      {
+        "denominator": 1,
+        "numerator": 2
+      },
+      {
+        "denominator": 16,
+        "numerator": 33
+      },
+      {
+        "denominator": 8,
+        "numerator": 17
+      },
+      {
+        "denominator": 16,
+        "numerator": 35
+      },
+      {
+        "denominator": 4,
+        "numerator": 9
+      },
+      {
+        "denominator": 16,
+        "numerator": 37
+      },
+      {
+        "denominator": 8,
+        "numerator": 19
+      },
+      {
+        "denominator": 16,
+        "numerator": 39
+      },
+      {
+        "denominator": 2,
+        "numerator": 5
+      },
+      {
+        "denominator": 16,
+        "numerator": 41
+      },
+      {
+        "denominator": 8,
+        "numerator": 21
+      },
+      {
+        "denominator": 16,
+        "numerator": 43
+      },
+      {
+        "denominator": 4,
+        "numerator": 11
+      },
+      {
+        "denominator": 16,
+        "numerator": 45
+      },
+      {
+        "denominator": 8,
+        "numerator": 23
+      },
+      {
+        "denominator": 16,
+        "numerator": 47
+      },
+      {
+        "denominator": 32,
+        "numerator": 95
+      },
+      {
+        "denominator": 64,
+        "numerator": 191
+      },
+      {
+        "denominator": 2251799813685248,
+        "numerator": 6755399441055191
+      },
+      {
+        "denominator": 1125899906842624,
+        "numerator": 3377699720527601
+      },
+      {
+        "denominator": 1,
+        "numerator": 3
+      },
+      {
+        "denominator": 64,
+        "numerator": 193
+      },
+      {
+        "denominator": 32,
+        "numerator": 97
+      },
+      {
+        "denominator": 16,
+        "numerator": 49
+      },
+      {
+        "denominator": 8,
+        "numerator": 25
+      },
+      {
+        "denominator": 16,
+        "numerator": 51
+      },
+      {
+        "denominator": 4,
+        "numerator": 13
+      },
+      {
+        "denominator": 16,
+        "numerator": 53
+      },
+      {
+        "denominator": 8,
+        "numerator": 27
+      },
+      {
+        "denominator": 16,
+        "numerator": 55
+      },
+      {
+        "denominator": 2,
+        "numerator": 7
+      },
+      {
+        "denominator": 16,
+        "numerator": 57
+      },
+      {
+        "denominator": 8,
+        "numerator": 29
+      },
+      {
+        "denominator": 16,
+        "numerator": 59
+      },
+      {
+        "denominator": 4,
+        "numerator": 15
+      },
+      {
+        "denominator": 16,
+        "numerator": 61
+      },
+      {
+        "denominator": 8,
+        "numerator": 31
+      },
+      {
+        "denominator": 16,
+        "numerator": 63
+      },
+      {
+        "denominator": 32,
+        "numerator": 127
+      },
+      {
+        "denominator": 64,
+        "numerator": 255
+      },
+      {
+        "denominator": 2251799813685248,
+        "numerator": 9007199254718295
+      },
+      {
+        "denominator": 1125899906842624,
+        "numerator": 4503599627359237
+      },
+      {
+        "denominator": 1,
+        "numerator": 4
+      },
+      {
+        "denominator": 64,
+        "numerator": 257
+      },
+      {
+        "denominator": 32,
+        "numerator": 129
+      },
+      {
+        "denominator": 16,
+        "numerator": 65
+      },
+      {
+        "denominator": 8,
+        "numerator": 33
+      },
+      {
+        "denominator": 16,
+        "numerator": 67
+      },
+      {
+        "denominator": 4,
+        "numerator": 17
+      },
+      {
+        "denominator": 16,
+        "numerator": 69
+      },
+      {
+        "denominator": 8,
+        "numerator": 35
+      },
+      {
+        "denominator": 16,
+        "numerator": 71
+      },
+      {
+        "denominator": 2,
+        "numerator": 9
+      },
+      {
+        "denominator": 16,
+        "numerator": 73
+      },
+      {
+        "denominator": 8,
+        "numerator": 37
+      },
+      {
+        "denominator": 16,
+        "numerator": 75
+      },
+      {
+        "denominator": 4,
+        "numerator": 19
+      },
+      {
+        "denominator": 16,
+        "numerator": 77
+      },
+      {
+        "denominator": 8,
+        "numerator": 39
+      },
+      {
+        "denominator": 16,
+        "numerator": 79
+      },
+      {
+        "denominator": 1,
+        "numerator": 5
+      },
+      {
+        "denominator": 16,
+        "numerator": 81
+      },
+      {
+        "denominator": 8,
+        "numerator": 41
+      },
+      {
+        "denominator": 16,
+        "numerator": 83
+      },
+      {
+        "denominator": 4,
+        "numerator": 21
+      },
+      {
+        "denominator": 16,
+        "numerator": 85
+      },
+      {
+        "denominator": 8,
+        "numerator": 43
+      },
+      {
+        "denominator": 16,
+        "numerator": 87
+      },
+      {
+        "denominator": 2,
+        "numerator": 11
+      },
+      {
+        "denominator": 16,
+        "numerator": 89
+      },
+      {
+        "denominator": 8,
+        "numerator": 45
+      },
+      {
+        "denominator": 16,
+        "numerator": 91
+      },
+      {
+        "denominator": 4,
+        "numerator": 23
+      },
+      {
+        "denominator": 16,
+        "numerator": 93
+      },
+      {
+        "denominator": 8,
+        "numerator": 47
+      },
+      {
+        "denominator": 16,
+        "numerator": 95
+      },
+      {
+        "denominator": 32,
+        "numerator": 191
+      },
+      {
+        "denominator": 64,
+        "numerator": 383
+      },
+      {
+        "denominator": 562949953421312,
+        "numerator": 3377699720527435
+      },
+      {
+        "denominator": 1125899906842624,
+        "numerator": 6755399441054875
+      },
+      {
+        "denominator": 1,
+        "numerator": 6
+      },
+      {
+        "denominator": 64,
+        "numerator": 385
+      },
+      {
+        "denominator": 32,
+        "numerator": 193
+      },
+      {
+        "denominator": 16,
+        "numerator": 97
+      },
+      {
+        "denominator": 8,
+        "numerator": 49
+      },
+      {
+        "denominator": 16,
+        "numerator": 99
+      },
+      {
+        "denominator": 4,
+        "numerator": 25
+      },
+      {
+        "denominator": 16,
+        "numerator": 101
+      },
+      {
+        "denominator": 8,
+        "numerator": 51
+      },
+      {
+        "denominator": 16,
+        "numerator": 103
+      },
+      {
+        "denominator": 2,
+        "numerator": 13
+      },
+      {
+        "denominator": 16,
+        "numerator": 105
+      },
+      {
+        "denominator": 8,
+        "numerator": 53
+      },
+      {
+        "denominator": 16,
+        "numerator": 107
+      },
+      {
+        "denominator": 4,
+        "numerator": 27
+      },
+      {
+        "denominator": 16,
+        "numerator": 109
+      },
+      {
+        "denominator": 8,
+        "numerator": 55
+      },
+      {
+        "denominator": 16,
+        "numerator": 111
+      },
+      {
+        "denominator": 1,
+        "numerator": 7
+      },
+      {
+        "denominator": 16,
+        "numerator": 113
+      },
+      {
+        "denominator": 8,
+        "numerator": 57
+      },
+      {
+        "denominator": 16,
+        "numerator": 115
+      },
+      {
+        "denominator": 4,
+        "numerator": 29
+      },
+      {
+        "denominator": 16,
+        "numerator": 117
+      },
+      {
+        "denominator": 8,
+        "numerator": 59
+      },
+      {
+        "denominator": 16,
+        "numerator": 119
+      },
+      {
+        "denominator": 2,
+        "numerator": 15
+      },
+      {
+        "denominator": 16,
+        "numerator": 121
+      },
+      {
+        "denominator": 8,
+        "numerator": 61
+      },
+      {
+        "denominator": 16,
+        "numerator": 123
+      },
+      {
+        "denominator": 4,
+        "numerator": 31
+      },
+      {
+        "denominator": 16,
+        "numerator": 125
+      },
+      {
+        "denominator": 8,
+        "numerator": 63
+      },
+      {
+        "denominator": 16,
+        "numerator": 127
+      },
+      {
+        "denominator": 32,
+        "numerator": 255
+      },
+      {
+        "denominator": 64,
+        "numerator": 511
+      },
+      {
+        "denominator": 281474976710656,
+        "numerator": 2251799813403773
+      },
+      {
+        "denominator": 1,
+        "numerator": 8
+      },
+      {
+        "denominator": 64,
+        "numerator": 513
+      },
+      {
+        "denominator": 32,
+        "numerator": 257
+      },
+      {
+        "denominator": 16,
+        "numerator": 129
+      },
+      {
+        "denominator": 8,
+        "numerator": 65
+      },
+      {
+        "denominator": 16,
+        "numerator": 131
+      },
+      {
+        "denominator": 4,
+        "numerator": 33
+      },
+      {
+        "denominator": 16,
+        "numerator": 133
+      },
+      {
+        "denominator": 8,
+        "numerator": 67
+      },
+      {
+        "denominator": 16,
+        "numerator": 135
+      },
+      {
+        "denominator": 2,
+        "numerator": 17
+      },
+      {
+        "denominator": 16,
+        "numerator": 137
+      },
+      {
+        "denominator": 8,
+        "numerator": 69
+      },
+      {
+        "denominator": 16,
+        "numerator": 139
+      },
+      {
+        "denominator": 4,
+        "numerator": 35
+      },
+      {
+        "denominator": 16,
+        "numerator": 141
+      },
+      {
+        "denominator": 8,
+        "numerator": 71
+      },
+      {
+        "denominator": 16,
+        "numerator": 143
+      },
+      {
+        "denominator": 32,
+        "numerator": 287
+      },
+      {
+        "denominator": 64,
+        "numerator": 575
+      },
+      {
+        "denominator": 281474976710656,
+        "numerator": 2533274790392135
+      },
+      {
+        "denominator": 281474976710656,
+        "numerator": 2533274790392151
+      },
+      {
+        "denominator": 562949953421312,
+        "numerator": 5066549580791387
+      },
+      {
+        "denominator": 562949953421312,
+        "numerator": 5066549580791391
+      },
+      {
+        "denominator": 1,
+        "numerator": 9
+      },
+      {
+        "denominator": 64,
+        "numerator": 577
+      },
+      {
+        "denominator": 32,
+        "numerator": 289
+      },
+      {
+        "denominator": 16,
+        "numerator": 145
+      },
+      {
+        "denominator": 8,
+        "numerator": 73
+      },
+      {
+        "denominator": 16,
+        "numerator": 147
+      },
+      {
+        "denominator": 4,
+        "numerator": 37
+      },
+      {
+        "denominator": 16,
+        "numerator": 149
+      },
+      {
+        "denominator": 8,
+        "numerator": 75
+      },
+      {
+        "denominator": 16,
+        "numerator": 151
+      },
+      {
+        "denominator": 2,
+        "numerator": 19
+      },
+      {
+        "denominator": 16,
+        "numerator": 153
+      },
+      {
+        "denominator": 8,
+        "numerator": 77
+      },
+      {
+        "denominator": 16,
+        "numerator": 155
+      },
+      {
+        "denominator": 4,
+        "numerator": 39
+      },
+      {
+        "denominator": 16,
+        "numerator": 157
+      },
+      {
+        "denominator": 8,
+        "numerator": 79
+      },
+      {
+        "denominator": 16,
+        "numerator": 159
+      },
+      {
+        "denominator": 1,
+        "numerator": 10
+      },
+      {
+        "denominator": 16,
+        "numerator": 161
+      },
+      {
+        "denominator": 8,
+        "numerator": 81
+      },
+      {
+        "denominator": 16,
+        "numerator": 163
+      },
+      {
+        "denominator": 4,
+        "numerator": 41
+      },
+      {
+        "denominator": 16,
+        "numerator": 165
+      },
+      {
+        "denominator": 8,
+        "numerator": 83
+      },
+      {
+        "denominator": 16,
+        "numerator": 167
+      },
+      {
+        "denominator": 2,
+        "numerator": 21
+      },
+      {
+        "denominator": 16,
+        "numerator": 169
+      },
+      {
+        "denominator": 8,
+        "numerator": 85
+      },
+      {
+        "denominator": 16,
+        "numerator": 171
+      },
+      {
+        "denominator": 4,
+        "numerator": 43
+      },
+      {
+        "denominator": 16,
+        "numerator": 173
+      },
+      {
+        "denominator": 8,
+        "numerator": 87
+      },
+      {
+        "denominator": 16,
+        "numerator": 175
+      },
+      {
+        "denominator": 1,
+        "numerator": 11
+      },
+      {
+        "denominator": 16,
+        "numerator": 177
+      },
+      {
+        "denominator": 8,
+        "numerator": 89
+      },
+      {
+        "denominator": 16,
+        "numerator": 179
+      },
+      {
+        "denominator": 4,
+        "numerator": 45
+      },
+      {
+        "denominator": 16,
+        "numerator": 181
+      },
+      {
+        "denominator": 8,
+        "numerator": 91
+      },
+      {
+        "denominator": 16,
+        "numerator": 183
+      },
+      {
+        "denominator": 2,
+        "numerator": 23
+      },
+      {
+        "denominator": 16,
+        "numerator": 185
+      },
+      {
+        "denominator": 8,
+        "numerator": 93
+      },
+      {
+        "denominator": 16,
+        "numerator": 187
+      },
+      {
+        "denominator": 4,
+        "numerator": 47
+      },
+      {
+        "denominator": 16,
+        "numerator": 189
+      },
+      {
+        "denominator": 8,
+        "numerator": 95
+      },
+      {
+        "denominator": 16,
+        "numerator": 191
+      },
+      {
+        "denominator": 1,
+        "numerator": 12
+      },
+      {
+        "denominator": 16,
+        "numerator": 193
+      },
+      {
+        "denominator": 8,
+        "numerator": 97
+      },
+      {
+        "denominator": 16,
+        "numerator": 195
+      },
+      {
+        "denominator": 4,
+        "numerator": 49
+      },
+      {
+        "denominator": 16,
+        "numerator": 197
+      },
+      {
+        "denominator": 8,
+        "numerator": 99
+      },
+      {
+        "denominator": 16,
+        "numerator": 199
+      },
+      {
+        "denominator": 2,
+        "numerator": 25
+      },
+      {
+        "denominator": 16,
+        "numerator": 201
+      },
+      {
+        "denominator": 8,
+        "numerator": 101
+      },
+      {
+        "denominator": 16,
+        "numerator": 203
+      },
+      {
+        "denominator": 4,
+        "numerator": 51
+      },
+      {
+        "denominator": 16,
+        "numerator": 205
+      },
+      {
+        "denominator": 8,
+        "numerator": 103
+      },
+      {
+        "denominator": 16,
+        "numerator": 207
+      },
+      {
+        "denominator": 1,
+        "numerator": 13
+      },
+      {
+        "denominator": 16,
+        "numerator": 209
+      },
+      {
+        "denominator": 8,
+        "numerator": 105
+      },
+      {
+        "denominator": 16,
+        "numerator": 211
+      },
+      {
+        "denominator": 4,
+        "numerator": 53
+      },
+      {
+        "denominator": 16,
+        "numerator": 213
+      },
+      {
+        "denominator": 8,
+        "numerator": 107
+      },
+      {
+        "denominator": 16,
+        "numerator": 215
+      },
+      {
+        "denominator": 2,
+        "numerator": 27
+      },
+      {
+        "denominator": 16,
+        "numerator": 217
+      },
+      {
+        "denominator": 8,
+        "numerator": 109
+      },
+      {
+        "denominator": 16,
+        "numerator": 219
+      },
+      {
+        "denominator": 4,
+        "numerator": 55
+      },
+      {
+        "denominator": 16,
+        "numerator": 221
+      },
+      {
+        "denominator": 8,
+        "numerator": 111
+      },
+      {
+        "denominator": 16,
+        "numerator": 223
+      },
+      {
+        "denominator": 32,
+        "numerator": 447
+      },
+      {
+        "denominator": 64,
+        "numerator": 895
+      },
+      {
+        "denominator": 281474976710656,
+        "numerator": 3940649673949119
+      },
+      {
+        "denominator": 4398046511104,
+        "numerator": 61572651155455
+      },
+      {
+        "denominator": 1,
+        "numerator": 14
+      },
+      {
+        "denominator": 64,
+        "numerator": 897
+      },
+      {
+        "denominator": 32,
+        "numerator": 449
+      },
+      {
+        "denominator": 16,
+        "numerator": 225
+      },
+      {
+        "denominator": 8,
+        "numerator": 113
+      },
+      {
+        "denominator": 16,
+        "numerator": 227
+      },
+      {
+        "denominator": 4,
+        "numerator": 57
+      },
+      {
+        "denominator": 16,
+        "numerator": 229
+      },
+      {
+        "denominator": 8,
+        "numerator": 115
+      },
+      {
+        "denominator": 16,
+        "numerator": 231
+      },
+      {
+        "denominator": 2,
+        "numerator": 29
+      },
+      {
+        "denominator": 16,
+        "numerator": 233
+      },
+      {
+        "denominator": 8,
+        "numerator": 117
+      },
+      {
+        "denominator": 16,
+        "numerator": 235
+      },
+      {
+        "denominator": 4,
+        "numerator": 59
+      },
+      {
+        "denominator": 16,
+        "numerator": 237
+      },
+      {
+        "denominator": 8,
+        "numerator": 119
+      },
+      {
+        "denominator": 16,
+        "numerator": 239
+      },
+      {
+        "denominator": 1,
+        "numerator": 15
+      },
+      {
+        "denominator": 16,
+        "numerator": 241
+      },
+      {
+        "denominator": 8,
+        "numerator": 121
+      },
+      {
+        "denominator": 16,
+        "numerator": 243
+      },
+      {
+        "denominator": 4,
+        "numerator": 61
+      },
+      {
+        "denominator": 16,
+        "numerator": 245
+      },
+      {
+        "denominator": 8,
+        "numerator": 123
+      },
+      {
+        "denominator": 16,
+        "numerator": 247
+      },
+      {
+        "denominator": 2,
+        "numerator": 31
+      },
+      {
+        "denominator": 16,
+        "numerator": 249
+      },
+      {
+        "denominator": 8,
+        "numerator": 125
+      },
+      {
+        "denominator": 16,
+        "numerator": 251
+      },
+      {
+        "denominator": 4,
+        "numerator": 63
+      },
+      {
+        "denominator": 16,
+        "numerator": 253
+      },
+      {
+        "denominator": 8,
+        "numerator": 127
+      },
+      {
+        "denominator": 16,
+        "numerator": 255
+      },
+      {
+        "denominator": 1,
+        "numerator": 16
+      },
+      {
+        "denominator": 16,
+        "numerator": 257
+      },
+      {
+        "denominator": 8,
+        "numerator": 129
+      },
+      {
+        "denominator": 16,
+        "numerator": 259
+      },
+      {
+        "denominator": 4,
+        "numerator": 65
+      },
+      {
+        "denominator": 16,
+        "numerator": 261
+      },
+      {
+        "denominator": 8,
+        "numerator": 131
+      },
+      {
+        "denominator": 16,
+        "numerator": 263
+      },
+      {
+        "denominator": 2,
+        "numerator": 33
+      },
+      {
+        "denominator": 16,
+        "numerator": 265
+      },
+      {
+        "denominator": 8,
+        "numerator": 133
+      },
+      {
+        "denominator": 16,
+        "numerator": 267
+      },
+      {
+        "denominator": 4,
+        "numerator": 67
+      },
+      {
+        "denominator": 16,
+        "numerator": 269
+      },
+      {
+        "denominator": 8,
+        "numerator": 135
+      },
+      {
+        "denominator": 16,
+        "numerator": 271
+      },
+      {
+        "denominator": 1,
+        "numerator": 17
+      },
+      {
+        "denominator": 16,
+        "numerator": 273
+      },
+      {
+        "denominator": 8,
+        "numerator": 137
+      },
+      {
+        "denominator": 16,
+        "numerator": 275
+      },
+      {
+        "denominator": 4,
+        "numerator": 69
+      },
+      {
+        "denominator": 16,
+        "numerator": 277
+      },
+      {
+        "denominator": 8,
+        "numerator": 139
+      },
+      {
+        "denominator": 16,
+        "numerator": 279
+      },
+      {
+        "denominator": 2,
+        "numerator": 35
+      },
+      {
+        "denominator": 16,
+        "numerator": 281
+      },
+      {
+        "denominator": 8,
+        "numerator": 141
+      },
+      {
+        "denominator": 16,
+        "numerator": 283
+      },
+      {
+        "denominator": 4,
+        "numerator": 71
+      },
+      {
+        "denominator": 16,
+        "numerator": 285
+      },
+      {
+        "denominator": 8,
+        "numerator": 143
+      },
+      {
+        "denominator": 16,
+        "numerator": 287
+      },
+      {
+        "denominator": 1,
+        "numerator": 18
+      },
+      {
+        "denominator": 16,
+        "numerator": 289
+      },
+      {
+        "denominator": 8,
+        "numerator": 145
+      },
+      {
+        "denominator": 16,
+        "numerator": 291
+      },
+      {
+        "denominator": 4,
+        "numerator": 73
+      },
+      {
+        "denominator": 16,
+        "numerator": 293
+      },
+      {
+        "denominator": 8,
+        "numerator": 147
+      },
+      {
+        "denominator": 16,
+        "numerator": 295
+      },
+      {
+        "denominator": 2,
+        "numerator": 37
+      },
+      {
+        "denominator": 16,
+        "numerator": 297
+      },
+      {
+        "denominator": 8,
+        "numerator": 149
+      },
+      {
+        "denominator": 16,
+        "numerator": 299
+      },
+      {
+        "denominator": 4,
+        "numerator": 75
+      },
+      {
+        "denominator": 16,
+        "numerator": 301
+      },
+      {
+        "denominator": 8,
+        "numerator": 151
+      },
+      {
+        "denominator": 16,
+        "numerator": 303
+      },
+      {
+        "denominator": 1,
+        "numerator": 19
+      },
+      {
+        "denominator": 16,
+        "numerator": 305
+      },
+      {
+        "denominator": 8,
+        "numerator": 153
+      },
+      {
+        "denominator": 16,
+        "numerator": 307
+      },
+      {
+        "denominator": 4,
+        "numerator": 77
+      },
+      {
+        "denominator": 16,
+        "numerator": 309
+      },
+      {
+        "denominator": 8,
+        "numerator": 155
+      },
+      {
+        "denominator": 16,
+        "numerator": 311
+      },
+      {
+        "denominator": 2,
+        "numerator": 39
+      },
+      {
+        "denominator": 16,
+        "numerator": 313
+      },
+      {
+        "denominator": 8,
+        "numerator": 157
+      },
+      {
+        "denominator": 16,
+        "numerator": 315
+      },
+      {
+        "denominator": 4,
+        "numerator": 79
+      },
+      {
+        "denominator": 16,
+        "numerator": 317
+      },
+      {
+        "denominator": 8,
+        "numerator": 159
+      },
+      {
+        "denominator": 16,
+        "numerator": 319
+      },
+      {
+        "denominator": 1,
+        "numerator": 20
+      },
+      {
+        "denominator": 16,
+        "numerator": 321
+      },
+      {
+        "denominator": 8,
+        "numerator": 161
+      },
+      {
+        "denominator": 16,
+        "numerator": 323
+      },
+      {
+        "denominator": 4,
+        "numerator": 81
+      },
+      {
+        "denominator": 16,
+        "numerator": 325
+      },
+      {
+        "denominator": 8,
+        "numerator": 163
+      },
+      {
+        "denominator": 16,
+        "numerator": 327
+      },
+      {
+        "denominator": 2,
+        "numerator": 41
+      },
+      {
+        "denominator": 16,
+        "numerator": 329
+      },
+      {
+        "denominator": 8,
+        "numerator": 165
+      },
+      {
+        "denominator": 16,
+        "numerator": 331
+      },
+      {
+        "denominator": 4,
+        "numerator": 83
+      },
+      {
+        "denominator": 16,
+        "numerator": 333
+      },
+      {
+        "denominator": 8,
+        "numerator": 167
+      },
+      {
+        "denominator": 16,
+        "numerator": 335
+      },
+      {
+        "denominator": 1,
+        "numerator": 21
+      },
+      {
+        "denominator": 16,
+        "numerator": 337
+      },
+      {
+        "denominator": 8,
+        "numerator": 169
+      },
+      {
+        "denominator": 16,
+        "numerator": 339
+      },
+      {
+        "denominator": 4,
+        "numerator": 85
+      },
+      {
+        "denominator": 16,
+        "numerator": 341
+      },
+      {
+        "denominator": 8,
+        "numerator": 171
+      },
+      {
+        "denominator": 16,
+        "numerator": 343
+      },
+      {
+        "denominator": 2,
+        "numerator": 43
+      },
+      {
+        "denominator": 16,
+        "numerator": 345
+      },
+      {
+        "denominator": 8,
+        "numerator": 173
+      },
+      {
+        "denominator": 16,
+        "numerator": 347
+      },
+      {
+        "denominator": 4,
+        "numerator": 87
+      },
+      {
+        "denominator": 16,
+        "numerator": 349
+      },
+      {
+        "denominator": 8,
+        "numerator": 175
+      },
+      {
+        "denominator": 16,
+        "numerator": 351
+      },
+      {
+        "denominator": 1,
+        "numerator": 22
+      },
+      {
+        "denominator": 16,
+        "numerator": 353
+      },
+      {
+        "denominator": 8,
+        "numerator": 177
+      },
+      {
+        "denominator": 16,
+        "numerator": 355
+      },
+      {
+        "denominator": 4,
+        "numerator": 89
+      },
+      {
+        "denominator": 16,
+        "numerator": 357
+      },
+      {
+        "denominator": 8,
+        "numerator": 179
+      },
+      {
+        "denominator": 16,
+        "numerator": 359
+      },
+      {
+        "denominator": 2,
+        "numerator": 45
+      },
+      {
+        "denominator": 16,
+        "numerator": 361
+      },
+      {
+        "denominator": 8,
+        "numerator": 181
+      },
+      {
+        "denominator": 16,
+        "numerator": 363
+      },
+      {
+        "denominator": 4,
+        "numerator": 91
+      },
+      {
+        "denominator": 8,
+        "numerator": 183
+      },
+      {
+        "denominator": 1,
+        "numerator": 23
+      },
+      {
+        "denominator": 8,
+        "numerator": 185
+      },
+      {
+        "denominator": 4,
+        "numerator": 93
+      },
+      {
+        "denominator": 8,
+        "numerator": 187
+      },
+      {
+        "denominator": 2,
+        "numerator": 47
+      },
+      {
+        "denominator": 8,
+        "numerator": 189
+      },
+      {
+        "denominator": 4,
+        "numerator": 95
+      },
+      {
+        "denominator": 8,
+        "numerator": 191
+      },
+      {
+        "denominator": 16,
+        "numerator": 383
+      },
+      {
+        "denominator": 32,
+        "numerator": 767
+      },
+      {
+        "denominator": 64,
+        "numerator": 1535
+      },
+      {
+        "denominator": 140737488355328,
+        "numerator": 3377699720527401
+      },
+      {
+        "denominator": 281474976710656,
+        "numerator": 6755399441054805
+      },
+      {
+        "denominator": 140737488355328,
+        "numerator": 3377699720527869
+      },
+      {
+        "denominator": 281474976710656,
+        "numerator": 6755399441055739
+      },
+      {
+        "denominator": 1,
+        "numerator": 24
+      },
+      {
+        "denominator": 64,
+        "numerator": 1537
+      },
+      {
+        "denominator": 32,
+        "numerator": 769
+      },
+      {
+        "denominator": 16,
+        "numerator": 385
+      },
+      {
+        "denominator": 8,
+        "numerator": 193
+      },
+      {
+        "denominator": 4,
+        "numerator": 97
+      },
+      {
+        "denominator": 8,
+        "numerator": 195
+      },
+      {
+        "denominator": 2,
+        "numerator": 49
+      },
+      {
+        "denominator": 8,
+        "numerator": 197
+      },
+      {
+        "denominator": 4,
+        "numerator": 99
+      },
+      {
+        "denominator": 8,
+        "numerator": 199
+      },
+      {
+        "denominator": 1,
+        "numerator": 25
+      },
+      {
+        "denominator": 8,
+        "numerator": 201
+      },
+      {
+        "denominator": 4,
+        "numerator": 101
+      },
+      {
+        "denominator": 8,
+        "numerator": 203
+      },
+      {
+        "denominator": 2,
+        "numerator": 51
+      },
+      {
+        "denominator": 8,
+        "numerator": 205
+      },
+      {
+        "denominator": 4,
+        "numerator": 103
+      },
+      {
+        "denominator": 8,
+        "numerator": 207
+      },
+      {
+        "denominator": 1,
+        "numerator": 26
+      },
+      {
+        "denominator": 8,
+        "numerator": 209
+      },
+      {
+        "denominator": 4,
+        "numerator": 105
+      },
+      {
+        "denominator": 8,
+        "numerator": 211
+      },
+      {
+        "denominator": 2,
+        "numerator": 53
+      },
+      {
+        "denominator": 8,
+        "numerator": 213
+      },
+      {
+        "denominator": 4,
+        "numerator": 107
+      },
+      {
+        "denominator": 8,
+        "numerator": 215
+      },
+      {
+        "denominator": 1,
+        "numerator": 27
+      },
+      {
+        "denominator": 8,
+        "numerator": 217
+      },
+      {
+        "denominator": 4,
+        "numerator": 109
+      },
+      {
+        "denominator": 8,
+        "numerator": 219
+      },
+      {
+        "denominator": 2,
+        "numerator": 55
+      },
+      {
+        "denominator": 8,
+        "numerator": 221
+      },
+      {
+        "denominator": 4,
+        "numerator": 111
+      },
+      {
+        "denominator": 8,
+        "numerator": 223
+      },
+      {
+        "denominator": 1,
+        "numerator": 28
+      },
+      {
+        "denominator": 8,
+        "numerator": 225
+      },
+      {
+        "denominator": 4,
+        "numerator": 113
+      },
+      {
+        "denominator": 8,
+        "numerator": 227
+      },
+      {
+        "denominator": 2,
+        "numerator": 57
+      },
+      {
+        "denominator": 8,
+        "numerator": 229
+      },
+      {
+        "denominator": 4,
+        "numerator": 115
+      },
+      {
+        "denominator": 8,
+        "numerator": 231
+      },
+      {
+        "denominator": 1,
+        "numerator": 29
+      },
+      {
+        "denominator": 8,
+        "numerator": 233
+      },
+      {
+        "denominator": 4,
+        "numerator": 117
+      },
+      {
+        "denominator": 8,
+        "numerator": 235
+      },
+      {
+        "denominator": 2,
+        "numerator": 59
+      },
+      {
+        "denominator": 8,
+        "numerator": 237
+      },
+      {
+        "denominator": 4,
+        "numerator": 119
+      },
+      {
+        "denominator": 8,
+        "numerator": 239
+      },
+      {
+        "denominator": 1,
+        "numerator": 30
+      },
+      {
+        "denominator": 8,
+        "numerator": 241
+      },
+      {
+        "denominator": 4,
+        "numerator": 121
+      },
+      {
+        "denominator": 8,
+        "numerator": 243
+      },
+      {
+        "denominator": 2,
+        "numerator": 61
+      },
+      {
+        "denominator": 8,
+        "numerator": 245
+      },
+      {
+        "denominator": 4,
+        "numerator": 123
+      },
+      {
+        "denominator": 8,
+        "numerator": 247
+      },
+      {
+        "denominator": 1,
+        "numerator": 31
+      },
+      {
+        "denominator": 8,
+        "numerator": 249
+      },
+      {
+        "denominator": 4,
+        "numerator": 125
+      },
+      {
+        "denominator": 8,
+        "numerator": 251
+      },
+      {
+        "denominator": 2,
+        "numerator": 63
+      },
+      {
+        "denominator": 8,
+        "numerator": 253
+      },
+      {
+        "denominator": 4,
+        "numerator": 127
+      },
+      {
+        "denominator": 8,
+        "numerator": 255
+      },
+      {
+        "denominator": 1,
+        "numerator": 32
+      },
+      {
+        "denominator": 8,
+        "numerator": 257
+      },
+      {
+        "denominator": 4,
+        "numerator": 129
+      },
+      {
+        "denominator": 8,
+        "numerator": 259
+      },
+      {
+        "denominator": 2,
+        "numerator": 65
+      },
+      {
+        "denominator": 8,
+        "numerator": 261
+      },
+      {
+        "denominator": 4,
+        "numerator": 131
+      },
+      {
+        "denominator": 8,
+        "numerator": 263
+      },
+      {
+        "denominator": 1,
+        "numerator": 33
+      },
+      {
+        "denominator": 8,
+        "numerator": 265
+      },
+      {
+        "denominator": 4,
+        "numerator": 133
+      },
+      {
+        "denominator": 8,
+        "numerator": 267
+      },
+      {
+        "denominator": 2,
+        "numerator": 67
+      },
+      {
+        "denominator": 8,
+        "numerator": 269
+      },
+      {
+        "denominator": 4,
+        "numerator": 135
+      },
+      {
+        "denominator": 8,
+        "numerator": 271
+      },
+      {
+        "denominator": 1,
+        "numerator": 34
+      },
+      {
+        "denominator": 8,
+        "numerator": 273
+      },
+      {
+        "denominator": 4,
+        "numerator": 137
+      },
+      {
+        "denominator": 8,
+        "numerator": 275
+      },
+      {
+        "denominator": 2,
+        "numerator": 69
+      },
+      {
+        "denominator": 8,
+        "numerator": 277
+      },
+      {
+        "denominator": 4,
+        "numerator": 139
+      },
+      {
+        "denominator": 8,
+        "numerator": 279
+      },
+      {
+        "denominator": 1,
+        "numerator": 35
+      }
+    ]
+  },
+  "schema": "rate_defined_tensor_f0_resource_observation_v1",
+  "status": "HOLD_F0_METHOD_OR_RESOURCE"
+}

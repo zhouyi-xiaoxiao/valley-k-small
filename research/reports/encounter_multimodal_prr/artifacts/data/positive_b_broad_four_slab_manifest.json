@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "stage": "result_informed_positive_B_broad_four_slab_heldout_mesh_confirmation",
+  "evidence_timing": "RESULT_INFORMED_FIXED_CONTROL_WITH_HELDOUT_FINE_MESHES",
+  "freeze_date": "2026-07-13",
+  "claim_scope": "One result-informed broad four-slab geometry with fixed absolute weights and fixed B=0.01, tested by a matrix-free killed-Doi finite-volume semigroup on two held-out odd cubic meshes in one fixed reflecting box.",
+  "known_before_freeze": {
+    "B0_exact_and_mesh_bridge_result_known": true,
+    "positive_B_mesh_65_budgets_evaluated": [
+      0.01,
+      0.02,
+      0.04,
+      0.08
+    ],
+    "positive_B_mesh_97_budgets_evaluated": [
+      0.01,
+      0.02
+    ],
+    "positive_B_mesh_113_evaluated": false,
+    "positive_B_mesh_129_evaluated": false
+  },
+  "selection_record": {
+    "selected_budget": 0.01,
+    "eligible_budgets_on_mesh_97": [
+      0.01,
+      0.02
+    ],
+    "rule": [
+      "five alternating roots",
+      "all three event-basin masses at least 0.005",
+      "differential mass balance",
+      "minimum worst valley excess on mesh 97",
+      "smaller budget tie-break"
+    ],
+    "weights_or_geometry_refit_for_positive_B": false,
+    "other_budget_forbidden_on_heldout_meshes": true
+  },
+  "physical_parameters": {
+    "particle_diffusion": 0.002,
+    "ou_stiffness": 0.1,
+    "ou_mean": 0.95,
+    "transverse_width": 1.0,
+    "contact_radius": 0.16,
+    "midpoint_start": 0.14,
+    "initial_half_width": 0.02,
+    "relative_parallel_start": -0.35,
+    "relative_perp_start": 0.0,
+    "patch_centres": [
+      0.35,
+      0.6,
+      0.75,
+      0.9
+    ],
+    "patch_half_width": 0.04,
+    "fixed_first_weight": 0.28
+  },
+  "fixed_absolute_weights": [
+    0.28,
+    0.27736690132708747,
+    0.0857172266153233,
+    0.3569158720575891
+  ],
+  "positive_budget": 0.01,
+  "heldout_meshes": [
+    113,
+    129
+  ],
+  "finite_volume": {
+    "midpoint_bounds": [
+      -0.25,
+      1.85
+    ],
+    "relative_parallel_bounds": [
+      -1.8,
+      1.8
+    ],
+    "scheme": "cell-centred Scharfetter-Gummel/periodic killed-Doi tensor generator"
+  },
+  "time_scan": {
+    "start": 0.0,
+    "stop": 35.0,
+    "spacing": 0.02,
+    "points": 1751,
+    "chunk_points": 11,
+    "minimum_root_time": 0.5,
+    "saved_trace_spacing": 0.1
+  },
+  "root_gates": {
+    "relative_density_floor": 1e-08,
+    "minimum_peak_ratio": 0.1,
+    "maximum_valley_ratio": 0.85,
+    "maximum_scaled_root_residual": 1e-08,
+    "minimum_absolute_scaled_curvature": 0.05,
+    "positive_derivative_time": 0.5,
+    "negative_derivative_time": 35.0,
+    "maximum_negative_state_tolerance": 1e-12,
+    "maximum_survival_increase": 1e-12,
+    "maximum_tangent_state_relative_l1": 1e-09,
+    "maximum_tangent_time_jet_absolute_difference": 1e-09
+  },
+  "event_mass": {
+    "final_time": 100.0,
+    "minimum_each_basin_mass": 0.005,
+    "maximum_mass_balance_error": 1e-09
+  },
+  "tail_gates": {
+    "checkpoints": [
+      35.0,
+      50.0,
+      75.0,
+      100.0
+    ],
+    "minimum_density_sampling_start": 0.5,
+    "minimum_density": 0.0,
+    "maximum_survival_increase": 1e-12,
+    "maximum_negative_state_tolerance": 1e-12
+  },
+  "mesh_agreement": {
+    "maximum_paired_root_time_difference": 0.1,
+    "maximum_peak_ratio_difference": 0.03,
+    "maximum_valley_ratio_difference": 0.03,
+    "maximum_event_mass_difference": 0.01,
+    "maximum_final_survival_difference": 0.02
+  },
+  "preflight_validation": {
+    "small_mesh_cells": 9,
+    "explicit_CSR_row_and_column_actions": true,
+    "matrix_and_vector_adjoint_actions": true,
+    "full_and_augmented_analytic_traces": true,
+    "augmented_block_orientation": true,
+    "budget_tangent_B_plus_minus_h": true,
+    "p_f_and_four_time_jets": true,
+    "actual_root_checkpoint_vs_direct_from_zero": true,
+    "S_prime_equals_minus_f": true,
+    "Q_one_equals_minus_B_k0": true,
+    "three_basin_mass_partition_closure": true,
+    "structural_HOLD_null_serialization": true,
+    "full_manifest_mutation_rejection": true,
+    "two_independent_subprocess_replica_harness": true,
+    "tail_35_to_100_gate_regression": true,
+    "recursive_nonfinite_rejection": true,
+    "native_json_boolean_gate_normalization": true,
+    "formal_tests_passed_before_heldout_run": 16
+  },
+  "numerical_reproducibility": {
+    "numpy_global_seed": 271828,
+    "restore_numpy_global_rng_state": true,
+    "analytic_linear_operator_traces_required": true,
+    "full_rerun_byte_identity_required": true,
+    "independent_full_processes_required": 2,
+    "canonical_promotion_requires_byte_identity": true,
+    "reproducibility_evidence_file": "artifacts/data/positive_b_broad_four_slab_reproducibility.json",
+    "subprocess_environment": {
+      "PYTHONHASHSEED": "0",
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "execution_boundary": {
+    "formal_execution_requires_explicit_execute_frozen_flag": true,
+    "public_and_replica_modes_require_external_manifest_sha256": true,
+    "public_entrypoint_runs_two_sequential_subprocess_replicas": true,
+    "replica_only_mode_requires_frozen_manifest_sha256": true,
+    "canonical_result_promoted_only_after_byte_identity": true,
+    "reproducibility_evidence_written_before_canonical_promotion": true,
+    "meshes_run_sequentially_within_each_process": true,
+    "complete_processes_run_sequentially_for_memory_safety": true,
+    "no_elapsed_timestamp_or_temporary_path_in_result_JSON": true
+  },
+  "required_claim_flags": {
+    "preregistered_discovery": false,
+    "continuum_interval_verified": false,
+    "unbounded_domain_FV_limit_verified": false,
+    "independent_solver_verified": false,
+    "project_gate_passed": false
+  },
+  "pinned_files": {
+    "producer": {
+      "path": "code/positive_b_broad_four_slab.py",
+      "sha256": "adb9434daeccca721ab9c1014f194e0cf9c5c6d0bf092d31e050c040b4b94da8"
+    },
+    "tests": {
+      "path": "code/test_positive_b_broad_four_slab.py",
+      "sha256": "d60e837c949333d29f7287b17c5e24c6db742067a655bac5050b5966dc821329"
+    },
+    "protocol": {
+      "path": "notes/positive_b_broad_four_slab_protocol.md",
+      "sha256": "f25a8107d7a975342a3b1cbbf84c29df26654a8f6310f0429cba5ffdf7bcda00"
+    },
+    "operational_erratum": {
+      "path": "notes/positive_b_broad_four_slab_operational_erratum_v2.md",
+      "sha256": "9843b323898b7e0e9edd0eff33431cddb9fb3d4d572caa4d9ebc5d1e5649592c"
+    },
+    "B0_bridge_result": {
+      "path": "artifacts/data/continuum_broad_patch_b0_bridge_result.json",
+      "sha256": "6a18e668401ae5776eebd7bd58c7bd553838db21998efdba2865cea094ae207b"
+    },
+    "B0_bridge_manifest": {
+      "path": "artifacts/data/continuum_broad_patch_b0_bridge_manifest.json",
+      "sha256": "263d4bd5e95f4cf477916948f2e4bbf3cd99066ac9dc9a9ab5726f2030a6f1e8"
+    },
+    "B0_bridge_producer": {
+      "path": "code/continuum_broad_patch_b0_bridge.py",
+      "sha256": "d1d68667f5cbb9c8363a94f2f9ea22540f841065e02696f669beca9758e3a233"
+    },
+    "exact_continuum_dependency": {
+      "path": "code/continuum_observable_four_patch.py",
+      "sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da"
+    },
+    "finite_volume_dependency": {
+      "path": "code/continuum_weak_budget_design.py",
+      "sha256": "7fa9ea6114328736c89739459c293aefa9311514764ec3cfe4f0ceb5a1875201"
+    },
+    "grid_dependency": {
+      "path": "code/continuum_g1_smoke.py",
+      "sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701"
+    },
+    "feasibility_producer": {
+      "path": "scratch/positive_b_broad_four_slab_feasibility.py",
+      "sha256": "dbb9a7ae4802eaf195cd107eb7b87634e629f46dfd5db60e7aadc4feb603f914"
+    },
+    "feasibility_N65_all_budgets": {
+      "path": "scratch/positive_b_broad_four_slab_feasibility_result.json",
+      "sha256": "e0af767d5a685c263757881c5ac0df490868c07d62c1a204f75d929e5771a8c5"
+    },
+    "feasibility_N97_B001": {
+      "path": "scratch/positive_b_broad_four_slab_feasibility_N97_B001.json",
+      "sha256": "fbbbc0134ee78a51ab605202046633c86815942467cbbc9768ec6e746d76fdb7"
+    },
+    "feasibility_N97_B002": {
+      "path": "scratch/positive_b_broad_four_slab_feasibility_N97_B002.json",
+      "sha256": "6ea651941cf89a0103d9a4ba18295a71b8152526a8890e7ee16ff57ffb02eb0a"
+    }
+  },
+  "forbidden_promotions": [
+    "preregistered discovery",
+    "interval-certified root count",
+    "unbounded-domain finite-volume convergence",
+    "independent-solver confirmation",
+    "physical d=3 confirmation",
+    "project or publication gate pass"
+  ]
+}

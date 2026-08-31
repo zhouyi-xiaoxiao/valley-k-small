@@ -1,0 +1,515 @@
+{
+  "claim_boundary": {
+    "QF2_complete": false,
+    "all_QF2_routes_refuted": false,
+    "all_conforming_reconstructions_refuted": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "exact_checkerboard_obstruction_verified": true,
+    "formal_QF2_replacement_proved": false,
+    "production_evidence": false,
+    "production_reconstruction_accepted": false,
+    "release_submission_ready": false,
+    "release_submission_science_execution": false,
+    "residual_or_smooth_solution_routes_refuted": false,
+    "standard_tensor_Q1_all_discrete_pairs_O_h_claim_valid": false
+  },
+  "conclusion": {
+    "dimension_1": "THIS_WITNESS_HAS_ZERO_FREE_FORM_DEFECT_AND_GIVES_NO_OBSTRUCTION",
+    "dimensions_2_and_3": "POSITIVE_DEFECT_FOR_EVERY_LISTED_MESH_AND_C_MIN_DIVERGES_AS_1_OVER_H",
+    "finite_rows_are_neutral_exact_diagnostics": true,
+    "qf2_status": "OPEN_REQUIRES_A_DIFFERENT_OR_RESTRICTED_ROUTE",
+    "standard_tensor_Q1_route_status": "REFUTED_FOR_ALL_DISCRETE_PAIRS_IN_D_2_AND_D_3_BY_EXACT_FAMILY"
+  },
+  "definitions": {
+    "all_pairs_claim_tested": "abs(a_h(u_h,v_h)-a_Q1(I_hu_h,I_hv_h)) <= C*h*||u_h||_(1,h)*||v_h||_(1,h)",
+    "checkerboard": "v_j=(-1)^(sum_i j_i)",
+    "discrete_energy_norm_squared": "||v_h||_(1,h)^2=||v_h||_h^2+a_h(v_h,v_h)",
+    "discrete_free_energy": "a_h(v,v)=h^d*sum_nodes*sum_positive_axes*((v_(j+e_i)-v_j)/h)^2",
+    "discrete_l2_norm_squared": "||v||_h^2=h^d*sum_nodes*v_j^2",
+    "grid": "unit_periodic_d_torus_with_h=1/N_and_even_N",
+    "minimum_constant_definition": "C_min=defect/(h*||v_h||_(1,h)^2)_for_u_h=v_h=checkerboard",
+    "rational_encoding": "canonical_reduced_p_over_q_strings",
+    "tensor_q1_reconstruction": "standard_periodic_nodal_multilinear_interpolant_on_each_cartesian_cell"
+  },
+  "dimension_certificates": [
+    {
+      "asymptotic_h_times_C_min_limit": "0/1",
+      "c_min_behavior": "IDENTICALLY_ZERO_FOR_THIS_CHECKERBOARD_WITNESS",
+      "dimension": 1,
+      "even_N_ge_2_uniform_h_times_C_min_lower_bound": "0/1",
+      "exact_formulas": {
+        "absolute_free_form_defect": "4*d*(1-3^(-(d-1)))/h^2",
+        "checkerboard_required_C_min": "4*d*(1-3^(-(d-1)))/(h*(h^2+4*d))",
+        "discrete_energy_norm_squared": "1+4*d/h^2",
+        "discrete_free_energy": "4*d/h^2",
+        "discrete_l2_norm_squared": "1",
+        "h_times_C_min_gap_below_limit": "(1-3^(-(d-1)))*h^2/(h^2+4*d)",
+        "tensor_q1_free_energy": "4*d*3^(-(d-1))/h^2",
+        "tensor_q1_l2_norm_squared": "3^(-d)"
+      },
+      "free_form_defect_ratio_to_discrete_energy": "0/1",
+      "q1_energy_ratio_to_discrete_energy": "1/1"
+    },
+    {
+      "asymptotic_h_times_C_min_limit": "2/3",
+      "c_min_behavior": "STRICTLY_INCREASING_AND_UNBOUNDED_ALONG_EVEN_N",
+      "dimension": 2,
+      "even_N_ge_2_uniform_h_times_C_min_lower_bound": "64/99",
+      "exact_formulas": {
+        "absolute_free_form_defect": "4*d*(1-3^(-(d-1)))/h^2",
+        "checkerboard_required_C_min": "4*d*(1-3^(-(d-1)))/(h*(h^2+4*d))",
+        "discrete_energy_norm_squared": "1+4*d/h^2",
+        "discrete_free_energy": "4*d/h^2",
+        "discrete_l2_norm_squared": "1",
+        "h_times_C_min_gap_below_limit": "(1-3^(-(d-1)))*h^2/(h^2+4*d)",
+        "tensor_q1_free_energy": "4*d*3^(-(d-1))/h^2",
+        "tensor_q1_l2_norm_squared": "3^(-d)"
+      },
+      "free_form_defect_ratio_to_discrete_energy": "2/3",
+      "q1_energy_ratio_to_discrete_energy": "1/3"
+    },
+    {
+      "asymptotic_h_times_C_min_limit": "8/9",
+      "c_min_behavior": "STRICTLY_INCREASING_AND_UNBOUNDED_ALONG_EVEN_N",
+      "dimension": 3,
+      "even_N_ge_2_uniform_h_times_C_min_lower_bound": "128/147",
+      "exact_formulas": {
+        "absolute_free_form_defect": "4*d*(1-3^(-(d-1)))/h^2",
+        "checkerboard_required_C_min": "4*d*(1-3^(-(d-1)))/(h*(h^2+4*d))",
+        "discrete_energy_norm_squared": "1+4*d/h^2",
+        "discrete_free_energy": "4*d/h^2",
+        "discrete_l2_norm_squared": "1",
+        "h_times_C_min_gap_below_limit": "(1-3^(-(d-1)))*h^2/(h^2+4*d)",
+        "tensor_q1_free_energy": "4*d*3^(-(d-1))/h^2",
+        "tensor_q1_l2_norm_squared": "3^(-d)"
+      },
+      "free_form_defect_ratio_to_discrete_energy": "8/9",
+      "q1_energy_ratio_to_discrete_energy": "1/9"
+    }
+  ],
+  "fixture_grid": {
+    "dimensions": [
+      1,
+      2,
+      3
+    ],
+    "even_intervals_per_axis": [
+      2,
+      4,
+      8,
+      16
+    ]
+  },
+  "rows": [
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "17/1",
+        "discrete_free_energy": "16/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "16/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "dimension": 1,
+      "enumerated": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "17/1",
+        "discrete_free_energy": "16/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "16/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 2,
+        "periodic_grid_nodes": 2,
+        "tensor_q1_cells": 2,
+        "tensor_q1_ordered_corner_pairs_per_cell": 4
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/2",
+      "intervals_per_axis": 2,
+      "positive_defect": false
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "65/1",
+        "discrete_free_energy": "64/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "64/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "dimension": 1,
+      "enumerated": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "65/1",
+        "discrete_free_energy": "64/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "64/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 4,
+        "periodic_grid_nodes": 4,
+        "tensor_q1_cells": 4,
+        "tensor_q1_ordered_corner_pairs_per_cell": 4
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/4",
+      "intervals_per_axis": 4,
+      "positive_defect": false
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "257/1",
+        "discrete_free_energy": "256/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "256/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "dimension": 1,
+      "enumerated": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "257/1",
+        "discrete_free_energy": "256/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "256/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 8,
+        "periodic_grid_nodes": 8,
+        "tensor_q1_cells": 8,
+        "tensor_q1_ordered_corner_pairs_per_cell": 4
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/8",
+      "intervals_per_axis": 8,
+      "positive_defect": false
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "1025/1",
+        "discrete_free_energy": "1024/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "1024/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "dimension": 1,
+      "enumerated": {
+        "absolute_free_form_defect": "0/1",
+        "checkerboard_required_C_min": "0/1",
+        "discrete_energy_norm_squared": "1025/1",
+        "discrete_free_energy": "1024/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "0/1",
+        "tensor_q1_free_energy": "1024/1",
+        "tensor_q1_l2_norm_squared": "1/3"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 16,
+        "periodic_grid_nodes": 16,
+        "tensor_q1_cells": 16,
+        "tensor_q1_ordered_corner_pairs_per_cell": 4
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/16",
+      "intervals_per_axis": 16,
+      "positive_defect": false
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "64/3",
+        "checkerboard_required_C_min": "128/99",
+        "discrete_energy_norm_squared": "33/1",
+        "discrete_free_energy": "32/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "64/99",
+        "tensor_q1_free_energy": "32/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "dimension": 2,
+      "enumerated": {
+        "absolute_free_form_defect": "64/3",
+        "checkerboard_required_C_min": "128/99",
+        "discrete_energy_norm_squared": "33/1",
+        "discrete_free_energy": "32/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "64/99",
+        "tensor_q1_free_energy": "32/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 8,
+        "periodic_grid_nodes": 4,
+        "tensor_q1_cells": 4,
+        "tensor_q1_ordered_corner_pairs_per_cell": 16
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/2",
+      "intervals_per_axis": 2,
+      "positive_defect": true
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "256/3",
+        "checkerboard_required_C_min": "1024/387",
+        "discrete_energy_norm_squared": "129/1",
+        "discrete_free_energy": "128/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "256/387",
+        "tensor_q1_free_energy": "128/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "dimension": 2,
+      "enumerated": {
+        "absolute_free_form_defect": "256/3",
+        "checkerboard_required_C_min": "1024/387",
+        "discrete_energy_norm_squared": "129/1",
+        "discrete_free_energy": "128/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "256/387",
+        "tensor_q1_free_energy": "128/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 32,
+        "periodic_grid_nodes": 16,
+        "tensor_q1_cells": 16,
+        "tensor_q1_ordered_corner_pairs_per_cell": 16
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/4",
+      "intervals_per_axis": 4,
+      "positive_defect": true
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "1024/3",
+        "checkerboard_required_C_min": "8192/1539",
+        "discrete_energy_norm_squared": "513/1",
+        "discrete_free_energy": "512/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "1024/1539",
+        "tensor_q1_free_energy": "512/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "dimension": 2,
+      "enumerated": {
+        "absolute_free_form_defect": "1024/3",
+        "checkerboard_required_C_min": "8192/1539",
+        "discrete_energy_norm_squared": "513/1",
+        "discrete_free_energy": "512/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "1024/1539",
+        "tensor_q1_free_energy": "512/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 128,
+        "periodic_grid_nodes": 64,
+        "tensor_q1_cells": 64,
+        "tensor_q1_ordered_corner_pairs_per_cell": 16
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/8",
+      "intervals_per_axis": 8,
+      "positive_defect": true
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "4096/3",
+        "checkerboard_required_C_min": "65536/6147",
+        "discrete_energy_norm_squared": "2049/1",
+        "discrete_free_energy": "2048/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "4096/6147",
+        "tensor_q1_free_energy": "2048/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "dimension": 2,
+      "enumerated": {
+        "absolute_free_form_defect": "4096/3",
+        "checkerboard_required_C_min": "65536/6147",
+        "discrete_energy_norm_squared": "2049/1",
+        "discrete_free_energy": "2048/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "4096/6147",
+        "tensor_q1_free_energy": "2048/3",
+        "tensor_q1_l2_norm_squared": "1/9"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 512,
+        "periodic_grid_nodes": 256,
+        "tensor_q1_cells": 256,
+        "tensor_q1_ordered_corner_pairs_per_cell": 16
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/16",
+      "intervals_per_axis": 16,
+      "positive_defect": true
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "128/3",
+        "checkerboard_required_C_min": "256/147",
+        "discrete_energy_norm_squared": "49/1",
+        "discrete_free_energy": "48/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "128/147",
+        "tensor_q1_free_energy": "16/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "dimension": 3,
+      "enumerated": {
+        "absolute_free_form_defect": "128/3",
+        "checkerboard_required_C_min": "256/147",
+        "discrete_energy_norm_squared": "49/1",
+        "discrete_free_energy": "48/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "128/147",
+        "tensor_q1_free_energy": "16/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 24,
+        "periodic_grid_nodes": 8,
+        "tensor_q1_cells": 8,
+        "tensor_q1_ordered_corner_pairs_per_cell": 64
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/2",
+      "intervals_per_axis": 2,
+      "positive_defect": true
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "512/3",
+        "checkerboard_required_C_min": "2048/579",
+        "discrete_energy_norm_squared": "193/1",
+        "discrete_free_energy": "192/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "512/579",
+        "tensor_q1_free_energy": "64/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "dimension": 3,
+      "enumerated": {
+        "absolute_free_form_defect": "512/3",
+        "checkerboard_required_C_min": "2048/579",
+        "discrete_energy_norm_squared": "193/1",
+        "discrete_free_energy": "192/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "512/579",
+        "tensor_q1_free_energy": "64/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 192,
+        "periodic_grid_nodes": 64,
+        "tensor_q1_cells": 64,
+        "tensor_q1_ordered_corner_pairs_per_cell": 64
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/4",
+      "intervals_per_axis": 4,
+      "positive_defect": true
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "2048/3",
+        "checkerboard_required_C_min": "16384/2307",
+        "discrete_energy_norm_squared": "769/1",
+        "discrete_free_energy": "768/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "2048/2307",
+        "tensor_q1_free_energy": "256/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "dimension": 3,
+      "enumerated": {
+        "absolute_free_form_defect": "2048/3",
+        "checkerboard_required_C_min": "16384/2307",
+        "discrete_energy_norm_squared": "769/1",
+        "discrete_free_energy": "768/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "2048/2307",
+        "tensor_q1_free_energy": "256/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 1536,
+        "periodic_grid_nodes": 512,
+        "tensor_q1_cells": 512,
+        "tensor_q1_ordered_corner_pairs_per_cell": 64
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/8",
+      "intervals_per_axis": 8,
+      "positive_defect": true
+    },
+    {
+      "closed_form": {
+        "absolute_free_form_defect": "8192/3",
+        "checkerboard_required_C_min": "131072/9219",
+        "discrete_energy_norm_squared": "3073/1",
+        "discrete_free_energy": "3072/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "8192/9219",
+        "tensor_q1_free_energy": "1024/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "dimension": 3,
+      "enumerated": {
+        "absolute_free_form_defect": "8192/3",
+        "checkerboard_required_C_min": "131072/9219",
+        "discrete_energy_norm_squared": "3073/1",
+        "discrete_free_energy": "3072/1",
+        "discrete_l2_norm_squared": "1/1",
+        "h_times_checkerboard_required_C_min": "8192/9219",
+        "tensor_q1_free_energy": "1024/3",
+        "tensor_q1_l2_norm_squared": "1/27"
+      },
+      "enumeration_counts": {
+        "periodic_directed_positive_edges": 12288,
+        "periodic_grid_nodes": 4096,
+        "tensor_q1_cells": 4096,
+        "tensor_q1_ordered_corner_pairs_per_cell": 64
+      },
+      "enumeration_matches_closed_form": true,
+      "h": "1/16",
+      "intervals_per_axis": 16,
+      "positive_defect": true
+    }
+  ],
+  "schema": "encounter_continuum_c2_qf2_checkerboard_obstruction_v1",
+  "scope": {
+    "does_not_refute": [
+      "nonstandard_or_frequency_filtered_reconstructions",
+      "estimates_restricted_to_smooth_or_resolvent_generated_data",
+      "residual_consistency_for_manufactured_smooth_solutions",
+      "alternative_flux_reconstructions_or_modified_norms",
+      "all_possible_replacements_for_QF2"
+    ],
+    "refutes_only": "standard_periodic_nodal_tensor_Q1_reconstruction_with_an_O(h)_free_form_defect_bound_uniform_over_all_discrete_pairs_in_the_discrete_energy_norm"
+  },
+  "status": "PASS_NEUTRAL_EXACT_TENSOR_Q1_CHECKERBOARD_OBSTRUCTION_ONLY_QF2_OPEN"
+}

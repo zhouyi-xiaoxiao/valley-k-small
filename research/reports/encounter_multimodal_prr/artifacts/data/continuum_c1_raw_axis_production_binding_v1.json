@@ -1,0 +1,75 @@
+{
+  "claim_boundary": {
+    "common_flux_recomputed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "formal_production_bridge_accepted": false,
+    "formula_containment_recomputed": false,
+    "physical_stationary_integrals_present": false,
+    "release_eligible": false,
+    "same_correlated_member_certified": false
+  },
+  "configuration_binding": {
+    "authority_join_key": "authority_label",
+    "configuration_count": 12,
+    "production_join_key": "configuration_label",
+    "semantic_mapping_source": "configuration_semantic_ids",
+    "strict_join_rule": "configuration_label_equals_authority_label_exactly_once_in_each_source"
+  },
+  "raw_role_binding": {
+    "axis_order": [
+      "midpoint",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "partition_role": "exact_cell_geometry_and_representatives",
+    "rate_roles": [
+      "forward",
+      "backward"
+    ],
+    "saved_interval_record_format": ">dd",
+    "saved_stationary_mass_role": "ungauged_axis_primitive_mu_not_physical_cell_integral",
+    "tensor_storage_order": "C:midpoint_outer_relative_parallel_middle_transverse_inner"
+  },
+  "schema": "encounter_continuum_c1_raw_axis_production_binding_v1",
+  "source_pins": {
+    "anti_vacuity_policy": {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_anti_vacuity_policy_v1.json",
+      "sha256": "c8b9f3aca2b3a516935eeb1fdfb2bf542ba0da2d12ae4c11581f6f1ee607f628"
+    },
+    "geometry_receipt": {
+      "path": "artifacts/data/physical_production_initial_stream_v1_geometry_receipt.json",
+      "sha256": "3b23c641ce82cb30a2f150d9956b235bca918948a40f57365f866e6aa54959fb"
+    },
+    "ideal_formula_source": {
+      "path": "artifacts/data/continuum_c1_ideal_formula_source_v1.json",
+      "sha256": "f31b637b659483102d787da7263cd45c72829b3fce3df2ff9100066dec94c2be"
+    },
+    "independent_source_receipt": {
+      "path": "artifacts/data/physical_production_initial_stream_v1_independent_receipt.json",
+      "sha256": "2fb16af6545281f988ddf7527b5e88b46e98ec7e5a05fcbe1bb5bf457c6f9136"
+    },
+    "member_spec": {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_member_spec_v1.json",
+      "sha256": "e2166e62ae2e5e67a8e3eb058fe4333f59192525ca5614939f417ba285d8d2ef"
+    },
+    "method_registry": {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_outward_method_registry_v1.json",
+      "sha256": "ac00450edf826029b157a98ad2835592630c07b2a75334c25d8d1232a4fe69c3"
+    },
+    "production_bundle": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    "relational_receipt": {
+      "path": "artifacts/data/physical_production_initial_stream_v1_relational_receipt.json",
+      "sha256": "131ef316bbd70d7539c76bf83972b45643a2676b80c67fcfd78d6d8b089cc0b4"
+    },
+    "two_repeat_clean_process_receipt": {
+      "path": "artifacts/data/physical_production_initial_clean_process_replay_v1.json",
+      "sha256": "e1b25ab5221434e26749e9b2103c04c36e27539a810e2a15c236c1806b333891"
+    }
+  },
+  "status": "FROZEN_RAW_AXIS_SOURCE_BINDING_ONLY_NO_PHYSICAL_INTEGRALS_NO_COMMON_FLUX_NO_SAME_MEMBER"
+}

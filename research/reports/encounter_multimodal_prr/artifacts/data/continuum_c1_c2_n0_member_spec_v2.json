@@ -1,0 +1,524 @@
+{
+  "claim_boundary": {
+    "current_enclosure_sources_bind_this_v2_spec": false,
+    "n0_partition_sha256s_bound": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false
+  },
+  "configuration_order": [
+    "O113/Base",
+    "E128/Base",
+    "O129/Base",
+    "O161/Base",
+    "M+",
+    "R+",
+    "MR+",
+    "MR+F",
+    "A_M",
+    "A_R",
+    "A_Y",
+    "A_MRY"
+  ],
+  "configuration_semantic_ids": [
+    {
+      "authority_label": "O113/Base",
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "o113_base"
+    },
+    {
+      "authority_label": "E128/Base",
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "e128_base"
+    },
+    {
+      "authority_label": "O129/Base",
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "o129_base"
+    },
+    {
+      "authority_label": "O161/Base",
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "o161_base"
+    },
+    {
+      "authority_label": "M+",
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "m_plus"
+    },
+    {
+      "authority_label": "R+",
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "r_plus"
+    },
+    {
+      "authority_label": "MR+",
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "mr_plus"
+    },
+    {
+      "authority_label": "MR+F",
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "mr_plus_fine"
+    },
+    {
+      "authority_label": "A_M",
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_midpoint"
+    },
+    {
+      "authority_label": "A_R",
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_relative_parallel"
+    },
+    {
+      "authority_label": "A_Y",
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_relative_perpendicular"
+    },
+    {
+      "authority_label": "A_MRY",
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_all_axes"
+    }
+  ],
+  "member_semantics": {
+    "configuration_count": 12,
+    "coordinate_order": [
+      "midpoint",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "joint_refinement_sequence_bound": true,
+    "legacy_member_digest_is_not_v2_acceptance_identity": true,
+    "n0_geometry_match_is_not_correlated_containment": true,
+    "physical_dimension": 2,
+    "quotient_dimension": 3
+  },
+  "n0_sequence_bindings": [
+    {
+      "authority_label": "O113/Base",
+      "configuration_index": 0,
+      "n0_anchor_expected_states": 1442897,
+      "n0_anchor_shape": [
+        113,
+        113,
+        113
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 113,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 113,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 113,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "o113_base",
+      "sequence_id": "encounter_c1_joint_refinement_v2:0:O113/Base",
+      "sequence_source_row_canonical_sha256": "a955ab5991823a38810365a19abe05e2c6a21e3872692d336e8792939e7e859a",
+      "sequence_source_row_index": 0
+    },
+    {
+      "authority_label": "E128/Base",
+      "configuration_index": 1,
+      "n0_anchor_expected_states": 2097152,
+      "n0_anchor_shape": [
+        128,
+        128,
+        128
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 128,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 128,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 128,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "e128_base",
+      "sequence_id": "encounter_c1_joint_refinement_v2:1:E128/Base",
+      "sequence_source_row_canonical_sha256": "742b33585936cca25bc3e36efa98337f5db41f9f440ecbfa4dc1c6dc5078dd56",
+      "sequence_source_row_index": 1
+    },
+    {
+      "authority_label": "O129/Base",
+      "configuration_index": 2,
+      "n0_anchor_expected_states": 2146689,
+      "n0_anchor_shape": [
+        129,
+        129,
+        129
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 129,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 129,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 129,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "o129_base",
+      "sequence_id": "encounter_c1_joint_refinement_v2:2:O129/Base",
+      "sequence_source_row_canonical_sha256": "2b3d8a9d60e540364b19e79e981c4fdda55555e857d4955986fd55e4061c7d40",
+      "sequence_source_row_index": 2
+    },
+    {
+      "authority_label": "O161/Base",
+      "configuration_index": 3,
+      "n0_anchor_expected_states": 4173281,
+      "n0_anchor_shape": [
+        161,
+        161,
+        161
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 161,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 161,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 161,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_mesh_anchor_family",
+      "refinement_member_id": "o161_base",
+      "sequence_id": "encounter_c1_joint_refinement_v2:3:O161/Base",
+      "sequence_source_row_canonical_sha256": "a04c7153c8fc2dc0d7be76a915ba63344546f8d9732c5804aa2b0bcdcec8e4c8",
+      "sequence_source_row_index": 3
+    },
+    {
+      "authority_label": "M+",
+      "configuration_index": 4,
+      "n0_anchor_expected_states": 2762406,
+      "n0_anchor_shape": [
+        166,
+        129,
+        129
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 166,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 129,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 129,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "m_plus",
+      "sequence_id": "encounter_c1_joint_refinement_v2:4:M+",
+      "sequence_source_row_canonical_sha256": "7e2e1baf1f7ebfeb39aff48e1e13f2ad56507f679c6e017ecab0285d85aaf145",
+      "sequence_source_row_index": 4
+    },
+    {
+      "authority_label": "R+",
+      "configuration_index": 5,
+      "n0_anchor_expected_states": 2862252,
+      "n0_anchor_shape": [
+        129,
+        172,
+        129
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 129,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 172,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 129,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "r_plus",
+      "sequence_id": "encounter_c1_joint_refinement_v2:5:R+",
+      "sequence_source_row_canonical_sha256": "60f6e2b4ab22cfb5ceda98c8a3ea414c8ce7d24375b3de6675751dd7d58bfe06",
+      "sequence_source_row_index": 5
+    },
+    {
+      "authority_label": "MR+",
+      "configuration_index": 6,
+      "n0_anchor_expected_states": 3683208,
+      "n0_anchor_shape": [
+        166,
+        172,
+        129
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 166,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 172,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 129,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "mr_plus",
+      "sequence_id": "encounter_c1_joint_refinement_v2:6:MR+",
+      "sequence_source_row_canonical_sha256": "54e572ca3029685827e06366593583de2de116a659be52bd5ed3b63b8806d772",
+      "sequence_source_row_index": 6
+    },
+    {
+      "authority_label": "MR+F",
+      "configuration_index": 7,
+      "n0_anchor_expected_states": 7165305,
+      "n0_anchor_shape": [
+        207,
+        215,
+        161
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 207,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 215,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 161,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_box_challenge_family",
+      "refinement_member_id": "mr_plus_fine",
+      "sequence_id": "encounter_c1_joint_refinement_v2:7:MR+F",
+      "sequence_source_row_canonical_sha256": "5026c81d9048ef8773e919dcfd1f392ab19ff4c2b1b03627ec44a4b9bb33a775",
+      "sequence_source_row_index": 7
+    },
+    {
+      "authority_label": "A_M",
+      "configuration_index": 8,
+      "n0_anchor_expected_states": 2113536,
+      "n0_anchor_shape": [
+        129,
+        128,
+        128
+      ],
+      "n0_axes": [
+        {
+          "alignment": "vertex_centred_reflecting_dual",
+          "anchor_size": 129,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 128,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 128,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_midpoint",
+      "sequence_id": "encounter_c1_joint_refinement_v2:8:A_M",
+      "sequence_source_row_canonical_sha256": "a8514d5c184fc5e568316893f1523157c2ea5e566c69d8b5723acc313ec28a69",
+      "sequence_source_row_index": 8
+    },
+    {
+      "authority_label": "A_R",
+      "configuration_index": 9,
+      "n0_anchor_expected_states": 2113536,
+      "n0_anchor_shape": [
+        128,
+        129,
+        128
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 128,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "vertex_centred_reflecting_dual",
+          "anchor_size": 129,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_base",
+          "anchor_size": 128,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "0/1"
+        }
+      ],
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_relative_parallel",
+      "sequence_id": "encounter_c1_joint_refinement_v2:9:A_R",
+      "sequence_source_row_canonical_sha256": "805f49951a7f3f5ab3157bba88d73ee3fc91834f35a3c683e320149052545617",
+      "sequence_source_row_index": 9
+    },
+    {
+      "authority_label": "A_Y",
+      "configuration_index": 10,
+      "n0_anchor_expected_states": 2097152,
+      "n0_anchor_shape": [
+        128,
+        128,
+        128
+      ],
+      "n0_axes": [
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 128,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "cell_centred_reflecting",
+          "anchor_size": 128,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_half_shift",
+          "anchor_size": 128,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "1/256"
+        }
+      ],
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_relative_perpendicular",
+      "sequence_id": "encounter_c1_joint_refinement_v2:10:A_Y",
+      "sequence_source_row_canonical_sha256": "4832e1085cf69f93d71bcfae9af599f3ef36a9a9c6751a3ccdfff1ec0a7e31a5",
+      "sequence_source_row_index": 10
+    },
+    {
+      "authority_label": "A_MRY",
+      "configuration_index": 11,
+      "n0_anchor_expected_states": 2130048,
+      "n0_anchor_shape": [
+        129,
+        129,
+        128
+      ],
+      "n0_axes": [
+        {
+          "alignment": "vertex_centred_reflecting_dual",
+          "anchor_size": 129,
+          "coordinate": "midpoint"
+        },
+        {
+          "alignment": "vertex_centred_reflecting_dual",
+          "anchor_size": 129,
+          "coordinate": "relative_parallel"
+        },
+        {
+          "alignment": "cell_centred_periodic_half_shift",
+          "anchor_size": 128,
+          "coordinate": "relative_perpendicular",
+          "periodic_shift_n0_exact": "1/256"
+        }
+      ],
+      "refinement_family_id": "finite_alignment_challenge_family",
+      "refinement_member_id": "a_all_axes",
+      "sequence_id": "encounter_c1_joint_refinement_v2:11:A_MRY",
+      "sequence_source_row_canonical_sha256": "82a9462a6bb8a3c1f90f54323a389c1487af1310fc81ceb4cc0f027cf039667a",
+      "sequence_source_row_index": 11
+    }
+  ],
+  "schema": "encounter_continuum_c1_c2_n0_member_spec_v2",
+  "source_pins": {
+    "configuration_source": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "factorization_source": {
+      "path": "artifacts/data/continuum_c1_factorization_source_v1.json",
+      "sha256": "70cb49e63c496d489887c764c812671b03a7352d5752f6663c377734739a1dca"
+    },
+    "ideal_formula_source": {
+      "path": "artifacts/data/continuum_c1_ideal_formula_source_v1.json",
+      "sha256": "f31b637b659483102d787da7263cd45c72829b3fce3df2ff9100066dec94c2be"
+    },
+    "joint_refinement_family": {
+      "path": "artifacts/data/continuum_c1_genuine_joint_refinement_family_v2.json",
+      "sha256": "1f7bc61ac37444c0fdb2c0b74924a4b81ed8e6d6ab70c794ebe3401156b5bee9"
+    },
+    "legacy_member_spec": {
+      "path": "artifacts/data/continuum_c1_c2_fixed_row_member_spec_v1.json",
+      "sha256": "e2166e62ae2e5e67a8e3eb058fe4333f59192525ca5614939f417ba285d8d2ef"
+    },
+    "reference_density_source": {
+      "path": "artifacts/data/continuum_c1_reference_density_source_v1.json",
+      "sha256": "7b890d727ad0b229557de1841ae82befb8d8f83e79edc6b5348b277c3024e575"
+    }
+  },
+  "status": "FROZEN_N0_SEQUENCE_BINDING_ONLY_NO_PARTITION_HASH_IDENTITY_NO_ORDERED_REPLAY"
+}

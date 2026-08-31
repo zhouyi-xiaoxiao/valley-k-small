@@ -1,0 +1,72 @@
+{
+  "branch": "HOLD_F0_METHOD_OR_RESOURCE",
+  "claim_ceiling": {
+    "finite_parameter_physical_d2_numerical_evidence": false,
+    "off_lattice_validation": false,
+    "rigorous_numerical_continuum_convergence": false,
+    "scientific_result": "accepted_exact_m_doi_continuum_theorem_with_finite_window_scope",
+    "strict_c0_c3_and_root_transfer": "CONDITIONAL_NOT_ELECTED"
+  },
+  "execution": {
+    "f1_refit_attempted": false,
+    "failure_class": "METHOD_OR_RESOURCE",
+    "failure_reasons": [
+      "rss_cap_exceeded",
+      "peak_footprint_cap_exceeded"
+    ],
+    "formal_f1_rows_executed": 0,
+    "formal_f2_executed": false,
+    "formal_f3_off_lattice_executed": false,
+    "science_execution_authorized": false,
+    "stage_statuses": {
+      "f0": "HOLD_F0",
+      "f1": "NOT_RUN",
+      "f2": "NOT_RUN",
+      "f3": "NOT_RUN"
+    }
+  },
+  "f0": {
+    "candidate_replicas_byte_identical": true,
+    "method_semantic_replay_pass": true,
+    "resource_caps_satisfied": false,
+    "resource_measurement": {
+      "host_peak_footprint_bytes": 17931596736,
+      "maximum_peak_footprint_bytes": 8589934592,
+      "maximum_rss_bytes": 4294967296,
+      "maximum_wall_seconds": 3600,
+      "peak_rss_bytes": 5455511552,
+      "process_swap_delta": 0,
+      "wall_seconds_hex": "0x1.0317fdfccd100p+10"
+    },
+    "resource_status": "INDEPENDENTLY_CONFIRMED_HOLD_F0_METHOD_OR_RESOURCE",
+    "semantic_status": "PASS_F0_SEMANTIC_REPLAY_RESOURCE_HOLD_NOT_F0"
+  },
+  "input_sha256": {
+    "candidate_a": "f3c294fbc6323845b530b986197ee43d3f0b3fb8a690aa9f5bb71e4f343889dd",
+    "candidate_b": "f3c294fbc6323845b530b986197ee43d3f0b3fb8a690aa9f5bb71e4f343889dd",
+    "compile_manifest": "4276158b6e6c0ab8a70a5a4565c1e09510543a904a654297cf802e9b2f484f49",
+    "contract": "f32fee61edb48fad4e0da0ad5e747db8c417fd25c3acb18da74354c60ec68ee0",
+    "formal_resource": "0681015f350f9df702d32c4aaa712b89fce7aa742ebccb345a9336a5b64ad2b1",
+    "formal_sidecar": "98ed3190c518614f5adf6a9d64933d847ab52bbf6cb4eb73c9635d4035a23061",
+    "full_proof": "a372b5a33d2203b8f3214a153f4aaf1e81497bf146c0ac1db1cfda97919c1c7b",
+    "main_tex": "304e658b611d23af61a4672d3f087060fe6c0b69ef015d9411c986b413a5ea71",
+    "package_manifest": "515fff513910ffa202b51e985a312ac91adb92e257077fcc782a5224f20beace",
+    "references_bib": "b58d9aaaa29a8f8352cfd4a60486e077e164565d5a94e84e026ecb742eb27621",
+    "resource_receipt": "8a332c7a4dd3c594709283403292cd26b77abd076f7cc137c05176cf1cf14758",
+    "resource_validator": "60fafed54072c590bc478253c77d42cd04606b9efe3ad7a139d8b870776a0436",
+    "schedule": "b42aa67fa9aa85e4c3c46577e3725ca616ba3ff3de156d77f976a99d0b380344",
+    "semantic_receipt": "0ed41cf67c21a90c33103badef4bcad42d1f633c0b9a449a784e5f25ea7cf957",
+    "semantic_validator": "3d2d03f147c32540c2ee6245b38b815139f6794a3f01cb066ff07514eae2c3a1",
+    "spine": "79b0a4467a67999f605b8a5d8ec07e41a88c07edc8cdf1639ad6b8d4ce70658e",
+    "supplement_tex": "f1c9a278f8fcfbffb2b076644e0c2598e2dd95d6296a29303aa702fa073bc7f7"
+  },
+  "reader_outputs": {
+    "main_pdf_sha256": "9590bc055f8a7ca2e475f69702adca1382cda3330681375c088c7c32a70f0825",
+    "reader_artifacts_ready": true,
+    "source_archive_rebuilds_byte_identically": true,
+    "source_archive_sha256": "f35583513ac57672bb1c3fb9ac37b63ba098ab37d16c1a3760b97d60e5363f30",
+    "supplement_pdf_sha256": "1a94d6f42d50725866e86238fa29e41ce7418c2e70f43b56c418cb632c96bb5d"
+  },
+  "schema": "encounter_prr_terminal_branch_v1",
+  "terminal": true
+}

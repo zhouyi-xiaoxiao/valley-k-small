@@ -1,0 +1,159 @@
+{
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "external_predecessor_commitment_present": false,
+    "formal_outer_open_operation_model_present": false,
+    "formal_selected_source_dag_complete": false,
+    "formal_symbolic_candidate_materialized": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "policy_predecessor_order_independently_sealed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "root_transfer_complete": false,
+    "science_executed": false,
+    "submission_eligible": false,
+    "symbolic_acceptance_receipt_materialized": false
+  },
+  "parameter_count": 10,
+  "parameters": [
+    {
+      "method_parameter_sha256": "2366cc19e4829ac91972a8b04eee8cb02f5ff6c9de2c0fee72d47bda49057243",
+      "parameter_id": "stationary_directed_mpfr_320_v2",
+      "parameters": {
+        "aggregation": "exact_Fraction_endpoint_sums_and_nonnegative_products",
+        "dense_tensor_materialized": false,
+        "precision_bits": 320,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role9_stationary_physical_integral"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "c8e809691b9229cf0c40c9d6089890f532cb61e2cb6146c7c14b0822c048a09f",
+      "parameter_id": "stationary_directed_mpfr_640_sentinel_v2",
+      "parameters": {
+        "containment_relation": "primary_interval_contains_higher_precision_same_backend_sentinel",
+        "independent_backend": false,
+        "precision_bits": 640,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role9_stationary_physical_integral"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "185982113248f46820593d4c2a372e9b67e73eaf2566a5f099fdc690765e0e40",
+      "parameter_id": "raw_flux_directed_mpfr_320_v2",
+      "parameters": {
+        "aggregation": "exact_Fraction_endpoint_algebra",
+        "common_kappa_rule": "intersection_after_formula_witness",
+        "precision_bits": 320,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "e64e254fa36cbd2368b1e263e0ebd0a130830f61ff379e173698e317e191054a",
+      "parameter_id": "raw_flux_directed_mpfr_640_sentinel_v2",
+      "parameters": {
+        "containment_relation": "primary_interval_contains_higher_precision_same_backend_sentinel",
+        "independent_backend": false,
+        "precision_bits": 640,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "82e9ecc9508ee6a2b06f83cdc2a77a4bcac4ba3418835bbcc591355cafe95e17",
+      "parameter_id": "raw_flux_binary64_decode_v2",
+      "parameters": {
+        "decode": "exact_binary64_endpoint_to_reduced_dyadic_fraction",
+        "precision_bits": 53,
+        "rounding_mode": "stored_outward_endpoints",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "5229e890cebb0711b6f1d57e434f30e3463f04eb77ccf14a2bf74e73bf6ef903",
+      "parameter_id": "exact_fraction_expression_dag_v2",
+      "parameters": {
+        "arithmetic": "Python_Fraction_exact_reduced_rationals",
+        "precision_bits": "unbounded_integer_fraction",
+        "rounding_mode": "exact",
+        "source_role_scope": [
+          "role8_raw_axis_formula_primitive",
+          "role9_stationary_physical_integral",
+          "same_member_mass_flux_composition",
+          "symbolic_killing_composition"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "c4f8169a819c79a563cae011938ff74f7e5963615f277a14d5ce8e81ce8f855e",
+      "parameter_id": "killing_contact_profile_mpfr_192_v2",
+      "parameters": {
+        "contact_fraction_record_format": ">dd",
+        "panels_per_unit": 16384,
+        "precision_bits": 192,
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ],
+        "support_density_record_format": ">dd"
+      }
+    },
+    {
+      "method_parameter_sha256": "ca8dc076a6039a12fbbadca172f68a868da0a6040bdb9b114264bc2fd013c08b",
+      "parameter_id": "killing_analytic_disk_area_mpfr_256_v2",
+      "parameters": {
+        "analytic_area_precision_bits": 256,
+        "formula": "pi_times_radius_squared",
+        "rounding_mode": "directed_RoundDown_RoundUp",
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "f03fa72ca1fccf49b65891271854cd3ebe085516e6415ca9d4f40134aefa0a65",
+      "parameter_id": "killing_independent_simpson_remainder_v2",
+      "parameters": {
+        "independent_backend": false,
+        "maximum_panel_count": 4194304,
+        "primary_precision_bits": 384,
+        "remainder_rule": "rigorous_fourth_derivative_simpson_remainder",
+        "sentinel_precision_bits": 512,
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ]
+      }
+    },
+    {
+      "method_parameter_sha256": "b853e67f59419df41893ee652e8cdb57485b4b2f09ac9290425d98d9511ddcb3",
+      "parameter_id": "killing_exact_full_cell_classification_v2",
+      "parameters": {
+        "classification": "every_corner_of_every_exact_partition_segment_inside_or_on_contact_disk",
+        "full_cell_serialization": "exact_[1,1]",
+        "precision_bits": "exact_rational",
+        "rounding_mode": "exact",
+        "source_role_scope": [
+          "role10_killing_factor_geometry"
+        ]
+      }
+    }
+  ],
+  "schema": "encounter_continuum_c1_c2_n0_method_parameter_registry_v3_candidate",
+  "status": "RESULT_BLIND_CANDIDATE_NATIVE_METHOD_PARAMETERS_ONLY_NOT_EXTERNALLY_COMMITTED"
+}

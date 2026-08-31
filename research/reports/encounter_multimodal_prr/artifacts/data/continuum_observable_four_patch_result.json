@@ -1,0 +1,2438 @@
+{
+  "claim_flags": {
+    "continuum_verified": false,
+    "finite_B_Doi_verified": false,
+    "observable_free_exposure_confirmation_passed": true,
+    "preregistered_discovery": false,
+    "project_gate_passed": false
+  },
+  "cusp": {
+    "affine_cusp_matrix": [
+      [
+        -0.14431032073230182,
+        -0.055217407927808534,
+        0.044777819071933136
+      ],
+      [
+        0.016968937424540805,
+        -0.04189860010762183,
+        0.00486421912502807
+      ],
+      [
+        0.0020994525818940272,
+        0.016627545772198313,
+        -0.0039638269731403705
+      ]
+    ],
+    "affine_cusp_matrix_singular_values": [
+      0.1611096347094529,
+      0.04782115172773563,
+      1.1737574543834562e-16
+    ],
+    "density_per_unit_budget": 0.2503874640710778,
+    "minimum_weight": 0.20932396477695267,
+    "mixture_jets_orders_0_to_4": [
+      0.2503874640710778,
+      2.2985086056692694e-17,
+      4.0766001685454967e-17,
+      1.1622647289044608e-16,
+      -0.00033971272100077345
+    ],
+    "row_normalized_determinant": 7.21078250564971e-15,
+    "scaled_fourth_derivative": -42.81178483244579,
+    "scaled_residuals_orders_1_to_3": [
+      1.2234876190012456e-15,
+      2.8921285277869855e-14,
+      1.0989819416639326e-12
+    ],
+    "strict_inward_normal": {
+      "direction_2d": [
+        0.357362931876667,
+        -0.9339655962188933
+      ],
+      "direction_4d": [
+        0.0,
+        0.357362931876667,
+        -0.9339655962188933,
+        0.5766026643422263
+      ],
+      "first_unfolding_projection": 0.0,
+      "normal_form_cubic_coefficient": -5.661878683346224e-05,
+      "second_unfolding_projection": 0.04519592025911761
+    },
+    "time": 13.328031989459639,
+    "unfolding": {
+      "dimensionless_matrix": [
+        [
+          -7.6815849318371185,
+          -2.9392021759841875
+        ],
+        [
+          12.038548295811111,
+          -29.724802932740587
+        ]
+      ],
+      "dimensionless_singular_values": [
+        32.07051149921683,
+        8.223047071236975
+      ],
+      "dimensionless_svd_ratio": 0.2564052360511239,
+      "rank": 2,
+      "raw_matrix": [
+        [
+          -0.14431032073230182,
+          -0.055217407927808534
+        ],
+        [
+          0.016968937424540805,
+          -0.04189860010762183
+        ]
+      ],
+      "row_angle_sine_magnitude": 0.999812474794023
+    },
+    "weights": [
+      0.28,
+      0.23019484781965555,
+      0.20932396477695267,
+      0.2804811874033918
+    ]
+  },
+  "cusp_diagnostics": {
+    "bracket": [
+      12.0,
+      14.5
+    ],
+    "channel_jets_orders_0_to_4_by_channel": [
+      [
+        0.00023098964823717495,
+        0.25715456276217363,
+        0.6909040366922856,
+        0.165802062227757
+      ],
+      [
+        -0.00018194565146935056,
+        -0.08204814871237881,
+        0.007044764092114463,
+        0.062262172019923
+      ],
+      [
+        0.00015269495928163493,
+        0.023665415947359155,
+        -0.03520212158480348,
+        0.00669647852281835
+      ],
+      [
+        -0.00013456972489085805,
+        -0.00335352998778782,
+        0.011174563202516467,
+        -0.005452982569681847
+      ],
+      [
+        0.0001231785765124979,
+        -0.002995472569079826,
+        0.001965426887607137,
+        -0.00034252321775852504
+      ]
+    ],
+    "contact_jets_orders_0_to_4": [
+      0.1688191138815595,
+      -0.0023194398420968193,
+      0.00010398957776916211,
+      6.875289453564296e-05,
+      -4.0542448178464703e-05
+    ],
+    "maximum_cauchy_vs_real_first_derivative_difference": 1.8127860323957634e-16,
+    "maximum_direct_vs_leibniz_difference": 6.740094593560286e-14,
+    "maximum_imaginary_cauchy_residual": 1.821459649775647e-13,
+    "midpoint_jets_orders_0_to_4_by_channel": [
+      [
+        0.0013682671524933672,
+        1.5232550204154527,
+        4.092569975085947,
+        0.9821284949053861
+      ],
+      [
+        -0.0010589561454910157,
+        -0.465083890817233,
+        0.097958303231589,
+        0.38230362958986586
+      ],
+      [
+        0.0008745473199911665,
+        0.12646402766556408,
+        -0.208348975521939,
+        0.049566709263067256
+      ],
+      [
+        -0.0007596773455840507,
+        -0.01441299730957945,
+        0.055757125373888584,
+        -0.03136417673872584
+      ],
+      [
+        0.0006867202741360072,
+        -0.017879720625524145,
+        0.016299741700391713,
+        -0.004322727702261062
+      ]
+    ],
+    "row_normalized_determinant_at_bracket": [
+      0.06409577301933282,
+      -0.016992381846474405
+    ]
+  },
+  "evidence_timing": "RESULT_INFORMED_CONFIRMATION_NOT_PREREGISTERED_DISCOVERY",
+  "gates": {
+    "cusp_residual": true,
+    "cusp_weights_strictly_positive": true,
+    "eligible_candidate_exists": true,
+    "fine_fixed_weight_observable": true,
+    "fine_fixed_weight_root_count": true,
+    "fine_fixed_weight_root_times": true,
+    "fine_primary_cusp_time_agreement": true,
+    "fine_primary_scaled_f4_agreement": true,
+    "fine_primary_weight_agreement": true,
+    "fixed_first_weight_preserved": true,
+    "fourth_derivative_nonzero": true,
+    "polar_contact_check": true,
+    "selected_candidate_observable": true,
+    "selected_step_follows_frozen_priority": true,
+    "strict_normal_first_projection": true,
+    "strict_normal_signed_inward": true,
+    "unfolding_rank_two": true,
+    "unfolding_ratio": true
+  },
+  "inward_step_scan": {
+    "candidate_count": 19,
+    "candidates": [
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.974688135505964e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.19064465285257481,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8418990439178671,
+          "roots": [
+            {
+              "density": 0.2054247786464106,
+              "scaled_first_derivative_residual": 1.01407108089365e-16,
+              "scaled_second_derivative": -7.676819079451977,
+              "time": 3.202282941485398,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13060218091728118,
+              "scaled_first_derivative_residual": 2.4856584519249655e-15,
+              "scaled_second_derivative": 12.829006691484297,
+              "time": 5.198273502192809,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24400167707810244,
+              "scaled_first_derivative_residual": 6.227366638115542e-14,
+              "scaled_second_derivative": -1.4103166328975356,
+              "time": 10.329305895710766,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.24123184044645302,
+              "scaled_first_derivative_residual": 2.7674746084793274e-15,
+              "scaled_second_derivative": 0.6656204432958406,
+              "time": 13.328031989459664,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24375841581235336,
+              "scaled_first_derivative_residual": 3.7377312845622464e-16,
+              "scaled_second_derivative": -0.8825155600699364,
+              "time": 17.50717946836131,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24400167630141267,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6357664434536471,
+            0.9896349204704165
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2373421064571889,
+            0.19064465285257481,
+            0.2920132406902363
+          ],
+          "worst_valley_margin_to_0p85": -0.13963492047041648,
+          "worst_valley_ratio": 0.9896349204704165
+        },
+        "step": 0.02,
+        "weights": [
+          0.28,
+          0.2373421064571889,
+          0.19064465285257481,
+          0.2920132406902363
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.9755639846869855e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.18130499689038587,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8482198440219224,
+          "roots": [
+            {
+              "density": 0.20543152188806202,
+              "scaled_first_derivative_residual": 1.6225586123585994e-15,
+              "scaled_second_derivative": -7.670299017047201,
+              "time": 3.2024766454657088,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13135651099148704,
+              "scaled_first_derivative_residual": 8.216826166203605e-16,
+              "scaled_second_derivative": 12.828283634653676,
+              "time": 5.184945571840584,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24219136505223354,
+              "scaled_first_derivative_residual": 7.949362334831575e-14,
+              "scaled_second_derivative": -2.0715624835965842,
+              "time": 9.92701980592528,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.23665402863414065,
+              "scaled_first_derivative_residual": 4.359740192646986e-15,
+              "scaled_second_derivative": 1.0177442076632237,
+              "time": 13.328031989459678,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2417277389969681,
+              "scaled_first_derivative_residual": 1.3217547994996661e-15,
+              "scaled_second_derivative": -1.166944877050042,
+              "time": 18.418197690645474,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24219136260744978,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6394175041114778,
+            0.9790106407155403
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.24091573577595554,
+            0.18130499689038587,
+            0.29777926733365856
+          ],
+          "worst_valley_margin_to_0p85": -0.12901064071554036,
+          "worst_valley_ratio": 0.9790106407155403
+        },
+        "step": 0.03,
+        "weights": [
+          0.28,
+          0.24091573577595554,
+          0.18130499689038587,
+          0.29777926733365856
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.976439833868007e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.17196534092819693,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8526173718690492,
+          "roots": [
+            {
+              "density": 0.20543827090402625,
+              "scaled_first_derivative_residual": 1.352169673882588e-16,
+              "scaled_second_derivative": -7.663769822412664,
+              "time": 3.2026706690515083,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13209988049390123,
+              "scaled_first_derivative_residual": 1.6299824326514266e-14,
+              "scaled_second_derivative": 12.828076249125756,
+              "time": 5.171825354834696,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24095013505727497,
+              "scaled_first_derivative_residual": 0.0,
+              "scaled_second_derivative": -2.685480754918914,
+              "time": 9.640728580099706,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.23207621682182825,
+              "scaled_first_derivative_residual": 8.841664018339202e-15,
+              "scaled_second_derivative": 1.3837595835881105,
+              "time": 13.328031989459687,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24025870199050234,
+              "scaled_first_derivative_residual": 3.321936809456263e-15,
+              "scaled_second_derivative": -1.3883025236948578,
+              "time": 19.170303821406268,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2409501332089845,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6430149548698927,
+            0.9659430226631394
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.24448936509472222,
+            0.17196534092819693,
+            0.30354529397708085
+          ],
+          "worst_valley_margin_to_0p85": -0.11594302266313938,
+          "worst_valley_ratio": 0.9659430226631394
+        },
+        "step": 0.04,
+        "weights": [
+          0.28,
+          0.24448936509472222,
+          0.17196534092819693,
+          0.30354529397708085
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.977315683049028e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.162625684966008,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8555231841767973,
+          "roots": [
+            {
+              "density": 0.20544502570794942,
+              "scaled_first_derivative_residual": 1.0817658125230175e-16,
+              "scaled_second_derivative": -7.657231464969283,
+              "time": 3.202865013379566,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13283251363032927,
+              "scaled_first_derivative_residual": 8.084719760946773e-16,
+              "scaled_second_derivative": 12.828290849356133,
+              "time": 5.158908911205784,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2401396356144726,
+              "scaled_first_derivative_residual": 7.676743501869181e-14,
+              "scaled_second_derivative": -3.2542994458349823,
+              "time": 9.421098009708972,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.22749840500951585,
+              "scaled_first_derivative_residual": 8.435212318594656e-15,
+              "scaled_second_derivative": 1.7645051683803905,
+              "time": 13.328031989459692,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23923084477244494,
+              "scaled_first_derivative_residual": 1.0204561148094103e-13,
+              "scaled_second_derivative": -1.5625173878563188,
+              "time": 19.820878608405568,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24013963203383817,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.646559891983744,
+            0.9509576627792753
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2480629944134889,
+            0.162625684966008,
+            0.3093113206205031
+          ],
+          "worst_valley_margin_to_0p85": -0.10095766277927531,
+          "worst_valley_ratio": 0.9509576627792753
+        },
+        "step": 0.05,
+        "weights": [
+          0.28,
+          0.2480629944134889,
+          0.162625684966008,
+          0.3093113206205031
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.9781915322300496e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.15328602900381907,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8572381532630247,
+          "roots": [
+            {
+              "density": 0.20545178631353406,
+              "scaled_first_derivative_residual": 1.3350038295122812e-12,
+              "scaled_second_derivative": -7.650683913975405,
+              "time": 3.2030596795924193,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13355463031641107,
+              "scaled_first_derivative_residual": 1.069491402062767e-15,
+              "scaled_second_derivative": 12.828842800327841,
+              "time": 5.146192275279048,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2396671047963677,
+              "scaled_first_derivative_residual": 9.367790670316793e-16,
+              "scaled_second_derivative": -3.7821200009902305,
+              "time": 9.244582779680803,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.22292059319720348,
+              "scaled_first_derivative_residual": 9.749311479096272e-15,
+              "scaled_second_derivative": 2.160888443801024,
+              "time": 13.328031989459692,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23855993098183778,
+              "scaled_first_derivative_residual": 2.3734047157023834e-15,
+              "scaled_second_derivative": -1.7004711561216375,
+              "time": 20.399478397093922,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2396671029948977,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6500533906899072,
+            0.9344427300918989
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2516366237322556,
+            0.15328602900381907,
+            0.31507734726392533
+          ],
+          "worst_valley_margin_to_0p85": -0.08444273009189895,
+          "worst_valley_ratio": 0.9344427300918989
+        },
+        "step": 0.06,
+        "weights": [
+          0.28,
+          0.2516366237322556,
+          0.15328602900381907,
+          0.31507734726392533
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.979067381411071e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.14394637304163013,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8579828894292912,
+          "roots": [
+            {
+              "density": 0.20545855273453975,
+              "scaled_first_derivative_residual": 1.1823007954552286e-12,
+              "scaled_second_derivative": -7.644127138515659,
+              "time": 3.2032546688407235,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13426644610951233,
+              "scaled_first_derivative_residual": 4.483710158690944e-14,
+              "scaled_second_derivative": 12.829655729224672,
+              "time": 5.133671471756349,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2394669582177864,
+              "scaled_first_derivative_residual": 1.3181556639691255e-16,
+              "scaled_second_derivative": -4.273241870593996,
+              "time": 9.098128078611802,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.21834278138489116,
+              "scaled_first_derivative_residual": 1.1515603673506856e-14,
+              "scaled_second_derivative": 2.5738929972773827,
+              "time": 13.328031989459683,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23818414564043283,
+              "scaled_first_derivative_residual": 3.0477923746089156e-16,
+              "scaled_second_derivative": -1.8099477855860027,
+              "time": 20.923675527792195,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2394669581163863,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6534965048789654,
+            0.916697376300207
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.25521025305102224,
+            0.14394637304163013,
+            0.32084337390734763
+          ],
+          "worst_valley_margin_to_0p85": -0.066697376300207,
+          "worst_valley_ratio": 0.916697376300207
+        },
+        "step": 0.07,
+        "weights": [
+          0.28,
+          0.25521025305102224,
+          0.14394637304163013,
+          0.32084337390734763
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.979943230592093e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.13460671707944122,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8579252471725575,
+          "roots": [
+            {
+              "density": 0.20546532498478334,
+              "scaled_first_derivative_residual": 8.659720283180311e-13,
+              "scaled_second_derivative": -7.637561107514701,
+              "time": 3.203449982279823,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1349681721631528,
+              "scaled_first_derivative_residual": 1.1821948018233006e-13,
+              "scaled_second_derivative": 12.83066080120421,
+              "time": 5.1213425297404545,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2394909412701517,
+              "scaled_first_derivative_residual": 1.157005740944946e-14,
+              "scaled_second_derivative": -4.731649827754542,
+              "time": 8.973757858213878,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.21376496957257873,
+              "scaled_first_derivative_residual": 1.4763604292480013e-14,
+              "scaled_second_derivative": 3.004586670979721,
+              "time": 13.328031989459687,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23805652140786893,
+              "scaled_first_derivative_residual": 1.3258137458220057e-15,
+              "scaled_second_derivative": -1.8967026771833468,
+              "time": 21.404910637543352,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2394909408576424,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6568902668766541,
+            0.8979588893779104
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2587838823697889,
+            0.13460671707944122,
+            0.32660940055076987
+          ],
+          "worst_valley_margin_to_0p85": -0.047958889377910374,
+          "worst_valley_ratio": 0.8979588893779104
+        },
+        "step": 0.08,
+        "weights": [
+          0.28,
+          0.2587838823697889,
+          0.13460671707944122,
+          0.32660940055076987
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.9808190797731144e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.12526706111725228,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.85719656772611,
+          "roots": [
+            {
+              "density": 0.20547210307813935,
+              "scaled_first_derivative_residual": 4.659551518090696e-13,
+              "scaled_second_derivative": -7.630985789726298,
+              "time": 3.203645621072055,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1356600152013153,
+              "scaled_first_derivative_residual": 1.3458561561356442e-13,
+              "scaled_second_derivative": 12.831796054834879,
+              "time": 5.109201494904181,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23970243327408125,
+              "scaled_first_derivative_residual": 1.02663929752225e-15,
+              "scaled_second_derivative": -5.1608825394970275,
+              "time": 8.866252356600627,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.20918715776026636,
+              "scaled_first_derivative_residual": 1.6343912205222785e-14,
+              "scaled_second_derivative": 3.454130780895021,
+              "time": 13.328031989459689,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23814041159049648,
+              "scaled_first_derivative_residual": 3.820164590042222e-15,
+              "scaled_second_derivative": -1.965100289125025,
+              "time": 21.85111874251868,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.23970243277295886,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6602356873221126,
+            0.8784194012395603
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2623575116885556,
+            0.12526706111725228,
+            0.33237542719419216
+          ],
+          "worst_valley_margin_to_0p85": -0.028419401239560327,
+          "worst_valley_ratio": 0.8784194012395603
+        },
+        "step": 0.09,
+        "weights": [
+          0.28,
+          0.2623575116885556,
+          0.12526706111725228,
+          0.33237542719419216
+        ]
+      },
+      {
+        "eligible": false,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": false,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.981694928954136e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.11592740515506333,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8559018855509046,
+          "roots": [
+            {
+              "density": 0.20547888702854009,
+              "scaled_first_derivative_residual": 1.167118318179903e-13,
+              "scaled_second_derivative": -7.624401153734333,
+              "time": 3.2038415863862575,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13634217751021885,
+              "scaled_first_derivative_residual": 1.2503814451497695e-13,
+              "scaled_second_derivative": 12.833005792909576,
+              "time": 5.09724443999247,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24007294585673541,
+              "scaled_first_derivative_residual": 3.9425462171580616e-14,
+              "scaled_second_derivative": -5.564031709331693,
+              "time": 8.772015172637552,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.204609345947954,
+              "scaled_first_derivative_residual": 1.8256241828536416e-14,
+              "scaled_second_derivative": 3.9237905734736858,
+              "time": 13.328031989459689,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23840661266439525,
+              "scaled_first_derivative_residual": 1.0937001083457706e-14,
+              "scaled_second_derivative": -2.0185173546028934,
+              "time": 22.268067223932146,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2400729458547373,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6635337551311612,
+            0.858236873806778
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.26593114100732224,
+            0.11592740515506333,
+            0.3381414538376144
+          ],
+          "worst_valley_margin_to_0p85": -0.008236873806778067,
+          "worst_valley_ratio": 0.858236873806778
+        },
+        "step": 0.1,
+        "weights": [
+          0.28,
+          0.26593114100732224,
+          0.11592740515506333,
+          0.3381414538376144
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.982570778135158e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.1065877491928744,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8541266673541315,
+          "roots": [
+            {
+              "density": 0.2054856768499765,
+              "scaled_first_derivative_residual": 2.4504901921866693e-12,
+              "scaled_second_derivative": -7.61780716794694,
+              "time": 3.2040378793988538,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1370148569453657,
+              "scaled_first_derivative_residual": 8.292955561669595e-14,
+              "scaled_second_derivative": 12.834240024526432,
+              "time": 5.085467473830983,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24057986327311287,
+              "scaled_first_derivative_residual": 4.385429961044708e-16,
+              "scaled_second_derivative": -5.943783752848712,
+              "time": 8.688467026035141,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.20003153413564162,
+              "scaled_first_derivative_residual": 1.9800988401310576e-14,
+              "scaled_second_derivative": 4.414947118107225,
+              "time": 13.328031989459689,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23883144769665815,
+              "scaled_first_derivative_residual": 2.016214333850298e-14,
+              "scaled_second_derivative": -2.059609469232173,
+              "time": 22.660102216665226,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2405798612070919,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6667854375339219,
+            0.8375426940831652
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.26950477032608894,
+            0.1065877491928744,
+            0.3439074804810367
+          ],
+          "worst_valley_margin_to_0p85": 0.012457305916834804,
+          "worst_valley_ratio": 0.8375426940831652
+        },
+        "step": 0.11,
+        "weights": [
+          0.28,
+          0.26950477032608894,
+          0.1065877491928744,
+          0.3439074804810367
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.983446627316179e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.09724809323068548,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8519414437956069,
+          "roots": [
+            {
+              "density": 0.20549247255649802,
+              "scaled_first_derivative_residual": 1.048166649523899e-15,
+              "scaled_second_derivative": -7.611203800617539,
+              "time": 3.2042345012888926,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13767824695188075,
+              "scaled_first_derivative_residual": 7.671587305911806e-15,
+              "scaled_second_derivative": 12.835453954528955,
+              "time": 5.073866749000136,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2412049255885228,
+              "scaled_first_derivative_residual": 1.678815606936879e-14,
+              "scaled_second_derivative": -6.3024716512214365,
+              "time": 8.61369764846514,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.19545372232332925,
+              "scaled_first_derivative_residual": 2.1780362134272918e-14,
+              "scaled_second_derivative": 4.929110870840869,
+              "time": 13.328031989459687,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.23939544169336918,
+              "scaled_first_derivative_residual": 3.3377170914040094e-16,
+              "scaled_second_derivative": -2.0904936729676273,
+              "time": 23.030594455241385,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24120492465207496,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6699916801771293,
+            0.816447134251107
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2730783996448556,
+            0.09724809323068548,
+            0.34967350712445894
+          ],
+          "worst_valley_margin_to_0p85": 0.033552865748892935,
+          "worst_valley_ratio": 0.816447134251107
+        },
+        "step": 0.12,
+        "weights": [
+          0.28,
+          0.2730783996448556,
+          0.09724809323068548,
+          0.34967350712445894
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.984322476497201e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.08790843726849654,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.849405099814253,
+          "roots": [
+            {
+              "density": 0.20549927416221314,
+              "scaled_first_derivative_residual": 8.115068763776316e-17,
+              "scaled_second_derivative": -7.604591019798138,
+              "time": 3.2044314532482816,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13833253659635963,
+              "scaled_first_derivative_residual": 1.0157472505323861e-15,
+              "scaled_second_derivative": 12.83660751661078,
+              "time": 5.06243846831995,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24193317676942544,
+              "scaled_first_derivative_residual": 2.4511542230188716e-16,
+              "scaled_second_derivative": -6.64212517311197,
+              "time": 8.546254433906629,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.19087591051101688,
+              "scaled_first_derivative_residual": 2.383196769839291e-14,
+              "scaled_second_derivative": 5.467937189892371,
+              "time": 13.328031989459689,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2400823780971695,
+              "scaled_first_derivative_residual": 1.1049266978588938e-13,
+              "scaled_second_derivative": -2.112877151707012,
+              "time": 23.38222027350013,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2419331760572392,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6731534072824282,
+            0.7950434014518254
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2766520289636223,
+            0.08790843726849654,
+            0.3554395337678812
+          ],
+          "worst_valley_margin_to_0p85": 0.054956598548174584,
+          "worst_valley_ratio": 0.7950434014518254
+        },
+        "step": 0.13,
+        "weights": [
+          0.28,
+          0.2766520289636223,
+          0.08790843726849654,
+          0.3554395337678812
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.985198325678222e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.0785687813063076,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8465672774892401,
+          "roots": [
+            {
+              "density": 0.2055060816812899,
+              "scaled_first_derivative_residual": 4.463414747398021e-16,
+              "scaled_second_derivative": -7.5979687933841715,
+              "time": 3.2046287364714856,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13897791060862108,
+              "scaled_first_derivative_residual": 1.1752307199903034e-13,
+              "scaled_second_derivative": 12.837664946609898,
+              "time": 5.05117889027811,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2427522149105295,
+              "scaled_first_derivative_residual": 5.250941883861944e-14,
+              "scaled_second_derivative": -6.964515579757498,
+              "time": 8.485008172980145,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.18629809869870448,
+              "scaled_first_derivative_residual": 2.5798242565577192e-14,
+              "scaled_second_derivative": 6.0332441387019164,
+              "time": 13.328031989459692,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24087860973515418,
+              "scaled_first_derivative_residual": 8.540129599902346e-17,
+              "scaled_second_derivative": -2.1281501648840058,
+              "time": 23.717146547799636,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2427522033625281,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6762715218528454,
+            0.7734107187995608
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.28022565828238893,
+            0.0785687813063076,
+            0.3612055604113035
+          ],
+          "worst_valley_margin_to_0p85": 0.07658928120043917,
+          "worst_valley_ratio": 0.7734107187995608
+        },
+        "step": 0.14,
+        "weights": [
+          0.28,
+          0.28022565828238893,
+          0.0785687813063076,
+          0.3612055604113035
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.986074174859243e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.06922912534411868,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.843470172257938,
+          "roots": [
+            {
+              "density": 0.2055128951279559,
+              "scaled_first_derivative_residual": 3.0433240913270213e-16,
+              "scaled_second_derivative": -7.591337089089949,
+              "time": 3.204826352160778,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.13961454943192514,
+              "scaled_first_derivative_residual": 7.705196213689736e-13,
+              "scaled_second_derivative": 12.838594392740617,
+              "time": 5.040084333521452,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24365164517650412,
+              "scaled_first_derivative_residual": 5.197065330252025e-14,
+              "scaled_second_derivative": -7.271194018635259,
+              "time": 8.429064488408354,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1817202868863921,
+              "scaled_first_derivative_residual": 2.8110094393595432e-14,
+              "scaled_second_derivative": 6.6270329798987895,
+              "time": 13.328031989459692,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24177254482004434,
+              "scaled_first_derivative_residual": 6.683101827264481e-16,
+              "scaled_second_derivative": -2.137454524217135,
+              "time": 24.037156851282983,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24365163426690753,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6793469059204227,
+            0.7516167190184881
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2837992876011556,
+            0.06922912534411868,
+            0.3669715870547257
+          ],
+          "worst_valley_margin_to_0p85": 0.09838328098151183,
+          "worst_valley_ratio": 0.7516167190184881
+        },
+        "step": 0.15,
+        "weights": [
+          0.28,
+          0.2837992876011556,
+          0.06922912534411868,
+          0.3669715870547257
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.9869500240402655e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.05988946938192974,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8401499027103803,
+          "roots": [
+            {
+              "density": 0.20551971451649917,
+              "scaled_first_derivative_residual": 1.4381469970645777e-12,
+              "scaled_second_derivative": -7.584695874454746,
+              "time": 3.2050243015246562,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.14024262928037262,
+              "scaled_first_derivative_residual": 1.1097873025292828e-13,
+              "scaled_second_derivative": 12.839367559725657,
+              "time": 5.029151180516483,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24462267251770037,
+              "scaled_first_derivative_residual": 1.4198956797858336e-14,
+              "scaled_second_derivative": -7.563523970768191,
+              "time": 8.377703531592372,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.17714247507407974,
+              "scaled_first_derivative_residual": 3.166308170954681e-14,
+              "scaled_second_derivative": 7.25151184696452,
+              "time": 13.32803198945969,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2427542564904152,
+              "scaled_first_derivative_residual": 1.9353108221190347e-15,
+              "scaled_second_derivative": -2.1417349478295016,
+              "time": 24.343740132684115,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24462267135925697,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6823804208287468,
+            0.7297193368927557
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2873729169199223,
+            0.05988946938192974,
+            0.372737613698148
+          ],
+          "worst_valley_margin_to_0p85": 0.12028066310724428,
+          "worst_valley_ratio": 0.7297193368927557
+        },
+        "step": 0.16,
+        "weights": [
+          0.28,
+          0.2873729169199223,
+          0.05988946938192974,
+          0.372737613698148
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.987825873221286e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.0505498134197408,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8366375733271368,
+          "roots": [
+            {
+              "density": 0.20552653986126798,
+              "scaled_first_derivative_residual": 1.3095091003431556e-12,
+              "scaled_second_derivative": -7.578045116830067,
+              "time": 3.20522258578038,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1408623222023384,
+              "scaled_first_derivative_residual": 9.888230510524249e-16,
+              "scaled_second_derivative": 12.839959384019146,
+              "time": 5.018375880484865,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24565779306794802,
+              "scaled_first_derivative_residual": 4.1177536620100306e-16,
+              "scaled_second_derivative": -7.842708489944956,
+              "time": 8.330337790887441,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.17256466326176736,
+              "scaled_first_derivative_residual": 3.3168762886646015e-14,
+              "scaled_second_derivative": 7.9091231836814995,
+              "time": 13.328031989459689,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2438151814658669,
+              "scaled_first_derivative_residual": 7.344998510118515e-14,
+              "scaled_second_derivative": -2.1417781631195476,
+              "time": 24.638154671220196,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24565779148392247,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6853729075447949,
+            0.7077683277319862
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.29094654623868893,
+            0.0505498134197408,
+            0.37850364034157025
+          ],
+          "worst_valley_margin_to_0p85": 0.1422316722680138,
+          "worst_valley_ratio": 0.7077683277319862
+        },
+        "step": 0.17,
+        "weights": [
+          0.28,
+          0.29094654623868893,
+          0.0505498134197408,
+          0.37850364034157025
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.988701722402308e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.04121015745755188,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8329601114233259,
+          "roots": [
+            {
+              "density": 0.20553337117667167,
+              "scaled_first_derivative_residual": 9.8643289676709e-13,
+              "scaled_second_derivative": -7.571384783395242,
+              "time": 3.205421206150299,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1414737961489183,
+              "scaled_first_derivative_residual": 2.112300784815506e-14,
+              "scaled_second_derivative": 12.840347737490507,
+              "time": 5.007754951688651,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2467505566688724,
+              "scaled_first_derivative_residual": 1.8641990291607285e-15,
+              "scaled_second_derivative": -8.109813028495898,
+              "time": 8.286481868672972,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.167986851449455,
+              "scaled_first_derivative_residual": 3.624465812095513e-14,
+              "scaled_second_derivative": 8.602575670097442,
+              "time": 13.328031989459689,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24494788422171793,
+              "scaled_first_derivative_residual": 7.048735037912457e-15,
+              "scaled_second_derivative": -2.1382430817226847,
+              "time": 24.92147523341392,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24675055328518727,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6883251869951121,
+            0.6858065011796526
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2945201755574556,
+            0.04121015745755188,
+            0.38426966698499254
+          ],
+          "worst_valley_margin_to_0p85": 0.16167481300488784,
+          "worst_valley_ratio": 0.6883251869951121
+        },
+        "step": 0.18,
+        "weights": [
+          0.28,
+          0.2945201755574556,
+          0.04121015745755188,
+          0.38426966698499254
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.9895775715833295e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.03187050149536294,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8291409349694364,
+          "roots": [
+            {
+              "density": 0.20554020847718082,
+              "scaled_first_derivative_residual": 5.553486459683838e-13,
+              "scaled_second_derivative": -7.564714841145209,
+              "time": 3.2056201638642987,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1420772150464841,
+              "scaled_first_derivative_residual": 8.5421653310352e-14,
+              "scaled_second_derivative": 12.840513157170626,
+              "time": 4.997284983157311,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24789538160331862,
+              "scaled_first_derivative_residual": 8.687759051293964e-15,
+              "scaled_second_derivative": -8.365784580931587,
+              "time": 8.245730381422273,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.16340903963714262,
+              "scaled_first_derivative_residual": 3.888493519977716e-14,
+              "scaled_second_derivative": 9.334881514817678,
+              "time": 13.328031989459692,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24614587014847952,
+              "scaled_first_derivative_residual": 7.21338372472098e-16,
+              "scaled_second_derivative": -2.131684361976429,
+              "time": 25.1946285224637,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.2478953804947354,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6912380604219227,
+            0.6638707346118439
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.2980938048762223,
+            0.03187050149536294,
+            0.3900356936284148
+          ],
+          "worst_valley_margin_to_0p85": 0.15876193957807727,
+          "worst_valley_ratio": 0.6912380604219227
+        },
+        "step": 0.19,
+        "weights": [
+          0.28,
+          0.2980938048762223,
+          0.03187050149536294,
+          0.3900356936284148
+        ]
+      },
+      {
+        "eligible": true,
+        "gates": {
+          "all_weights_strictly_positive": true,
+          "alternating_topology": true,
+          "both_valley_floors": true,
+          "endpoint_derivative_signs": true,
+          "exactly_three_maxima_two_minima": true,
+          "no_unresolved_zero_plateau": true,
+          "peak_height_floor": true,
+          "root_residuals": true,
+          "simple_curvature_margin": true,
+          "weights_sum_to_one": true
+        },
+        "stationary_structure": {
+          "derivative_at_time_start": 2.1075254071656417e-50,
+          "derivative_at_time_stop": -3.990453420764351e-06,
+          "discarded_subfloor_near_zero_run_count": 1,
+          "maximum_count": 3,
+          "minimum_count": 2,
+          "minimum_weight": 0.022530845533174,
+          "near_zero_sample_runs_above_density_floor": [],
+          "peak_minimum_to_maximum_ratio": 0.8252004916595891,
+          "roots": [
+            {
+              "density": 0.2055470517773277,
+              "scaled_first_derivative_residual": 1.5908725592347678e-13,
+              "scaled_second_derivative": -7.5580352568916025,
+              "time": 3.2058194601592875,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.1426727388725444,
+              "scaled_first_derivative_residual": 4.850822225303309e-16,
+              "scaled_second_derivative": 12.840438598821068,
+              "time": 4.98696263591903,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.24908740827813247,
+              "scaled_first_derivative_residual": 9.031486541407545e-15,
+              "scaled_second_derivative": -8.611467776758692,
+              "time": 8.207741503136907,
+              "topology": "maximum"
+            },
+            {
+              "density": 0.15883122782483022,
+              "scaled_first_derivative_residual": 4.189120796410546e-14,
+              "scaled_second_derivative": 10.10940019629675,
+              "time": 13.328031989459692,
+              "topology": "minimum"
+            },
+            {
+              "density": 0.2474034358816362,
+              "scaled_first_derivative_residual": 5.0205178100192284e-17,
+              "scaled_second_derivative": -2.122571002909008,
+              "time": 25.45842028411114,
+              "topology": "maximum"
+            }
+          ],
+          "sampled_peak_density": 0.24908740721436787,
+          "stationary_root_count": 5,
+          "time_grid": {
+            "points": 49951,
+            "spacing": 0.0020000000000000018,
+            "start": 0.1,
+            "stop": 100.00000000000009
+          },
+          "topology": [
+            "maximum",
+            "minimum",
+            "maximum",
+            "minimum",
+            "maximum"
+          ],
+          "unresolved_zero_plateau": false,
+          "valley_to_smaller_adjacent_peak_ratios": [
+            0.6941123097552573,
+            0.6419928133124996
+          ],
+          "weight_sum_residual": 0.0,
+          "weights": [
+            0.28,
+            0.301667434194989,
+            0.022530845533174,
+            0.395801720271837
+          ],
+          "worst_valley_margin_to_0p85": 0.1558876902447427,
+          "worst_valley_ratio": 0.6941123097552573
+        },
+        "step": 0.2,
+        "weights": [
+          0.28,
+          0.301667434194989,
+          0.022530845533174,
+          0.395801720271837
+        ]
+      }
+    ],
+    "eligible_count": 10,
+    "selected": {
+      "eligible": true,
+      "gates": {
+        "all_weights_strictly_positive": true,
+        "alternating_topology": true,
+        "both_valley_floors": true,
+        "endpoint_derivative_signs": true,
+        "exactly_three_maxima_two_minima": true,
+        "no_unresolved_zero_plateau": true,
+        "peak_height_floor": true,
+        "root_residuals": true,
+        "simple_curvature_margin": true,
+        "weights_sum_to_one": true
+      },
+      "stationary_structure": {
+        "derivative_at_time_start": 2.1075254071656417e-50,
+        "derivative_at_time_stop": -3.982570778135158e-06,
+        "discarded_subfloor_near_zero_run_count": 1,
+        "maximum_count": 3,
+        "minimum_count": 2,
+        "minimum_weight": 0.1065877491928744,
+        "near_zero_sample_runs_above_density_floor": [],
+        "peak_minimum_to_maximum_ratio": 0.8541266673541315,
+        "roots": [
+          {
+            "density": 0.2054856768499765,
+            "scaled_first_derivative_residual": 2.4504901921866693e-12,
+            "scaled_second_derivative": -7.61780716794694,
+            "time": 3.2040378793988538,
+            "topology": "maximum"
+          },
+          {
+            "density": 0.1370148569453657,
+            "scaled_first_derivative_residual": 8.292955561669595e-14,
+            "scaled_second_derivative": 12.834240024526432,
+            "time": 5.085467473830983,
+            "topology": "minimum"
+          },
+          {
+            "density": 0.24057986327311287,
+            "scaled_first_derivative_residual": 4.385429961044708e-16,
+            "scaled_second_derivative": -5.943783752848712,
+            "time": 8.688467026035141,
+            "topology": "maximum"
+          },
+          {
+            "density": 0.20003153413564162,
+            "scaled_first_derivative_residual": 1.9800988401310576e-14,
+            "scaled_second_derivative": 4.414947118107225,
+            "time": 13.328031989459689,
+            "topology": "minimum"
+          },
+          {
+            "density": 0.23883144769665815,
+            "scaled_first_derivative_residual": 2.016214333850298e-14,
+            "scaled_second_derivative": -2.059609469232173,
+            "time": 22.660102216665226,
+            "topology": "maximum"
+          }
+        ],
+        "sampled_peak_density": 0.2405798612070919,
+        "stationary_root_count": 5,
+        "time_grid": {
+          "points": 49951,
+          "spacing": 0.0020000000000000018,
+          "start": 0.1,
+          "stop": 100.00000000000009
+        },
+        "topology": [
+          "maximum",
+          "minimum",
+          "maximum",
+          "minimum",
+          "maximum"
+        ],
+        "unresolved_zero_plateau": false,
+        "valley_to_smaller_adjacent_peak_ratios": [
+          0.6667854375339219,
+          0.8375426940831652
+        ],
+        "weight_sum_residual": 0.0,
+        "weights": [
+          0.28,
+          0.26950477032608894,
+          0.1065877491928744,
+          0.3439074804810367
+        ],
+        "worst_valley_margin_to_0p85": 0.012457305916834804,
+        "worst_valley_ratio": 0.8375426940831652
+      },
+      "step": 0.11,
+      "weights": [
+        0.28,
+        0.26950477032608894,
+        0.1065877491928744,
+        0.3439074804810367
+      ]
+    },
+    "selection_rule": [
+      "maximum minimum catalyst weight",
+      "maximum worst-valley margin to the 0.85 ceiling",
+      "maximum minimum-to-maximum peak ratio",
+      "smallest step as deterministic final tie-break"
+    ]
+  },
+  "limitations": [
+    "geometry, approximate cusp, and a passing inward step were known before freeze",
+    "floating-point quadrature convergence is not interval certification",
+    "the calculation is the B=0 derivative per unit full installed budget",
+    "no explicit positive-B persistence radius or killed-Doi calculation is included",
+    "no bounded-box SG/FEM or independent PDE solver is included",
+    "no physical d=3 calculation is included"
+  ],
+  "model": {
+    "affine_control_slice": "w0 fixed at 0.28; w1,w2 free; w3=1-w0-w1-w2",
+    "domain": "R longitudinal x T_W transverse; unbounded OU kernels",
+    "factorization": "g_j(t)=a_j(t)c_2(t)",
+    "full_budget_factor": "1 / transverse_width",
+    "parameters": {
+      "contact_radius": 0.16,
+      "fixed_first_weight": 0.28,
+      "initial_half_width": 0.004,
+      "midpoint_start": 0.14,
+      "ou_mean": 0.95,
+      "ou_stiffness": 0.1,
+      "particle_diffusion": 0.002,
+      "patch_centres": [
+        0.35,
+        0.6,
+        0.75,
+        0.9
+      ],
+      "patch_half_width": 0.008,
+      "relative_parallel_start": -0.35,
+      "relative_perp_start": 0.0,
+      "transverse_width": 1.0
+    },
+    "physical_dimension": 2
+  },
+  "polar_contact_check": {
+    "angular_points": 512,
+    "maximum_relative_difference": 6.602680246249627e-15,
+    "radial_order": 80,
+    "rows": [
+      {
+        "absolute_difference": 1.3530843112619095e-16,
+        "half_chord": 0.020492955296911006,
+        "polar": 0.02049295529691114,
+        "relative_difference": 6.602680246249627e-15,
+        "time": 1.0
+      },
+      {
+        "absolute_difference": 6.661338147750939e-16,
+        "half_chord": 0.164961398400799,
+        "polar": 0.16496139840079965,
+        "relative_difference": 4.038119349331774e-15,
+        "time": 5.0
+      },
+      {
+        "absolute_difference": 6.938893903907228e-16,
+        "half_chord": 0.1695851346521711,
+        "polar": 0.1695851346521718,
+        "relative_difference": 4.091687586968811e-15,
+        "time": 13.0
+      },
+      {
+        "absolute_difference": 5.828670879282072e-16,
+        "half_chord": 0.15266015839669503,
+        "polar": 0.1526601583966956,
+        "relative_difference": 3.8180694560371015e-15,
+        "time": 25.0
+      }
+    ]
+  },
+  "provenance": {
+    "manifest": "artifacts/data/continuum_observable_four_patch_manifest.json",
+    "manifest_sha256": "1c79fcb31abbc622cee20e915d60f55337376d7555c1c25dab210b3cc5976a69",
+    "numpy": "2.5.1",
+    "producer": "code/continuum_observable_four_patch.py",
+    "producer_sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da",
+    "protocol": "notes/observable_four_patch_protocol.md",
+    "protocol_sha256": "cbfb6fbe7b69fb66f3b25f7bcde404929a53cf1e8d2045c5fa037fe0fa8432a1",
+    "python": "3.12.13",
+    "scipy": "1.18.0",
+    "test": "code/test_continuum_observable_four_patch.py",
+    "test_sha256": "c3a2c11c71daf9fcb04e1db9e7c4e489a515d7dfbbb51bc470d310d0c3f76243"
+  },
+  "quadrature_and_cauchy_convergence": [
+    {
+      "configuration": {
+        "bump_order": 72,
+        "cauchy_radius": 0.5,
+        "cauchy_samples": 48,
+        "contact_angle_order": 112,
+        "patch_order": 72,
+        "transverse_fourier_modes": 28
+      },
+      "cusp_time": 13.328031989462668,
+      "label": "coarse",
+      "maximum_direct_vs_leibniz_difference": 9.190998656594118e-15,
+      "maximum_imaginary_cauchy_residual": 1.8829382497642652e-13,
+      "maximum_scaled_cusp_residual": 2.3004808555007902e-12,
+      "scaled_fourth_derivative": -42.811784828006566,
+      "unfolding_svd_ratio": 0.25640523605131044,
+      "weights": [
+        0.28,
+        0.23019484781966384,
+        0.2093239647769486,
+        0.28048118740338757
+      ]
+    },
+    {
+      "configuration": {
+        "bump_order": 104,
+        "cauchy_radius": 0.4,
+        "cauchy_samples": 64,
+        "contact_angle_order": 160,
+        "patch_order": 104,
+        "transverse_fourier_modes": 40
+      },
+      "cusp_time": 13.328031989459639,
+      "label": "primary",
+      "maximum_direct_vs_leibniz_difference": 6.740094593560286e-14,
+      "maximum_imaginary_cauchy_residual": 1.821459649775647e-13,
+      "maximum_scaled_cusp_residual": 1.0989819416639326e-12,
+      "scaled_fourth_derivative": -42.81178483244579,
+      "unfolding_svd_ratio": 0.2564052360511239,
+      "weights": [
+        0.28,
+        0.23019484781965555,
+        0.20932396477695267,
+        0.2804811874033918
+      ]
+    },
+    {
+      "configuration": {
+        "bump_order": 136,
+        "cauchy_radius": 0.3,
+        "cauchy_samples": 80,
+        "contact_angle_order": 208,
+        "patch_order": 136,
+        "transverse_fourier_modes": 52
+      },
+      "cusp_time": 13.328031989448355,
+      "label": "fine",
+      "maximum_direct_vs_leibniz_difference": 1.0999881561168934e-14,
+      "maximum_imaginary_cauchy_residual": 7.894919286223338e-14,
+      "maximum_scaled_cusp_residual": 4.387726408871006e-13,
+      "scaled_fourth_derivative": -42.81178482361023,
+      "unfolding_svd_ratio": 0.25640523605040744,
+      "weights": [
+        0.28,
+        0.2301948478196594,
+        0.20932396477694248,
+        0.2804811874033981
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "selected_absolute_weight_fine_crosscheck": {
+    "eligible": true,
+    "gates": {
+      "all_weights_strictly_positive": true,
+      "alternating_topology": true,
+      "both_valley_floors": true,
+      "endpoint_derivative_signs": true,
+      "exactly_three_maxima_two_minima": true,
+      "no_unresolved_zero_plateau": true,
+      "peak_height_floor": true,
+      "root_residuals": true,
+      "simple_curvature_margin": true,
+      "weights_sum_to_one": true
+    },
+    "stationary_structure": {
+      "derivative_at_time_start": 2.1075254071656638e-50,
+      "derivative_at_time_stop": -3.982570778135207e-06,
+      "discarded_subfloor_near_zero_run_count": 1,
+      "maximum_count": 3,
+      "minimum_count": 2,
+      "minimum_weight": 0.1065877491928744,
+      "near_zero_sample_runs_above_density_floor": [],
+      "peak_minimum_to_maximum_ratio": 0.854126667354132,
+      "roots": [
+        {
+          "density": 0.20548567684997943,
+          "scaled_first_derivative_residual": 2.4510987878599755e-12,
+          "scaled_second_derivative": -7.617807167946945,
+          "time": 3.2040378793988538,
+          "topology": "maximum"
+        },
+        {
+          "density": 0.13701485694536764,
+          "scaled_first_derivative_residual": 8.344464602425191e-14,
+          "scaled_second_derivative": 12.834240024526379,
+          "time": 5.085467473830984,
+          "topology": "minimum"
+        },
+        {
+          "density": 0.24057986327311615,
+          "scaled_first_derivative_residual": 1.1276819899829096e-15,
+          "scaled_second_derivative": -5.943783752848788,
+          "time": 8.688467026035141,
+          "topology": "maximum"
+        },
+        {
+          "density": 0.20003153413564423,
+          "scaled_first_derivative_residual": 2.055950856991214e-14,
+          "scaled_second_derivative": 4.41494711810715,
+          "time": 13.328031989459692,
+          "topology": "minimum"
+        },
+        {
+          "density": 0.23883144769666115,
+          "scaled_first_derivative_residual": 2.3042449529717406e-14,
+          "scaled_second_derivative": -2.0596094692321265,
+          "time": 22.660102216665233,
+          "topology": "maximum"
+        }
+      ],
+      "sampled_peak_density": 0.24057986120709515,
+      "stationary_root_count": 5,
+      "time_grid": {
+        "points": 49951,
+        "spacing": 0.0020000000000000018,
+        "start": 0.1,
+        "stop": 100.00000000000009
+      },
+      "topology": [
+        "maximum",
+        "minimum",
+        "maximum",
+        "minimum",
+        "maximum"
+      ],
+      "unresolved_zero_plateau": false,
+      "valley_to_smaller_adjacent_peak_ratios": [
+        0.6667854375339219,
+        0.8375426940831656
+      ],
+      "weight_sum_residual": 0.0,
+      "weights": [
+        0.28,
+        0.26950477032608894,
+        0.1065877491928744,
+        0.3439074804810367
+      ],
+      "worst_valley_margin_to_0p85": 0.01245730591683436,
+      "worst_valley_ratio": 0.8375426940831656
+    },
+    "step": 0.11,
+    "weights": [
+      0.28,
+      0.26950477032608894,
+      0.1065877491928744,
+      0.3439074804810367
+    ]
+  },
+  "selected_root_time_absolute_differences_primary_vs_fine": [
+    0.0,
+    8.881784197001252e-16,
+    0.0,
+    3.552713678800501e-15,
+    7.105427357601002e-15
+  ],
+  "stage": "G1o_observable_four_patch_continuum_confirmation",
+  "status": "PASS_RESULT_INFORMED_OBSERVABLE_FREE_EXPOSURE_CONFIRMATION"
+}

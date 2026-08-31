@@ -1,0 +1,549 @@
+% Theorem-first PRR working draft.  This file deliberately does not import the
+% historical finite-parameter figures or generated result macros.  It is not a
+% submission source until the physical-d=2 validation described below exists.
+\documentclass[aps,physrev,reprint,amsmath,amssymb,longbibliography,floatfix]{revtex4-2}
+
+\ifdefined\pdftrailerid
+  \pdftrailerid{}
+\fi
+
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={Prescribed finite-window reaction-time modality by conserved-budget support design},
+  pdfauthor={Xiaoxiao Zhouyi and Luca Giuggioli},
+  pdfsubject={Theorem-first working paper on encounter-reaction-time modality},
+  pdfkeywords={encounter reaction, reaction-time density, multimodality, conserved reactivity}
+}
+
+\newcommand{\dd}{\mathrm d}
+\newcommand{\e}{\mathrm e}
+
+\begin{document}
+
+\title{Prescribed finite-window reaction-time modality by conserved-budget support design}
+
+\author{Xiaoxiao Zhouyi}
+\email{xiaoxiao.zhouyi@bristol.ac.uk}
+\author{Luca Giuggioli}
+\affiliation{School of Engineering Mathematics and Technology, University of Bristol,
+Bristol BS8 1TW, United Kingdom}
+
+\date{July 15, 2026}
+
+\begin{abstract}
+\textbf{Internal working draft---not a submission artifact.}
+Can a fixed amount of spatial reactivity be arranged to prescribe the
+finite-window topology of an encounter-reaction-time density?  We answer this
+existence question for a Doi encounter process \cite{doi1976stochastic}.
+For every fixed finite dimension $d\ge2$, prescribed fixed finite integer
+$m$, and compact family of interior catalyst weights $w_j\ge w_*>0$, an
+$m$-dependent support design of ordered narrow slabs along a monotone exposure
+trajectory generates exactly $m$ nondegenerate maxima and $m-1$ nondegenerate
+minima on a declared compact positive-time window.  The construction first
+fixes a sufficiently small noise-and-width scale and only then takes a
+sufficiently small positive installed reactivity budget.  Exhaustiveness
+follows from a global zero bound for the separated Gaussian clocks and a
+whole-window complement certificate; compact-positive-time mixed-jet
+convergence transfers the strict topology to the killed process.  The result
+is existential and deliberately nonuniform: its geometry and admissible
+scales may depend on $d$ and $m$, and its small-noise contact factor is
+asymptotically saturated on the design window.  It gives no useful budget
+threshold, event-mass floor, or topology outside that window.  A practical
+two-dimensional allocation-control realization is therefore a separate
+numerical question.  We state a reproducible validation design based on fixed
+same-budget controls, interval-certified finite-volume propagation, and an
+independently powered off-lattice event-law comparison, without promoting
+calculations that do not yet meet that standard.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+First-passage and reaction-time densities can be multimodal when distinct
+trajectory families reach a reactive set on separated time scales
+\cite{godecMetzler2017twochannel,grebenkovMetzlerOshanin2018defocusing}.
+Continuum trap placement can create multiple capture-time peaks
+\cite{lindsaySpoonmoreTzou2016narrow}, while two-particle encounter laws in
+physical dimensions two and three and exact lattice models exhibit related
+multirate mechanisms
+\cite{leVotEtAl2022encounter,giuggioli2020confined,
+giuggioliEtAl2024multitarget}.  Existing theory also
+describes spatially heterogeneous absorption, fixed-total-reactivity flux
+optimization, and encounter-dependent reactions
+\cite{nguyenGrebenkov2010porous,grebenkov2019heterogeneous,
+nicolaouMulder2023flux,grebenkov2020paradigm}.  The question addressed here is
+narrower: can the finite-window \emph{timing topology} of a two-particle
+reaction be prescribed by support design while the installed amount of a
+static reactivity resource remains fixed?
+
+The fact that a univariate mixture of $m$ Gaussian components has at most
+$m$ modes is classical in scale-space and Gaussian-mixture theory
+\cite{carreiraPerpinanWilliams2003modes,amendolaEngstromHaase2020modes}.
+We do not claim that upper bound as new.  What is needed here is a
+margin-bearing construction inside a killed two-particle process: all
+$2m-1$ stationary points are made simple and located, the whole declared
+time-window complement is controlled after multiplication by the encounter
+factor, and the resulting signature is transferred to positive Doi budget.
+
+For each prescribed fixed finite $m$, the construction chooses an
+$m$-dependent family of catalyst supports and keeps its transport, contact
+geometry, initial law, and total installed centre-space reactivity fixed over
+all admissible allocations.  Every interior allocation in that constructed
+family has the same alternating signature of $m$ maxima and $m-1$ minima.  This
+is a support-geometry construction under a conserved budget, not a proof that
+one fixed support family selects different mode counts by reallocation.  A
+weak-reactivity mixed-jet estimate transfers the strict compact-window topology
+from free exposure to the positive-budget Doi law.  These are existence
+results, not certificates for a chosen finite budget or discretization.
+
+The finite-state and finite-grid predecessor developed Green-function
+reduction, fixed-budget response identities, finite folds, and reduced-clock
+screening.  Those ingredients are treated here as foundation rather than new
+headlines; a public identifier and detailed overlap statement must be added
+before submission.  Recent universal first-passage response theory concerns
+the mean first-passage time under rare perturbation activation
+\cite{keidarReuveni2026linear}; the mixed jet below is instead a
+model-specific statement for the full transient reaction-time density under a
+static conserved spatial allocation.
+
+A physical two-dimensional control claim requires a different evidence chain:
+unchanged one-, two-, and three-mode allocation vectors, complete root
+exclusion on one common window, mesh/parity/alignment/box convergence, and an
+independent event-law calculation using the same basin cuts and time windows.
+The final section records that validation design and the claims it can and
+cannot support.
+
+\section{Conserved-reactivity encounter model}
+\label{sec:model}
+
+\subsection{Budget and killed law}
+
+Let $q(x,t)$ be the unreacted configuration density of two mobile particles,
+with conservative generator $\mathcal L$.  Write $r$ for their relative
+coordinate and $c$ for a declared encounter-centre coordinate.  For a fixed
+contact profile $\chi_a(r)$ and normalized nonnegative centre-space profiles
+$\phi_j(c)$, define
+
+\begin{align}
+ \kappa_{\bm w}(c)&=B\sum_{j=1}^{J}w_j\phi_j(c),
+ &w_j&\ge0,\nonumber\\
+ \sum_jw_j&=1,
+ &\int\phi_j(c)\,\dd c&=1,\nonumber\\
+ K_{B,\bm w}(x)&=\chi_a(r)\kappa_{\bm w}(c).
+ \label{eq:budget-field}
+\end{align}
+
+Every admissible allocation has the same installed centre-space resource,
+
+\begin{equation}
+ \int\kappa_{\bm w}(c)\,\dd c=B.
+ \label{eq:conserved-budget}
+\end{equation}
+
+This is neither an integral over the full two-particle configuration space nor
+a count of reactive grid cells.  The killed evolution and reaction-time
+density are
+
+\begin{align}
+ \partial_tq_{B,\bm w}&=(\mathcal L-K_{B,\bm w})q_{B,\bm w},
+ &q_{B,\bm w}(0)&=q_0,\nonumber\\
+ f_{B,\bm w}(t)&=\langle K_{B,\bm w},q_{B,\bm w}(t)\rangle,
+ &-S'_{B,\bm w}(t)&=f_{B,\bm w}(t),
+ \label{eq:killed-law}
+\end{align}
+
+where $S_{B,\bm w}(t)=\int q_{B,\bm w}(x,t)\,\dd x$.  Equation
+\eqref{eq:killed-law} is both the physical mass balance and a mandatory
+numerical invariant.  This volume-reactivity killing representation is part of
+the established Doi/area-reactivity and Feynman--Kac framework
+\cite{isaacsonMauroNewby2016uniform,pruestelMeierSchellersheim2014area,
+bressloff2022feynmanKac}; the novelty claim does not attach to
+Eq.~\eqref{eq:killed-law} itself.
+
+\subsection{Physical two-dimensional quotient and natural-decay realization}
+\label{sec:d2-natural-decay}
+
+The finite-parameter branch below targets physical dimension two.  Translation
+invariance in the common transverse coordinate gives the exact quotient
+
+\begin{equation}
+ \Omega_\infty
+ =\mathbb R_z\times\mathbb R_{r_\parallel}\times\mathbb T_W,
+ \qquad x=(z,r_\parallel,r_\perp),
+ \label{eq:d2-unbounded-quotient}
+\end{equation}
+
+where the last coordinate is periodic with period $W$.  For two
+equal-diffusivity particles the free forward operator is
+
+\begin{align}
+ \mathcal Lq&=-\nabla\!\cdot(bq)
+              +\nabla\!\cdot(\bm D\nabla q),\nonumber\\
+ \bm D&=\operatorname{diag}(D/2,2D,2D),\qquad
+ b=\bigl(-\gamma(z-\bar z),-\gamma r_\parallel,0\bigr).
+ \label{eq:d2-free-generator}
+\end{align}
+
+There is no reflecting face in either unbounded coordinate.  Natural decay
+means the weighted-space realization below, rather than a pointwise boundary
+condition at infinity.
+
+For the physical four-slab family, specialize the generic field in
+Eq.~\eqref{eq:budget-field} to
+
+\begin{equation}
+ V_{\bm w}(z,r)
+ =\frac{1}{W}\bm1_{\{|r|_{\mathrm{mi}}<a\}}
+   \sum_{j=1}^{J}w_j\phi_j(z),
+ \qquad K_{B,\bm w}=B V_{\bm w},
+ \label{eq:d2-sharp-killing}
+\end{equation}
+
+where $0<a<W/2$, the bounded nonnegative profiles obey
+$\int_{\mathbb R}\phi_j(z)\,\dd z=1$, and $\bm w$ is a real simplex
+control.  The factor $W^{-1}$ accounts for the omitted common transverse
+coordinate and preserves the centre-space budget in
+Eq.~\eqref{eq:conserved-budget}.  The sharp disk contact is retained; replacing
+it by a smoothed profile would define a different model.
+
+The normalized reversible density is
+
+\begin{align}
+ \pi(x)&=Z_\pi^{-1}
+ \exp\!\left[-\frac{\gamma(z-\bar z)^2}{D}
+             -\frac{\gamma r_\parallel^2}{4D}\right],\nonumber\\
+ Z_\pi&=\frac{2\pi DW}{\gamma},
+ &\bm D\nabla\log\pi&=b,
+ \label{eq:d2-reversible-density}
+\end{align}
+
+with the uniform factor on $\mathbb T_W$ included in $Z_\pi$.  Put
+
+\begin{align}
+ \mathcal H_\pi&=L^2(\Omega_\infty,\pi\,\dd x),\nonumber\\
+ X_\pi&=L^2(\Omega_\infty,\pi^{-1}\dd x),
+ &Uu&=\pi u .
+ \label{eq:d2-weighted-spaces}
+\end{align}
+
+The map $U:\mathcal H_\pi\to X_\pi$ is unitary.  Let
+$\mathcal C=C_c^\infty(\mathbb R^2)\otimes C^\infty(\mathbb T_W)$ and let
+$\mathcal V$ be its closure in the norm
+
+\begin{equation}
+ \|u\|_{\mathcal V}^2
+ =\|u\|_{\mathcal H_\pi}^2+
+  \int_{\Omega_\infty}
+  (\nabla u)^{\mathsf T}\bm D\nabla u\,\pi\,\dd x .
+ \label{eq:d2-form-domain}
+\end{equation}
+
+For fixed $B\ge0$ and $\bm w$, define
+
+\begin{equation}
+ \mathfrak a_{B,\bm w}(u,v)
+ =\int_{\Omega_\infty}
+   (\nabla u)^{\mathsf T}\bm D\nabla v\,\pi\,\dd x
+  +B\int_{\Omega_\infty}V_{\bm w}uv\,\pi\,\dd x .
+ \label{eq:d2-killed-form}
+\end{equation}
+
+\noindent\textit{Proposition 1 (physical natural-decay realization).---}
+For the data above, $\mathfrak a_{B,\bm w}$ is a densely defined, closed,
+symmetric, nonnegative Dirichlet form on the same domain $\mathcal V$ as the
+free form.  In particular,
+
+\begin{equation}
+ \|u\|_{\mathcal V}^2
+ \le \|u\|_{\mathcal H_\pi}^2+\mathfrak a_{B,\bm w}(u,u)
+ \le(1+B\|V_{\bm w}\|_\infty)\|u\|_{\mathcal V}^2 .
+ \label{eq:d2-form-equivalence}
+\end{equation}
+
+Its unique nonnegative self-adjoint operator $\mathsf H_{B,\bm w}$ generates a
+symmetric analytic sub-Markov contraction semigroup, and
+
+\begin{equation}
+ A_{B,\bm w}=U(-\mathsf H_{B,\bm w})U^{-1}
+ \label{eq:d2-natural-realization}
+\end{equation}
+
+is the form-associated natural-decay realization of
+$\mathcal L-BM_{V_{\bm w}}$.  Its action agrees with the displayed algebraic
+generator on $\mathcal C$; no essential-self-adjointness assertion for the
+minimal core operator is required.
+
+Let $q_0\in X_\pi$ be nonnegative with unit mass and put $u_0=q_0/\pi$.  Define
+the budget-normalized observable
+
+\begin{equation}
+ F_{B,\bm w}(t)
+ =\langle V_{\bm w},q_{B,\bm w}(t)\rangle
+ =B^{-1}f_{B,\bm w}(t)\quad(B>0).
+ \label{eq:d2-normalized-observable}
+\end{equation}
+
+For $r=0,1,2$ and $t\in[\tau,T]\subset(0,\infty)$,
+
+\begin{align}
+ F_{B,\bm w}^{(r)}(t)
+ &=(-1)^r\left\langle V_{\bm w},
+   \mathsf H_{B,\bm w}^{\,r}
+   \e^{-t\mathsf H_{B,\bm w}}u_0\right\rangle_{\mathcal H_\pi},
+ \nonumber\\
+ \sup_{t\in[\tau,T]}|F_{B,\bm w}^{(r)}(t)|
+ &\le
+ \|V_{\bm w}\|_{\mathcal H_\pi}C_r(\tau)
+ \|u_0\|_{\mathcal H_\pi},
+ \label{eq:d2-positive-time-bound}\\
+ C_0(\tau)&=1,\qquad
+ C_r(\tau)=\left(\frac{r}{e\tau}\right)^r\quad(r=1,2).
+ \nonumber
+\end{align}
+
+Moreover, $q_{B,\bm w}(t)\ge0$, $F_{B,\bm w}(t)\ge0$, and
+
+\begin{equation}
+ \int_{\Omega_\infty}q_{B,\bm w}(t)\,\dd x
+ +B\int_0^tF_{B,\bm w}(s)\,\dd s=1 .
+ \label{eq:d2-integrated-mass}
+\end{equation}
+
+The Gaussian integrals and direct differentiation give
+Eq.~\eqref{eq:d2-reversible-density}.  Bounded nonnegative multiplication
+preserves the closed free form, its domain, and its Dirichlet property.  The
+representation and spectral theorems then give
+Eqs.~\eqref{eq:d2-natural-realization} and
+\eqref{eq:d2-positive-time-bound}; Gaussian cutoffs allow the weak evolution to
+be tested against the constant function and yield
+Eq.~\eqref{eq:d2-integrated-mass}.  Full details and the bounded-box companion
+statement are given in Secs.~S1 and S3 of the Supplemental Material.
+
+This proposition identifies the unbounded physical target and its
+positive-time observable calculus.  The reflecting boxes used below are
+approximants, not boundary conditions of that target.  For the twelve
+formula-defined fixed-box dyadic families, a separate ideal composition now
+establishes the reconstructed-resolvent, Mosco, and positive-time conclusions
+from its source-bound premises.  That closure concerns only the ideal
+formula-defined refinement tails.  Equality with the production geometry at
+level \(n=0\) is not a correlated containment receipt: it does not show that
+one common ideal mass, flux, gauge, map, and killing member lies inside the
+saved production intervals, and it does not close the production
+gauge/evaluator bridge.  Project-level and production-level complete C1
+therefore remain false.  Computable spatial and box-truncation errors for time
+orders \(r=0,1,2\), together with a margin-bearing transfer of the complete
+stationary-point signature to \(\Omega_\infty\), also remain open.  Proposition
+1 licenses no production finite-volume-to-continuum topology claim.
+
+\section{Analytical results}
+\label{sec:analysis}
+
+\subsection{Compact-positive-time weak-reactivity transfer}
+
+Choose an interior reference allocation $\bar{\bm w}$ and a fixed matrix
+$P\in\mathbb R^{J\times(J-1)}$ whose columns span
+$\{h:\bm1^{\mathsf T}h=0\}$.  Write
+$\bm w(\bm\theta)=\bar{\bm w}+P\bm\theta$ and let
+$\Theta\subset\mathbb R^{J-1}$ be compact with all its weights strictly
+positive.  Write $K_{B,\bm w}=B V_{\bm w}$ and set
+
+\begin{equation}
+ F_B(t,\bm\theta)=B^{-1}f_{B,\bm w(\bm\theta)}(t),\qquad
+ G(t,\bm\theta)=
+ \langle V_{\bm w(\bm\theta)},\e^{t\mathcal L}q_0\rangle.
+ \label{eq:normalized-free-exposure}
+\end{equation}
+
+\noindent\textit{Proposition 2 (mixed-jet transfer).---}
+Let the free generator, with the declared reflecting/periodic conditions, be
+similar to a nonpositive self-adjoint generator on either the bounded
+$L^2$ space or the reversible unbounded space
+$X_\pi=L^2(\pi^{-1}\dd x)$.  Assume $q_0$ belongs to that state space and that
+$V_{\bm w(\bm\theta)}$ is affine in $\bm\theta$, uniformly bounded as a
+multiplication operator on a complex control tube around $\Theta$, and belongs
+to the corresponding observable dual.  Then, on
+$I=[\tau,T]\subset(0,\infty)$, for every fixed time order $r$ and finite
+control multi-index $\alpha$,
+
+\begin{equation}
+ \sup_{I\times\Theta}
+ \left|\partial_t^r\partial_{\bm\theta}^{\alpha}
+       (F_B-G)\right|\le C_{r,\alpha,I,\Theta}B.
+ \label{eq:mixed-jet-transfer}
+\end{equation}
+
+The constant is finite for the fixed tube and fixed data and is independent of
+$B$ on a declared bounded interval.  The proof, including the exact Duhamel
+sensitivity hierarchy and the bounded/unbounded analytic-semigroup
+realizations, is contained in Secs.~S2--S3 of the Supplemental working source.
+The Dyson expansion and time/control Cauchy estimates then preserve any fixed
+finite collection of strict root-tube, curvature, complement, or
+projected-rank margins once those objects have been explicitly defined.  Only
+the $C^2$ time part is needed for Theorem~1 below.  The statement is local on a
+compact positive-time window: it is not uniform on $t=O(B^{-1})$, does not
+identify a useful numerical value of $B$, and supplies no event-mass lower
+bound.  The complete exact-$m$ proof, including its global zero count,
+full-complement certificate, slow-factor stability, and fixed-$\varepsilon$
+Doi transfer, is given in the Supplemental working source.  This document
+nevertheless remains a working paper, not a submission package, because the
+finite-parameter two-dimensional validation and publication-integrity gates
+remain open.
+
+\input{exact_m_theorem_spine.tex}
+
+\section{Finite-parameter evidence boundary}
+\label{sec:evidence-boundary}
+
+The theorem above proves existence inside an explicitly constructed,
+parameter-dependent family.  It does not certify the broad four-slab
+finite-volume family used to seek a practical two-dimensional control.  Earlier
+computations in that family provide design information only: one unchanged
+allocation at $B=0.01$ retained five alternating stationary roots on odd
+meshes $N=113$ and $N=129$ in one reflected box and the same finite-volume
+solver family.  The saved floating-point screen searched roots only through
+$t=35$, while basin and survival calculations extended to $t=100$; no
+post-$35$ root-exclusion certificate was made.  Those calculations neither
+exclude later extrema nor establish parity, alignment, box, continuum, or
+independent-method robustness.  A later allocation-cusp search did not produce
+a claimable branch and is not used here.
+
+Three exact-rational, same-budget allocations have instead been fixed for a
+prospective one-/two-/three-mode test.  Their positive-budget values have not
+been evaluated or read in this working process.  No statement here asserts
+that those controls realize the
+target topologies, that a finite-budget cusp exists, or that a bounded
+finite-volume calculation represents an unbounded continuum law.
+
+\section{Reproducible two-dimensional validation design}
+\label{sec:validation-design}
+
+Before any positive-budget value may be evaluated or read, the transport,
+contact radius, initial law, slab supports, installed budget, allocation
+vectors, observation window, acceptance margins, rate-defined generator, and
+common-observable rule must be frozen and independently accepted.  The
+deterministic campaign then executes the predeclared 36-row mesh, parity,
+alignment, and box family without refitting or adaptive repair after a first
+scientific value is seen.
+
+\subsection{Verified finite-volume propagation}
+
+For each prescribed mesh, parity, slab alignment, and box, a rate-defined
+uniformization calculation must enclose the density, its first two time
+derivatives, survival, and valley-partitioned masses.  A separately replayable
+interval certificate must include every stationary point with strict curvature
+sign and exclude all other stationary points on the complete declared window.
+Mass balance and tail truncation are checked in the same arithmetic envelope;
+implementation-level provenance and memory-isolation controls belong to the
+reproducibility record rather than to the physical claim.
+
+The control-free preparation covers all 12 prospectively fixed production
+configurations.  Exact axis partitions, free-axis forward/backward rate
+enclosures, initial marginals, and sparse tensor boxes are stored in a
+canonical file-backed bundle representing 34,787,462 states.  The historical
+file role \texttt{stationary\_mass} does not contain a physical cell integral:
+on axis \(a\) it is the ungauged representative quadrature primitive
+\[
+ \widetilde\mu_{a,i}
+ =|C_{a,i}|\exp[-\Phi_a(x_{a,i}^{\rm rep})].
+\]
+It is neither box-normalized nor equal, in general, to
+\(\int_{C_{a,i}}\pi_a(x)\,\dd x\).
+
+A same-core artifact implementation reconstructs every canonical byte.  A
+separate-source implementation checks containment of the partitions, directed
+rates, ungauged representative primitives, initial marginals, and active
+tensor components.  This is source-level semantic containment, not an
+independent numerical backend.
+
+Separate authenticated fixed-row sources now enclose the physical axis-cell
+integrals and reconstruct the formula-defined common edge flux
+\(\kappa_{a,i+1/2}\), the corresponding directed rates, and the factorized
+density ratio.  Their producers and independently written validators use the
+same pinned \texttt{gmpy2}/MPFR backend.  Authentication of the executed bytes
+and runtime therefore supplies provenance, not backend independence.  These
+fixed-row sources do not by themselves give a genuine refinement theorem or
+one correlated same-member production receipt.
+
+The canonical rate files are joined to native packed payloads and
+round-tripped byte for byte.  Two serialized replays of the initial bundle and
+a further two-repeat replay of the control-free factorized killing geometry
+close only their declared file/process boundaries.  The latter contains no
+concrete control, positive budget, tensor killing diagonal, reconstructed
+multiplier, or full operator.  Separate ideal records define twelve genuine
+dyadic refinement sequences and source-bound symbolic map, cut-layer, and
+killing-residual estimates, but they do not bind the production member.
+Consequently no external predecessor commitment or fresh ordered roles
+8--10 replay exists.  Same-member containment, the production resource gate,
+F0--F3, complete C1--C3, continuum topology and componentwise root transfer,
+the physical control claim, release, and submission eligibility all remain
+held.
+
+The three controls are accepted as one family only if all prescribed
+configurations retain, respectively, exactly one, two, and three maxima and
+the associated basin masses remain above the declared numerical resolution
+floor.  A failure of any configuration is reported at that bounded scope; it
+is not repaired by dropping a mesh, changing a threshold, or replacing a
+control.
+
+\subsection{Common observables and an independent event law}
+
+Only after the complete deterministic family is independently accepted may a
+predeclared mechanical rule form common basin cuts and time windows from its
+envelopes.  The off-lattice killed-process calculation then uses unchanged
+physical inputs and two independent random-number pools: one for prescribed
+precision decisions and one for the reported estimates.  Simultaneous
+confidence intervals test basin probabilities, survival, and common-window
+contrasts.
+Trajectory samples do not certify time derivatives or a continuous-density
+norm, and repeated quadrature or sparse-matrix evaluation of the same
+finite-volume generator is not an independent physical method.
+
+\subsection{Continuum claim boundary}
+
+A claim of a resolved physical two-dimensional realization requires agreement
+of all retained root intervals, topology margins, survival values, and basin
+masses across the full mesh/parity/alignment/box family, followed by the
+off-lattice comparison.  The result would remain finite-window and
+same-family: three fixed controls do not by themselves establish a cusp,
+global phase diagram, topology outside the window, or a positive-budget
+three-dimensional result.
+Even complete agreement in that deterministic and off-lattice campaign would
+constitute continuum-consistent evidence only on the declared finite window;
+it would not certify convergence from a finite-volume scheme to the unbounded
+continuum.  That certification additionally requires the C0--C3 map,
+same-member, quantitative discretization, and box-truncation chain together
+with margin-bearing componentwise root transfer.
+
+\section{Discussion}
+\label{sec:discussion}
+
+The analytical mechanism is constructive.  A monotone midpoint trajectory
+converts separated catalyst locations into separated exposure clocks; narrow
+Gaussian convolution creates one peak near each target time; a global zero
+bound and a whole-window sign certificate make the count exhaustive; and a
+weak-reactivity mixed-jet estimate preserves the resulting topology in the Doi
+law.  This establishes arbitrary prescribed \emph{fixed finite} modality
+without appealing to a reduced-clock universality claim.
+
+The restrictions are scientifically consequential.  Geometry and smallness
+scales depend on $d$ and $m$.  The deterministic relative trajectory stays
+strictly inside the contact set on the designed window, and the free contact
+probability tends to one there in $C^2$ as the small-noise scale vanishes; no
+pathwise Brownian confinement is claimed.  The limits are sequential, and
+observability at a common useful budget is not guaranteed.  The next
+contribution is therefore not another parameter scan.
+It is the independently reproducible two-dimensional validation described in
+Sec.~\ref{sec:validation-design}.  Until that chain is complete, the theorem
+and the historical computations remain separate results.
+
+\bibliography{references}
+
+\end{document}

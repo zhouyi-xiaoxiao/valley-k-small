@@ -1,0 +1,110 @@
+{
+  "algorithm": "Philox4x32-10",
+  "algorithm_identity": "Random123-v1.14.0-Philox4x32_R<10>",
+  "arithmetic": "all inputs and XOR results are uint32; each multiplier product is exact uint32-by-uint32 to uint64; low is product modulo 2^32; high is floor(product/2^32); Weyl addition wraps modulo 2^32",
+  "constants": {
+    "multiplier_0": "d2511f53",
+    "multiplier_1": "cd9e8d57",
+    "weyl_0": "9e3779b9",
+    "weyl_1": "bb67ae85"
+  },
+  "counter_key_word_map": {
+    "counter_word_0": "low32(draw_block)",
+    "counter_word_1": "high32(draw_block)",
+    "counter_word_2": "low32(trajectory_id)",
+    "counter_word_3": "high32(trajectory_id)",
+    "key_word_0": "low32(pool_key64)",
+    "key_word_1": "high32(pool_key64)"
+  },
+  "known_answer_vectors": [
+    {
+      "counter_words": [
+        "00000000",
+        "00000000",
+        "00000000",
+        "00000000"
+      ],
+      "key_words": [
+        "00000000",
+        "00000000"
+      ],
+      "output_words": [
+        "6627e8d5",
+        "e169c58d",
+        "bc57ac4c",
+        "9b00dbd8"
+      ]
+    },
+    {
+      "counter_words": [
+        "ffffffff",
+        "ffffffff",
+        "ffffffff",
+        "ffffffff"
+      ],
+      "key_words": [
+        "ffffffff",
+        "ffffffff"
+      ],
+      "output_words": [
+        "408f276d",
+        "41c83b0e",
+        "a20bc7c6",
+        "6d5451fd"
+      ]
+    },
+    {
+      "counter_words": [
+        "00000000",
+        "00000001",
+        "00000002",
+        "00000003"
+      ],
+      "key_words": [
+        "00000004",
+        "00000005"
+      ],
+      "output_words": [
+        "c427af5d",
+        "e75eea3a",
+        "47c2b122",
+        "5ffb03c7"
+      ]
+    },
+    {
+      "counter_words": [
+        "89abcdef",
+        "01234567",
+        "76543210",
+        "fedcba98"
+      ],
+      "key_words": [
+        "0badf00d",
+        "c001d00d"
+      ],
+      "output_words": [
+        "6bcfbc41",
+        "7fb3520d",
+        "43130c01",
+        "300a0d1b"
+      ]
+    }
+  ],
+  "normative_upstream": {
+    "commit": "726a093cd9a73f3ec3c8d7a70ff10ed8efec8d13",
+    "philox_header_sha256": "6c2ef219a855885499a73b338d5f41dafe079618b2dae2f60ea86ee785d771e2",
+    "philox_header_url": "https://raw.githubusercontent.com/DEShawResearch/random123/726a093cd9a73f3ec3c8d7a70ff10ed8efec8d13/include/Random123/philox.h",
+    "repository": "https://github.com/DEShawResearch/random123",
+    "tag": "v1.14.0"
+  },
+  "output_word_order": "round_result_words_0_1_2_3_consumed_in_that_order_only_by_a_later_separately_audited_f2_transform_spec",
+  "repository_cross_check": {
+    "compiled_core_sha256": "b4c673bafbc4c7f07d0a7520b5a7c9dad64b9e8123573f17da8c076ffa494938",
+    "compiled_core_validation_audit_sha256": "62cf5bb97a3ee46d01ab9de7b4c91ecdd64f895a8c3b6a7c98494d99fc49986f",
+    "python_reference_sha256": "e47edaba9f1fac602358cda6788e37d7896903f61f690e56f86f9d7c8ebff431"
+  },
+  "round_schedule": "for r=0..9 apply out=(hi(M1*c2)^c1^k0,lo(M1*c2),hi(M0*c0)^c3^k1,lo(M0*c0)); after r=0..8 only add W0,W1 to k0,k1 modulo 2^32; return the r=9 output",
+  "rounds": 10,
+  "schema_version": 1,
+  "test_key_set_sha256": "cb273018dbca49cf09399e1504ffe5282eec84513891e2ddc4e79d3995dc185d"
+}

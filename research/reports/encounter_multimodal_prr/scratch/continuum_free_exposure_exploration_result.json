@@ -1,0 +1,2633 @@
+{
+  "analytic_kernel_audits": {
+    "compact_bump_probability_weight_sum": 1.0000000000000027,
+    "compact_patch_probability_weight_sum": 1.0000000000000027,
+    "contact_half_chord_vs_independent_polar_disk": {
+      "angular_points": 256,
+      "maximum_absolute_difference": 1.887379141862766e-15,
+      "maximum_relative_difference": 1.6273266905712308e-14,
+      "radial_order": 64,
+      "rows": [
+        {
+          "absolute_difference": 9.853229343548264e-16,
+          "half_chord_formula": 0.061447681289705056,
+          "independent_polar_disk_quadrature": 0.06144768128970407,
+          "relative_difference": 1.603515240403233e-14,
+          "time": 1.0
+        },
+        {
+          "absolute_difference": 1.887379141862766e-15,
+          "half_chord_formula": 0.11598034695788409,
+          "independent_polar_disk_quadrature": 0.1159803469578822,
+          "relative_difference": 1.6273266905712308e-14,
+          "time": 5.0
+        },
+        {
+          "absolute_difference": 1.6930901125533637e-15,
+          "half_chord_formula": 0.10630736476599226,
+          "independent_polar_disk_quadrature": 0.10630736476599056,
+          "relative_difference": 1.5926367061024013e-14,
+          "time": 9.0
+        },
+        {
+          "absolute_difference": 1.6653345369377348e-15,
+          "half_chord_formula": 0.10309473455171245,
+          "independent_polar_disk_quadrature": 0.10309473455171078,
+          "relative_difference": 1.6153439302008202e-14,
+          "time": 20.0
+        }
+      ],
+      "transverse_fourier_modes": 32
+    },
+    "unbounded_free_law_box_tail": {
+      "interpretation": "zero-order free-law tail diagnostic only; not a mixed-jet reflecting-boundary error bound",
+      "midpoint": {
+        "conditional_mean": 0.376116909326244,
+        "initial_support_extreme": 0.12000000000000001,
+        "maximum_tail_probability": 3.7856317346886305e-09,
+        "standard_deviation": 0.10836717810357295,
+        "time": 3.69
+      },
+      "relative_parallel": {
+        "conditional_mean": -0.06712140574105241,
+        "initial_support_extreme": -0.37,
+        "maximum_tail_probability": 2.254188006028452e-09,
+        "standard_deviation": 0.2950223093942712,
+        "time": 17.07
+      },
+      "time_grid": {
+        "points": 4000,
+        "start": 0.01,
+        "stop": 40.0
+      }
+    }
+  },
+  "claim_flags": {
+    "continuum_verified": false,
+    "finite_B_Doi_verified": false,
+    "preregistered_discovery": false,
+    "project_gate_passed": false
+  },
+  "continuum": {
+    "current_geometry": {
+      "centres": [
+        0.48,
+        0.67,
+        0.86
+      ],
+      "configuration": {
+        "bump_order": 112,
+        "cauchy_radius": 0.42,
+        "cauchy_samples": 64,
+        "contact_angle_order": 144,
+        "patch_order": 112,
+        "transverse_fourier_modes": 32
+      },
+      "cusp": {
+        "density_per_unit_budget": 0.16697962791302146,
+        "derivative_matrix_singular_values": [
+          0.05421681046217234,
+          0.01630554085781769,
+          6.000365385119293e-16
+        ],
+        "determinant_time_derivative_via_g1_g2_g4": -5.808606876883362e-07,
+        "minimum_weight": 0.2702851496599822,
+        "mixture_jets_orders_0_to_4": [
+          0.16697962791302146,
+          -2.0816681711721685e-17,
+          -1.1666015375944028e-16,
+          -3.2938062000109625e-16,
+          -0.00040718805565998243
+        ],
+        "row_normalized_determinant": -9.987611897306304e-14,
+        "scaled_fourth_derivative": -18.12560057084784,
+        "scaled_residuals_orders_1_to_3": [
+          1.1575459211179551e-15,
+          6.023369252248062e-14,
+          1.5790838866600068e-12
+        ],
+        "time": 9.285177622314027,
+        "unfolding": {
+          "dimensionless_matrix": [
+            [
+              -4.066191183964335,
+              -1.1252996546620277
+            ],
+            [
+              3.5423351627117072,
+              -9.092071977844649
+            ]
+          ],
+          "dimensionless_singular_values": [
+            9.769245356653343,
+            4.192370030678414
+          ],
+          "dimensionless_svd_ratio": 0.42913959856921813,
+          "rank": 2,
+          "raw_matrix": [
+            [
+              -0.07312418981516064,
+              -0.020236782242544594
+            ],
+            [
+              0.006860767577800172,
+              -0.017609455281716018
+            ]
+          ],
+          "row_angle_sine_magnitude": 0.9948505819637246
+        },
+        "weights": [
+          0.34479204830422794,
+          0.2702851496599822,
+          0.3849228020357898
+        ]
+      },
+      "factor_jets_at_cusp": {
+        "bracket": [
+          8.5,
+          10.5
+        ],
+        "channel_jets_orders_0_to_4_by_channel": [
+          [
+            0.17040874794095523,
+            0.28697214685529304,
+            0.07965165180736844
+          ],
+          [
+            -0.04244184891114162,
+            0.010445558661474421,
+            0.030682340904019015
+          ],
+          [
+            0.009254803727960476,
+            -0.015215419131555715,
+            0.002394036150160304
+          ],
+          [
+            -0.00016522877314541754,
+            0.0045947453865256265,
+            -0.003078336411998645
+          ],
+          [
+            -0.0019787566940655237,
+            0.0005631985221584343,
+            0.00031914794468652035
+          ]
+        ],
+        "contact_jets_orders_0_to_4": [
+          0.10594123951397671,
+          -0.0012207769782502033,
+          0.00043133469315749973,
+          -0.00011535687154826278,
+          7.4028290197696065e-06
+        ],
+        "maximum_direct_vs_leibniz_difference": 2.849467623661228e-14,
+        "maximum_imaginary_cauchy_residual": 1.0971302468886281e-13,
+        "midpoint_jets_orders_0_to_4_by_channel": [
+          [
+            1.608521372061853,
+            2.7087860041266856,
+            0.7518474597124201
+          ],
+          [
+            -0.3820816448514824,
+            0.1298114154356694,
+            0.2982802459076652
+          ],
+          [
+            0.0720033080489412,
+            -0.15165832503214735,
+            0.026410919715514555
+          ],
+          [
+            0.007347850311415551,
+            0.039491920317662535,
+            -0.03096863868081893
+          ],
+          [
+            -0.02187469288646813,
+            0.011217356849926332,
+            0.0021865136871449405
+          ]
+        ],
+        "row_normalized_determinant_at_bracket": [
+          0.12881210257584336,
+          -0.09257993757634662
+        ]
+      },
+      "inward_control": {
+        "control_direction_2d": [
+          0.26672002420940694,
+          -0.9637740547896759
+        ],
+        "control_direction_3d": [
+          0.26672002420940694,
+          -0.9637740547896759,
+          0.697054030580269
+        ],
+        "normal_form_cubic_coefficient": -6.78646759433304e-05,
+        "second_unfolding_row_projection": 0.018801440213942897,
+        "step": 0.005,
+        "weights": [
+          0.346125648425275,
+          0.2654662793860338,
+          0.3884080721886912
+        ]
+      },
+      "inward_stationary_structure": {
+        "maximum_count": 2,
+        "minimum_count": 1,
+        "roots": [
+          {
+            "density": 0.16613286480779973,
+            "scaled_first_derivative_residual": 2.1930481323998694e-14,
+            "scaled_second_derivative": -0.09832086303703759,
+            "time": 8.204148194008047,
+            "topology": "maximum"
+          },
+          {
+            "density": 0.1661016110166444,
+            "scaled_first_derivative_residual": 9.697206126693568e-16,
+            "scaled_second_derivative": 0.04879414470514821,
+            "time": 9.285177622314087,
+            "topology": "minimum"
+          },
+          {
+            "density": 0.16613371252928805,
+            "scaled_first_derivative_residual": 1.2113204998033214e-15,
+            "scaled_second_derivative": -0.0921622611657775,
+            "time": 10.546148839073954,
+            "topology": "maximum"
+          }
+        ],
+        "sampled_peak_density": 0.16613371252776338,
+        "stationary_root_count": 3,
+        "time_grid": {
+          "points": 19751,
+          "spacing": 0.002,
+          "start": 0.5,
+          "stop": 40.0
+        },
+        "topology": [
+          "maximum",
+          "minimum",
+          "maximum"
+        ],
+        "weights": [
+          0.346125648425275,
+          0.2654662793860338,
+          0.3884080721886912
+        ]
+      },
+      "inward_step_screen": {
+        "interpretation": "sampled topology screen in the continuum cusp-normal coordinate; the selected step is root-refined separately",
+        "rows": [
+          {
+            "normal_step": 5e-05,
+            "roots": [
+              {
+                "sampled_time": 9.168500000000009,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 9.285500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 9.403500000000008,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.3448053843054384,
+              0.2702369609572427,
+              0.38495765473731886
+            ]
+          },
+          {
+            "normal_step": 0.0005,
+            "roots": [
+              {
+                "sampled_time": 8.922500000000007,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 9.285500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 9.666500000000008,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.3449254083163326,
+              0.26980326263258736,
+              0.38527132905107997
+            ]
+          },
+          {
+            "normal_step": 0.001,
+            "roots": [
+              {
+                "sampled_time": 8.777500000000007,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 9.285500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 9.829500000000008,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.34505876832843735,
+              0.2693213756051925,
+              0.3856198560663701
+            ]
+          },
+          {
+            "normal_step": 0.002,
+            "roots": [
+              {
+                "sampled_time": 8.578500000000007,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 9.285500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 10.06450000000001,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.34532548835264676,
+              0.26835760155040284,
+              0.38631691009695035
+            ]
+          },
+          {
+            "normal_step": 0.005,
+            "roots": [
+              {
+                "sampled_time": 8.204500000000007,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 9.285500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 10.546500000000009,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.346125648425275,
+              0.2654662793860338,
+              0.38840807218869117
+            ]
+          }
+        ],
+        "time_grid": {
+          "points": 19501,
+          "spacing": 0.001,
+          "start": 0.5,
+          "stop": 20.0
+        }
+      }
+    },
+    "redesigned_geometry": {
+      "centres": [
+        0.37,
+        0.61,
+        0.85
+      ],
+      "configuration": {
+        "bump_order": 112,
+        "cauchy_radius": 0.42,
+        "cauchy_samples": 64,
+        "contact_angle_order": 144,
+        "patch_order": 112,
+        "transverse_fourier_modes": 32
+      },
+      "cusp": {
+        "density_per_unit_budget": 0.14635338107602142,
+        "derivative_matrix_singular_values": [
+          0.04268928673760642,
+          0.018288405231546317,
+          5.461062326359624e-16
+        ],
+        "determinant_time_derivative_via_g1_g2_g4": -2.410234540880965e-07,
+        "minimum_weight": 0.29903533923693837,
+        "mixture_jets_orders_0_to_4": [
+          0.14635338107602142,
+          1.9081958235744878e-17,
+          1.5547459153442134e-16,
+          2.7603787311480943e-16,
+          -0.00020539028007565506
+        ],
+        "row_normalized_determinant": 6.674378736252554e-14,
+        "scaled_fourth_derivative": -9.197556793222137,
+        "scaled_residuals_orders_1_to_3": [
+          1.1731242673612548e-15,
+          8.600116611935095e-14,
+          1.3738440139529044e-12
+        ],
+        "time": 8.997541071494128,
+        "unfolding": {
+          "dimensionless_matrix": [
+            [
+              -3.440018385871788,
+              -2.866649181501319
+            ],
+            [
+              4.056428118942602,
+              -8.220394007881087
+            ]
+          ],
+          "dimensionless_singular_values": [
+            9.243486104246012,
+            4.317274069885361
+          ],
+          "dimensionless_svd_ratio": 0.46706123871406197,
+          "rank": 2,
+          "raw_matrix": [
+            [
+              -0.055955101258838694,
+              -0.046628717417108514
+            ],
+            [
+              0.00733329015569518,
+              -0.014860989196979535
+            ]
+          ],
+          "row_angle_sine_magnitude": 0.972203461058596
+        },
+        "weights": [
+          0.29903533923693837,
+          0.32597551178783357,
+          0.3749891489752281
+        ]
+      },
+      "factor_jets_at_cusp": {
+        "bracket": [
+          8.0,
+          9.5
+        ],
+        "channel_jets_orders_0_to_4_by_channel": [
+          [
+            0.061761379525019214,
+            0.3004552210880289,
+            0.07985164801794609
+          ],
+          [
+            -0.02402272854781239,
+            -0.014696344706082217,
+            0.0319323727110263
+          ],
+          [
+            0.009984695805422996,
+            -0.01220958354725172,
+            0.0026514056497278157
+          ],
+          [
+            -0.0041184066319575885,
+            0.007719551748388332,
+            -0.00342632769817843
+          ],
+          [
+            0.0014610407484925098,
+            -0.0023547664510914406,
+            0.00033415127727743233
+          ]
+        ],
+        "contact_jets_orders_0_to_4": [
+          0.10631068202681551,
+          -0.0013496388590223832,
+          0.00046472103975090035,
+          -0.00011640419464311881,
+          -5.673824683220958e-07
+        ],
+        "maximum_direct_vs_leibniz_difference": 2.824043082716443e-14,
+        "maximum_imaginary_cauchy_residual": 1.2041673441460553e-13,
+        "midpoint_jets_orders_0_to_4_by_channel": [
+          [
+            0.5809517759413931,
+            2.8261997323302177,
+            0.7511159414611275
+          ],
+          [
+            -0.2185918951203998,
+            -0.1023603227493723,
+            0.3099040222970555
+          ],
+          [
+            0.08583027487225685,
+            -0.12980141506695056,
+            0.029525380053206946
+          ],
+          [
+            -0.03196770975852363,
+            0.07210644303699029,
+            -0.03434655426875624
+          ],
+          [
+            0.008914325799281222,
+            -0.01551701339659313,
+            0.0019859320496018267
+          ]
+        ],
+        "row_normalized_determinant_at_bracket": [
+          0.024101620427618917,
+          -0.022069577035306875
+        ]
+      },
+      "inward_control": {
+        "control_direction_2d": [
+          0.6401800758786814,
+          -0.7682248827315904
+        ],
+        "control_direction_3d": [
+          0.6401800758786814,
+          -0.7682248827315904,
+          0.12804480685290898
+        ],
+        "normal_form_cubic_coefficient": -3.423171334594251e-05,
+        "second_unfolding_row_projection": 0.016111207931438363,
+        "step": 0.005,
+        "weights": [
+          0.3022362396163318,
+          0.3221343873741756,
+          0.3756293730094926
+        ]
+      },
+      "inward_stationary_structure": {
+        "maximum_count": 3,
+        "minimum_count": 2,
+        "roots": [
+          {
+            "density": 0.1457059187936869,
+            "scaled_first_derivative_residual": 4.341569251347879e-13,
+            "scaled_second_derivative": -0.31320038563394875,
+            "time": 4.1688764904438536,
+            "topology": "maximum"
+          },
+          {
+            "density": 0.14538947380444686,
+            "scaled_first_derivative_residual": 7.879953653257425e-16,
+            "scaled_second_derivative": 0.09573720885185005,
+            "time": 5.391260082734694,
+            "topology": "minimum"
+          },
+          {
+            "density": 0.1455350776964548,
+            "scaled_first_derivative_residual": 4.190931234931675e-16,
+            "scaled_second_derivative": -0.05456127763154606,
+            "time": 7.031985343402768,
+            "topology": "maximum"
+          },
+          {
+            "density": 0.1454481101584794,
+            "scaled_first_derivative_residual": 1.7169829934019879e-15,
+            "scaled_second_derivative": 0.044837119055341344,
+            "time": 8.997541071493622,
+            "topology": "minimum"
+          },
+          {
+            "density": 0.14548122051184673,
+            "scaled_first_derivative_residual": 3.7215946083146123e-16,
+            "scaled_second_derivative": -0.08503381078556928,
+            "time": 10.403620199717961,
+            "topology": "maximum"
+          }
+        ],
+        "sampled_peak_density": 0.14570591778389144,
+        "stationary_root_count": 5,
+        "time_grid": {
+          "points": 19751,
+          "spacing": 0.002,
+          "start": 0.5,
+          "stop": 40.0
+        },
+        "topology": [
+          "maximum",
+          "minimum",
+          "maximum",
+          "minimum",
+          "maximum"
+        ],
+        "weights": [
+          0.3022362396163318,
+          0.3221343873741756,
+          0.3756293730094926
+        ]
+      },
+      "inward_step_screen": {
+        "interpretation": "sampled topology screen in the continuum cusp-normal coordinate; the selected step is root-refined separately",
+        "rows": [
+          {
+            "normal_step": 5e-05,
+            "roots": [
+              {
+                "sampled_time": 8.842500000000008,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 8.997500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 9.149500000000007,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.2990673482407323,
+              0.325937100543697,
+              0.37499555121557077
+            ]
+          },
+          {
+            "normal_step": 0.0005,
+            "roots": [
+              {
+                "sampled_time": 8.490500000000008,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 8.997500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 9.466500000000007,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.2993554292748777,
+              0.3255913993464678,
+              0.37505317137865457
+            ]
+          },
+          {
+            "normal_step": 0.001,
+            "roots": [
+              {
+                "sampled_time": 8.263500000000008,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 8.997500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 9.652500000000007,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 2,
+            "sampled_stationary_root_count": 3,
+            "weights": [
+              0.29967551931281705,
+              0.325207286905102,
+              0.375117193782081
+            ]
+          },
+          {
+            "normal_step": 0.002,
+            "roots": [
+              {
+                "sampled_time": 4.444500000000003,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 4.708500000000004,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 7.916500000000006,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 8.997500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 9.91050000000001,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 3,
+            "sampled_stationary_root_count": 5,
+            "weights": [
+              0.30031569938869573,
+              0.3244390620223704,
+              0.37524523858893394
+            ]
+          },
+          {
+            "normal_step": 0.005,
+            "roots": [
+              {
+                "sampled_time": 4.168500000000003,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 5.391500000000004,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 7.031500000000006,
+                "topology": "maximum"
+              },
+              {
+                "sampled_time": 8.997500000000008,
+                "topology": "minimum"
+              },
+              {
+                "sampled_time": 10.403500000000008,
+                "topology": "maximum"
+              }
+            ],
+            "sampled_maximum_count": 3,
+            "sampled_stationary_root_count": 5,
+            "weights": [
+              0.3022362396163318,
+              0.3221343873741756,
+              0.3756293730094927
+            ]
+          }
+        ],
+        "time_grid": {
+          "points": 19501,
+          "spacing": 0.001,
+          "start": 0.5,
+          "stop": 20.0
+        }
+      }
+    }
+  },
+  "continuum_vs_finite_volume": {
+    "current_geometry": {
+      "continuum_minus_finite_volume": {
+        "cusp_time": -0.16257275791360115,
+        "scaled_fourth_derivative": -0.7286404338101526,
+        "unfolding_svd_ratio": -0.027080180164898326,
+        "weights": [
+          0.0006602348190557494,
+          0.006048076497145338,
+          -0.006708311316200977
+        ],
+        "weights_linf": 0.006708311316200977
+      },
+      "maximum_paired_root_time_absolute_difference": 0.16257275790747627,
+      "paired_root_time_absolute_differences": [
+        0.16235137283197787,
+        0.16257275790747627,
+        0.16177244718786632
+      ],
+      "same_stationary_root_count": true,
+      "same_topology": true
+    },
+    "redesigned_geometry": {
+      "continuum_minus_finite_volume": {
+        "cusp_time": 0.3049556823585746,
+        "scaled_fourth_derivative": -4.278646122102324,
+        "unfolding_svd_ratio": 0.060134839936049844,
+        "weights": [
+          0.0033666489091065954,
+          -0.00017977359625759304,
+          -0.0031868753128488914
+        ],
+        "weights_linf": 0.0033666489091065954
+      },
+      "maximum_paired_root_time_absolute_difference": null,
+      "paired_root_time_absolute_differences": [],
+      "same_stationary_root_count": false,
+      "same_topology": false
+    }
+  },
+  "finite_volume_65x65x49_crosscheck": {
+    "current_geometry": {
+      "centres": [
+        0.48,
+        0.67,
+        0.86
+      ],
+      "cusp": {
+        "density_per_unit_budget": 0.16618063735016037,
+        "derivative_matrix_singular_values": [
+          0.051905318717482135,
+          0.014649409134386712,
+          1.716730543111857e-16
+        ],
+        "determinant_time_derivative_via_g1_g2_g4": -4.462118251652582e-07,
+        "minimum_weight": 0.26423707316283684,
+        "mixture_jets_orders_0_to_4": [
+          0.16618063735016037,
+          1.0408340855860843e-17,
+          3.122502256758253e-17,
+          9.475926987523309e-17,
+          -0.0003628608785231297
+        ],
+        "row_normalized_determinant": 3.2553750950096335e-14,
+        "scaled_fourth_derivative": -17.396960137037688,
+        "scaled_residuals_orders_1_to_3": [
+          5.917380499106813e-16,
+          1.6771780158116385e-14,
+          4.808687073882987e-13
+        ],
+        "time": 9.447750380227628,
+        "unfolding": {
+          "dimensionless_matrix": [
+            [
+              -4.007354935736528,
+              -1.1885422763446265
+            ],
+            [
+              3.6312245373393863,
+              -8.293616653543642
+            ]
+          ],
+          "dimensionless_singular_values": [
+            9.072471323750634,
+            4.1390408598931305
+          ],
+          "dimensionless_svd_ratio": 0.45621977873411645,
+          "rank": 2,
+          "raw_matrix": [
+            [
+              -0.07048712873518598,
+              -0.02090579291911835
+            ],
+            [
+              0.006760467109480398,
+              -0.015440720348844765
+            ]
+          ],
+          "row_angle_sine_magnitude": 0.992276655876873
+        },
+        "weights": [
+          0.3441318134851722,
+          0.26423707316283684,
+          0.3916311133519908
+        ]
+      },
+      "determinant_at_bracket": [
+        0.16333055956150502,
+        -0.0840792766074048
+      ],
+      "inward_control": {
+        "control_direction_2d": [
+          0.2843473667304371,
+          -0.9587213229262539
+        ],
+        "control_direction_3d": [
+          0.2843473667304371,
+          -0.9587213229262539,
+          0.6743739561958169
+        ],
+        "normal_form_cubic_coefficient": -6.047681308718828e-05,
+        "second_unfolding_row_projection": 0.016725668860227264,
+        "step": 0.005,
+        "weights": [
+          0.3455535503188244,
+          0.25944346654820555,
+          0.39500298313297
+        ]
+      },
+      "inward_stationary_structure": {
+        "maximum_count": 2,
+        "minimum_count": 1,
+        "roots": [
+          {
+            "scaled_first_derivative_residual": 2.1062364078126736e-15,
+            "scaled_second_derivative": -0.09070669089097672,
+            "time": 8.366499566840025,
+            "topology": "maximum"
+          },
+          {
+            "scaled_first_derivative_residual": 3.766490196165262e-14,
+            "scaled_second_derivative": 0.045144505235741476,
+            "time": 9.447750380221564,
+            "topology": "minimum"
+          },
+          {
+            "scaled_first_derivative_residual": 3.189870637708402e-14,
+            "scaled_second_derivative": -0.08573898332087178,
+            "time": 10.70792128626182,
+            "topology": "maximum"
+          }
+        ],
+        "stationary_root_count": 3,
+        "topology": [
+          "maximum",
+          "minimum",
+          "maximum"
+        ]
+      },
+      "mesh": [
+        65,
+        65,
+        49
+      ],
+      "state_count_if_formed": 207025
+    },
+    "evidence_status": "COMPARISON_ONLY_NOT_NEW_PRODUCTION_ARTIFACT",
+    "redesigned_geometry": {
+      "centres": [
+        0.37,
+        0.61,
+        0.85
+      ],
+      "cusp": {
+        "density_per_unit_budget": 0.1468575181583367,
+        "derivative_matrix_singular_values": [
+          0.04222650351789949,
+          0.02060964340583858,
+          5.884474280731459e-14
+        ],
+        "determinant_time_derivative_via_g1_g2_g4": -1.6962541079954507e-07,
+        "minimum_weight": 0.2956686903278318,
+        "mixture_jets_orders_0_to_4": [
+          0.1468575181583367,
+          -1.412064909445121e-15,
+          -1.52358594490698e-14,
+          -3.0531783698495296e-14,
+          -0.00012652293505540545
+        ],
+        "row_normalized_determinant": -7.059525153870853e-12,
+        "scaled_fourth_derivative": -4.918910671119813,
+        "scaled_residuals_orders_1_to_3": [
+          8.35809766791765e-14,
+          7.839145118956693e-12,
+          1.365535166927733e-10
+        ],
+        "time": 8.692585389135553,
+        "unfolding": {
+          "dimensionless_matrix": [
+            [
+              -3.4514933520202424,
+              -2.2722189529157983
+            ],
+            [
+              4.180665809704632,
+              -9.07732047218152
+            ]
+          ],
+          "dimensionless_singular_values": [
+            10.016826661944542,
+            4.076111200728668
+          ],
+          "dimensionless_svd_ratio": 0.4069263987780121,
+          "rank": 2,
+          "raw_matrix": [
+            [
+              -0.05831150629261731,
+              -0.038388168904801886
+            ],
+            [
+              0.008125380473715305,
+              -0.017642329206775536
+            ]
+          ],
+          "row_angle_sine_magnitude": 0.9886803240750459
+        },
+        "weights": [
+          0.2956686903278318,
+          0.32615528538409116,
+          0.378176024288077
+        ]
+      },
+      "determinant_at_bracket": [
+        0.009384543425844287,
+        -0.026981278837882632
+      ],
+      "inward_control": {
+        "control_direction_2d": [
+          0.5498697580627411,
+          -0.8352504110552849
+        ],
+        "control_direction_3d": [
+          0.5498697580627411,
+          -0.8352504110552849,
+          0.2853806529925438
+        ],
+        "normal_form_cubic_coefficient": -2.1087155842567576e-05,
+        "second_unfolding_row_projection": 0.019203663717181477,
+        "step": 0.005,
+        "weights": [
+          0.29841803911814546,
+          0.3219790333288147,
+          0.3796029275530398
+        ]
+      },
+      "inward_stationary_structure": {
+        "maximum_count": 2,
+        "minimum_count": 1,
+        "roots": [
+          {
+            "scaled_first_derivative_residual": 4.175772537511574e-15,
+            "scaled_second_derivative": -0.37925187098543695,
+            "time": 4.333678130253879,
+            "topology": "maximum"
+          },
+          {
+            "scaled_first_derivative_residual": 2.428597668925743e-14,
+            "scaled_second_derivative": 0.04972336571134061,
+            "time": 8.692585389146931,
+            "topology": "minimum"
+          },
+          {
+            "scaled_first_derivative_residual": 3.5486881473221705e-14,
+            "scaled_second_derivative": -0.1007001590273579,
+            "time": 10.477834005848168,
+            "topology": "maximum"
+          }
+        ],
+        "stationary_root_count": 3,
+        "topology": [
+          "maximum",
+          "minimum",
+          "maximum"
+        ]
+      },
+      "mesh": [
+        65,
+        65,
+        49
+      ],
+      "state_count_if_formed": 207025
+    }
+  },
+  "finite_volume_cusp_refinement": {
+    "current_geometry": [
+      {
+        "cusp_time": 9.447750380227628,
+        "determinant_at_bracket": [
+          0.16333055956150502,
+          -0.0840792766074048
+        ],
+        "inward_normal_direction_3d": [
+          0.2843473667304371,
+          -0.9587213229262539,
+          0.6743739561958169
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 9.3325,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.447500000000002,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.567499999999999,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3441460308535087,
+                0.2641891370966905,
+                0.39166483204980057
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 9.0875,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.447500000000002,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.8275,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3442739871685374,
+                0.2637577125013737,
+                0.3919683003300887
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 8.942499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.447500000000002,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.9925,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34441616085190263,
+                0.2632783518399106,
+                0.3923054873081866
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 8.7425,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.447500000000002,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.2275,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3447005082186331,
+                0.2623196305169843,
+                0.39297986126438245
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 8.3675,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.447500000000002,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.7075,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3455535503188244,
+                0.25944346654820555,
+                0.3950029831329699
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 4.808687073882987e-13,
+        "mesh": [
+          65,
+          65,
+          49
+        ],
+        "minimum_weight": 0.26423707316283684,
+        "scaled_fourth_derivative": -17.396960137037688,
+        "state_count_if_formed": 207025,
+        "unfolding_svd_ratio": 0.45621977873411645,
+        "weights": [
+          0.3441318134851722,
+          0.26423707316283684,
+          0.3916311133519908
+        ]
+      },
+      {
+        "cusp_time": 9.45080993830363,
+        "determinant_at_bracket": [
+          0.1650665679281371,
+          -0.08399381512017515
+        ],
+        "inward_normal_direction_3d": [
+          0.28617981564572254,
+          -0.9581759301490412,
+          0.6719961145033186
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 9.3325,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.4525,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.567499999999999,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3496927503729454,
+                0.2632311248455819,
+                0.3870761247814727
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 9.0875,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.4525,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.8325,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34982153128998594,
+                0.26279994567701487,
+                0.3873785230329992
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 8.942499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.4525,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.9925,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3499646211978088,
+                0.26232085771194036,
+                0.38771452109025084
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 8.7475,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.4525,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.2275,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3502508010134545,
+                0.2613626817817913,
+                0.3883865172047542
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 8.3725,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.4525,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.7075,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3511093404603917,
+                0.25848815399134417,
+                0.3904025055482641
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 2.142958707174447e-09,
+        "mesh": [
+          81,
+          81,
+          65
+        ],
+        "minimum_weight": 0.2632790336420894,
+        "scaled_fourth_derivative": -18.032381903007682,
+        "state_count_if_formed": 426465,
+        "unfolding_svd_ratio": 0.4484140083780741,
+        "weights": [
+          0.3496784413821631,
+          0.2632790336420894,
+          0.38704252497574754
+        ]
+      },
+      {
+        "cusp_time": 9.377867865029645,
+        "determinant_at_bracket": [
+          0.14926706670903628,
+          -0.08780486495717378
+        ],
+        "inward_normal_direction_3d": [
+          0.27670937879663465,
+          -0.9609536511642903,
+          0.6842442723676556
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 9.2625,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.377500000000001,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.4975,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34593944018044215,
+                0.2668786346589924,
+                0.38718192516056543
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 9.0175,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.377500000000001,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.7575,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3460639594009006,
+                0.2664462055159685,
+                0.3874898350831309
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 8.8725,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.377500000000001,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.9225,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34620231409029895,
+                0.26596572869038637,
+                0.3878319572193147
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 8.6725,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.377500000000001,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.157499999999999,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3464790234690956,
+                0.26500477503922204,
+                0.38851620149168237
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 8.2975,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.377500000000001,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.6375,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3473091516054855,
+                0.2621219140857292,
+                0.3905689343087853
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 1.2229681468732759e-09,
+        "mesh": [
+          97,
+          97,
+          81
+        ],
+        "minimum_weight": 0.26692668234155065,
+        "scaled_fourth_derivative": -17.92384389023229,
+        "state_count_if_formed": 762129,
+        "unfolding_svd_ratio": 0.44151516665874846,
+        "weights": [
+          0.3459256047115023,
+          0.26692668234155065,
+          0.38714771294694705
+        ]
+      },
+      {
+        "cusp_time": 9.35692196924526,
+        "determinant_at_bracket": [
+          0.14464102828558184,
+          -0.08888412980343029
+        ],
+        "inward_normal_direction_3d": [
+          0.2747604323606201,
+          -0.9615127169252651,
+          0.686752284564645
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 9.2425,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.3575,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.4775,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34606629746518885,
+                0.26749345051024903,
+                0.38644025202456217
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 8.9925,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.3575,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.7375,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34618993965975114,
+                0.26706076978763266,
+                0.38674929055261625
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 8.8475,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.3575,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.9025,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34632731987593146,
+                0.26658001342917004,
+                0.3870926666948986
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 8.6525,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.3575,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.1375,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3466020803082921,
+                0.26561850071224474,
+                0.3877794189794632
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 8.2775,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 9.3575,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.6175,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.34742636160537393,
+                0.26273396256146897,
+                0.38983967583315715
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 1.3069093528181032e-10,
+        "mesh": [
+          113,
+          113,
+          97
+        ],
+        "minimum_weight": 0.2675415261460953,
+        "scaled_fourth_derivative": -18.005718507897416,
+        "state_count_if_formed": 1238593,
+        "unfolding_svd_ratio": 0.4382527402561249,
+        "weights": [
+          0.34605255944357083,
+          0.2675415261460953,
+          0.38640591441033395
+        ]
+      }
+    ],
+    "interpretation": "factorized free-exposure refinement only; the rows are not a formal odd/even continuum certificate",
+    "redesigned_geometry": [
+      {
+        "cusp_time": 8.692585389135553,
+        "determinant_at_bracket": [
+          0.009384543425844287,
+          -0.026981278837882632
+        ],
+        "inward_normal_direction_3d": [
+          0.5498697580627411,
+          -0.8352504110552849,
+          0.2853806529925438
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 4.672499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 5.602500000000001,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 8.4725,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.692499999999999,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 8.9025,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 3,
+              "sampled_stationary_root_count": 5,
+              "weights": [
+                0.2956961838157349,
+                0.3261135228635384,
+                0.3781902933207266
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 4.6175,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 5.7925,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 7.922499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.692499999999999,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.317499999999999,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 3,
+              "sampled_stationary_root_count": 5,
+              "weights": [
+                0.2959436252068631,
+                0.32573766017856354,
+                0.3783187146145733
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 4.567500000000001,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 6.047499999999999,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 7.487500000000001,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.692499999999999,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.5525,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 3,
+              "sampled_stationary_root_count": 5,
+              "weights": [
+                0.29621856008589453,
+                0.32532003497303585,
+                0.37846140494106956
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 4.487500000000001,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.692499999999999,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.877500000000001,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.29676842984395724,
+                0.3244847845619806,
+                0.3787467855940621
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 4.3325,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.692499999999999,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.4775,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.29841803911814546,
+                0.3219790333288147,
+                0.3796029275530397
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 1.365535166927733e-10,
+        "mesh": [
+          65,
+          65,
+          49
+        ],
+        "minimum_weight": 0.2956686903278318,
+        "scaled_fourth_derivative": -4.918910671119813,
+        "state_count_if_formed": 207025,
+        "unfolding_svd_ratio": 0.4069263987780121,
+        "weights": [
+          0.2956686903278318,
+          0.32615528538409116,
+          0.378176024288077
+        ]
+      },
+      {
+        "cusp_time": 8.84777710269621,
+        "determinant_at_bracket": [
+          0.015604545401819674,
+          -0.024310323291857908
+        ],
+        "inward_normal_direction_3d": [
+          0.5880840250183027,
+          -0.8087998389702313,
+          0.22071581395192863
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 8.657499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8475,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.0275,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30423786274611836,
+                0.3235777522766024,
+                0.37218438497727924
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 8.2225,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8475,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.4025,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3045025005573766,
+                0.32321379234906583,
+                0.37228370709355757
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 7.922499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8475,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.6175,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30479654256988575,
+                0.3228093924295807,
+                0.37239406500053357
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 7.4175,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8475,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.912500000000001,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30538462659490406,
+                0.3220005925906105,
+                0.37261478081448546
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 4.567500000000001,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8475,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.467500000000001,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30714887866995894,
+                0.3195741930736998,
+                0.3732769282563413
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 8.053221166212654e-10,
+        "mesh": [
+          81,
+          81,
+          65
+        ],
+        "minimum_weight": 0.30420845854486744,
+        "scaled_fourth_derivative": -6.631303309562757,
+        "state_count_if_formed": 426465,
+        "unfolding_svd_ratio": 0.4246006136783757,
+        "weights": [
+          0.30420845854486744,
+          0.32361819226855093,
+          0.3721733491865816
+        ]
+      },
+      {
+        "cusp_time": 8.897707302811444,
+        "determinant_at_bracket": [
+          0.01751492452578975,
+          -0.023638891266859204
+        ],
+        "inward_normal_direction_3d": [
+          0.6071172290679225,
+          -0.7946122766286006,
+          0.18749504756067803
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 8.7225,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8975,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.067499999999999,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.299803590541328,
+                0.3250715700256555,
+                0.37512483943301644
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 8.3125,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8975,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.4225,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30007679329440856,
+                0.32471399450117266,
+                0.3752092122044187
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 4.7524999999999995,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 4.887499999999999,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 8.037500000000001,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8975,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.627500000000001,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 3,
+              "sampled_stationary_root_count": 5,
+              "weights": [
+                0.3003803519089425,
+                0.3243166883628584,
+                0.37530295972819905
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 4.512499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 5.2925,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 7.592499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8975,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.907499999999999,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 3,
+              "sampled_stationary_root_count": 5,
+              "weights": [
+                0.30098746913801044,
+                0.32352207608622974,
+                0.37549045477575976
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 4.297499999999999,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.8975,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.447500000000002,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.3028088208252142,
+                0.32113823925634394,
+                0.3760529399184418
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 5.089864447001134e-10,
+        "mesh": [
+          97,
+          97,
+          81
+        ],
+        "minimum_weight": 0.2997732346798746,
+        "scaled_fourth_derivative": -7.3577537112279785,
+        "state_count_if_formed": 762129,
+        "unfolding_svd_ratio": 0.43984272871990143,
+        "weights": [
+          0.2997732346798746,
+          0.32511130063948696,
+          0.3751154646806384
+        ]
+      },
+      {
+        "cusp_time": 8.928599163808695,
+        "determinant_at_bracket": [
+          0.01937186073097448,
+          -0.023160516321872868
+        ],
+        "inward_normal_direction_3d": [
+          0.6169228303436202,
+          -0.7870236472945503,
+          0.17010081695093016
+        ],
+        "inward_step_screen": {
+          "interpretation": "sampled topology screen in each mesh's own cusp-normal coordinate; not exhaustive root isolation",
+          "rows": [
+            {
+              "normal_step": 5e-05,
+              "roots": [
+                {
+                  "sampled_time": 8.7575,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.9275,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.092500000000001,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30027320712942057,
+                0.32503207684921265,
+                0.3746947160213668
+              ]
+            },
+            {
+              "normal_step": 0.0005,
+              "roots": [
+                {
+                  "sampled_time": 8.3675,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.9275,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.4375,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30055082240307524,
+                0.32467791620793013,
+                0.3747712613889947
+              ]
+            },
+            {
+              "normal_step": 0.001,
+              "roots": [
+                {
+                  "sampled_time": 8.1125,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.9275,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.6375,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30085928381824706,
+                0.32428440438428285,
+                0.3748563117974702
+              ]
+            },
+            {
+              "normal_step": 0.002,
+              "roots": [
+                {
+                  "sampled_time": 4.5575,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 5.0525,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 7.702500000000001,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.9275,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 9.912500000000001,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 3,
+              "sampled_stationary_root_count": 5,
+              "weights": [
+                0.30147620664859065,
+                0.3234973807369883,
+                0.3750264126144211
+              ]
+            },
+            {
+              "normal_step": 0.005,
+              "roots": [
+                {
+                  "sampled_time": 4.2925,
+                  "topology": "maximum"
+                },
+                {
+                  "sampled_time": 8.9275,
+                  "topology": "minimum"
+                },
+                {
+                  "sampled_time": 10.432500000000001,
+                  "topology": "maximum"
+                }
+              ],
+              "sampled_maximum_count": 2,
+              "sampled_stationary_root_count": 3,
+              "weights": [
+                0.30332697513962154,
+                0.32113630979510466,
+                0.3755367150652739
+              ]
+            }
+          ],
+          "time_grid": {
+            "points": 4001,
+            "spacing": 0.005,
+            "start": 0.0,
+            "stop": 20.0
+          }
+        },
+        "maximum_scaled_cusp_residual": 1.4892119668016162e-08,
+        "mesh": [
+          113,
+          113,
+          97
+        ],
+        "minimum_weight": 0.3002423609879034,
+        "scaled_fourth_derivative": -7.871096214749917,
+        "state_count_if_formed": 1238593,
+        "unfolding_svd_ratio": 0.4469224444869996,
+        "weights": [
+          0.3002423609879034,
+          0.3250714280315774,
+          0.37468621098051924
+        ]
+      }
+    ]
+  },
+  "interpretation": {
+    "current_geometry": "A nondegenerate free-exposure cusp survives removal of the 65-grid, but its inward control has only two maxima.",
+    "redesigned_geometry": "The result-informed redesigned centres retain a positive-weight cusp and an inward five-root max-min-max-min-max structure in the direct continuum kernels, hence a trimodal free-exposure mixture."
+  },
+  "limitations": [
+    "both geometries and approximate cusp locations were known before this calculation",
+    "the unbounded longitudinal OU model is the intended R x T_W continuum, not the bounded reflecting box used by the finite-volume pilot",
+    "the calculation concerns only the B=0 derivative per unit installed budget",
+    "no explicit positive-B persistence radius is computed",
+    "no interval-arithmetic root isolation or certified quadrature bound is supplied",
+    "the 65-grid cusp shift is wider than the thinnest trimodal wedge, so the same absolute catalyst weights are not yet pointwise grid-stable",
+    "finite-volume cusp-normal topology is nonmonotone under coarse grid alignment even though the cusp coordinates trend toward the analytic continuum",
+    "no physical d=3 calculation is included"
+  ],
+  "model": {
+    "compact_profiles": "normalized C-infinity exp[-1/(1-u^2)] bumps",
+    "contact": "exact disk indicator in relative coordinates",
+    "domain": "R longitudinal x T_W transverse; unbounded OU kernels",
+    "factorization": "g_j(t)=a_j(t)c_2(t)",
+    "free_generator": "midpoint OU (kappa=D/2) plus relative-parallel OU (kappa=2D) plus transverse periodic Brownian (kappa=2D)",
+    "parameters": {
+      "contact_radius": 0.16,
+      "midpoint_initial_half_width": 0.02,
+      "midpoint_start": 0.14,
+      "ou_mean": 0.95,
+      "ou_stiffness": 0.1,
+      "particle_diffusion": 0.0045,
+      "patch_half_width": 0.08,
+      "relative_initial_half_width": 0.02,
+      "relative_parallel_start": -0.35,
+      "relative_perp_start": 0.0,
+      "transverse_width": 1.0
+    },
+    "physical_dimension": 2,
+    "time_jet_method": "Cauchy differentiation of analytic transition kernels"
+  },
+  "next_formal_study": [
+    "prospectively freeze the redesigned centres and all quadrature/root margins",
+    "add interval or ball arithmetic for the determinant root, positive null vector, fourth jet, unfolding rank, and all five stationary roots",
+    "bound finite-box reflection tails and numerical quadrature/Fourier truncation errors",
+    "freeze odd/even mesh sequences and continue both cusp coordinates and the two neighboring fold sheets, not only one chosen weight",
+    "combine those margins with the weak-budget persistence theorem to choose a defensible positive B range",
+    "then run independent finite-B continuum solvers and a d=3 sphere-contact extension"
+  ],
+  "provenance": {
+    "finite_volume_reference_artifact": "artifacts/data/continuum_weak_budget_design_result.json",
+    "script": "scratch/continuum_free_exposure_exploration.py",
+    "script_sha256_before_output": "3eae6d3216f58d669554450e13b2720c6fed56de7d8b1dc8698f2b5b6e98f3a0"
+  },
+  "quadrature_and_cauchy_convergence": {
+    "current_geometry": [
+      {
+        "absolute_difference_from_fine": {
+          "cusp_time": 1.2178347219560237e-10,
+          "scaled_fourth_derivative": 1.7368542160056677e-09,
+          "unfolding_svd_ratio": 3.9202752155631515e-11,
+          "weights_linf": 1.3985812508110484e-11
+        },
+        "configuration": {
+          "bump_order": 48,
+          "cauchy_radius": 0.55,
+          "cauchy_samples": 32,
+          "contact_angle_order": 64,
+          "patch_order": 48,
+          "transverse_fourier_modes": 16
+        },
+        "cusp_time": 9.285177622192244,
+        "label": "coarse",
+        "maximum_direct_vs_leibniz_difference": 1.5254941407305544e-14,
+        "maximum_imaginary_cauchy_residual": 1.4513809638225184e-14,
+        "maximum_scaled_cusp_residual": 1.8493681578388655e-12,
+        "minimum_weight": 0.27028514965527917,
+        "scaled_fourth_derivative": -18.125600569110986,
+        "unfolding_svd_ratio": 0.4291395986084209,
+        "weights": [
+          0.3447920482949452,
+          0.27028514965527917,
+          0.38492280204977564
+        ]
+      },
+      {
+        "absolute_difference_from_fine": {
+          "cusp_time": 8.86402062860725e-13,
+          "scaled_fourth_derivative": 6.714842015753675e-10,
+          "unfolding_svd_ratio": 6.944445019030354e-14,
+          "weights_linf": 1.459943277382081e-14
+        },
+        "configuration": {
+          "bump_order": 80,
+          "cauchy_radius": 0.55,
+          "cauchy_samples": 48,
+          "contact_angle_order": 96,
+          "patch_order": 80,
+          "transverse_fourier_modes": 24
+        },
+        "cusp_time": 9.285177622314913,
+        "label": "primary",
+        "maximum_direct_vs_leibniz_difference": 3.4039611407354897e-15,
+        "maximum_imaginary_cauchy_residual": 9.342222295869083e-14,
+        "maximum_scaled_cusp_residual": 7.27688427032468e-14,
+        "minimum_weight": 0.2702851496599676,
+        "scaled_fourth_derivative": -18.125600570176356,
+        "unfolding_svd_ratio": 0.4291395985692876,
+        "weights": [
+          0.34479204830423155,
+          0.2702851496599676,
+          0.38492280203580087
+        ]
+      },
+      {
+        "absolute_difference_from_fine": {
+          "cusp_time": 0.0,
+          "scaled_fourth_derivative": 0.0,
+          "unfolding_svd_ratio": 0.0,
+          "weights_linf": 0.0
+        },
+        "configuration": {
+          "bump_order": 112,
+          "cauchy_radius": 0.42,
+          "cauchy_samples": 64,
+          "contact_angle_order": 144,
+          "patch_order": 112,
+          "transverse_fourier_modes": 32
+        },
+        "cusp_time": 9.285177622314027,
+        "label": "fine",
+        "maximum_direct_vs_leibniz_difference": 2.849467623661228e-14,
+        "maximum_imaginary_cauchy_residual": 1.0971302468886281e-13,
+        "maximum_scaled_cusp_residual": 1.5790838866600068e-12,
+        "minimum_weight": 0.2702851496599822,
+        "scaled_fourth_derivative": -18.12560057084784,
+        "unfolding_svd_ratio": 0.42913959856921813,
+        "weights": [
+          0.34479204830422794,
+          0.2702851496599822,
+          0.3849228020357898
+        ]
+      }
+    ],
+    "redesigned_geometry": [
+      {
+        "absolute_difference_from_fine": {
+          "cusp_time": 4.5384140889837e-10,
+          "scaled_fourth_derivative": 2.7317756945421934e-09,
+          "unfolding_svd_ratio": 2.5330681996393878e-11,
+          "weights_linf": 2.194716630654625e-11
+        },
+        "configuration": {
+          "bump_order": 48,
+          "cauchy_radius": 0.55,
+          "cauchy_samples": 32,
+          "contact_angle_order": 64,
+          "patch_order": 48,
+          "transverse_fourier_modes": 16
+        },
+        "cusp_time": 8.997541071040287,
+        "label": "coarse",
+        "maximum_direct_vs_leibniz_difference": 1.469440888413054e-14,
+        "maximum_imaginary_cauchy_residual": 1.4764047735435962e-14,
+        "maximum_scaled_cusp_residual": 6.032826417755933e-13,
+        "minimum_weight": 0.2990353392149912,
+        "scaled_fourth_derivative": -9.197556790490362,
+        "unfolding_svd_ratio": 0.4670612386887313,
+        "weights": [
+          0.2990353392149912,
+          0.3259755117937068,
+          0.37498914899130203
+        ]
+      },
+      {
+        "absolute_difference_from_fine": {
+          "cusp_time": 2.8990143619012088e-12,
+          "scaled_fourth_derivative": 5.188400820088646e-10,
+          "unfolding_svd_ratio": 7.542300117791001e-13,
+          "weights_linf": 8.659739592076221e-15
+        },
+        "configuration": {
+          "bump_order": 80,
+          "cauchy_radius": 0.55,
+          "cauchy_samples": 48,
+          "contact_angle_order": 96,
+          "patch_order": 80,
+          "transverse_fourier_modes": 24
+        },
+        "cusp_time": 8.997541071497027,
+        "label": "primary",
+        "maximum_direct_vs_leibniz_difference": 3.616031085673654e-15,
+        "maximum_imaginary_cauchy_residual": 8.371601797596971e-14,
+        "maximum_scaled_cusp_residual": 3.615378984089968e-13,
+        "minimum_weight": 0.29903533923693126,
+        "scaled_fourth_derivative": -9.197556792703297,
+        "unfolding_svd_ratio": 0.4670612387148162,
+        "weights": [
+          0.29903533923693126,
+          0.32597551178784223,
+          0.37498914897522656
+        ]
+      },
+      {
+        "absolute_difference_from_fine": {
+          "cusp_time": 0.0,
+          "scaled_fourth_derivative": 0.0,
+          "unfolding_svd_ratio": 0.0,
+          "weights_linf": 0.0
+        },
+        "configuration": {
+          "bump_order": 112,
+          "cauchy_radius": 0.42,
+          "cauchy_samples": 64,
+          "contact_angle_order": 144,
+          "patch_order": 112,
+          "transverse_fourier_modes": 32
+        },
+        "cusp_time": 8.997541071494128,
+        "label": "fine",
+        "maximum_direct_vs_leibniz_difference": 2.824043082716443e-14,
+        "maximum_imaginary_cauchy_residual": 1.2041673441460553e-13,
+        "maximum_scaled_cusp_residual": 1.3738440139529044e-12,
+        "minimum_weight": 0.29903533923693837,
+        "scaled_fourth_derivative": -9.197556793222137,
+        "unfolding_svd_ratio": 0.46706123871406197,
+        "weights": [
+          0.29903533923693837,
+          0.32597551178783357,
+          0.3749891489752281
+        ]
+      }
+    ]
+  },
+  "schema_version": 1,
+  "stage": "G1x_continuum_free_exposure_result_informed_exploration",
+  "status": "RESULT_INFORMED_EXPLORATION_NOT_FORMAL_EVIDENCE"
+}

@@ -1,0 +1,54 @@
+{
+  "classifier_spec": null,
+  "classifier_spec_sha256": null,
+  "command": [
+    "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python3",
+    "research/reports/encounter_heterogeneous_catalytic/code/plot_model_schematic.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:42:44.157760+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/plot_model_schematic.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": null,
+  "inputs": [],
+  "model_spec": {
+    "coordinate_definition": "declared affine C_eta; schematic notes bounded 2D midpoint eta=1/2",
+    "data_status": "panels c-d are schematic and are labelled as such",
+    "figure_role": "claim-safe conceptual schematic"
+  },
+  "model_spec_sha256": "3b96309f58c08928c02f02eb63ed44fbe3cc65ca29a81e01487d2596e490e423",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/encounter_model_and_fold.pdf",
+      "sha256": "ac37f69d7e0b0efa731e65726445c6cc5ed218bf6f19bfdfd85ded22c58fb900"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/figures/encounter_model_and_fold.png",
+      "sha256": "9d34a983594e7e4da0006db3bda03601c911de10c284489aa6ffb9395bccb80b"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/plot_model_schematic.py",
+      "sha256": "30e55a9b9c5b0d897e0e7b9fa197d72369ce0659adbcbdcbf19c6d4b996f5274"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/plotting.py",
+      "sha256": "b397bbbdee40a96f8462cf442c1539810f834d8bd1d579ee86ad53fc6ff783b0"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

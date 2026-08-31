@@ -1,0 +1,1664 @@
+% Internal Supplemental Material working draft -- NOT FOR SUBMISSION.
+% This file is deliberately independent of the frozen positive-B numerical
+% chain and of encounter_multimodal_prr.tex.
+\documentclass[aps,physrev,onecolumn,amsmath,amssymb,longbibliography]{revtex4-2}
+
+\ifdefined\pdftrailerid
+  \pdftrailerid{}
+\fi
+
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={Supplemental Material: finite-window modality by conserved-budget support design},
+  pdfauthor={Xiaoxiao Zhouyi and Luca Giuggioli},
+  pdfsubject={Internal analytical supplement for encounter-time multimodality},
+  pdfkeywords={encounter reaction, Doi model, mixed jets, weak reaction, multimodality}
+}
+
+\newcommand{\dd}{\mathrm d}
+\newcommand{\e}{\mathrm e}
+\newcommand{\Lfree}{\mathcal L}
+\newcommand{\Qbox}{\mathcal Q_d^{\mathrm{box}}}
+\newcommand{\Qinf}{\mathcal Q_d^{\infty}}
+\newcommand{\Tspace}{\mathsf T}
+\newcommand{\Wset}{\mathcal W}
+\newcommand{\suppstatus}[1]{\textbf{[#1]}}
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title{Supplemental working source for
+``Prescribed finite-window reaction-time modality by conserved-budget support design''}
+
+\author{Xiaoxiao Zhouyi}
+\email{xiaoxiao.zhouyi@bristol.ac.uk}
+\author{Luca Giuggioli}
+\affiliation{School of Engineering Mathematics and Technology,
+University of Bristol, Bristol BS8 1TW, United Kingdom}
+
+\date{July 15, 2026}
+
+\begin{abstract}
+\textbf{Internal status---not a submission artifact.}
+This supplement consolidates the analytical statements that are otherwise
+distributed across the working manuscript and theorem notes.  Section S2
+derives the complete fixed-budget state and observable sensitivity hierarchy.
+Section S3 proves compact-positive-time convergence of the budget-normalized
+Doi reaction density to the exact free-exposure law through every prescribed
+finite time/control mixed jet.  Section S4 retains an earlier, more general
+time-varying-variance construction that proves only a local lower bound of at
+least \(m\) modes.  Section S5 gives the complete exact-\(m\) proof used by the
+theorem-first main working paper in the stationary-midpoint, common-variance
+subfamily: a global \(2m-1\) zero bound, adjacent isolation, full
+posterior-sector complement certificate, slow-factor preservation, and
+fixed-\(\varepsilon\) positive-budget Doi transfer.  For every fixed finite
+integer physical dimension \(d\ge2\) and prescribed fixed finite \(m\), it
+yields exactly \(m\) nondegenerate maxima and \(m-1\) nondegenerate minima on
+the declared compact window after taking the limits in the order
+\(\varepsilon\) first and positive reaction budget \(B\) second.  All
+initial-law, variance, whole-window contact-interior, compact-weight, and
+functional-space hypotheses are explicit.  The exact result is an existence
+theorem for an \(m\)-dependent support design, not same-support mode-count
+switching by allocation.
+No positive-budget finite-parameter topology, GIG-to-Doi realization,
+event-mass floor, or Lean verification of the analytic arguments is asserted
+here.  Section S6 records the control-free 12-row source, free-axis, and
+packed-rate preparation, with explicit exclusions of killing, propagation,
+topology, and positive-budget execution.
+\end{abstract}
+
+\maketitle
+
+\section{Model, budget, and analytical scope}
+\label{sec:supp-model}
+
+We work with the Doi volume-reaction model \cite{doi1976stochastic} after the
+exact symmetry reduction appropriate to longitudinal catalyst slabs.  Fix a
+finite integer physical dimension \(d\ge2\); the quotient has dimension
+\(d+1\).  Its bounded and unbounded versions are
+\begin{align}
+ \Qbox&=I_z\times I_{\parallel}\times\mathbb T_W^{d-1},
+ \label{eq:qbox}\\
+ \Qinf&=\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}.
+ \label{eq:qinf}
+\end{align}
+The transverse quotient is exact in every fixed finite dimension.  Haar
+invariance gives, for integrable \(h\),
+\begin{equation}
+ \int_{\mathbb T_W^{d-1}}\!\int_{\mathbb T_W^{d-1}}
+ h(y_1-y_2)\,\dd y_1\dd y_2
+ =W^{d-1}\int_{\mathbb T_W^{d-1}}h(r_\perp)\,\dd r_\perp.
+ \label{eq:diagonal-haar-quotient}
+\end{equation}
+Thus no global transverse midpoint coordinate on the torus is introduced.
+The variables are \(x=(z,r_\parallel,r_\perp)\), where \(z\) is the
+longitudinal midpoint and \(r\) is the relative coordinate.  For two
+equal-diffusivity walkers, the free forward operator is
+\begin{equation}
+ \Lfree q=-\nabla\!\cdot(bq)+\nabla\!\cdot(\bm D\nabla q),
+ \qquad
+ \bm D=\operatorname{diag}(D/2,2D,\ldots,2D),
+ \label{eq:free-generator}
+\end{equation}
+with
+\begin{equation}
+ b(x)=\bigl(-\gamma(z-\bar z),-\gamma r_\parallel,0,\ldots,0\bigr).
+ \label{eq:drift}
+\end{equation}
+On \(\Qbox\), the nonperiodic faces carry the zero-forward-flux condition
+\begin{equation}
+ (bq-\bm D\nabla q)\cdot n=0,
+ \label{eq:no-flux}
+\end{equation}
+and the transverse coordinates are periodic.  On \(\Qinf\), natural decay is
+encoded through the weighted space specified below, not through an artificial
+reflecting box.
+
+Let \(0<a<W/2\) and let \(\chi_a(r)\) be the indicator of the embedded
+minimum-image \(d\)-ball \(\{|r|_{\mathrm{mi}}<a\}\).  Fixed nonnegative
+longitudinal profiles satisfy
+\begin{equation}
+ \phi_j\in L^\infty,\qquad \int\phi_j(z)\,\dd z=1.
+ \label{eq:patch-normalization}
+\end{equation}
+The integral in Eq.~\eqref{eq:patch-normalization} is over \(I_z\) for
+\(\Qbox\) and over \(\mathbb R\) for \(\Qinf\).
+Define
+\begin{equation}
+ V_j(z,r)=W^{-(d-1)}\chi_a(r)\phi_j(z),\qquad
+ V_w=\sum_{j=1}^Jw_jV_j,
+ \label{eq:profiles}
+\end{equation}
+where \(w_j\ge0\) and \(\sum_jw_j=1\).  The killing field is
+\(K_{B,w}=BV_w\).  Because the factor \(W^{-(d-1)}\) normalizes the omitted
+transverse common-centre directions, the installed centre-space catalyst
+amount is exactly
+\begin{equation}
+ \int_{\text{centre space}}\kappa_{B,w}(c)\,\dd c=B.
+ \label{eq:physical-budget}
+\end{equation}
+Equation~\eqref{eq:physical-budget}, rather than the integral of \(K_{B,w}\)
+over all relative configurations, is the conserved resource.  Supports,
+transport, contact radius, and the initial law remain fixed when \(w\) varies.
+If the local killing field has unit \(T^{-1}\), then
+\([B]=L^dT^{-1}\) in physical dimension \(d\).  Thus the theorem's
+dimensional budgets cannot be compared across dimensions by assigning them
+the same numerical value without a separately declared nondimensionalization.
+
+The initial density is independent of \(B\), \(w\), and every control
+coordinate.  Throughout Secs.~\ref{sec:sensitivity}--\ref{sec:weak-bridge} we
+assume
+\begin{equation}
+ q_0\ge0,\qquad \langle1,q_0\rangle=1,\qquad
+ q_0\in
+ \begin{cases}
+  L^2(\Qbox),&\text{on the bounded quotient},\\
+  X_\pi,&\text{on the unbounded quotient},
+ \end{cases}
+ \label{eq:initial-state-hypotheses}
+\end{equation}
+where \(X_\pi\) and the normalized density \(\pi\) are defined below.  The
+operator estimates remain valid for arbitrary signed or complex \(q_0\) in the
+corresponding Hilbert space; nonnegativity and unit mass are imposed only for
+the survival and reaction-density interpretation.
+
+With
+\begin{equation}
+ A_{B,w}=\Lfree-BM_{V_w},\qquad
+ q_{B,w}(t)=\e^{tA_{B,w}}q_0,
+ \label{eq:killed-state}
+\end{equation}
+the reaction-time density and survival probability obey
+\begin{align}
+ f_B(t,w)&=B\langle V_w,q_{B,w}(t)\rangle,
+ \label{eq:reaction-density}\\
+ S_B(t,w)&=\langle1,q_{B,w}(t)\rangle,
+ &-\partial_tS_B&=f_B.
+ \label{eq:mass-balance}
+\end{align}
+The differential identity in Eq.~\eqref{eq:mass-balance} is classical for
+\(t>0\) and holds in integrated form from \(t=0\).  The pairing is the integral
+of observable times density.  Occupation-time
+and Feynman--Kac interpretations of this reactivity-times-occupancy identity
+are standard \cite{bressloff2022feynmanKac,grebenkov2020multiple}; the results
+below concern its conserved-budget mixed jets and a direct physical
+multimode construction.
+
+The normalized reversible free density is
+\begin{equation}
+ \pi(x)=Z_\pi^{-1}
+ \exp\!\left[-\frac{\gamma(z-\bar z)^2}{D}
+              -\frac{\gamma r_\parallel^2}{4D}\right],
+ \label{eq:pi-generic}
+\end{equation}
+uniform in the torus coordinates; its normalized transverse factor is
+\(W^{-(d-1)}\).  On \(\Qbox\), \(\pi\) is bounded above
+and away from zero and the state space is \(X=L^2(\Qbox)\).  On \(\Qinf\),
+the density space and its observable dual are
+\begin{equation}
+ X_\pi=L^2(\pi^{-1}\dd x),\qquad
+ X_\pi^*=L^2(\pi\dd x).
+ \label{eq:weighted-spaces}
+\end{equation}
+The map \(u\mapsto q=\pi u\) is unitary from \(L^2(\pi\dd x)\) to
+\(X_\pi\).  The unbounded results require \(q_0\in X_\pi\); unweighted
+\(L^2\) alone is not sufficient.
+
+All time derivatives in this supplement are restricted to a compact window
+\([\tau,T]\subset(0,\infty)\).  We do not claim a mixed-jet estimate at
+\(t=0\), on the long scale \(t=O(B^{-1})\), or uniformly in the narrow-noise
+parameter used in Sec.~\ref{sec:direct-theorem}.
+
+\section{Exact fixed-budget sensitivity hierarchy}
+\label{sec:sensitivity}
+
+\subsection{Budget-tangent coordinates and first variation}
+
+For normalized patches, the tangent space of the conserved simplex is
+\begin{equation}
+ \Tspace=\{h\in\mathbb R^J:\bm1^{\mathsf T}h=0\}.
+ \label{eq:tangent-space}
+\end{equation}
+Fix a positive-definite control metric \(M\) and a matrix
+\(P\in\mathbb R^{J\times(J-1)}\) satisfying
+\begin{equation}
+ \bm1^{\mathsf T}P=0,
+ \qquad P^{\mathsf T}MP=I_{J-1}.
+ \label{eq:frozen-basis}
+\end{equation}
+Near a strictly interior control \(w_*\), write
+\begin{equation}
+ w(\theta)=w_*+P\theta,\qquad
+ U_i=\sum_{j=1}^JP_{ji}V_j.
+ \label{eq:theta-control}
+\end{equation}
+The basis and nondimensionalization are frozen before reporting singular
+values.  Changing coordinates without transforming the metric changes their
+numerical values.
+
+For a fixed-support perturbation \(H\), Duhamel's identity gives the exact
+first variation
+\begin{align}
+ D_Vf_B(t)[H]
+={}&B\langle H,\e^{tA_{B,w}}q_0\rangle\nonumber\\
+&-B^2\int_0^t
+ \left\langle V_w,
+ \e^{(t-s)A_{B,w}}M_H\e^{sA_{B,w}}q_0
+ \right\rangle\dd s.
+ \label{eq:duhamel-variation}
+\end{align}
+This is an amplitude derivative.  It is not a shape derivative for a moving
+contact set or catalyst support.
+
+\subsection{All finite state and observable sensitivities}
+
+For a multi-index \(\beta\in\mathbb N_0^{J-1}\), let
+\(q_\beta=\partial_\theta^\beta q_{B,w(\theta)}\), with \(q_{\bm0}=q\).
+Write \(e_i\) for the \(i\)th coordinate multi-index.
+
+\begin{theorem}[Affine-control sensitivity hierarchy]
+\label{thm:sensitivity-hierarchy}
+For every finite multi-index \(\beta\), the state sensitivity is the unique
+mild solution of
+\begin{align}
+ \partial_tq_{\bm0}&=A_{B,w(\theta)}q_{\bm0},
+ &q_{\bm0}(0)&=q_0,
+ \label{eq:hierarchy-zero}\\
+ \partial_tq_\beta
+ &=A_{B,w(\theta)}q_\beta
+   -B\sum_{i=1}^{J-1}\beta_iM_{U_i}q_{\beta-e_i},
+ &q_\beta(0)&=0\quad(|\beta|>0).
+ \label{eq:hierarchy-general}
+\end{align}
+Terms with \(\beta_i=0\) vanish.  For every integer \(r\ge0\) and \(t>0\),
+the exact observable mixed jet is
+\begin{align}
+ \partial_t^r\partial_\theta^\beta f_B
+ =B\left[
+ \langle V_{w(\theta)},\partial_t^rq_\beta\rangle
+ +\sum_{i=1}^{J-1}\beta_i
+  \langle U_i,\partial_t^rq_{\beta-e_i}\rangle
+ \right].
+ \label{eq:observable-hierarchy}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+For bounded multiplication operators, the Dyson--Phillips series is
+norm-convergent on every compact time set and is entire in the finite affine
+control amplitudes.  Hence it may be differentiated term by term.  Since
+\begin{equation}
+ \partial_{\theta_i}A_{B,w(\theta)}=-BM_{U_i},
+ \qquad
+ \partial_{\theta_i}\partial_{\theta_j}A_{B,w(\theta)}=0,
+ \label{eq:affine-generator-derivatives}
+\end{equation}
+the multi-index product rule applied to
+\(\partial_tq=A_{B,w(\theta)}q\) produces exactly the multiplicity
+\(\beta_i\) in Eq.~\eqref{eq:hierarchy-general}.  The initial law is
+control-independent, which gives the zero initial data for every positive
+order.  Applying the same product rule to
+\(f_B=B\langle V_{w(\theta)},q\rangle\) yields
+Eq.~\eqref{eq:observable-hierarchy}, because the affine observable has no
+control derivatives beyond first order.  Analytic-semigroup smoothing, proved
+in Sec.~\ref{sec:weak-bridge}, permits every fixed number of time derivatives
+for \(t>0\).
+\end{proof}
+
+At first and second order, Theorem~\ref{thm:sensitivity-hierarchy} gives
+\begin{align}
+ \partial_ts_i&=As_i-BU_iq,&s_i(0)&=0,
+ \label{eq:first-sensitivity}\\
+ \partial_ts_{ij}&=As_{ij}-BU_is_j-BU_js_i,&s_{ij}(0)&=0,
+ \label{eq:second-sensitivity}
+\end{align}
+where multiplication symbols have been suppressed.  Correspondingly,
+\begin{align}
+ \partial_{\theta_i}f_B
+ &=B\{\langle U_i,q\rangle+\langle V_w,s_i\rangle\},
+ \label{eq:first-observable}\\
+ \partial_{\theta_i\theta_j}f_B
+ &=B\{\langle U_i,s_j\rangle+\langle U_j,s_i\rangle
+       +\langle V_w,s_{ij}\rangle\}.
+ \label{eq:second-observable}
+\end{align}
+The first term in Eq.~\eqref{eq:first-observable} and the first two terms in
+Eq.~\eqref{eq:second-observable} are direct derivatives of the reaction
+observable.  A sensitivity implementation that differentiates only the state
+omits these terms and computes the wrong control jet.
+
+For any \(r\ge0\), Eqs.~\eqref{eq:first-observable}--
+\eqref{eq:second-observable} remain valid after replacing every state by its
+\(r\)th time derivative.  In particular, a cusp calculation has access to
+\begin{equation}
+ \{f_t,f_{tt},f_{ttt},f_{tttt},
+ f_{t\theta_i},f_{tt\theta_i},f_{ttt\theta_i}\},
+ \label{eq:cusp-jet}
+\end{equation}
+and second control derivatives remain available for continuation diagnostics.
+The safe time-derivative identity is
+\begin{equation}
+ \partial_t^rf_B=B\langle V_w,A_{B,w}^rq(t)\rangle.
+ \label{eq:safe-time-derivative}
+\end{equation}
+No application of \((A_{B,w}^*)^r\) to the discontinuous contact indicator is
+required or claimed.
+
+\subsection{Projected response under one conserved cost}
+
+For completeness, let \(Y_a\) be a finite collection of time/control
+observables and let \(G_{aj}=\partial_{w_j}Y_a\).  If a general patch basis has
+cost covector \(c_j=\int\phi_j\), its budget-tangent response is
+\begin{equation}
+ \widetilde G=G-
+ \frac{(GM^{-1}c)c^{\mathsf T}}{c^{\mathsf T}M^{-1}c}.
+ \label{eq:projected-response}
+\end{equation}
+When \(\widetilde G\) has full row rank, the unique minimum-\(M\)-norm
+budget-preserving infinitesimal control producing \(y\) is
+\begin{equation}
+ h_*=M^{-1}\widetilde G^{\mathsf T}
+ (\widetilde GM^{-1}\widetilde G^{\mathsf T})^{-1}y.
+ \label{eq:minimum-norm-control}
+\end{equation}
+This is constrained linear algebra only: it is local and supplies no global
+finite-amplitude controllability statement.
+
+\section{Compact-positive-time weak-reaction mixed jets}
+\label{sec:weak-bridge}
+
+\subsection{Analytic killed semigroups}
+
+\begin{proposition}[Bounded and unbounded analytic realizations]
+\label{prop:analytic-semigroup}
+On \(\Qbox\), realize \(\Lfree\) with Eq.~\eqref{eq:no-flux} and periodic
+transverse conditions on \(X=L^2(\Qbox)\).  It generates a positive analytic
+semigroup.  For every real \(B\ge0\) and real simplex control \(w\),
+\(A_{B,w}\) has the same domain and generates a positive, mass-decreasing
+analytic semigroup for real \(t\ge0\).  For every positive time, the state has
+an entire extension in the finite complex control amplitudes.
+
+On \(\Qinf\), the same statements hold on \(X_\pi\) for
+\(q_0\in X_\pi\), and the observable pairing is continuous for
+\(V_w\in X_\pi^*\cap L^\infty\).
+\end{proposition}
+
+\begin{proof}
+Put \(q=\pi u\).  Direct substitution using
+\(b=\bm D\nabla\log\pi\) gives
+\begin{equation}
+ \Lfree(\pi u)=\pi\mathcal Gu,
+ \qquad
+ \mathcal G=\pi^{-1}\nabla\!\cdot(\pi\bm D\nabla).
+ \label{eq:similarity}
+\end{equation}
+For each fixed finite \(d\), take the weighted \(H^1\) form domain with
+periodic traces in all \(d-1\) transverse coordinates and the declared
+weighted-Neumann convention on nonperiodic bounded faces.  No Sobolev
+embedding or dimension-uniform estimate is used.
+On the weighted space \(L^2(\pi\dd x)\),
+\begin{equation}
+ \langle u,\mathcal Gv\rangle_{L^2(\pi)}
+ =-\int(\nabla u)^{\mathsf T}\bm D\nabla v\,\pi\dd x.
+ \label{eq:dirichlet-form}
+\end{equation}
+The closed weighted-Neumann form therefore realizes \(\mathcal G\) as a
+nonpositive self-adjoint generator.  Its semigroup is positive and
+mass-conserving for real nonnegative time, and its norm is contractive for
+complex time with nonnegative real part.  On \(\Qbox\),
+multiplication by \(\pi\) is a bounded isomorphism between the weighted and
+unweighted \(L^2\) spaces.  On \(\Qinf\), the same map is unitary into
+\(X_\pi\).  Bounded multiplication by \(-BV_w\) preserves the generator
+domain and analyticity.  The Dyson--Phillips expansion proves entire
+finite-dimensional complex parameter dependence.  Positivity and mass decrease
+follow from the product formula, or equivalently from Feynman--Kac, only for
+real nonnegative \(V_w\), real \(B\ge0\), and real \(t\ge0\).
+\end{proof}
+
+The proposition gives time regularization in powers of the generator, not
+global classical spatial regularity across the sharp contact interface.
+Initial boundary compatibility is unnecessary for positive-time mixed jets.
+
+For the physical two-dimensional quotient used by the numerical program, the
+unbounded part of Proposition~\ref{prop:analytic-semigroup} has the following
+explicit consequence.
+
+\begin{corollary}[Physical natural-decay realization and observable calculus]
+\label{cor:physical-natural-decay}
+Fix \(d=2\), \(D,\gamma,W>0\), \(B\ge0\), a real simplex control \(w\), and
+the sharp bounded field \(V_w\) of Eq.~\eqref{eq:profiles}.  On
+
+\begin{equation}
+ H=L^2(\Qinf,\pi\dd x),\qquad
+ \mathcal V=\overline{C_c^\infty(\mathbb R^2)\otimes
+ C^\infty(\mathbb T_W)}^{\|\cdot\|_{\mathcal V}},
+ \label{eq:physical-form-domain}
+\end{equation}
+
+where
+
+\begin{equation}
+ \|u\|_{\mathcal V}^2=\|u\|_H^2+
+ \int_{\Qinf}(\nabla u)^{\mathsf T}\bm D\nabla u\,\pi\dd x,
+ \label{eq:physical-form-norm}
+\end{equation}
+
+the killed form is a closed symmetric nonnegative Dirichlet form with this
+same domain.  Its operator \(H_{\infty,w}\ge0\) generates a symmetric analytic
+sub-Markov contraction semigroup, and multiplication by \(\pi\) gives the
+unitary realization
+
+\begin{equation}
+ A_{B,w}=U(-H_{\infty,w})U^{-1},\qquad Uu=\pi u,
+ \label{eq:physical-unitary-realization}
+\end{equation}
+
+of the natural-decay forward generator.  Here
+
+\begin{equation}
+ Z_\pi=\frac{2\pi DW}{\gamma},\qquad
+ \bm D\nabla\log\pi=b.
+ \label{eq:physical-reversible-identity}
+\end{equation}
+
+For \(u_0=q_0/\pi\in H\), \(r=0,1,2\), and \(t\in[\tau,T]\),
+
+\begin{align}
+ F_w^{(r)}(t)
+ &=(-1)^r\langle V_w,H_{\infty,w}^{\,r}
+          \e^{-tH_{\infty,w}}u_0\rangle_H,
+ \label{eq:physical-observable-calculus}\\
+ \sup_{t\in[\tau,T]}|F_w^{(r)}(t)|
+ &\le \|V_w\|_H C_r(\tau)\|u_0\|_H,
+ \quad C_0(\tau)=1,\quad
+ C_r(\tau)=\left(\frac{r}{e\tau}\right)^r\quad(r=1,2).
+ \label{eq:physical-spectral-bound}
+\end{align}
+
+If Eq.~\eqref{eq:initial-state-hypotheses} holds, then \(q_{B,w}(t)\ge0\),
+\(F_w(t)\ge0\), and
+
+\begin{equation}
+ \int_{\Qinf}q_{B,w}(t)\dd x
+ +B\int_0^tF_w(s)\dd s=1.
+ \label{eq:physical-integrated-mass}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+The two Gaussian integrals and the normalized torus factor give
+\(Z_\pi=2\pi DW/\gamma\), while direct differentiation gives
+\(\bm D\nabla\log\pi=b\).  Bounded nonnegative multiplication preserves the
+closed free form, its domain, and the Dirichlet property.  The representation
+theorem and the Dirichlet-form correspondence give the asserted operator and
+semigroup, and Eq.~\eqref{eq:physical-unitary-realization} follows by
+integration by parts, which identifies the form-associated realization with
+the displayed algebraic action on the core.  No separate
+essential-self-adjointness assertion for the minimal core operator is used.
+The
+spectral theorem gives
+\(\|H^r\e^{-tH}\|\le\sup_{\lambda\ge0}\lambda^r
+\e^{-\tau\lambda}=(r/(e\tau))^r\) for \(r=1,2\), proving
+Eq.~\eqref{eq:physical-spectral-bound}.  Gaussian cutoffs put the constant
+function one in \(\mathcal V\).  Testing the weak evolution with that function
+gives \(\frac{\dd}{\dd t}\int q=-B F_w\); the sub-Markov property gives
+positivity, and integration proves Eq.~\eqref{eq:physical-integrated-mass}.
+\end{proof}
+
+Corollary~\ref{cor:physical-natural-decay} fixes the continuum operator
+realization only.  It does not prove finite-volume Mosco convergence, a
+computable spatial or box-truncation error, or continuum stationary topology.
+
+\subsection{A conditional varying-space positive-time transfer}
+\label{sec:varying-space-transfer}
+
+The next proposition isolates the abstract implication that will be available
+if a model-specific finite-volume resolvent limit is proved.  It is useful
+precisely because the reconstruction and projection maps need not be
+isometries at finite mesh width.
+
+\begin{proposition}[Varying-space positive-time functional bridge]
+\label{prop:varying-space-functional-bridge}
+Let \(L_h\ge0\) and \(L\ge0\) be self-adjoint operators on Hilbert spaces
+\(\mathcal H_h\) and \(\mathcal H\).  Suppose that
+\(J_h:\mathcal H_h\to\mathcal H\) and
+\(P_h:\mathcal H\to\mathcal H_h\) satisfy
+\begin{equation}
+ P_h=J_h^*,\qquad
+ \sup_h\bigl(\|J_h\|+\|P_h\|\bigr)<\infty,
+ \qquad
+ \delta_h:=\|P_hJ_h-I_{\mathcal H_h}\|\longrightarrow0,
+ \label{eq:varying-map-hypotheses}
+\end{equation}
+and, for one \(\alpha>0\),
+\begin{equation}
+ J_h(L_h+\alpha)^{-1}P_hu
+ \longrightarrow (L+\alpha)^{-1}u
+ \quad\text{strongly for every }u\in\mathcal H.
+ \label{eq:varying-resolvent-hypothesis}
+\end{equation}
+Then, for \(r=0,1,2\), \(0<\tau\le T<\infty\), and every
+\(u_0\in\mathcal H\),
+\begin{equation}
+ \sup_{t\in[\tau,T]}
+ \left\|J_hL_h^r\e^{-tL_h}P_hu_0
+       -L^r\e^{-tL}u_0\right\|_{\mathcal H}
+ \longrightarrow0.
+ \label{eq:varying-positive-time-state}
+\end{equation}
+If \(V_h\in\mathcal H_h\), \(V\in\mathcal H\), and
+\(J_hV_h\to V\) strongly, then also
+\begin{equation}
+ \sup_{t\in[\tau,T]}
+ \left|
+ \left\langle V_h,L_h^r\e^{-tL_h}P_hu_0\right\rangle_h
+ -\left\langle V,L^r\e^{-tL}u_0\right\rangle_{\mathcal H}
+ \right|\longrightarrow0.
+ \label{eq:varying-positive-time-pairing}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Put \(R_h=(L_h+\alpha)^{-1}\), \(R=(L+\alpha)^{-1}\), and
+\(\widehat R_h=J_hR_hP_h\).  Compression is not exactly multiplicative, but
+for every fixed \(k\ge2\) a telescoping expansion gives
+\begin{equation}
+ \left\|\widehat R_h^k-J_hR_h^kP_h\right\|
+ \le \|J_h\|\|P_h\|(k-1)\alpha^{-k}
+      (1+\delta_h)^{k-2}\delta_h.
+ \label{eq:varying-resolvent-power-defect}
+\end{equation}
+Indeed, with \(D_h=P_hJ_h\), expand
+\(R_h(D_hR_h)^{k-1}-R_h^k\) by replacing one \(D_h\) at a time.
+Equation~\eqref{eq:varying-resolvent-hypothesis}, uniform boundedness, and
+Eq.~\eqref{eq:varying-resolvent-power-defect} therefore give convergence for
+every polynomial in \(R_h\) with zero constant term.
+
+For \(f\in C_0([0,\infty))\), the change of variables
+\(y=(\lambda+\alpha)^{-1}\) produces a continuous function on
+\([0,\alpha^{-1}]\) that vanishes at \(y=0\).  Polynomials with zero constant
+term are uniformly dense in that class.  The spectral theorem consequently
+gives
+\begin{equation}
+ J_hf(L_h)P_hu\longrightarrow f(L)u
+ \quad (u\in\mathcal H).
+ \label{eq:varying-czero-calculus}
+\end{equation}
+This zero-constant approximation is why no false operator-norm assertion
+\(J_hP_h\to I_{\mathcal H}\) is needed.
+
+For \(f_{r,t}(\lambda)=\lambda^r\e^{-t\lambda}\),
+\begin{equation}
+ \|f_{r,t}-f_{r,s}\|_\infty
+ \le
+ \left(\frac{r+1}{e\tau}\right)^{r+1}|t-s|.
+ \label{eq:varying-time-lipschitz}
+\end{equation}
+A finite time net, Eq.~\eqref{eq:varying-czero-calculus} at its nodes, and
+Eq.~\eqref{eq:varying-time-lipschitz} between nodes prove
+Eq.~\eqref{eq:varying-positive-time-state}.
+
+Finally, exact adjointness gives, for every \(v_h\in\mathcal H_h\),
+\begin{align}
+ &\langle V_h,v_h\rangle_h-\langle V,J_hv_h\rangle_{\mathcal H}
+ \notag\\
+ &\quad=\langle V_h,(I-P_hJ_h)v_h\rangle_h
+ +\langle J_hV_h-V,J_hv_h\rangle_{\mathcal H}.
+ \label{eq:varying-moving-pairing}
+\end{align}
+Moreover,
+\(\|J_hV_h\|^2=\langle V_h,P_hJ_hV_h\rangle_h
+\ge(1-\delta_h)\|V_h\|_h^2\) for small \(h\), so
+\(J_hV_h\to V\) implies \(\sup_h\|V_h\|_h<\infty\).  The spectral bound
+\begin{equation}
+ \sup_{t\in[\tau,T]}\|L_h^r\e^{-tL_h}P_hu_0\|_h
+ \le C_r(\tau)\|P_h\|\|u_0\|,
+ \qquad
+ C_0=1,\quad C_r=(r/(e\tau))^r
+ \label{eq:varying-discrete-spectral-bound}
+\end{equation}
+and Eq.~\eqref{eq:varying-positive-time-state} now turn
+Eq.~\eqref{eq:varying-moving-pairing} into
+Eq.~\eqref{eq:varying-positive-time-pairing}.
+\end{proof}
+
+Proposition~\ref{prop:varying-space-functional-bridge} remains conditional in
+general.  For the twelve formula-defined fixed-box dyadic families, a separate
+audited ideal composition now verifies its reconstructed-resolvent hypothesis
+and hence the stated Mosco and compact-positive-time conclusions.  This closes
+an ideal fixed-box C1 composition only.  It does not certify a correlated
+level-\(n=0\) production member, bind the production gauge/evaluator bridge,
+or provide a computable production error.  Project-level and production-level
+complete C1, quantitative C2, continuum root margins, and release therefore
+remain false.
+
+\subsection{The mixed-jet estimate}
+
+Define the budget-normalized density and exact free-exposure law by
+\begin{equation}
+ F_B(t,\theta)=B^{-1}f_B(t,w(\theta)),\qquad
+ G(t,\theta)=\langle V_{w(\theta)},\e^{t\Lfree}q_0\rangle.
+ \label{eq:F-and-G}
+\end{equation}
+The definition of \(F_B\) applies for \(B>0\); the theorem below defines its
+continuous extension at \(B=0\).
+
+Let \(\Theta\) be a compact real control set strictly inside the simplex.  Fix
+\(\delta>0\) and use the enlarged complex tube
+\begin{equation}
+ \Theta_\delta^+=
+ \left\{\zeta\in\mathbb C^{J-1}:
+ \operatorname{dist}_\infty(\zeta,\Theta)<2\delta\right\}.
+ \label{eq:enlarged-control-tube}
+\end{equation}
+Every closed coordinate polydisc of radius \(\delta\) about a point of
+\(\Theta\) lies strictly inside \(\Theta_\delta^+\); this is the Cauchy margin
+used below.  Complex tube points are analytic auxiliaries and need not be
+nonnegative simplex weights.  Set
+\begin{equation}
+ v_{\infty,\delta}=
+ \sup_{\zeta\in\Theta_\delta^+}\|V_{w(\zeta)}\|_\infty.
+ \label{eq:v-infty}
+\end{equation}
+For the bounded problem let
+\begin{equation}
+ v_{*,\delta}=
+ \sup_{\zeta\in\Theta_\delta^+}\|V_{w(\zeta)}\|_{L^2},
+ \qquad
+ \kappa_\pi\le\sqrt{\pi_{\max}/\pi_{\min}}.
+ \label{eq:bounded-constants}
+\end{equation}
+For the unbounded problem replace the first norm by
+\(\|\cdot\|_{X_\pi^*}\) and set \(\kappa_\pi=1\).  In either case write
+\(\|q_0\|_X\) for the corresponding state norm.
+
+\begin{theorem}[Uniform weak-reaction mixed-jet bridge]
+\label{thm:mixed-jet}
+Fix \(0<\tau\le T<\infty\), \(0\le B\le B_{\max}\), an integer \(r\ge0\),
+and a finite control multi-index \(\alpha\).  Then \(F_B\) extends
+continuously to \(F_0=G\), and
+\begin{align}
+ &\sup_{(t,\theta)\in[\tau,T]\times\Theta}
+ \left|\partial_t^r\partial_\theta^\alpha(F_B-G)\right|
+ \nonumber\\
+ &\quad\le
+ r!\,\alpha!\left(\frac2\tau\right)^r
+ \delta^{-|\alpha|}v_{*,\delta}\kappa_\pi
+ \left[\exp\!\left(\frac32Bv_{\infty,\delta}T\right)-1\right]
+ \|q_0\|_X.
+ \label{eq:mixed-jet-bound}
+\end{align}
+Here \(\alpha!=\prod_i\alpha_i!\).  Consequently the left side is at most
+\(BC_{r,\alpha}\), where the explicit \(B\)-independent constant
+\begin{align}
+ C_{r,\alpha}={}&
+ r!\,\alpha!\left(\frac2\tau\right)^r
+ \delta^{-|\alpha|}v_{*,\delta}\kappa_\pi
+ \frac{3T}{2}v_{\infty,\delta}\nonumber\\
+ &\times
+ \exp\!\left(\frac32B_{\max}v_{\infty,\delta}T\right)
+ \|q_0\|_X
+ \label{eq:mixed-jet-linear-constant}
+\end{align}
+works for all \(0\le B\le B_{\max}\).
+\end{theorem}
+
+\begin{proof}
+In the self-adjoint representation, take complex time \(z\) with
+\(\operatorname{Re}z>0\), and define
+\begin{equation}
+ \Delta_n=\{(s_1,\ldots,s_n):1\ge s_1\ge\cdots\ge s_n\ge0\}.
+ \label{eq:ordered-simplex}
+\end{equation}
+The norm-convergent Dyson expansion is
+\begin{align}
+ \e^{z(\mathcal G-BV_w)}
+ ={}&\e^{z\mathcal G}
+ +\sum_{n=1}^{\infty}(-Bz)^n
+ \int_{\Delta_n}\e^{z(1-s_1)\mathcal G}V_w
+ \left[\prod_{k=1}^{n-1}
+ \e^{z(s_k-s_{k+1})\mathcal G}V_w\right]
+ \e^{zs_n\mathcal G}\,\dd\bm s,
+ \label{eq:dyson}
+\end{align}
+where the product is ordered with increasing \(k\) from left to right and is
+the identity for \(n=1\); the ordered simplex has volume
+\(1/n!\).  Every free factor is a contraction because its scalar time
+increment has nonnegative real part.  The norm estimates extend to
+\(\operatorname{Re}z=0\) by strong continuity, although the Cauchy disks below
+remain strictly inside \(\operatorname{Re}z>0\).  Multiplication by \(V_w\)
+commutes with multiplication by
+\(\pi\), so the similarity factor enters once rather than at every Dyson
+factor.  Hence
+\begin{equation}
+ \|\e^{zA_{B,w}}-\e^{z\Lfree}\|_{X\to X}
+ \le\kappa_\pi\{\e^{B|z|\|V_w\|_\infty}-1\}.
+ \label{eq:dyson-operator-bound}
+\end{equation}
+The complex-bilinear observable remainder
+\begin{equation}
+ R_B(z,\zeta)=
+ \langle V_{w(\zeta)},
+ [\e^{zA_{B,w(\zeta)}}-\e^{z\Lfree}]q_0\rangle
+ \label{eq:analytic-remainder}
+\end{equation}
+therefore satisfies
+\begin{equation}
+ |R_B(z,\zeta)|
+ \le v_{*,\delta}\kappa_\pi
+ \{\e^{Bv_{\infty,\delta}|z|}-1\}\|q_0\|_X.
+ \label{eq:analytic-remainder-bound}
+\end{equation}
+For \(t\in[\tau,T]\), the disk \(|z-t|\le\tau/2\) stays in the open right
+half-plane and obeys \(|z|\le3T/2\).  Cauchy's estimate on that disk and on
+each closed radius-\(\delta\) control polydisc contained in
+\(\Theta_\delta^+\) gives Eq.~\eqref{eq:mixed-jet-bound}.  Finally,
+\(\e^{Bx}-1\le Bx\e^{B_{\max}x}\) gives
+Eq.~\eqref{eq:mixed-jet-linear-constant}.
+\end{proof}
+
+Because \(G\) is affine in \(\theta\), Theorem~\ref{thm:mixed-jet} also gives
+\begin{equation}
+ D_\theta F_B=D_\theta G+O(B),
+ \qquad D_\theta^kF_B=O(B)\quad(k\ge2),
+ \label{eq:control-order-check}
+\end{equation}
+through every fixed number of time derivatives.  This is an independent
+consistency check on the hierarchy in Sec.~\ref{sec:sensitivity}.
+
+\subsection{First Dyson correction}
+
+For real time define
+\begin{equation}
+ \mathcal H_w(t)=\int_0^t
+ \langle V_w,\e^{(t-s)\Lfree}M_{V_w}
+ \e^{s\Lfree}q_0\rangle\,\dd s.
+ \label{eq:first-dyson-correction}
+\end{equation}
+Then
+\begin{equation}
+ F_B=G-B\mathcal H_w+\mathcal R_{2,B}.
+ \label{eq:first-correction-expansion}
+\end{equation}
+Defining \(\mathcal R_{2,B}\) by the \(n\ge2\) part of the complex Dyson
+series and applying the same Cauchy argument gives
+\begin{align}
+ &\sup_{[\tau,T]\times\Theta}
+ |\partial_t^r\partial_\theta^\alpha\mathcal R_{2,B}|
+ \nonumber\\
+ &\quad\le
+ \frac{B^2}{2}r!\alpha!\left(\frac2\tau\right)^r
+ \delta^{-|\alpha|}v_{*,\delta}\kappa_\pi
+ \left(\frac32v_{\infty,\delta}T\right)^2
+ \e^{(3/2)B_{\max}v_{\infty,\delta}T}\|q_0\|_X.
+ \label{eq:second-order-remainder}
+\end{align}
+Thus the first correction has a genuine \(O(B^2)\) remainder through every
+fixed mixed jet; a real-axis remainder bound alone would not justify the
+control derivatives in Eq.~\eqref{eq:second-order-remainder}.
+
+\subsection{Quantitative local persistence, and what it does not imply}
+
+The mixed-jet estimate transfers strict finite collections of inequalities.
+For example, suppose on a closed interval \([a_-,a_+]\subset(\tau,T)\)
+\begin{equation}
+ G'(a_-)>\eta_1,\qquad G'(a_+)<-\eta_1,\qquad
+ \sup_{[a_-,a_+]}G''<-\eta_2
+ \label{eq:mode-margins}
+\end{equation}
+for \(\eta_1,\eta_2>0\).  If the \(C^2\) mixed-jet error is smaller than
+\(\min(\eta_1,\eta_2)\), then \(F_B\) has exactly one critical point in the
+interval and it is a nondegenerate maximum.
+
+For folds and cusps, first freeze a square finite-dimensional unfolding.  Let
+\(H_B:\mathcal U\subset\mathbb R^n\to\mathbb R^n\) be the corresponding
+\(C^1\) map, let \(H_0(x_0)=0\), put \(A_0=DH_0(x_0)\), and assume \(A_0\)
+is invertible.  Suppose the closed ball \(\overline{B_r(x_0)}\) remains inside
+positive time and, after the control slice is mapped back to \(\theta\), the
+simplex interior.  If
+\begin{align}
+ \sup_{x\in\overline{B_r(x_0)}}
+ \|I-A_0^{-1}DH_B(x)\|_2&\le\frac12,
+ \label{eq:contraction-derivative}\\
+ \|A_0^{-1}H_B(x_0)\|_2&\le\frac r2,
+ \label{eq:contraction-residual}
+\end{align}
+then \(x\mapsto x-A_0^{-1}H_B(x)\) is a contraction of the ball into itself.
+It has one zero \(x_B\) in that ball and
+\begin{equation}
+ \|x_B-x_0\|_2\le
+ 2\|A_0^{-1}H_B(x_0)\|_2.
+ \label{eq:root-displacement}
+\end{equation}
+For a fold, freeze one unit vector \(e\in\mathbb R^{J-1}\) in the dimensionless
+\(\theta\)-metric, set \(\theta=\bar\theta+e\lambda\), and use the square map
+\begin{equation}
+ H_B^{\mathrm{fold}}(t,\lambda)=
+ \bigl((F_B)_t,(F_B)_{tt}\bigr)
+ (t,\bar\theta+e\lambda)\in\mathbb R^2.
+ \label{eq:fold-slice}
+\end{equation}
+For a cusp, freeze an isometric two-plane
+\begin{equation}
+ E\in\mathbb R^{(J-1)\times2},\qquad E^{\mathsf T}E=I_2,
+ \qquad \theta=\bar\theta+E\xi,
+ \label{eq:cusp-plane}
+\end{equation}
+in the same metric, and use
+\begin{equation}
+ H_B^{\mathrm{cusp}}(t,\xi)=
+ \bigl((F_B)_t,(F_B)_{tt},(F_B)_{ttt}\bigr)
+ (t,\bar\theta+E\xi)\in\mathbb R^3.
+ \label{eq:cusp-slice}
+\end{equation}
+The vectors \(e\) and the columns of \(E\), as well as the
+nondimensionalization, are frozen before \(B\) is varied.
+
+Define the full normalized response and the response restricted to that same
+cusp plane by
+\begin{equation}
+ R_B(x)=
+ \begin{pmatrix}
+  \nabla_\theta(F_B)_t(x)\\
+  \nabla_\theta(F_B)_{tt}(x)
+ \end{pmatrix},
+ \qquad R_B^E(x)=R_B(x)E\in\mathbb R^{2\times2}.
+ \label{eq:rank-response}
+\end{equation}
+where \(x=(t,\xi)\) means evaluation at
+\((t,\bar\theta+E\xi)\).
+At a cusp root, with columns ordered as \((t,\xi_1,\xi_2)\),
+\begin{equation}
+ \det DH_B^{\mathrm{cusp}}
+ =(F_B)_{tttt}\det R_B^E.
+ \label{eq:cusp-jacobian-factorization}
+\end{equation}
+Thus the quartic time derivative must be nonzero and the restricted two-control
+response must be nonsingular.  If on the same cusp ball
+\begin{equation}
+ s_*:=\inf_x\sigma_2(R_0^E(x))>0,
+ \qquad
+ \varepsilon_R(B):=\sup_x\|R_B^E(x)-R_0^E(x)\|_2<s_*,
+ \label{eq:weyl-hypotheses}
+\end{equation}
+then Weyl's inequality gives
+\begin{equation}
+ \inf_x\sigma_2(R_B^E(x))\ge s_*-\varepsilon_R(B)>0,
+ \label{eq:weyl-conclusion}
+\end{equation}
+including at the displaced root.  This rank-two condition applies only when
+two independent budget tangents exist.  The raw response for \(f_B\) is
+\(BR_B^E\), so normalized rank may persist while both its absolute singular
+value and event rate vanish as \(B\downarrow0\).
+
+Theorem~\ref{thm:mixed-jet} is local in positive time.  It does not exclude
+late or remote extra extrema, provide a finite event-mass floor, prove that a
+specified finite \(B\) lies in its asymptotic regime, or certify a numerical
+discretization.  Every application requires explicit margins such as
+Eqs.~\eqref{eq:mode-margins}, \eqref{eq:contraction-derivative}, and
+\eqref{eq:weyl-hypotheses}.
+
+\section{Constructive fixed-finite-mode theorem in every fixed finite
+\texorpdfstring{$d\ge2$}{d >= 2}}
+\label{sec:direct-theorem}
+
+\subsection{Narrow-noise OU slab family and initial law}
+
+Fix once and for all
+\begin{equation}
+ d\in\mathbb N,\ d\ge2,\quad
+ D_0,\gamma,W,\rho,s_0,u_0>0,\quad
+ 0<a<W/2,\quad z_0\ne\bar z.
+ \label{eq:fixed-direct-data}
+\end{equation}
+For \(\epsilon>0\), let the longitudinal midpoint solve
+\begin{equation}
+ \dd Z_t=-\gamma(Z_t-\bar z)\,\dd t
+ +\epsilon\sqrt{D_0}\,\dd W_t,
+ \qquad Z_0\sim N(z_0,\epsilon^2s_0^2).
+ \label{eq:midpoint-sde}
+\end{equation}
+For each fixed \(\epsilon\), this is the generic model of
+Sec.~\ref{sec:supp-model} with the explicit identification
+\(D=\epsilon^2D_0\); the same identification gives the relative-coordinate
+noise amplitudes below.
+Its mean and variance are
+\begin{align}
+ \mu(t)&=\bar z+(z_0-\bar z)\e^{-\gamma t},
+ \label{eq:midpoint-mean}\\
+ \operatorname{Var}Z_t&=\epsilon^2s^2(t),
+ &s^2(t)&=s_0^2\e^{-2\gamma t}
+ +\frac{D_0}{2\gamma}(1-\e^{-2\gamma t}).
+ \label{eq:midpoint-variance}
+\end{align}
+The relative quotient follows
+\begin{align}
+ \dd R_{\parallel,t}
+ &=-\gamma R_{\parallel,t}\,\dd t
+ +2\epsilon\sqrt{D_0}\,\dd W_{\parallel,t},
+ \label{eq:relative-longitudinal}\\
+ \dd R_{\perp,t}
+ &=2\epsilon\sqrt{D_0}\,\dd\bm W_{\perp,t}\pmod W.
+ \label{eq:relative-transverse}
+\end{align}
+The complete initial law is the mutually independent product
+\begin{align}
+ R_{\parallel,0}&\sim
+ N(r_{\parallel,0},\epsilon^2u_0^2),
+ \label{eq:initial-rparallel}\\
+ R_{\perp,0}&\sim
+ \operatorname{WN}(r_{\perp,0},
+ \epsilon^2\Sigma_{\perp,0}),
+ \qquad \Sigma_{\perp,0}\succ0,
+ \label{eq:initial-rperp}
+\end{align}
+and all initial variables and Brownian drivers are mutually independent.  Here
+\(r_{\perp,0}\in\mathbb T_W^{d-1}\) and
+\(\Sigma_{\perp,0}\in\mathbb R^{(d-1)\times(d-1)}\) is positive definite.
+
+For each fixed \(\epsilon>0\), the invariant density \(\pi_\epsilon\) is
+Gaussian with mean \(\bar z\) and variance
+\(\epsilon^2D_0/(2\gamma)\) in \(Z\), Gaussian with mean zero and variance
+\(2\epsilon^2D_0/\gamma\) in \(R_\parallel\), and uniform on the transverse
+torus.  Direct Gaussian exponent comparison gives
+\begin{equation}
+ q_0\in X_{\pi_\epsilon}\quad\Longleftrightarrow\quad
+ s_0^2<\frac{D_0}{\gamma}
+ \ \text{and}\ 
+ u_0^2<\frac{4D_0}{\gamma}
+ \label{eq:weighted-initial-thresholds}
+\end{equation}
+for the two unbounded Gaussian factors; the wrapped factor is square
+integrable against the uniform torus measure.  We impose both strict
+inequalities.  They hold pointwise in \(\epsilon\), but the weighted norm is
+not asserted to remain bounded as \(\epsilon\downarrow0\).
+
+For fixed \(\rho>0\), define the normalized slabs
+\begin{equation}
+ \phi_{j,\epsilon}(z)=
+ \frac{1}{\sqrt{2\pi}\epsilon\rho}
+ \exp\!\left[-\frac{(z-c_j)^2}{2\epsilon^2\rho^2}\right]
+ \label{eq:narrow-slabs}
+\end{equation}
+and the killing field
+\begin{equation}
+ K_{B,w,\epsilon}(Z,R)=
+ \frac{B}{W^{d-1}}\chi_a(R)
+ \sum_{j=1}^mw_j\phi_{j,\epsilon}(Z),
+ \qquad w_j\ge0,\quad\sum_jw_j=1.
+ \label{eq:direct-killing}
+\end{equation}
+Each slab has unit full centre-space integral, so the installed amount remains
+\(B\).  The catalyst is a longitudinal slab, not an arbitrary localized
+two- or three-dimensional patch.
+
+\subsection{Target times and the contact-tail lemma}
+
+Fix \(0<\tau<T<\infty\) and distinct target times
+\begin{equation}
+ \tau<t_1<\cdots<t_m<T.
+ \label{eq:target-times}
+\end{equation}
+Because \(z_0\ne\bar z\), \(\mu\) is strictly monotone on this window.
+Choose pairwise disjoint closed target neighborhoods whose union is \(I_*\),
+with \(I_*\subset(\tau,T)\).  The deterministic relative path is
+\begin{equation}
+ r_*(t)=\bigl(r_{\parallel,0}\e^{-\gamma t},r_{\perp,0}\bigr).
+ \label{eq:deterministic-relative-path}
+\end{equation}
+Assume a fixed contact-interior margin
+\begin{equation}
+ \sup_{t\in I_*}|r_*(t)|_{\mathrm{mi}}\le a-\eta
+ \quad\text{for some }\eta>0.
+ \label{eq:contact-interior}
+\end{equation}
+Finally set \(c_j=\mu(t_j)\).
+
+Let
+\(c_{d,\epsilon}(t)=\Pr\{|R_t|_{\mathrm{mi}}<a\}\).
+The relative covariance is \(\epsilon^2\Sigma_R(t)\), where its longitudinal
+coefficient and its unwrapped transverse coefficient are
+\begin{align}
+ u_0^2\e^{-2\gamma t}
+ +\frac{2D_0}{\gamma}(1-\e^{-2\gamma t}),
+ \label{eq:relative-long-variance}\\
+ \Sigma_{\perp,0}+4D_0tI_{d-1},
+ \label{eq:relative-transverse-variance}
+\end{align}
+respectively.
+
+\begin{lemma}[Differentiated contact tail]
+\label{lem:contact-tail}
+For every fixed integer \(r\ge0\), there exist finite constants
+\(C_{r,d},N_{r,d},q_d>0\), independent of all sufficiently small
+\(\epsilon\), such that
+\begin{equation}
+ \sup_{t\in I_*}
+ \left|\partial_t^r\{c_{d,\epsilon}(t)-1\}\right|
+ \le C_{r,d}\epsilon^{-N_{r,d}}\e^{-q_d/\epsilon^2}.
+ \label{eq:contact-tail}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let \(C_a=\{R:|R|_{\mathrm{mi}}<a\}\), and use the product geodesic distance
+on \(\mathbb R\times\mathbb T_W^{d-1}\).  The reverse triangle inequality and
+Eq.~\eqref{eq:contact-interior} give the chart-independent bound
+\begin{equation}
+ \inf_{t\in I_*}\inf_{R\in C_a^c}
+ d_{\mathrm{cyl}}(R,r_*(t))
+ \ge a-\sup_{t\in I_*}|r_*(t)|_{\mathrm{mi}}\ge\eta.
+ \label{eq:contact-geodesic-separation}
+\end{equation}
+The condition \(a<W/2\) keeps the contact boundary away from the torus cut
+locus.  Uniform positive definiteness and boundedness of the covariance and
+its fixed time derivatives give constants
+\begin{equation}
+ 0<\lambda_-\le\lambda_+<\infty,
+ \qquad
+ \lambda_-I\preceq\Sigma_R(t)\preceq\lambda_+I,
+ \qquad t\in I_*.
+ \label{eq:relative-covariance-bounds}
+\end{equation}
+
+Let \(p_{\epsilon,t}\) be the normalized relative density and write its wrapped
+transverse part as a lattice-image sum.  If \(Y_n(R,t)\) is the Euclidean
+displacement from the mean in image \(n\in\mathbb Z^{d-1}\), differentiation
+of one Gaussian image gives, for fixed \(r\), integers \(M_r,N_r\), and
+constants independent of small \(\epsilon\),
+\begin{equation}
+ \left|\partial_t^rp_{\epsilon,t}^{(n)}(R)\right|
+ \le C_r\epsilon^{-d-N_r}
+ \left[1+\left(\frac{|Y_n(R,t)|}{\epsilon}\right)^{M_r}\right]
+ \exp\!\left[-\frac{|Y_n(R,t)|^2}{C_r\epsilon^2}\right].
+ \label{eq:differentiated-image-majorant}
+\end{equation}
+Uniform Gaussian summability on the compact positive-time set justifies
+termwise differentiation and summation.  Equation~\eqref{eq:contact-geodesic-separation}
+means that every Euclidean lift, including whichever image is nearest a
+fundamental-cell face, has \(|Y_n|\ge\eta\) on \(C_a^c\).  More explicitly,
+partition \(\mathbb Z^{d-1}\) into max-norm shells.  The number of indices in
+shell \(k\) is at most \((2k+3)^{d-1}-(2k+1)^{d-1}\), whereas periodicity and
+the fixed fundamental cell give \(|Y_n|\ge c_d k-C_d\).  Thus the polynomial
+factor in Eq.~\eqref{eq:differentiated-image-majorant} is dominated by a
+summable fixed-dimensional Gaussian shell majorant, uniformly for small
+\(\epsilon\).
+
+Finally, normalization supplies the step needed to estimate derivatives by a
+tail integral:
+\begin{equation}
+ \int\partial_t^rp_{\epsilon,t}(R)\,\dd R=0\quad(r\ge1),
+ \qquad
+ \partial_t^r(c_{d,\epsilon}-1)
+ =-\int_{C_a^c}\partial_t^rp_{\epsilon,t}(R)\,\dd R
+ \quad(r\ge0).
+ \label{eq:contact-tail-normalization}
+\end{equation}
+For \(r=0\), the first equality is replaced by
+\(c_{d,\epsilon}-1=-\int_{C_a^c}p_{\epsilon,t}\).
+Integrating Eq.~\eqref{eq:differentiated-image-majorant} on this uniformly
+separated set and summing the images gives a polynomial prefactor times
+\(\exp(-q/\epsilon^2)\), proving Eq.~\eqref{eq:contact-tail}.
+\end{proof}
+
+In particular, \(c_{d,\epsilon}\to1\) in \(C^2(I_*)\).  The proof uses the
+contact-interior hypothesis essentially; arbitrary approach or separation
+paths are not covered.
+
+\subsection{Exact free clocks and channel separation}
+
+Independence of midpoint and relative motion gives the exact free-exposure
+channel
+\begin{align}
+ g_{j,\epsilon}(t)
+ &=\frac{c_{d,\epsilon}(t)}
+ {W^{d-1}\sqrt{2\pi}\epsilon S(t)}
+ \exp\!\left[-\frac{(c_j-\mu(t))^2}{2\epsilon^2S^2(t)}\right],
+ \label{eq:exact-free-clock}\\
+ S^2(t)&=s^2(t)+\rho^2,
+ \label{eq:convolved-variance}
+\end{align}
+and
+\begin{equation}
+ G_\epsilon(t;w)=\sum_{j=1}^mw_jg_{j,\epsilon}(t).
+ \label{eq:direct-free-mixture}
+\end{equation}
+
+\begin{lemma}[Own-channel local Gaussian]
+\label{lem:own-channel}
+For fixed \(L<\infty\), uniformly on \(|y|\le L\) and for \(r=0,1,2\),
+\begin{align}
+ \epsilon^{r+1}\partial_t^rg_{j,\epsilon}(t_j+\epsilon y)
+ &\longrightarrow \partial_y^rA_j(y),
+ \label{eq:own-channel-convergence}\\
+ A_j(y)&=
+ \frac{1}{W^{d-1}\sqrt{2\pi}S(t_j)}
+ \exp\!\left[-\frac{\mu'(t_j)^2y^2}{2S^2(t_j)}\right].
+ \label{eq:own-channel-limit}
+\end{align}
+There is one common \(L_0>0\), independent of small \(\epsilon\), such that
+on
+\begin{equation}
+ I_{j,\epsilon}=
+ [t_j-L_0\epsilon,t_j+L_0\epsilon]
+ \label{eq:local-intervals}
+\end{equation}
+the own-channel endpoint slopes have signs \(+,-\) and magnitude
+\(O(\epsilon^{-2})\), while the curvature is strictly negative with magnitude
+\(O(\epsilon^{-3})\).  For all sufficiently small \(\epsilon\), these
+intervals are pairwise disjoint and each is contained in its declared
+component of \(I_*\).
+\end{lemma}
+
+\begin{proof}
+Taylor expansion on a fixed \(y\)-interval gives
+\begin{equation}
+ \frac{c_j-\mu(t_j+\epsilon y)}{\epsilon}
+ =-\mu'(t_j)y+O(\epsilon)
+ \label{eq:mean-taylor}
+\end{equation}
+in \(C^2\), and \(S(t_j+\epsilon y)\to S(t_j)>0\) in the same topology.
+Smooth composition in Eq.~\eqref{eq:exact-free-clock}, followed by
+Lemma~\ref{lem:contact-tail}, proves
+Eq.~\eqref{eq:own-channel-convergence}.  Since there are only finitely many
+channels and
+\begin{equation}
+ A_j''(y)=\frac{\mu'(t_j)^2}{S(t_j)^2}
+ \left(\frac{\mu'(t_j)^2y^2}{S(t_j)^2}-1\right)A_j(y),
+ \label{eq:limiting-gaussian-curvature}
+\end{equation}
+choose
+\(0<L_0<\min_j S(t_j)/|\mu'(t_j)|\), decreasing it if needed to fit the
+declared target neighborhoods.  Every limiting Gaussian then has positive
+left slope, negative right slope, and strictly negative curvature.  Uniform
+\(C^2\) convergence then gives constants \(\alpha_j,\kappa_j>0\) such that
+\begin{align}
+ \partial_tg_{j,\epsilon}(t_j-L_0\epsilon)
+ &\ge\alpha_j\epsilon^{-2},\nonumber\\
+ \partial_tg_{j,\epsilon}(t_j+L_0\epsilon)
+ &\le-\alpha_j\epsilon^{-2},\nonumber\\
+ \sup_{I_{j,\epsilon}}\partial_t^2g_{j,\epsilon}
+ &\le-\kappa_j\epsilon^{-3}.
+ \label{eq:own-channel-margins}
+\end{align}
+\end{proof}
+
+\begin{lemma}[Cross-channel exponential bound]
+\label{lem:cross-channel}
+For \(i\ne j\), all sufficiently small \(\epsilon\), and \(r=0,1,2\),
+\begin{equation}
+ \sup_{t\in I_{j,\epsilon}}
+ |\partial_t^rg_{i,\epsilon}(t)|
+ \le C_{ijr}\epsilon^{-M_r}\e^{-q_{ij}/\epsilon^2}
+ \label{eq:cross-channel-bound}
+\end{equation}
+for constants independent of \(\epsilon\).
+\end{lemma}
+
+\begin{proof}
+Strict monotonicity gives \(c_i\ne c_j\).  On the shrinking \(j\)th interval,
+\(|c_i-\mu(t)|\ge|c_i-c_j|/2\) for all sufficiently small \(\epsilon\).
+Every fixed time derivative of Eq.~\eqref{eq:exact-free-clock} adds only a
+polynomial power of \(\epsilon^{-1}\); the separated Gaussian exponent remains
+\(-q_{ij}/\epsilon^2\).  Lemma~\ref{lem:contact-tail} controls the common
+contact factor and its derivatives, proving Eq.~\eqref{eq:cross-channel-bound}.
+\end{proof}
+
+\subsection{The theorem and its quantifier order}
+
+Let
+\begin{equation}
+ \Wset\subset\left\{w\in\mathbb R^m:
+ w_j\ge w_{\min}>0,\ \sum_jw_j=1\right\}
+ \label{eq:compact-weight-set}
+\end{equation}
+be compact and nonempty, so necessarily \(w_{\min}\le1/m\).
+
+\begin{theorem}[At least \(m\) modes in every fixed finite dimension]
+\label{thm:fixed-finite-m}
+Fix integers \(d\ge2\) and \(m\ge1\), all dimension-sized data in
+Eqs.~\eqref{eq:fixed-direct-data}, \eqref{eq:initial-rparallel}, and
+\eqref{eq:initial-rperp}, the strict weighted-space conditions
+\eqref{eq:weighted-initial-thresholds}, target times
+\eqref{eq:target-times}, the contact-interior condition
+\eqref{eq:contact-interior}, and the compact interior weight set \(\Wset\).
+Then
+\begin{equation}
+ \boxed{
+ \exists\epsilon_0(d,m,\text{data},\Wset)>0\
+ \ \forall\epsilon\in(0,\epsilon_0)\ 
+ \exists B_0(d,m,\text{data},\Wset,\epsilon)>0\
+ \ \forall B\in(0,B_0)\ 
+ \forall w\in\Wset:\ \mathsf P_m(B,\epsilon,w),}
+ \label{eq:nested-quantifiers}
+\end{equation}
+where \(\mathsf P_m\) means that the exact continuum Doi density has exactly
+one nondegenerate local maximum in each of the named disjoint intervals
+\(I_{j,\epsilon}\), and hence at least \(m\) local maxima.  It also has at
+least one local minimum between every consecutive pair of certified intervals.
+No exact global root count is asserted.
+\end{theorem}
+
+\begin{proof}
+Fix \(j\).  The own-channel contribution to the endpoint slopes is at least
+\(w_{\min}\alpha_j\epsilon^{-2}\), and its negative-curvature margin is at
+least \(w_{\min}\kappa_j\epsilon^{-3}\).  Because \(m\) is fixed and
+\(0\le w_i\le1\), Lemma~\ref{lem:cross-channel} implies that the sum of all
+cross-channel first and second derivatives is smaller than half of every
+own-channel margin once \(\epsilon\) is sufficiently small.  The same
+\(\epsilon_0\) works for all finitely many intervals and all \(w\in\Wset\).
+Thus
+\begin{align}
+ G_\epsilon'(t_j-L_0\epsilon;w)&>0,\nonumber\\
+ G_\epsilon'(t_j+L_0\epsilon;w)&<0,\nonumber\\
+ G_\epsilon''(t;w)&<0\quad(t\in I_{j,\epsilon}).
+ \label{eq:mixture-margins}
+\end{align}
+The derivative is strictly decreasing and changes sign exactly once, so the
+interval contains one unique nondegenerate maximum.  On the gap between two
+consecutive intervals, the derivative is negative at the left endpoint and
+positive at the right endpoint.  A minimum of the continuous function on the
+closed gap cannot occur at either endpoint, hence at least one local minimum
+is interior.  It need not be nondegenerate.
+
+To connect this weight set to Sec.~\ref{sec:weak-bridge}, choose
+\(\bar w\in\Wset\) and a frozen matrix
+\(P\in\mathbb R^{m\times(m-1)}\) whose columns span
+\(\{h:\bm1^{\mathsf T}h=0\}\).  Every \(w\in\Wset\) has a unique coordinate
+\(w=\bar w+P\theta\); hence
+\begin{equation}
+ \Theta_{\Wset}=\{\theta:\bar w+P\theta\in\Wset\}
+ \label{eq:weight-to-control-set}
+\end{equation}
+is compact and lies strictly inside the real simplex chart.  Choose the
+enlarged complex tube of Eq.~\eqref{eq:enlarged-control-tube} around this set.
+Its complex points need not be probability weights: they are used only for the
+entire affine-control extension and Cauchy estimates.
+
+Now fix one \(\epsilon\in(0,\epsilon_0)\).  Every Gaussian slab is then
+bounded, the initial law belongs to \(X_{\pi_\epsilon}\), and all tube norms
+are finite.  The unbounded version of Theorem~\ref{thm:mixed-jet}, with
+constants allowed to depend on this fixed \(\epsilon\), gives
+\begin{equation}
+ \frac{f_{B,\epsilon}}{B}\longrightarrow G_\epsilon
+ \quad\text{in }C^2([\tau,T]),
+ \label{eq:positive-B-transfer}
+\end{equation}
+uniformly over \(\Wset\) as \(B\downarrow0\).  The finitely many strict
+inequalities in Eq.~\eqref{eq:mixture-margins} therefore persist for all
+\(0<B<B_0(\epsilon)\), for one \(B_0(\epsilon)>0\) uniform over \(\Wset\).
+The same sign and concavity argument proves \(\mathsf P_m\).
+\end{proof}
+
+The order in Eq.~\eqref{eq:nested-quantifiers} is essential.  The semigroup
+constants can deteriorate rapidly as \(\epsilon\downarrow0\), because the
+profiles grow like \(\epsilon^{-1}\) and the weighted initial norm need not be
+uniform.  There is no interchange of the \(\epsilon\) and \(B\) limits.
+
+\begin{corollary}[Leading peak balance and event-mass boundary]
+\label{cor:peak-balance}
+Let
+\begin{equation}
+ H_j=\frac{1}{W^{d-1}\sqrt{2\pi}S(t_j)},
+ \qquad
+ w_j^{\mathrm{bal}}=\frac{S(t_j)}{\sum_iS(t_i)}.
+ \label{eq:peak-balancing-weights}
+\end{equation}
+Apply Theorem~\ref{thm:fixed-finite-m} with the compact singleton
+\(\Wset=\{w^{\mathrm{bal}}\}\).  Then the leading certified free-exposure peak
+heights are equal.  Denote the unique free-exposure maximum in
+\(I_{j,\epsilon}\) by \(t^{G,*}_{j,\epsilon}\).  Then
+\begin{equation}
+ \frac{t^{G,*}_{j,\epsilon}-t_j}{\epsilon}\to0,
+ \qquad
+ \epsilon G_\epsilon(t^{G,*}_{j,\epsilon};w^{\mathrm{bal}})
+ \to w_j^{\mathrm{bal}}H_j.
+ \label{eq:balanced-peaks}
+\end{equation}
+Moreover,
+\begin{equation}
+ \int_{I_{j,\epsilon}}G_\epsilon(t;w^{\mathrm{bal}})\,\dd t
+ \longrightarrow w_j^{\mathrm{bal}}
+ \int_{-L_0}^{L_0}A_j(y)\,\dd y>0,
+ \label{eq:free-exposure-area}
+\end{equation}
+whereas, after fixing \(\epsilon\), the physical Doi event mass satisfies, as
+\(B\downarrow0\),
+\begin{equation}
+ \int_{I_{j,\epsilon}}f_{B,\epsilon}
+ (t;w^{\mathrm{bal}})\,\dd t
+ =B\int_{I_{j,\epsilon}}G_\epsilon
+ (t;w^{\mathrm{bal}})\,\dd t+O_\epsilon(B^2).
+ \label{eq:event-mass-order}
+\end{equation}
+The positive-\(B\) Doi maximum may separately be denoted
+\(t^{B,*}_{j,\epsilon}\); Eq.~\eqref{eq:balanced-peaks} makes no assertion that
+interchanges or couples the \(\epsilon\downarrow0\) and \(B\downarrow0\)
+limits.  Thus the theorem supplies no positive absolute event-mass floor.
+\end{corollary}
+
+\begin{proof}
+Lemma~\ref{lem:own-channel}, strict local concavity, and exponentially small
+cross channels locate the free-exposure maximum at \(y=o(1)\) and give
+Eq.~\eqref{eq:balanced-peaks}.  Changing variables
+\(t=t_j+\epsilon y\) proves Eq.~\eqref{eq:free-exposure-area}.
+The first-order weak-reaction expansion in
+Eq.~\eqref{eq:first-correction-expansion}, integrated over the interval after
+\(\epsilon\) has been fixed, gives Eq.~\eqref{eq:event-mass-order}; its
+remainder constant is allowed to depend on that fixed \(\epsilon\).
+\end{proof}
+
+Theorem~\ref{thm:fixed-finite-m} is pointwise in the fixed finite integers
+\(d\) and \(m\), and is an existence result for a \(d\)-, \(m\)-, and
+\(\epsilon\)-dependent slab family.  No constant, dimensional budget,
+amplitude, event mass, or value of \(B_0\) is uniform or compared across
+dimensions.  It does not show that
+one fixed geometry realizes arbitrary \(m\), exclude extra early, late, or
+interstitial extrema, certify nondegenerate separator minima, cover arbitrary
+localized patches, take a \(d\to\infty\) limit, or demonstrate
+that nontrivial approach/separation dynamics causes the peaks.  The latter
+limitation is visible in Lemma~\ref{lem:contact-tail}: the construction makes
+the contact factor tend to one near every designed clock.
+
+The preceding theorem is retained because it allows a time-varying midpoint
+variance and local contact assumptions.  It does not support the exact-mode
+headline.  The stricter stationary-midpoint, whole-window subfamily needed for
+that headline is proved next.
+
+\input{exact_m_theorem_full_proof.tex}
+
+\section{Control-free finite-volume source and free-axis boundary}
+\label{sec:initial-source-boundary}
+
+The physical two-dimensional finite-volume program fixes, independently of
+the control and reaction budget, the three-coordinate quotient initial law
+\begin{align}
+ b(u)&=\mathbf1_{\{|u|<1\}}\exp[-(1-u^2)^{-1}],
+ &I_b&=\int_{-1}^{1}b(u)\,\dd u,\nonumber\\
+ \beta_{h,c}(x)&=\frac{b((x-c)/h)}{hI_b},
+ &q_0(M,R,Y)&=\beta_{h,M_0}(M)\beta_{h,R_0}(R)
+                    \beta^{\rm per}_{h,Y_0}(Y),
+ \label{eq:physical-compact-bump-initial}
+\end{align}
+Here the periodic factor is defined on $0\le y<W$ by the locally finite image
+sum
+\begin{equation}
+ \beta^{\rm per}_{h,c}(y)=\sum_{n\in\mathbb Z}\beta_{h,c}(y+nW).
+ \label{eq:periodic-compact-bump}
+\end{equation}
+The source parameters use the following binary64 words, interpreted as exact
+dyadic reals:
+\begin{align}
+ M_0&=\texttt{0x1.1eb851eb851ecp-3},
+ &R_0&=\texttt{-0x1.6666666666666p-2},\nonumber\\
+ Y_0&=0,
+ &h&=\texttt{0x1.47ae147ae147bp-6},\qquad W=1.
+ \label{eq:physical-compact-bump-parameters}
+\end{align}
+The canonical control-free source SHA-256 is obtained by concatenating the
+following two lines in order:
+\begin{align}
+ &\texttt{0b2efec5dc1abea1380ab862e46825e7b}\nonumber\\[-0.25ex]
+ &\texttt{79658fe9bfa0ac6637e1426ed9f7f5f}.
+ \label{eq:physical-initial-source-sha}
+\end{align}
+
+The nonperiodic domains use the exact binary64 endpoints
+\begin{align}
+ [L_M,U_M]&=
+ [\texttt{-0x1.0000000000000p-2},
+   \texttt{0x1.d99999999999ap+0}],\nonumber\\
+ [L_R,U_R]&=
+ [\texttt{-0x1.ccccccccccccdp+0},
+   \texttt{0x1.ccccccccccccdp+0}],
+ \label{eq:tiny-verification-domains}
+\end{align}
+and the periodic domain is $[L_Y,U_Y)=[0,1)$.  With
+$\Delta_a=(U_a-L_a)/4$, cell $j$ on axis $a$ is
+$[L_a+j\Delta_a,L_a+(j+1)\Delta_a)$, except that the last nonperiodic
+cell includes its right endpoint.  For indices $j_M,j_R,j_Y\in\{0,1,2,3\}$,
+the tensor component has C-order flat index
+\begin{equation}
+ i=16j_M+4j_R+j_Y.
+ \label{eq:tiny-c-order-index}
+\end{equation}
+The verifier reconstructs this exact four-cell partition on each axis,
+uses one shared directed-arithmetic enclosure of $I_b$, encloses every cell
+mass by composite Simpson quadrature with 16384 panels per unit and 192-bit
+directed exponentials, and forms the tensor endpoints in C order.  It then
+rebuilds the packed bytes and the lower-anchor target from the source; a
+different but internally valid unit-mass box is rejected by byte identity.
+The resulting exact lower-anchor radius is
+\begin{equation}
+ 1-\sum_i\ell_i=\frac{6051}{2^{53}}
+ =6.717959522006\ldots\times10^{-13}<10^{-12}.
+ \label{eq:tiny-initial-radius}
+\end{equation}
+
+For this deliberately chosen verification partition, source containment also
+has a quadrature-independent proof.  The midpoint support lies wholly in cell
+0, the parallel-relative support lies wholly in cell 1, and evenness of
+$b$ splits the periodic bump exactly across the quotient cut.  Hence the
+three marginal vectors are
+\begin{equation}
+ (1,0,0,0),\qquad (0,1,0,0),\qquad
+ (1/2,0,0,1/2),
+ \label{eq:tiny-structural-witness}
+\end{equation}
+so the exact product target has C-order flat components 4 and 7 equal to
+$1/2$, with all other components zero.  An independently implemented
+directed-MPFR monotone-rectangle enclosure, using 8192 panels per unit and
+224-bit arithmetic, checks all marginal and tensor components for numerical
+consistency; its much wider overlap is not used to prove canonical endpoint
+identity.
+
+The preceding $4^3$ construction is only the exact structural preflight.  The
+same accepted source has now been applied, without any control or reaction
+budget, to the complete prospectively fixed production family in
+Table~\ref{tab:production-initial-family}.  The configuration record fixes the
+axis alignment, exact domain or periodic shift, size, and row order before any
+positive-budget value is read.
+
+\begin{table}[t]
+\caption{Frozen control-free production configurations.  The last column is
+the tensor state count; the sum is $34{,}787{,}462$.}
+\label{tab:production-initial-family}
+\begin{ruledtabular}
+\begin{tabular}{lrrr r}
+Row & $N_M$ & $N_R$ & $N_Y$ & States\\
+\colrule
+O113/Base & 113 & 113 & 113 & 1,442,897\\
+E128/Base & 128 & 128 & 128 & 2,097,152\\
+O129/Base & 129 & 129 & 129 & 2,146,689\\
+O161/Base & 161 & 161 & 161 & 4,173,281\\
+M+        & 166 & 129 & 129 & 2,762,406\\
+R+        & 129 & 172 & 129 & 2,862,252\\
+MR+       & 166 & 172 & 129 & 3,683,208\\
+MR+F      & 207 & 215 & 161 & 7,165,305\\
+$A_M$     & 129 & 128 & 128 & 2,113,536\\
+$A_R$     & 128 & 129 & 128 & 2,113,536\\
+$A_Y$     & 128 & 128 & 128 & 2,097,152\\
+$A_{MRY}$ & 129 & 129 & 128 & 2,130,048\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+For every row, the producer reconstructs the exact finite-volume partition,
+including vertex-centred endpoint half volumes and the prescribed half-period
+shift.  It writes canonical big-endian binary64 endpoint files for the forward
+rate, backward rate, the historical \texttt{stationary\_mass} role, and each
+initial marginal.  The \texttt{stationary\_mass} entries are the ungauged
+representative quadrature primitives
+\[
+ \widetilde\mu_{a,i}
+ =|C_{a,i}|\exp[-\Phi_a(x_{a,i}^{\rm rep})],
+\]
+not physical cell integrals and not box-normalized probabilities.  Only active
+tensor components are stored; every omitted component is the exact
+positive-zero interval.  The 206-file inventory occupies approximately
+\(1.44\) MB while its virtual dense endpoint stream has \(556{,}599{,}392\)
+bytes.  The verifier rederives every partition, directed rate, primitive,
+marginal, sparse record, virtual dense digest, and row/family relation.
+
+A same-core artifact implementation reconstructs all 206 files byte for byte.
+A third, separate-source implementation uses 256-bit directed MPFR arithmetic,
+an independently written Scharfetter--Gummel enclosure, and 32768 Simpson
+panels per unit.  Its intervals lie inside the producer envelopes for all
+10,074 directed rates, 5,037 ungauged representative primitives, 5,037 initial
+marginal components, and 722 active tensor components.  Because both paths use
+the same \texttt{gmpy2}/MPFR backend and the same Simpson remainder lemma, this
+is separate-source semantic containment, not backend independence or an
+alternative quadrature family.
+
+Separate authenticated fixed-row artifacts now compute the physical
+axis-cell integrals and reconstruct the formula-defined common edge fluxes,
+directed rates, and factorized density ratios.  Their builders and independently
+written validators are executed from authenticated source snapshots under a
+pinned MPFR runtime.  They still use the same backend, apply only to the twelve
+fixed level-\(n=0\) rows, and do not issue one correlated receipt containing a
+common mass, flux, gauge, map, and killing member.
+
+The canonical forward/backward files are decoded and repacked into the native
+immutable rate format without arithmetic.  All 72 conversions are
+round-tripped to the original big-endian bytes and retain the exact partition
+and axis-relation hashes.  This binds packed free-axis rate payloads; it does
+not bind contact killing or a full generator.
+
+An outer standard-library orchestrator runs two complete initial-bundle
+repeats, each using five isolated Python processes.  A further two-repeat
+outer replay authenticates only the control-free factorized killing geometry.
+It constructs no control row, positive budget, tensor killing diagonal,
+reconstructed multiplier, or globally gauged operator.
+
+Finally, a separate ideal authority defines twelve genuine dyadic refinement
+sequences with \(h_f(n)=h_f(0)2^{-n}\).  Its level-\(n=0\) equality with the
+saved configurations is geometric only.  A source-bound ideal theorem
+candidate supplies symbolic map, contact cut-layer, and killing-residual
+bounds on those tails.  It does not numerically evaluate the constants or
+supply production same-member containment.
+
+There is therefore still no concrete killed
+\texttt{PackedKernelInputs} object, full operator, uniformization step,
+propagated target, stationary-point exclusion, measured production resource
+gate, F0 acceptance, project-level complete C1/C2, continuum transfer, or
+publication-level physical result.
+
+\section{Formal-verification boundary}
+\label{sec:formal-boundary}
+
+The proofs in Secs.~\ref{sec:weak-bridge}, \ref{sec:direct-theorem}, and
+\ref{sec:exactmfull-proof} are conventional human-audited mathematical
+proofs.  They are not Lean-verified.
+At this repository snapshot the companion modules reside under the exact
+repository-relative directory
+\path{research/reports/ring_lazy_jump_ext_rev2/code/formal_lean/FormalLean/}.
+The three source files and their SHA-256 anchors are listed below:
+\begin{align*}
+ &\texttt{Encounter.lean}:\quad
+ \texttt{d2c11759c831228eb6641f3944d1d860c34615982d15b883e6d029f0a670e754},\\
+ &\texttt{EncounterDesign.lean}:\quad
+ \texttt{fa45ceb3c40e7c9769d4f7d6ab5aa1495e89a361c675b89f362dfc11798b8330},\\
+ &\texttt{EncounterContinuum.lean}:\quad
+ \texttt{ae23060be3166c392eab2d8a0a5af5dcd1d3a4adf2a8b912fd8a0c2161e538b4}.
+\end{align*}
+These files certify finite algebraic fragments only.  Their declared scope excludes the
+continuum semigroup, differentiated wrapped-Gaussian tail, interval root count,
+finite-width/discretization persistence, and implicit-function/catastrophe
+bridge used here.  In particular, a successful axiom report for those modules
+does not imply either Theorem~\ref{thm:mixed-jet} or
+Theorem~\ref{thm:fixed-finite-m}.
+
+\begin{table}[t]
+\caption{Analytical evidence boundary for this working supplement.}
+\label{tab:formal-boundary}
+\begin{ruledtabular}
+\begin{tabular}{p{0.43\linewidth}p{0.23\linewidth}p{0.24\linewidth}}
+\raggedright Statement
+& \raggedright Paper-proof status
+& \raggedright Lean status\tabularnewline
+\colrule
+\raggedright Affine budget projection and selected finite derivative identities
+& \raggedright proved
+& \raggedright partially covered by companion algebra\tabularnewline
+\raggedright Analytic killed semigroup and mixed-jet \(O(B)\) bridge
+& \raggedright proved under stated hypotheses
+& \raggedright not formalized\tabularnewline
+\raggedright Differentiated wrapped-Gaussian contact tail
+& \raggedright proved under stated hypotheses
+& \raggedright not formalized\tabularnewline
+\raggedright Local at-least-\(m\), \(\epsilon\)-then-\(B\) theorem in Sec.~S4
+& \raggedright proved under stated hypotheses
+& \raggedright not formalized\tabularnewline
+\raggedright Exact-\(m\) complete topology and fixed-\(\epsilon\) Doi transfer
+in Sec.~S5
+& \raggedright complete reader-facing proof; frozen mathematical migration passed Round~149
+& \raggedright not formalized\tabularnewline
+\raggedright Fixed-row preparation, physical-integral/raw-flux sources, and
+ideal refinement/source-bound records
+& \raggedright verified only at their respective control-free or ideal scopes;
+no correlated production member, propagation, complete C1/C2, or F0
+& \raggedright not formalized\tabularnewline
+\raggedright Finite-parameter cusp, event-mass floor, and solver convergence
+& \raggedright not claimed in this supplement
+& \raggedright no coverage claimed\tabularnewline
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+A future formalization could first encode the tractable last mile: strict
+endpoint slopes plus strict concavity imply one unique nondegenerate maximum;
+uniform \(C^2\) perturbations preserve those inequalities; and the nested
+quantifier wrapper fixes \(\epsilon\) before \(B\).  Full formal verification
+would additionally require imported or formal proofs of the analytic-semigroup
+and differentiated wrapped-Gaussian estimates.  Until then, the phrases
+``Lean verified'' and ``formally verified'' are not admissible descriptions of
+the analytical theorems.
+
+\section{Reserved supplemental modules}
+\label{sec:reserved}
+
+\paragraph{Reduced-clock/GIG ancestry placeholder.}
+No GIG result or GIG-to-Doi universality enters
+Theorem~\ref{thm:fixed-finite-m}.  Any retained reduced-clock ancestry needs a
+separately audited, overlap-cleared account; this placeholder makes no claim.
+
+\paragraph{Numerical-evidence placeholder.}
+Apart from the control-free source/partition/free-axis preparation in
+Sec.~\ref{sec:initial-source-boundary}, this file contains no numerical value
+or claim about positive-budget topology, cusps, mesh convergence, event mass,
+or independent physical solvers.  That preparation is a method and provenance
+result, not a physical reaction-time result.  Any positive-budget numerical
+module requires a frozen, independently checked discovery/confirmation/held-out
+chain; the analytical statements here rest only on their displayed hypotheses
+and proofs.
+
+\paragraph{Exact-\(m\) proof status.}
+Section~S5 now contains the reader-facing migration of the accepted global
+zero bound, posterior-sector complement certificate, slow-factor root shifts,
+and fixed-\(\epsilon\) weak-budget transfer.  The frozen mathematical migration
+passed the independent hash-specific Round~149 audit.  Submission remains
+barred because the finite-parameter F0--F3 evidence, convergence from the
+finite-volume scheme to the unbounded continuum (C0--C3 plus root transfer),
+overlap disclosure, metadata, and final release audits remain open;
+Section~S4 remains only at its distinct, weaker at-least-\(m\) scope.
+
+\bibliography{references}
+
+\end{document}

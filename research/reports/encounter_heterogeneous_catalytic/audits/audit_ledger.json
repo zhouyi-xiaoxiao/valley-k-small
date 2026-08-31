@@ -1,0 +1,404 @@
+{
+  "all_rounds_pass": true,
+  "generated_at_utc": "2026-07-11T00:00:00+00:00",
+  "policy": "two independent reviewers plus root resolution for each round",
+  "round_count": 13,
+  "rounds": [
+    {
+      "directory": "audits/round_01_model_conventions",
+      "files": [
+        {
+          "bytes": 5858,
+          "path": "audits/round_01_model_conventions/resolution.md",
+          "sha256": "32606e44b2c76443b84e77b12f15ed8c4364939d3b45c02d1c10d90260d492b2"
+        },
+        {
+          "bytes": 20170,
+          "path": "audits/round_01_model_conventions/reviewer_a.md",
+          "sha256": "de14cc4522427a8edd700ec15305be609ae33f6bb446cb1ebdf0658cb7bf5adc"
+        },
+        {
+          "bytes": 9231,
+          "path": "audits/round_01_model_conventions/reviewer_b.md",
+          "sha256": "e2d64092fab43fb54c9d7c19d1b88636f8b50963a629f3129a3f4622deab72ab"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 1,
+      "status": "PASS",
+      "status_detail": "WITH DECLARED CAVEATS"
+    },
+    {
+      "directory": "audits/round_02_green_resolvent",
+      "files": [
+        {
+          "bytes": 5956,
+          "path": "audits/round_02_green_resolvent/resolution.md",
+          "sha256": "a9e562565da43af8020aa336bf2dbc0f5d858eeef92037b17b9298b41b6b34ac"
+        },
+        {
+          "bytes": 15798,
+          "path": "audits/round_02_green_resolvent/reviewer_a.md",
+          "sha256": "1864212c7a70ebeea8d6f74cb99e088a69832a3729de9987dc4f38b78ef1b36f"
+        },
+        {
+          "bytes": 16828,
+          "path": "audits/round_02_green_resolvent/reviewer_b.md",
+          "sha256": "06aed16fbfe519048de6671a01dafcaca3a422df7eb7f2ea3deab514dbddbd55"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 2,
+      "status": "PASS",
+      "status_detail": "WITH FINITE/CONTINUUM SCOPE SPLIT"
+    },
+    {
+      "directory": "audits/round_03_gig_asymptotics",
+      "files": [
+        {
+          "bytes": 3585,
+          "path": "audits/round_03_gig_asymptotics/resolution.md",
+          "sha256": "48560dccd91633cc1cbcafd2105c6e64b6d44f2768469cf086005704a2fd7c4f"
+        },
+        {
+          "bytes": 15384,
+          "path": "audits/round_03_gig_asymptotics/reviewer_a.md",
+          "sha256": "cd30e2e6503117284da2109bef31bbb8e634dcddfb31f69bb579bbe1384dd561"
+        },
+        {
+          "bytes": 10978,
+          "path": "audits/round_03_gig_asymptotics/reviewer_a_recheck.md",
+          "sha256": "ed52cc94cf78adf2985f6b185d425fd17efae198058eb28a25c1aba4fae52b2b"
+        },
+        {
+          "bytes": 18922,
+          "path": "audits/round_03_gig_asymptotics/reviewer_b.md",
+          "sha256": "eafefaf7bc58fa12c9d95bd5b194930a2665f5f44d06e56478278d9d111853ff"
+        },
+        {
+          "bytes": 10887,
+          "path": "audits/round_03_gig_asymptotics/reviewer_b_recheck.md",
+          "sha256": "34b065469cc1c920191eec973297f7caf81da9d06c3f307c75b6d91d4915cd18"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 3,
+      "status": "PASS",
+      "status_detail": "within the declared free-space narrow-patch screening scope"
+    },
+    {
+      "directory": "audits/round_04_catastrophe_algebra",
+      "files": [
+        {
+          "bytes": 2676,
+          "path": "audits/round_04_catastrophe_algebra/resolution.md",
+          "sha256": "162fc8ae3f5ca5b104862c1940524463c911f9d56a3affe1ecf7e4627f7c0fe9"
+        },
+        {
+          "bytes": 19189,
+          "path": "audits/round_04_catastrophe_algebra/reviewer_a.md",
+          "sha256": "1d782b18e1af5e9eacbff57c97a370d770257428537e3610bf7b3303e2345e6f"
+        },
+        {
+          "bytes": 18324,
+          "path": "audits/round_04_catastrophe_algebra/reviewer_b.md",
+          "sha256": "052a04be16e361c18ff45f038abeeb1cfe45d3a5fe18c62e64abe19635260974"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 4,
+      "status": "PASS",
+      "status_detail": "no open B0, B1, B2, or B3"
+    },
+    {
+      "directory": "audits/round_05_roots_conditioning",
+      "files": [
+        {
+          "bytes": 2442,
+          "path": "audits/round_05_roots_conditioning/resolution.md",
+          "sha256": "4e1b8db9e3f8b00462913f99c42317b1ec6a7a17498d44ee4dc933b28fa4445f"
+        },
+        {
+          "bytes": 25318,
+          "path": "audits/round_05_roots_conditioning/reviewer_a.md",
+          "sha256": "0db4585f0ebb9bbb2ee6972a16d3b47b54d28c204b28630246699c20d5c0d736"
+        },
+        {
+          "bytes": 6850,
+          "path": "audits/round_05_roots_conditioning/reviewer_a_recheck.md",
+          "sha256": "9a53698518a3bad377fb6f4b20b3c7a8cffa5f20b8da871994eb7cb7f83ef153"
+        },
+        {
+          "bytes": 20065,
+          "path": "audits/round_05_roots_conditioning/reviewer_b.md",
+          "sha256": "020ea5236e0f6ed34333b7b3209e6e653fd83b65fd5187e870f6f5b63f2d7be1"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 5,
+      "status": "PASS",
+      "status_detail": "no open B0, B1, or B2 scientific finding"
+    },
+    {
+      "directory": "audits/round_06_finite_physics",
+      "files": [
+        {
+          "bytes": 3676,
+          "path": "audits/round_06_finite_physics/resolution.md",
+          "sha256": "76b5fd9a8d66d2653ed07dc826fef1cdaf821fd24db0e87b5a406916f5e83e63"
+        },
+        {
+          "bytes": 23915,
+          "path": "audits/round_06_finite_physics/reviewer_a.md",
+          "sha256": "ac7cdd11a95c50f980528919b96ba27b23d37480a4d644bf49516d9444e4881b"
+        },
+        {
+          "bytes": 18934,
+          "path": "audits/round_06_finite_physics/reviewer_b.md",
+          "sha256": "618f1a1a24078b0658faf94289d7b573d431b0addbbb805f794e03f3e3b26ec8"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 6,
+      "status": "PASS",
+      "status_detail": "no open B0, B1, or B2 scientific finding"
+    },
+    {
+      "directory": "audits/round_07_lean_formal",
+      "files": [
+        {
+          "bytes": 3068,
+          "path": "audits/round_07_lean_formal/resolution.md",
+          "sha256": "d4c7929fb35fc23a303b5daca45c432bd692d8f32dbe1567ec8691d41d69a339"
+        },
+        {
+          "bytes": 15326,
+          "path": "audits/round_07_lean_formal/reviewer_a.md",
+          "sha256": "da2e2d25fd221582d803d28ae855a7d2d9533bbc56c8bbc3b39025cd46a8f0e6"
+        },
+        {
+          "bytes": 27525,
+          "path": "audits/round_07_lean_formal/reviewer_b.md",
+          "sha256": "f97c4a8d95efdd5d1dba9d7a814c89d96d657cf3f55232b7e882397c6208e4b5"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 7,
+      "status": "PASS",
+      "status_detail": "for formal correctness and workflow; clean-tag release gate remains explicit"
+    },
+    {
+      "directory": "audits/round_08_reproducibility",
+      "files": [
+        {
+          "bytes": 3818,
+          "path": "audits/round_08_reproducibility/resolution.md",
+          "sha256": "27c143bef87f5e083e1e18539b482110a22a82e562a608153862b325f1630361"
+        },
+        {
+          "bytes": 21568,
+          "path": "audits/round_08_reproducibility/reviewer_a.md",
+          "sha256": "4e35b0ec884b48cbeb273c538e1b393aef65b7eadf0a08abe5fc7d5b561fdb58"
+        },
+        {
+          "bytes": 24871,
+          "path": "audits/round_08_reproducibility/reviewer_b.md",
+          "sha256": "7532b14063f542eeeef68e4a984048c5d286ee17084006aafdd7d802b731b080"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 8,
+      "status": "PASS",
+      "status_detail": "for research reproducibility; external submission release remains HOLD"
+    },
+    {
+      "directory": "audits/round_09_novelty_journal",
+      "files": [
+        {
+          "bytes": 4582,
+          "path": "audits/round_09_novelty_journal/resolution.md",
+          "sha256": "536e2c2c3775bb46f6a09f955efd70e9cfa696f4bbcebcaa5549b48d08b84fe9"
+        },
+        {
+          "bytes": 32156,
+          "path": "audits/round_09_novelty_journal/reviewer_a.md",
+          "sha256": "84c3df158c1a2adc8142dde58f314046180bed129b1af6b8b48dec342bdfe974"
+        },
+        {
+          "bytes": 9400,
+          "path": "audits/round_09_novelty_journal/reviewer_a_recheck.md",
+          "sha256": "da73673094e12b7584dc417554ad8179506a99b428fa932186ea543bbcccdc35"
+        },
+        {
+          "bytes": 24640,
+          "path": "audits/round_09_novelty_journal/reviewer_b.md",
+          "sha256": "dc58ffac73ab817bcb936e86d2ce89c22f939f244e8cbbbf11e8dce7cf0d3aa6"
+        },
+        {
+          "bytes": 3267,
+          "path": "audits/round_09_novelty_journal/reviewer_b_final_recheck.md",
+          "sha256": "9585ed36fcd94f9933b3f935121d807bb0e80974e558f268735ba413a2bf8028"
+        },
+        {
+          "bytes": 13648,
+          "path": "audits/round_09_novelty_journal/reviewer_b_recheck.md",
+          "sha256": "d1d444b1fa8f2b81e865155e886a7b5839f9821f93bdf0f3ccb8aa2a34f2378c"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 9,
+      "status": "PASS",
+      "status_detail": "no open B0, B1, B2, or B3 novelty/journal finding"
+    },
+    {
+      "directory": "audits/round_10_referee_simulation",
+      "files": [
+        {
+          "bytes": 5115,
+          "path": "audits/round_10_referee_simulation/resolution.md",
+          "sha256": "59e8ac6b21ec74ac9e25b261743a9559a83c793ec970450e84338589a8938b2b"
+        },
+        {
+          "bytes": 19099,
+          "path": "audits/round_10_referee_simulation/reviewer_a.md",
+          "sha256": "2b0f723ca2ed1fec05deaa619ed82be39e3283c728abeb76618ff500f870cb58"
+        },
+        {
+          "bytes": 35810,
+          "path": "audits/round_10_referee_simulation/reviewer_b.md",
+          "sha256": "c98d2d9e8c4d9fa7b574f350480b25d8ff077d5b69e96d77ff0610d4affa66ec"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 10,
+      "status": "PASS",
+      "status_detail": "for completed claim-boundary audit and finite-state/PRE route; manuscript remains MAJOR REVISION and external release HOLD"
+    },
+    {
+      "directory": "audits/round_11_generality_counterexamples",
+      "files": [
+        {
+          "bytes": 1749,
+          "path": "audits/round_11_generality_counterexamples/resolution.md",
+          "sha256": "4005775810e229aa5c7cc37c4820cdd41597630a3df2447efdee991543ccd26b"
+        },
+        {
+          "bytes": 2590,
+          "path": "audits/round_11_generality_counterexamples/reviewer_a.md",
+          "sha256": "773e46f69cefe3eccbb48f967830e8d0ce56dac2c886855fc98dfdafd9906fb6"
+        },
+        {
+          "bytes": 2533,
+          "path": "audits/round_11_generality_counterexamples/reviewer_b.md",
+          "sha256": "7bd6e28b2976414aaf2b7debc37699ae523453a88a9875e3bd4fe32f43abb1fc"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 11,
+      "status": "PASS",
+      "status_detail": "all B1/B2 findings closed in the finite-model claim boundary"
+    },
+    {
+      "directory": "audits/round_12_design_spectral_validation",
+      "files": [
+        {
+          "bytes": 1277,
+          "path": "audits/round_12_design_spectral_validation/resolution.md",
+          "sha256": "295cc6542ab7ed8d4df65f90f69e360d8d4d2c334bd4bdb92c60f00061a9df69"
+        },
+        {
+          "bytes": 1492,
+          "path": "audits/round_12_design_spectral_validation/reviewer_a.md",
+          "sha256": "410481378c781952561694fce863da59f2b6f620c1609a2a9ef16172093fe85f"
+        },
+        {
+          "bytes": 1748,
+          "path": "audits/round_12_design_spectral_validation/reviewer_b.md",
+          "sha256": "51644b1923bd56fbb66afd2fc3d22b822330b1b46d307e5c7ba3b0a222db9073"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 12,
+      "status": "PASS",
+      "status_detail": "independent formula paths, production spectra, and counterexamples agree"
+    },
+    {
+      "directory": "audits/round_13_upgrade_referee",
+      "files": [
+        {
+          "bytes": 1796,
+          "path": "audits/round_13_upgrade_referee/resolution.md",
+          "sha256": "f49cc4772073d4027d209af5bf10c5ae3c2a015e60c42aba1a4a80ef803d2ce7"
+        },
+        {
+          "bytes": 1826,
+          "path": "audits/round_13_upgrade_referee/reviewer_a.md",
+          "sha256": "420b7e8586b9e8d6dadbb77d2138c9b9ab685cf589aa88f5d21be5d40ec889ff"
+        },
+        {
+          "bytes": 1682,
+          "path": "audits/round_13_upgrade_referee/reviewer_b.md",
+          "sha256": "cfdbb35e4654cb2c2068453a541e13b0aae66fa41cb1b2e0c66b8fcacd95ef11"
+        }
+      ],
+      "required_files": [
+        "reviewer_a.md",
+        "reviewer_b.md",
+        "resolution.md"
+      ],
+      "round": 13,
+      "status": "PASS",
+      "status_detail": "for the revised PRE finite-model route; higher-journal continuum gates remain explicit"
+    }
+  ],
+  "schema_version": 2,
+  "source_date_epoch": 1783728000
+}

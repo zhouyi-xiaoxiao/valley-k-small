@@ -1,0 +1,109 @@
+{
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "external_predecessor_commitment_present": false,
+    "formal_outer_open_operation_model_present": false,
+    "formal_selected_source_dag_complete": false,
+    "formal_symbolic_candidate_materialized": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "policy_predecessor_order_independently_sealed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "root_transfer_complete": false,
+    "science_executed": false,
+    "submission_eligible": false,
+    "symbolic_acceptance_receipt_materialized": false
+  },
+  "commitment_set": [
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_member_spec_v3_candidate.json",
+      "role": "member_spec_candidate",
+      "sha256": "b5eea6553d329bcbc4a1eb301dd3d5fb5b5acd387b80bfee5094286d3ca8ab71"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_method_parameter_registry_v2_candidate.json",
+      "role": "method_parameter_registry_candidate",
+      "sha256": "3fc83a81046f92f24e3adc51645462aa68953cc5991573fe63e6f0e941ed6961"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_outward_method_registry_v2_candidate.json",
+      "role": "outward_method_registry_candidate",
+      "sha256": "2a455a3bb4808fb722a83b815a7c8cf8995669360394ee6f8adc73c87cc280fb"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_anti_vacuity_policy_v3_candidate.json",
+      "role": "anti_vacuity_policy_candidate",
+      "sha256": "e0b3a649b45494881a534ecd84fe6f98f73012f0e5e6d7ca14b90fddffbccac8"
+    },
+    {
+      "path": "artifacts/data/continuum_c1_c2_n0_predecessor_authority_candidate_v1/continuum_c1_c2_n0_predecessor_authority_candidate_manifest_v1.json",
+      "role": "predecessor_authority_candidate_manifest",
+      "sha256": "4c2ed0723711e537c6c188016ab9ec3e3a3c0d7966eb1c257f868c48116ef245"
+    },
+    {
+      "path": "code/build_continuum_c1_n0_predecessor_authority_candidate_v1.py",
+      "role": "candidate_builder",
+      "sha256": "79ff0d533ee549d62add35c4a1ae3ff9f27e9e7e30eec66a97b957ba444f1e5d"
+    },
+    {
+      "path": "code/validate_continuum_c1_n0_predecessor_authority_candidate_v1.py",
+      "role": "independent_candidate_validator",
+      "sha256": "70e461170316e15561354072c12fda5a6534fb5ad0366b9a5ebe0a1913b7d629"
+    },
+    {
+      "path": "code/test_continuum_c1_n0_predecessor_authority_candidate_v1.py",
+      "role": "candidate_static_tests",
+      "sha256": "98b3e933104f10810b4cd3e17561a84cbbca2d8c96a62243378ef81c3b3e496b"
+    },
+    {
+      "path": "code/test_continuum_c1_n0_predecessor_authority_candidate_mutations_v1.py",
+      "role": "candidate_mutation_tests",
+      "sha256": "b067d3a4074047fb698f28c13719bc219b99289fb108be6b030d8f302485b51f"
+    }
+  ],
+  "local_state": {
+    "candidate_ready_for_external_predecessor_commitment": false,
+    "external_authentication_present": false,
+    "local_or_subagent_review_is_external_authentication": false,
+    "same_process_may_satisfy_request": false,
+    "timestamp_or_mtime_is_commitment_evidence": false
+  },
+  "requested_external_record": {
+    "accepted_authentication_classes": [
+      "distinct_operator_authenticated_signature",
+      "independently_audited_predecessor_commit_hash",
+      "independent_trust_domain_receipt_hash"
+    ],
+    "current_request_action": "independent_review_only_candidate_revision_required_before_commitment",
+    "current_request_may_authorize_roles_8_10_replay": false,
+    "forbidden_evidence_classes": [
+      "filesystem_mtime_or_timestamp_only",
+      "local_self_hash_only",
+      "same_process_or_child_process_assertion",
+      "subagent_review_without_distinct_authentication"
+    ],
+    "must_bind_candidate_bundle_sha256": true,
+    "must_bind_commitment_message_sha256": "d119a23e269d5a0d9ba51efdefae0dd851532248ff25d95df54463241452e8b0",
+    "must_exist_before_any_roles_8_10_replay": true,
+    "must_identify_distinct_reviewer_or_operator_authority": true,
+    "must_not_be_created_or_consumed_by_this_builder_invocation": true,
+    "required_schema": "encounter_external_predecessor_commitment_v1",
+    "required_top_level_keys": [
+      "authentication",
+      "authority",
+      "candidate_bundle",
+      "claim_boundary",
+      "commitment_message_sha256",
+      "ordering",
+      "schema",
+      "status"
+    ]
+  },
+  "schema": "encounter_continuum_c1_c2_n0_external_commitment_review_request_v1",
+  "status": "INDEPENDENT_REVIEW_REQUEST_ONLY_B06_REVISION_REQUIRED_EXTERNAL_PREDECESSOR_COMMITMENT_ABSENT"
+}

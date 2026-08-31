@@ -1,0 +1,170 @@
+{
+  "agreement_reconstruction": {
+    "all_agreement_gates_passed": true,
+    "gates": {
+      "event_basin_masses": true,
+      "final_survival": true,
+      "paired_root_times": true,
+      "peak_ratio": true,
+      "valley_ratios": true
+    },
+    "metrics": {
+      "final_survival_absolute_difference": 8.806174147879542e-05,
+      "maximum_event_mass_absolute_difference": 0.00010255676151960103,
+      "maximum_paired_root_time_difference": 0.0340778695959969,
+      "maximum_valley_ratio_absolute_difference": 0.017715411814572146,
+      "peak_ratio_absolute_difference": 0.005747999346973787
+    }
+  },
+  "auditor_sha256": "8e84d8930393e4ba60a906519eef7f1734c713a273791153a55d1f6f16ec3985",
+  "canonical_result_sha256": "51e8eb4bdb652124865d0c39e6f36b99d13ed61578b161e0f75b142cada49401",
+  "claim_boundary": {
+    "allocation_cusp_verified": false,
+    "continuum_interval_verified": false,
+    "fixed_box_two_mesh_semidiscrete_point_only": true,
+    "independent_process_execution_observed_by_auditor": false,
+    "independent_solver_verified": false,
+    "preregistered_discovery": false,
+    "project_gate_passed": false,
+    "two_process_evidence_record_consistent": true,
+    "unbounded_domain_FV_limit_verified": false
+  },
+  "independence_boundary": {
+    "independently_algebraically_reconstructed": [
+      "root scaled residuals and curvatures",
+      "conditional peak and valley ratios",
+      "conditional event-basin masses and closure",
+      "tangent-row time-jet differences and summary maxima",
+      "tail checkpoint summaries",
+      "two-mesh nullable agreement metrics and gates"
+    ],
+    "re_evaluated_from_producer_reported_certified_extrema": [
+      "full-scan minimum density",
+      "full-scan minimum state component",
+      "full-scan maximum adjacent survival increase",
+      "full-scan maximum differential mass-balance residual",
+      "generator mass-balance identity residual",
+      "root minimum-state components and mass-balance residuals",
+      "direct-versus-tangent state-norm residuals",
+      "finite-volume factor quadrature and row-sum diagnostics"
+    ]
+  },
+  "manifest_sha256": "955e59bf333b5fd70e415a53dc26becae9c7a34c5d40f1230c96b1dab8f5677c",
+  "mesh_reconstructions": [
+    {
+      "all_reported_mesh_gates_passed": true,
+      "basin_masses": [
+        0.0052114278399768565,
+        0.01662828849270659,
+        0.14837901353866123
+      ],
+      "expected_five_root_topology": true,
+      "final_survival": 0.8297812701286553,
+      "independently_algebraically_reconstructed_gates": {
+        "curvature_margins": true,
+        "endpoint_derivative_signs": true,
+        "event_basin_masses": true,
+        "event_mass_partition_closure": true,
+        "five_alternating_simple_roots": true,
+        "generator_Q_one_equals_minus_B_k0": true,
+        "initial_mass": true,
+        "mass_balance_at_final_time": true,
+        "mass_balance_at_roots": true,
+        "mass_balance_on_saved_scan": true,
+        "mass_balance_on_tail_checkpoints": true,
+        "peak_ratio": true,
+        "physical_budget": true,
+        "root_density_positive": true,
+        "root_residuals": true,
+        "sampled_density_positive": true,
+        "state_positivity_tolerance": true,
+        "survival_monotone_through_final_time": true,
+        "survival_positive": true,
+        "tail_final_state_positivity": true,
+        "tangent_state_reproduction": true,
+        "tangent_time_jet_reproduction": true,
+        "valley_ratios": true,
+        "weights_positive_unit_sum": true
+      },
+      "mesh": 113,
+      "peak_ratio": 0.8333934839503558,
+      "producer_reported_full_scan_extrema_used": [
+        "minimum_sampled_density_from_frozen_start",
+        "minimum_streamed_state_component",
+        "maximum_sampled_survival_increase",
+        "maximum_sampled_differential_mass_balance_residual"
+      ],
+      "root_times": [
+        3.3367649300617077,
+        5.094308494728989,
+        8.622283801381938,
+        13.561466700696581,
+        22.54889593965799
+      ],
+      "valley_ratios": [
+        0.7823931607402063,
+        0.8467280181266086
+      ]
+    },
+    {
+      "all_reported_mesh_gates_passed": true,
+      "basin_masses": [
+        0.005227839493313069,
+        0.01659738181932957,
+        0.14848157030018083
+      ],
+      "expected_five_root_topology": true,
+      "final_survival": 0.8296932083871765,
+      "independently_algebraically_reconstructed_gates": {
+        "curvature_margins": true,
+        "endpoint_derivative_signs": true,
+        "event_basin_masses": true,
+        "event_mass_partition_closure": true,
+        "five_alternating_simple_roots": true,
+        "generator_Q_one_equals_minus_B_k0": true,
+        "initial_mass": true,
+        "mass_balance_at_final_time": true,
+        "mass_balance_at_roots": true,
+        "mass_balance_on_saved_scan": true,
+        "mass_balance_on_tail_checkpoints": true,
+        "peak_ratio": true,
+        "physical_budget": true,
+        "root_density_positive": true,
+        "root_residuals": true,
+        "sampled_density_positive": true,
+        "state_positivity_tolerance": true,
+        "survival_monotone_through_final_time": true,
+        "survival_positive": true,
+        "tail_final_state_positivity": true,
+        "tangent_state_reproduction": true,
+        "tangent_time_jet_reproduction": true,
+        "valley_ratios": true,
+        "weights_positive_unit_sum": true
+      },
+      "mesh": 129,
+      "peak_ratio": 0.8391414832973296,
+      "producer_reported_full_scan_extrema_used": [
+        "minimum_sampled_density_from_frozen_start",
+        "minimum_streamed_state_component",
+        "maximum_sampled_survival_increase",
+        "maximum_sampled_differential_mass_balance_residual"
+      ],
+      "root_times": [
+        3.3066991730834485,
+        5.085151669158436,
+        8.588476632538264,
+        13.529173700011155,
+        22.51481807006199
+      ],
+      "valley_ratios": [
+        0.7646777489256341,
+        0.8437520432151757
+      ]
+    }
+  ],
+  "reproducibility_evidence_sha256": "6c0eccaae09ef95923843ddd7a141a27311e1575ee68d3301b4757b785ee9890",
+  "schema_version": 1,
+  "scientific_result_passed": true,
+  "stage": "independent_positive_B_result_reconstruction",
+  "status": "PASS_INDEPENDENT_RECONSTRUCTION"
+}

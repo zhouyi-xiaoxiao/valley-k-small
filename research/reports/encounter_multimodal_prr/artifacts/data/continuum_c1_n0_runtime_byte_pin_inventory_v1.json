@@ -1,0 +1,372 @@
+{
+  "authority_root": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1",
+  "claim_boundary": {
+    "authority_root_materialized": false,
+    "candidate_execution_performed": false,
+    "complete_runtime_closure_claimed": false,
+    "host_runtime_bytes_complete": false,
+    "import_resolution_observed": false,
+    "operation_model_runtime_closure_substitution_allowed": false,
+    "path_identity_observed": false,
+    "pathname_toctou_closure_claimed": false,
+    "runtime_metadata_observed": false,
+    "runtime_probe_performed": false,
+    "scientific_claim_made": false,
+    "trust_boundary": "CALLER_AUTHENTICATED_IMMUTABLE_BYTES_ONLY_NO_PATHNAME_OR_CONCURRENT_WRITER_CLAIM"
+  },
+  "declared_unobserved_runtime_expectations": {
+    "darwin_release": "25.5.0",
+    "future_observation_requirement": "FUTURE_AUTHENTICATED_RUNTIME_PROBE_REQUIRED_BEFORE_RUNTIME_CLOSURE",
+    "gmp_version": "GMP 6.3.0",
+    "gmpy2_version": "2.2.1",
+    "machine": "arm64",
+    "macos_build": "25F84",
+    "mpc_version": "MPC 1.3.1",
+    "mpfr_version": "MPFR 4.2.1",
+    "python_full_version": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 17.0.0 (clang-1700.6.3.2)]",
+    "python_soabi": "cpython-312-darwin",
+    "status": "DECLARED_EXPECTATIONS_NOT_OBSERVED_BY_THIS_STATIC_INVENTORY"
+  },
+  "gmpy2": {
+    "extension": {
+      "import_name": "gmpy2.gmpy2",
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2/gmpy2.cpython-312-darwin.so",
+      "sha256": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b"
+    },
+    "wrapper": {
+      "import_name": "gmpy2",
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2/__init__.py",
+      "sha256": "3d4f21a0e9d6d32c935e3d39ef4be23a9a7d0ea56344ebbb0b8dca4f5651e8a2"
+    }
+  },
+  "host_boundary_edges": [
+    {
+      "boundary_kind": "python_runtime",
+      "path": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/Python"
+    },
+    {
+      "boundary_kind": "apple_system",
+      "path": "/usr/lib/dyld"
+    },
+    {
+      "boundary_kind": "apple_system",
+      "path": "/usr/lib/libSystem.B.dylib"
+    }
+  ],
+  "macho_images": [
+    {
+      "dylib_id": {
+        "command_index": 4,
+        "compatibility_version": 1048576,
+        "current_version": 1048576,
+        "install_name": "/DLC/gmpy2.libs/libgmp.10.dylib"
+      },
+      "edges": [
+        {
+          "classification": "explicit_host_boundary",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 11,
+          "load_path": "/usr/lib/libSystem.B.dylib",
+          "target_image_id": null
+        }
+      ],
+      "filetype": 6,
+      "image_id": "gmp",
+      "load_command_ids": [
+        25,
+        25,
+        25,
+        25,
+        13,
+        2147483682,
+        2,
+        11,
+        27,
+        50,
+        42,
+        12,
+        38,
+        41,
+        29
+      ],
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2.libs/libgmp.10.dylib",
+      "sha256": "22cec4689e503d590cfbf3373ae7f442ef6d40c3e6c93a3612bbd1b7e2bce049",
+      "slice": {
+        "container": "thin",
+        "cpusubtype": 0,
+        "cputype": 16777228,
+        "endianness": "little",
+        "offset": 0,
+        "size": 468768
+      }
+    },
+    {
+      "dylib_id": null,
+      "edges": [
+        {
+          "classification": "pinned_numerical",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 10,
+          "load_path": "@loader_path/../gmpy2.libs/libmpc.3.dylib",
+          "target_image_id": "mpc"
+        },
+        {
+          "classification": "pinned_numerical",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 11,
+          "load_path": "@loader_path/../gmpy2.libs/libmpfr.6.dylib",
+          "target_image_id": "mpfr"
+        },
+        {
+          "classification": "pinned_numerical",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 12,
+          "load_path": "@loader_path/../gmpy2.libs/libgmp.10.dylib",
+          "target_image_id": "gmp"
+        },
+        {
+          "classification": "explicit_host_boundary",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 13,
+          "load_path": "/usr/lib/libSystem.B.dylib",
+          "target_image_id": null
+        }
+      ],
+      "filetype": 8,
+      "image_id": "gmpy2_extension",
+      "load_command_ids": [
+        25,
+        25,
+        25,
+        25,
+        2147483682,
+        2,
+        11,
+        27,
+        50,
+        42,
+        12,
+        12,
+        12,
+        12,
+        38,
+        41,
+        29
+      ],
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2/gmpy2.cpython-312-darwin.so",
+      "sha256": "9586b7c4b887704b57576f52b73a8c45437946d2b172095d82c20fa0871a415b",
+      "slice": {
+        "container": "thin",
+        "cpusubtype": 0,
+        "cputype": 16777228,
+        "endianness": "little",
+        "offset": 0,
+        "size": 573056
+      }
+    },
+    {
+      "dylib_id": {
+        "command_index": 4,
+        "compatibility_version": 458752,
+        "current_version": 459008,
+        "install_name": "/DLC/gmpy2.libs/libmpc.3.dylib"
+      },
+      "edges": [
+        {
+          "classification": "pinned_numerical",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 11,
+          "load_path": "@loader_path/libmpfr.6.dylib",
+          "target_image_id": "mpfr"
+        },
+        {
+          "classification": "pinned_numerical",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 12,
+          "load_path": "@loader_path/libgmp.10.dylib",
+          "target_image_id": "gmp"
+        },
+        {
+          "classification": "explicit_host_boundary",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 13,
+          "load_path": "/usr/lib/libSystem.B.dylib",
+          "target_image_id": null
+        }
+      ],
+      "filetype": 6,
+      "image_id": "mpc",
+      "load_command_ids": [
+        25,
+        25,
+        25,
+        25,
+        13,
+        2147483682,
+        2,
+        11,
+        27,
+        50,
+        42,
+        12,
+        12,
+        12,
+        38,
+        41,
+        29
+      ],
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2.libs/libmpc.3.dylib",
+      "sha256": "d3c10c39234c095f5c1938ad607c87a0633152f51271d9ed1c494724430c2b0c",
+      "slice": {
+        "container": "thin",
+        "cpusubtype": 0,
+        "cputype": 16777228,
+        "endianness": "little",
+        "offset": 0,
+        "size": 152112
+      }
+    },
+    {
+      "dylib_id": {
+        "command_index": 4,
+        "compatibility_version": 589824,
+        "current_version": 590080,
+        "install_name": "/DLC/gmpy2.libs/libmpfr.6.dylib"
+      },
+      "edges": [
+        {
+          "classification": "pinned_numerical",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 11,
+          "load_path": "@loader_path/libgmp.10.dylib",
+          "target_image_id": "gmp"
+        },
+        {
+          "classification": "explicit_host_boundary",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 12,
+          "load_path": "/usr/lib/libSystem.B.dylib",
+          "target_image_id": null
+        }
+      ],
+      "filetype": 6,
+      "image_id": "mpfr",
+      "load_command_ids": [
+        25,
+        25,
+        25,
+        25,
+        13,
+        2147483682,
+        2,
+        11,
+        27,
+        50,
+        42,
+        12,
+        12,
+        38,
+        41,
+        29
+      ],
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2.libs/libmpfr.6.dylib",
+      "sha256": "d314a427a901f8ece38b67966cd2fbf5642ceb7d1c2e5136f8282ca7ab859aed",
+      "slice": {
+        "container": "thin",
+        "cpusubtype": 0,
+        "cputype": 16777228,
+        "endianness": "little",
+        "offset": 0,
+        "size": 469360
+      }
+    },
+    {
+      "dylib_id": null,
+      "edges": [
+        {
+          "classification": "explicit_host_boundary",
+          "command": "LC_LOAD_DYLINKER",
+          "command_index": 9,
+          "load_path": "/usr/lib/dyld",
+          "target_image_id": null
+        },
+        {
+          "classification": "explicit_host_boundary",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 14,
+          "load_path": "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/Python",
+          "target_image_id": null
+        },
+        {
+          "classification": "explicit_host_boundary",
+          "command": "LC_LOAD_DYLIB",
+          "command_index": 15,
+          "load_path": "/usr/lib/libSystem.B.dylib",
+          "target_image_id": null
+        }
+      ],
+      "filetype": 2,
+      "image_id": "python_executable",
+      "load_command_ids": [
+        25,
+        25,
+        25,
+        25,
+        25,
+        2147483700,
+        2147483699,
+        2,
+        11,
+        14,
+        27,
+        50,
+        42,
+        2147483688,
+        12,
+        12,
+        38,
+        41,
+        29
+      ],
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/bin/python3.12",
+      "sha256": "31b9c9a8d50289f3a13f014b3efd8ea3534fc3eea7ca7d9809e166139910b805",
+      "slice": {
+        "container": "thin",
+        "cpusubtype": 0,
+        "cputype": 16777228,
+        "endianness": "little",
+        "offset": 0,
+        "size": 52448
+      }
+    }
+  ],
+  "numerical_libraries": [
+    {
+      "component": "gmp",
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2.libs/libgmp.10.dylib",
+      "sha256": "22cec4689e503d590cfbf3373ae7f442ef6d40c3e6c93a3612bbd1b7e2bce049"
+    },
+    {
+      "component": "mpc",
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2.libs/libmpc.3.dylib",
+      "sha256": "d3c10c39234c095f5c1938ad607c87a0633152f51271d9ed1c494724430c2b0c"
+    },
+    {
+      "component": "mpfr",
+      "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/site-packages/gmpy2.libs/libmpfr.6.dylib",
+      "sha256": "d314a427a901f8ece38b67966cd2fbf5642ceb7d1c2e5136f8282ca7ab859aed"
+    }
+  ],
+  "operation_model": {
+    "path": "artifacts/data/continuum_c1_n0_role10_numerical_operation_model_v2_candidate.json",
+    "process_contract_section_sha256": "47ae856b647fa7be1119f68f684e36e253730bf2a87345ff634979d2893d4833",
+    "schema": "encounter_continuum_c1_n0_role10_numerical_operation_model_v2_candidate",
+    "sha256": "ac0c2b185be75f0ecef3e331fdfd47fc674ca151fa6b26600aff9f789a2f8a6b"
+  },
+  "python": {
+    "path": "/Users/ae23069/.local-build/valley-k-small/runtime-authorities/encounter-c1-n0-cpython-3.12.13-gmpy2-2.2.1-arm64-v1/bin/python3.12",
+    "sha256": "31b9c9a8d50289f3a13f014b3efd8ea3534fc3eea7ca7d9809e166139910b805"
+  },
+  "schema": "encounter_continuum_c1_n0_runtime_byte_pin_inventory_v1",
+  "status": "STATIC_RUNTIME_BYTE_PIN_INVENTORY_ONLY_NO_PROBE_NO_RUNTIME_CLOSURE_NO_CANDIDATE_EXECUTION_NO_SCIENCE"
+}

@@ -1,0 +1,452 @@
+{
+  "bibliography": "manuscript/references.bib",
+  "bibliography_sha256": "f9564d51d9453e215ff3dc92744f325a7b3329603d99cfe06437963bd61b4fde",
+  "build_driver": "code/compile_manuscript.py",
+  "build_driver_sha256": "675b7ff8aa367924ff1d9c32870977bf2d657d5f54a6b5449afda8d993cc0737",
+  "byte_identical_clean_rebuilds": true,
+  "clean_build_sha256_pair": [
+    "fa4debf25af63f3c1d58cbc68b44d08b4c6add223e92207c18f7264bbf0774c6",
+    "fa4debf25af63f3c1d58cbc68b44d08b4c6add223e92207c18f7264bbf0774c6"
+  ],
+  "evidence_scope": "working-draft build and PDF hygiene only; not a scientific gate",
+  "authority": "ARCHIVED_HISTORICAL_WORKING_SET",
+  "superseded_by": "artifacts/data/theorem_first_working_compile.json",
+  "figure_inputs": [
+    {
+      "claim_flags": {
+        "continuum_verified": false,
+        "finite_B_Doi_verified": false,
+        "observable_free_exposure_confirmation_passed": true,
+        "preregistered_discovery": false,
+        "project_gate_passed": false
+      },
+      "evidence_timing": "RESULT_INFORMED_CONFIRMATION_NOT_PREREGISTERED_DISCOVERY",
+      "metadata": "artifacts/figures/observable_four_patch_metadata.json",
+      "metadata_sha256": "881ce1e3809466821226b32ff71cf5bd71b583dc3df399b670586ffab7ff57fe",
+      "path": "artifacts/figures/observable_four_patch.pdf",
+      "scope_constraints": null,
+      "sha256": "703241a81e8c8be7d22d58aeacd68fd0b8d8953b3c69589213a826d87ee1128f",
+      "verified_source_pins": [
+        {
+          "path": "artifacts/data/continuum_observable_four_patch_manifest.json",
+          "role": "manifest",
+          "sha256": "1c79fcb31abbc622cee20e915d60f55337376d7555c1c25dab210b3cc5976a69"
+        },
+        {
+          "path": "code/continuum_observable_four_patch.py",
+          "role": "producer",
+          "sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da"
+        },
+        {
+          "path": "notes/observable_four_patch_protocol.md",
+          "role": "protocol",
+          "sha256": "cbfb6fbe7b69fb66f3b25f7bcde404929a53cf1e8d2045c5fa037fe0fa8432a1"
+        },
+        {
+          "path": "artifacts/data/continuum_observable_four_patch_result.json",
+          "role": "result",
+          "sha256": "4a929cdaf915a9b6180acc0c272a16ae77087d097f2d078b6483c6c9b320a9fc"
+        },
+        {
+          "path": "code/test_continuum_observable_four_patch.py",
+          "role": "source_test",
+          "sha256": "c3a2c11c71daf9fcb04e1db9e7c4e489a515d7dfbbb51bc470d310d0c3f76243"
+        }
+      ]
+    },
+    {
+      "claim_flags": {
+        "continuum_verified": false,
+        "d2_relative_shape_gate_passed": true,
+        "d3_relative_shape_gate_passed": true,
+        "event_mass_observability_verified": false,
+        "finite_B_Doi_verified": false,
+        "independent_PDE_solver_verified": false,
+        "preregistered_discovery": false,
+        "project_gate_passed": false,
+        "relative_shape_only": true
+      },
+      "evidence_timing": "RESULT_INFORMED_CONFIRMATION_NOT_PREREGISTERED_DISCOVERY",
+      "metadata": "artifacts/figures/d2_d3_four_patch_metadata.json",
+      "metadata_sha256": "67d923386dafc1b01b4430f6ee369b4bdff660d6a626ade8c780ccae0234f8c7",
+      "path": "artifacts/figures/d2_d3_four_patch.pdf",
+      "scope_constraints": null,
+      "sha256": "1581aac239e77f17a837d24bd9b38a0fb4ef3eb2286bea3ee7889b446d0c5b0f",
+      "verified_source_pins": [
+        {
+          "path": "artifacts/data/continuum_observable_four_patch_manifest.json",
+          "role": "d2.manifest",
+          "sha256": "1c79fcb31abbc622cee20e915d60f55337376d7555c1c25dab210b3cc5976a69"
+        },
+        {
+          "path": "code/continuum_observable_four_patch.py",
+          "role": "d2.producer",
+          "sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da"
+        },
+        {
+          "path": "artifacts/data/continuum_observable_four_patch_result.json",
+          "role": "d2.result",
+          "sha256": "4a929cdaf915a9b6180acc0c272a16ae77087d097f2d078b6483c6c9b320a9fc"
+        },
+        {
+          "path": "code/test_continuum_observable_four_patch.py",
+          "role": "d2.test",
+          "sha256": "c3a2c11c71daf9fcb04e1db9e7c4e489a515d7dfbbb51bc470d310d0c3f76243"
+        },
+        {
+          "path": "artifacts/data/continuum_observable_four_patch_d3_manifest.json",
+          "role": "d3.manifest",
+          "sha256": "a11e1c4a7842ae69efc76e21a4b6587981d612a457070d601e7001810f16b8cb"
+        },
+        {
+          "path": "code/continuum_observable_four_patch_d3.py",
+          "role": "d3.producer",
+          "sha256": "f8fde83ecdf435acf28a32fb0dec6a22f216bf9f5a817d954f165e62811bf885"
+        },
+        {
+          "path": "artifacts/data/continuum_observable_four_patch_d3_result.json",
+          "role": "d3.result",
+          "sha256": "125234df2817287c30699d80e30af0e711c036193f0a64a404c8f3e98f98f984"
+        },
+        {
+          "path": "code/test_continuum_observable_four_patch_d3.py",
+          "role": "d3.test",
+          "sha256": "bcb0b4264d0d89f140017004b083cb16ad7bf8f8ac7a8ab7b59f48ff9cef3a56"
+        }
+      ]
+    },
+    {
+      "claim_flags": {
+        "allocation_cusp_verified": false,
+        "continuum_interval_verified": false,
+        "independent_solver_verified": false,
+        "physical_d3_verified": false,
+        "preregistered_discovery": false,
+        "project_gate_passed": false,
+        "publication_gate_passed": false,
+        "unbounded_domain_FV_limit_verified": false
+      },
+      "evidence_timing": "RESULT_INFORMED_FIXED_CONTROL_WITH_HELDOUT_FINE_MESHES",
+      "metadata": "artifacts/figures/positive_b_broad_four_slab_metadata.json",
+      "metadata_sha256": "0ad8214b6ae80c420321a24a5188f3e62cb3accebc520c8ac0be1153231a3821",
+      "path": "artifacts/figures/positive_b_broad_four_slab.pdf",
+      "scope_constraints": {
+        "finite_gate_time_max": 100.0,
+        "finite_time_window_only": true,
+        "fixed_box_two_mesh_semidiscrete_point_only": true,
+        "heldout_odd_meshes": [
+          113,
+          129
+        ],
+        "positive_budget": 0.01,
+        "same_solver_family_only": true,
+        "saved_trace_time_max": 35.0,
+        "weights_refit": false
+      },
+      "sha256": "a55531cb9bd0f21f4bd0ee7ff0e6ddc6cdfe9bf73aa632542d7ba345bbb2e871",
+      "verified_source_pins": [
+        {
+          "path": "artifacts/data/positive_b_broad_four_slab_result.json",
+          "role": "canonical_result",
+          "sha256": "51e8eb4bdb652124865d0c39e6f36b99d13ed61578b161e0f75b142cada49401"
+        },
+        {
+          "path": "artifacts/data/positive_b_broad_four_slab_independent_audit.json",
+          "role": "independent_audit",
+          "sha256": "60c541a6f0decd5431cefa5c203311176e61006586ce69043d5fcf5380ed517d"
+        },
+        {
+          "path": "code/plot_positive_b_broad_four_slab.py",
+          "role": "plotter",
+          "sha256": "2158835dbd4b85ea6acfebf426d22ccec4f19c856acd54fd793b38585335a39b"
+        },
+        {
+          "path": "artifacts/data/positive_b_broad_four_slab_reproducibility.json",
+          "role": "reproducibility_evidence",
+          "sha256": "6c0eccaae09ef95923843ddd7a141a27311e1575ee68d3301b4757b785ee9890"
+        },
+        {
+          "path": "code/test_plot_positive_b_broad_four_slab.py",
+          "role": "test",
+          "sha256": "8d53ec95a85f8ae865ae4e1c067d61b8d130dfcfa28a54660a1ad1df2ae6572f"
+        }
+      ]
+    },
+    {
+      "claim_flags": null,
+      "evidence_timing": "POST_RESULT_CONFIRMATION_NOT_PREREGISTERED_DISCOVERY",
+      "metadata": "artifacts/figures/finite_grid_fold_metadata.json",
+      "metadata_sha256": "bafb0d96b07578cc466c5280ad496ced224ee3daa78c0633d846a3c380f7a9aa",
+      "path": "artifacts/figures/finite_grid_fold.pdf",
+      "scope_constraints": null,
+      "sha256": "edad5a98e4db21519b718e364f3091e21cdc41302a2ec489e8a3b880a00d4bf8",
+      "verified_source_pins": [
+        {
+          "path": "artifacts/data/continuum_g1d_fold_confirmation_manifest.json",
+          "role": "manifest",
+          "sha256": "2efb66fd4a924b036217368de9429df74872808de45375817b78c79635fad439"
+        },
+        {
+          "path": "artifacts/data/continuum_g1d_fold_confirmation_result.json",
+          "role": "result",
+          "sha256": "268e3f988330a2f28ad79b22cdf1f7e53a0142dc007d2a2a7cbfe40d18f91f92"
+        },
+        {
+          "path": "code/continuum_g1d_fold_confirmation.py",
+          "role": "runner",
+          "sha256": "5fa43e9482e5ee60cd5fb5c19427b1e749b750116f0861f5277e9fe1be46f3ec"
+        }
+      ]
+    }
+  ],
+  "font_audit": {
+    "font_rows": 45,
+    "type3_rows": 0,
+    "unembedded_rows": 0
+  },
+  "numerical_input": "manuscript/inputs/numerical_results.tex",
+  "numerical_input_builder": "code/build_manuscript_inputs.py",
+  "numerical_input_builder_sha256": "4643cee4831dd08595b30739cc60bb4849f70f25fda1870ff1962b7c9f384ed5",
+  "numerical_input_sha256": "62fe4306fc1bfa6a75757031ba23de38f9fabe490ac7be8c0b05e14c543a1530",
+  "numerical_source_manifest": "artifacts/data/manuscript_numerical_sources_manifest.json",
+  "numerical_source_manifest_sha256": "6ea29628e1cba423d37588b72a78dd3f5934f5e77b9c83df70394739375c88e7",
+  "pages": 13,
+  "pdf": "manuscript/encounter_multimodal_prr.pdf",
+  "pdf_bytes": 798156,
+  "pdf_metadata": {
+    "Author": "Xiaoxiao Zhouyi and Luca Giuggioli",
+    "Keywords": "encounter reaction, reaction-time density, multimodality, conserved reactivity, fold, cusp",
+    "Subject": "Internal research draft on multimodal encounter-reaction times",
+    "Title": "Conserved-reactivity control of encounter-time modality: weak-reaction theory and continuum-kernel designs"
+  },
+  "pdf_sha256": "fa4debf25af63f3c1d58cbc68b44d08b4c6add223e92207c18f7264bbf0774c6",
+  "positive_b_input": "manuscript/inputs/positive_b_results.tex",
+  "positive_b_input_builder": "code/build_positive_b_manuscript_input.py",
+  "positive_b_input_builder_sha256": "fbea10829a4dd9aa2ed797788fab6ad7a0ef57c27d523d6d436caa6a6426fdb7",
+  "positive_b_input_sha256": "2eb08d12a5585afa17b8bedfb3d79232a25e328a30439cb0cb0678b13631fabf",
+  "positive_b_source_hashes": {
+    "audit": "60c541a6f0decd5431cefa5c203311176e61006586ce69043d5fcf5380ed517d",
+    "evidence": "6c0eccaae09ef95923843ddd7a141a27311e1575ee68d3301b4757b785ee9890",
+    "manifest": "955e59bf333b5fd70e415a53dc26becae9c7a34c5d40f1230c96b1dab8f5677c",
+    "result": "51e8eb4bdb652124865d0c39e6f36b99d13ed61578b161e0f75b142cada49401"
+  },
+  "publication_transaction": {
+    "all_checks_before_publish": true,
+    "preflight_before_canonical_writes": true,
+    "published_outputs": [
+      "manuscript/inputs/numerical_results.tex",
+      "manuscript/inputs/positive_b_results.tex",
+      "manuscript/encounter_multimodal_prr.pdf",
+      "artifacts/logs/manuscript_tex.log",
+      "artifacts/logs/manuscript_latexmk.log",
+      "artifacts/data/manuscript_compile.json"
+    ],
+    "same_directory_atomic_replace_with_rollback": true,
+    "temporary_source_snapshot": true
+  },
+  "release_blocker": "scientific continuum gates and author-confirmed submission metadata remain open",
+  "release_eligible": false,
+  "source_date_epoch": "1783900800",
+  "status": "PASS",
+  "submission_metadata_checklist": "manuscript/SUBMISSION_METADATA_REQUIRED.md",
+  "tex": "manuscript/encounter_multimodal_prr.tex",
+  "tex_sha256": "1c17be4ac1223fa769166cc13c4b551a1cf7925ae59a61a81021657421305c5b",
+  "verified_numerical_sources": [
+    {
+      "path": "artifacts/data/continuum_broad_patch_b0_bridge_result.json",
+      "role": "broad_b0.result",
+      "sha256": "6a18e668401ae5776eebd7bd58c7bd553838db21998efdba2865cea094ae207b"
+    },
+    {
+      "path": "artifacts/data/continuum_broad_patch_b0_bridge_manifest.json",
+      "role": "broad_b0.manifest",
+      "sha256": "263d4bd5e95f4cf477916948f2e4bbf3cd99066ac9dc9a9ab5726f2030a6f1e8"
+    },
+    {
+      "path": "code/continuum_broad_patch_b0_bridge.py",
+      "role": "broad_b0.producer",
+      "sha256": "d1d68667f5cbb9c8363a94f2f9ea22540f841065e02696f669beca9758e3a233"
+    },
+    {
+      "path": "code/test_continuum_broad_patch_b0_bridge.py",
+      "role": "broad_b0.test",
+      "sha256": "0d683f8ed7cfd8fee2cef992078962a05c2cb8074629c8947cb233300c8b4490"
+    },
+    {
+      "path": "notes/broad_patch_b0_bridge_protocol.md",
+      "role": "broad_b0.protocol",
+      "sha256": "56937590efc0ea90841cd7ff32b3386c5d81469ec51034329d7e0e13133bee35"
+    },
+    {
+      "path": "code/continuum_observable_four_patch.py",
+      "role": "broad_b0.exact_continuum_dependency",
+      "sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da"
+    },
+    {
+      "path": "code/continuum_weak_budget_design.py",
+      "role": "broad_b0.finite_volume_dependency",
+      "sha256": "7fa9ea6114328736c89739459c293aefa9311514764ec3cfe4f0ceb5a1875201"
+    },
+    {
+      "path": "code/continuum_g1_smoke.py",
+      "role": "broad_b0.grid_dependency",
+      "sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701"
+    },
+    {
+      "path": "artifacts/data/continuum_observable_four_patch_result.json",
+      "role": "d2.result",
+      "sha256": "4a929cdaf915a9b6180acc0c272a16ae77087d097f2d078b6483c6c9b320a9fc"
+    },
+    {
+      "path": "artifacts/data/continuum_observable_four_patch_manifest.json",
+      "role": "d2.manifest",
+      "sha256": "1c79fcb31abbc622cee20e915d60f55337376d7555c1c25dab210b3cc5976a69"
+    },
+    {
+      "path": "code/continuum_observable_four_patch.py",
+      "role": "d2.producer",
+      "sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da"
+    },
+    {
+      "path": "code/test_continuum_observable_four_patch.py",
+      "role": "d2.test",
+      "sha256": "c3a2c11c71daf9fcb04e1db9e7c4e489a515d7dfbbb51bc470d310d0c3f76243"
+    },
+    {
+      "path": "notes/observable_four_patch_protocol.md",
+      "role": "d2.protocol",
+      "sha256": "cbfb6fbe7b69fb66f3b25f7bcde404929a53cf1e8d2045c5fa037fe0fa8432a1"
+    },
+    {
+      "path": "artifacts/data/continuum_observable_four_patch_d3_result.json",
+      "role": "d3.result",
+      "sha256": "125234df2817287c30699d80e30af0e711c036193f0a64a404c8f3e98f98f984"
+    },
+    {
+      "path": "artifacts/data/continuum_observable_four_patch_d3_manifest.json",
+      "role": "d3.manifest",
+      "sha256": "a11e1c4a7842ae69efc76e21a4b6587981d612a457070d601e7001810f16b8cb"
+    },
+    {
+      "path": "code/continuum_observable_four_patch_d3.py",
+      "role": "d3.producer",
+      "sha256": "f8fde83ecdf435acf28a32fb0dec6a22f216bf9f5a817d954f165e62811bf885"
+    },
+    {
+      "path": "code/test_continuum_observable_four_patch_d3.py",
+      "role": "d3.test",
+      "sha256": "bcb0b4264d0d89f140017004b083cb16ad7bf8f8ac7a8ab7b59f48ff9cef3a56"
+    },
+    {
+      "path": "notes/observable_four_patch_d3_protocol.md",
+      "role": "d3.protocol",
+      "sha256": "280a99653077e7d3ab4f7106d9f078a3588cd7f2ff3ae154f550d99dc47851f9"
+    },
+    {
+      "path": "code/continuum_observable_four_patch.py",
+      "role": "d3.base_dependency",
+      "sha256": "a553092f3d8bbf50fdf0124a3ea36ba32947c3b339cfcc0265a1cd7f6bc2d4da"
+    },
+    {
+      "path": "artifacts/data/continuum_g1c_simplex_result.json",
+      "role": "g1c.result",
+      "sha256": "cce1e34c599564dc932da6af4d4146c2c396836990e9b51414fc2f843e123bb4"
+    },
+    {
+      "path": "artifacts/data/continuum_g1c_simplex_manifest.json",
+      "role": "g1c.manifest",
+      "sha256": "543ee21928cf009867bd194d3bb2f6929a3557458733c50ff613c2f664f1d593"
+    },
+    {
+      "path": "code/continuum_g1c_simplex.py",
+      "role": "g1c.producer",
+      "sha256": "0625212963c85d2068fa209924bfa7086f7b192edbbbbde6ffc6f9109cfb63a5"
+    },
+    {
+      "path": "code/test_continuum_g1c_simplex.py",
+      "role": "g1c.test",
+      "sha256": "9a9457afde3db68a67840a37e3e22d42c71ee337bdef011b7b9d3cc2a73a5232"
+    },
+    {
+      "path": "notes/g1c_simplex_protocol.md",
+      "role": "g1c.protocol",
+      "sha256": "af337ba273a1b12be4317c7f6e40caf219855f240f56fa9411cfa1edde9e2f99"
+    },
+    {
+      "path": "artifacts/data/continuum_g1_smoke.json",
+      "role": "g1c.g1a_result_dependency",
+      "sha256": "a0a1894dbe6dd37bad6973ca6f3dd29b651441f7b911a5406186bb86a18fd3c3"
+    },
+    {
+      "path": "code/continuum_g1_smoke.py",
+      "role": "g1c.g1a_producer_dependency",
+      "sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701"
+    },
+    {
+      "path": "artifacts/data/continuum_g1_discovery_result.json",
+      "role": "g1c.g1b_result_dependency",
+      "sha256": "2052c1d26211661995d6048b2cd3ca909f04ce48efb9a96c32bd153c7c63d40d"
+    },
+    {
+      "path": "code/continuum_g1_discovery.py",
+      "role": "g1c.g1b_producer_dependency",
+      "sha256": "1411384398ed4e476dba15371cdfd662e94ed3a53cffdc02a1562201cfa7b52e"
+    },
+    {
+      "path": "artifacts/data/continuum_g1_manual_review_result.json",
+      "role": "g1c.manual_review_result_dependency",
+      "sha256": "6f869fb4e961297a9ba4784c394fa56fbb083f1a89091aa0c27738331127de65"
+    },
+    {
+      "path": "code/continuum_g1_manual_review.py",
+      "role": "g1c.manual_review_producer_dependency",
+      "sha256": "4453444abd878d771b59185aaee5371ae5d9c786fdb0da9222f25c0605035451"
+    },
+    {
+      "path": "artifacts/data/continuum_g1d_fold_confirmation_result.json",
+      "role": "g1d.result",
+      "sha256": "268e3f988330a2f28ad79b22cdf1f7e53a0142dc007d2a2a7cbfe40d18f91f92"
+    },
+    {
+      "path": "artifacts/data/continuum_g1d_fold_confirmation_manifest.json",
+      "role": "g1d.manifest",
+      "sha256": "2efb66fd4a924b036217368de9429df74872808de45375817b78c79635fad439"
+    },
+    {
+      "path": "code/continuum_g1d_fold_confirmation.py",
+      "role": "g1d.producer",
+      "sha256": "5fa43e9482e5ee60cd5fb5c19427b1e749b750116f0861f5277e9fe1be46f3ec"
+    },
+    {
+      "path": "code/test_continuum_g1d_fold_confirmation.py",
+      "role": "g1d.test",
+      "sha256": "833b3570424360486985aacd3c9245e5b393bbf7796d3c06e048ddabff862284"
+    },
+    {
+      "path": "notes/g1d_fold_confirmation_protocol.md",
+      "role": "g1d.protocol",
+      "sha256": "572ca5b9b18fc614bf45811c02700c5fa62d57e969181ce4c7c5c02099c1ff4c"
+    },
+    {
+      "path": "audits/round_24_g1c_topology_manual_review.md",
+      "role": "g1d.topology_review",
+      "sha256": "ec25be8159d7d28c73f758a9545731cef44621abd12aa5d4ef2789305c8c1870"
+    },
+    {
+      "path": "artifacts/data/continuum_g1c_simplex_result.json",
+      "role": "g1d.g1c_result_dependency",
+      "sha256": "cce1e34c599564dc932da6af4d4146c2c396836990e9b51414fc2f843e123bb4"
+    },
+    {
+      "path": "artifacts/data/continuum_g1c_simplex_manifest.json",
+      "role": "g1d.g1c_manifest_dependency",
+      "sha256": "543ee21928cf009867bd194d3bb2f6929a3557458733c50ff613c2f664f1d593"
+    }
+  ],
+  "warning_counts": {
+    "missing_files": 0,
+    "overfull_boxes": 0,
+    "undefined_citations": 0,
+    "undefined_references": 0
+  }
+}

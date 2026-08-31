@@ -1,0 +1,673 @@
+{
+  "alignment_scope": {
+    "axis": "midpoint_z",
+    "one_dimensional_rule": "cell_centred_reflecting_scharfetter_gummel",
+    "periodic_axis_tested": false,
+    "tensor_alignment_vector_frozen": false,
+    "vertex_dual_tested": false
+  },
+  "claim_boundary": {
+    "c1_mosco_proved": false,
+    "c2_error_bound_proved": false,
+    "control_or_budget_read": false,
+    "manufactured_fixture_only": true,
+    "positive_budget_scientific_values_read": false,
+    "release_eligible": false
+  },
+  "fixed_box": {
+    "endpoint_density_lower_hex": "0x1.169dd572824f1p-102",
+    "endpoint_density_upper_hex": "0x1.7b41b7619406ep-57",
+    "generic_linear_boundary_coefficient_hex": "0x1.845bde992b120p-68",
+    "lower_exact": "-1/4",
+    "lower_hex": "-0x1.0000000000000p-2",
+    "upper_exact": "4165829655317709/2251799813685248",
+    "upper_hex": "0x1.d99999999999ap+0"
+  },
+  "fixture_projection_map": {
+    "P_h_J_h_exact_for_piecewise_constants": true,
+    "c1_contract_map_choice_closed": false,
+    "denominator": "integral_C_i_pi",
+    "formula": "P_h_avg[u]_i=(integral_C_i u*pi)/(integral_C_i pi)",
+    "weighted_adjoint_error_controlled_by_cell_mass_ratio": true,
+    "weighted_adjoint_exact": false
+  },
+  "flat_boundary_order_sentinel": {
+    "claim": "generic_form_domain_boundary_gap_is_first_order_not_second_order",
+    "continuum_density_exact": "1/2",
+    "continuum_diffusion_exact": "1",
+    "continuum_energy_formula": "E(x)=1",
+    "continuum_interval": "[-1,1]",
+    "exact_orders_under_uniform_halving": {
+      "energy_gap": 1,
+      "norm_squared_gap": 2,
+      "projection_l2_error": 1
+    },
+    "function": "u(x)=x",
+    "rows": [
+      {
+        "cells": 4,
+        "continuum_energy_exact": "1",
+        "continuum_norm_squared_exact": "1/3",
+        "discrete_energy_exact": "3/4",
+        "discrete_norm_squared_exact": "5/16",
+        "energy_gap_exact": "1/4",
+        "energy_gap_hex": "0x1.0000000000000p-2",
+        "gauged_cell_mass_exact": "1/4",
+        "gauged_conductance_exact": "1",
+        "geometry_and_reflection_exact": true,
+        "h_exact": "1/2",
+        "h_hex": "0x1.0000000000000p-1",
+        "interval_formulae_contained": true,
+        "norm_gap_exact": "1/48",
+        "projection_l2_error_squared_exact": "1/48",
+        "raw_stationary_mass_sum_exact": "2",
+        "stationary_gauge_exact": "1/2",
+        "target_box_mass_exact": "1"
+      },
+      {
+        "cells": 8,
+        "continuum_energy_exact": "1",
+        "continuum_norm_squared_exact": "1/3",
+        "discrete_energy_exact": "7/8",
+        "discrete_norm_squared_exact": "21/64",
+        "energy_gap_exact": "1/8",
+        "energy_gap_hex": "0x1.0000000000000p-3",
+        "gauged_cell_mass_exact": "1/8",
+        "gauged_conductance_exact": "2",
+        "geometry_and_reflection_exact": true,
+        "h_exact": "1/4",
+        "h_hex": "0x1.0000000000000p-2",
+        "interval_formulae_contained": true,
+        "norm_gap_exact": "1/192",
+        "projection_l2_error_squared_exact": "1/192",
+        "raw_stationary_mass_sum_exact": "2",
+        "stationary_gauge_exact": "1/2",
+        "target_box_mass_exact": "1"
+      },
+      {
+        "cells": 16,
+        "continuum_energy_exact": "1",
+        "continuum_norm_squared_exact": "1/3",
+        "discrete_energy_exact": "15/16",
+        "discrete_norm_squared_exact": "85/256",
+        "energy_gap_exact": "1/16",
+        "energy_gap_hex": "0x1.0000000000000p-4",
+        "gauged_cell_mass_exact": "1/16",
+        "gauged_conductance_exact": "4",
+        "geometry_and_reflection_exact": true,
+        "h_exact": "1/8",
+        "h_hex": "0x1.0000000000000p-3",
+        "interval_formulae_contained": true,
+        "norm_gap_exact": "1/768",
+        "projection_l2_error_squared_exact": "1/768",
+        "raw_stationary_mass_sum_exact": "2",
+        "stationary_gauge_exact": "1/2",
+        "target_box_mass_exact": "1"
+      },
+      {
+        "cells": 32,
+        "continuum_energy_exact": "1",
+        "continuum_norm_squared_exact": "1/3",
+        "discrete_energy_exact": "31/32",
+        "discrete_norm_squared_exact": "341/1024",
+        "energy_gap_exact": "1/32",
+        "energy_gap_hex": "0x1.0000000000000p-5",
+        "gauged_cell_mass_exact": "1/32",
+        "gauged_conductance_exact": "8",
+        "geometry_and_reflection_exact": true,
+        "h_exact": "1/16",
+        "h_hex": "0x1.0000000000000p-4",
+        "interval_formulae_contained": true,
+        "norm_gap_exact": "1/3072",
+        "projection_l2_error_squared_exact": "1/3072",
+        "raw_stationary_mass_sum_exact": "2",
+        "stationary_gauge_exact": "1/2",
+        "target_box_mass_exact": "1"
+      },
+      {
+        "cells": 64,
+        "continuum_energy_exact": "1",
+        "continuum_norm_squared_exact": "1/3",
+        "discrete_energy_exact": "63/64",
+        "discrete_norm_squared_exact": "1365/4096",
+        "energy_gap_exact": "1/64",
+        "energy_gap_hex": "0x1.0000000000000p-6",
+        "gauged_cell_mass_exact": "1/64",
+        "gauged_conductance_exact": "16",
+        "geometry_and_reflection_exact": true,
+        "h_exact": "1/32",
+        "h_hex": "0x1.0000000000000p-5",
+        "interval_formulae_contained": true,
+        "norm_gap_exact": "1/12288",
+        "projection_l2_error_squared_exact": "1/12288",
+        "raw_stationary_mass_sum_exact": "2",
+        "stationary_gauge_exact": "1/2",
+        "target_box_mass_exact": "1"
+      }
+    ],
+    "sizes": [
+      4,
+      8,
+      16,
+      32,
+      64
+    ]
+  },
+  "independent_formulae": {
+    "cell_projection": "pi_weighted_exact_Gaussian_polynomial_cell_average",
+    "conductance": "gauge*h*exp(-U_i)*(D_axis/h^2)*Bernoulli(U_j-U_i)",
+    "continuum_energy": "integral_(fixed_box) D_axis*(u_prime)^2*pi",
+    "continuum_moments": "closed_form_erf_plus_Gaussian_recurrence",
+    "density_ratio_cell_extrema": "both_cell_endpoints_plus_interior_OU_mean_if_present",
+    "potential": "U(z)=gamma*(z-zbar)^2/D",
+    "stationary_gauge": "sum_i_pi_h_i=integral_(fixed_box)_pi"
+  },
+  "observed_last_pair_orders": {
+    "density_ratio_sup_error": 1.0906102408239533,
+    "functions": {
+      "constant": {
+        "energy_absolute_error": null,
+        "norm_identification_absolute_error": null,
+        "projection_l2_error": null
+      },
+      "cubic_mixed": {
+        "energy_absolute_error": 1.999627592285758,
+        "norm_identification_absolute_error": 1.9996767055639886,
+        "projection_l2_error": 0.9999224378467642
+      },
+      "linear": {
+        "energy_absolute_error": 1.9996447018939307,
+        "norm_identification_absolute_error": 1.9996976334706542,
+        "projection_l2_error": 0.9999244004495905
+      },
+      "neumann_cubic": {
+        "energy_absolute_error": 1.9996489288889927,
+        "norm_identification_absolute_error": 1.99970635662076,
+        "projection_l2_error": 0.9999248963016867
+      },
+      "quadratic": {
+        "energy_absolute_error": 1.9993693821470628,
+        "norm_identification_absolute_error": 1.9994910435073783,
+        "projection_l2_error": 0.9998639297835589
+      }
+    }
+  },
+  "parameters": {
+    "D_axis_exact": "1152921504606847/1152921504606846976",
+    "D_exact": "1152921504606847/576460752303423488",
+    "D_hex": "0x1.0624dd2f1a9fcp-9",
+    "gamma_exact": "3602879701896397/36028797018963968",
+    "gamma_hex": "0x1.999999999999ap-4",
+    "zbar_exact": "4278419646001971/4503599627370496",
+    "zbar_hex": "0x1.e666666666666p-1"
+  },
+  "precision_bits": 256,
+  "rows": [
+    {
+      "box_mass_hex": "0x1.0000000000000p+0",
+      "cells": 17,
+      "conductance_interval_containment": true,
+      "density_ratio_max_hex": "0x1.55f885c465664p+10",
+      "density_ratio_min_hex": "0x1.18a6e67c68ab2p-10",
+      "density_ratio_sup_error_hex": "0x1.55b885c465664p+10",
+      "functions": {
+        "constant": {
+          "continuum_energy_hex": "0x0.0p+0",
+          "continuum_norm_squared_hex": "0x1.0000000000000p+0",
+          "discrete_energy_hex": "0x0.0p+0",
+          "discrete_norm_squared_hex": "0x1.0000000000000p+0",
+          "energy_absolute_error_hex": "0x0.0p+0",
+          "energy_relative_error_hex": "0x0.0p+0",
+          "norm_identification_absolute_error_hex": "0x0.0p+0",
+          "projection_l2_error_hex": "0x0.0p+0"
+        },
+        "cubic_mixed": {
+          "continuum_energy_hex": "0x1.169496fb59a81p-10",
+          "continuum_norm_squared_hex": "0x1.5bd512ec6bce8p-7",
+          "discrete_energy_hex": "0x1.53c2c1f55cf6ep-11",
+          "discrete_norm_squared_hex": "0x1.0fc5b40b80dcfp-7",
+          "energy_absolute_error_hex": "0x1.b2ccd802acb2ap-12",
+          "energy_relative_error_hex": "0x1.8f8eab2c09538p-2",
+          "norm_identification_absolute_error_hex": "0x1.2709d31fd5e14p-10",
+          "projection_l2_error_hex": "0x1.1b44c7a7b9d3ep-5"
+        },
+        "linear": {
+          "continuum_energy_hex": "0x1.0624dd2f1a9fcp-10",
+          "continuum_norm_squared_hex": "0x1.47ae147ae147bp-7",
+          "discrete_energy_hex": "0x1.4152a06a0a31cp-11",
+          "discrete_norm_squared_hex": "0x1.017a211ec759cp-7",
+          "energy_absolute_error_hex": "0x1.95ee33e8561b8p-12",
+          "energy_relative_error_hex": "0x1.8c6a9eb0e416dp-2",
+          "norm_identification_absolute_error_hex": "0x1.09f98216697dbp-10",
+          "projection_l2_error_hex": "0x1.131c6e9b7827cp-5"
+        },
+        "neumann_cubic": {
+          "continuum_energy_hex": "0x1.f865440cfa8eap-12",
+          "continuum_norm_squared_hex": "0x1.7c47e9705642dp-2",
+          "discrete_energy_hex": "0x1.35733d64472e3p-12",
+          "discrete_norm_squared_hex": "0x1.7b5a26b14ab4dp-2",
+          "energy_absolute_error_hex": "0x1.85e40d5166c0fp-13",
+          "energy_relative_error_hex": "0x1.8bc4d9c968f24p-2",
+          "norm_identification_absolute_error_hex": "0x1.7dd8d0b88f540p-12",
+          "projection_l2_error_hex": "0x1.7db9aa43e832fp-6"
+        },
+        "quadratic": {
+          "continuum_energy_hex": "0x1.4f8b588e368f0p-15",
+          "continuum_norm_squared_hex": "0x1.3a92a30553260p-12",
+          "discrete_energy_hex": "0x1.24b1d2e3a3d36p-16",
+          "discrete_norm_squared_hex": "0x1.aff5fae03d11ap-13",
+          "energy_absolute_error_hex": "0x1.7a64de38c94abp-16",
+          "energy_relative_error_hex": "0x1.20b114cab312dp-1",
+          "norm_identification_absolute_error_hex": "0x1.ba17c86f63fabp-15",
+          "projection_l2_error_hex": "0x1.a5497c760dfe5p-8"
+        }
+      },
+      "gauge_mass_absolute_error_hex": "0x0.0p+0",
+      "gauge_scale_hex": "0x1.fea54425dccc2p+1",
+      "h_hex": "0x1.f9f9f9f9f9fa0p-4",
+      "stationary_mass_interval_containment": true
+    },
+    {
+      "box_mass_hex": "0x1.0000000000000p+0",
+      "cells": 33,
+      "conductance_interval_containment": true,
+      "density_ratio_max_hex": "0x1.5a32099528e22p+5",
+      "density_ratio_min_hex": "0x1.a2f1c42fc46f5p-6",
+      "density_ratio_sup_error_hex": "0x1.5232099528e22p+5",
+      "functions": {
+        "constant": {
+          "continuum_energy_hex": "0x0.0p+0",
+          "continuum_norm_squared_hex": "0x1.0000000000000p+0",
+          "discrete_energy_hex": "0x0.0p+0",
+          "discrete_norm_squared_hex": "0x1.0000000000000p+0",
+          "energy_absolute_error_hex": "0x0.0p+0",
+          "energy_relative_error_hex": "0x0.0p+0",
+          "norm_identification_absolute_error_hex": "0x0.0p+0",
+          "projection_l2_error_hex": "0x0.0p+0"
+        },
+        "cubic_mixed": {
+          "continuum_energy_hex": "0x1.169496fb59a81p-10",
+          "continuum_norm_squared_hex": "0x1.5bd512ec6bce8p-7",
+          "discrete_energy_hex": "0x1.e69676b10dcebp-11",
+          "discrete_norm_squared_hex": "0x1.44df969c8707ap-7",
+          "energy_absolute_error_hex": "0x1.1a4add169605ep-13",
+          "energy_relative_error_hex": "0x1.03693fc477bddp-3",
+          "norm_identification_absolute_error_hex": "0x1.733581707dd42p-12",
+          "projection_l2_error_hex": "0x1.310a814ecaeffp-6"
+        },
+        "linear": {
+          "continuum_energy_hex": "0x1.0624dd2f1a9fcp-10",
+          "continuum_norm_squared_hex": "0x1.47ae147ae147bp-7",
+          "discrete_energy_hex": "0x1.cac6e04962323p-11",
+          "discrete_norm_squared_hex": "0x1.329f58230e16fp-7",
+          "energy_absolute_error_hex": "0x1.060b68534c354p-13",
+          "energy_relative_error_hex": "0x1.ffce47c2b0d80p-4",
+          "norm_identification_absolute_error_hex": "0x1.4b89c1fe33656p-12",
+          "projection_l2_error_hex": "0x1.2805f5fcd416cp-6"
+        },
+        "neumann_cubic": {
+          "continuum_energy_hex": "0x1.f865440cfa8eap-12",
+          "continuum_norm_squared_hex": "0x1.7c47e9705642dp-2",
+          "discrete_energy_hex": "0x1.b98f386753bacp-12",
+          "discrete_norm_squared_hex": "0x1.7c014ee1b7366p-2",
+          "energy_absolute_error_hex": "0x1.f6b05d2d369f0p-15",
+          "energy_relative_error_hex": "0x1.fe4482e2e7c89p-4",
+          "norm_identification_absolute_error_hex": "0x1.d6e54ecc154ccp-14",
+          "projection_l2_error_hex": "0x1.9aa992fca8683p-7"
+        },
+        "quadratic": {
+          "continuum_energy_hex": "0x1.4f8b588e368f0p-15",
+          "continuum_norm_squared_hex": "0x1.3a92a30553260p-12",
+          "discrete_energy_hex": "0x1.0a43d2dd7f9bdp-15",
+          "discrete_norm_squared_hex": "0x1.1a2f39eb04172p-12",
+          "energy_absolute_error_hex": "0x1.151e16c2dbccep-17",
+          "energy_relative_error_hex": "0x1.a6d9097b14a38p-3",
+          "norm_identification_absolute_error_hex": "0x1.30ba765ca7079p-16",
+          "projection_l2_error_hex": "0x1.d38e48ebc40c7p-9"
+        }
+      },
+      "gauge_mass_absolute_error_hex": "0x0.0p+0",
+      "gauge_scale_hex": "0x1.fea5680c943e5p+1",
+      "h_hex": "0x1.04a7904a7904bp-4",
+      "stationary_mass_interval_containment": true
+    },
+    {
+      "box_mass_hex": "0x1.0000000000000p+0",
+      "cells": 65,
+      "conductance_interval_containment": true,
+      "density_ratio_max_hex": "0x1.b6e94949d244fp+2",
+      "density_ratio_min_hex": "0x1.3286693da3afep-3",
+      "density_ratio_sup_error_hex": "0x1.76e94949d244fp+2",
+      "functions": {
+        "constant": {
+          "continuum_energy_hex": "0x0.0p+0",
+          "continuum_norm_squared_hex": "0x1.0000000000000p+0",
+          "discrete_energy_hex": "0x0.0p+0",
+          "discrete_norm_squared_hex": "0x1.0000000000000p+0",
+          "energy_absolute_error_hex": "0x0.0p+0",
+          "energy_relative_error_hex": "0x0.0p+0",
+          "norm_identification_absolute_error_hex": "0x0.0p+0",
+          "projection_l2_error_hex": "0x0.0p+0"
+        },
+        "cubic_mixed": {
+          "continuum_energy_hex": "0x1.169496fb59a81p-10",
+          "continuum_norm_squared_hex": "0x1.5bd512ec6bce8p-7",
+          "discrete_energy_hex": "0x1.0cedf3d5a58d4p-10",
+          "discrete_norm_squared_hex": "0x1.55aefc7cb4fd6p-7",
+          "energy_absolute_error_hex": "0x1.34d464b6835b5p-15",
+          "energy_relative_error_hex": "0x1.1bcc2087c9e8dp-5",
+          "norm_identification_absolute_error_hex": "0x1.92c45753e5cadp-14",
+          "projection_l2_error_hex": "0x1.39a5cf63fe4f6p-7"
+        },
+        "linear": {
+          "continuum_energy_hex": "0x1.0624dd2f1a9fcp-10",
+          "continuum_norm_squared_hex": "0x1.47ae147ae147bp-7",
+          "discrete_energy_hex": "0x1.fa69bc0f16dcap-11",
+          "discrete_norm_squared_hex": "0x1.420d84c908e48p-7",
+          "energy_absolute_error_hex": "0x1.1dffe4f1e62dap-15",
+          "energy_relative_error_hex": "0x1.174be5943ac88p-5",
+          "norm_identification_absolute_error_hex": "0x1.6698c2f2380c3p-14",
+          "projection_l2_error_hex": "0x1.3049af7b206d6p-7"
+        },
+        "neumann_cubic": {
+          "continuum_energy_hex": "0x1.f865440cfa8eap-12",
+          "continuum_norm_squared_hex": "0x1.7c47e9705642dp-2",
+          "discrete_energy_hex": "0x1.e742acaa69d36p-12",
+          "discrete_norm_squared_hex": "0x1.7c3517593ca11p-2",
+          "energy_absolute_error_hex": "0x1.122976290bb45p-16",
+          "energy_relative_error_hex": "0x1.164b99a8c6a54p-5",
+          "norm_identification_absolute_error_hex": "0x1.fc8fd9daf02f2p-16",
+          "projection_l2_error_hex": "0x1.a618d89c8f91ep-8"
+        },
+        "quadratic": {
+          "continuum_energy_hex": "0x1.4f8b588e368f0p-15",
+          "continuum_norm_squared_hex": "0x1.3a92a30553260p-12",
+          "discrete_energy_hex": "0x1.3bd55770746e8p-15",
+          "discrete_norm_squared_hex": "0x1.31aa1469dc109p-12",
+          "energy_absolute_error_hex": "0x1.3b6011dc22087p-19",
+          "energy_relative_error_hex": "0x1.e1397740856e2p-5",
+          "norm_identification_absolute_error_hex": "0x1.543f8e2b75d4dp-18",
+          "projection_l2_error_hex": "0x1.e53063aa6a745p-10"
+        }
+      },
+      "gauge_mass_absolute_error_hex": "0x0.0p+0",
+      "gauge_scale_hex": "0x1.fea5680c943e5p+1",
+      "h_hex": "0x1.08aa243bdd577p-5",
+      "stationary_mass_interval_containment": true
+    },
+    {
+      "box_mass_hex": "0x1.0000000000000p+0",
+      "cells": 129,
+      "conductance_interval_containment": true,
+      "density_ratio_max_hex": "0x1.52d14ce180decp+1",
+      "density_ratio_min_hex": "0x1.856c3707a4b42p-2",
+      "density_ratio_sup_error_hex": "0x1.a5a299c301bd8p+0",
+      "functions": {
+        "constant": {
+          "continuum_energy_hex": "0x0.0p+0",
+          "continuum_norm_squared_hex": "0x1.0000000000000p+0",
+          "discrete_energy_hex": "0x0.0p+0",
+          "discrete_norm_squared_hex": "0x1.0000000000000p+0",
+          "energy_absolute_error_hex": "0x0.0p+0",
+          "energy_relative_error_hex": "0x0.0p+0",
+          "norm_identification_absolute_error_hex": "0x0.0p+0",
+          "projection_l2_error_hex": "0x0.0p+0"
+        },
+        "cubic_mixed": {
+          "continuum_energy_hex": "0x1.169496fb59a81p-10",
+          "continuum_norm_squared_hex": "0x1.5bd512ec6bce8p-7",
+          "discrete_energy_hex": "0x1.141750f72bb16p-10",
+          "discrete_norm_squared_hex": "0x1.5a414f613b24dp-7",
+          "energy_absolute_error_hex": "0x1.3ea30216fb5bdp-17",
+          "energy_relative_error_hex": "0x1.24cf3e3cd94bbp-7",
+          "norm_identification_absolute_error_hex": "0x1.9eadbad0d2998p-16",
+          "projection_l2_error_hex": "0x1.3d2070d6da96dp-8"
+        },
+        "linear": {
+          "continuum_energy_hex": "0x1.0624dd2f1a9fcp-10",
+          "continuum_norm_squared_hex": "0x1.47ae147ae147bp-7",
+          "discrete_energy_hex": "0x1.03d71d2c04667p-10",
+          "discrete_norm_squared_hex": "0x1.463ccb62c157ap-7",
+          "energy_absolute_error_hex": "0x1.26e0018b1caa5p-17",
+          "energy_relative_error_hex": "0x1.1ff6c181d9fe5p-7",
+          "norm_identification_absolute_error_hex": "0x1.70e1189e64e5ep-16",
+          "projection_l2_error_hex": "0x1.33a34efd69f83p-8"
+        },
+        "neumann_cubic": {
+          "continuum_energy_hex": "0x1.f865440cfa8eap-12",
+          "continuum_norm_squared_hex": "0x1.7c47e9705642dp-2",
+          "discrete_energy_hex": "0x1.f3fac7eefdda7p-12",
+          "discrete_norm_squared_hex": "0x1.7c431726dcd18p-2",
+          "energy_absolute_error_hex": "0x1.1a9f077f2d0d3p-18",
+          "energy_relative_error_hex": "0x1.1ee1d11684baep-7",
+          "norm_identification_absolute_error_hex": "0x1.0579301b18929p-17",
+          "projection_l2_error_hex": "0x1.aabc42f095f13p-9"
+        },
+        "quadratic": {
+          "continuum_energy_hex": "0x1.4f8b588e368f0p-15",
+          "continuum_norm_squared_hex": "0x1.3a92a30553260p-12",
+          "discrete_energy_hex": "0x1.4a67958a914fbp-15",
+          "discrete_norm_squared_hex": "0x1.384563a3cb3edp-12",
+          "energy_absolute_error_hex": "0x1.48f0c0e94fd62p-21",
+          "energy_relative_error_hex": "0x1.f5ec5c5c01721p-7",
+          "norm_identification_absolute_error_hex": "0x1.610fae643448ep-20",
+          "projection_l2_error_hex": "0x1.ebc98fdd79b96p-11"
+        }
+      },
+      "gauge_mass_absolute_error_hex": "0x0.0p+0",
+      "gauge_scale_hex": "0x1.fea5680c943e5p+1",
+      "h_hex": "0x1.0ab75e10ab75ep-6",
+      "stationary_mass_interval_containment": true
+    },
+    {
+      "box_mass_hex": "0x1.0000000000000p+0",
+      "cells": 257,
+      "conductance_interval_containment": true,
+      "density_ratio_max_hex": "0x1.a1a358f1878a2p+0",
+      "density_ratio_min_hex": "0x1.3a5d8c5030481p-1",
+      "density_ratio_sup_error_hex": "0x1.4346b1e30f143p-1",
+      "functions": {
+        "constant": {
+          "continuum_energy_hex": "0x0.0p+0",
+          "continuum_norm_squared_hex": "0x1.0000000000000p+0",
+          "discrete_energy_hex": "0x0.0p+0",
+          "discrete_norm_squared_hex": "0x1.0000000000000p+0",
+          "energy_absolute_error_hex": "0x0.0p+0",
+          "energy_relative_error_hex": "0x0.0p+0",
+          "norm_identification_absolute_error_hex": "0x0.0p+0",
+          "projection_l2_error_hex": "0x0.0p+0"
+        },
+        "cubic_mixed": {
+          "continuum_energy_hex": "0x1.169496fb59a81p-10",
+          "continuum_norm_squared_hex": "0x1.5bd512ec6bce8p-7",
+          "discrete_energy_hex": "0x1.15f360511622ep-10",
+          "discrete_norm_squared_hex": "0x1.5b6f13eb84ff2p-7",
+          "energy_absolute_error_hex": "0x1.426d54870a620p-19",
+          "energy_relative_error_hex": "0x1.284aea556b41fp-9",
+          "norm_identification_absolute_error_hex": "0x1.a362d7f491fe9p-18",
+          "projection_l2_error_hex": "0x1.3ea152c17eb11p-9"
+        },
+        "linear": {
+          "continuum_energy_hex": "0x1.0624dd2f1a9fcp-10",
+          "continuum_norm_squared_hex": "0x1.47ae147ae147bp-7",
+          "discrete_energy_hex": "0x1.058fb341d31bbp-10",
+          "discrete_norm_squared_hex": "0x1.4750cefd2d187p-7",
+          "energy_absolute_error_hex": "0x1.2a53da8f081b2p-19",
+          "energy_relative_error_hex": "0x1.2355e36fadea8p-9",
+          "norm_identification_absolute_error_hex": "0x1.74fb6b0910ca5p-18",
+          "projection_l2_error_hex": "0x1.3516fdbbfd49bp-9"
+        },
+        "neumann_cubic": {
+          "continuum_energy_hex": "0x1.f865440cfa8eap-12",
+          "continuum_norm_squared_hex": "0x1.7c47e9705642dp-2",
+          "discrete_energy_hex": "0x1.f747593e3762dp-12",
+          "discrete_norm_squared_hex": "0x1.7c46b1beb7540p-2",
+          "energy_absolute_error_hex": "0x1.1deacec32bdb7p-20",
+          "energy_relative_error_hex": "0x1.223a50f2e5613p-9",
+          "norm_identification_absolute_error_hex": "0x1.085b394308357p-19",
+          "projection_l2_error_hex": "0x1.acbf3ee7828b4p-10"
+        },
+        "quadratic": {
+          "continuum_energy_hex": "0x1.4f8b588e368f0p-15",
+          "continuum_norm_squared_hex": "0x1.3a92a30553260p-12",
+          "discrete_energy_hex": "0x1.4e3d8e9eab965p-15",
+          "discrete_norm_squared_hex": "0x1.39fd815b89b7ap-12",
+          "energy_absolute_error_hex": "0x1.4dc9ef8af8aeep-23",
+          "energy_relative_error_hex": "0x1.fd5241236db5ep-9",
+          "norm_identification_absolute_error_hex": "0x1.65ca79f1f4e5dp-22",
+          "projection_l2_error_hex": "0x1.ee6f0875d3375p-12"
+        }
+      },
+      "gauge_mass_absolute_error_hex": "0x0.0p+0",
+      "gauge_scale_hex": "0x1.fea5680c943e5p+1",
+      "h_hex": "0x1.0bc10bc10bc11p-7",
+      "stationary_mass_interval_containment": true
+    },
+    {
+      "box_mass_hex": "0x1.0000000000000p+0",
+      "cells": 513,
+      "conductance_interval_containment": true,
+      "density_ratio_max_hex": "0x1.47341265fd2ccp+0",
+      "density_ratio_min_hex": "0x1.90c01f6f9e7ebp-1",
+      "density_ratio_sup_error_hex": "0x1.1cd04997f4b31p-2",
+      "functions": {
+        "constant": {
+          "continuum_energy_hex": "0x0.0p+0",
+          "continuum_norm_squared_hex": "0x1.0000000000000p+0",
+          "discrete_energy_hex": "0x0.0p+0",
+          "discrete_norm_squared_hex": "0x1.0000000000000p+0",
+          "energy_absolute_error_hex": "0x0.0p+0",
+          "energy_relative_error_hex": "0x0.0p+0",
+          "norm_identification_absolute_error_hex": "0x0.0p+0",
+          "projection_l2_error_hex": "0x0.0p+0"
+        },
+        "cubic_mixed": {
+          "continuum_energy_hex": "0x1.169496fb59a81p-10",
+          "continuum_norm_squared_hex": "0x1.5bd512ec6bce8p-7",
+          "discrete_energy_hex": "0x1.166c166b8c70bp-10",
+          "discrete_norm_squared_hex": "0x1.5bbb75561210ap-7",
+          "energy_absolute_error_hex": "0x1.44047e69bae76p-21",
+          "energy_relative_error_hex": "0x1.29c11381d1ce9p-11",
+          "norm_identification_absolute_error_hex": "0x1.a565d767ab0c6p-20",
+          "projection_l2_error_hex": "0x1.3f51cbb52d106p-10"
+        },
+        "linear": {
+          "continuum_energy_hex": "0x1.0624dd2f1a9fcp-10",
+          "continuum_norm_squared_hex": "0x1.47ae147ae147bp-7",
+          "discrete_energy_hex": "0x1.05ff640ff3571p-10",
+          "discrete_norm_squared_hex": "0x1.4796a81139178p-7",
+          "energy_absolute_error_hex": "0x1.2bc8f93a45639p-21",
+          "energy_relative_error_hex": "0x1.24c24362e7c34p-11",
+          "norm_identification_absolute_error_hex": "0x1.76bfe7ff74cf0p-20",
+          "projection_l2_error_hex": "0x1.35c1c05e026ebp-10"
+        },
+        "neumann_cubic": {
+          "continuum_energy_hex": "0x1.f865440cfa8eap-12",
+          "continuum_norm_squared_hex": "0x1.7c47e9705642dp-2",
+          "discrete_energy_hex": "0x1.f81d7029b7a1bp-12",
+          "discrete_norm_squared_hex": "0x1.7c479b2a70202p-2",
+          "energy_absolute_error_hex": "0x1.1f4f8d0bb3e87p-22",
+          "energy_relative_error_hex": "0x1.23a47018be8a9p-11",
+          "norm_identification_absolute_error_hex": "0x1.099a4ba47a09dp-21",
+          "projection_l2_error_hex": "0x1.adabf643d1c3ap-11"
+        },
+        "quadratic": {
+          "continuum_energy_hex": "0x1.4f8b588e368f0p-15",
+          "continuum_norm_squared_hex": "0x1.3a92a30553260p-12",
+          "discrete_energy_hex": "0x1.4f376d6d1fb36p-15",
+          "discrete_norm_squared_hex": "0x1.3a6d2a6bd3d71p-12",
+          "energy_absolute_error_hex": "0x1.4fac845b6e8e0p-25",
+          "energy_relative_error_hex": "0x1.00194ebb01c8bp-10",
+          "norm_identification_absolute_error_hex": "0x1.67b0e645da41ep-24",
+          "projection_l2_error_hex": "0x1.ef95511a95ad8p-13"
+        }
+      },
+      "gauge_mass_absolute_error_hex": "0x0.0p+0",
+      "gauge_scale_hex": "0x1.fea5680c943e5p+1",
+      "h_hex": "0x1.0c46a97810c47p-8",
+      "stationary_mass_interval_containment": true
+    },
+    {
+      "box_mass_hex": "0x1.0000000000000p+0",
+      "cells": 1025,
+      "conductance_interval_containment": true,
+      "density_ratio_max_hex": "0x1.21785494c8d17p+0",
+      "density_ratio_min_hex": "0x1.c4d8ef2aded11p-1",
+      "density_ratio_sup_error_hex": "0x1.0bc2a4a6468b9p-3",
+      "functions": {
+        "constant": {
+          "continuum_energy_hex": "0x0.0p+0",
+          "continuum_norm_squared_hex": "0x1.0000000000000p+0",
+          "discrete_energy_hex": "0x0.0p+0",
+          "discrete_norm_squared_hex": "0x1.0000000000000p+0",
+          "energy_absolute_error_hex": "0x0.0p+0",
+          "energy_relative_error_hex": "0x0.0p+0",
+          "norm_identification_absolute_error_hex": "0x0.0p+0",
+          "projection_l2_error_hex": "0x0.0p+0"
+        },
+        "cubic_mixed": {
+          "continuum_energy_hex": "0x1.169496fb59a81p-10",
+          "continuum_norm_squared_hex": "0x1.5bd512ec6bce8p-7",
+          "discrete_energy_hex": "0x1.168a711c8da01p-10",
+          "discrete_norm_squared_hex": "0x1.5bcea80d36e37p-7",
+          "energy_absolute_error_hex": "0x1.44bbd98100a39p-23",
+          "energy_relative_error_hex": "0x1.2a6991ef39d6dp-13",
+          "norm_identification_absolute_error_hex": "0x1.a650a0b05d9bbp-22",
+          "projection_l2_error_hex": "0x1.3fa5f0d5cdbb3p-11"
+        },
+        "linear": {
+          "continuum_energy_hex": "0x1.0624dd2f1a9fcp-10",
+          "continuum_norm_squared_hex": "0x1.47ae147ae147bp-7",
+          "discrete_energy_hex": "0x1.061b79a17541ep-10",
+          "discrete_norm_squared_hex": "0x1.47a83636eace0p-7",
+          "energy_absolute_error_hex": "0x1.2c71b4abbcff8p-23",
+          "energy_relative_error_hex": "0x1.25670a6fb6918p-13",
+          "norm_identification_absolute_error_hex": "0x1.778f4f2bcb8e5p-22",
+          "projection_l2_error_hex": "0x1.361344cbdebf8p-11"
+        },
+        "neumann_cubic": {
+          "continuum_energy_hex": "0x1.f865440cfa8eap-12",
+          "continuum_norm_squared_hex": "0x1.7c47e9705642dp-2",
+          "discrete_energy_hex": "0x1.f85344fc3c7f5p-12",
+          "discrete_norm_squared_hex": "0x1.7c47d5d4597e6p-2",
+          "energy_absolute_error_hex": "0x1.1ff10be0f5542p-24",
+          "energy_relative_error_hex": "0x1.24485e3a42a1cp-13",
+          "norm_identification_absolute_error_hex": "0x1.0a2ce15dcc0a1p-23",
+          "projection_l2_error_hex": "0x1.ae1cffba6c2b6p-12"
+        },
+        "quadratic": {
+          "continuum_energy_hex": "0x1.4f8b588e368f0p-15",
+          "continuum_norm_squared_hex": "0x1.3a92a30553260p-12",
+          "discrete_energy_hex": "0x1.4f7650f069271p-15",
+          "discrete_norm_squared_hex": "0x1.3a893f8012456p-12",
+          "energy_absolute_error_hex": "0x1.5079dcd67facdp-27",
+          "energy_relative_error_hex": "0x1.00b5f94c66489p-12",
+          "norm_identification_absolute_error_hex": "0x1.68852a3e005f9p-26",
+          "projection_l2_error_hex": "0x1.f01d0d93c0b4bp-14"
+        }
+      },
+      "gauge_mass_absolute_error_hex": "0x0.0p+0",
+      "gauge_scale_hex": "0x1.fea5680c943e5p+1",
+      "h_hex": "0x1.0c89aa62343fcp-9",
+      "stationary_mass_interval_containment": true
+    }
+  ],
+  "schema": "encounter_continuum_c1_sg_manufactured_v1",
+  "sizes": [
+    17,
+    33,
+    65,
+    129,
+    257,
+    513,
+    1025
+  ],
+  "status": "PASS_NEUTRAL_MANUFACTURED_FIXTURE_ONLY_C1_MOSCO_STILL_OPEN",
+  "theory_boundary": {
+    "complete_c1_from_finite_tables": false,
+    "form_domain": "weighted_H1_no_Neumann_trace_constraint",
+    "generic_smooth_energy_asymptotic": "O(h)_from_two_missing_boundary_half_cells",
+    "neumann_compatible_energy_asymptotic": "O(h^2)_when_both_endpoint_derivatives_vanish",
+    "production_box_observed_order_warning": "tiny_endpoint_density_masks_generic_O(h)_term_on_accessible_meshes"
+  }
+}

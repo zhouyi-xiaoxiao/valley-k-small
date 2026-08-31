@@ -1,0 +1,258 @@
+\documentclass[aps,physrev,onecolumn,amsmath,amssymb,longbibliography]{revtex4-2}
+
+\ifdefined\pdftrailerid
+  \pdftrailerid{}
+\fi
+
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={Supplemental Material: prescribed finite-window reaction-time modality},
+  pdfauthor={Xiaoxiao Zhouyi},
+  pdfsubject={Analytical details for exact finite modality in a Doi encounter process},
+  pdfkeywords={encounter reaction, Doi model, mixed jets, weak reaction, multimodality}
+}
+
+\newcommand{\dd}{\mathrm d}
+\newcommand{\e}{\mathrm e}
+\newcommand{\Lfree}{\mathcal L}
+\newcommand{\Qbox}{\mathcal Q_d^{\mathrm{box}}}
+\newcommand{\Qinf}{\mathcal Q_d^{\infty}}
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title{Supplemental Material for ``Prescribed finite-window reaction-time
+modality by conserved-budget support design''}
+
+\author{Xiaoxiao Zhouyi}
+\email{xiaoxiao.zhouyi@bristol.ac.uk}
+\affiliation{School of Engineering Mathematics and Technology,
+University of Bristol, Bristol BS8 1TW, United Kingdom}
+
+\date{20 July 2026}
+
+\begin{abstract}
+This Supplemental Material states the bounded and natural-decay
+realisations of the Doi generator, proves compact-positive-time convergence
+of every prescribed finite time/control mixed derivative of the
+budget-normalized reaction density to the free-exposure law, and supplies the
+complete proof of exact prescribed finite modality.  The construction is
+pointwise in a fixed finite physical dimension and a fixed finite mode count.
+It fixes a sufficiently small noise-and-width scale before choosing a
+sufficiently small positive reaction budget.  The result is an existence
+theorem for a mode-dependent support design and does not assert switching
+among mode counts on one fixed support family.
+\end{abstract}
+
+\maketitle
+
+\section{Doi model and analytic realizations}
+\label{sec:supp-model}
+
+For a fixed finite physical dimension \(d\ge2\), the longitudinal-slab
+symmetry reduction gives
+\begin{equation}
+ \Qbox=I_z\times I_\parallel\times\mathbb T_W^{d-1},
+ \qquad
+ \Qinf=\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}.
+ \label{eq:supp-domains}
+\end{equation}
+With \(x=(z,r_\parallel,r_\perp)\), equal particle diffusivities give the free
+forward operator
+\begin{equation}
+ \Lfree q=-\nabla\!\cdot(bq)+\nabla\!\cdot(\bm D\nabla q),
+ \qquad
+ \bm D=\operatorname{diag}(D/2,2D,\ldots,2D),
+ \label{eq:supp-free-generator}
+\end{equation}
+where
+\begin{equation}
+ b(x)=\bigl(-\gamma(z-\bar z),-\gamma r_\parallel,0,\ldots,0\bigr).
+ \label{eq:supp-drift}
+\end{equation}
+The bounded quotient has zero forward flux on its nonperiodic faces and
+periodic transverse coordinates.  Natural decay on the unbounded quotient is
+specified by the reversible density
+\begin{equation}
+ \pi(x)=Z_\pi^{-1}
+ \exp\!\left[-\frac{\gamma(z-\bar z)^2}{D}
+              -\frac{\gamma r_\parallel^2}{4D}\right],
+ \label{eq:supp-pi}
+\end{equation}
+including the normalized uniform torus factor.
+
+Let \(0<a<W/2\), let \(\chi_a(r)\) be the embedded minimum-image contact-ball
+indicator, and let normalized nonnegative longitudinal profiles obey
+\(\phi_j\in L^\infty\) and \(\int\phi_j(z)\,\dd z=1\).  Put
+\begin{equation}
+ V_j(z,r)=W^{-(d-1)}\chi_a(r)\phi_j(z),\qquad
+ V_w=\sum_{j=1}^Jw_jV_j,\qquad K_{B,w}=BV_w,
+ \label{eq:supp-profiles}
+\end{equation}
+where \(w_j\ge0\) and \(\sum_jw_j=1\).  The installed centre-space catalyst
+amount is \(B\) for every \(w\).  The killed state and normalized reaction
+density are
+\begin{equation}
+ q_{B,w}(t)=\e^{t(\Lfree-BM_{V_w})}q_0,\qquad
+ F_B(t,w)=\langle V_w,q_{B,w}(t)\rangle .
+ \label{eq:supp-state}
+\end{equation}
+
+\begin{proposition}[Analytic killed semigroups]
+\label{prop:supp-analytic}
+On \(\Qbox\), the reflecting/periodic realization of \(\Lfree\) on
+\(L^2(\Qbox)\) generates a positive analytic semigroup.  On \(\Qinf\), the
+natural-decay realization on \(X_\pi=L^2(\pi^{-1}\dd x)\) does the same.
+For real \(B\ge0\) and simplex control \(w\), bounded multiplication by
+\(-BV_w\) preserves the generator domain and yields a positive,
+mass-decreasing analytic semigroup.  At positive time the state is entire in
+every finite affine complexification of the control amplitudes.  On
+\(\Qinf\), the observable pairing is continuous when
+\(V_w\in L^2(\pi\dd x)\cap L^\infty\).
+\end{proposition}
+
+\begin{proof}
+Set \(q=\pi u\).  The identity
+\begin{equation}
+ \Lfree(\pi u)=\pi\mathcal Gu,\qquad
+ \mathcal G=\pi^{-1}\nabla\!\cdot(\pi\bm D\nabla)
+ \label{eq:supp-similarity}
+\end{equation}
+follows from \(b=\bm D\nabla\log\pi\).  On \(L^2(\pi\dd x)\), the closed
+weighted form has
+\begin{equation}
+ \langle u,\mathcal Gv\rangle_{L^2(\pi)}
+ =-\int(\nabla u)^{\mathsf T}\bm D\nabla v\,\pi\dd x.
+ \label{eq:supp-form}
+\end{equation}
+It therefore realizes \(\mathcal G\) as a nonpositive self-adjoint generator.
+Multiplication by \(\pi\) is a bounded isomorphism on the bounded quotient and
+a unitary map into \(X_\pi\) on the unbounded quotient.  Bounded multiplication
+by \(-BV_w\) preserves analyticity and the domain.  The norm-convergent
+Dyson--Phillips series gives entire dependence on the finite control
+amplitudes.  Positivity and mass decrease for real nonnegative data follow
+from the product formula, equivalently from Feynman--Kac
+\cite{bressloff2022feynmanKac,grebenkov2020multiple}.
+\end{proof}
+
+\section{Uniform compact-positive-time mixed derivatives}
+\label{sec:supp-mixed}
+
+Choose an interior affine control chart \(w(\theta)=w_*+P\theta\) and a
+compact real control set \(\Theta\).  Fix \(\delta>0\) such that each closed
+coordinate polydisc of radius \(\delta\) about a point of \(\Theta\) lies in
+the complex tube
+\begin{equation}
+ \Theta_\delta^+
+ =\{\zeta\in\mathbb C^{J-1}:
+   \operatorname{dist}_\infty(\zeta,\Theta)<2\delta\}.
+ \label{eq:supp-tube}
+\end{equation}
+Define
+\begin{equation}
+ G(t,\theta)=\langle V_{w(\theta)},\e^{t\Lfree}q_0\rangle,\qquad
+ v_{\infty,\delta}=
+ \sup_{\zeta\in\Theta_\delta^+}\|V_{w(\zeta)}\|_\infty .
+ \label{eq:supp-free-exposure}
+\end{equation}
+Let \(v_{*,\delta}\) be the supremum of
+\(\|V_{w(\zeta)}\|_{L^2}\) on the bounded quotient and of
+\(\|V_{w(\zeta)}\|_{L^2(\pi\dd x)}\) on the unbounded quotient.  Write
+\(\kappa_\pi\) for the bounded-quotient similarity bound and set
+\(\kappa_\pi=1\) on the unbounded quotient.
+
+\begin{theorem}[Uniform weak-reaction mixed-jet bridge]
+\label{thm:mixed-jet}
+Fix \(0<\tau\le T<\infty\), \(0\le B\le B_{\max}\), an integer \(r\ge0\),
+and a finite control multi-index \(\alpha\).  The normalized density
+\(F_B(t,\theta)\) in Eq.~\eqref{eq:supp-state} extends continuously to
+\(F_0=G\), and
+\begin{align}
+ &\sup_{(t,\theta)\in[\tau,T]\times\Theta}
+ \left|\partial_t^r\partial_\theta^\alpha(F_B-G)\right|
+ \nonumber\\
+ &\quad\le
+ r!\,\alpha!\left(\frac2\tau\right)^r
+ \delta^{-|\alpha|}v_{*,\delta}\kappa_\pi
+ \left[\exp\!\left(\frac32Bv_{\infty,\delta}T\right)-1\right]
+ \|q_0\|_X .
+ \label{eq:supp-mixed-bound}
+\end{align}
+In particular, the left side is at most \(BC_{r,\alpha}\) for a finite
+constant independent of \(B\in[0,B_{\max}]\).
+\end{theorem}
+
+\begin{proof}
+For complex time \(z\) with \(\operatorname{Re}z>0\), the
+norm-convergent Dyson expansion in the self-adjoint representation is
+\begin{align}
+ \e^{z(\mathcal G-BV_w)}
+ ={}&\e^{z\mathcal G}
+ +\sum_{n=1}^{\infty}(-Bz)^n
+ \int_{\Delta_n}\e^{z(1-s_1)\mathcal G}V_w
+ \left[\prod_{k=1}^{n-1}
+ \e^{z(s_k-s_{k+1})\mathcal G}V_w\right]
+ \e^{zs_n\mathcal G}\,\dd\bm s ,
+ \label{eq:supp-dyson}
+\end{align}
+where
+\(\Delta_n=\{1\ge s_1\ge\cdots\ge s_n\ge0\}\) has volume \(1/n!\).
+Every free factor is contractive.  Consequently,
+\begin{equation}
+ \|\e^{z(\Lfree-BV_w)}-\e^{z\Lfree}\|_{X\to X}
+ \le\kappa_\pi\{\e^{B|z|\|V_w\|_\infty}-1\}.
+ \label{eq:supp-operator-bound}
+\end{equation}
+The complex-bilinear observable remainder thus satisfies
+\begin{equation}
+ \left|\left\langle V_{w(\zeta)},
+ [\e^{z(\Lfree-BV_{w(\zeta)})}-\e^{z\Lfree}]q_0
+ \right\rangle\right|
+ \le v_{*,\delta}\kappa_\pi
+ \{\e^{Bv_{\infty,\delta}|z|}-1\}\|q_0\|_X .
+ \label{eq:supp-remainder}
+\end{equation}
+For \(t\in[\tau,T]\), the disk \(|z-t|\le\tau/2\) remains in the open
+right half-plane and has \(|z|\le3T/2\).  Cauchy's estimate on this disk and
+on each radius-\(\delta\) control polydisc proves
+Eq.~\eqref{eq:supp-mixed-bound}.  Finally,
+\(\e^{Bx}-1\le Bx\e^{B_{\max}x}\) gives the linear bound.
+\end{proof}
+
+The estimate transfers any fixed finite collection of strict
+stationary-point neighbourhood, curvature, endpoint, and complement
+inequalities.  It is asserted only on compact positive-time intervals and
+does not supply a useful numerical budget threshold.
+
+\input{exact_m_theorem_full_proof.tex}
+
+\section{Scope of the analytical result}
+\label{sec:supp-scope}
+
+The proof establishes an exact existence theorem for the continuum Doi
+process.  It does not use a finite-volume approximation, and no discretized
+convergence statement is needed for its conclusion.  A separate claim that
+numerically located stationary points converge from bounded grids to the
+unbounded continuum would require quantitative spatial and truncation errors
+together with componentwise preservation of the root margins.  No such
+numerical claim is made here.
+
+\bibliography{references}
+
+\end{document}

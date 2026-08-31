@@ -1,0 +1,328 @@
+{
+  "axes": [
+    {
+      "axis_relation_sha256": "fee0110849cf9a727c6fc6ace2cc471d43e15c129a8a7d49a6738892a2f47fe9",
+      "coordinate": "midpoint",
+      "partition_file": {
+        "byte_length": 27566,
+        "path": "rows/09_a_r/midpoint.partition.json",
+        "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/09_a_r/midpoint.backward.be64",
+            "sha256": "9018ef549459449633c90ddd5dc77b4c1fde98712af80ee5da05f507922d8dbf"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "9018ef549459449633c90ddd5dc77b4c1fde98712af80ee5da05f507922d8dbf",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/09_a_r/midpoint.forward.be64",
+            "sha256": "4caf4c358519c294610bfdcd2a62f1935fd2e72aa0636256c50c0192b199ca1e"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "4caf4c358519c294610bfdcd2a62f1935fd2e72aa0636256c50c0192b199ca1e",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/09_a_r/midpoint.stationary_mass.be64",
+            "sha256": "7c1da6f328fdbb423ecac5174e59d5b5faee37084e1243258cba87fb4709a0ec"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "7c1da6f328fdbb423ecac5174e59d5b5faee37084e1243258cba87fb4709a0ec",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "c726a4b2b7d6f7aa9c5b0eb43c322c41b6ce5847847a9b2234a7d66a78851dbd",
+      "coordinate": "relative_parallel",
+      "partition_file": {
+        "byte_length": 28070,
+        "path": "rows/09_a_r/relative_parallel.partition.json",
+        "sha256": "9590ae4c98371947edc27f632f23e88555953552b8aef0d26438d9fc3de31a61"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/09_a_r/relative_parallel.backward.be64",
+            "sha256": "547ef82a54a04f15288df21faa51a879c7869e25663ddbaa3e71558a1b98a90b"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "547ef82a54a04f15288df21faa51a879c7869e25663ddbaa3e71558a1b98a90b",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/09_a_r/relative_parallel.forward.be64",
+            "sha256": "5a1be8f6643f3c3a612e70b1120c0ee5234d81f8ad1f60ed065cf8bd9845dfdd"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "5a1be8f6643f3c3a612e70b1120c0ee5234d81f8ad1f60ed065cf8bd9845dfdd",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2064,
+            "path": "rows/09_a_r/relative_parallel.stationary_mass.be64",
+            "sha256": "00a11fa7d8f8bbd7a6f2069624b311c0764fc5a4ca8ce2706df8373e29b48894"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              129
+            ],
+            "raw_byte_length": 2064,
+            "raw_sha256": "00a11fa7d8f8bbd7a6f2069624b311c0764fc5a4ca8ce2706df8373e29b48894",
+            "record_count": 129,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "6a8429a5ae766f46db0242398539b327ac220f0e04cdc5c207c7c30399fdb305",
+      "coordinate": "relative_perpendicular",
+      "partition_file": {
+        "byte_length": 11987,
+        "path": "rows/09_a_r/relative_perpendicular.partition.json",
+        "sha256": "930e7c3dceb736cfd022f2a64feed509f99a16e512e04482c77541434d430b9d"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/09_a_r/relative_perpendicular.backward.be64",
+            "sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/09_a_r/relative_perpendicular.forward.be64",
+            "sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/09_a_r/relative_perpendicular.stationary_mass.be64",
+            "sha256": "0546f197a4fc89ebd3e5f45bdb083fb4d9b123fff3c5aa9252993683b4a1a358"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0546f197a4fc89ebd3e5f45bdb083fb4d9b123fff3c5aa9252993683b4a1a358",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    }
+  ],
+  "configuration_index": 9,
+  "configuration_label": "A_R",
+  "configuration_sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+  "expected_states": 2113536,
+  "flags": {
+    "analytic_source_to_sparse_box_producer_consistent": true,
+    "free_axis_geometry_rate_producer_consistent": true,
+    "full_operator_bound": false,
+    "independent_geometry_relation_replay": false,
+    "independent_source_box_replay": false,
+    "killing_contact_geometry_bound": false,
+    "positive_budget_executed": false
+  },
+  "initial_marginals": [
+    {
+      "active_indices": [
+        22,
+        23,
+        24
+      ],
+      "coordinate": "midpoint",
+      "file": {
+        "byte_length": 2048,
+        "path": "rows/09_a_r/midpoint.initial_marginal.be64",
+        "sha256": "09f2a3627e37072a889268635b54215f258fca050d0aebf407209c77225113af"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          128
+        ],
+        "raw_byte_length": 2048,
+        "raw_sha256": "09f2a3627e37072a889268635b54215f258fca050d0aebf407209c77225113af",
+        "record_count": 128,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_midpoint",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        51,
+        52
+      ],
+      "coordinate": "relative_parallel",
+      "file": {
+        "byte_length": 2064,
+        "path": "rows/09_a_r/relative_parallel.initial_marginal.be64",
+        "sha256": "5a32e7c25daeddba30513467e17a481483578844f6d8044945f76ceedd868d9d"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          129
+        ],
+        "raw_byte_length": 2064,
+        "raw_sha256": "5a32e7c25daeddba30513467e17a481483578844f6d8044945f76ceedd868d9d",
+        "record_count": 129,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_parallel",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "coordinate": "relative_perpendicular",
+      "file": {
+        "byte_length": 2048,
+        "path": "rows/09_a_r/relative_perpendicular.initial_marginal.be64",
+        "sha256": "6821e3d8bc64f48f66733593c8ee271985ca3a16ab7e53e1d107b1dcb7a52fdd"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          128
+        ],
+        "raw_byte_length": 2048,
+        "raw_sha256": "6821e3d8bc64f48f66733593c8ee271985ca3a16ab7e53e1d107b1dcb7a52fdd",
+        "record_count": 128,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_perpendicular",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    }
+  ],
+  "row_relation_sha256": "e7caa7dd575afaafef707f0d7922c5e9ce4f8006cdea0f75e4c3185ab56e4631",
+  "schema": "encounter_control_free_production_initial_row_v1",
+  "source_box_relation_sha256": "a7fd675111971e85f498fc661619239ea1f8b8eef8d3286af71c1e09d869e304",
+  "sparse_component_box": {
+    "active_component_count": 36,
+    "active_index_sha256": "fa2278a75f4ee6c580bae29408b5c8d38adb80d6d7f0ed55d27fc1edc146b352",
+    "dense_expansion_byte_length": 33816576,
+    "dense_expansion_record_format": ">dd",
+    "dense_expansion_sha256": "0ac53c9fde3ce84b65d95e00bb1c9b4a74eba00500916a045f3e9747282213b8",
+    "file": {
+      "byte_length": 928,
+      "path": "rows/09_a_r/initial_component_box.sparse.be64",
+      "sha256": "a424f3cef232b5164826a62aaf1669b9f4b03efe41265ea6f70c9e199686c710"
+    },
+    "implicit_background": "positive_zero_interval_[0x0.0p+0,0x0.0p+0]",
+    "lower_mass_exact": "4611686018424287681/4611686018427387904",
+    "record_format": ">Qdd",
+    "schema": "encounter_sparse_component_interval_box_v1",
+    "shape": [
+      128,
+      129,
+      128
+    ],
+    "state_count": 2113536,
+    "tensor_order": "C:midpoint_outer_relative_parallel_middle_transverse_inner",
+    "upper_mass_exact": "2305843009215243827/2305843009213693952"
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NOT_F0"
+}

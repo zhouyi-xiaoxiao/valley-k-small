@@ -1,0 +1,160 @@
+{
+  "all_cases_have_one_detected_mode_per_channel": true,
+  "case_count": 12,
+  "cases": [
+    {
+      "channel_count": 2,
+      "dimension": 1,
+      "isolated_root_count": 3,
+      "max_scaled_derivative_residual": 3.6410191458503135e-15,
+      "minimum_peak_to_valley_ratio": 1.9961543885074915,
+      "resolved_mode_count": 2
+    },
+    {
+      "channel_count": 3,
+      "dimension": 1,
+      "isolated_root_count": 5,
+      "max_scaled_derivative_residual": 2.975575870055293e-14,
+      "minimum_peak_to_valley_ratio": 1.9961543885074966,
+      "resolved_mode_count": 3
+    },
+    {
+      "channel_count": 4,
+      "dimension": 1,
+      "isolated_root_count": 7,
+      "max_scaled_derivative_residual": 7.739803736588864e-15,
+      "minimum_peak_to_valley_ratio": 1.9961543885074966,
+      "resolved_mode_count": 4
+    },
+    {
+      "channel_count": 2,
+      "dimension": 2,
+      "isolated_root_count": 3,
+      "max_scaled_derivative_residual": 5.328588897623603e-15,
+      "minimum_peak_to_valley_ratio": 2.695647755849703,
+      "resolved_mode_count": 2
+    },
+    {
+      "channel_count": 3,
+      "dimension": 2,
+      "isolated_root_count": 5,
+      "max_scaled_derivative_residual": 2.136319375477967e-14,
+      "minimum_peak_to_valley_ratio": 2.695647755849697,
+      "resolved_mode_count": 3
+    },
+    {
+      "channel_count": 4,
+      "dimension": 2,
+      "isolated_root_count": 7,
+      "max_scaled_derivative_residual": 1.7459841293145423e-13,
+      "minimum_peak_to_valley_ratio": 2.695647755849702,
+      "resolved_mode_count": 4
+    },
+    {
+      "channel_count": 2,
+      "dimension": 3,
+      "isolated_root_count": 3,
+      "max_scaled_derivative_residual": 1.5352844978662125e-15,
+      "minimum_peak_to_valley_ratio": 3.6531292619523197,
+      "resolved_mode_count": 2
+    },
+    {
+      "channel_count": 3,
+      "dimension": 3,
+      "isolated_root_count": 5,
+      "max_scaled_derivative_residual": 5.162394124075168e-14,
+      "minimum_peak_to_valley_ratio": 3.6531292619523197,
+      "resolved_mode_count": 3
+    },
+    {
+      "channel_count": 4,
+      "dimension": 3,
+      "isolated_root_count": 7,
+      "max_scaled_derivative_residual": 4.663426662268599e-14,
+      "minimum_peak_to_valley_ratio": 3.653129261952317,
+      "resolved_mode_count": 4
+    },
+    {
+      "channel_count": 2,
+      "dimension": 4,
+      "isolated_root_count": 3,
+      "max_scaled_derivative_residual": 4.608782547788293e-16,
+      "minimum_peak_to_valley_ratio": 4.959766409581116,
+      "resolved_mode_count": 2
+    },
+    {
+      "channel_count": 3,
+      "dimension": 4,
+      "isolated_root_count": 5,
+      "max_scaled_derivative_residual": 1.5093556349732457e-14,
+      "minimum_peak_to_valley_ratio": 4.959766409581116,
+      "resolved_mode_count": 3
+    },
+    {
+      "channel_count": 4,
+      "dimension": 4,
+      "isolated_root_count": 7,
+      "max_scaled_derivative_residual": 7.79994221769703e-14,
+      "minimum_peak_to_valley_ratio": 4.95976640958112,
+      "resolved_mode_count": 4
+    }
+  ],
+  "channel_counts": [
+    2,
+    3,
+    4
+  ],
+  "construction": {
+    "D1": 0.5,
+    "D2": 0.5,
+    "Dc": 0.25,
+    "Dr": 1.0,
+    "a_rule": "a_j=b*m_j^2+p*m_j",
+    "b": 0.01,
+    "catalytic_coordinate": "diffusivity-weighted eta=D2/(D1+D2), hence C_eta=R",
+    "centre_drift_speed": 0.1,
+    "distance_feasibility": "a_j>=ell^2/(4*Dr), here b*m_j^2+p*m_j>=1/4",
+    "distance_rule": "|z_j-R0|=sqrt(a_j-1/4)",
+    "initial_gap": 1.0,
+    "minimum_feasible_mode_by_dimension": {
+      "1": 0.124921972503933,
+      "2": 0.09996003196803827,
+      "3": 0.08331019803633488,
+      "4": 0.07141400011596577
+    },
+    "relative_drift": 0.0,
+    "target_modes": {
+      "2": [
+        1.0,
+        10.0
+      ],
+      "3": [
+        1.0,
+        10.0,
+        100.0
+      ],
+      "4": [
+        1.0,
+        10.0,
+        100.0,
+        1000.0
+      ]
+    },
+    "weight_rule": "w_j proportional to inverse isolated peak height"
+  },
+  "dimensions": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "evidence_level": "free-space narrow-patch GIG screening construction",
+  "maximum_scaled_derivative_residual": 1.7459841293145423e-13,
+  "minimum_peak_to_valley_ratio": 1.9961543885074915,
+  "not_claimed": [
+    "bounded-domain PDE theorem",
+    "finite-radius centre-patterned continuum fold",
+    "physical realization of the designed mixture weights",
+    "interval-certified absence of tangential derivative roots"
+  ]
+}

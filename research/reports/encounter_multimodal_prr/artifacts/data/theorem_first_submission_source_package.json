@@ -1,0 +1,70 @@
+{
+  "archive": {
+    "byte_count": 24315,
+    "path": "output/source/encounter_multimodal_prr_submission_source.tar.gz",
+    "root": "encounter_multimodal_prr_submission_source",
+    "sha256": "f35583513ac57672bb1c3fb9ac37b63ba098ab37d16c1a3760b97d60e5363f30"
+  },
+  "build_inputs": {
+    "code/compile_theorem_first_submission.py": "70ed526d0aeff3e2eaa8f5fa9343958e42e1df67474370c876aa8a9cc6485fcc",
+    "code/compile_theorem_first_working.py": "15098db6e731e23a31967077b79ace723849b5e8383169bb497fa57f9b92725e",
+    "code/package_theorem_first_submission_source.py": "56faf2ab1e8d43f8bf7529e831d91e6e798510c26f541ae4e549607b344ce472"
+  },
+  "entries": {
+    "README.md": {
+      "byte_count": 913,
+      "mode": "0644",
+      "sha256": "b5b88467a90d42f45bcc210077570fafbecb730d1ce755b424dc8e8f7355331d"
+    },
+    "SHA256SUMS": {
+      "byte_count": 569,
+      "mode": "0644",
+      "sha256": "688819d322cd72e2e9345b0173bd3532c1cebfff336676ae802a7f37f577a050"
+    },
+    "encounter_multimodal_prr_submission.tex": {
+      "byte_count": 10831,
+      "mode": "0644",
+      "sha256": "304e658b611d23af61a4672d3f087060fe6c0b69ef015d9411c986b413a5ea71"
+    },
+    "encounter_multimodal_prr_submission_supplement.tex": {
+      "byte_count": 9695,
+      "mode": "0644",
+      "sha256": "f1c9a278f8fcfbffb2b076644e0c2598e2dd95d6296a29303aa702fa073bc7f7"
+    },
+    "exact_m_theorem_full_proof.tex": {
+      "byte_count": 33772,
+      "mode": "0644",
+      "sha256": "e80d9ac20a50427275a82b40b7691686fba81f0a852b9e7dc26960e2584f4cfd"
+    },
+    "exact_m_theorem_spine.tex": {
+      "byte_count": 9593,
+      "mode": "0644",
+      "sha256": "79b0a4467a67999f605b8a5d8ec07e41a88c07edc8cdf1639ad6b8d4ce70658e"
+    },
+    "references.bib": {
+      "byte_count": 9510,
+      "mode": "0644",
+      "sha256": "b58d9aaaa29a8f8352cfd4a60486e077e164565d5a94e84e026ecb742eb27621"
+    }
+  },
+  "published_pdf_sha256": {
+    "main": "9590bc055f8a7ca2e475f69702adca1382cda3330681375c088c7c32a70f0825",
+    "supplement": "1a94d6f42d50725866e86238fa29e41ce7418c2e70f43b56c418cb632c96bb5d"
+  },
+  "schema_version": 1,
+  "source_inputs": {
+    "manuscript/encounter_multimodal_prr_submission.tex": "304e658b611d23af61a4672d3f087060fe6c0b69ef015d9411c986b413a5ea71",
+    "manuscript/encounter_multimodal_prr_submission_supplement.tex": "f1c9a278f8fcfbffb2b076644e0c2598e2dd95d6296a29303aa702fa073bc7f7",
+    "manuscript/exact_m_theorem_full_proof.tex": "a372b5a33d2203b8f3214a153f4aaf1e81497bf146c0ac1db1cfda97919c1c7b",
+    "manuscript/exact_m_theorem_spine.tex": "79b0a4467a67999f605b8a5d8ec07e41a88c07edc8cdf1639ad6b8d4ce70658e",
+    "manuscript/references.bib": "b58d9aaaa29a8f8352cfd4a60486e077e164565d5a94e84e026ecb742eb27621"
+  },
+  "validation": {
+    "archive_rebuilt_main_pdf_byte_identically": true,
+    "archive_rebuilt_supplement_pdf_byte_identically": true,
+    "deterministic_archive_rebuilds": true,
+    "forbidden_reader_markers": 0,
+    "safe_regular_members_only": true,
+    "sha256_ledger_valid": true
+  }
+}

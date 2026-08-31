@@ -1,0 +1,26 @@
+{
+  "analytic_total_mass_exact": "1/1",
+  "construction": "independent_product_of_three_analytically_normalized_compact_bumps",
+  "coordinate_order": [
+    "midpoint",
+    "relative_parallel",
+    "relative_perpendicular"
+  ],
+  "physical_dimension": 2,
+  "quotient_dimension": 3,
+  "half_width_binary64_hex": "0x1.47ae147ae147bp-6",
+  "marginal_density": "b((x-c)/h)/(h*I_b)",
+  "normalization": "I_b=integral_-1^1_b(u)_du",
+  "periodic_coordinate": "relative_perpendicular",
+  "periodic_wrap": "sum_over_periodic_images_before_cell_integration",
+  "schema": "encounter_physical_initial_analytic_source_v1",
+  "shared_normalizer_across_cells_and_axes": true,
+  "scope": "physical_initial_law_only_no_control_no_budget",
+  "shape_definition": "b(u)=indicator(abs(u)<1)*exp(-1/(1-u^2))",
+  "starts_binary64_hex": {
+    "midpoint": "0x1.1eb851eb851ecp-3",
+    "relative_parallel": "-0x1.6666666666666p-2",
+    "relative_perpendicular": "0x0.0p+0"
+  },
+  "transverse_period_exact": "1/1"
+}

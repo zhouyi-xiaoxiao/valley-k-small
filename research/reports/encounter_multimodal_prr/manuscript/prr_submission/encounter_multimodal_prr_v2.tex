@@ -1,0 +1,664 @@
+\documentclass[aps,physrev,reprint,amsmath,amssymb,longbibliography,floatfix]{revtex4-2}
+
+\ifdefined\pdftrailerid
+  \pdftrailerid{}
+\fi
+
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{placeins}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={Prescribing finite-window reaction-time modes with a static fixed-budget Doi reactivity field},
+  pdfauthor={Xiaoxiao Zhouyi},
+  pdfsubject={Static fixed-budget design of finite-window reaction-time topology in a Doi process},
+  pdfkeywords={Doi process, reaction-time density, prescribed modality, static reactivity field, fixed integrated reactivity}
+}
+
+\newcommand{\dd}{\mathrm d}
+\newcommand{\e}{\mathrm e}
+
+\begin{document}
+
+\title{Prescribing finite-window reaction-time modes with a static fixed-budget Doi reactivity field}
+
+\author{Xiaoxiao Zhouyi}
+\email{xiaoxiao.zhouyi@bristol.ac.uk}
+\affiliation{School of Engineering Mathematics and Technology, University of Bristol,
+Bristol BS8 1TW, United Kingdom}
+
+\date{August 14, 2026}
+
+\begin{abstract}
+We ask whether a fixed amount of static spatial reactivity can prescribe
+reaction-time modes.  For a two-particle Doi process, we prove that for every
+fixed finite \(d\ge2\) and \(m\ge1\) there is a nonnegative lab-frame
+reactivity field of fixed centre-coordinate mass
+\(\int\kappa(c)\,\dd c=B\) for which the resulting reaction-time density has
+exactly \(m\) nondegenerate
+maxima and \(m-1\) nondegenerate minima on a declared compact positive-time
+window.  Ordered narrow slabs along a monotone mean trajectory generate
+separated Gaussian exposure clocks.  A global derivative-zero bound and
+whole-window sign certificate establish this signature uniformly over a
+compact family of positive slab weights; mixed-jet convergence on positive
+times transfers it to the killed process for sufficiently small positive
+\(B\).  Off-lattice simulations realize the construction at moderate noise
+and order-one event mass, map noise--budget mode-retention boundaries, and
+show predictable loss by peak merger or depletion.  The result does not
+claim novelty for multimodal first-passage laws, topology outside the chosen
+window, or parameters uniform in \(d\) and \(m\).  The contribution is instead
+a constructive finite-window topology theorem under a static nonnegative
+fixed-\(L^1\) reactivity constraint, supported by a finite-parameter
+realization.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+Reaction-time multimodality is established rather than new.  Strategically
+arranged static traps can generate multimodal capture-time densities
+\cite{lindsaySpoonmoreTzou2016narrow}, while distinct transport channels,
+heterogeneous reaction control, and encounter geometries can create separated
+time scales \cite{godecMetzler2017twochannel,
+grebenkovMetzlerOshanin2018defocusing,leVotEtAl2022encounter}.  The question
+here is therefore not whether several peaks can occur, but whether their
+complete finite-window stationary-point topology can be constructed under a
+specific static resource constraint.
+
+Several adjacent inverse-design paradigms clarify that constraint.  Classical
+inverse first-passage theory uses a time-dependent absorbing boundary to
+realize a prescribed survival law \cite{ekstromJanson2016inverse}.  Soft-killing
+variants translate a killing profile by a time-dependent barrier and establish
+existence or uniqueness for prescribed lifetime distributions
+\cite{ettingerEvansHening2014prescribed,
+ettingerHeningWong2020inverse,klumpKolb2024soft}.  Finite-state phase-type and
+hyper-Erlang constructions generate flexible positive waiting-time laws by
+introducing hidden Markov phases
+\cite{asmussenNermanOlsson1996phase,thuemmlerBuchholzTelek2006phase}.
+Stochastic gating modifies detection times through switching reaction states
+\cite{bressloffLawley2015gated,kumarEtAl2023gated}, and kinetic proofreading
+uses sequential, energy-consuming reaction steps to impose temporal delays
+\cite{hopfield1974proofreading,ninio1975amplification,
+mckeithan1995proofreading}.  These results provide broader distributional
+control in different design spaces; they do not impose the static spatial
+constraint considered here.
+
+Static spatial reactivity under a fixed total resource is itself also
+established.  Heterogeneous bulk killing has been studied with fixed total
+reactive strength, partially reactive network elements have been rearranged at
+fixed total absorbance, and position-dependent Robin reactivity has been
+optimized under a fixed integral to maximize steady flux
+\cite{nguyenGrebenkov2010porous,scottEtAl2021tubular,
+nicolaouMulder2023flux}.  Thus neither static killing, spatial redistribution,
+nor an \(L^1\)-type resource constraint is a novelty claim here.  The objective
+below is instead the exhaustive transient stationary-point topology of a
+two-particle Doi reaction-time density, together with its whole-window
+positive-budget transfer.
+
+Our admissible control is a lab-frame, time-independent, nonnegative
+centre-coordinate field \(\kappa(c)\), multiplied by a fixed encounter-contact
+profile and constrained by
+\begin{equation}
+ \int\kappa(c)\,\dd c=B.
+ \label{eq:intro-budget}
+\end{equation}
+Every admissible allocation uses the same installed amount \(B\).  We neither
+translate nor activate the field in time, introduce signed reactivity, nor add
+an internal gating or proofreading state.  Under these restrictions we ask
+whether a prescribed number of reaction-time modes can nevertheless be made
+exact on a specified time window.
+
+\paragraph{Main result.}
+Fix finite \(d\ge2\), finite \(m\ge1\), and a compact interval
+\(I=[\tau,T]\subset(0,\infty)\).  We construct transport and initial data,
+contact geometry, and \(m\) ordered normalized catalyst slabs; these data may
+depend on \((d,m)\).  There is \(\varepsilon_0>0\) such that, for every
+\(0<\varepsilon<\varepsilon_0\), the free-exposure clock has exactly \(m\)
+nondegenerate maxima and \(m-1\) nondegenerate minima on \(I\), uniformly for
+all slab weights satisfying \(w_j\ge w_*>0\) and \(\sum_jw_j=1\).  For each
+fixed such \(\varepsilon\), there is a positive uniform topological threshold
+\(B_{\rm top}^{\rm unif}(\varepsilon)\) such that the positive-budget Doi
+reaction-time density has the identical stationary signature whenever
+\(0<B<B_{\rm top}^{\rm unif}(\varepsilon)\).  For every allocation the field
+remains static and satisfies Eq.~\eqref{eq:intro-budget}.
+
+The upper bound of \(m\) modes for an \(m\)-component univariate Gaussian
+mixture is classical
+\cite{carreiraPerpinanWilliams2003modes,amendolaEngstromHaase2020modes};
+it is not the contribution.  The proof burden created by the encounter
+process is to construct all \(2m-1\) stationary points with uniform margins,
+prove a global derivative-zero bound, exclude additional zeros over the
+whole window after multiplication by the contact probability, and preserve
+the root tubes, curvature signs, endpoint slopes, and complement margin under
+positive-budget Doi killing.  Compact-positive-time mixed-jet convergence
+provides the last transfer.
+
+The theorem has a sequential quantifier order and does not supply a common
+useful budget, a lower event-mass bound, or parameters uniform in \(d\) and
+\(m\).  The off-lattice campaigns therefore serve a separate purpose: they
+test finite-parameter realizability, map the operational noise--budget
+retention boundary, and identify the predicted peak-merger and depletion
+failures.  Their classifier is fixed in advance but operational, and no claim
+is made about stationary points outside \(I\).  Doi killing, reaction mass
+balance, and spatially heterogeneous reactivity are established ingredients
+\cite{doi1976stochastic,isaacsonMauroNewby2016uniform,
+pruestelMeierSchellersheim2014area,bressloff2022feynmanKac,
+grebenkov2019heterogeneous}.
+
+\section{Conserved-reactivity encounter model}
+\label{sec:model}
+
+\begin{figure}[t]
+  \resizebox{\columnwidth}{!}{\input{prr_assets/fig1_mechanism_schematic}}
+  \caption{Mechanism of prescribed finite modality ($m=3$ shown).
+    (a)~The midpoint mean $\mu(t)=\bar z+(z_0-\bar z)\e^{-\gamma t}$
+    drifts monotonically toward $\bar z$ (thick curve; a sample path of
+    $Z_t$ in gray) past three narrow normalized Gaussian catalyst slabs
+    $w_j\phi_{j,\varepsilon}$ of width $\varepsilon\rho$ centred at the
+    physical positions $z_j=\mu(t_j)=\operatorname{sgn}(\mu')\ell_0c_j$
+    on the $Z$ axis, under the conserved installed budget
+    $\int\kappa_{\bm w}\,\dd c=B$ [Eq.~\eqref{eq:conserved-budget}].
+    The deterministic relative trajectory has a strict margin inside the
+    contact tube; the stochastic $R_t$ may leave and re-enter it, with
+    transverse directions on the torus $\mathbb T_W^{d-1}$ (right).
+    (b)~In the theorem regime
+    $0<B<B_{\rm top}^{\rm unif}(\varepsilon)$, each slab acts as a
+    separated exposure clock: the reaction-time density develops one
+    peak near each passage time $t_j$ (dashed
+    guides), and one valley between adjacent peaks, so
+    $f_{B,\bm w}/B$ has exactly $m$ maxima and $m-1$ minima on
+    $[\tau,T]$ [Theorem~1].  (Diagram code revised with Codex assistance;
+    scientific content author-verified.)}
+  \label{fig:mechanism}
+\end{figure}
+
+Let \(q(x,t)\) be the unreacted configuration density of two mobile
+particles, with conservative generator \(\mathcal L\).  Write \(r\) for the
+relative coordinate and \(c\) for an encounter-centre coordinate.  For a
+fixed contact profile \(\chi_a(r)\) and normalized nonnegative centre-space
+profiles \(\phi_j(c)\), define
+\begin{align}
+ \kappa_{\bm w}(c)&=B\sum_{j=1}^{J}w_j\phi_j(c),
+ &w_j&\ge0,\nonumber\\
+ \sum_jw_j&=1,
+ &\int\phi_j(c)\,\dd c&=1,\nonumber\\
+ K_{B,\bm w}(x)&=\chi_a(r)\kappa_{\bm w}(c).
+ \label{eq:budget-field}
+\end{align}
+Every admissible allocation has the same installed centre-space resource,
+\begin{equation}
+ \int\kappa_{\bm w}(c)\,\dd c=B.
+ \label{eq:conserved-budget}
+\end{equation}
+This is not an integral over the complete two-particle configuration space.
+The killed evolution, reaction-time density, and survival probability are
+\begin{align}
+ \partial_tq_{B,\bm w}&=(\mathcal L-K_{B,\bm w})q_{B,\bm w},
+ &q_{B,\bm w}(0)&=q_0,\nonumber\\
+ f_{B,\bm w}(t)&=\langle K_{B,\bm w},q_{B,\bm w}(t)\rangle,
+ &-S'_{B,\bm w}(t)&=f_{B,\bm w}(t).
+ \label{eq:killed-law}
+\end{align}
+Equation~\eqref{eq:killed-law} is the usual mass balance for a Doi
+volume-reaction process, not a novelty claim.
+
+For longitudinal catalyst slabs, translation invariance of the common
+transverse coordinate gives an exact quotient
+\begin{equation}
+ \Omega_\infty
+ =\mathbb R_z\times\mathbb R_{r_\parallel}\times
+   \mathbb T_W^{d-1}.
+ \label{eq:quotient}
+\end{equation}
+In the construction below the midpoint \(Z_t\) moves monotonically in mean,
+the relative process remains a positive distance inside the contact region
+along its deterministic trajectory on the chosen window, and each normalized
+slab is centred at the midpoint mean at a target time.  The
+\(W^{-(d-1)}\) factor in the killing field accounts for the omitted common
+transverse directions and preserves Eq.~\eqref{eq:conserved-budget}.
+
+\section{Positive-time transfer}
+\label{sec:transfer}
+
+Write \(K_{B,\bm w}=BV_{\bm w}\) and introduce interior affine control
+coordinates \(\bm w(\bm\theta)=\bar{\bm w}+P\bm\theta\).  The
+budget-rescaled reaction density and the free-exposure law are
+\begin{equation}
+ F_B(t,\bm\theta)=B^{-1}f_{B,\bm w(\bm\theta)}(t),
+ \qquad
+ G(t,\bm\theta)=
+ \langle V_{\bm w(\bm\theta)},\e^{t\mathcal L}q_0\rangle.
+ \label{eq:normalized-exposure}
+\end{equation}
+On either a bounded reflecting/periodic quotient or the reversible
+natural-decay realization of Eq.~\eqref{eq:quotient}, assume \(q_0\) belongs
+to the corresponding state space and \(V_{\bm w}\) is bounded on a complex
+control neighbourhood of a compact interior control set.  A
+Dyson expansion followed by time and control Cauchy estimates gives, for
+every fixed time order \(r\) and finite control multi-index \(\alpha\),
+\begin{equation}
+ \sup_{(t,\bm\theta)\in[\tau,T]\times\Theta}
+ \left|
+ \partial_t^r\partial_{\bm\theta}^{\alpha}(F_B-G)
+ \right|
+ \le C_{r,\alpha,\tau,T,\Theta}B.
+ \label{eq:mixed-jet}
+\end{equation}
+The Supplemental Material accompanying this article
+\cite{supplementalMaterial} gives the explicit constant and proof.  In
+particular, \(C^2\) convergence on a compact positive-time window preserves
+disjoint stationary-point neighbourhoods, curvature signs, endpoint slopes,
+and a nonzero derivative margin on their complement.  The estimate is local
+in positive time and provides neither a useful numerical value of \(B\) nor
+control on the scale \(t=O(B^{-1})\).
+
+\input{exact_m_theorem_spine.tex}
+
+Three thresholds are kept distinct.  The theorem concerns the maximal
+uniform topology-preservation threshold
+\(B_{\rm top}^{\rm unif}(\varepsilon)\).  For one fixed allocation, the
+Supplemental Material \cite{supplementalMaterial} derives a closed-form
+sufficient value \(B_{\rm cert}(\varepsilon;\bm w,\{U_i\})\), from a flat
+Dyson-chain estimate, such that every
+\(0<B<B_{\rm cert}\) preserves the free-clock signature.  Only this
+sufficient value, along the fixed anchor family used in its evaluation, has
+the established asymptotic form
+\begin{equation}
+ \log B_{\rm cert}
+ =-\frac{c_B}{\varepsilon^2}
+  +O\!\left(\log\frac1\varepsilon\right),
+ \qquad c_B>0.
+\label{eq:bcert-rate}
+\end{equation}
+Here \(\{U_i\}\) is the selected system of disjoint root tubes; this
+dependence is suppressed below.  The construction proves only
+\(B_{\rm cert}\le B_{\rm top}(\varepsilon;\{\bm w\})\), not a bound for
+the threshold uniform over the full allocation family.
+High-precision, non-interval evaluations using the same relative-coordinate
+initial law as the simulations give nominal values
+\(\widehat B_{\rm cert}\simeq8.9\times10^{-15}\) for the \(m=2\),
+\(\varepsilon=0.1\) anchor and \(2.6\times10^{-7}\) for the corresponding
+\(m=3\) geometry.  By contrast, \(B_{\rm op}\) below is a finite-sample
+crossing of a stated classifier: \(B_{\rm op}\simeq7.6\) and \(3.6\),
+respectively.  It is not identified with either \(B_{\rm top}\) or
+\(B_{\rm cert}\).  The large gap is dominated by the whole-window
+left-endpoint derivative margin, while the weighted-norm obstruction of the
+direct \(L^2\) route is absent from the flat-pairing formula.
+
+\section{Numerical realization}
+\label{sec:numerics}
+
+The theorem is an existence statement with a deliberately sequential
+quantifier order, and by itself does not identify a practically resolved
+parameter set.  This section reports an off-lattice time-discrete simulation
+of the same continuum model at moderate noise and order-one budgets, designed to
+test the theorem's falsifiable finite-parameter implications, including its
+predicted failure directions.  Table~\ref{tab:design-recipe} summarizes the
+construction as the checkable procedure that the campaigns below execute.
+
+\input{prr_assets/design_recipe_box}
+
+\subsection{Method and sanity checks}
+\label{sec:numerics-method}
+
+No spatial lattice is introduced.  The midpoint, longitudinal, and
+transverse coordinates of Eq.~\eqref{eq:exact-m-process} are integrated by
+Euler--Maruyama steps of size \(\Delta t=10^{-3}\), and Doi killing is
+realized by per-step thinning with probability
+\(1-\exp(-K_{B,\bm w,\varepsilon}\,\Delta t)\) evaluated at the current
+position.  All runs use deterministically seeded counter-based random
+streams, one substream per walker chunk.  Two automated checks accompany
+every configuration: the per-step kill probability must remain in the unit
+interval (largest value \(5.6\times10^{-3}\) across all production
+configurations), and event counts must balance mass exactly (kills plus
+survivors equal walkers).  Separately, a campaign-level zero-budget twin run
+accumulates about \(10^{7}\) contact steps and produces no kills.  A
+\(\Delta t\)-halving twin of the
+\((m,\varepsilon,B)=(2,0.1,1)\) configuration reproduces both peak times at
+bin resolution and both peak prominences to within \(0.3\%\), and the
+\(d=3\) run passes a per-bin \(\Delta t\)-halving comparison with maximum
+\(|z|=1.67\).  Modality is decided by a fixed operational
+classifier: reaction times are histogrammed with bin width \(0.02\) and
+smoothed with a Gaussian kernel of bandwidth \(0.04\), and a local maximum
+counts as a mode only if its topographic prominence (peak minus contour
+base) exceeds both five covariance-aware smoothed-Poisson standard
+deviations and \(5\%\) of the maximum smoothed height on the window
+\(I=[0.5,3.5]\).  Peak and contour base are linear statistics of the raw
+bin counts, so the prominence variance is
+\(\sum_j (A_{p,j}-A_{b,j})^2\,C_j/(N\delta)^2\), with \(A\) the kernel
+smoothing weights, \(C_j\) the raw counts, \(N\) the walker count, and
+\(\delta\) the bin width; a peak-only Poisson sigma, which omits the base
+variance and the peak--base covariance, would only overstate the
+significance ratio of counted maxima (by factors up to \(1.55\) across the
+retained campaign) and is not used.  Post-hoc sensitivity analysis over bandwidths
+\(0.03\)--\(0.05\) and relative-prominence floors \(3\%\)--\(7\%\) leaves
+the principal anchors unchanged but changes the verdict in four of the 96
+phase-diagram cells adjacent to the reported boundary.  Complete method
+details, configuration tables, retained histogram counts, and additional
+figures are given in the Supplemental Material \cite{supplementalMaterial}.
+
+\paragraph{Computational-tool disclosure.}
+OpenAI Codex Desktop 0.147.0-alpha.6.5 (GPT-5.6-sol, August 2026), with
+earlier GPT-5-family Codex sessions (July--August 2026), assisted with
+software and plotting-code drafting, workflow orchestration, analytical
+derivation and proof checks, adversarial tests, and reproducibility checks.
+The author set the questions, model, protocols, acceptance criteria, and
+claims; verified retained outputs using deterministic seeds, machine-readable
+histogram and classifier records, targeted reruns, and a checksummed archive;
+and remains responsible for their interpretation and accuracy.
+
+\subsection{Production grid at \texorpdfstring{$m=2$ and $m=3$}{m=2 and m=3}}
+\label{sec:numerics-production}
+
+Eighteen production configurations with \(5\times10^{6}\) walkers each
+realize the slab design of Theorem~1 at \(d=2\).  For \(m=2\), all twelve
+configurations across
+\(\varepsilon\in\{0.1,0.2\}\), \(B\in\{0.5,1,2\}\), and weights
+\((\tfrac12,\tfrac12)\) and \((0.7,0.3)\) are classified as bimodal under
+the fixed rule,
+with the weakest counted peak still \(72\) Poisson standard deviations
+prominent.  Event mass is order one throughout: between \(0.29\) and
+\(0.92\) of all walkers react inside the window.  The early peak sits within
+\(0.01\)--\(0.03\) of its target time in every configuration; the late peak
+is pulled earlier by progressive depletion as the budget grows, by
+\(0.05\)--\(0.11\) at \(B=0.5\), \(0.09\)--\(0.19\) at \(B=1\), and
+\(0.15\)--\(0.29\) at \(B=2\).
+
+For \(m=3\) at \(\varepsilon=0.1\), \(B=1\), the fixed classifier identifies
+three significant maxima for both the uniform and the
+\((0.5,0.3,0.2)\) allocations, near
+the targets \((0.8,1.6,2.8)\), with window event mass \(0.66\)--\(0.74\).
+At \(\varepsilon=0.2\), \(B=1\), both allocations lose the third mode ---
+consistent with the heuristic design margin becoming marginal: the minimum adjacent
+centre spacing equals \(2.30\sigma\) at \(\varepsilon=0.2\), at the
+\(C\approx2.3\) spacing boundary of Table~\ref{tab:design-recipe}, and the
+exact free clock's third-peak prominence there is only \(5.1\%\) of the
+window maximum, marginally above the classifier's \(5\%\) floor.  Reducing
+the budget to \(B=0.25\) at uniform weights partially restores the third
+maximum, which is visible at \(t=2.49\) but uncertified: its prominence is
+\(4.8\sigma\), below the five-sigma gate, and \(2.7\%\) of the maximum
+height, below the \(5\%\) floor, so the strict classifier records two
+modes; consistently, the threshold study below certifies no third-mode
+crossing anywhere in the scanned budget range for this column.
+
+\begin{figure*}[t]
+  \includegraphics[width=0.92\textwidth]{figures/exact_m_phase_diagram_m3_prr}
+  \caption{Operational modality phase diagram for the \(m=3\) design:
+    equal slab weights and classifier mode count over
+    \(\varepsilon\in\{0.05,\ldots,0.25\}\) and
+    \(B\in\{0.125,\ldots,4\}\), \(10^{6}\) walkers per cell
+    (\(*\)~= refined at \(3\times10^{6}\)).  The retained-mode boundary is a
+    monotone staircase in \((\varepsilon,B)\); the dashed line marks the
+    \(B\)-independent semi-analytic boundary
+    \(\varepsilon\in(0.2,0.25]\) beyond which the free exposure clock
+    \(G\) itself loses its third window maximum.  The
+    \(\varepsilon=0.2\) column sits at the classifier floor discussed in
+    Sec.~\ref{sec:numerics-thresholds}.  The companion \(m=2\) diagram
+    (Supplemental Material) is classified as bimodal under the fixed rule in
+    all 48 cells.  A classifier-sensitivity sweep moves four \(m=3\) cells
+    adjacent to the displayed boundary; the anchor
+    \((\varepsilon,B)=(0.1,1)\) is stable over the tested range.
+    (Plotting code revised with Codex assistance; numerical content
+    author-verified.)}
+  \label{fig:phase-diagram-m3}
+\end{figure*}
+
+\subsection{Phase diagram and mode-retention boundary}
+\label{sec:numerics-phase}
+
+A \(96\)-cell campaign at equal slab weights scans
+\(\varepsilon\in\{0.05,0.075,0.1,0.125,0.15,0.175,0.2,0.25\}\) against six
+budgets \(B\in\{0.125,0.25,0.5,1,2,4\}\) for both designs under the stated
+operational rule (Fig.~\ref{fig:phase-diagram-m3}).  The \(m=2\) design is
+classified as bimodal in all \(48\) cells.  The \(m=3\) design retains all
+three classifier-significant modes at
+every budget for \(\varepsilon=0.05\); loses only the largest budget
+\(B=4\) for \(\varepsilon=0.075\)--\(0.125\); loses \(B\ge2\) at
+\(\varepsilon=0.15\) and \(B\ge1\) at \(\varepsilon=0.175\); and fails at
+every budget for \(\varepsilon=0.2\) (the classifier-floor column) and
+\(\varepsilon=0.25\), where the semi-analytic free clock itself retains only
+two window maxima.  The observed staircase is monotone in both variables,
+and the \(B\)-independent loss of the third free-clock maximum is bracketed
+to \(\varepsilon\in(0.2,0.25]\), overlaid on the figure.
+
+\subsection{Operational budget thresholds}
+\label{sec:numerics-thresholds}
+
+\begin{figure}[t]
+  \includegraphics[width=\columnwidth]{figures/exact_m_b0_empirical_prr}
+  \caption{Empirically bisected operational budget crossing
+    \(B_{\rm op}(\varepsilon;m,\bm w_{\rm eq},\mathcal P)\) for equal
+    slab weights and the fixed protocol \(\mathcal P\).  The crossing is
+    determined by the stated last-mode pass rule and reported with geometric
+    bisection brackets at \(10^{6}\) walkers per probe.  For \(m=2\) the
+    threshold is mildly increasing in \(\varepsilon\) and right-censored at
+    the scan limit \(B=8\) beyond \(\varepsilon=0.1\); for \(m=3\) it falls
+    steeply as the design margin shrinks, and at \(\varepsilon=0.2\) no
+    scanned budget certifies the third mode, so no crossing is plotted
+    there (see text).  (Plotting code revised with Codex assistance;
+    numerical content author-verified.)}
+  \label{fig:b0-empirical}
+\end{figure}
+
+For each \(\varepsilon\), an equal-weight bisection chain measures the
+protocol-defined crossing
+\(B_{\rm op}(\varepsilon;m,\bm w_{\rm eq},\mathcal P)\) at which the last
+mode changes its classifier verdict
+(Fig.~\ref{fig:b0-empirical}).  The two designs behave qualitatively
+differently.  For \(m=2\) the measured thresholds are
+\(B_{\rm op}=6.99\) at \(\varepsilon=0.05\) and
+\(B_{\rm op}=7.62\) at
+\(\varepsilon=0.1\), and the threshold exceeds the scan limit \(8\) at
+\(\varepsilon=0.15\) and \(0.2\): a mildly increasing trend.  For \(m=3\)
+the operational crossings fall steeply, \(4.15\), \(3.57\), and \(1.55\)
+at \(\varepsilon=0.05\), \(0.1\), and \(0.15\); at \(\varepsilon=0.2\) no
+probe in the scanned budget range \([0.125,8]\) certifies a third mode, so
+no operational crossing exists there at \(10^{6}\)-walker resolution.
+
+One remark is required at \((m,\varepsilon)=(3,0.2)\).  There the exact
+free clock's third-peak prominence is \(5.1\%\) of the window maximum ---
+marginally above the classifier's \(5\%\) floor even in the zero-budget
+limit --- so this column probes the classifier floor itself.  Under the
+covariance-aware statistic the two independent streams agree: the
+phase-diagram grid records two classified modes at every budget in this
+column, and every threshold probe fails the five-sigma rule (the closest
+candidates, at \(B\le0.28\), reach only \(4.2\)--\(4.4\sigma\)).  A
+peak-only sigma convention, which omits the base variance and the
+peak--base covariance, would instead pass three probes in this column at a
+nominal \(5.8\)--\(6.1\sigma\) and would manufacture both an apparent
+crossing near \(B=0.28\) and an unexplained disagreement between the two
+streams; the covariance-aware statistic removes both.  The remaining seven
+chains are unaffected: every bracket-defining probe verdict is unchanged
+under the corrected statistic.  Their numerical crossings remain
+classifier-dependent.  Across the nine
+post-hoc classifier settings, bracketed midpoint spans include \(6.17\)--\(7.83\)
+for \((m,\varepsilon)=(2,0.1)\) and \(3.08\)--\(3.63\) for
+\((m,\varepsilon)=(3,0.1)\), with some settings censored by the stored probe
+ranges; complete
+spans and censoring counts are reported in the Supplemental Material.
+
+\subsection{Robustness and failure modes}
+\label{sec:numerics-robustness}
+
+Beyond the theorem's hypotheses, a jitter campaign perturbs the slab centres
+by independent Gaussian displacements of scale \(\eta s\) (with \(s\) the
+minimum adjacent centre spacing) and the weights by a
+\(\mathrm{Dirichlet}(50\,\bar{\bm w})\) draw, with \(50\) replicas of
+\(2\times10^{5}\) walkers per point at the \(\varepsilon=0.1\), \(B=1\)
+anchors.  The target classifier mode count survives in at least \(96\%\) of
+replicas up
+to \(\eta=0.15\) for both designs, decaying to \(46\%\) (\(m=2\)) and
+\(40\%\) (\(m=3\)) at \(\eta=0.4\); all \(50\) weight-jitter replicas
+retain the target classifier mode count for both designs.  The observed
+pattern is predominantly consistent with geometric merger: replica-level
+classifier verdicts agree with the
+semi-analytic verdict of each replica's own perturbed geometry in
+\(86\)--\(100\%\) of cases, and the mismatches preclude a purely geometric
+attribution.  Classified failures are associated mainly with mergers of
+adjacent peaks when jittered spacing collapses, rather than with extra peaks.
+
+\subsection{Higher mode count and dimension}
+\label{sec:numerics-m5-d3}
+
+\begin{figure*}[t]
+  \includegraphics[width=0.92\textwidth]{figures/exact_m_m5_demo_prr}
+  \caption{Five-mode off-lattice realization at \(\varepsilon=0.1\),
+    \(B=1\), uniform weights,
+    \(5\times10^{6}\) walkers, on a stretched geometry (\(z_0=8\)) with
+    slab centres \(\mu_j=(2.8,2.2,1.6,1.0,0.4)\).  The fixed classifier
+    identifies five significant maxima near the design target times (dotted
+    lines), with
+    prominences between \(215\) and \(454\) Poisson standard deviations
+    and \(0.53\) reaction events per walker inside the window.  Dashed
+    curve: free-exposure prediction \(BG(t)\).  (Plotting code revised with
+    Codex assistance; numerical content author-verified.)}
+  \label{fig:m5-demo}
+\end{figure*}
+
+Two further campaigns probe the prescribed-\(m\) and prescribed-\(d\)
+directions at fixed design effort.  For a five-slab design on a stretched
+geometry, the fixed classifier identifies five significant maxima near the
+five target times
+(to within \(0.05\)),
+with prominences \(215\)--\(454\sigma\) and window event mass \(0.53\) per
+walker (Fig.~\ref{fig:m5-demo}).  A \(d=3\) spot check --- two transverse
+torus directions, killing prefactor \(B/W^{2}\), all other parameters
+unchanged from the \((m,\varepsilon,B)=(2,0.1,1)\) anchor --- is classified
+with two significant maxima at \(t=0.99\) and \(2.37\), with window event
+mass \(0.60\) per walker (Supplemental Material).  This check is consistent
+with the quotient construction in the first higher dimension; it is not a
+dimension-uniform numerical result.
+
+\subsection{Consistent dimensionalization of the numerical anchor}
+\label{sec:units-mapping}
+
+Comparison of the generator and stochastic differential equations gives the
+physical single-particle diffusivity \(D=\varepsilon^2D_0\), not \(D_0\).
+With length and time units \(1~\mu\mathrm m\) and \(1~\mathrm s\), the
+\(\varepsilon=0.1\), \(D_0=1\) anchor therefore corresponds to
+\(D=0.01~\mu\mathrm m^2\mathrm s^{-1}\).  Retaining the simulated
+\(W=1\) gives a \(1~\mu\mathrm m\) transverse period and, for the
+equal-weight \(m=3\), \(B=1\) case, an on-contact single-slab peak rate of
+\(1.33~\mathrm s^{-1}\).  This is a dimensionalization of the simulated
+point, not evidence that \(B=1\) lies below \(B_{\rm top}\); the full
+mapping is given in the Supplemental Material.
+
+\subsection{What the numerics establish, and what they do not}
+\label{sec:finite-scope}
+
+The campaigns give finite-parameter evidence that the designed signatures
+can be observed at moderate noise, order-one budgets, and order-one event
+mass.  They also locate failures in the anticipated directions: depletion at
+large budget, clock merger as noise or centre jitter grows, and loss of a
+free-clock maximum when its separation margin closes.  These are classifier
+outcomes, not exact root counts for the time-discretized process.
+
+No spatial lattice is introduced, but the simulations retain both time-step
+and sampling error.  The \(\Delta t\)-halving comparisons are consistency
+checks, not a convergence theorem.  Three independent seeds agree on all 18
+verdicts across six targeted configurations, and the \(m=3\) and \(m=5\)
+interior anchors retain their mode counts when \(\Delta t\) is halved.
+However, one independent \(\Delta t/2\) run of the boundary-adjacent
+\((m,\varepsilon,B)=(3,0.175,0.5)\) cell changes from three to two classified
+modes because the late candidate peak falls below both classifier
+thresholds.
+Since the step size also changes the random-number stream, this comparison
+does not isolate time-step from sampling error; the displayed phase-grid
+verdict is resolution/stream-sensitive.  Nothing numerical is uniform in
+\((d,m)\).  The sufficient-bound formula \(B_{\rm cert}\) and the
+operational
+crossing \(B_{\rm op}\) differ by roughly fifteen decades at the matched
+\(m=2\) anchor and seven for \(m=3\); the displayed \(B_{\rm cert}\) values
+are reported as \(\widehat B_{\rm cert}\): high-precision evaluations without
+interval enclosures.  Finally, the
+principal anchors are stable over the tested classifier ranges, whereas four
+of the 96 phase-diagram cells change verdict under the sensitivity sweep and
+the \((m,\varepsilon)=(3,0.2)\) column lies at the relative-prominence floor.
+
+\section{Discussion}
+\label{sec:discussion}
+
+The theorem occupies a narrow gap between spatial first-passage theory and
+inverse timing design.  Relative to strategically arranged absorbing traps,
+it provides an arbitrary prescribed fixed finite mode count, an exhaustive
+maxima--minima count on a declared window, uniformity over a compact family
+of positive allocations, and transfer to a two-particle positive-budget Doi
+law under a conserved centre-coordinate resource.  Relative to inverse
+first-passage constructions, it uses a static lab-frame field but prescribes
+only finite-window topology rather than an arbitrary lifetime distribution.
+Relative to phase-type, gated, and proofreading mechanisms, it introduces no
+hidden reaction phase or time-dependent switch.  The novelty is this
+conjunction of constraints, not multimodality by itself.
+
+Mathematically, stationary catalyst locations become separated exposure
+clocks.  The affine--exponential zero bound makes the Gaussian-clock count
+exhaustive; root-tube and posterior-sector estimates retain a derivative
+margin on the entire complement; the contact factor perturbs rather than
+creates the clock signature; and compact-positive-time \(C^2\) convergence
+transfers all maxima, minima, and curvature signs to the killed law.
+Uniformity over \(w_j\ge w_*\) is important: the conclusion is not tied to one
+finely tuned allocation, although changing weights on the same support is not
+claimed to switch among arbitrary mode counts.
+
+The simulations provide finite-parameter evidence rather than an additional
+theorem.  At the scanned parameters they recover the designed classifier mode
+counts, locate operational mode-retention boundaries, and show failure through
+the same two mechanisms indicated by the proof margins: adjacent-clock merger
+as noise or geometric jitter grows, and suppression of a late mode by
+depletion as the budget grows.  The semi-analytic free clock is consequently
+a useful preflight diagnostic, but the finite-walker classifier, seed,
+bandwidth, prominence rule, and time step remain part of the operational
+definition near a boundary.
+
+The restrictions are substantive.  First, the deterministic relative
+trajectory lies strictly inside the contact region and the free contact
+probability approaches one in the small-noise limit.  The modal skeleton is
+therefore generated primarily by separated longitudinal exposure clocks, not
+by a nontrivial contact-gating effect.  Second, the extension to \(d\ge2\)
+uses longitudinal slabs and a transverse symmetry quotient; it demonstrates
+dimension compatibility rather than a new dimension-driven geometry.  Third,
+the normalized slab height scales as \(1/\varepsilon\), so the fixed-\(L^1\)
+constraint imposes neither an independent peak-rate cap nor a minimum feature
+size.  Fourth, \(B_{\rm top}\) is a topology threshold,
+\(B_{\rm cert}\) is only a fixed-allocation sufficient value, and
+\(B_{\rm op}\) is a classifier-dependent finite-sample crossing; none is
+identified with another.
+
+Nothing is proved about topology outside \(I\), a parameter choice uniform in
+\(d\) or \(m\), a common positive event-mass floor, or mode-count switching on
+one fixed support family.  Natural next questions are whether prescribed
+modality persists under simultaneous \(L^1\) and \(L^\infty\) constraints,
+under a minimum catalyst width, or when the contact probability remains
+genuinely nontrivial throughout the design window.  Within the stated scope,
+the result gives a constructive topology theorem for a static
+resource-constrained Doi field and a finite-parameter test of its mechanism.
+
+\section*{Acknowledgments}
+
+The Codex systems and versions identified in the Methods also assisted with
+literature and cross-document consistency checks and with drafting or revising
+explanatory text.  Retained citations were checked against the cited records,
+and the manuscript was rebuilt and inspected after revision.  The AI tool is
+not an author; the sole author takes responsibility for the retained content.
+
+\section*{Data availability}
+
+The code, parameter files, machine-readable numerical records, retained
+histogram counts, classifier diagnostics, figure-generation scripts, and the
+Lean~4 machine-checked kernel package described in the Supplemental Material
+are contained in a versioned, checksummed reproduction archive.  Its public
+repository and persistent identifier will be inserted here before portal
+upload; no experimental data were generated.
+
+\bibliography{references}
+
+\end{document}

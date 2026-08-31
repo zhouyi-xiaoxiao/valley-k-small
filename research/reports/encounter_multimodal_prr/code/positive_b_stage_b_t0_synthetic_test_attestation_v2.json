@@ -1,0 +1,92 @@
+{
+  "authorization": "AUTHORIZED-SCIENTIFIC-COMMAND: NONE",
+  "files": {
+    "design_v4": {
+      "path": "notes/positive_b_stage_b_validation_design_v4.md",
+      "sha256": "e5ca55c8a63d72b8f1bb0ded4d6ebba29a75d94e96ce07a6b7ebf15dcf100691"
+    },
+    "design_v5": {
+      "path": "notes/positive_b_stage_b_validation_design_v5.md",
+      "sha256": "136085075ad23fc22a40cf03725c9151f11ff356cff4f6f39e5c5fbb24317ddd"
+    },
+    "exploit_tests": {
+      "path": "code/test_stageb_t0_selector_round78.py",
+      "sha256": "0df1a964d226933165d7346b5b1b2bc8be0dc96a0f55630fceba99e2469bd3fe"
+    },
+    "implementation": {
+      "path": "code/positive_b_stage_b_t1_selector_v5.py",
+      "sha256": "c7344bb8d6818f609c57614dd0d500c75fcc2229606865b1d9a4d05bc94cecfc"
+    },
+    "loader": {
+      "path": "code/positive_b_stage_b_t0_verified_loader.py",
+      "sha256": "9a3cd379f4a19c5b0cf6317d9e3bfbfd39bf6914714de7fb014754a4d0ca4cad"
+    },
+    "primary_tests": {
+      "path": "code/test_positive_b_stage_b_t1_selector_v5.py",
+      "sha256": "8ac8a27c603e64af3467ed1784b947fe3bfbb117b6ea0ca3dad2f533eb901aa8"
+    },
+    "protocol_v1_historical": {
+      "path": "notes/positive_b_stage_b_t0_selector_protocol_v1.md",
+      "sha256": "fedf5d77629f8764a970222421fc53b4b5392ae8be5df027c258fa120fd9eb34"
+    },
+    "protocol_v2_historical": {
+      "path": "notes/positive_b_stage_b_t0_selector_protocol_v2.md",
+      "sha256": "5046f9a3cceae5afd787962f81da70776f015f04f2607027befce1135dd0a57f"
+    },
+    "protocol_v3": {
+      "path": "notes/positive_b_stage_b_t0_selector_protocol_v3.md",
+      "sha256": "8c60e6ec3254df0abdbc1644e5ed765e644f79b1e2a72ac1d2d1a15dc0a1b13b"
+    },
+    "race_regression_tests": {
+      "path": "code/test_stageb_t0_selector_round94.py",
+      "sha256": "e6f81b8d4de11d0d0d4f7401d6412c51ea82c21d2465ec2f29668b4144db4563"
+    },
+    "requirements_lock": {
+      "path": "code/positive_b_stage_b_t0_requirements.lock",
+      "sha256": "52f905ed765f2fa9422dd28e082b3abeb9e46c0b391b9fd6a9b32a5f2fc0a2a2"
+    },
+    "round73": {
+      "path": "audits/round_73_stageb_v5_independent_attack.md",
+      "sha256": "36c0f502b90cb98e8cdeedd5a1621b0ffa1e3bcc5bc49b5490d1eccde9e7dcf8"
+    },
+    "round75_historical": {
+      "path": "audits/round_75_stageb_t0_selector_build.md",
+      "sha256": "66dff9711b9d3a19734884cc8a60eb323801fb9b480bc39980bc268f8e332952"
+    },
+    "round78_historical": {
+      "path": "audits/round_78_stageb_t0_selector_independent_attack.md",
+      "sha256": "d8cb0a69739839fefe5a6a5a4c5226465dacf57cdabe3a820981ca44ade7c94f"
+    },
+    "round81_historical": {
+      "path": "audits/round_81_stageb_t0_selector_repair_freeze.md",
+      "sha256": "a59794fca10f1c0c8a5ef8e5d01c1e650cd66a4e825ecd55d96de8037af1f947"
+    },
+    "round93_rejection": {
+      "path": "audits/round_93_stageb_t0_selector_independent_attack.md",
+      "sha256": "52e3cb4249ff85b6634aa509a4a1431cadf3ed9e4fa3b6a5b7f2de04d8a16e20"
+    },
+    "runtime_lock": {
+      "path": "code/positive_b_stage_b_t0_runtime_lock_v2.json",
+      "sha256": "7321fb3ce442276f4b2ff1b7c6f58c844926fba63bcca2270e10e53fb5f44ecf"
+    },
+    "tombstone": {
+      "path": "code/positive_b_stage_b_t0_selector.py",
+      "sha256": "53d624310d808a82b52bb1c9f7b14405c2324c4c457e727739b1e1a92462d032"
+    },
+    "v5_bridge": {
+      "path": "notes/positive_b_stage_b_t1_selector_protocol_v5.md",
+      "sha256": "3f2c884db3fbb96741a12e19b49b7c5df7034dc0b8d9ef9c42e04aa736350132"
+    }
+  },
+  "runtime_site_root": "/Users/ae23069/.local-build/valley-k-small/.venv/lib/python3.12/site-packages",
+  "schema": "positive-b-stage-b-t0-synthetic-test-attestation-v2",
+  "status": "NON-PROMOTABLE-SYNTHETIC-TEST",
+  "trust_contract": {
+    "bootstrap_trust_base": "CPYTHON-STDLIB-IMPORT-MACHINERY-OS-LOADER-SYSTEM-LIBRARIES",
+    "native_image_execution": "PATH-LOADED-UNDER-NO-HOSTILE-SAME-UID-WRITER-CONTRACT",
+    "protection_claim": "DEFENSE-IN-DEPTH-NOT-CRYPTOGRAPHIC-IMMUTABILITY",
+    "runtime_tree_concurrency": "NO-HOSTILE-SAME-UID-WRITER-DURING-LOAD-AND-PUBLIC-CALLS",
+    "schema": "positive-b-stage-b-t0-execution-trust-contract-v1",
+    "wrapper_execution": "VERIFIED-DESCRIPTOR-SNAPSHOT-COMPILE-EXEC"
+  }
+}

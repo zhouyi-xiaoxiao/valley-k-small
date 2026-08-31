@@ -1,0 +1,364 @@
+{
+  "capacity_fits": [
+    {
+      "fitted_intercept": 0.17613680015672972,
+      "fitted_log_slope": 0.15114872487457282,
+      "grid_n": 161,
+      "max_absolute_fit_residual": 0.0015885895851749376,
+      "r_squared": 0.9994293979281115,
+      "relative_slope_error": 0.050304552669154456,
+      "slope_ratio_to_theory": 0.9496954473308455,
+      "spacing": 0.006211180124223602,
+      "theory_log_slope": 0.15915494309189535
+    },
+    {
+      "fitted_intercept": 0.16102875803891567,
+      "fitted_log_slope": 0.15581060787534376,
+      "grid_n": 241,
+      "max_absolute_fit_residual": 0.0008846087847735884,
+      "r_squared": 0.9999056914303684,
+      "relative_slope_error": 0.02101307789492024,
+      "slope_ratio_to_theory": 0.9789869221050798,
+      "spacing": 0.004149377593360996,
+      "theory_log_slope": 0.15915494309189535
+    },
+    {
+      "fitted_intercept": 0.1585157859379236,
+      "fitted_log_slope": 0.15658991620838225,
+      "grid_n": 321,
+      "max_absolute_fit_residual": 0.0004943185829120456,
+      "r_squared": 0.9999580558347059,
+      "relative_slope_error": 0.016116539227010063,
+      "slope_ratio_to_theory": 0.9838834607729899,
+      "spacing": 0.003115264797507788,
+      "theory_log_slope": 0.15915494309189535
+    },
+    {
+      "fitted_intercept": 0.1579493190643525,
+      "fitted_log_slope": 0.15674037729634527,
+      "grid_n": 401,
+      "max_absolute_fit_residual": 0.00040268454478809,
+      "r_squared": 0.999960686033172,
+      "relative_slope_error": 0.015171164329818687,
+      "slope_ratio_to_theory": 0.9848288356701813,
+      "spacing": 0.0024937655860349127,
+      "theory_log_slope": 0.15915494309189535
+    }
+  ],
+  "claim_boundary": "The finite-grid fixed-chi data are consistent with the predicted two-dimensional logarithmic slope. They do not certify the continuum capacity coefficient because the radius and grid limits are not independently extrapolated.",
+  "fixed_kappa": [
+    {
+      "grid_n": 241,
+      "linear_solve_relative_residual": 6.888822274281434e-16,
+      "linear_solve_residual": 7.148791780764441e-09,
+      "mean_time": 22.288601871219,
+      "radius": 0.12,
+      "reaction_limited_scaled_mean": 1.0083125937226942,
+      "reaction_rate": 1.0,
+      "target_area_fraction": 0.04523208966787762,
+      "target_area_ratio": 0.9998487023636903
+    },
+    {
+      "grid_n": 241,
+      "linear_solve_relative_residual": 7.899485811142371e-16,
+      "linear_solve_residual": 1.8359287423663773e-08,
+      "mean_time": 49.969109676307944,
+      "radius": 0.08,
+      "reaction_limited_scaled_mean": 1.0046885623392747,
+      "reaction_rate": 1.0,
+      "target_area_fraction": 0.02010877051014962,
+      "target_area_ratio": 1.0001281956846393
+    },
+    {
+      "grid_n": 241,
+      "linear_solve_relative_residual": 7.667278004030198e-16,
+      "linear_solve_residual": 4.5518888214246545e-08,
+      "mean_time": 127.71657308453176,
+      "radius": 0.05,
+      "reaction_limited_scaled_mean": 1.0030836193600723,
+      "reaction_rate": 1.0,
+      "target_area_fraction": 0.007848952325201013,
+      "target_area_ratio": 0.9993596485186934
+    },
+    {
+      "grid_n": 241,
+      "linear_solve_relative_residual": 7.17433379390542e-16,
+      "linear_solve_residual": 1.1816155165433884e-07,
+      "mean_time": 354.4079860315437,
+      "radius": 0.03,
+      "reaction_limited_scaled_mean": 1.0020649727612265,
+      "reaction_rate": 1.0,
+      "target_area_fraction": 0.0028247189270157193,
+      "target_area_ratio": 0.9990399557328589
+    },
+    {
+      "grid_n": 241,
+      "linear_solve_relative_residual": 8.791785931484565e-16,
+      "linear_solve_residual": 3.2550883588555735e-07,
+      "mean_time": 796.7662738308891,
+      "radius": 0.02,
+      "reaction_limited_scaled_mean": 1.0012460289980938,
+      "reaction_rate": 1.0,
+      "target_area_fraction": 0.0012557893286961313,
+      "target_area_ratio": 0.9993253957202112
+    }
+  ],
+  "numerical_method": {
+    "fixed_radius_and_grid_limits_separated": false,
+    "reason": "the calculation refines the lattice over one fixed five-radius window but does not perform independent h->0 fits at successively shrinking radius windows"
+  },
+  "renormalized_capacity": [
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 161,
+      "linear_solve_relative_residual": 6.499904490198933e-16,
+      "linear_solve_residual": 9.185252558552293e-11,
+      "mean_time": 0.627741279099375,
+      "radius": 0.05,
+      "radius_in_cells": 8.05,
+      "reaction_rate": 399.99999999999994,
+      "spacing": 0.006211180124223602,
+      "target_area_ratio": 0.9995920194190254
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 161,
+      "linear_solve_relative_residual": 5.638376763817093e-16,
+      "linear_solve_residual": 8.401213058562007e-11,
+      "mean_time": 0.6631427205900542,
+      "radius": 0.04,
+      "radius_in_cells": 6.44,
+      "reaction_rate": 625.0,
+      "spacing": 0.006211180124223602,
+      "target_area_ratio": 0.9977500193832411
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 161,
+      "linear_solve_relative_residual": 6.114790657329699e-16,
+      "linear_solve_residual": 9.707301629191534e-11,
+      "mean_time": 0.7075241178296148,
+      "radius": 0.03,
+      "radius_in_cells": 4.83,
+      "reaction_rate": 1111.111111111111,
+      "spacing": 0.006211180124223602,
+      "target_area_ratio": 0.9986027971775858
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 161,
+      "linear_solve_relative_residual": 5.461290305179428e-16,
+      "linear_solve_residual": 9.003220391434752e-11,
+      "mean_time": 0.7346389429488687,
+      "radius": 0.025,
+      "radius_in_cells": 4.025,
+      "reaction_rate": 1599.9999999999998,
+      "spacing": 0.006211180124223602,
+      "target_area_ratio": 1.0008200194428818
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 161,
+      "linear_solve_relative_residual": 5.112693294012844e-16,
+      "linear_solve_residual": 8.802647499805971e-11,
+      "mean_time": 0.7658454995220131,
+      "radius": 0.02,
+      "radius_in_cells": 3.22,
+      "reaction_rate": 2500.0,
+      "spacing": 0.006211180124223602,
+      "target_area_ratio": 1.0092625196068938
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 241,
+      "linear_solve_relative_residual": 1.16529338536581e-15,
+      "linear_solve_residual": 3.6871350417300164e-10,
+      "mean_time": 0.6279797508259662,
+      "radius": 0.05,
+      "radius_in_cells": 12.05,
+      "reaction_rate": 399.99999999999994,
+      "spacing": 0.004149377593360996,
+      "target_area_ratio": 0.9993596485186934
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 241,
+      "linear_solve_relative_residual": 8.221462911057261e-16,
+      "linear_solve_residual": 2.7380575584601274e-10,
+      "mean_time": 0.6625655628185098,
+      "radius": 0.04,
+      "radius_in_cells": 9.64,
+      "reaction_rate": 625.0,
+      "spacing": 0.004149377593360996,
+      "target_area_ratio": 0.9995394757107253
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 241,
+      "linear_solve_relative_residual": 7.409383229600948e-16,
+      "linear_solve_residual": 2.627584816394801e-10,
+      "mean_time": 0.7074553260187817,
+      "radius": 0.03,
+      "radius_in_cells": 7.2299999999999995,
+      "reaction_rate": 1111.111111111111,
+      "spacing": 0.004149377593360996,
+      "target_area_ratio": 0.9990399557328589
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 241,
+      "linear_solve_relative_residual": 6.33438061847609e-16,
+      "linear_solve_residual": 2.330726722732379e-10,
+      "mean_time": 0.7349106993785007,
+      "radius": 0.025,
+      "radius_in_cells": 6.025,
+      "reaction_rate": 1599.9999999999998,
+      "spacing": 0.004149377593360996,
+      "target_area_ratio": 1.0018258500094168
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 241,
+      "linear_solve_relative_residual": 5.673154676389297e-16,
+      "linear_solve_residual": 2.1883650447307446e-10,
+      "mean_time": 0.7711944668289775,
+      "radius": 0.02,
+      "radius_in_cells": 4.82,
+      "reaction_rate": 2500.0,
+      "spacing": 0.004149377593360996,
+      "target_area_ratio": 0.9993253957202112
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 321,
+      "linear_solve_relative_residual": 9.925420884964993e-16,
+      "linear_solve_residual": 5.569165129060138e-10,
+      "mean_time": 0.6279412857945097,
+      "radius": 0.05,
+      "radius_in_cells": 16.05,
+      "reaction_rate": 399.99999999999994,
+      "spacing": 0.003115264797507788,
+      "target_area_ratio": 0.9995741638951492
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 321,
+      "linear_solve_relative_residual": 1.181438569326525e-15,
+      "linear_solve_residual": 6.971407895406401e-10,
+      "mean_time": 0.6620649630563104,
+      "radius": 0.04,
+      "radius_in_cells": 12.84,
+      "reaction_rate": 625.0,
+      "spacing": 0.003115264797507788,
+      "target_area_ratio": 1.000718117561432
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 321,
+      "linear_solve_relative_residual": 1.1147211291403474e-15,
+      "linear_solve_residual": 7.006246693919138e-10,
+      "mean_time": 0.7074938122645179,
+      "radius": 0.03,
+      "radius_in_cells": 9.63,
+      "reaction_rate": 1111.111111111111,
+      "spacing": 0.003115264797507788,
+      "target_area_ratio": 0.9996857168077544
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 321,
+      "linear_solve_relative_residual": 6.932807806312755e-16,
+      "linear_solve_residual": 4.5282855243300446e-10,
+      "mean_time": 0.7365684115635315,
+      "radius": 0.025,
+      "radius_in_cells": 8.025,
+      "reaction_rate": 1599.9999999999998,
+      "spacing": 0.003115264797507788,
+      "target_area_ratio": 0.9981068140447276
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 321,
+      "linear_solve_relative_residual": 1.1650833896252784e-15,
+      "linear_solve_residual": 7.952339897698835e-10,
+      "mean_time": 0.7709717049795725,
+      "radius": 0.02,
+      "radius_in_cells": 6.42,
+      "reaction_rate": 2500.0,
+      "spacing": 0.003115264797507788,
+      "target_area_ratio": 1.0001147664716203
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 401,
+      "linear_solve_relative_residual": 1.5762704373409013e-15,
+      "linear_solve_residual": 1.3798393538877463e-09,
+      "mean_time": 0.6278696550264866,
+      "radius": 0.05,
+      "radius_in_cells": 20.05,
+      "reaction_rate": 399.99999999999994,
+      "spacing": 0.0024937655860349127,
+      "target_area_ratio": 0.999809489768584
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 401,
+      "linear_solve_relative_residual": 9.759122034892441e-16,
+      "linear_solve_residual": 8.986780208886103e-10,
+      "mean_time": 0.662268113451861,
+      "radius": 0.04,
+      "radius_in_cells": 16.04,
+      "reaction_rate": 625.0,
+      "spacing": 0.0024937655860349127,
+      "target_area_ratio": 1.0002023021145245
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 401,
+      "linear_solve_relative_residual": 9.191289035660704e-16,
+      "linear_solve_residual": 9.007339318856111e-10,
+      "mean_time": 0.7072006465520019,
+      "radius": 0.03,
+      "radius_in_cells": 12.03,
+      "reaction_rate": 1111.111111111111,
+      "spacing": 0.0024937655860349127,
+      "target_area_ratio": 1.00021089381063
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 401,
+      "linear_solve_relative_residual": 1.413880052307214e-15,
+      "linear_solve_residual": 1.4390431068989074e-09,
+      "mean_time": 0.7359517600538579,
+      "radius": 0.025,
+      "radius_in_cells": 10.025,
+      "reaction_rate": 1599.9999999999998,
+      "spacing": 0.0024937655860349127,
+      "target_area_ratio": 0.9998589779381511
+    },
+    {
+      "dimensionless_doi_strength": 1.0,
+      "grid_n": 401,
+      "linear_solve_relative_residual": 1.2036281066367518e-15,
+      "linear_solve_residual": 1.2815264405219295e-09,
+      "mean_time": 0.7715239654719307,
+      "radius": 0.02,
+      "radius_in_cells": 8.02,
+      "reaction_rate": 2500.0,
+      "spacing": 0.0024937655860349127,
+      "target_area_ratio": 0.9987331220804948
+    }
+  ],
+  "summary_checks": {
+    "continuum_capacity_coefficient_certified": false,
+    "finest_finite_grid_r_squared": 0.999960686033172,
+    "finest_finite_grid_slope_ratio_to_theory": 0.9848288356701813,
+    "finite_grid_slope_consistency_pass": true
+  },
+  "theory": {
+    "fixed_chi_asymptotic": "mean = area/(2*pi*D_relative)*log(1/a) + O(1)",
+    "fixed_kappa_asymptotic": "mean ~ area/(kappa*pi*a^2)",
+    "relative_coordinate_reduction": "D_relative = D1 + D2",
+    "theory_log_slope": 0.15915494309189535
+  }
+}

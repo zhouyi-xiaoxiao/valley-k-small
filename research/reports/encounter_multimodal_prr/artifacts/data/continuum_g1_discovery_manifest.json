@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "stage": "G1b_discovery_not_continuum_confirmation",
+  "status": "FROZEN_BEFORE_RUN",
+  "date_frozen": "2026-07-13",
+  "claim_scope": "Discovery-grid topology screening only; never a continuum fold claim",
+  "known_prior_engineering_scan": {
+    "grid": [25, 25, 25],
+    "theta_count": 11,
+    "finding": "one sampled critical maximum at every control",
+    "evidence_role": "engineering_only_not_project_gate"
+  },
+  "mesh": {
+    "midpoint_cells": 65,
+    "relative_parallel_cells": 65,
+    "relative_perp_cells": 49,
+    "state_count": 207025
+  },
+  "control_line": {
+    "lower_weights": [0.70, 0.25, 0.05],
+    "upper_weights": [0.05, 0.25, 0.70],
+    "theta_values": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+  },
+  "time_grid": {
+    "start": 0.0,
+    "stop": 80.0,
+    "spacing": 0.25,
+    "points": 321,
+    "chunk_points": 41
+  },
+  "observables": ["f", "f_t", "f_tt", "f_ttt", "survival"],
+  "candidate_rules": {
+    "dimensionless_extremum_height_max": 0.05,
+    "minimum_analysis_time": 0.5,
+    "relative_density_floor": 1e-12,
+    "time_match_tolerance": 2.0,
+    "adjacent_theta_sign_change": true
+  },
+  "allowed_followup_if_line_empty": {
+    "simplex_spacing": 0.1,
+    "physical_retuning_allowed": false,
+    "maximum_selected_segments": 1
+  },
+  "required_g1a_foundation": {
+    "artifact": "artifacts/data/continuum_g1_smoke.json",
+    "schema_version": 3,
+    "stage": "G1a_pre_fold_foundations",
+    "status": "PASS",
+    "continuum_verified": false,
+    "gate_count": 42,
+    "all_gates_true": true,
+    "sha256": "a0a1894dbe6dd37bad6973ca6f3dd29b651441f7b911a5406186bb86a18fd3c3",
+    "producer_code": "code/continuum_g1_smoke.py",
+    "producer_code_sha256": "e0322b212e466b1b640f5adcf30d67d119d2f6fe4cc622eb532082b6cd251701"
+  },
+  "required_runtime": "repository .venv",
+  "protocol_note": "notes/discovery_protocol.md"
+}

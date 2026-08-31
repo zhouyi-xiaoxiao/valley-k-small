@@ -1,0 +1,1277 @@
+{
+  "claim_scope": "finite-grid one-factor centre-coordinate sensitivity; no equivalence or continuum-modality claim",
+  "coordinate_conventions": {
+    "diffusivity_weighted": {
+      "definition": "(D2*X1+D1*X2)/(D1+D2)",
+      "eta": 0.24242424242424243,
+      "role": "noise-decoupling sensitivity comparator"
+    },
+    "physical_midpoint": {
+      "definition": "(X1+X2)/2",
+      "eta": 0.5,
+      "role": "declared physical catalyst coordinate"
+    }
+  },
+  "coordinate_definition": "C_eta = eta*X1 + (1-eta)*X2",
+  "principal_family": {
+    "evidence_relationship": "one-factor coordinate sensitivity within M2D-E; the three grids are correlated evaluations of one family",
+    "family_id": "M2D-E",
+    "grid_rows": [
+      {
+        "coordinate_results": {
+          "diffusivity_weighted": {
+            "endpoints": {
+              "homogeneous": {
+                "classification": "unimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.3785563410114145
+                ],
+                "modal_peak_times": [
+                  1.0
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0016970203829637098,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.0016751298619213403,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.013572307106023038,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.429407299214589,
+                    "f_t": -2.375044605429366e-13,
+                    "f_tt": -1.0383756013142473,
+                    "time": 0.6113486585297918,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.004775918779697453,
+                    "f_t": -3.469446951953614e-18,
+                    "f_tt": 0.00031629103478463417,
+                    "time": 8.885695821457098,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.005828047738508327,
+                    "f_t": 0.0,
+                    "f_tt": -5.446576204751717e-05,
+                    "time": 15.870286501501488,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 6.73083226795e-30,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 0,
+                "warnings": []
+              },
+              "patterned": {
+                "classification": "shoulder",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.22399976666933005
+                ],
+                "modal_peak_times": [
+                  1.3
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0006870007089335717,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.0031270390322792633,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.04719749540403329,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.23235532838629985,
+                    "f_t": 3.5686731347794876e-14,
+                    "f_tt": -0.17497562800383104,
+                    "time": 0.9490498585080185,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.007727360906354925,
+                    "f_t": -4.85722573273506e-17,
+                    "f_tt": 0.0009631490933491582,
+                    "time": 8.60180098574139,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.010966589543615034,
+                    "f_t": 0.0,
+                    "f_tt": -0.00012067714075059133,
+                    "time": 16.150326308200842,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 3.7752333894e-23,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 45,
+                "warnings": []
+              }
+            },
+            "eta": 0.24242424242424243,
+            "homogeneous_state_sum_killing": 154.49999999999997,
+            "initial_distribution": {
+              "active_sink_mass": 0.0,
+              "contact_mass": 0.0,
+              "first_max_support_displacement": 0.1,
+              "first_position_max_abs_error": 2.7755575615628914e-17,
+              "first_position_mean": [
+                0.09999999999999998,
+                0.5
+              ],
+              "first_rms_support_displacement": 0.05000000000000002,
+              "joint_max_support_displacement": 0.1414213562373095,
+              "joint_rms_support_displacement": 0.07071067811865477,
+              "minimum_probability": 0.0,
+              "second_max_support_displacement": 0.09999999999999998,
+              "second_position_max_abs_error": 0.0,
+              "second_position_mean": [
+                0.35,
+                0.5
+              ],
+              "second_rms_support_displacement": 0.05000000000000002,
+              "support_size": 2,
+              "total_mass": 1.0
+            },
+            "matched_budget_relative_error": 1.8395928433918452e-16,
+            "matched_homogeneous_rate": 1.236,
+            "patterned_reactive_state_counts": [
+              9,
+              10
+            ],
+            "patterned_state_sum_killing": 154.5,
+            "tube_state_count": 125
+          },
+          "physical_midpoint": {
+            "endpoints": {
+              "homogeneous": {
+                "classification": "unimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.3431852199997106
+                ],
+                "modal_peak_times": [
+                  1.1
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0015214533636904726,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.001951787508753868,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.01652475145362321,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.40096225540554836,
+                    "f_t": -2.498001805406602e-16,
+                    "f_tt": -0.8851838123408947,
+                    "time": 0.6391800707574746,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.005296640936954992,
+                    "f_t": 3.469446951953614e-18,
+                    "f_tt": 0.0003796806249834494,
+                    "time": 8.752185049633256,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.006625801612860876,
+                    "f_t": 7.806255641895632e-18,
+                    "f_tt": -6.166954456194446e-05,
+                    "time": 16.035022843661206,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 8.53650479768e-30,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 0,
+                "warnings": []
+              },
+              "patterned": {
+                "classification": "shoulder",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.1995191871815716
+                ],
+                "modal_peak_times": [
+                  1.2000000000000002
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0006829807487448436,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.041566619129033595,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.04434631755258615,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.20891780905724408,
+                    "f_t": -5.551115123125783e-17,
+                    "f_tt": -0.19463454043305617,
+                    "time": 0.8141622305832422,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.006212311037858549,
+                    "f_t": -2.7755575615628914e-17,
+                    "f_tt": 0.000741943328511796,
+                    "time": 9.00367575625832,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.009264735502843104,
+                    "f_t": 2.42861286636753e-17,
+                    "f_tt": -7.69279650844612e-05,
+                    "time": 17.81646114593569,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 1.22334382829e-10,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 123,
+                "warnings": []
+              }
+            },
+            "eta": 0.5,
+            "homogeneous_state_sum_killing": 138.50000000000006,
+            "initial_distribution": {
+              "active_sink_mass": 0.0,
+              "contact_mass": 0.0,
+              "first_max_support_displacement": 0.1,
+              "first_position_max_abs_error": 2.7755575615628914e-17,
+              "first_position_mean": [
+                0.09999999999999998,
+                0.5
+              ],
+              "first_rms_support_displacement": 0.05000000000000002,
+              "joint_max_support_displacement": 0.1414213562373095,
+              "joint_rms_support_displacement": 0.07071067811865477,
+              "minimum_probability": 0.0,
+              "second_max_support_displacement": 0.09999999999999998,
+              "second_position_max_abs_error": 0.0,
+              "second_position_mean": [
+                0.35,
+                0.5
+              ],
+              "second_rms_support_displacement": 0.05000000000000002,
+              "support_size": 2,
+              "total_mass": 1.0
+            },
+            "matched_budget_relative_error": 4.1042179682893875e-16,
+            "matched_homogeneous_rate": 1.108,
+            "patterned_reactive_state_counts": [
+              7,
+              9
+            ],
+            "patterned_state_sum_killing": 138.5,
+            "tube_state_count": 125
+          }
+        },
+        "grid": [
+          9,
+          5
+        ],
+        "mask_comparison": [
+          {
+            "channel": "near",
+            "diffusivity_weighted_count": 9,
+            "diffusivity_weighted_only_count": 2,
+            "intersection_count": 7,
+            "jaccard_distance": 0.2222222222222222,
+            "midpoint_count": 7,
+            "midpoint_only_count": 0,
+            "symmetric_difference_count": 2,
+            "union_count": 9
+          },
+          {
+            "channel": "far",
+            "diffusivity_weighted_count": 10,
+            "diffusivity_weighted_only_count": 1,
+            "intersection_count": 9,
+            "jaccard_distance": 0.1,
+            "midpoint_count": 9,
+            "midpoint_only_count": 0,
+            "symmetric_difference_count": 1,
+            "union_count": 10
+          },
+          {
+            "channel": "patterned_union",
+            "diffusivity_weighted_count": 19,
+            "diffusivity_weighted_only_count": 3,
+            "intersection_count": 16,
+            "jaccard_distance": 0.15789473684210525,
+            "midpoint_count": 16,
+            "midpoint_only_count": 0,
+            "symmetric_difference_count": 3,
+            "union_count": 19
+          }
+        ],
+        "patterned_classification_changed": false,
+        "patterned_classification_transition": "shoulder->shoulder",
+        "product_state_count": 2025,
+        "spacing_x": 0.125,
+        "spacing_y": 0.25
+      },
+      {
+        "coordinate_results": {
+          "diffusivity_weighted": {
+            "endpoints": {
+              "homogeneous": {
+                "classification": "unimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.38437481931500295
+                ],
+                "modal_peak_times": [
+                  1.0
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0016333989058763265,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.0013935858843201962,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.012569654717652166,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.4365398748811874,
+                    "f_t": -8.326672684688674e-17,
+                    "f_tt": -1.0932987855711922,
+                    "time": 0.6153692781685116,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.0035524970269079463,
+                    "f_t": -1.5005358067199381e-16,
+                    "f_tt": 0.00041352880279574636,
+                    "time": 8.706272017906107,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.005487155497743604,
+                    "f_t": 3.469446951953614e-18,
+                    "f_tt": -5.265626687978725e-05,
+                    "time": 17.668331772013698,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 6.24586033854e-32,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 0,
+                "warnings": []
+              },
+              "patterned": {
+                "classification": "bimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.19110743941700248,
+                  0.010537536596761606
+                ],
+                "modal_peak_times": [
+                  1.4000000000000001,
+                  19.5
+                ],
+                "mode_count": 2,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0004435479527125086,
+                "qualifying_valleys": [
+                  {
+                    "left_peak_time": 1.4000000000000001,
+                    "r_peak": 0.05913948768745646,
+                    "r_valley": 0.4847023677617105,
+                    "right_peak_time": 19.5,
+                    "separation_widths": 1.7403846153846154,
+                    "valley_time": 8.700000000000001
+                  }
+                ],
+                "scale_views": 155,
+                "shape_window_tail": 0.023359767092313938,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.054226420792111076,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.19433645172496558,
+                    "f_t": -2.3162027851242328e-14,
+                    "f_tt": -0.10374276299495166,
+                    "time": 1.130195123171806,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.004907553586152078,
+                    "f_t": 5.204170427930421e-18,
+                    "f_tt": 0.0010064471553334342,
+                    "time": 8.576718173116708,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.010538170206483764,
+                    "f_t": 1.3877787807814457e-17,
+                    "f_tt": -8.249428562967509e-05,
+                    "time": 19.62352699131149,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 3.01233975642e-16,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 154,
+                "warnings": []
+              }
+            },
+            "eta": 0.24242424242424243,
+            "homogeneous_state_sum_killing": 400.0000000000001,
+            "initial_distribution": {
+              "active_sink_mass": 0.0,
+              "contact_mass": 0.0,
+              "first_max_support_displacement": 0.0,
+              "first_position_max_abs_error": 0.0,
+              "first_position_mean": [
+                0.1,
+                0.5
+              ],
+              "first_rms_support_displacement": 0.0,
+              "joint_max_support_displacement": 0.050000000000000044,
+              "joint_rms_support_displacement": 0.04999999999999999,
+              "minimum_probability": 0.0,
+              "second_max_support_displacement": 0.050000000000000044,
+              "second_position_max_abs_error": 0.0,
+              "second_position_mean": [
+                0.35,
+                0.5
+              ],
+              "second_rms_support_displacement": 0.04999999999999999,
+              "support_size": 2,
+              "total_mass": 1.0
+            },
+            "matched_budget_relative_error": 2.842170943040401e-16,
+            "matched_homogeneous_rate": 1.8433179723502304,
+            "patterned_reactive_state_counts": [
+              20,
+              26
+            ],
+            "patterned_state_sum_killing": 400.0,
+            "tube_state_count": 217
+          },
+          "physical_midpoint": {
+            "endpoints": {
+              "homogeneous": {
+                "classification": "unimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.35461686382615326
+                ],
+                "modal_peak_times": [
+                  1.1
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.001507020301994233,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.001551373867144602,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.014371784181726098,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.4184631992294174,
+                    "f_t": 8.326672684688674e-17,
+                    "f_tt": -0.986150071207929,
+                    "time": 0.6366639924196473,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.0038004601408632302,
+                    "f_t": 0.0,
+                    "f_tt": 0.00046022765350131785,
+                    "time": 8.622577687728496,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.0060140627873198375,
+                    "f_t": -1.734723475976807e-18,
+                    "f_tt": -5.739815834904238e-05,
+                    "time": 17.767413375567454,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 7.28947456901e-32,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 0,
+                "warnings": []
+              },
+              "patterned": {
+                "classification": "bimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.1772235585130005,
+                  0.011584746263942592
+                ],
+                "modal_peak_times": [
+                  1.3,
+                  19.5
+                ],
+                "mode_count": 2,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0004435527391581928,
+                "qualifying_valleys": [
+                  {
+                    "left_peak_time": 1.3,
+                    "r_peak": 0.07018362162920565,
+                    "r_valley": 0.4769747784465412,
+                    "right_peak_time": 19.5,
+                    "separation_widths": 1.7416267942583732,
+                    "valley_time": 8.6
+                  }
+                ],
+                "scale_views": 155,
+                "shape_window_tail": 0.025370631133638126,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.06385054324087121,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.1814355877112631,
+                    "f_t": -8.382183835919932e-15,
+                    "f_tt": -0.11947014874910078,
+                    "time": 0.9902551267914027,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.005309033169610048,
+                    "f_t": 3.469446951953614e-18,
+                    "f_tt": 0.0011084070186299366,
+                    "time": 8.49922066198581,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.011584760838590887,
+                    "f_t": -4.163336342344337e-17,
+                    "f_tt": -9.253764363825745e-05,
+                    "time": 19.51773956495684,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 3.29436441687e-16,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 153,
+                "warnings": []
+              }
+            },
+            "eta": 0.5,
+            "homogeneous_state_sum_killing": 369.0000000000001,
+            "initial_distribution": {
+              "active_sink_mass": 0.0,
+              "contact_mass": 0.0,
+              "first_max_support_displacement": 0.0,
+              "first_position_max_abs_error": 0.0,
+              "first_position_mean": [
+                0.1,
+                0.5
+              ],
+              "first_rms_support_displacement": 0.0,
+              "joint_max_support_displacement": 0.050000000000000044,
+              "joint_rms_support_displacement": 0.04999999999999999,
+              "minimum_probability": 0.0,
+              "second_max_support_displacement": 0.050000000000000044,
+              "second_position_max_abs_error": 0.0,
+              "second_position_mean": [
+                0.35,
+                0.5
+              ],
+              "second_rms_support_displacement": 0.04999999999999999,
+              "support_size": 2,
+              "total_mass": 1.0
+            },
+            "matched_budget_relative_error": 3.0809441116969114e-16,
+            "matched_homogeneous_rate": 1.7004608294930876,
+            "patterned_reactive_state_counts": [
+              18,
+              24
+            ],
+            "patterned_state_sum_killing": 369.0,
+            "tube_state_count": 217
+          }
+        },
+        "grid": [
+          11,
+          7
+        ],
+        "mask_comparison": [
+          {
+            "channel": "near",
+            "diffusivity_weighted_count": 20,
+            "diffusivity_weighted_only_count": 2,
+            "intersection_count": 18,
+            "jaccard_distance": 0.1,
+            "midpoint_count": 18,
+            "midpoint_only_count": 0,
+            "symmetric_difference_count": 2,
+            "union_count": 20
+          },
+          {
+            "channel": "far",
+            "diffusivity_weighted_count": 26,
+            "diffusivity_weighted_only_count": 2,
+            "intersection_count": 24,
+            "jaccard_distance": 0.07692307692307693,
+            "midpoint_count": 24,
+            "midpoint_only_count": 0,
+            "symmetric_difference_count": 2,
+            "union_count": 26
+          },
+          {
+            "channel": "patterned_union",
+            "diffusivity_weighted_count": 46,
+            "diffusivity_weighted_only_count": 4,
+            "intersection_count": 42,
+            "jaccard_distance": 0.08695652173913043,
+            "midpoint_count": 42,
+            "midpoint_only_count": 0,
+            "symmetric_difference_count": 4,
+            "union_count": 46
+          }
+        ],
+        "patterned_classification_changed": false,
+        "patterned_classification_transition": "bimodal->bimodal",
+        "product_state_count": 5929,
+        "spacing_x": 0.1,
+        "spacing_y": 0.16666666666666666
+      },
+      {
+        "coordinate_results": {
+          "diffusivity_weighted": {
+            "endpoints": {
+              "homogeneous": {
+                "classification": "unimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.3564315428495566
+                ],
+                "modal_peak_times": [
+                  1.1
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0006180243189847223,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.0017371772643917898,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.019048627768639022,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.38559074896767537,
+                    "f_t": -5.917488721252084e-14,
+                    "f_tt": -0.802716001454872,
+                    "time": 0.7870208800566767,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.003081427237981129,
+                    "f_t": -4.9873299934333204e-17,
+                    "f_tt": 0.0006455964669498087,
+                    "time": 8.30453241393874,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.007344974648115979,
+                    "f_t": 1.734723475976807e-18,
+                    "f_tt": -7.086462261828019e-05,
+                    "time": 19.407254530495866,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 2.09040590672e-33,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 0,
+                "warnings": []
+              },
+              "patterned": {
+                "classification": "bimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.1635685063126134,
+                  0.014233167963496647
+                ],
+                "modal_peak_times": [
+                  1.5,
+                  20.700000000000003
+                ],
+                "mode_count": 2,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.00017749503154296242,
+                "qualifying_valleys": [
+                  {
+                    "left_peak_time": 1.5,
+                    "r_peak": 0.09337754390604278,
+                    "r_valley": 0.32450994885488793,
+                    "right_peak_time": 20.700000000000003,
+                    "separation_widths": 1.6134453781512605,
+                    "valley_time": 8.4
+                  }
+                ],
+                "scale_views": 155,
+                "shape_window_tail": 0.013517511583863473,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.08401604278098233,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.16941594894237255,
+                    "f_t": 8.326672684688674e-17,
+                    "f_tt": -0.1199750358334919,
+                    "time": 1.1355221180158679,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.004351110953863,
+                    "f_t": 1.3877787807814457e-17,
+                    "f_tt": 0.0013546977114591296,
+                    "time": 8.18653263443535,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.014233657614123091,
+                    "f_t": -2.7755575615628914e-17,
+                    "f_tt": -0.00011574890812671157,
+                    "time": 20.607791951780925,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 3.98619456591e-24,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 155,
+                "warnings": []
+              }
+            },
+            "eta": 0.24242424242424243,
+            "homogeneous_state_sum_killing": 941.5000000000002,
+            "initial_distribution": {
+              "active_sink_mass": 0.0,
+              "contact_mass": 0.0,
+              "first_max_support_displacement": 0.06666666666666665,
+              "first_position_max_abs_error": 1.3877787807814457e-17,
+              "first_position_mean": [
+                0.10000000000000002,
+                0.5
+              ],
+              "first_rms_support_displacement": 0.03333333333333334,
+              "joint_max_support_displacement": 0.09428090415820632,
+              "joint_rms_support_displacement": 0.04714045207910318,
+              "minimum_probability": 0.0,
+              "second_max_support_displacement": 0.06666666666666665,
+              "second_position_max_abs_error": 5.551115123125783e-17,
+              "second_position_mean": [
+                0.35000000000000003,
+                0.5
+              ],
+              "second_rms_support_displacement": 0.03333333333333334,
+              "support_size": 4,
+              "total_mass": 1.0
+            },
+            "matched_budget_relative_error": 2.415015140129921e-16,
+            "matched_homogeneous_rate": 1.7402957486136783,
+            "patterned_reactive_state_counts": [
+              53,
+              61
+            ],
+            "patterned_state_sum_killing": 941.5,
+            "tube_state_count": 541
+          },
+          "physical_midpoint": {
+            "endpoints": {
+              "homogeneous": {
+                "classification": "unimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.36065665827097715
+                ],
+                "modal_peak_times": [
+                  1.1
+                ],
+                "mode_count": 1,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.0006383817935909919,
+                "qualifying_valleys": [],
+                "scale_views": 155,
+                "shape_window_tail": 0.0016682250436126235,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.018099049560591177,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.3920006653509487,
+                    "f_t": 3.5638159090467525e-13,
+                    "f_tt": -0.8304281769500963,
+                    "time": 0.7792488012865106,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.0030123320973306127,
+                    "f_t": 8.673617379884035e-19,
+                    "f_tt": 0.0006246008032597325,
+                    "time": 8.32808891039858,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.007094839469971537,
+                    "f_t": 6.938893903907228e-18,
+                    "f_tt": -6.860212568113311e-05,
+                    "time": 19.37022078435585,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 1.97352174197e-33,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 0,
+                "warnings": []
+              },
+              "patterned": {
+                "classification": "bimodal",
+                "classification_semantics": "canonical morphology is a resolved class, not strict root count",
+                "classifier_tail_certified": true,
+                "modal_peak_densities": [
+                  0.16463092503419408,
+                  0.01387750218570762
+                ],
+                "modal_peak_times": [
+                  1.5,
+                  20.700000000000003
+                ],
+                "mode_count": 2,
+                "post_window_sample_count": 221,
+                "post_window_sampled_local_maxima": 0,
+                "quadrature_closure_error": 0.00017749649727338834,
+                "qualifying_valleys": [
+                  {
+                    "left_peak_time": 1.5,
+                    "r_peak": 0.09056569363463592,
+                    "r_valley": 0.32692708129267045,
+                    "right_peak_time": 20.700000000000003,
+                    "separation_widths": 1.5933609958506223,
+                    "valley_time": 8.4
+                  }
+                ],
+                "scale_views": 155,
+                "shape_window_tail": 0.015887990931718863,
+                "strict_mode_count": 2,
+                "strict_secondary_peak_ratio": 0.08147461069037995,
+                "strict_stationary_points": [
+                  {
+                    "density": 0.17032946730264492,
+                    "f_t": 1.1102230246251565e-16,
+                    "f_tt": -0.11992046595410555,
+                    "time": 1.1424332466500695,
+                    "type": "maximum"
+                  },
+                  {
+                    "density": 0.004276896322862111,
+                    "f_t": -2.255140518769849e-16,
+                    "f_tt": 0.0013207934411973432,
+                    "time": 8.205794216145453,
+                    "type": "minimum"
+                  },
+                  {
+                    "density": 0.013877527037582795,
+                    "f_t": 5.551115123125783e-17,
+                    "f_tt": -0.00011058175460920694,
+                    "time": 20.678787139048403,
+                    "type": "maximum"
+                  }
+                ],
+                "tail_check_time": 960.0,
+                "tail_survival": 1.54205261644e-22,
+                "views_with_at_least_three_peaks": 0,
+                "views_with_at_least_two_peaks": 155,
+                "warnings": []
+              }
+            },
+            "eta": 0.5,
+            "homogeneous_state_sum_killing": 972.5000000000003,
+            "initial_distribution": {
+              "active_sink_mass": 0.0,
+              "contact_mass": 0.0,
+              "first_max_support_displacement": 0.06666666666666665,
+              "first_position_max_abs_error": 1.3877787807814457e-17,
+              "first_position_mean": [
+                0.10000000000000002,
+                0.5
+              ],
+              "first_rms_support_displacement": 0.03333333333333334,
+              "joint_max_support_displacement": 0.09428090415820632,
+              "joint_rms_support_displacement": 0.04714045207910318,
+              "minimum_probability": 0.0,
+              "second_max_support_displacement": 0.06666666666666665,
+              "second_position_max_abs_error": 5.551115123125783e-17,
+              "second_position_mean": [
+                0.35000000000000003,
+                0.5
+              ],
+              "second_rms_support_displacement": 0.03333333333333334,
+              "support_size": 4,
+              "total_mass": 1.0
+            },
+            "matched_budget_relative_error": 3.5070489785588495e-16,
+            "matched_homogeneous_rate": 1.7975970425138632,
+            "patterned_reactive_state_counts": [
+              55,
+              63
+            ],
+            "patterned_state_sum_killing": 972.5,
+            "tube_state_count": 541
+          }
+        },
+        "grid": [
+          13,
+          9
+        ],
+        "mask_comparison": [
+          {
+            "channel": "near",
+            "diffusivity_weighted_count": 53,
+            "diffusivity_weighted_only_count": 6,
+            "intersection_count": 47,
+            "jaccard_distance": 0.22950819672131148,
+            "midpoint_count": 55,
+            "midpoint_only_count": 8,
+            "symmetric_difference_count": 14,
+            "union_count": 61
+          },
+          {
+            "channel": "far",
+            "diffusivity_weighted_count": 61,
+            "diffusivity_weighted_only_count": 4,
+            "intersection_count": 57,
+            "jaccard_distance": 0.14925373134328357,
+            "midpoint_count": 63,
+            "midpoint_only_count": 6,
+            "symmetric_difference_count": 10,
+            "union_count": 67
+          },
+          {
+            "channel": "patterned_union",
+            "diffusivity_weighted_count": 114,
+            "diffusivity_weighted_only_count": 10,
+            "intersection_count": 104,
+            "jaccard_distance": 0.1875,
+            "midpoint_count": 118,
+            "midpoint_only_count": 14,
+            "symmetric_difference_count": 24,
+            "union_count": 128
+          }
+        ],
+        "patterned_classification_changed": false,
+        "patterned_classification_transition": "bimodal->bimodal",
+        "product_state_count": 13689,
+        "spacing_x": 0.08333333333333333,
+        "spacing_y": 0.125
+      }
+    ],
+    "model": {
+      "grids": [
+        [
+          9,
+          5
+        ],
+        [
+          11,
+          7
+        ],
+        [
+          13,
+          9
+        ]
+      ],
+      "initial_distribution": "hierarchical contact-safe selector: minimum physical Euclidean spread on the smallest feasible local stencil, followed by a strictly convex closest-to-product QP on the optimal LP face; exact product-bilinear return when already contact-safe",
+      "matching_rule": "homogeneous state-sum killing is re-matched separately within each coordinate convention",
+      "patches": [
+        {
+          "centre": [
+            0.25,
+            0.5
+          ],
+          "label": "near",
+          "radius": 0.18,
+          "reaction_rate": 0.5
+        },
+        {
+          "centre": [
+            0.72,
+            0.5
+          ],
+          "label": "far",
+          "radius": 0.2,
+          "reaction_rate": 15.0
+        }
+      ],
+      "reaction_radius": 0.13,
+      "start_one": [
+        0.1,
+        0.5
+      ],
+      "start_two": [
+        0.35,
+        0.5
+      ],
+      "walker_one": {
+        "diffusion": 0.0025,
+        "drift_x": 0.18,
+        "transverse_confinement": 1.5
+      },
+      "walker_two": {
+        "diffusion": 0.0008,
+        "drift_x": 0.02,
+        "transverse_confinement": 1.5
+      }
+    }
+  },
+  "summary": {
+    "classification_change_grids": [],
+    "coordinate_convention_changes_coarse_grid_modality": false,
+    "interpretation": "the two coordinates define different finite-grid catalyst masks; classification agreement under the contact-safe initial law is not model equivalence",
+    "maximum_principal_patch_jaccard_distance": 0.22950819672131148,
+    "minimum_principal_patch_jaccard_distance": 0.07692307692307693,
+    "principal_transition_by_grid": {
+      "11x7": "bimodal->bimodal",
+      "13x9": "bimodal->bimodal",
+      "9x5": "shoulder->shoulder"
+    }
+  },
+  "supplemental_trimodal": {
+    "coordinate_results": {
+      "diffusivity_weighted": {
+        "classification": "multimodal",
+        "classifier_tail_certified": true,
+        "eta": 0.24242424242424243,
+        "initial_distribution": {
+          "active_sink_mass": 0.0,
+          "contact_mass": 0.0,
+          "first_max_support_displacement": 0.17098570440569325,
+          "first_position_max_abs_error": 1.1102230246251565e-16,
+          "first_position_mean": [
+            0.05000000000000001,
+            0.5000000000000001
+          ],
+          "first_rms_support_displacement": 0.055798081740462545,
+          "joint_max_support_displacement": 0.20699570580623702,
+          "joint_rms_support_displacement": 0.07891040395189883,
+          "minimum_probability": 0.0,
+          "second_max_support_displacement": 0.17098570440569327,
+          "second_position_max_abs_error": 0.0,
+          "second_position_mean": [
+            0.2,
+            0.5
+          ],
+          "second_rms_support_displacement": 0.055798081740652254,
+          "support_size": 6,
+          "total_mass": 0.9999999999999999
+        },
+        "modal_peak_densities": [
+          0.011011154559526618,
+          0.005143388077142901,
+          0.008061048385934062
+        ],
+        "modal_peak_times": [
+          1.0,
+          9.0,
+          47.6
+        ],
+        "mode_count": 3,
+        "post_window_sample_count": 161,
+        "post_window_sampled_local_maxima": 0,
+        "quadrature_closure_error": 0.0001505045294888374,
+        "qualifying_valleys": [
+          {
+            "left_peak_time": 1.0,
+            "r_peak": 0.6088711299076929,
+            "r_valley": 0.6769387343195917,
+            "right_peak_time": 9.0,
+            "separation_widths": 2.2222222222222223,
+            "valley_time": 4.800000000000001
+          },
+          {
+            "left_peak_time": 9.0,
+            "r_peak": 0.6081396470328965,
+            "r_valley": 0.6263933944455478,
+            "right_peak_time": 47.6,
+            "separation_widths": 1.122093023255814,
+            "valley_time": 16.0
+          }
+        ],
+        "reactive_state_counts": [
+          9,
+          6,
+          6
+        ],
+        "scale_views": 155,
+        "shape_window_tail": 0.00742925753740959,
+        "tail_check_time": 2000.0,
+        "tail_survival": 5.79772001492e-12,
+        "views_with_at_least_three_peaks": 139,
+        "views_with_at_least_two_peaks": 155,
+        "warnings": []
+      },
+      "physical_midpoint": {
+        "classification": "multimodal",
+        "classifier_tail_certified": true,
+        "eta": 0.5,
+        "initial_distribution": {
+          "active_sink_mass": 0.0,
+          "contact_mass": 0.0,
+          "first_max_support_displacement": 0.17098570440569325,
+          "first_position_max_abs_error": 1.1102230246251565e-16,
+          "first_position_mean": [
+            0.05000000000000001,
+            0.5000000000000001
+          ],
+          "first_rms_support_displacement": 0.055798081740462545,
+          "joint_max_support_displacement": 0.20699570580623702,
+          "joint_rms_support_displacement": 0.07891040395189883,
+          "minimum_probability": 0.0,
+          "second_max_support_displacement": 0.17098570440569327,
+          "second_position_max_abs_error": 0.0,
+          "second_position_mean": [
+            0.2,
+            0.5
+          ],
+          "second_rms_support_displacement": 0.055798081740652254,
+          "support_size": 6,
+          "total_mass": 0.9999999999999999
+        },
+        "modal_peak_densities": [
+          0.00768486501201264,
+          0.00492965443624649,
+          0.00785934501768515
+        ],
+        "modal_peak_times": [
+          1.2000000000000002,
+          9.200000000000001,
+          48.0
+        ],
+        "mode_count": 3,
+        "post_window_sample_count": 161,
+        "post_window_sampled_local_maxima": 0,
+        "quadrature_closure_error": 7.260220237870207e-05,
+        "qualifying_valleys": [
+          {
+            "left_peak_time": 1.2000000000000002,
+            "r_peak": 0.8343036511922212,
+            "r_valley": 0.6260887065304246,
+            "right_peak_time": 9.200000000000001,
+            "separation_widths": 2.0,
+            "valley_time": 4.800000000000001
+          },
+          {
+            "left_peak_time": 9.200000000000001,
+            "r_peak": 0.5987481051996986,
+            "r_valley": 0.6353828859578124,
+            "right_peak_time": 48.0,
+            "separation_widths": 1.0868347338935573,
+            "valley_time": 16.2
+          }
+        ],
+        "reactive_state_counts": [
+          4,
+          4,
+          3
+        ],
+        "scale_views": 155,
+        "shape_window_tail": 0.00934092712683549,
+        "tail_check_time": 2000.0,
+        "tail_survival": 1.89344348181e-11,
+        "views_with_at_least_three_peaks": 142,
+        "views_with_at_least_two_peaks": 155,
+        "warnings": []
+      }
+    },
+    "family_id": "M2D-T",
+    "grid": [
+      13,
+      9
+    ],
+    "mask_comparison": [
+      {
+        "channel": "near",
+        "diffusivity_weighted_count": 9,
+        "diffusivity_weighted_only_count": 5,
+        "intersection_count": 4,
+        "jaccard_distance": 0.5555555555555556,
+        "midpoint_count": 4,
+        "midpoint_only_count": 0,
+        "symmetric_difference_count": 5,
+        "union_count": 9
+      },
+      {
+        "channel": "middle",
+        "diffusivity_weighted_count": 6,
+        "diffusivity_weighted_only_count": 2,
+        "intersection_count": 4,
+        "jaccard_distance": 0.3333333333333333,
+        "midpoint_count": 4,
+        "midpoint_only_count": 0,
+        "symmetric_difference_count": 2,
+        "union_count": 6
+      },
+      {
+        "channel": "far",
+        "diffusivity_weighted_count": 6,
+        "diffusivity_weighted_only_count": 3,
+        "intersection_count": 3,
+        "jaccard_distance": 0.5,
+        "midpoint_count": 3,
+        "midpoint_only_count": 0,
+        "symmetric_difference_count": 3,
+        "union_count": 6
+      },
+      {
+        "channel": "patterned_union",
+        "diffusivity_weighted_count": 21,
+        "diffusivity_weighted_only_count": 10,
+        "intersection_count": 11,
+        "jaccard_distance": 0.47619047619047616,
+        "midpoint_count": 11,
+        "midpoint_only_count": 0,
+        "symmetric_difference_count": 10,
+        "union_count": 21
+      }
+    ],
+    "role": "separate-family sensitivity diagnostic; not part of the principal matched endpoint claim"
+  }
+}

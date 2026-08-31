@@ -1,0 +1,31 @@
+{
+  "constraints": {
+    "each_weight_nonnegative": true,
+    "exact_sum_one_required": true,
+    "finite_control_ids_only": true
+  },
+  "control_ids": [
+    "m1",
+    "m2",
+    "m3"
+  ],
+  "exclusions": {
+    "actual_control_values_committed_for_c0": false,
+    "actual_control_values_included": false,
+    "budget_value_included": false,
+    "control_payload_path_included": false,
+    "positive_budget_result_values_included": false,
+    "result_payload_path_included": false
+  },
+  "future_source": {
+    "required_before_complete_c0": true,
+    "requirements": [
+      "immutable_exact_rational_control_values",
+      "independent_result_blind_review",
+      "no_scientific_result_values",
+      "separate_hash_bound_source"
+    ]
+  },
+  "schema": "encounter_continuum_c0_control_method_commitment_v2",
+  "status": "FROZEN_METHOD_ONLY_NO_CONTROL_VALUES_NO_RESULT_VALUES_COMPLETE_C0_OPEN"
+}

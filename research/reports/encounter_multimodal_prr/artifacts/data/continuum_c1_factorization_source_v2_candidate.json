@@ -1,0 +1,157 @@
+{
+  "cell_average_formulae": {
+    "contact_average": "C_ab=(|R_a|*|Y_b|)^-1*integral_{R_a x Y_b}*indicator_contact(R,Y)*dR*dY",
+    "factorized_profile_cell_average": "V_jmab=W^-1*C_ab*Phi_jm",
+    "profile_average": "Phi_jm=|M_m|^-1*integral_{M_m}*phi_j(M)*dM",
+    "symbolic_weighted_cell_average": "V_control_mab=sum_j*w_j*V_jmab"
+  },
+  "claim_boundary": {
+    "backend_independence_claimed": false,
+    "complete_C0": false,
+    "complete_C1": false,
+    "complete_C2": false,
+    "complete_C3": false,
+    "external_predecessor_commitment_present": false,
+    "formal_outer_open_operation_model_present": false,
+    "formal_selected_source_dag_complete": false,
+    "formal_symbolic_candidate_materialized": false,
+    "one_correlated_distinguished_ideal_member_is_contained": false,
+    "ordered_roles_8_10_replay_executed": false,
+    "policy_predecessor_order_independently_sealed": false,
+    "production_same_member_bridge_accepted": false,
+    "release_eligible": false,
+    "root_transfer_complete": false,
+    "science_executed": false,
+    "submission_eligible": false,
+    "symbolic_acceptance_receipt_materialized": false
+  },
+  "contact_geometry": {
+    "contact_indicator": "indicator(R^2+minimum_image_W(Y)^2<=radius^2)",
+    "contact_radius_exact": "5764607523034235/36028797018963968",
+    "transverse_cut_locus_condition": "2*radius<transverse_period",
+    "transverse_period_exact": "1/1"
+  },
+  "coordinate_and_measure_contract": {
+    "coordinate_order": [
+      "midpoint",
+      "relative_parallel",
+      "relative_perpendicular"
+    ],
+    "longitudinal_absolute_jacobian_exact": "1/1",
+    "longitudinal_transform": "M=(X_1+X_2)/2;R=X_1-X_2",
+    "physical_cell": "M_m x R_a x Y_b",
+    "physical_volume_measure": "dM*dR*dY",
+    "quotient_density_normalization": "W^-1",
+    "transverse_common_coordinate_reduction": "periodic_Haar_change_preserves_measure_and_integrating_the_common_coordinate_yields_the_explicit_W^-1_factor",
+    "transverse_period_symbol": "W"
+  },
+  "dependency_closure": {
+    "acyclic": true,
+    "edges": [
+      {
+        "from": "configuration_source",
+        "to": "killing_geometry_source"
+      },
+      {
+        "from": "initial_partition_bundle",
+        "to": "killing_geometry_source"
+      },
+      {
+        "from": "killing_geometry_source",
+        "to": "factorization_source_v2_candidate"
+      }
+    ],
+    "node_order": [
+      "configuration_source",
+      "initial_partition_bundle",
+      "killing_geometry_source",
+      "factorization_source_v2_candidate"
+    ]
+  },
+  "enclosure_semantics": {
+    "exact_contact_and_profile_averages_may_be_irrational": true,
+    "exact_full_contact_cell_value": "1/1",
+    "exact_zero_cell_value": "0/1",
+    "future_numeric_payload_present": false,
+    "future_role10_representation": "closed_outward_dyadic_intervals_with_separate_primary_and_higher_precision_same_backend_sentinel",
+    "stored_binary64_endpoints_are_not_exact_averages_or_centres": true
+  },
+  "outcome_free_contract": {
+    "budget_present": false,
+    "concrete_killing_tensor_present": false,
+    "control_weights_present": false,
+    "external_commitment_present": false,
+    "numeric_enclosure_payload_present": false,
+    "primitive_source_only": true,
+    "production_bridge_present": false
+  },
+  "profile_basis": {
+    "analytic_integral_each": "1/1",
+    "density": "phi_j(M)=b((M-centre_j)/half_width)/(half_width*I_b)",
+    "half_width_exact": "5764607523034235/144115188075855872",
+    "normalizer": "I_b=integral_from_minus_one_to_one_b(u)_du",
+    "ordered_profile_mapping": [
+      {
+        "centre_exact": "3152519739159347/9007199254740992",
+        "profile_index": 0,
+        "source_role": "physical_midpoint_support_density_00"
+      },
+      {
+        "centre_exact": "5404319552844595/9007199254740992",
+        "profile_index": 1,
+        "source_role": "physical_midpoint_support_density_01"
+      },
+      {
+        "centre_exact": "3/4",
+        "profile_index": 2,
+        "source_role": "physical_midpoint_support_density_02"
+      },
+      {
+        "centre_exact": "8106479329266893/9007199254740992",
+        "profile_index": 3,
+        "source_role": "physical_midpoint_support_density_03"
+      }
+    ],
+    "profile_count": 4,
+    "shape": "b(u)=indicator(abs(u)<1)*exp(-1/(1-u^2))"
+  },
+  "schema": "encounter_continuum_c1_factorization_source_v2_candidate",
+  "source_pins": {
+    "configuration_source": {
+      "path": "artifacts/data/physical_configuration_family_control_free_v1.json",
+      "schema": "encounter_physical_configuration_family_control_free_v1",
+      "sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084"
+    },
+    "initial_partition_bundle": {
+      "path": "artifacts/data/physical_production_initial_stream_v1/bundle.json",
+      "schema": "encounter_control_free_production_initial_stream_v1",
+      "sha256": "5d81d1c02ec2484f0b3d5fab3a825cf6f6331f7d3e4cc8dae224266201dfbd9e"
+    },
+    "killing_geometry_source": {
+      "path": "artifacts/data/physical_killing_geometry_source_v1.json",
+      "schema": "encounter_physical_killing_geometry_source_v1",
+      "sha256": "5543f76031d731cb5bcf3e4cdf3bdabaffacb2053400e3015d6ab57906a27669"
+    }
+  },
+  "status": "OUTCOME_FREE_CONTROL_FREE_FACTORIZATION_CANDIDATE_ONLY_NOT_EXTERNALLY_COMMITTED_NO_NUMERIC_ENCLOSURES_NO_CONCRETE_KILLING",
+  "storage_contract": {
+    "contact_flat_index": "a*n_Y+b",
+    "contact_logical_shape": [
+      "n_R",
+      "n_Y"
+    ],
+    "full_flat_index": "(m*n_R+a)*n_Y+b",
+    "full_logical_shape": [
+      "n_M",
+      "n_R",
+      "n_Y"
+    ],
+    "midpoint_broadcast": "C_ab_is_unchanged_over_m",
+    "profile_support_files_separate_by_profile": true,
+    "profile_support_flat_index": "m",
+    "profile_support_logical_shape_each": [
+      "n_M"
+    ],
+    "tensor_storage_order": "C"
+  }
+}

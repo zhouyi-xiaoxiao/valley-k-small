@@ -1,0 +1,85 @@
+{
+  "classifier_spec": {
+    "claim_boundary": "finite reversible spectral diagnostic plus exact/numerical counterexamples",
+    "critical_points": "direct generator-derivative Brent roots from frozen production families",
+    "sign_variations": "ordered grouped residues after threshold removal"
+  },
+  "classifier_spec_sha256": "74bcae01dbe7305313cac0f90e07e2d8255ea02964858a2e37b72177f66c32d0",
+  "command": [
+    "/Users/ae23069/.local-build/valley-k-small/.venv/bin/python3",
+    "research/reports/encounter_heterogeneous_catalytic/code/validate_spectral_modality.py"
+  ],
+  "generated_at_utc": "2026-07-19T10:48:14.012007+00:00",
+  "generator": "research/reports/encounter_heterogeneous_catalytic/code/validate_spectral_modality.py",
+  "git": {
+    "branch": "dpma-audit-20260630",
+    "commit": "3531353a515160b09899199a9257e7455a654b22",
+    "dirty": true
+  },
+  "horizon": {
+    "encounter_critical_time_max": 198.2746135693127,
+    "rank_one_scan_stop": 30.0,
+    "trimodal_critical_time_max": 34.32921317082577
+  },
+  "inputs": [],
+  "model_spec": {
+    "coefficient_relative_thresholds": [
+      1e-12,
+      1e-10,
+      1e-08,
+      1e-06
+    ],
+    "eigenvalue_group_relative_tolerance": 2e-10,
+    "encounter_control_offset": 0.032,
+    "rank_one_counterexample": "two 12-stage Erlang branches feeding one killing state",
+    "spectral_scope": "finite reversible killed generators with grouped real decay rates",
+    "trimodal_grid": [
+      9,
+      5
+    ]
+  },
+  "model_spec_sha256": "95ff7b2d4dd6e39d230a9635aa654ae652d03312c9952e9c3aedcfd0cde0d0b7",
+  "outputs": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/spectral_modality_summary.json",
+      "sha256": "1bc45cebe9b8b1da7bc23b7cbde1609759cd78fd384db9e403436670f1384fc8"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/spectral_modality_coefficients.csv",
+      "sha256": "fc1896e3ef04dba7ba739786ca8515e806b3e9eba27c40abc918632c4e3f4ef3"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "schema_version": 1,
+  "source_files": [
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_spectral_modality.py",
+      "sha256": "a1005d0a122304b20c73581844714f334af2e36c47f8e0084db613d4f733d49d"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_gig_fold.py",
+      "sha256": "4d9673204be28dbc66c015abb65e583b6b5b4bbcc46606999fc373eab619f679"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/code/validate_2d_trimodal.py",
+      "sha256": "c2757e88212ab15c0c105543a6f31c3274ddada86afc860326a2948e8b6f3d84"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/notes/spectral_modality_bound.md",
+      "sha256": "99be0aa545306973befcbae2563b65595fc5931e7f27bdacc072c103abc0b29e"
+    },
+    {
+      "path": "research/reports/encounter_heterogeneous_catalytic/artifacts/data/finite_radius_2d_trimodal_roots.csv",
+      "sha256": "f468eb835983b9342b2b90fb07641e621c0564d5656fd682c26cc28a4ddb411a"
+    },
+    {
+      "path": "packages/vkcore/src/vkcore/provenance.py",
+      "sha256": "a41653d59c918578187dea5324ab5a57f56a50eba1914e759a01e52b67f0ee25"
+    }
+  ]
+}

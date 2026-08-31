@@ -1,0 +1,1743 @@
+Geometry-controlled folds of first-passage-time bimodality under localized absorption
+
+                                                       Xiaoxiao Zhouyi∗
+                                    School of Engineering Mathematics and Technology,
+                                  University of Bristol, Bristol BS8 1TW, United Kingdom
+                                                    (Dated: July 30, 2026)
+                 First-passage laws can change their number of most-probable arrival times even while their mo-
+              ments and relaxation spectrum vary smoothly. We show that localized absorption controls this mor-
+              phology through signed modal cancellation, and we classify the resulting transitions. For Brownian
+              motion on an interval with a localized absorbing gate, release away from an antipodal gate produces
+              two genuine interior maxima inside a bounded, numerically continued wedge of gate strengths whose
+              fold branches close at a reflected cusp pair; source-started release instead loses its inherited finite-
+              time peak across a geometry-dependent fold line bc (θ) with endpoint law bc ∼ 0.789/ min(θ, 1 − θ).
+              The extrema gap and prominence obey the saddle-node powers 1/2 and 3/2, while the mean first-
+              passage time and the principal decay rate remain smooth: the transition belongs to the shape of
+              the law, not to the generator. For any finite absorbing continuous-time Markov chain, localized
+              killing has an exact linear-fractional transform response, implying Laplace-transform ordering and
+              diminishing returns; a Drazin-corrected slow–fast reduction transfers every nondegenerate reduced
+              fold to the full chain. On modular graphs this yields a conductance scale: a controlled slow-bridge
+              barbell has upper-fold strength linear in the bottleneck rate and inverse-linear fold time, while an
+              equal-conductance family has a monotone one-exponential slow limit, so scalar conductance alone
+              cannot determine the conductance-scaled limiting morphology. Interval-arithmetic enclosures locally
+              certify the slow-core fold and two endpoint cusp roots; exact finite-N algebra, Monte Carlo, and
+              Brownian-dynamics simulations validate the classification, and a feedback-gated colloidal protocol
+              can resolve the fold with on the order of 105 trials.
+
+
+                  I.   INTRODUCTION                                 dered intervals [14], and domains with strategically ar-
+                                                                    ranged traps [9]. Resetting can produce sharp short-
+   The first-passage time (FPT) to a target is a central            time FPT features that have been resolved both the-
+observable of stochastic transport, search and reaction             oretically and experimentally [12]. Random walks on
+kinetics [1–5]. Its full distribution f (t), rather than the        small-world networks likewise exhibit shortcut-induced
+mean first-passage time (MFPT) alone, controls the tim-             temporal structure [16]. Constant partial reactivity can
+ing statistics of diffusion-limited reactions, of intracellu-       strongly broaden reaction-time laws [21, 30], whereas
+lar delivery, and of search under deadlines [30], and it            encounter-dependent reactivity can generate an unusual
+is increasingly accessible experimentally through single-           delayed second hump [19]; confined two-particle first en-
+particle tracking and feedback-controlled colloidal plat-           counters provide another route in which boundary and
+forms [19, 21, 31]. The location of the mode is itself              encounter time scales can produce a second hump [20].
+a useful control observable under restart [33], and re-             Temporal gating of detectability leads to a distinct in-
+cent work continues to develop full-distribution and re-            ference problem [26]; the gate studied below is instead
+sponse descriptions beyond the MFPT [28, 29]. In partic-            a time-homogeneous, localized Markovian loss channel
+ular, Ref. [29] concerns the linear response of the MFPT            that changes the physical passage law itself. Most di-
+to a rare perturbation, whereas the present work treats             rectly, Besga et al. demonstrated theoretically and with
+arbitrary finite gate strength and resolves the response            a Brownian-bead experiment a sharp two-peak–to–single-
+of the full transform and density morphology. For re-               peak transition in the free-Brownian FPT density aver-
+versible Markov dynamics, relaxation and first-passage              aged over a finite-width initial ensemble, controlled by
+time scales obey a spectral interlacing [25]; very recent           the ratio of target distance to initial width [13]. Exact
+work connects the limiting shapes of large-network FPT              Green-function and defect techniques for confined ran-
+laws to the eigenvalue distribution of the generator [27].          dom walks, partially absorbing boundaries, and multiple
+In contrast, the present problem is finite and parame-              reactive sites are by now mature [6, 7, 22, 23].
+ter resolved: a localized rank-one killing rate creates or             These works establish the importance of modes, multi-
+annihilates finite-time critical points of the FPT density.         ple trajectory families, and channel-resolved first-passage
+   A recurring feature of f (t) is multimodality. Dis-              statistics [8, 24]. Relative to the initial-ensemble transi-
+tinct direct and indirect trajectory families can gener-            tion of Ref. [13], the narrower problem addressed here
+ate separated time scales [8]; bimodal FPT distribu-                is a localized delivery/killing mechanism on a bounded
+tions also occur in biased periodic walks [10, 11], disor-          domain: we derive the local creation/annihilation crite-
+                                                                    rion and numerically continue the reported boundaries as
+                                                                    gate strength, position, and release point vary. The local
+                                                                    degeneracy is the familiar saddle-node of critical points;
+∗ xiaoxiao.zhouyi@bristol.ac.uk
+                                                                    the nontrivial content is the geometry-dependent bound-
+                                                                                                                         2
+
+ary, its endpoint law, the signed-mode constraint, and               Its modular-network corollary supplies the conduc-
+their validation in the underlying stochastic process. The           tance scale, while the complete marked quotient se-
+sharper organizing point is that this morphology change              lects the morphology. A controlled slow-bridge bar-
+is invisible to both the MFPT and the principal decay                bell gives an interval-certified reduced-core fold and
+rate: the singularity belongs to the shape of the full prob-         an analytically transferred bottleneck-family scal-
+ability law, not to the generator.                                   ing law, together with an exact same-conductance
+   We develop that classification for a minimal directed             obstruction: a scalar conductance fixes the bottle-
+shortcut, modeled as a rank-one killing defect on an ab-             neck scale but not the limiting morphology on that
+sorbing lattice. In the survival sector the directed short-          scale. Fixed tree, wall-grid, complete-graph, and
+cut is equivalent to localized killing: the non-reversibility        finite-circulation examples serve as topology and
+resides entirely in the absorbing channel, not in the tran-          reversibility controls.
+sient propagator (Sec. II). Our contributions have three
+connected parts:                                                   3. An independent validation chain (Secs. IV,V C; the
+                                                                      exact finite-N checks appear in Secs. II C, III B
+   1. An exact interval solution with a numerically con-              and Apps. C, E): exact finite-N residues against
+      tinued morphology diagram (Secs. II,III): the FPT               the continuum master curve, the exact discrete
+      density is a signed spectral mixture whose ampli-               fold threshold numerically exhibiting bc,N − bc =
+      tudes we derive in closed form from the defect re-              O(N −2 ), a direct Monte-Carlo, an exact channel
+      solvent, both on the finite lattice (App. B) and in             decomposition (the short-time feature is asymp-
+      the diffusive limit (App. C). It carries a short-time           totically shortcut dominated; the late peak is
+      shortcut-capture feature and a finite-time interior             fed by both channels), off-gate starts for which
+      peak; the birth and death of the latter is a fold gov-          both features are genuine interior peaks, and a
+      erned by the compact local criterion S1 = S2 = 0                Brownian-dynamics realization containing no lat-
+      in signed spectral moments (Φ′ = −S1 , Φ′′ = S2 ),              tice and no spectral input. A same-window un-
+      with a single connected two-feature window 0 <                  certainty calculation and an independent finite-
+      b < bc (θ) over the reported continuation under the             width-gate discretization make the colloidal mea-
+      source-started convention. The boundary is sym-                 surement proposal quantitative; exact means, split-
+      metric about θ = 21 , minimized near θ ≃ 0.381,                 ting probabilities, and Hellmann–Feynman mono-
+      and obeys the endpoint law bc ∼ B ∗ / min(θ, 1 − θ)             tonicity demonstrate the separation from spectral
+      with B ∗ = 0.7890262 fixed by an explicit half-line             singularity. Arb interval Newton/Krawczyk calcu-
+      transform; a finite-modal spectral-complexity bound             lations independently certify the slow-core fold and
+      and the generic (1/2, 3/2) saddle-node scaling, with            both half-line cusp roots in displayed boxes.
+      prefactors analytic in the fold data, complete the
+      local classification. At fixed θ = 1/2, off-gate con-        We are careful to separate what is new from what
+      tinuation adds a genuine bimodal wedge and its            is not.     Multimodal FPT densities, an experimen-
+      numerically located reflected cusp pair; continu-         tally observed Brownian two-peak–to–single-peak transi-
+      ing the two cusp branches numerically from that           tion, resetting-induced spikes, and shortcut-induced tem-
+      pair toward an absorbing boundary approaches two          poral structure are known [9–14]; the lattice Green-
+      distinct, locally unique interval-certified half-line     function/defect method is established [6, 7, 22, 23]; and
+      cusps.                                                    Ref. [15] concerns bimodality of a splitting probability
+                                                                P (ω), not of f (t). Our contribution is the localized-
+   2. A finite-network response and marked slow–fast fold       delivery problem’s computed geometry-dependent fold
+      transfer (Secs. V A, V B; App. A): for any finite ab-     structure (including two distinguished locally unique
+      sorbing CTMC with a transient subgenerator, lo-           Arb-certified half-line endpoint cusps), the residue sign-
+      calized killing gives exact rank-one response identi-     variation bound, the analytic finite-network response
+      ties for the FPT transform, MFPT, gate probabil-          and gate-released graph-distance valley law, the marked
+      ity, and survival, together with Laplace-transform        slow–fast morphology-transfer theorem with its Drazin
+      ordering, diminishing returns, and, for release at        current correction, the controlled bottleneck-family scal-
+      the gate, a graph-distance law that fixes the small-      ing and same-conductance obstruction, the demonstra-
+      rate valley time. Local differentiability and nonde-      tion that the mean and principal decay remain smooth,
+      generacy give the fold powers; reversibility is in-       and a process-level validation chain extending to a non-
+      voked only to guarantee an all-real signed-mode           reversible complex-spectrum network. We make no pri-
+      representation and hence the mode-count bound.            ority claim for the existence of an FPT-density morphol-
+      A three-function marked transfer signature deter-         ogy transition, the defect resolvent, phase-type/spectral
+      mines the total FPT law for all gate rates. More          representations on networks and the analytic theory of
+      generally, a semisimple slow–fast decomposition           phase-type densities [36, 37], standard finite-chain aggre-
+      gives the correct Drazin-corrected target current         gation and group-inverse perturbation methods [34, 35],
+      and derivative-level morphology convergence, so ev-       the short-time singularity, or the generic fold exponents
+      ery nondegenerate quotient fold continues locally.        themselves [39].
+                                                                                                                              3
+
+      II.     MODEL AND EXACT SOLUTION                         node) modes, recovering the reflection-symmetric prob-
+                                                               lem as a special case of the general rank-one theory.
+         A.   Lazy ring with a directed shortcut               Equivalently, in terms of the defected matrix Pλ of (1),
+                                                               the total absorption current has the compact form
+   Consider a lazy random walk on a ring of N sites                        h                        i
+[Fig. 1(a)]: at each step the walker stays with proba-          F̃r (z) = z λ ⟨u| + 2q ⟨1| + ⟨N − 1| (I − zPλ )−1 |r⟩ , (4)
+bility 1 − q and hops to each neighbor with probability
+q/2. Site v = 0 is an absorbing target. A directed short-      whose two bracketed terms are the shortcut-capture and
+cut at a source site u diverts probability λ = β(1 − q)        diffusive-absorption channels resolved in Sec. IV A. In the
+from the u self-loop onto the directed edge u → v; upon        diffusive scaling the finite mass maps to a continuum den-
+taking it the walker is absorbed. Removing the absorbed        sity, F (t) ≃ (q/N 2 ) Φ(qt/N 2 ) with τ = qt/N 2 .
+state leaves a transient (sub-stochastic) transition matrix
+on sites 1, . . . , N − 1: a Dirichlet path with a rank-one
+diagonal killing defect of strength λ = β(1 − q) at u (ad-                          C.      Diffusive limit
+missibly 0 ≤ λ ≤ 1 − q, as it is diverted from the self-loop
+probability),                                                     Writing θ = u/N for the fractional shortcut position,
+                                                               b = β(1−q)N/q for the rescaled sink strength, τ = qt/N 2
+                      Pλ = P0 − λ |u⟩⟨u| ,              (1)    for diffusive time, and writing the transient eigenvalues
+so probability leaks irreversibly from u into the target;      as s = 1 − q + q cos(2w/N )—which defines the lattice
+the rescaled continuum sink strength b = λN/q is intro-        root variable w, with continuum wavenumber k = 2w
+duced below. Although the shortcut is directed, the tran-      and eigenvalue µ = k 2 /2 = 2w2 —the walk converges to
+sient block remains symmetric—the directedness enters          Brownian motion on [0, 1] with absorbing ends and an
+only through the (one-way) absorption vector, not the          interior δ-sink [Fig. 1(b)],
+survival dynamics—so its spectrum is real. The elimi-
+                                                                  ∂τ p = 12 pxx − b δ(x − θ) p,           p(0) = p(1) = 0.   (5)
+nated survival operator is therefore self-adjoint: the pro-
+cess is open (sub-Markovian, probability-losing), but the
+                                                               The finite-b continuum limit is the weak-per-visit (par-
+threshold is a time-domain morphology change, not a
+                                                               tially absorbing) scaling λ = β(1−q) = bq/N = O(N −1 ):
+spectral-degeneracy effect (Sec. VI C).
+                                                               a fixed per-visit shortcut probability would instead ap-
+                                                               proach the absorbing-cut limit b → ∞. The spectrum of
+                                                               (5) is fixed by the transcendental determinant
+    B.      Exact generating function and Montroll
+                       determinant                                                                             
+                                                                  Dθ (k; b) = k sin k + 2b sin(kθ) sin k(1 − θ) = 0, (6)
+  The FPT generating function is rational with an ex-          with k = 2w and eigenvalues µj = kj2 /2 = 2wj2 ; for θ = 21
+act Montroll-type determinant. Applying the matrix-            this collapses to tan w = −2w/b. This interval δ-sink
+determinant lemma to the rank-one defect (1) and evalu-        (point-interaction) eigenvalue condition is the standard
+ating the resulting path-resolvent element in closed form      point-sink spectrum, with a long lineage in the localized-
+(App. B) gives, with Um the Chebyshev polynomials of           sink and imperfect-reactivity literature [17–19, 21]; our
+the second kind, y = 1+(z −1 −1)/q the spectral variable,      model-specific exact contribution is not this spectrum
+and a = q/λ the dimensionless inverse shortcut strength,       but the finite-N directed-shortcut Montroll determinant
+the characteristic determinant for a source at u,              Du [Eq. (2)] and the bifurcation classification developed
+                                                               below. The FPT density from a start at ξ = r/N is the
+      Du (y) = a UN −1 (y) + 2 Uu−1 (y) UN −u−1 (y).    (2)
+                                                               signed spectral mixture
+The FPT probability is then a finite sum of geometric                                         X
+modes,                                                                         Φξ,θ (τ ; b) =   Gj e−µj τ ,            (7)
+                                                                                                   j
+               X
+       F (t) =   Bj sjt−1 ,  sj = 1 − q + q yj ,  (3)
+                  j
+                                                               whose amplitudes we derive from the defect resolvent
+                                                               (App. C) as
+where yj are the roots Du (yj ) = 0 and the residues are
+Bj = q Nr,u (yj )/Du′ (yj ) with r the start site and Nr,u                               ϕk,θ (ξ) I(k, θ)
+                                                                        Gξ,θ = 2w2                        ,    k = 2w,       (8)
+the piecewise numerator of App. B. In the antipodal                                          J(k, θ)
+case u = N/2 the identity UN −1 = 2 UN/2−1 TN/2 fac-
+torizes (2) as Du = 2 UN/2−1 (y) [a TN/2 (y) + UN/2−1 (y)]     where
+(with Tm the Chebyshev polynomial of the first kind):                               (                
+the bracket carries the sink-coupled spectrum, while the                                sin k(1 − θ) sin(kx), x ≤ θ,
+                                                                       ϕk,θ (x) =                                           (9)
+factor UN/2−1 carries the antisymmetric (sink-decoupled,                                sin(kθ) sin k(1 − x) , x ≥ θ,
+                                                                                                                                                                        4
+
+                            (a) lazy ring, N sites, directed shortcut                  (b) diffusive limit: interval with interior ±-sink
+
+                                               v = 0 (absorbing target)
+                                                                                                     ∂ ¿ p = 12 pxx ¡ b ±(x ¡ µ) p
+
+
+
+                                                                     1¡q          absorbing                                          absorbing
+
+
+                                                                   q=2
+                                                                                                        start »
+                                                    ¸ = ¯(1 ¡ q)                                                  µ
+
+
+
+
+                                                                                                                      ¡ b ±(x ¡ µ)
+                                                                                     0                                                      1
+                                    u (shortcut source)
+
+
+
+
+FIG. 1. Model. (a) Lazy random walk on a ring of N sites (stay 1 − q, hop q/2) with an absorbing target v = 0 and a
+directed shortcut u → v of per-step probability λ = β(1 − q); deleting v leaves a rank-one killing defect at u. (b) Diffusive
+limit: Brownian motion on [0, 1] with absorbing ends and an interior δ-sink of strength b at θ, started at ξ.
+
+           R1             R1
+and I = 0 ϕ dx, J = 0 ϕ2 dx have the closed forms                                   shortcut-capture feature—a boundary/initial-time con-
+of App. C. Modes with sin(nπθ) = 0 do not cou-                                      tribution whose weight vanishes as b → 0—together with
+ple to the sink and contribute the free Dirichlet term                              interior finite-time extrema; an interior extremum is a
+Gnode
+  n     = nπ[1 − (−1)n ] sin(nπξ) (even n vanish). We                               zero of S1 . The finite-time interior peak forms a valley–
+have verified (8), the crucial normalization identity J =                           peak pair that is born or annihilated when the two inte-
+sin(k) Dk /(4b), and the full master curve (affected plus                           rior extrema merge—a saddle-node fold of the density’s
+node modes) against exact finite-N residues (N = 1200)                              critical points,
+to a relative error ≲ 8×10−5 (per-mode ∼ 2×10−4 ) with
+measured O(N −2 ) convergence (fitted exponent 2.00;                                                      S1 (τc , bc ) = 0,                    S2 (τc , bc ) = 0 ,   (11)
+App. C, App. E). Table I collects the notation.
+                                                                                    with nondegeneracy S3 (τc , bc ) ̸= 0 and ∂b S1 (τc , bc ) ̸= 0.
+                                                                                    No positivity is assumed—the Gj are genuinely signed—
+         III.   GEOMETRY-CONTROLLED                                                 so (11) is the correct fold criterion for a signed exponen-
+                MORPHOLOGY FOLDS                                                    tial mixture: the coincidence of a root and a critical point
+                                                                                    of the generalized (signed) exponential sum S1 . This
+A.   Signed spectral moments and the fold criterion                                 places the classification in a classical frame: the FPT
+                                                                                    law of any finite absorbing chain is phase type [36, 37]
+                                                                                    and hence matrix exponential. A simple real exponential
+  Define the signed spectral moments
+                                                                                    sum such as (7) additionally requires a real diagonalizable
+                            X                                                       transient operator (in particular the symmetrizable oper-
+               Sn (τ ; b) =   Gj µjn e−µj τ ,                              (10)     ator used here); otherwise Jordan or complex-conjugate
+                            j
+                                                                                    contributions must be retained. Within the present real
+                                                                                    spectral setting, (11) locates where two extrema merge.
+so that Φ′ = −S1 and Φ′′ = S2 [differentiate (7)].
+                                                                                    The amplitudes Gj , and hence the fold line, depend on
+We are precise about what folds. Under the source-
+                                                                                    the start, so bc = bc (θ; ξ); unless stated otherwise we re-
+started convention ξ = θ the density carries a short-time
+                                                                                    port ξ = θ. The local fold (11) is exact; the global state-
+                                                                                    ment is numerical : for ξ = θ, continuation of the interior
+                                                                                    extrema gives a single connected window 0 < b < bc (θ)
+                    TABLE I. Notation.                                              in which the boundary-capture singularity, valley, and
+q                     hop probability per step (stay 1 − q)                         inherited interior peak coexist (the two-feature window ),
+                                                                                    with no re-entrant interval at the stated scan resolution
+β                     shortcut fraction of the u self-loop
+                                                                                    (seven θ values, b ≥ 0.05, τ ≥ 1.5 × 10−3 ; App. E). The
+λ = β(1 − q)          per-step shortcut probability; a = q/λ
+                                                                                    b ↓ 0 end
+                                                                                            √ is analytic. The √ diagonal local heat kernel gives
+b = λN/q              continuum sink strength                                       Φ = b/ 2πτ −b2 /2+O(b3 τ ) plus an exponentially small
+θ = u/N , ξ = r/N     sink, start; d = min(θ, 1 − θ)                                boundary flux, so the density decreases immediately af-
+τ = qt/N 2            diffusive time                                                ter its integrable initial singularity. Away from τ = 0 it
+w, k = 2w, µ = 2w2    root, wavenumber, eigenvalue                                  converges in C 1 to the Dirichlet exit density, which has
+B = b d, σ = τ /d2    boundary layer (App. D)                                       a rising branch and a strict peak; therefore a valley fol-
+κtrig , ℓ, L          trigger rate, gate width, domain size                         lowed by the inherited peak exists for every sufficiently
+                                                                                    small b > 0 (App. D). We use theorem language only for
+                                                                                                                                                                                                                                                                                  5
+
+                                         (a) morphology fold line bc(θ)                                                (b) master curve θ = ξ = 1/2: finite-time peak                                                       (c) normal-form fold scaling
+                                  (two-feature valley-peak window: 0 < b < bc)                                                  annihilates at bc = 3.0764                                                                          (δ 1/2, δ 3/2)
+                       16
+                                                 bc(θ) (direct S1 = S2 continuation)                            40          b=2.5
+                                                                                                                                         5.0
+                                                 endpoint 0.789/min(θ, 1 − θ)                                               b=3
+                       14                                                                                       35          b=3.0764     4.9
+
+                                                                                                                            b=3.3        4.8
+
+                       12                                                                                       30                       4.7
+
+                                                                                                                                                                                                                   10−3
+
+
+
+
+ shortcut strength b
+                                                                                                                                         4.6
+
+
+
+
+                                                                                                                                                                                                gap / prominence
+                       10                                                                                       25                       4.5
+
+                                                                                                                                         4.4
+
+
+                                                                                                      Φ(τ; b)
+                        8                                                                                       20                       4.3
+
+                                                                                                                                         4.2
+
+
+                        6                                                                                       15                             0.02   0.03   0.04   0.05   0.06   0.07   0.08
+
+                                                         θmin = 0.3809
+                                                                                                                                                                                                                   10−4
+                                                         bmin = 2.1645
+                        4                                                                                       10
+                                                                                                                                                                                                                                                       gap τ + − τ −
+                                                                                                                                                                                                                                                       prominence
+                                                                                                                 5
+                        2                                                                                                                                                                                                                              0.02475 δ 1/2 (analytic)
+                                                  valley-peak pair exists
+                                                                                                                                                                                                                                                       0.35744 δ 3/2 (analytic)
+                                                                                                                 0
+                        0
+                            0.0          0.2         0.4         0.6                   0.8      1.0                  10−3                  10−2                            10−1                                                                 10−2
+                                                  sink position θ = u/N                                                                         τ = qt/N 2                                                                             bc − b
+
+
+
+
+FIG. 2. Exact local fold equations with a numerically continued source-started branch. (a) Morphology fold line bc (θ) (ξ = θ):
+the boundary capture feature, intervening valley, and inherited finite-time peak coexist for 0 < b < bc (θ); at b = 0 only the
+Dirichlet interior peak remains. Symmetry gives equivalent minima near θ ≃ 0.381 and 0.619. Solid points are numerically
+located over θ ∈ [0.20, 0.50] and mirrored by the symmetry bc (θ) = bc (1 − θ); the dashed curves are the endpoint asymptote
+0.789/ min(θ, 1 − θ) (App. D). (b) Master curve Φ(τ ; b) at θ = ξ = 21 for b = 2.5, 3.0, 3.076, 3.3, crossing bc ≃ 3.076; the inset
+magnifies the fold region, where the valley–peak pair merges. (c) Normal-form scaling: gap ∝ (bc − b)1/2 and prominence
+∝ (bc − b)3/2 (representative log–log slopes 0.5010 and 1.5020); dashed lines use the analytic prefactors of Eq. (D5).
+
+
+the local fold, this small-b existence argument, and exact                                                                                             O(N −2 ) over N = 100–1200 (App. E). The two lim-
+finite-N algebra; the one-window statement is a bounded                                                                                                its are physically transparent: as b → 0 the cap-
+numerical observation.                                                                                                                                 ture feature’s weight vanishes and the density reverts
+                                                                                                                                                       to the single-peaked Dirichlet FPT, while as b → ∞
+                                                                                                                                                       the δ-sink becomes an absorbing cut and, for ξ = θ,
+                                    B.         The source-started fold line bc (θ)                                                                     the density collapses toward τ → 0. Thus the three-
+                                                                                                                                                       part boundary-capture/valley/inherited-peak morphol-
+                                                                                                                                                       ogy, not the Dirichlet peak itself, is confined to 0 < b <
+   Eliminating τc between the two equations in (11) yields
+                                                                                                                                                       bc .
+a scalar fold line bc (θ) [Fig. 2(a)]. It is symmetric, bc (θ) =
+bc (1 − θ), has a minimum at θ ≃ 0.381 (bc ≃ 2.165), and
+obeys the endpoint law
+                                                                                                                                                                                            C.                      Normal-form scaling
+                                         ∗
+                                     B
+    bc (θ) ∼                           ,               τc ∼ c∗ d2 ,                          d = min(θ, 1 − θ), (12)
+                                     d                                                                                                                   Near the fold the two merging extrema split with the
+                                                                                                                                                       generic saddle-node exponents
+where the constant is fixed by the explicit closed-
+form transform of the half-line boundary-layer prob-                                                                                                    τ+ − τ− ∝ (bc − b)1/2 ,     Φ(τ+ ) − Φ(τ− ) ∝ (bc − b)3/2 ,
+lem [App. D, Eqs. (D6)–(D9)]: B ∗ = 0.7890262 and                                                                                                                                                             (14)
+c∗ = 0.1579221; floating-point bisection on the fold in-                                                                                               which we confirm numerically [Fig. 2(c)], with represen-
+dependently confirms B ∗ to six digits (bc θ = 0.789026                                                                                                tative log–log slopes 0.5010 and 1.5020 over bc − b ∈
+across θ ∈ [0.20, 0.27], no reference table) and c∗ to three                                                                                           [1.4 × 10−3 , 3.6 × 10−2 ] (seven deterministic continua-
+(τc /d2 ≈ 0.158); an elementary closed form for B ∗ re-                                                                                                tion points; changing the fit subwindow gives 0.5005–
+mains open. In the antipodal case [Fig. 2(b)]                                                                                                          0.5022 and 1.5009–1.5043; App. E). These ranges diag-
+                                                                                                                                                       nose asymptotic-window truncation, not statistical un-
+                                       bc ( 12 ) = 3.07643,                              τc = 0.038363,                                (13)            certainty. The prefactors are analytic in the fold data
+                                                                                                                                                       [App. D, Eq. (D5)]: in the antipodal case τ+ − τ− ≃
+independently verified to 10−6 . Nondegeneracy is not in-                                                                                              0.0247518 (bc − b)1/2 and prominence ≃ 0.357444 (bc −
+ferred from this point alone: over θ = 0.20, 0.25, . . . , 0.50                                                                                        b)3/2 , matching directly measured extrema splittings to
+and at the refined minimum, the dimensionless mar-                                                                                                     better than 2 × 10−4 relative. The exponents iden-
+gins satisfy |τc3 S3 /Φ| ∈ [1.830, 3.322] and |τc ∂b S1 /Φ| ∈                                                                                          tify the transition as a fold rather than a smooth spec-
+[0.1268, 0.2295]; deepening the spectral cutoff from w =                                                                                               tral crossover; the (1/2, 3/2) pair is a generic signa-
+40 to 80 changes S3 by at most 3.9 × 10−6 (App. E).                                                                                                    ture of a smooth nondegenerate one-parameter fold,
+The numerically fitted gate-position expansion is bc ( 21 +                                                                                            not a model-specific new exponent (Sec. VI), and the
+ϵ) ≈ 3.0764 − 133.1 ϵ2 (App. D); the finite-lattice thresh-                                                                                            catastrophe-theoretic organization of parametric changes
+old numerically converges to this value as bc,N − bc =                                                                                                 in probability-density shape is itself a classical pro-
+                                                                                                                         6
+
+gram [38, 39].                                                The same resolvent gives the continuum shortcut split-
+                                                              ting probability
+
+                 D.   Minimal mode count                                              2b min(ξ, θ)[1 − max(ξ, θ)]
+                                                                    πsc (ξ, θ; b) =                               .   (16)
+                                                                                            1 + 2bθ(1 − θ)
+   A two-mode fold is impossible, even with signs. Writ-
+                                                              For the self-adjoint continuum operator Hb = − 21 ∂x2 +bδθ ,
+ing Aj = Gj µj e−µj τ , S1 = 0 forces A2 = −A1 , whence
+                                                              Hellmann–Feynman gives for every affected simple mode
+S2 = (µ1 − µ2 )A1 = 0 gives A1 = A2 = 0, a contradic-
+tion. Thus at least three nonzero modes are required. If                       dµj      |ψj (θ)|2
+exactly three modes are retained, the two fold equations                           = R1              > 0,             (17)
+                                                                                db      |ψj (x)|2 dx
+give A1 : A2 : A3 = (µ3 − µ2 ) : (µ1 − µ3 ) : (µ2 − µ1 ),                                 0
+which forces alternating signs when the µj are ordered.       while node modes are constant. Thus the principal
+More generally, Laguerre’s extension of Descartes’ rule       decay rate µ1 —the gap from the absorbing eigenvalue
+states that an n-term real exponential sum has at most        zero of the full generator—remains smooth and mono-
+as many real zeros, counted with multiplicity, as its co-     tone through bc . Equations (15) and (16) are the in-
+efficient sequence has sign changes [40]—so the double        terval specializations of the general finite-network re-
+zero of S1 at a fold requires n ≥ 3 terms, with at least      sponse (27), and Eq. (17) is its continuum analogue
+two sign changes; it does not select a unique triplet in      of Eq. (30); the network formulation is stated later
+a many-mode sum. The full fold is realized by a many-         so that the geometry-resolved interval analysis remains
+mode signed cancellation; at the antipode this coincides      self-contained. Along the endpoint fold, Eqs. (12) and
+with an alternating affected-mode pattern (G1 > 0, G2 <       (16) predict πsc,c → 2B ∗ /(1 + 2B ∗ ) = 0.6121103 and
+0, G3 > 0, . . . ), while away from the antipode the modal    ⟨τ ⟩c ∼ d/(1 + 2B ∗ ) = 0.3878897d, whereas the morphol-
+signs need not be strictly alternating in eigenvalue or-      ogy time scales as τc ∼ 0.1579221d2 . Fixed moments
+der (App. C). Retaining K affected modes in the an-           and the most-probable-time morphology therefore probe
+                        (2)        (3)           (4)
+tipodal case gives bc (none), bc = 3.046, bc (none),          different endpoint scales.
+ (5)
+bc = 3.0764—the even-K gaps reflecting the odd-mode
+parity of the alternating structure—converging to (13).
+For an off-gate bimodal fold, one nonmerging maximum                  IV.    INDEPENDENT VALIDATION
+remains in addition to the double root, so S1 has at least
+three positive-time zeros counted with multiplicity. It          This section assembles the evidence that the fold of
+therefore requires at least three residue sign changes and    Sec. III is a property of the physical process rather than of
+at least four nonzero modes. More generally, m positive-      the spectral representation. The exact finite-N checks—
+time critical points counted with multiplicity require at     residues against the continuum master curve (Sec. II C,
+least m sign changes and m + 1 nonzero modes (after           App. C) and the threshold convergence bc,N → bc
+combining equal decay rates). The statement is exact for      (App. E)—are complemented by four independent probes
+a finite real spectrum. Under the uniform-convergence         (Sec. IV A): a direct Monte-Carlo, an exact channel res-
+hypotheses of App. C, sufficiently deep finite truncations    olution, non-antipodal robustness, and start-position de-
+have a nearby nondegenerate fold and inherit the same         pendence (under which both features become genuine in-
+lower bound; no infinite-sequence version of Descartes’       terior peaks), followed by a Brownian-dynamics realiza-
+rule is assumed.                                              tion with no lattice and no spectral input (Sec. IV B).
+
+
+  E.   Smooth means and spectrum across the fold               A.   Direct simulation, channel resolution, and the
+                                                                           antipodal-gate off-gate cusp
+  The morphology fold is not a thermodynamic or spec-
+tral singularity. Sherman–Morrison at zero Laplace fre-         Four checks confirm that the fold is a physical mech-
+quency gives the continuum MFPT from an arbitrary             anism rather than an artifact of the spectral represen-
+start,                                                        tation. (i) Direct simulation. A direct Monte-Carlo of
+                                                              the lazy ring, using no spectral input, reproduces the
+                      2bθ(1 − θ) min(ξ, θ)[1 − max(ξ, θ)]     exact FPT density across four decades in τ [Fig. 3(a)],
+ ⟨τ ⟩ξ,θ = ξ(1 − ξ) −                                     .
+                                1 + 2bθ(1 − θ)                with the simulated splitting probability πsc = 0.56466 ±
+                                                       (15)   0.00078 (4×105 walkers) agreeing with the exact 0.56522
+For ξ = θ this reduces to ⟨τ ⟩ = θ(1 − θ)/[1 + 2bθ(1 − θ)],   [Eq. (B6)]. (ii) Channel resolution. The absorption cur-
+which is analytic at bc . In fact Eq. (15) is the exact       rent splits exactly into a shortcut entry (λ at u) and dif-
+scaled finite-ring identity (q/N 2 )E[T ] whenever ξ = r/N    fusive entries (q/2 at the neighbors of v), Φ = fsc + fdiff
+and θ = u/N —it follows by summing the defect-resolvent       [Fig. 3(b)]: fsc is monotone and carries the short-time
+column (B3) at z = 1, where Am (1) = m; direct matrix         mass on the displayed coarse-grained scale (the exact first
+inversion agrees to 6.2 × 10−14 in the verification set.      few lattice steps retain a small parity rebound), while the
+                                                                                                                                                                                                                                       7
+
+                     (a) direct simulation vs exact (θ = 1/2, b = 2.6 < bc)                        (b) channel resolution (early=shortcut, late=mixed)                               (c) non-antipodal θ = 0.38 across bc(θ)≈2.16
+
+                                                                 direct MC                                                                  total                                                                           b = 1.5
+                                                                 exact                                                                      shortcut channel                                                                b = 2.16
+               102                                                                           102                                                                               102
+                                                                                                                                            diffusive channel                                                               b = 2.8
+
+
+
+
+               101                                                                           101                                                                               101
+
+
+FPT density                                                                   FPT density                                                                       FPT density
+               100                                                                           100                                                                               100
+
+
+
+
+              10−1                                                                          10−1                                                                              10−1
+
+
+                        10−3          10−2              10−1       100                                10−3         10−2              10−1            100                             10−3         10−2             10−1       100
+                                           τ = qt/N 2                                                                   τ = qt/N 2                                                                    τ = qt/N 2
+
+
+
+FIG. 3. The fold is a physical mechanism, not an artifact of the exact solution. (a) A direct Monte-Carlo simulation of
+the lazy ring (grey; 4 × 105 walkers, no spectral input) reproduces the exact FPT density (red) across four decades in τ ; the
+simulated splitting probability πsc = 0.56466 ± 0.00078 agrees with the exact πsc = 0.56522. (b) Exact channel decomposition
+Φ = fsc + fdiff : the shortcut channel carries the short-time capture cluster; the late bump is fed comparably by both channels.
+(c) The interior fold away from the antipode, θ = 0.38 (bc = 2.165): peak present at b = 1.5, marginal at b = 2.16, absent at
+b = 2.8. (N = 100, q = 2/3, b = 2.6 in (a,b); gate u = N/2 in (a,b), u = 0.38N in (c); start ξ = θ.)
+
+
+late finite-time bump receives comparable contributions                                                                    S3 = 0 produces their cusp edges. Numerically contin-
+from both channels (diffusive return and delayed cap-                                                                      uing two branches from the antipodal cusp pair toward
+ture). The fold thus annihilates the second arrival-time                                                                   the left endpoint and setting (X, B, T ) = (ξ/d, bd, τ /d2 )
+scale, not a single pure channel. (iii) Non-antipodal ro-                                                                  with d = θ gives
+bustness. The interior fold occurs off the reflection axis
+[Fig. 3(c)]: at θ = 0.38 (bc = 2.165) the interior peak                                                                         (Xc− , Bc− , Tc− ) −→ (0.758314, 2.868772, 0.0636296),
+is present at b = 1.5, marginal at b = 2.16 just below                                                                        (Xc+ , Bc+ , Tc+ ) −→ (1.424897, 1.085683, 0.207230),
+threshold, and absent at b = 2.8. (iv) Start dependence.
+                                                                                                                                                                                  (21)
+Releasing the walker away from the gate (ξ ̸= θ) removes
+                                                                                                                           where − and + denote starts on the boundary and do-
+the initial-time capture singularity, so both features can
+                                                                                                                           main sides of the gate, respectively. Reflection gives the
+become genuine interior peaks. For the fixed antipo-
+                                                                                                                           right-end laws. Arb interval Newton proves that the two
+dal gate θ = 1/2, their region is not the naive interval
+                                                                                                                           displayed neighborhoods each contain exactly one nonde-
+0 < b < bc : direct continuation of S1 = S2 = 0 gives two
+                                                                                                                           generate root of the arbitrary-start half-line cusp map; an
+branches
+                                                                                                                           independent Krawczyk implementation confirms both en-
+                            b− (ξ) < b < b+ (ξ),                     (θ = 1/2),                               (18)         closures. An analytic image-estimate argument (a proof
+                                                                                                                           sketch, not a quantitative certificate; App. D) supports
+inside which there are two maxima and one valley [Fig. 4].                                                                 mixed-control C 1 convergence of the finite-interval cusp
+For example, at (θ, ξ) = (1/2, 0.40) the folds are b− =                                                                    map on compact positive-T neighborhoods, and hence a
+1.8390559 and b+ = 3.8620786; direct signed-moment                                                                         unique nearby finite-interval cusp for sufficiently small
+roots give one, three, and one critical points at b =                                                                      d. Near ξ = θ = 1/2 the lower sheet is exponentially
+1.0, 2.5, 4.5, respectively. The two branches meet at the                                                                  small by (D15), while the upper sheet has the quartic
+rank-one cusp                                                                                                              law (D18). Continuation and multistart cutoff checks re-
+                                                                                                                           cover a two-sheet one–three–one topology at the reported
+                 (ξ∗ , b∗ , τ∗ ) = (0.3788069561, 5.8163021864,                                                            sections and resolution; they are not a proof of a globally
+                                                                                                              (19)
+                                           0.01607956718),                                                                 exhaustive (θ, ξ, b) surface.
+
+and its reflection 1 − ξ∗ . There S1 = S2 = S3 = 0,
+τ∗4 S4 /Φ = −5.07254, and
+                                                                                                                                                    B.     A direct stochastic realization
+                ∂(τ S1 /Φ, τ 2 S2 /Φ)
+                                     
+           det                           = 7.57313, (20)                                                                     Finally, the continuum fold is realized directly by
+                     ∂(log b, ξ)       ∗
+                                                                                                                           stochastic simulation. A continuum Brownian-dynamics
+with τ held fixed in the unfolding derivatives. At the re-                                                                 simulation of the delivery-gate protocol (Sec. VI B)—
+ported precision, the residual and nonzero margins iden-                                                                   Brownian motion on [0, 1] with absorbing ends and killing
+tify a nondegenerate cusp organizing the fixed-θ bimodal                                                                   at rate b/ℓ inside a narrow gate of width ℓ at θ, integrated
+wedge. More generally, regular roots with S3 ∂b S1 ̸= 0                                                                    by Euler–Maruyama with no lattice and no spectral in-
+form local smooth fold sheets; a rank-two unfolding at                                                                     put—reproduces both the exact δ-sink density and the
+                                                                                                                                                             8
+
+
+                                              Off-gate bimodality is a bounded cusp wedge
+                        6
+
+                                cusp
+                        5
+
+
+                        4
+
+
+
+
+      sink strength b
+                        3
+
+
+
+
+                                                                          ξ = θ: boundary mode
+                        2
+
+
+                        1      two interior maxima
+                               upper fold b + (ξ)
+                               lower fold b − (ξ)
+                        0
+                                 0.40                0.45               0.50               0.55                                            0.60
+                                                         start position ξ (gate at θ = 1/2)
+
+
+FIG. 4. Off-gate bimodality at θ = 1/2. Two fold branches enclose the region with two genuine interior maxima. They meet
+at the reflected cusp pair (19). At the source-started line ξ = θ, the lower branch tends to zero and the upper branch reaches
+bc = 3.0764324; the open marker distinguishes this boundary-feature limit from an off-gate two-interior-maximum fold.
+
+
+fold: released off the gate (ξ = 0.44), it shows two inte-                              A.            Finite-CTMC response identities and fold
+rior peaks inside the wedge (b = 2.5) and one above its                                                         classification
+upper fold (b = 3.8) [Fig. 5], matching the exact contin-
+uum Φ(τ ) to histogram precision. Because the simulation                   Let Q0 be a finite transient-state subgenerator in the
+contains none of the exact machinery (a finite gate that                 column-vector convention: it is Metzler, 1⊤ Q0 ≤ 0,
+only coarse-grains to the δ-sink, no lattice, no spectral                and A0 = −Q0 is a nonsingular M -matrix. Let p0 ≥
+decomposition), this confirms that the fold is a prop-                   0, 1⊤ p0 = 1, and let a⊤           ⊤
+                                                                                                   0 = −1 Q0 be the original
+erty of the physical process rather than of the solution                 absorption-rate row. A localized delivery channel of
+method—in particular, not a lattice artifact. The realiza-               rate b ≥ 0 at vertex u gives Qb = Q0 − beu e⊤    u and
+tion is stable at the resolution probed: halving the gate                ab = a0 + beu . Thus, without assuming reversibility,
+width and refining the Euler–Maruyama step leave the
+fold morphology unchanged and the late-peak location                                             fb (t) = a⊤
+                                                                                                           b e
+                                                                                                               Qb t
+                                                                                                                    p0 ,         R0 (s) = (sI − Q0 )−1 .   (22)
+stable within the histogram resolution—a resolution-level
+sensitivity check, not a precision extrapolation (App. E).               Sherman–Morrison gives the exact full-distribution re-
+                                                                         sponse for Re s ≥ 0,
+                                                                                                                             ⊤             ⊤
+                                                                                                                     bs [eu R0 (s)p0 ][1 R0 (s)eu ]
+                                                                                                 fbb (s) = fb0 (s) +                                .      (23)
+                                                                                                                           1 + be⊤u R0 (s)eu
+
+                                                                         For real s > 0, write αs = e⊤                    ⊤
+                                                                                                       u R0 (s)p0 , ηs = 1 R0 (s)eu ,
+   V.                   FINITE-NETWORK RESPONSE, FOLD                               ⊤
+                                                                         and ρs = eu R0 (s)eu . Positivity of the resolvent gives
+                         CLASSIFICATION, AND SCOPE
+                                                                                                                              sαs ηs
+                                                                                                              ∂b fbb (s) =               ≥ 0,
+                                                                                                                            (1 + bρs )2
+  We now separate the geometry-independent finite-
+                                                                                                                               2sαs ηs ρs
+network statements from the interval-specific phase di-                                                       ∂b2 fbb (s) = −             ≤ 0,
+agram, derive a controlled bottleneck-family law, and                                                                         (1 + bρs )3
+use fixed constructive topologies as controls without one-                                                                           sαs ηs
+                                                                                                                fb∞ (s) = fb0 (s) +         .              (24)
+dimensional order or translational symmetry.                                                                                           ρs
+                                                                                                                                                                                                                   9
+
+                                                                                    Independent continuum Brownian-dynamics realization
+
+
+                                                                      b = 2.5 (two interior peaks)                                                          b = 3.8 (one interior peak)
+                                                                 below upper fold b + (ξ = 0.44) ≃ 3.1366                                             above upper fold b + (ξ = 0.44) ≃ 3.1366
+                                                     10
+                                                                                              Brownian dynamics                              14                                        Brownian dynamics
+                                                                                              exact Φ(τ)                                                                               exact Φ(τ)
+                                                     8                                                                                       12
+
+                                                                                                                                             10
+
+
+                                       FPT density                                                                             FPT density
+                                                     6
+                                                                                                                                              8
+
+                                                     4                                                                                        6
+
+                                                                                                                                              4
+                                                     2
+                                                                                                                                              2
+
+                                                     0                                                                                        0
+                                                                        10−2                  10−1                                                           10−2                      10−1
+                                                                                    τ                                                                                    τ
+
+
+
+FIG. 5. Direct stochastic realization. A continuum Brownian-dynamics simulation of the delivery-gate protocol (6 × 104
+walkers, Euler–Maruyama, gate width ℓ = 0.02, θ = 12 , start ξ = 0.44; no lattice, no spectral input) reproduces the exact δ-sink
+density Φ(τ ) (red) and the upper fold: two interior peaks at b = 2.5 (left) and one at b = 3.8 (right), above both the δ-sink
+                                                       (ℓ)
+fold b+ = 3.13660 and the finite-gate (ℓ = 0.02) fold b+ = 3.07553 (App. E).
+
+
+                                                           Distributed slow bridge                                                                           Same conductance at βbr = βbr* /2
+                           1.4                                                                      /(   *
+                                                                                                 b + κbrβbr)                                 10−1
+                                                                                                 κbrtc/T *
+
+
+
+
+ratio to slow-core limit
+                           1.3
+
+
+
+                                                                                                                   scaled density f(t)/κbr
+                           1.2
+
+                           1.1                                                                                                               10−2      distributed slow-core limit
+                                                                                                                                                       distributed, κbr = 10−3
+                           1.0                                                                                                                         single-edge exponential limit
+                                                                                                                                                       single edge, κbr = 10−3
+
+                                 100                      10−1          10−2              10−3              10−4                                    10−1                     100                           101
+                                                                   bridge rate κbr                                                                                       scaled time T = κbrt
+
+FIG. 6. Controlled bottleneck family and conductance obstruction. (a) For a K8 –K8 barbell with five internal bridge vertices
+                                                                                                           ∗
+and all six bridge rates equal to κbr , full 21-state folds converge to the six-state slow-core constants βbr and T∗ . (b) At
+        ∗
+βbr = βbr /2, slowing the whole bridge (blue) leaves a boundary feature, valley, and late maximum in scaled time, whereas
+slowing only the bridge edge 9–10 (red) gives a monotone one-exponential limit. Solid curves are the projected limits and
+dashed curves are the full generators at κbr = 10−3 . For 0 < κbr ≤ 1, the two weighted graphs have the same marked vertices
+and exactly the same conductance C = κbr /10.
+
+
+Thus increasing the gate makes the completion time                                                                                           transfer signature. Define
+smaller in Laplace-transform order, with diminishing re-
+sponse and an explicit hard-gate limit. The first inequal-
+ity is strict whenever the gate is reachable from the initial
+                                                                                                                                                                                           
+                                                                                                                                                       T(s) = H0 , N , R = fb0 , sαs ηs , ρs ,
+support (then αs > 0, while ηs > 0 holds automatically                                                                                                                                                           (25)
+                                                                                                                                                                      bN
+by certain absorption from the gate). One baseline resol-                                                                                                fbb = H0 +        .
+vent therefore determines the entire rate-response curve,                                                                                                           1 + bR
+not only its first derivative.
+                                                                                                                                             Two marked finite chains with the same three functions
+                                                                                                                                             for all s > 0 therefore have the same total FPT law for
+                                                                                                                                             every b ≥ 0, and hence identical total-density morphol-
+             This dependence can be compressed into a marked                                                                                 ogy. Conversely, at a reachable gate the baseline and first
+                                                                                                                                          10
+
+two gate-rate derivatives recover the signature pointwise:                 where vj is Euclidean normalized. The principal rate is
+                                                                           strictly increasing for an irreducible reversible transient
+                                                ∂b2 fbb                    subgenerator. More generally, irreducibility and the Met-
+          N = ∂b fbb           ,       R=−                      .   (26)
+                        b=0                     2∂b fbb                    zler Perron–Frobenius theorem give positive left and right
+                                                          b=0
+                                                                           eigenvectors ℓ, r for the simple spectral bound α(b) of Qb .
+This is a sufficient observable equivalence, not a minimal                 Hence µ1 = −α obeys
+realization or generator-reconstruction theorem. It does
+not by itself determine the channel split, which addition-                                         dµ1  ℓu ru
+                                                                                                       = ⊤ > 0,                         (31)
+ally needs the start-to-gate factor αs (App. A).                                                    db   ℓ r
+   At A0 = −Q0 , the same identity yields                                  without detailed balance. Standard spectral interlac-
+                         b[1 A−1   ⊤    ⊤ −1                               ing and phase-type representations are established back-
+                                0 eu ][eu A0 p0 ]
+            Mb = M0 −                   −1        ,                        ground [25]; the new use here is to classify a localized-
+                             1 + be⊤u A0 eu                                delivery morphology fold and its required signed can-
+                           −1
+                     be⊤
+                       u A0 p 0                                            cellation. The matrix identity and generic fold nor-
+          πu (b) =          −1    .                                 (27)
+                   1 + be⊤
+                         u A0 e u
+                                                                           mal form are standard ingredients; the new content is
+                                                                           their localized-killing specialization, the transform-order
+Hence the mean is nonincreasing, the delivery-channel                      and graph-distance laws, the signed-mode morphology
+probability is nondecreasing, and both remain analytic                     bound, and their connection to the exact interval so-
+for finite b; both inequalities are strict when the gate is                lution and its numerically continued geometry-resolved
+reachable from supp p0 (App. A). The survival probabil-                    morphology diagram.
+ity is pointwise nonincreasing in b.
+   There is also a geometry-explicit small-rate existence
+statement. Start at the gate and let K = supp a0 be                                   B.   Marked slow–fast fold transfer
+the vertices with an original absorption rate. Draw the
+directed transient edge j → i when (Q0 )ij > 0. If the                        The barbell reduction below is a corollary of a
+shortest directed distance from u to K is at least two,                    finite-dimensional marked singular-perturbation state-
+then fb (0) = b and fb′ (0) = b(Q0 )uu − b2 < 0, whereas                   ment. Let b = ερ and let B ⋐ [0, ∞) have an open
+f0 (t) = Ctd + O(td+1 ) for the shortest distance d ≥ 2                    real neighborhood on which the following Cρ1 expansions
+and some C > 0. Put γu = −(Q0 )uu > 0 and Ad =                             hold uniformly:
+[γu /(dC)]1/(d−1) . The first positive critical point is a
+strict local valley with                                                     Qε,ερ = QF + εAρ + OCρ1 (ε2 ),        Aρ = QS − ρK,
+                    1/(d−1)
+       tv = Ad b              [1 + o(1)],                                    aT       T     T          2
+                                                                              ε,ερ = aF + εcρ + OCρ1 (ε ),         cT    T     T
+                                                                                                                    ρ = aS + ρk . (32)
+                   d−1                                         
+   fb (tv ) = b −       γu Ad bd/(d−1) + o bd/(d−1) . (28)                 For sufficiently small ε > 0, assume that Qε,ερ is a tran-
+                     d                                                     sient Metzler subgenerator, aT   ε,ερ ≥ 0 is the observed
+A later finite-time maximum must follow. Unit-rate                         absorption-channel row, and pε,ερ ≥ 0 has unit mass.
+paths at distances d = 2, 3, 4 independently recover the                   Assume that zero is a semisimple eigenvalue of QF , the
+predicted time exponents 1, 1/2, 1/3, leading coefficients,                rest of its spectrum obeys Re λ ≤ −γ < 0, and P = V W T
+and valley depths (App. A). This generalizes the source-                   with W T V = I. Let G = Q#           F use the convention
+started two-feature mechanism; it does not assert unique-                  QF G = GQF = I − P , GP = P G = 0, and assume
+ness of every positive critical point or a globally con-                   aTF P = 0 and pε,ερ = p0 + OCρ1 (ε). Define the marked-
+nected parameter window.
+                                                                           channel density fε,ερ (t) = aTε,ερ e
+                                                                                                               Qε,ερ t
+                                                                                                                       pε,ερ . The correct
+   For a finite CTMC whose rates are C 3 in b, f is C 3
+                                                                           marked slow realization is
+jointly in (t, b) (and analytic when the rates are analytic,
+as for Qb above). Consequently any interior point with                                Q̄ρ = W T Aρ V,               p̄ = W T p0 ,
+tc > 0 and bc > 0 satisfying                                                                                                            (33)
+                                                                                      āT    T      T
+                                                                                        ρ = cρ V − aF GAρ V.
+          ft = ftt = 0,            fttt ̸= 0,        ftb ̸= 0       (29)
+                                                                           The Drazin term is essential: it converts O(ε) leakage
+has the local fold powers 1/2 and 3/2 on the parameter                     from a slow class into target current through a stable
+side selected by the derivative signs (App. A), whether or                 fast block, and is missed by naive projection of a channel-
+not the chain is reversible. If Q0 Π = ΠQ⊤ 0 for a positive                specific absorption row.
+reversible measure Π = diag(π), however, then Hb =                            If Q̄ρ is uniformly transient, put gε,ρ (T ) =
+−Π−1/2 Qb Π1/2 = H0 + beu e⊤    u is real symmetric. The                   ε−1 fε,ερ (T /ε) and ḡρ (T ) = āT
+                                                                                                             ρe
+                                                                                                               Q̄ρ T
+                                                                                                                     p̄. On every [T0 , T1 ]×
+FPT density is a real signed exponential sum, the mode-                    B with T0 > 0 and compact B,
+count theorem of Sec. III D applies, and every simple
+eigenbranch obeys                                                                     max ∥∂Tj (gε,ρ − ḡρ )∥∞
+                                                                                     0≤j≤3
+                       dµj                                                                                                              (34)
+                           = |vj⊤ eu |2 ≥ 0;                        (30)                + max ∥∂ρ ∂Tj (gε,ρ − ḡρ )∥∞ = O(ε).
+                        db                                                                 0≤j≤2
+                                                                                                                                  11
+
+Consequently every reduced fold at an interior physical            K8 –K8 barbell of Fig. 6, with five internal bridge vertices,
+point (T∗ , ρ∗ ) ∈ (T0 , T1 ) × int B satisfying                   but assign rate κbr to every bridge edge and unit rate in-
+                                                                   side each clique. The target is a nonconnector vertex of
+              ḡT = ḡT T = 0,      ḡT T T ḡT ρ ̸= 0     (35)    the left clique, while the gate and start are nonconnec-
+                                                                   tor vertices of the right clique. Set b = κbr βbr , T = κbr t,
+continues uniquely in a fixed neighborhood, with                   and gκbr ,βbr (T ) = κ−1
+                                                                                         br fκbr ,κbr βbr (T /κbr ). Fast clique mix-
+                                             T∗                    ing projects the family onto an explicit six-state killed
+      bc (ε) = ερ∗ + O(ε2 ),      tc (ε) =      + O(1).    (36)    birth–death core with density gβbr (T ) (App. A 1). Equa-
+                                             ε                     tion (34) gives, on T ∈ [T0 , T1 ], T0 > 0, and βbr ∈ B ⋐
+For total FPT absorption, normalization of the slow basis          [0, ∞),
+gives simply āT        T
+                ρ = −1 Q̄ρ . The proof and the channel-
+specific correction are in App. A 1.                                       ∂Tj (gκbr ,βbr − gβbr ) = O(κbr ),    0 ≤ j ≤ 3,
+                                                                                                                                (40)
+  For conservative transient fast modules Ci , 1 ≤ i ≤ d,              ∂βbr ∂Tj (gκbr ,βbr − gβbr ) = O(κbr ),   0 ≤ j ≤ 2.
+with stationary columns πi , the quotient rates are
+                                                                   Thus the two-component fold map converges in
+                     (Q̄0 )ji = 1T
+                                 Cj QS πi ,                (37)    C 1 (T, βbr ). Arb interval Newton proves that the pro-
+                                                                   jected core has exactly one fold in the box centered
+                                                                         ∗
+and a gate at u ∈ Ci contributes its equilibrium weight            at βbr    = 0.3739020552 and T∗ = 3.4064806393, with
+                                                                      −12
+πi (u)ei eT  i to the reduced killing. To state a graph-scale      10       and 10−11 half-widths, respectively. On that
+corollary, restore the absorbing target vertices and their         box gT T T < 0, gT βbr < 0, and the fold-map deter-
+undirected incident edges. Let B0 , . . . , Bd partition this      minant lies in [−6.286204, −6.286203] × 10−6 ; an inde-
+underlying unkilled full symmetric graph, where B0 con-            pendent Krawczyk enclosure gives the same unique root
+tains the target and its stable fast basin and Bi = Ci for         (App. A 1). The implicit-function theorem then gives the
+i ≥ 1. Assume that every block is internally connected             full-family scaling law
+by edges whose spanning-tree weights are bounded be-                                                               T∗
+                                                                                     ∗
+low independently of ε, that cross-block weights are                b+ (κbr ) = κbr βbr + O(κ2br ),       tc (κbr ) = + O(1).
+εcxy + O(ε2 ), and that the first-order block graph is                                                            κbr
+                                 Pd                 P                                                                     (41)
+connected. P      Put Nfull =      i=0 |Bi |, nI =    i∈I |Bi |,   At κbr = 1 this continuation recovers the fixed-barbell
+and Cij =                    c
+                   x∈Bi ,y∈Bj xy .  Let I    = {I : ∅ ̸= I ⊂       fold (b+ , tc ) = (0.3585690910, 4.835283605); down to
+{0, . . . , d}, nI ≤ Nfull /2}. The directed delivery/killing      κbr = 10−4 the two scaled errors have fitted orders 0.994
+mark is not included in the undirected full-graph con-             and 1.001 using κbr ≤ 0.02 [Fig. 6(a)].
+ductance, which satisfies                                             Let C = min0<|S|≤10 w(S, S c )/|S| be the conductance
+                                                                   of the full 21-vertex weighted graph. For 0 < κbr ≤
+               C(ε) = εC¯ + O(ε2 ),                                1, the distributed family has CD = κbr /10, so b+ =
+                                                                                              2
+                                                                   3.7390205521 CD + O(CD        ) and CD tc → 0.3406480639.
+                           P
+                                   ∈I Cij
+                             i∈I,j /
+                  C¯ = min                > 0.             (38)    Conductance does not, however, determine the limiting
+                       I∈I      nI
+                                                                   morphology on this scale. Keep the same graph and
+Thus a quotient fold obeys                                         marked vertices but slow only the single bridge edge 9–10
+                                                                   (in the vertex labeling of App. A), leaving the other five
+                 ρ∗                           ¯ ∗.
+            bc = ¯ C + O(C 2 ),        Ctc −→ CT           (39)    at rate one. This family has exactly the same conduc-
+                 C                                                 tance, while its scaled slow limit is
+The slow aggregation itself is standard in singularly per-                                 κbr
+turbed finite Markov chains [34, 35]. The use here is the                     CS = CD =        ,
+                                                                                           10
+marked target-current correction, the mixed-derivative                                     1 + βbr
+                                                                                                       
+                                                                                                          1 + βbr
+                                                                                                                         (42)
+FPT-morphology transfer, and its fold/conductance                              hβbr (T ) =          exp −         T .
+                                                                                             11              11
+corollary. Conductance supplies a scale; the complete
+marked quotient selects (ρ∗ , T∗ ) and determines whether          Since h′βbr (T ) < 0, uniform mixed-derivative convergence
+a fold exists. Equations (34)–(39) are local to fixed fi-          excludes a finite nondegenerate fold on any T ∈ [T0 , T1 ],
+nite dimension, a uniform fast gap, and compact positive           T0 > 0, and βbr ∈ B ⋐ [0, ∞) for sufficiently small
+scaled-time/control windows; they make no global fold-             κbr . This does not exclude a fold escaping to T = 0,
+uniqueness or growing-network claim.                               T = ∞, βbr = ∞, or another joint scaling. Thus conduc-
+                                                                   tance does not determine the conductance-scaled limiting
+                                                                   morphology; a marked slow realization, or the complete
+ C.     Controlled bottleneck corollary and topology               rescaled marked transfer functions on s > 0, is sufficient
+                        controls                                   to determine that morphology.
+                                                                     The remaining graphs are controls rather than preva-
+  Fixed examples establish existence but do not identify           lence claims. Unit-rate tree and wall-grid generators re-
+a network-family scale. We therefore keep the marked               tain nondegenerate folds and the analytic normal-form
+                                                                                                                            12
+
+prefactors; uniformization agrees with their spectral den-      while the finite-time diffusive peak inherited from b = 0
+sities to 6 × 10−16 . A complete graph has only two             persists through 0 ≤ b < bc (θ) and is annihilated at the
+contributing rates and cannot form a max–min–max se-            upper fold; for 0 < b < bc it coexists with the boundary
+quence. Adding finite circulation to the barbell produces       feature and a valley. With a gate at the antipode and
+complex transient modes yet retains its fold. Exact def-        release away from that gate, two genuine most-probable
+initions, fold coordinates, and diagnostics are in App. A       times instead occur only inside the bounded wedge (18).
+and Table II.                                                   This protocol distinction is essential: the shortcut cre-
+                                                                ates the early interior maximum off the gate, whereas it
+                                                                destroys the inherited late maximum at the upper fold.
+                      D.   Robustness
+
+   The fold persists under sufficiently small smooth per-                            B.   Realizations
+turbations that preserve fttt ̸= 0 and ftb ̸= 0: to first
+order δbc = −(∂ε ft /∂b ft ) δε for a perturbation ε (equiva-      The cleanest realization is a feedback-controlled col-
+lently the S3 , ∂b S1 form in the real-modal interval prob-     loidal or active-particle search: a narrow gate at x = θL
+lem). By this criterion it is expected to survive weak          (optical tweezers, a microfluidic pulse, or active-particle
+hop-rate disorder (which can even help, by lifting acci-        feedback) that, upon entry, occasionally delivers the par-
+dental dark modes); it demonstrably survives small shifts       ticle to the target and ends the trial; the controlled
+of the source or start (Sec. IV A), and the hop probabil-       parameter is the local trigger rate κtrig —equivalently
+ity q is already scaled out of the diffusive-limit reduced      the dimensionless gate strength b = κtrig ℓL/(2D) (in a
+threshold and reduced fold time (the raw step time obeys        frame-based implementation, κtrig is the per-frame trig-
+tc ∼ N 2 τc /q). Moving a source toward an absorbing            ger probability divided by the frame time). A source-
+end instead pushes the fold to bc ∼ B ∗ /d → ∞ and              started scan near θ ≃ 0.38 minimizes the trigger strength
+τc ∼ c∗ d2 → 0; only at the endpoint itself does the            needed to observe loss of the inherited finite-time peak.
+interior gate model degenerate. Recall that at ξ = θ            For a bona fide two-interior-maximum measurement, the
+the shortcut-capture feature is a boundary/initial-time         Brownian protocol instead uses (θ, ξ) = (1/2, 0.44), for
+contribution, so the interior fold concerns the finite-time     which b− = 1.42 × 10−6 and b+ = 3.13660.
+interior peak; moving the start off the gate turns the             The       fixed-window           observable    is   R     =
+capture feature into an interior peak in its own right          ⟨Φ⟩[0.8τp ,1.2τp ] /⟨Φ⟩[0.8τv ,1.2τv ] , with reference centers
+(Sec. IV A).                                                    (τp , τv ) = (0.0462, 0.0253). Using the same window
+                                                                integrals for data and theory gives Rc = 0.969955 at
+                                                                the upper fold (not unity and not the center-point value
+       VI. PHYSICAL REALIZATION AND                             0.9785), with dR/db = −0.08839. The fold-window
+          SPECTRAL INTERPRETATION                               probabilities are p = 0.104529 and v = 0.059015; for two
+                                                                disjoint multinomial bins, Var(R) = R2 (p−1 + v −1 )/Nt .
+                      A.   Embedding                            Thus approximately 5.1 × 104 delivery-and-terminate
+                                                                trials give one-standard-deviation precision ±0.25 in b+ ,
+   Physically the shortcut is a localized target-delivery       and 3.2 × 105 give ±0.1 (a nominal 95% interval requires
+channel. From p′ (t) = Q0 p − b |u⟩⟨u| p the absorption         about 3.84 times as many). An independent determin-
+current splits as f (t) = f∂ (t) + b pu (t), where f∂ is the    istic rectangular-gate calculation gives, for ℓ = 0.02,
+                                                                                   (ℓ)                       (ℓ)
+boundary-absorption flux of the defected density p (not         its own fold b+ = 3.07553 and Rc = 0.970000; three
+the b = 0 current): while the searcher is at u it is irre-                                               (0)
+                                                                gate widths extrapolate to b+ = 3.13657, agreeing
+versibly delivered to the target at rate b. In the survival     with the δ-sink limit (App. E). A Brownian bead
+sector this is a local killing term −b |u⟩⟨u|, not a trans-     initialized by an optical trap has already resolved
+port edge, and a finite gate of physical width ℓ with local     the distinct initial-ensemble FPT-density transition of
+trigger rate κtrig coarse-grains to a δ-sink. Restoring di-     Ref. [13], supporting the feasibility of shape-resolved
+mensions with domain length L and diffusion constant            measurements. The same holographic-tweezer/feedback
+D in the standard convention ⟨X 2 ⟩ = 2Dt [the reduced          stack that realizes controlled first-passage and resetting
+equation (5) has unit variance rate, so τ = 2Dt/L2 , i.e.       experiments [31] can implement the delivery gate. We
+t = L2 τ /(2D)], the dimensionless sink strength is             caution that standard resetting-to-origin [31, 32] is not
+                      κtrig ℓ L                                 this problem: it reinjects probability into the survival
+                b =                (ℓ ≪ L),             (43)    domain, whereas the correct protocol is delivery-and-
+                        2D
+                                                                terminate—a gated detection that separates delivery
+so a laboratory quadruple (κtrig , ℓ, L, D) maps to a def-      times from bare first-passage times [26]. Engineered
+inite b; the smallest threshold bc (0.38) ≃ 2.165 corre-        one-way transport links are a secondary interpretation
+sponds to a trigger rate κtrig ≃ 4.3 D/(ℓL) at a gate           only when arrival terminates the trial. If traversal has a
+placed at x ≃ 0.38 L. For source-started release, local-        narrow nonzero delay law hdelay , the observable becomes
+ized delivery adds the short-time capture contribution          f = f∂ + fsc ∗ hdelay ; this is a smooth perturbation, so a
+                                                                                                                        13
+
+nondegenerate fold persists for sufficiently small delay by     the total law for all gate rates, although channel resolu-
+the implicit-function theorem. Broad or state-dependent         tion needs one additional factor. Graph distance fixes the
+delays require a new model and are not covered by the           small-rate valley exponent and coefficient for release at
+present threshold.                                              the gate, while any nondegenerate interior collision has
+                                                                the same local fold powers. The general marked slow–fast
+                                                                theorem identifies the Drazin target-current correction
+          C.   Self-adjoint survival dynamics                   missed by naive aggregation and transfers the full fold
+                                                                map in the mixed derivatives it requires. For fixed mod-
+   The transient operator Pλ is real symmetric and there-       ular graphs, conductance fixes the asymptotic scale but
+fore self-adjoint, although it is sub-stochastic because        the complete marked quotient selects whether a fold ex-
+probability is lost to the target. It should not be de-         ists. The controlled slow-bridge corollary has upper-fold
+scribed as a non-Hermitian spectral system: the direct-         strength linear in the bottleneck rate and inverse-linear
+edness enters the one-way absorption vector, not the            fold time, with constants selected by an interval-certified
+survival-sector eigenproblem. Consistently, the eigenval-       six-state slow core. An exactly equal-conductance family
+ues remain real, simple, and smooth through bc in the           has instead a monotone one-exponential slow limit. Thus
+finite lattice, and the continuum δ-sink is a self-adjoint      the family result is an existence and scaling theorem,
+Sturm–Liouville operator; Eq. (17) makes the lowest af-         while also proving that scalar conductance alone cannot
+fected eigenvalue strictly monotone, while Eq. (15) makes       predict the conductance-scaled limiting morphology; the
+the smoothness of the mean explicit. The square-root law        fixed tree, wall-grid, complete-graph, and circulation ex-
+in (14) is thus the splitting of critical times of the scalar   amples remain topology and reversibility controls.
+density Φ(τ ; b), caused by cancellation among signed              Together, the two numerically continued branches ap-
+residues, and not an eigenvalue coalescence or exceptional      proaching locally unique interval-certified endpoint cusps
+point.                                                          and the same-conductance counterexample illustrate the
+                                                                relevant geometry beyond local fold universality: a
+                                                                boundary-layer transfer function controls the interval
+                  VII.    DISCUSSION                            endpoint, whereas a marked slow realization, or the com-
+                                                                plete rescaled marked transfer functions on s > 0, is suf-
+   The central result is a quantitative classification of a     ficient to determine the scaled network morphology.
+localized-delivery transition, not the first observation of        Beyond the results proved analytically or computa-
+FPT bimodality or of a Brownian FPT-density morphol-            tionally validated within the stated scopes, the analy-
+ogy transition [13], and not the generic fact that criti-       sis leaves a small set of open questions. A fully rigor-
+cal points can meet in a fold. Under source-started re-         ous N → ∞ statement requires, in addition to the stan-
+lease, the boundary capture feature, valley, and inher-         dard convergence of fixed-mode residues (App. C), uni-
+ited finite-time peak coexist on the single resolved inter-     form C 1 convergence of the moment sums S1,2,3 near the
+val 0 < b < bc (θ); the valley–peak pair is lost through        fold; we state the precise hypotheses and support them
+S1 = S2 = 0 with the (1/2, 3/2) fold powers, whereas at         by the observed O(N −2 ) convergence, but do not prove
+b = 0 the lone Dirichlet peak remains. For off-gate release     uniform C 1 control of the tail. The marked slow–fast
+at fixed θ = 1/2, two genuine interior maxima occupy            theorem is fixed-dimensional and assumes a uniform fast
+the numerically continued bounded two-fold wedge (18);          gap; growing networks, gap collapse, and global topology-
+both branches are continued to the reflected nondegen-          dependent windows remain open. Likewise, the two cer-
+erate cusp pair (19). The residue sign-variation bound          tified half-line cusp boxes do not exclude other roots or
+raises the minimum complexity of any finite real-modal          prove that the numerically continued (θ, ξ, b) sheets are
+representation from three modes at the source-started           globally exhaustive. The source-start endpoint constant
+fold to four for bona fide off-gate bimodality. At the same     is fixed by an explicit boundary-layer integral [Eq. (D8)],
+time the exact MFPT (15) and every simple relaxation            B ∗ = 0.7890262, and confirmed independently to six dig-
+eigenvalue remain smooth, making explicit that the mor-         its, though neither it nor the antipodal bc is known in
+phological bifurcation belongs to the full law rather than      elementary closed form. None of these affects the exact
+the generator. Direct Monte Carlo, channel decomposi-           finite-system results.
+tion, finite-width discretization, and Brownian dynamics
+test these statements without relying on one numerical
+representation.
+   The finite-network result identifies which conclusions
+survive beyond the interval: localized killing changes the                     ACKNOWLEDGMENTS
+complete Laplace transform by a linear-fractional rank-
+one response. It orders completion times in Laplace-
+transform order with diminishing returns, decreases sur-          We thank colleagues at the School of Engineering
+vival and the mean, and increases delivery-channel mass.        Mathematics and Technology, University of Bristol, for
+The three-function marked transfer signature determines         discussions.
+                                                                                                                                14
+
+                 DATA AVAILABILITY                                 be the shortest directed distance from u to K = supp a0 .
+                                                                   Write gb (t) = a⊤
+                                                                                   0e
+                                                                                      Qb t
+                                                                                           eu and hb (t) = e⊤
+                                                                                                            ue
+                                                                                                               Qb t
+                                                                                                                    eu , so fb =
+   The deterministic code and numerical data required to           gb + bhb . The exponential series, the distance condition,
+reproduce the figures and quoted numerical values are              and one Duhamel insertion give, uniformly near (t, b) =
+available from the author upon reasonable request, and             (0, 0),
+will accompany the published article as a public, ver-                                                         a⊤   d
+                                                                                                                0 Q0 eu
+sioned archive.                                                      gb (t) = Ctd + O(td+1 + btd+1 ),      C=           > 0,
+                                                                                                                  d!
+                                                                     hb (t) = 1 − (γu + b)t + O(t2 ),     γu = −(Q0 )uu > 0.
+      Appendix A: Finite-network identities and                                                                          (A5)
+                constructive graphs                                Consequently
+                                                                           fb′ (t) = −γu b + dCtd−1 + O(b2 + bt + td ),
+  Let Rb (s) = (sI − Qb )−1 . Rank-one inversion gives
+                                                                          fb′′ (t) = d(d − 1)Ctd−2 + O(b + td−1 ).            (A6)
+                            bR0 eu e⊤
+                                    u R0
+                 Rb = R0 −               .                (A1)     Let r = b1/(d−1) and t = rx. Uniformly for x in compact
+                           1 + be⊤u 0 eu
+                                    R
+                                                                   sets, fb′ (rx)/b → −γu + dCxd−1 . Its unique positive root
+                                                                   is Ad = [γu /(dC)]1/(d−1) ; Eq. (A6) excludes an earlier
+Because certain absorption implies fbb (s) = 1 −
+                                                                   root and makes the root near Ad r a strict valley. Also
+s1⊤ Rb (s)p0 , substitution proves Eq. (23). For real                                                                 
+s > 0, an inverse M -matrix has nonnegative entries, so              fb (rx) = b + bd/(d−1) (−γu x + Cxd ) + o bd/(d−1) , (A7)
+αs , ηs , ρs are nonnegative and ρs > 0. Differentiating
+fbb = fb0 + sαs ηs b/(1 + bρs ) and taking b → ∞ proves            which at x = Ad proves Eq. (28). Since the density is
+Eq. (24). It also proves Eq. (25); equality of the three an-       increasing just after that valley but ultimately decays
+alytic transfer functions makes the total transform iden-          to zero, a later maximum exists. This proves the local
+tical for every b, and uniqueness of Laplace transforms            small-rate law, not uniqueness or global connectivity of
+gives equality of the finite-chain phase-type densities for        the full parameter window.
+t > 0. Differentiating at b = 0 proves Eq. (26) whenever             As a coefficient-level control, take the unit-rate undi-
+sαs ηs > 0.                                                        rected path 0 − −1 − − · · · − −d, give vertex 0 an original
+   To expose the channel information not retained by T,            absorption rate one, and start at the gate u = d. Then
+split the density into the new gate channel and the old            C = 1/d!, γu = 1, and
+absorption channels. Rank-one inversion gives
+                                                                                     tv ∼ [(d − 1)! b]1/(d−1) .               (A8)
+                              bαs                                                                        −9              −5
+                                                                   Direct roots for d = 2, 3, 4 over 10 ≤ b ≤ 10 give fit-
+              fbg,b (s) =           ,
+                           1 + bρs                                 ted exponents 1.000001, 0.500069, and 0.333661, respec-
+                                     b(1 − sηs )αs                 tively; the generated record also tests the leading time
+              fbo,b (s) = fb0 (s) −                .      (A2)     coefficient and the valley-depth coefficient in Eq. (28).
+                                        1 + bρs
+                                                                      At a nondegenerate finite positive-time interior fold,
+Their sum is Eq. (23), but their split requires αs sep-            write x = t − tc and ε = b − bc . Taylor expansion under
+arately from the product sαs ηs . At s = 0, fbb (0) = 1            Eq. (29) gives
+while the gate-channel probability can still vary with b.                      ft = ftb ε + 21 fttt x2 + o(|ε| + x2 ).        (A9)
+Setting s = 0 in the corresponding fundamental matrix
+proves Eq. (27). With c = e⊤     −1         ⊤ −1
+                             u A0 p0 , h = 1 A0 eu , and
+                                                                   The two critical branches exist on the side −2ftb ε/fttt >
+      ⊤ −1
+ρ = eu A0 eu , differentiation gives                               0, with x± ∼ ±[−2ftb ε/fttt ]1/2 . Their gap and absolute
+                                                                   prominence therefore have leading coefficients
+   dMb       hc                    dπu          c                                                √
+       =−           ≤ 0,                  =               ≥ 0.          p                 1/2   4 2 |ftb |3/2 3/2
+    db    (1 + bρ)2                 db      (1 + bρ)2                  2 2|ftb /fttt | |ε| ,                   |ε| ,   (A10)
+                                                            (A3)                                  3 |fttt |1/2
+They are strict when c > 0, equivalently when u is                 respectively. No spectral assumption is needed for this
+reachable from supp p0 in the column-convention tran-              local statement. Under detailed balance, Q0 Π = ΠQ⊤     0
+sient graph. More strongly, Duhamel’s formula yields               for Π = diag(π) > 0, symmetrization instead gives
+                    Z t                                            Hb = −Π−1/2 Qb Π1/2 = H0 + beu e⊤     u . The Hellmann–
+                                                                   Feynman identity is Eq. (30); irreducibility makes the
+ ∂b 1⊤ eQb t p0 = −     (1⊤ eQb (t−s) eu )(e⊤  Qb s
+              
+                                            ue      p0 ) ds ≤ 0,
+                       0                                           principal eigenvector strictly nonzero at u, so its in-
+                                                    (A4)           equality is strict. Without detailed balance, the spectral
+since a finite sub-Markov semigroup is entrywise nonneg-           bound α(b) of an irreducible Metzler Qb remains a simple
+ative.                                                             real eigenvalue with positive left and right eigenvectors.
+   For the small-b statement of Sec. V A, take p0 = eu ,           Differentiating ℓ⊤ Qb r = αℓ⊤ r and using ∂b Qb = −eu e⊤u
+draw the directed edge j → i when (Q0 )ij > 0, and let d           proves Eq. (31).
+                                                                                                                             15
+
+
+TABLE II. Machine-gated numerical evidence (this work). “Arb local theorem” denotes interval-certified existence and unique-
+ness inside the displayed box. Regression, continuation, asymptotic-stress, and simulation rows test formulas or implementations
+but are not proofs of universal statements.
+
+Quantity                                                              Agreement                      Evidence class
+δ-sink jump = Dθ [Eq. (6)]                                            < 6 × 10−14                    deterministic regression
+I, J vs. 50-digit quadrature [Eqs. (C4),(C5)]                         < 3 × 10−16                    independent quadrature
+Identity J = sin(k)Dk /4b [Eq. (C6)]                                  < 6 × 10−15                    deterministic regression
+Master curve vs. exact residues (N = 1200)                            ≲ 8 × 10−5                     finite-size convergence
+bc,N → bc , exact integer-time fold (N = 100–1200)                    N −2.0013                      finite-size convergence
+Branch nondegeneracy, θ ∈ [0.2, 0.5]                                  margins > 0.126                numerical continuation
+Endpoint bc ·θ → B ∗ (indep., θ ∈ [0.2, 0.27])                        0.789026                       boundary-layer      conver-
+                                                                                                     gence
+B ∗ : half-line (D8) vs. bisection                                    10−6                           independent root solve
+                                                                      2.69, 0.500
+Half-line fold: third/unfolding margins and Jacobian                  1.69 × 103                     high-precision root
+Fold prefactors: analytic (D5) vs. measured                           ≲ 2 × 10−4                     local-scaling regression
+Finite-N MFPT and πsc vs. Eqs. (15),(16)                              < 6.2 × 10−14                  exact finite-system regres-
+                                                                                                     sion
+Antipodal finite-interval cusp residual and margins                   < 1.4 × 10−11 ; nonzero        high-precision root
+Two endpoint-cusp boxes                                               unique; nondegenerate          Arb local theorem
+              (ℓ=.02)
+Finite gate Rc        vs. δ-sink Rc                                   4.5 × 10−5                     discretization convergence
+Slow-core fold errors: b+ /κbr and κbr tc                             κ0.994
+                                                                       br    , κ1.001
+                                                                                br                   family convergence
+Slow-core interval certificate [Eq. (A20)]                            unique; det J < 0              Arb local theorem
+Same-conductance full vs. projected densities (κbr = 10−3 ,           1.6 × 10−4 , 2.7 × 10−3        slow-limit convergence
+        ∗
+βbr = βbr /2; D,S)
+Random finite-CTMC response/channel/moment identities                 ≤ 8.9 × 10−16                  randomized stress
+(24 chains)
+Transfer-signature recovery; hard-gate remainder                      ≤ 2.91 × 10−9 ; order          finite-
+                                                                      0.9999                         difference/asymptotic
+                                                                                                     stress
+Hellmann–Feynman/Perron rate derivatives (30 chains)                  ≤ 3.3 × 10−9 , 1.3 ×           randomized stress
+                                                                      10−9
+Marked slow–fast sampled-grid CT3 /Cρ CT2 errors (three syn-          min.            orders         asymptotic stress; no fold
+thetic families)                                                      1.002, 0.999
+Drazin target current; modular quotient rates                         0, 2.3 × 10−16                 algebraic/numerical stress
+Modular conductance (three families; all cuts enumerated)             block-union minima;            constructive cut check
+                                                                      order 1.000
+Two-/three-mode algebra (466 accepted separated-rate draws)           det. > 0.102; residual         constructive check
+                                                                      < 7.2 × 10−15
+Fixed-network fold, path, uniformization, and circulation con-        ≤ 1.4 × 10−3                   constructive controls
+trols
+MC πsc vs. exact (4 × 105 walkers)                                    0.6 × 10−3                     simulation
+
+
+
+   1.   Marked slow–fast reduction and controlled                 A fixed Riesz contour around zero defines a uniformly
+                  bridge corollary                                separated perturbed slow projection. Biorthogonal right
+                                                                  and left bases of its range have the expansions
+
+   We first prove Eqs. (34)–(36). Let B ⋐ [0, ∞) and take                  Vε,ρ = V − εGAρ V + OCρ1 (ε2 ),
+all remainders and their first ρ derivatives uniformly on a                T
+neighborhood of B. Choose the zero-mode bases so that                     Wε,ρ = W T − εW T Aρ G + OCρ1 (ε2 ).            (A12)
+
+                                                                  Indeed, QF (−GAρ V ) = −(I −P )Aρ V , and the analogous
+                                     T                            left identity holds. Therefore, with
+                QF V = 0,      W QF = 0,
+                  T
+                                                       (A11)                                  T
+                W V = I,                 P = V W T.                                   Mε,ρ = Wε,ρ Qε,ερ Vε,ρ ,            (A13)
+                                                                                                                            16
+
+one has                                                         a union of blocks for sufficiently small ε, and taking the
+                                                                minimum term by term proves Eq. (38); Eq. (39) then
+                   ε−1 Mε,ρ = Q̄ρ + OCρ1 (ε).          (A14)    follows from Eq. (36). Without first-order block connec-
+                                                                tivity the leading conductance can be smaller than O(ε).
+  The current must be reduced to the same order. Using          This proof also does not cover a closing internal gap,
+aT
+ F P = 0 gives                                                  changing state dimension, noncompact (T, ρ) limits, or a
+                                                                nonreversible conductance definition.
+    ε−1 aT
+         ε,ερ Vε,ρ = ε
+                      −1
+                         (aT     T      2
+                           F + εcρ + O(ε ))                        a. Controlled bridge corollary. For the dis-
+                          × (V − εGAρ V + O(ε2 ))               tributed family of Sec. V C, order the slow states
+                                                                as R, z5 , z4 , . . . , z1 , where R is the rapidly mixed right
+                    = cT      T
+                       ρ V − aF GAρ V + OCρ1 (ε).      (A15)    clique and z1 is adjacent to the left clique. Projection
+        T
+                                                                onto the slow states, followed by elimination of the
+Also Wε,ρ pε,ερ = p̄ + OCρ1 (ε). The slow semigroup is          stable left block for the target current, gives
+exactly
+                                                                                     1 + βbr      1
+          eQε,ερ T /ε Pε,ρ = Vε,ρ e(Mε,ρ /ε)T Wε,ρ
+                                               T
+                                                   .   (A16)           Q̄βbr eR = −          eR + ez5 ,
+                                                                                        8         8
+                                                                       Q̄βbr ez5 = eR − 2ez5 + ez4 ,
+The complementary spectrum remains in Re z ≤ −γ/2.
+After every derivative appearing in Eq. (34), its contribu-            Q̄βbr ezj = ezj+1 − 2ezj + ezj−1 ,   1 < j < 5,
+tion is bounded by a polynomial in 1/ε times e−cT /ε and               Q̄βbr ez1 = ez2 − 2ez1 ,
+is uniformly negligible for T ≥ T0 > 0. Equations (A14)–                           βbr ⊤
+(A16) and finite-dimensional smoothness of the matrix                      ā⊤
+                                                                             βbr =     e + e⊤  z1 ,   p̄0 = eR ,         (A19)
+                                                                                    8 R
+exponential prove Eq. (34).
+   For the fold map Fε = (gε,T , gε,T T ) this convergence is   and gβbr (T ) = ā⊤     Q̄βbr T
+                                                                                  βbr e         eR . The factors 1/8 are equi-
+C 1 , and at a reduced fold                                     librium weights of the right connector and gate after fast
+                                                                clique mixing. Unit loss from z1 into the stable left block
+               det D(T,ρ) F0 = −ḡT ρ ḡT T T ̸= 0.    (A17)    becomes target current after its fast boundary layer, so
+The quantitative implicit-function theorem gives a              ā⊤        ⊤
+                                                                  βbr = −1 Q̄βbr .
+unique root in a fixed neighborhood and an O(ε) dis-               Here Qκbr ,βbr = QF + κbr QS (βbr ) satisfies the general
+placement in (T, ρ), proving Eq. (36).                          hypotheses: at κbr = 0 the left transient clique is strictly
+   For total FPT absorption, aT         T                       stable, the right clique contributes one semisimple zero
+                              ε,ερ = −1n Qε,ερ . Normal-
+                                  T                             mode, the five bridge vertices are isolated zero modes,
+ize the columns of V by 1Tn V = 1d . Then                       and the complementary spectrum is uniformly separated
+                                                                from zero. Equations (40) and (41) therefore follow di-
+                āT     T         T
+                  ρ = −1n Aρ V + 1n QF GAρ V
+                                                                rectly from Eqs. (34) and (36).
+                    = −1T            T
+                        n P Aρ V = −1d Q̄ρ .           (A18)       The slow-core root is certified rather than inferred from
+                                                                floating-point residuals. Arb interval evaluation on the
+Thus the Drazin correction automatically recovers the           box
+total loss row, while for a single target or delivery chan-
+nel it must be retained explicitly. An initial stable-fast            |βbr − 0.373902055208895744| ≤ 10−12 ,
+                                                                                                                         (A20)
+component can create a boundary mass at T = 0, which                    |T − 3.406480639281513831| ≤ 10−11
+is why the theorem is restricted to T ≥ T0 > 0.
+   For a modular generator QF = diag(L1 , . . . , Ld , LD ),    maps the interval-Newton image strictly into its in-
+take the columns of V to be the stationary distributions        terior.    The fold-map determinant is contained in
+πi of the irreducible conservative blocks and the rows of       [−6.2862039600, −6.2862036384]×10−6 , while both gT T T
+W T to be their module-mass rows. This proves Eq. (37);         and gT βbr are strictly negative. Thus the box contains ex-
+LD is the stable transient part of the target-containing        actly one nondegenerate fold. An independently imple-
+fast basin after the absorbing target vertices are removed,     mented Krawczyk calculation, using a separately gener-
+and the stable-block term in Eq. (A15) converts slow flux       ated enclosure, also maps strictly into its box and verifies
+entering LD into target current. The conductance ar-            the same derivative signs. The machine-readable inter-
+gument is made on the restored underlying full graph            val endpoints and precision are part of the reproducibility
+B0 , . . . , Bd . Because the graph is fixed and each block     record.
+contains an internal spanning tree with weights bounded            For completeness, the equal-conductance claim is ex-
+below independently of ε, every cut splitting a block has       act for 0 < κbr ≤ 1. A cut containing one clique and
+boundary weight bounded below independently          of ε. A    its two nearest bridge vertices has size ten and bound-
+union-of-blocks cut has boundary ε i∈I,j /∈I Cij +O(ε2 );
+                                       P
+                                                                ary weight κbr . Conversely, splitting a clique crosses at
+connectivity of the first-order block graph makes this co-      least seven unit-rate edges, while a cut that leaves both
+efficient positive for each nontrivial block cut. There         cliques intact crosses a bridge edge and has denominator
+are only finitely many cuts, so every minimizing cut is         at most ten; hence CD = κbr /10. Slowing only the edge
+                                                                                                                                  17
+
+9–10 gives the same minimizing ten–eleven cut and the                exactly to
+same conductance. Its right fast component has eleven                                                  ! 
+vertices and one slow state; crossing and delivery occur at                  d x          −(n − 1 + b) 1   x
+                                                                                   =                          ,
+rates 1/11 and βbr /11, which proves Eq. (42). Its deriva-                  dt y             n−2       −2  y                  (A23)
+tive is uniformly negative on compact positive-T , com-
+                                                                               fb (t) = (1 + b)x(t) + y(t).
+pact βbr ⊂ [0, ∞) sets, and the same mixed-derivative
+convergence transfers that sign to all sufficiently small            Here (x(0), y(0)) = (0, 1), and the decay-rate discrim-
+κbr .                                                                inant (n − 1)2 + 2b(n − 3) + b2 is positive. Only two
+   For completeness, the constructive graphs use the fol-            real rates contribute; the dark modes do not enter x + y.
+lowing exact conventions (all edge rates are one). The               Hence fb′ has at most one positive zero and the max–
+barbell has left clique {0, . . . , 7}, five internal path ver-      min–max sequence, which needs three critical points, is
+tices {8, . . . , 12}, right clique {13, . . . , 20}, and path 7–    impossible.
+8–· · · –12–13, with (v, u, r) = (0, 20, 18). The depth-five
+binary tree is heap indexed, with children 2i + 1, 2i + 2
+and (v, u, r) = (31, 62, 61). The wall-grid vertex set is                Appendix B: Exact finite-N determinant and
+                                                                                         residues
+     {0, . . . , 10} × {0, . . . , 8} \ {(5, y) : y ̸= 6},   (A21)
+                                                                        We derive Eqs. (2)–(3). Let P0 be the (N −1)×(N −1)
+with nearest-neighbor edges and (v, u, r)                 =          transient (sub-stochastic) transition matrix of the lazy
+((0, 0), (10, 8), (8, 8)). Its two sides therefore com-              ring with v = 0 deleted; on the interior sites it is a
+municate only through the aperture (5, 6). The located               symmetric tridiagonal path with diagonal 1 − q and off-
+folds bracketing each displayed window, (b− , t− ; b+ , t+ ),        diagonal q/2. The directed shortcut diverts λ = β(1 − q)
+are                                                                  from the self-loop at u into the absorbing target, i.e. it
+                                                                     subtracts λ from the (u, u) entry: Pλ = P0 − λ |u⟩⟨u|
+  barbell: (b− , t− ) = (0.004269585743, 0.6732292635),
+                                                                     [Eq. (1)]. The first-passage generating function to v from
+           (b+ , t+ ) = (0.3585690910, 4.835283605),                 a start r, F̃r (z) = t≥1 F (t)z t , is a ratio of resolvent ele-
+                                                                                         P
+     tree: (b− , t− ) = (0.007749696566, 3.901327547),               ments of Pλ ; by the matrix-determinant lemma its poles
+           (b+ , t+ ) = (0.02898227241, 40.58039860),                are the zeros of
+wall grid: (b− , t− ) = (3.625775669×10−5 , 1.794319958),               det I − zPλ = det I − zP0 1 + zλ G0uu (z) , (B1)
+                                                                                                                        
+
+           (b+ , t+ ) = (0.1883539233, 28.33702948).
+                                                                     with G0 (z) = (I − zP0 )−1 . Introducing the spectral vari-
+                                                                     able y = 1 + (z −1 − 1)/q maps the lazy path onto the
+An independent nonnegative uniformization calculation
+                                                                     standard second-difference operator, I − zP0 = zq (yI −
+uses ν = maxi [−(Qb )ii ], P = I + Qb /ν, and                        1                        1             −(N −1)
+                                                                     2 Apath ), with det(yI − 2 Apath ) = 2         UN −1 (y); by
+                               ∞                                     the cofactor structure of the tridiagonal inverse (yI −
+                         −νt
+                               X (νt)m                               1        −1
+              fb (t) = e                    a⊤  m
+                                             b P p0 ,        (A22)   2 Apath )   ,
+                               m=0
+                                      m!
+                                                                                             1 2 Uu−1 (y) UN −u−1 (y)
+                                                                                G0uu (z) =                            .        (B2)
+and gives the agreements at the nine representative ex-                                      zq      UN −1 (y)
+trema in Table II.
+   For the nonreversible control, the adjacency matrix is            Substituting (B2) into (B1) and clearing UN −1 gives
+interpreted in the column convention, so Aij is the rate             the characteristic determinant Du (y) = a UN −1 (y) +
+j → i. Starting from the equal barbell, the clockwise                2 Uu−1 (y)UN −u−1 (y) of (2), with a = q/λ.
+rates 13 → 18, 18 → 20, and 20 → 13 are 1 + χ, while                   The residues follow from the full defect-resolvent col-
+their reverses are 1 − χ, with χ = 0.8. We use a gen-                umn. Writing Am := Um−1 (y) (with the convention
+eral eigendecomposition rather than a symmetric solver,              A0 = U−1 = 0, so AN = UN −1 ), the Dirichlet-path
+check conjugate pairing, reconstruct a real density, and             Green function has the tridiagonal-inverse entries Grs =
+compare it with the nonnegative uniformization series                2Amin(r,s) AN −max(r,s) /AN , and Sherman–Morrison gives
+(A22). At b = b+ /2 the complex pair supplies about                                           1h                 Gur i
+34% of the early-maximum density in absolute ratio but                  (I − zPλ )−1 |r⟩ =       G |r⟩ − G |u⟩         . (B3)
+                                                                                             zq                a + Guu
+becomes negligible at the valley and late maximum; it
+therefore certifies a genuinely complex transient sector             Substituting (B3) into (4) and collecting over the com-
+without being the late-time cancellation that creates the            mon denominator a + Guu = Du /AN yields, for r ≤ u,
+upper fold.
+                                                                                   1 h
+   The complete graph is an analytic negative control.                  F̃r (z) =      a(Ar + AN −r ) + 2Ar AN −u
+For Kn , n ≥ 3, with distinct target, gate, and start, let x                      Du
+be the gate probability and y the total probability on the                              2AN −u                    i
+                                                                                    +          AN −r Au − Ar AN −u , (B4)
+other transient vertices. Symmetry reduces the process                                   AN
+                                                                                                                               18
+
+and the Chebyshev product identity AN −r Au −                    with ϕ = ϕk,θ of (9); the pole condition 1 + b r0 (θ, θ) = 0
+AN −u Ar = AN Au−r [set y = cos φ, so Am =                       is exactly Dθ (k; b) = 0 of (6). 3. Eigenfunction. The
+sin(mφ)/ sin φ, and reduce by product-to-sum] col-               residue eigenfunction is ψj = ϕkj ,θ : it is continuous at
+lapses the last term of (B4) to 2AN −u Au−r : F̃r (z) =          θ, satisfies the Dirichlet conditions, and obeys the δ-
+Nr,u (y)/Du (y) with the piecewise numerator                     sink jump ψ ′ (θ+ ) − ψ ′ (θ− ) = 2b ψ(θ). Indeed ϕ′ (θ+ ) −
+                                                                 ϕ′ (θ− ) = −k[sin(kθ) cos(k(1 − θ)) + cos(kθ) sin(k(1 −
+Nr,u = a [Ar + AN −r ] + 2AN −u [Ar + Au−r ],        r ≤ u,      θ))] = −k sin k, so the jump condition reads −k sin k =
+                                                        (B5)     2b sin(kθ) sin(k(1 − θ)), which is precisely Dθ = 0 (resid-
+and its mirror (r ↔ N − r, u ↔ N − u) for r ≥ u.                 ual below 6 × 10−14 over the verification set). 4. Residue
+                   P
+Expanding F̃r = j Bj z/(1 − sj z) about the pole zj =            = FPT amplitude. The survival transform is Q̄ξ (z) =
+                                                                 R1
+1/sj and using dy/dz = −1/(qz 2 ) with zj sj = 1 converts         0 b
+                                                                     r (y, ξ; z) dy and f¯ = 1 − z Q̄, so Gj = Resz=−µj f¯ =
+the residue of Nr,u /Du into Bj = q Nr,u (yj )/Du′ (yj ), i.e.   µj Resz=−µj Q̄. Near a root, Dθ (k) ≃ Dk (kj ) (k − kj )
+the geometric sum (3) with sj = 1−q+q yj . Setting z = 1         with k − kj = −(z + µj )/kj (from z = −k 2 /2), so
+(i.e. y = 1, where Am (1) = m) in the shortcut component         the pole part of (C2) is 4b ϕ(x)ϕ(y)/[sin(kj ) Dk (kj ) (z +
+of (4)—which (B3) reduces to Gur /(a + Guu )—gives the           µj )], and integrating over the first argument gives the
+eventual channel (splitting) probability, the fraction of        normalization-independent amplitude
+trajectories absorbed through the shortcut,
+                                                                                                                          R1
+                    2 min(r, u) [N − max(r, u)]                          4b µj ϕkj ,θ (ξ) I      ϕkj ,θ (ξ) I                  ψj
+          πsc (r) =                             ,         (B6)    Gj =                      = µj              = µj ψj (ξ) R 01 ,
+                         aN + 2u(N − u)                                  sin(kj ) Dk (kj )            J                       ψj2
+                                                                                                                           0
+                                                                                                                              (C3)
+which for the antipodal case u = N/2 reduces to πsc =            i.e. Eq. (8) with µj = 2wj2 ; the second equality is the nor-
+r∗ /(a + N/2) with r∗ = min(r, N − r) the start’s short-         malization identity (C6) below, which is thus not a mere
+arc distance to the absorbing target (the lattice analog         consistency check but the bridge between the resolvent
+of ξ ∗ in App. C; we avoid ρ, which denotes a per-visit          residue and the eigenfunction-expansion form. 5. Closed
+absorption probability in the defect literature [7]). We         forms. With A = sin kθ, B = sin k(1 − θ),
+emphasize that πsc is the eventual splitting probability,
+not the mass under the first peak; conflating the two is              I(k, θ) = k1 B (1 − cos kθ) + A (1 − cos k(1 − θ)) ,
+                                                                                                                             
+a common error we deliberately avoid. The two absorp-
+                                                                                                                            (C4)
+tion channels of Sec. IV A have the explicit generating
+functions                                                                                         AB sin k
+                                                                    J(k, θ) = 12 θB 2 + (1 − θ)A2 −
+                                                                                
+                                                                                                            ,               (C5)
+                                                                                                     2k
+     F̃rsc (z) = zλ ⟨u| (I − zPλ )−1 |r⟩ ,
+                                                                 matching 50-digit direct quadrature to within 3 × 10−16
+   F̃rdiff (z) = z 2q ⟨1| + ⟨N − 1| (I − zPλ )−1 |r⟩ ,
+                                   
+                                                          (B7)
+                                                                 (here and below, A, B, C, E are local abbreviations
+                                                                 of this appendix, distinct from the residues Bj and the
+with F̃r = F̃rsc + F̃rdiff [Eq. (4)]. Their t-domain in-
+                                                                 boundary-layer strength B = b d). 6. Normalization
+verses fsc (t) = λ ⟨u| Pλt−1 |r⟩ and fdiff (t) = 2q (⟨1| +
+                                                                 identity. At a root of (6),
+⟨N − 1|)Pλt−1 |r⟩ are the channel densities of Fig. 3(b).
+                                                                                               sin(kj ) Dk (kj ; b)
+                                                                                 J(kj , θ) =                        ,       (C6)
+                                                                                                        4b
+Appendix C: Continuum amplitude from the defect
+                   resolvent                                     with Dk = sin k + k cos k + 2b[θ cos(kθ) sin(k(1 − θ)) +
+                                                                 (1 − θ) sin(kθ) cos(k(1 − θ))]; this exact algebraic identity
+   We derive Eqs. (8)–(9) from the resolvent of Hb =             (proven below; residual below 6 × 10−15 ) ties the residue
+− 12 ∂x2 + b δθ on (0, 1) with Dirichlet ends, continued to      norm to the determinant derivative, and Dk (kj ) ̸= 0 con-
+z = −k 2 /2 (so µ = k 2 /2 = 2w2 ).√                             firms each affected mode as nondegenerate. The proof is
+   1. Free resolvent. With κ = 2z (a spectral variable;          elementary: abbreviate A = sin kθ, B = sin k(1 − θ),
+distinct from the gate trigger rate κtrig of Sec. VI A),         C = cos kθ, E = cos k(1 − θ), so that sin k = AE + CB
+R0 (x, y; z) = 2 sinh(κx< ) sinh(κ(1 − x> ))/(κ sinh κ);         and cos k = CE − AB, and use the root condition
+continued to κ = ik,                                             k sin k = −2bAB in the form 1/(4b) = −AB/(2k sin k).
+                                                                Then
+                        2 sin(kx< ) sin k(1 − x> )
+         r0 (x, y; k) =                              . (C1)               sin k Dk     AB
+                                  k sin k                                          = −      (sin k + k cos k)
+                                                                             4b         2k
+2. Defect resolvent (Sherman–Morrison, rank-one δ-                                     sin k                 
+sink).                                                                               +        θCB + (1 − θ)AE ,
+                                                                                         2
+              b r0 (x, θ)r0 (θ, y)        4b ϕ(x)ϕ(y)            and expanding with sin k = AE + CB, cos k =
+  rb = r0 −                        = r0 −             ,   (C2)
+                1 + b r0 (θ, θ)            k sin k Dθ            CE − AB cancels the mixed ACBE terms, leaving
+                                                                                                                         19
+
+1     2  2   2              2  2   2      1   2
+2 [θB (A +C ) + (1 − θ)A (B +E )] = 2 [θB + (1 −               cally, before either absorbing end is felt, the diagonal
+θ)A ]; hence sin k Dk /(4b) = −AB sin k/(2k) + 12 [θB 2 +
+    2                                                          heat kernel of a one-dimensional δ-sink is
+         2
+(1 − θ)A ] = J, Eq. (C5). 7. Antipodal reduction. For                                1    b 2           p    
+θ = 12 (A = B = sin w, k = 2w) the root condition                  Kb (0, 0; τ ) = √     − eb τ /2 erfc b τ /2 .   (D1)
+                                                                                     2πτ  2
+reads tan w = −2w/b, whence cos w = −b sin w/(2w) and
+sin2 w = 4w2 /(4w2 + b2 ); then I = sin w (1 − cos w)/w        For a release at the gate, the shortcut current is bKb and
+and J = 12 sin2 w [1 − sin(2w)/(2w)] = 12 sin4 w [1 +          the nearest-boundary flux is exponentially small. Hence,
+b(b + 2)/(4w2 )], and (C3) collapses to Gξ,1/2 = 4w(1 −        with d = min(θ, 1 − θ),
+cos w) sin(2wξ ∗ )/[sin2 w (1 + b(b + 2)/4w2 )] with ξ ∗ =
+min(ξ, 1 − ξ). 8. Node modes. When sin(nπθ) = 0                              b      b2         √                 2
+                                                                                                                        
+the mode decouples from the sink and is the free Dirich-       Φ(τ ; b) = √      −      + O(b3 τ ) + O τ −3/2 e−d /(2τ ) .
+                                                                            2πτ      2
+let mode sin(nπx), with amplitude Gnode   n     = nπ[1 −                                                             (D2)
+(−1)n ] sin(nπξ) (even n vanish, and all node modes van-       The singularity is integrable (there is no atom at τ = 0)
+ish at ξ = θ). The reconstructed master curve (affected        and Φ′ < 0 for sufficiently small τ . On every compact
+plus node) matches exact finite-N residues (N = 1200)          interval bounded away from zero, the killed semigroup
+to ≲ 8 × 10−5 (worst case in the early-τ tail; per-mode        converges in C 1 to the b = 0 Dirichlet semigroup: this
+∼ 2 × 10−4 ) with measured O(N −2 ) convergence (expo-         is standard rank-one analytic perturbation of the Dirich-
+nent 2.00, median over cases, τ , and N -pairs).               let Sturm–Liouville problem—the eigenvalue derivatives
+   The N → ∞ limit. For each fixed affected mode               (17) stay bounded along the modal sequence, the ampli-
+away from a node collision, substitute y = cos(k/N ),          tudes are analytic in b, and the modal tails are dominated
+u/N → θ, r/N → ξ, and λ = bq/N into the explicit               by e−µj τ0 uniformly for τ ≥ τ0 > 0. Choosing a point on
+Chebyshev determinant and residue formulas (2), (3),           the rising side of its strict exit-density maximum proves
+and (B5). Their fixed-k expansions give kN,j → kj and          that a valley and the inherited peak exist for every suf-
+GN,j → Gj ; the decoupled node modes converge directly.        ficiently small b > 0. Balancing the capture derivative
+This coefficientwise argument does not control the infi-       with the nearest-boundary image also locates the small-b
+nite modal tail. Passing the fold (11) to the limit ad-        valley: if y = d2 /(2τv ) and ν = 1 for one nearest end
+ditionally requires uniform C 1 convergence of S1,2,3 (in-     (ν = 2 at the antipode), then
+cluding ∂b ) on a neighborhood τ ∈ [τc /2, 3τc /2] of the
+fold—not down to τ = 0, where the heat-kernel short-                              bd                            4ν
+                                                                         e−y ∼         ,    y − 2 log y ∼ log      .   (D3)
+time singularity lives. A sufficient practical domination                        4νy 2                          bd
+requires not only µN,j ≥ cj 2 and |GN,j | ≤ Cj p , but cor-
+responding polynomial bounds on |∂b GN,j | and |∂b µN,j |        Normal-form prefactors. Expanding S1 about the fold
+uniformly on the parameter neighborhood. Under this            and using S2 (τc , bc ) = 0,
+additional tail hypothesis, fold persistence is a conse-
+quence of the implicit-function theorem: the Jacobian                S1 (τ, b) ≃ 21 S3 (τ − τc )2 − S1,b (bc − b),     (D4)
+det DFc = +S1,b S3 is nonzero by nondegeneracy, giving a
+unique nearby finite-N fold with bc,N − bc = O(εN ), con-      with S1,b = ∂b S1 > 0 and S3 > 0 here, so the two extrema
+                                                                                                                   1/2
+sistent with the directly measured threshold convergence       sit at τ± − τc = ±δ with δ = [2S1,b (bc − b)/SR τ3+] , and
+bc,N − bc = O(N −2 ) (App. E). We state this uniform           the prominence is ∆Φ = Φ(τ+ ) − Φ(τ− ) = − τ− S1 dτ =
+tail control as a hypothesis, supported by the numerics,       2     3
+                                                               3 S3 δ . The scaling amplitudes in (14) are therefore an-
+rather than a theorem.                                         alytic in the fold data,
+                                                                                      h 2S i1/2
+                                                                                          1,b
+                                                                           τ+ − τ− = 2            (bc − b)1/2 ,
+Appendix D: Fold criterion: proofs and asymptotics                                       S3
+                                                                                       √     3/2
+                                                                                     4 2 S1,b
+                                              −µj τ                            ∆Φ =              (bc − b)3/2 ,         (D5)
+                                                    , Φ′ =
+                                     P
+   Fold criterion.    From Φ =         j Gj e                                          3 S 1/2
+                                                                                            3
+             −µj τ              ′′            2 −µj τ
+   P                                P
+− j Gj µj e        = −S1 and Φ = j Gj µj e            = S2 ,
+so an interior extremum is S1 = 0 and two extrema              giving at the antipodal fold 0.0247518 (bc − b)1/2 and
+merge at S1 = S2 = 0, Eq. (11). The parameter                  0.357444 (bc − b)3/2 , which match directly measured ex-
+derivative of a root of (6) is ∂b kj = −Db /Dk with            trema splittings to better than 2 × 10−4 relative for
+Db = 2 sin(kθ) sin(k(1 − θ)) and Dk as in (C6), which          bc − b ≤ 10−3 .
+propagates into ∂b S1 and gives the nondegeneracy condi-          Minimal-mode theorem. As in Sec. III D, S1 = S2 = 0
+tion needed for a structurally stable fold. In practice        has no two-mode solution with Aj ̸= 0; an exactly three-
+∂b S1 is evaluated by high-precision central differences       mode realization has the alternating-sign ratio A1 : A2 :
+(mpmath, 40 digits), with ∂b kj = −Db /Dk serving as           A3 = (µ3 − µ2 ) : (µ1 − µ3 ) : (µ2 − µ1 ). This retires an
+an independent consistency propagation.                        earlier (incorrect) two-mode heuristic and shows the fold
+   Source-start short time and the small-b window. Lo-         is intrinsically a many-mode cancellation.
+                                                                                                                               20
+
+  Endpoint law. As d = min(θ, 1 − θ) → 0 the gate ap-                 Off-gate cusp endpoint persistence. For the left end-
+proaches the absorbing boundary. Rescaling y = x/d,                 point put d = θ and define
+σ = τ /d2 , B = b d (the boundary-layer strength; not the
+residues Bj of App. B) and letting d → 0 turns (5) into                   ϕd (T ; B, X) = d2 Φθ=d, ξ=dX (d2 T ; B/d).       (D10)
+a half-line boundary-layer problem: diffusion on (0, ∞)
+with an absorbing end at 0 and a δ-sink of strength B               Its half-line limit is obtained from Eqs. (D6) and (D7).
+at y = 1, started at y = X (the far boundary recedes                A half-line cusp q∗ = (T∗ , B∗ , X∗ ) satisfies ΦT = ΦT T =
+as 1/d); source-started release has X √         = 1. This prob-     ΦT T T = 0, ΦT T T T ̸= 0, and
+lem is exactly solvable. With κ = 2s the half-line
+                                                                                  ∂(−T ΦT /Φ, T 2 ΦT T /Φ)
+                                                                                                          
+Dirichlet resolvent is r0hl (y, y ′ ; s) = 2 sinh(κy< ) e−κy> /κ,          det                                  ̸= 0.     (D11)
+and Sherman–Morrison [as in (C2)] gives the arrival-time                                ∂(log B, X)         q∗
+transform (boundary flux plus sink capture) in closed
+form,                                                               Arb interval Newton applied to the three cusp equations
+                                                                    maps strictly inside each of the boxes
+                                        −κ
+                          B(1 − e )
+     fˆ(s; B, X) = e−κX +           ∆X (κ),                              q− :       |B − 2.868771925558728| ≤ 10−10 ,
+                            DB (κ)
+                                                           (D6)                 |T − 0.06362964429621742| ≤ 10−11 ,
+         ∆X (κ) = e−κ|1−X| − e−κ(1+X) ,
+         DB (κ) = κ + B(1 − e−2κ ).                                             |X − 0.7583136631287806| ≤ 10−11 ,
+                                                                                                                            (D12)
+                                                                        q+ :    |B − 1.0856828303187425| ≤ 10−10 ,
+It obeys fˆ(0) = 1 (certain absorption), reduces at B = 0
+to the Lévy transform e−κX , and at X = 1 is alge-                              |T − 0.2072300833529535| ≤ 10−11 ,
+braically the source-started transform used below. The                              |X − 1.424897156781147| ≤ 10−10 .
+half-line operator has purely continuous spectrum, so the
+discrete criterion S1 = S2 = 0 is replaced by its den-              Thus each box contains exactly one root. On q− ,
+sity form Φ′hl = Φ′′hl = 0: Bromwich inversion along the            T 4 ΦT T T T /Φ ∈ [−5.53353583, −5.53353573] and the de-
+branch cut s = −v 2 /2 (κ = iv) gives                               terminant in Eq. (D11) lies in [3.72087719, 3.72087726];
+                                                                    on q+ the corresponding enclosures are centered at
+                       1 ∞ −σv2 /2                                  −6.052596 and −1.379343 and exclude zero. An indepen-
+                         Z
+  Φhl (σ; B, X) = −           ve                                    dent Krawczyk implementation, with a separate small-
+                       π 0                             (D7)
+                       × Im fˆ(−v 2 /2 + i0; B, X) dv.              frequency split and tail enclosure, verifies both roots and
+                                                                    sign margins.
+For X = 1 this simplifies to the explicit real kernel                  Proof sketch of local finite-interval persistence. For
+                                                                    each certified half-line cusp, choose a compact product
+                   1
+                       Z ∞         2
+                             v e−σv /2 (1 + g) sin v                neighborhood K of q∗ with T ≥ T0 > 0. Far-boundary
+   Φhl (σ; B, 1) =                                   dv,   (D8)     heat-kernel images and the required mixed derivatives
+                   π   0        1 + 2g cos v + g 2                  obey the standard finite-interval image estimate
+with g(v) = 2B sin(v)/v [the denominator equals (g +                                                                    2
+
+cos v)2 + sin2 v, strictly positive on the support]. Impos-
+                                                                                α
+                                                                       max sup ∂(B,X) ∂Tj (ϕd − Φhl ) ≤ CK e−cK /d . (D13)
+                                                                      0≤j≤4     K
+ing the source-started fold on (D8) selects                            |α|≤1
+
+
+     B ∗ = 0.7890262,          σ ∗ = c∗ = 0.1579221,       (D9)     To see the uniformity, split the image series after its near-
+                                                                    est far-boundary term. Every remaining image travels a
+The root is a nondegenerate fold: σ ∗3 Φ′′′       hl /Φhl =
+                                                                    scaled distance at least c/d; differentiating at most four
+−2.69248, B ∗ σ ∗ ∂B Φ′hl /Φhl = −0.50033, and the Jaco-            times in T and once in (B, X) contributes only a poly-
+bian determinant of (Φ′hl , Φ′′hl ) with respect to (σ, B) is       nomial in that distance and in T −1 , which is absorbed
+−1.69 × 103 . On a compact neighborhood of σ ∗ , the far-           by a smaller Gaussian exponent on K. The localized-
+boundary image terms and the derivatives required above             killing Volterra resolvent is uniformly bounded there be-
+are exponentially small as d → 0; the implicit-function             cause B stays in a compact positive neighborhood and
+theorem therefore transfers this fold to the finite inter-          the half-line denominator in Eq. (D6) has no pole on
+val. Thus bc (θ) ∼ B ∗ /d and τc ∼ c∗ d2 [Eq. (12)]: the            the inversion contour. Summing the Gaussian tail gives
+endpoint constant is fixed by an explicit one-dimensional           Eq. (D13). Thus the three-component cusp residual con-
+integral, though an elementary closed form remains open.            verges in C 1 (equivalently, its full (T, B, X) Jacobian con-
+Floating-point bisection that resolves the high-k fold              verges uniformly); the implicit-function theorem gives a
+mode gives bc (θ)θ = 0.789026 over θ ∈ [0.20, 0.27]. Near           unique zero inside that fixed neighborhood, with scaled
+                                                                                           2
+the antipode, bc ( 12 +ϵ) ≈ 3.0764−133.1 ϵ2 over |ϵ| ≤ 0.04;        displacement O(e−c/d ). The interval proof evaluates the
+deepened modal cutoffs and the direct nondegeneracy                 analytic branch-cut integrand on a finite interval and
+margins are summarized in Table II.                                 encloses the remaining incomplete-gamma tail; ordinary
+                                                                                                                            21
+
+quadrature at two orders and cutoffs remains an indepen-          bc )/δ 4 = 4331.73 and [τc (δ)−τc +δ 2 ]/δ 3 = 1.998, tending
+dent resolution check. This argument records the deriva-          to 4352.656 and 2bc /3 = 2.05095. This explains analyti-
+tive class and exponential form but does not instantiate          cally why the upper off-gate branch is exceptionally flat
+K, the inversion-contour margin, CK , cK , or a quantita-         near source-started release.
+tive threshold d0 ; it is therefore a local proof sketch rather
+than a numerical persistence certificate. The certifica-
+tion and persistence statements are local to the displayed        Appendix E: Numerical methods and reproducibility
+boxes and do not exclude other half-line roots or prove
+that the numerically continued finite-interval branches
+                                                                     Exact finite-N FPT poles are computed from the sym-
+exhaust the global three-parameter surface.
+                                                                  metric transient block via numpy eigvalsh, with am-
+   Lower off-gate sheet near the source-start line. Keep
+                                                                  plitudes from the closed-form residues; high-precision
+θ = 1/2, set ξ = 1/2 − δ with δ ↓ 0, and write a = ξ
+                                                                  cross-checks use mpmath. Continuum spectra are the
+and A = a2 − δ 2 . The nearest-boundary flux and local-
+                                                                  roots of (6), and amplitudes use (8).            All scripts
+delivery contributions have the short-time balance
+                                                                  are deterministic. Table II collects the verification
+         1 h −3/2 −a2 /(2τ )                   2
+                                                      i           tolerances quoted throughout. The repository mani-
+  Φ∼ √        aτ       e          + bτ −1/2 e−δ /(2τ ) . (D14)    fest gives the complete script–claim–artifact map. In
+          2π
+                                                                  brief, the interval spectrum, residues, fold line, nor-
+Imposing Φ′ = Φ′′ = 0 on this balance gives the lower             mal form, endpoint fold, start-offset laws, and finite-
+sheet                                                             N limit are generated by the dpma saddle node *,
+                                                                  dpma general u *, dpma halfline bstar.py, and as-
+                        2δ 2
+                                4 
+                  2               δ                               sociated audit scripts. The off-gate diagram and its
+            τ− = δ 1 +       +O         ,
+                         A        A2                              fixed cusp are generated by dpma offgate phase.py;
+                 e aA2                                            the endpoint continuation and persistence diagnostics
+                               
+                              A
+            b− ∼       exp − 2 .               (D15)              by cusp endpoint theorem.py. Fixed-network con-
+                  2δ 6       2δ
+                                                                  trols use dpma network folds.py, while the controlled
+Thus b− is smaller than every power of δ. For δ =                 slow family and Fig. 6 use network family theorem.py.
+0.08, 0.07, 0.06, the continued values divided by the lead-       Separate generators produce the lattice Monte Carlo,
+ing asymptote are 0.72, 0.83, 0.89, respectively, approach-       Brownian dynamics, finite-width gate, and same-window
+ing unity.                                                        measurability artifacts. All randomized computations
+   Upper-sheet start-offset asymptotics at the antipode.          use fixed seeds recorded in the scripts. In addition,
+Now keep the gate at θ = 1/2 and displace only the                dpma theorem numerical stress.py tests the general
+release point by δ = |ξ − 1/2|. The root identity                 finite-network formulas independently of the plotted ex-
+2wj cos wj + b sin wj = 0 reduces the exact amplitude             amples: random reversible and nonreversible chains test
+ratio to                                                          the transform, marked channels, moment response, sur-
+                                                                  vival ordering, and spectral derivatives; three marked
+        Gj (δ)                 b                                  slow–fast synthetic families test the Drazin target cur-
+               = cos(2wj δ) +     sin(2wj δ).           (D16)
+        Gj (0)                2wj                                 rent and sampled-grid mixed-derivative convergence or-
+                                                                  ders, while the separate six-to-21-state barbell continu-
+With µj = 2wj2 , its expansion factorizes as                      ation tests an actual fold transfer; three random modu-
+                                                                lar families test quotient rates and enumerate every ad-
+ Gj (δ)                                1 2 4   5
+        = (1 + bδ) exp −µj h(δ; b) − µj δ + O(δ ) ,               missible cut to confirm that the small-ε minimizers are
+ Gj (0)                                3                          block unions; and 466 accepted separated-rate draws con-
+                    2b 3 2b2 4                                    structively check the two-mode determinant and three-
+  h(δ; b) = δ 2 −     δ +   δ .                                   mode double-zero algebra. The persisted JSON records
+                    3     3
+                                              (D17)               all tolerances and carries an explicit scope field: these
+The common prefactor and time shift cannot change                 tests are strong implementation checks, not replacements
+the number of extrema through cubic order; the first              for the analytic proofs. The source-started 1D fold
+morphology-changing term is quartic. Perturbing the               line bc (θ) is obtained by damped Newton solution of
+two fold equations therefore gives                                S1 = S2 = 0 and continuation over θ ∈ [0.2, 0.5], re-
+                                                                  taining affected roots with w ≤ 40 (k ≤ 80). A sepa-
+             b+ (δ) = bc + Cb δ 4 + O(δ 5 ),                      rate w ≤ 80 audit gives the grid-sampled nondegeneracy
+                         S3                                       margins (θ = 0.20, 0.25, . . . , 0.50 and the refined mini-
+                 Cb =          = 4352.6561855,                    mum) quoted in Sec. III B. Connectivity is probed inde-
+                       3∂b S1
+                                  2bc 3                           pendently by a dense-b scan [∆b = 0.02, seven values θ ∈
+              τc (δ) = τc − δ 2 +    δ + O(δ 4 ).       (D18)     {0.20, 0.25, . . . , 0.50}, spectrum deepened to w ≤ 120 so
+                                   3
+                                                                  the mode sum is converged down to the small fold times
+Here bc = 3.0764323604. Direct upper-fold solves con-             of off-center θ]: at the stated 10−6 prominence resolution,
+verge to the predicted coefficients: at δ = 10−3 , (b+ (δ) −      exactly one transition is resolved per θ—two interior ex-
+                                                                                                                           22
+
+trema below bc , none above, and no re-entrant interval           solve HN = 0, without a prominence cutoff. The thresh-
+(dpma window scan.py); the b → 0 end is closed analyt-            olds converge monotonically from above with bc,N − bc =
+ically by Eqs. (D1)–(D3). The off-gate diagram is not             4.742 × 10−3 , . . . , 3.281 × 10−5 over N = 100–1200; the
+obtained from this classifier: dpma offgate phase.py              descriptive slope is −2.00132 and N 2 (bc,N − bc ) → 47.24.
+directly continues both solutions of S1 = S2 = 0 with                For the Brownian realization, changing the gate width
+k ≤ 160, checks selected folds against k ≤ 120, and ver-          (ℓ = 0.04, 0.02, 0.01) and halving/doubling the Euler–
+ifies the one–three–one critical-point sequence by both           Maruyama step (3 × 10−5 to 7.5 × 10−6 ) leaves the late-
+moment-root and positive-density prominence counts.               peak location within two histogram bins of the exact
+Endpoint-cusp branch-cut quadrature is repeated at or-            τp in every cell. When theory and simulation use the
+ders 80 and 112 and two cutoffs; finite-interval loci are         same windows, the ratios differ by 0.3–2.4% and are con-
+continued at kmax = 220 over θ = 0.12 : 0.005 : 0.50.             sistent within approximately 1.4 three-seed standard er-
+A 1000-seed multistart
+                2
+                           census on five sections and the        rors. We treat this as a resolution-level sensitivity check,
+tail guard e−kmax τ /2 ≤ e−25 reject shallow-cutoff roots;        not as a precision extrapolation. Independently, the de-
+these remain resolution/cutoff checks, not global root            terministic rectangular-gate folds at ℓ = 0.04, 0.02, 0.01
+exclusion. The normal-form exponents are log–log fits             are 3.02335, 3.07553, 3.10494; the gate-width error is first
+over bc − b ∈ [1.4 × 10−3 , 3.6 × 10−2 ] (seven contin-           order in ℓ (about 2% at ℓ = 0.02), and a three-point
+uation points), giving representative slopes 0.5010 and           quadratic width extrapolation (with second-order mesh
+1.5020; fit-window variation, rather than OLS standard            convergence in the discretization) gives 3.13657, consis-
+errors, is reported in Sec. III C. For each reversible fi-        tent with the δ-sink b+ = 3.13660. The Monte-Carlo
+nite network, dpma network folds.py diagonalizes the              uses 4 × 105 vectorized walkers with a fixed seed, log-
+exact symmetric killed generator, solves ft = ftt = 0             arithmic τ -binning, and shortcut-vs-diffusive absorption
+by damped Newton iteration in (log t, log b), and locates         events recorded per walker; histogram counts are divided
+raw extrema by derivative sign changes. It indepen-               by the bin width and by all simulated trials, rather than
+dently evaluates Eq. (A22), verifies unit total mass, and         renormalized conditionally on the displayed τ interval.
+measures the fold powers over the fixed relative win-             The quoted πsc uncertainty is the binomial standard er-
+dow 10−5 ≤ (b+ − b)/b+ ≤ 10−3 ; no smoothing, bin-                ror, and the exact πsc is evaluated from the closed form
+ning, or peak-height classifier enters those network re-          (B6). The histogram of Fig. 3(a) uses 59 logarithmic bins
+sults. The nonreversible control instead uses a general           with a median occupancy of ∼ 4 × 103 events; occupancy
+complex eigendecomposition, checks conjugate pairing              falls to O(1) only in the extreme late-τ tail, where the
+and reality, and cross-checks the fold derivatives with the       visible Poisson scatter remains consistent with the ex-
+real generator; the path controls solve the first positive        act curve. Brownian-dynamics histograms use the same
+derivative root directly. For the slow family, the explicit       unconditional normalization convention.
+six-state core is solved at high precision, full 21-state folds      Measurability.        The simulated experiment behind
+are continued from κbr = 1 to 10−4 , and both weighted            Sec. VI B draws Nt = 4000 delivery-and-terminate tri-
+families are compared with their projected densities at           als per run from the continuum gate protocol of Fig. 5
+common (κbr , βbr ); generator assertions enforce the error       (ℓ = 0.02, θ = 21 , ξ = 0.44, Euler–Maruyama step
+orders and derivative-sign sequences quoted in Sec. V C.          1.5 × 10−5 ) and evaluates the ratio observable from
+   The local existence claims for the slow-core fold and          histogram densities averaged in fixed ±20% windows
+half-line cusps are separately machine certified with             around the exact below-threshold peak and valley loca-
+python-flint 0.9.0/Arb at 60 decimal digits. The com-             tions (τp = 0.0462, τv = 0.0253). The exact comparator
+bined script rigorous fold cusp certificates.py                   integrates Φ over those same windows; a center-point ra-
+uses interval Newton, analytic matrix exponen-                    tio is a different statistic. At b+ the corrected values
+tials for the slow core, and an entire-form branch-               are Rc = 0.9699549, p = 0.1045292, and v = 0.0590153,
+cut integrand for the cusp.             It encloses the fi-       with dR/db = −0.0883849. For two disjoint multinomial
+nite frequency interval and bounds the remaining                  bins, the delta method gives Var(R) = R2 (p−1 +v −1 )/Nt ,
+upper-incomplete-gamma tail explicitly.                  Inde-    hence s.d.(R) = 0.07897 at Nt = 4000. Inverting the
+pendently,          slow core interval certificate.py             calibrated curve yields Nt ≃ 5.1 × 104 for one-sigma
+and           halfline cusp interval certificate.py               precision ±0.25 in b+ and Nt ≃ 3.2 × 105 for ±0.1
+use Krawczyk operators and a different small-                     (dpma measurement.py); the ten displayed simulation
+frequency/intermediate/tail decomposition.               Both     replicates are illustrative and are not used to estimate
+implementations map strictly inside their boxes and               this variance.
+enclose every quoted nondegeneracy margin away from                  Formal verification. Selected exact algebraic identities
+zero.    These are local root certificates, not global            underlying the results have additionally been machine-
+no-other-root results; their JSON interval endpoints are          verified in Lean 4 against mathlib (80 theorem decla-
+checked by the release claims gate.                               rations, no unproven placeholders, and no axioms be-
+   Threshold and discretization convergence. On the ex-           yond Lean’s classical standard). This declaration count
+act ring we define HN (b) = maxt [FN (t + 1; b) − FN (t; b)]      is not a coverage fraction: the modules check selected ex-
+over every integer time with 0.03 ≤ qt/N 2 ≤ 0.05 and             act algebra and exact rational implications of persisted
+                                                                                                                              23
+
+certificate records, while the analytic and validated-            line cusps.
+numerics layers remain outside Lean. Besides the finite-             This is not an end-to-end formalization of the
+lattice, δ-sink, normalization, finite-mode, normal-form,         analytic and validated-numerics layers.         In partic-
+splitting-probability, and branch-cut identities listed           ular, the M -matrix/semigroup positivity arguments,
+above, the development now covers the arbitrary-start             Riesz–Drazin mixed-derivative convergence, quantita-
+half-line transform and its source-started specialization;        tive implicit-function continuation, general conductance
+the marked linear-fractional response, both gate-rate             asymptotic, Bromwich inversion, finite-interval cusp
+derivatives, signature recovery, hard-gate remainder, and         image estimate, and Arb transcendental enclosures
+channel split; the noncommutative first-order Drazin              are not proved inside Lean; their status is respec-
+current expansion and right/left slow-basis corrections;          tively manuscript-analytic or computer-assisted as stated
+the fold and cusp Jacobian factorizations; the conduc-            above. The two independent Arb implementations cer-
+tance/control and scaled-time conversions; and strict             tify the three local roots, while the remaining transcen-
+monotonicity of the same-conductance one-exponential              dental constants and globally continued branch data are
+limit. A separate Lean module checks, as exact ratio-             high-precision numerical quantities tested by Table II.
+nal comparisons, every reported interval-Newton image             The formal audit package contains the pinned sources, a
+inclusion, side classification, rounded containment, and          clean default-target build record, a forbidden-placeholder
+sign exclusion for the one slow-core fold and two half-           scan, and a theorem-by-theorem axiom report.
+
+
+
+
+ [1] S. Redner, A Guide to First-Passage Processes (Cam-               104, L012102 (2021).
+     bridge University Press, Cambridge, 2001).                   [14] J. Holehouse and S. Redner, First passage on disordered
+ [2] R. Metzler, G. Oshanin, and S. Redner (eds.), First-              intervals, Phys. Rev. E 109, L032102 (2024).
+     Passage Phenomena and Their Applications (World Sci-         [15] T. G. Mattos, C. Mejı́a-Monasterio, R. Metzler, and
+     entific, Singapore, 2014).                                        G. Oshanin, First passages in bounded domains: When
+ [3] O. Bénichou, C. Loverdo, M. Moreau, and R. Voituriez,            is the mean first passage time meaningful?, Phys. Rev. E
+     Intermittent search strategies, Rev. Mod. Phys. 83, 81            86, 031143 (2012).
+     (2011).                                                      [16] E. Almaas, R. V. Kulkarni, and D. Stroud, Scaling prop-
+ [4] S. Condamin, O. Bénichou, V. Tejedor, R. Voituriez, and          erties of random walks on small-world networks, Phys.
+     J. Klafter, First-passage times in complex scale-invariant        Rev. E 68, 056105 (2003).
+     media, Nature (London) 450, 77 (2007).                       [17] G. Wilemski and M. Fixman, General theory of diffusion-
+ [5] O. Bénichou and R. Voituriez, From first-passage times           controlled reactions, J. Chem. Phys. 58, 4009 (1973).
+     of random walks in confinement to geometry-controlled        [18] A. Szabo, K. Schulten, and Z. Schulten, First passage
+     kinetics, Phys. Rep. 539, 225 (2014).                             time approach to diffusion controlled reactions, J. Chem.
+ [6] E. W. Montroll and G. H. Weiss, Random walks on lat-              Phys. 72, 4350 (1980).
+     tices. II, J. Math. Phys. 6, 167 (1965).                     [19] D. S. Grebenkov, Paradigm Shift in Diffusion-Mediated
+ [7] L. Giuggioli, Exact spatiotemporal dynamics of confined           Surface Phenomena, Phys. Rev. Lett. 125, 078102
+     lattice random walks in arbitrary dimensions: A century           (2020).
+     after Smoluchowski and Pólya, Phys. Rev. X 10, 021045       [20] F. Le Vot, S. B. Yuste, E. Abad, and D. S. Grebenkov,
+     (2020).                                                           First-encounter time of two diffusing particles in two-
+ [8] A. Godec and R. Metzler, Universal Proximity Effect               and three-dimensional confinement, Phys. Rev. E 105,
+     in Target Search Kinetics in the Few-Encounter Limit,             044119 (2022).
+     Phys. Rev. X 6, 041037 (2016).                               [21] P. C. Bressloff, Diffusion-mediated absorption by
+ [9] A. E. Lindsay, R. T. Spoonmore, and J. C. Tzou, Hy-               partially-reactive targets: Brownian functionals and gen-
+     brid asymptotic-numerical approach for estimating first-          eralized propagators, J. Phys. A: Math. Theor. 55, 205001
+     passage-time densities of the two-dimensional narrow              (2022).
+     capture problem, Phys. Rev. E 94, 042418 (2016).             [22] L. Giuggioli and S. Sarvaharman, Spatio-temporal dy-
+[10] S. Sarvaharman and L. Giuggioli, Closed-form solutions            namics of random transmission events: From informa-
+     to the dynamics of confined biased lattice random walks in        tion sharing to epidemic spread, J. Phys. A: Math. Theor.
+     arbitrary dimensions, Phys. Rev. E 102, 062124 (2020).            55, 375005 (2022).
+[11] D. Das and L. Giuggioli, Discrete space-time resetting       [23] T. Kay, T. J. McKetterick, and L. Giuggioli, The defect
+     model: Application to first-passage and transmission              technique for partially absorbing and reflecting bound-
+     statistics, J. Phys. A: Math. Theor. 55, 424004 (2022).           aries: Application to the Ornstein–Uhlenbeck process,
+[12] B. Besga, A. Bovon, A. Petrosyan, S. N. Majumdar,                 Int. J. Mod. Phys. B 36, 2240011 (2022).
+     and S. Ciliberto, Optimal mean first-passage time for a      [24] A. Godec and R. Metzler, First passage time statistics
+     Brownian searcher subjected to resetting: Experimental            for two-channel diffusion, J. Phys. A: Math. Theor. 50,
+     and theoretical results, Phys. Rev. Research 2, 032029(R)         084001 (2017).
+     (2020).                                                      [25] D. Hartich and A. Godec, Interlacing relaxation and first-
+[13] B. Besga, F. Faisant, A. Petrosyan, S. Ciliberto, and             passage phenomena in reversible discrete and continuous
+     S. N. Majumdar, Dynamical phase transition in the first-          space Markovian dynamics, J. Stat. Mech. (2019) 024002.
+     passage probability of a Brownian motion, Phys. Rev. E       [26] A. Kumar, Y. Scher, S. Reuveni, and M. S. Santhanam,
+                                                                                                                              24
+
+     Inference from gated first-passage times, Phys. Rev. Re-           Phys. Rev. Lett. 118, 030603 (2017).
+     search 5, L032043 (2023).                                     [33] S. Belan, Median and mode in first passage under restart,
+[27] J. B. Voits and U. S. Schwarz, Emergence of generic first-         Phys. Rev. Research 2, 013243 (2020).
+     passage time distributions for large Markovian networks,      [34] G. Yin, Q. Zhang, and G. Badowski, Singularly perturbed
+     arXiv:2602.18265 (2026).                                           Markov chains: Convergence and aggregation, J. Multi-
+[28] T. Baravi, D. A. Kessler, and E. Barkai, Solutions of              variate Anal. 72, 208 (2000).
+     first-passage time problems: A biscaling approach, Phys.      [35] K. E. Avrachenkov and J. B. Lasserre, The fundamental
+     Rev. E 111, 044103 (2025).                                         matrix of singularly perturbed Markov chains, Adv. Appl.
+[29] T. D. Keidar and S. Reuveni, Universal linear response             Probab. 31, 679 (1999).
+     of first-passage kinetics: A framework for prediction and     [36] M. F. Neuts, Matrix-Geometric Solutions in Stochastic
+     inference, Phys. Rev. Research 8, 023135 (2026).                   Models: An Algorithmic Approach (Johns Hopkins Uni-
+[30] D. S. Grebenkov, R. Metzler, and G. Oshanin, Strong de-            versity Press, Baltimore, 1981).
+     focusing of molecular reaction times results from an inter-   [37] C. A. O’Cinneide, Characterization of phase-type distri-
+     play of geometry and reaction control, Commun. Chem.               butions, Commun. Stat. Stoch. Models 6, 1 (1990).
+     1, 96 (2018).                                                 [38] L. Cobb, Stochastic catastrophe models and multimodal
+[31] O. Tal-Friedman, A. Pal, A. Sekhon, S. Reuveni, and                distributions, Behav. Sci. 23, 360 (1978).
+     Y. Roichman, Experimental Realization of Diffusion with       [39] R. Gilmore, Catastrophe Theory for Scientists and Engi-
+     Stochastic Resetting, J. Phys. Chem. Lett. 11, 7350                neers (Wiley, New York, 1981).
+     (2020).                                                       [40] G. Pólya and G. Szegő, Problems and Theorems in Anal-
+[32] A. Pal and S. Reuveni, First Passage under Restart,                ysis II (Springer, Berlin, 1976), Part V.
+

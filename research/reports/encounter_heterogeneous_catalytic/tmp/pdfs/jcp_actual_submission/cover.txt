@@ -1,0 +1,55 @@
+August 13, 2026
+
+
+    Dear Editors,
+    I would like to submit "Spectral diagnostics and local fixed-budget sensitivity of critical points
+in finite encounter-reaction models" for consideration as a Regular Article in The Journal of
+Chemical Physics.
+    The paper starts from a practical question in stochastic reaction kinetics: if the total amount
+of reactivity available to a pair of diffusing reactants is fixed, what can rearranging that reactivity
+in space actually do to the shape of the reaction-time distribution? Multi-peaked reaction-time
+densities are by now well documented, and it is tempting to read each peak as a mechanism.
+What has been missing is a calculus that says, for a declared finite model, whether the observed
+critical points are spectrally permitted at all, how they respond to an infinitesimal redistribution
+of the killing field, and which feasible redistribution moves them fastest at fixed budget.
+    The article builds that calculus in three exact steps: a reaction-support Green–Woodbury
+reduction that separates transport from killing, a generalized-Descartes sign gate on the ordered
+residues (with the reversibility hypothesis verified directly for both generators rather than
+assumed), and a Frechet–Duhamel response identity projected onto the budget tangent space.
+Two finite families then put the calculus to work, and both produce nondegenerate reaction-
+density folds carrying the normal-form 1/2 and 3/2 exponents; the encounter chain reproduces
+the normal-form amplitude to better than one percent.
+    The result I most want a referee to test is the last one. The finite-grid folds sit inside the
+physical control interval, and it would have been easy to report them as continuum predictions.
+Instead, an exact fold-transfer theory, a cell-averaged refinement ladder run to 33×33 nodes under
+two independent transport discretizations (upwind and Scharfetter–Gummel), and a 2 × 107 -
+walker lattice-free Brownian realization with Doi killing all say the same thing: the physical
+matched-budget path carries no interior continuum fold. The finite-grid critical controls are
+discretization artifacts, and the organizing fold sits at the admissibility edge of the redistribution
+family, where the far channel shuts off entirely. At fixed budget, spatial redistribution tunes the
+two arrival-time scales; it cannot merge them. The refinement-ladder and off-lattice production
+runs were carried out on the Isambard-AI facility and are acknowledged in the article.
+    The paper is deliberately explicit about its machinery: complete operator-level proofs, per-grid
+budget audits, refinement-ladder root tables, and stochastic validation gates are collected in the
+supplementary material, and the exact algebraic components are machine-checked in Lean 4 with
+the verification scope stated precisely there. I hope this is the kind of technical completeness that
+readers working on stochastic reaction–diffusion methods, reaction–diffusion master equation
+convergence, and imperfect-reactivity models will find genuinely usable.
+    Disclosure of related work: a separate manuscript by the same author, "Geometry-controlled
+folds of first-passage-time bimodality under localized absorption," is under review at Physical
+Review E (submitted 30 July 2026). It concerns localized absorption of a single-particle first-
+passage law on an interval and on finite networks. The present paper concerns two-particle
+encounter reactions, a spectral necessary condition, a budget-constrained sensitivity calculus,
+and a discrete-to-continuum transfer study; no numerical evidence, model, or theorem overlaps
+between the two manuscripts.
+    The manuscript is not under consideration elsewhere, and I have no conflicts of interest to
+declare.
+   Suggested referees familiar with imperfect reactivity, Doi/RDME numerics, and first-passage
+phenomena:
+      Samuel A. Isaacson (Boston University, USA) Radek Erban (University of Oxford, UK)
+Denis S. Grebenkov (CNRS / Ecole Polytechnique, France) Paul C. Bressloff (Imperial College
+London, UK) Aljaz Godec (MPI for Multidisciplinary Sciences, Goettingen, Germany)
+   Thank you for your consideration.
+   Sincerely, Xiaoxiao Zhouyi School of Engineering Mathematics and Technology, University of
+Bristol xiaoxiao.zhouyi@bristol.ac.uk ORCID: 0009-0003-7118-9621
+

@@ -1,0 +1,330 @@
+{
+  "axes": [
+    {
+      "axis_relation_sha256": "fee0110849cf9a727c6fc6ace2cc471d43e15c129a8a7d49a6738892a2f47fe9",
+      "coordinate": "midpoint",
+      "partition_file": {
+        "byte_length": 27566,
+        "path": "rows/10_a_y/midpoint.partition.json",
+        "sha256": "0ed1edb901448d9a71eb90d1c6c3bb657ec467b52e7be5eaaba4378279bd11d5"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/midpoint.backward.be64",
+            "sha256": "9018ef549459449633c90ddd5dc77b4c1fde98712af80ee5da05f507922d8dbf"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "9018ef549459449633c90ddd5dc77b4c1fde98712af80ee5da05f507922d8dbf",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/midpoint.forward.be64",
+            "sha256": "4caf4c358519c294610bfdcd2a62f1935fd2e72aa0636256c50c0192b199ca1e"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "4caf4c358519c294610bfdcd2a62f1935fd2e72aa0636256c50c0192b199ca1e",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/midpoint.stationary_mass.be64",
+            "sha256": "7c1da6f328fdbb423ecac5174e59d5b5faee37084e1243258cba87fb4709a0ec"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "7c1da6f328fdbb423ecac5174e59d5b5faee37084e1243258cba87fb4709a0ec",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_midpoint_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "f13a11c57acc813b1cc771fb6598dcfa4a5111394caaa9751fb3026d3ab57825",
+      "coordinate": "relative_parallel",
+      "partition_file": {
+        "byte_length": 27742,
+        "path": "rows/10_a_y/relative_parallel.partition.json",
+        "sha256": "07326ba8e7d7fbdb4846e6cc7d1fc0f19b8b2748c43ffc4c623b450972bec630"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/relative_parallel.backward.be64",
+            "sha256": "f12f9ce0c9c07ba01b0088644a2bc3677d501c3b066fb22ea931268492d3924d"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "f12f9ce0c9c07ba01b0088644a2bc3677d501c3b066fb22ea931268492d3924d",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/relative_parallel.forward.be64",
+            "sha256": "432d450450f514e06cb588d7ad1b41b3efa6e0b5ef3ba32251db6b7c25518619"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "432d450450f514e06cb588d7ad1b41b3efa6e0b5ef3ba32251db6b7c25518619",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/relative_parallel.stationary_mass.be64",
+            "sha256": "9cd2bdb9cad3e3bfc7f48a09d909986de101d0f4c7d6e41b515780e4d6cbb8cf"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "9cd2bdb9cad3e3bfc7f48a09d909986de101d0f4c7d6e41b515780e4d6cbb8cf",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_parallel_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    },
+    {
+      "axis_relation_sha256": "43d9867ae664d0c9ac9f2fc29bf626e7031e3679b77919b38c27ba7ca9410ac6",
+      "coordinate": "relative_perpendicular",
+      "partition_file": {
+        "byte_length": 12184,
+        "path": "rows/10_a_y/relative_perpendicular.partition.json",
+        "sha256": "66ee2f1fa614f648bd59ee0e8aa9fd08d1273a4eddec410a989b151eebbc2550"
+      },
+      "rates": {
+        "backward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/relative_perpendicular.backward.be64",
+            "sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_backward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "forward": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/relative_perpendicular.forward.be64",
+            "sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0fbaeee966f093dfdb8f81a9ee01ed565cb645dd8bbfc13f35c4ac1a28f6e75c",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_forward",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        },
+        "stationary_mass": {
+          "file": {
+            "byte_length": 2048,
+            "path": "rows/10_a_y/relative_perpendicular.stationary_mass.be64",
+            "sha256": "0546f197a4fc89ebd3e5f45bdb083fb4d9b123fff3c5aa9252993683b4a1a358"
+          },
+          "manifest": {
+            "byte_order": "big",
+            "logical_shape": [
+              128
+            ],
+            "raw_byte_length": 2048,
+            "raw_sha256": "0546f197a4fc89ebd3e5f45bdb083fb4d9b123fff3c5aa9252993683b4a1a358",
+            "record_count": 128,
+            "record_format": ">dd",
+            "role": "control_free_axis_relative_perpendicular_stationary_mass",
+            "schema": "encounter_big_endian_binary64_interval_file_v1"
+          }
+        }
+      }
+    }
+  ],
+  "configuration_index": 10,
+  "configuration_label": "A_Y",
+  "configuration_sha256": "063913c7fbc2b706ba85a0e3f06005bad23a2292749817294cbf41f5cdce4084",
+  "expected_states": 2097152,
+  "flags": {
+    "analytic_source_to_sparse_box_producer_consistent": true,
+    "free_axis_geometry_rate_producer_consistent": true,
+    "full_operator_bound": false,
+    "independent_geometry_relation_replay": false,
+    "independent_source_box_replay": false,
+    "killing_contact_geometry_bound": false,
+    "positive_budget_executed": false
+  },
+  "initial_marginals": [
+    {
+      "active_indices": [
+        22,
+        23,
+        24
+      ],
+      "coordinate": "midpoint",
+      "file": {
+        "byte_length": 2048,
+        "path": "rows/10_a_y/midpoint.initial_marginal.be64",
+        "sha256": "09f2a3627e37072a889268635b54215f258fca050d0aebf407209c77225113af"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          128
+        ],
+        "raw_byte_length": 2048,
+        "raw_sha256": "09f2a3627e37072a889268635b54215f258fca050d0aebf407209c77225113af",
+        "record_count": 128,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_midpoint",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        50,
+        51,
+        52
+      ],
+      "coordinate": "relative_parallel",
+      "file": {
+        "byte_length": 2048,
+        "path": "rows/10_a_y/relative_parallel.initial_marginal.be64",
+        "sha256": "32398adc147e1b3b481f0e0b9311cc90fcc576ab0406d9ebaeac5915be8b3341"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          128
+        ],
+        "raw_byte_length": 2048,
+        "raw_sha256": "32398adc147e1b3b481f0e0b9311cc90fcc576ab0406d9ebaeac5915be8b3341",
+        "record_count": 128,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_parallel",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    },
+    {
+      "active_indices": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "coordinate": "relative_perpendicular",
+      "file": {
+        "byte_length": 2048,
+        "path": "rows/10_a_y/relative_perpendicular.initial_marginal.be64",
+        "sha256": "a13ea5c65d6d326490d759f5dd4c5fc9d5de97a8d26baa8d8c78a80d52d5f6b3"
+      },
+      "manifest": {
+        "byte_order": "big",
+        "logical_shape": [
+          128
+        ],
+        "raw_byte_length": 2048,
+        "raw_sha256": "a13ea5c65d6d326490d759f5dd4c5fc9d5de97a8d26baa8d8c78a80d52d5f6b3",
+        "record_count": 128,
+        "record_format": ">dd",
+        "role": "analytic_initial_marginal_relative_perpendicular",
+        "schema": "encounter_big_endian_binary64_interval_file_v1"
+      }
+    }
+  ],
+  "row_relation_sha256": "65d545c179b6e9287fad08405f2cddab987838f41a9309ab0683c2f00e4a344b",
+  "schema": "encounter_control_free_production_initial_row_v1",
+  "source_box_relation_sha256": "b83db9fbd43ba423d8a553fce09d2deef39fbafa1f95c79454c66231f645f834",
+  "sparse_component_box": {
+    "active_component_count": 63,
+    "active_index_sha256": "900c16a39d3ebfbc80a2ca71af7b208c8bdca1d723f5cf0373632e6dc6cb8f74",
+    "dense_expansion_byte_length": 33554432,
+    "dense_expansion_record_format": ">dd",
+    "dense_expansion_sha256": "4e086fff438af4fdedaa43e7f8cc80ed12ef155928d23fadebd70606938f33cf",
+    "file": {
+      "byte_length": 1576,
+      "path": "rows/10_a_y/initial_component_box.sparse.be64",
+      "sha256": "b90d221db48bfc3932bdf309699775fff6b76f6331d1a40b35aedb00125381ee"
+    },
+    "implicit_background": "positive_zero_interval_[0x0.0p+0,0x0.0p+0]",
+    "lower_mass_exact": "1267650600227377239287321026303/1267650600228229401496703205376",
+    "record_format": ">Qdd",
+    "schema": "encounter_sparse_component_interval_box_v1",
+    "shape": [
+      128,
+      128,
+      128
+    ],
+    "state_count": 2097152,
+    "tensor_order": "C:midpoint_outer_relative_parallel_middle_transverse_inner",
+    "upper_mass_exact": "5070602400916326351374571250095/5070602400912917605986812821504"
+  },
+  "status": "PRODUCER_CONSISTENCY_ONLY_NOT_INDEPENDENT_NOT_F0"
+}

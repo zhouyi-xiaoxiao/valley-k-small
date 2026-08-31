@@ -1,0 +1,863 @@
+% Reader-facing complete proof fragment for inclusion in
+% encounter_multimodal_prr_supplement.tex.  This file deliberately contains
+% no document class, package import, bibliography, or end-document command.
+
+\section{Exact prescribed finite modality: complete proof}
+\label{sec:exactmfull-proof}
+
+This section proves the exact finite-mode statement used in the main article.
+The construction is pointwise in a fixed finite dimension and
+a fixed finite mode count.  Its two small parameters are ordered: first the
+narrow-noise parameter is fixed sufficiently small, and only then is the Doi
+budget taken sufficiently small.  All stationary-point counts below are on
+the declared compact positive-time window.
+
+\subsection{Exact quotient, stationary midpoint variance, and whole-window
+contact}
+\label{subsec:exactmfull-physical}
+
+Fix finite integers \(d\ge2\) and \(m\ge1\), a transverse period \(W>0\), a
+contact radius \(0<a<W/2\), and a compact positive-time interval
+\(I=[\tau,T]\subset(0,\infty)\).  On
+\(\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}\), let the longitudinal
+midpoint and relative coordinates solve
+\begin{align}
+ \dd Z_t&=-\gamma(Z_t-\bar z)\,\dd t
+       +\varepsilon\sqrt{D_0}\,\dd W_t,
+ \label{eq:exactmfull-midpoint-sde}\\
+ \dd R_{\parallel,t}&=-\gamma R_{\parallel,t}\,\dd t
+       +2\varepsilon\sqrt{D_0}\,\dd W_{\parallel,t},
+ \label{eq:exactmfull-relative-long-sde}\\
+ \dd R_{\perp,t}&=2\varepsilon\sqrt{D_0}\,\dd W_{\perp,t}
+       \pmod W,
+ \label{eq:exactmfull-relative-perp-sde}
+\end{align}
+where \(D_0,\gamma>0\).  All Brownian drivers and all initial variables are
+mutually independent, and
+\begin{align}
+ Z_0&\sim N\!\left(z_0,\varepsilon^2\frac{D_0}{2\gamma}\right),
+ &z_0&\ne\bar z,
+ \label{eq:exactmfull-midpoint-initial}\\
+ R_{\parallel,0}&\sim
+ N(r_{\parallel,0},\varepsilon^2u_0^2),
+ &0<u_0^2&<\frac{4D_0}{\gamma},
+ \label{eq:exactmfull-relative-long-initial}\\
+ R_{\perp,0}&\sim
+ \operatorname{WN}(r_{\perp,0},\varepsilon^2\Sigma_{\perp,0}),
+ &\Sigma_{\perp,0}&\succ0.
+ \label{eq:exactmfull-relative-perp-initial}
+\end{align}
+Here \(\operatorname{WN}\) denotes the wrapped Gaussian on the transverse
+torus.  The two strict variance inequalities
+\(D_0/(2\gamma)<D_0/\gamma\) and
+\(u_0^2<4D_0/\gamma\) are precisely the unbounded Gaussian conditions that
+place this initial law in the weighted state space used by
+Theorem~\ref{thm:mixed-jet}; the wrapped factor is square integrable against
+the uniform torus measure.
+
+The midpoint has mean and variance
+\begin{equation}
+ \mu(t)=\bar z+(z_0-\bar z)\e^{-\gamma t},
+ \qquad
+ \operatorname{Var}Z_t=\varepsilon^2\frac{D_0}{2\gamma}
+ \quad(t\ge0).
+ \label{eq:exactmfull-stationary-variance}
+\end{equation}
+Thus only the variance, not the mean, is stationary.  This constant variance
+is what produces a common-variance Gaussian mixture below.
+
+Let \(\varsigma=\operatorname{sgn}\mu'\in\{-1,1\}\), fix a physical
+reference length \(\ell_0>0\), and define
+\begin{equation}
+ x(t)=\frac{\varsigma\mu(t)}{\ell_0},
+ \qquad v_0:=\inf_{t\in I}x'(t)>0.
+ \label{eq:exactmfull-increasing-coordinate}
+\end{equation}
+Choose target times and their dimensionless centres by
+\begin{equation}
+ \tau<t_1<\cdots<t_m<T,
+ \qquad c_j=x(t_j).
+ \label{eq:exactmfull-targets}
+\end{equation}
+Then \(c_1<\cdots<c_m\), and the physical centre of slab \(j\) is
+\(\varsigma\ell_0c_j=\mu(t_j)\).  In particular, reversing the trajectory
+orientation reverses the physical centres at the same time; no centre is
+held fixed under the coordinate reversal.
+
+Write
+\begin{equation}
+ r_*(t)=(r_{\parallel,0}\e^{-\gamma t},r_{\perp,0})
+ \label{eq:exactmfull-relative-deterministic-path}
+\end{equation}
+and impose the whole-window, minimum-image contact margin
+\begin{equation}
+ \sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta
+ \quad\text{for some }\eta>0.
+ \label{eq:exactmfull-whole-window-contact}
+\end{equation}
+The word ``whole-window'' is essential: the condition is required on every
+point of \(I\), not merely near the target times.
+
+\begin{lemma}[Whole-window differentiated contact tail]
+\label{lem:exactmfull-contact-tail}
+Let
+\begin{equation}
+ c_{d,\varepsilon}(t)
+ =\mathbb P\{|R_t|_{\rm mi}<a\}.
+ \label{eq:exactmfull-contact-probability}
+\end{equation}
+Under Eqs.~\eqref{eq:exactmfull-relative-long-sde}--
+\eqref{eq:exactmfull-whole-window-contact}, for \(r=0,1,2\) there are finite
+constants \(C_{r,d},N_{r,d},q_d>0\), independent of all sufficiently small
+\(\varepsilon\), such that
+\begin{equation}
+ \left\|\partial_t^r(c_{d,\varepsilon}-1)\right\|_{L^\infty(I)}
+ \le C_{r,d}\varepsilon^{-N_{r,d}}
+       \exp(-q_d/\varepsilon^2).
+ \label{eq:exactmfull-contact-tail-bound}
+\end{equation}
+Consequently, \(c_{d,\varepsilon}\ge1/2\) for sufficiently small
+\(\varepsilon\), and the first two logarithmic derivatives of
+\(c_{d,\varepsilon}\) are uniformly bounded on \(I\) and converge to zero
+faster than any power of \(\varepsilon\).
+\end{lemma}
+
+\begin{proof}
+In an unwrapped transverse chart the relative Gaussian has mean \(r_*(t)\)
+and covariance \(\varepsilon^2\Sigma_R(t)\), with longitudinal and transverse
+blocks
+\begin{align}
+ u_0^2\e^{-2\gamma t}
+ +\frac{2D_0}{\gamma}(1-\e^{-2\gamma t}),
+ \qquad
+ \Sigma_{\perp,0}+4D_0t I_{d-1}.
+ \label{eq:exactmfull-relative-covariance}
+\end{align}
+Because \(I\subset(0,\infty)\), \(u_0>0\), and
+\(\Sigma_{\perp,0}\succ0\), this covariance and its first two time
+derivatives are uniformly bounded on \(I\), and its eigenvalues lie between
+two positive constants.  The reverse triangle inequality and
+Eq.~\eqref{eq:exactmfull-whole-window-contact} give
+\begin{equation}
+ \inf_{t\in I}\inf_{|r|_{\rm mi}\ge a}
+ d_{\rm cyl}(r,r_*(t))\ge\eta.
+ \label{eq:exactmfull-contact-separation}
+\end{equation}
+The assumption \(a<W/2\) keeps the contact ball away from the transverse cut
+locus.  Express the wrapped density as its Gaussian lattice-image sum.
+Every time derivative of order at most two is the same Gaussian multiplied
+by a polynomial in the scaled displacement and in \(\varepsilon^{-1}\),
+with degree bounded independently of \(t\).  Equation
+\eqref{eq:exactmfull-contact-separation}, the uniform covariance bounds, and
+a standard Gaussian tail estimate therefore give, after summing the lattice
+images,
+\begin{equation}
+ \sup_{t\in I}\int_{|r|_{\rm mi}\ge a}
+ |\partial_t^r p_{\varepsilon,t}(r)|\,\dd r
+ \le C_{r,d}\varepsilon^{-N_{r,d}}
+       \e^{-q_d/\varepsilon^2},
+ \qquad r=0,1,2.
+ \label{eq:exactmfull-density-tail}
+\end{equation}
+Differentiation under the integral is justified by the same integrable
+majorant and yields Eq.~\eqref{eq:exactmfull-contact-tail-bound}.  For small
+\(\varepsilon\), its \(r=0\) case gives \(c_{d,\varepsilon}\ge1/2\), while
+\begin{align}
+ |\partial_t\log c_{d,\varepsilon}|
+ &\le2|\partial_t c_{d,\varepsilon}|,\nonumber\\
+ |\partial_t^2\log c_{d,\varepsilon}|
+ &\le2|\partial_t^2c_{d,\varepsilon}|
+      +4|\partial_tc_{d,\varepsilon}|^2.
+ \label{eq:exactmfull-log-contact-bounds}
+\end{align}
+This proves the logarithmic-derivative statement.
+\end{proof}
+
+Fix \(\rho>0\), put
+\begin{equation}
+ S_*^2=\frac{D_0}{2\gamma}+\rho^2,
+ \qquad \sigma=\frac{\varepsilon S_*}{\ell_0},
+ \label{eq:exactmfull-common-width}
+\end{equation}
+and use the normalized physical slabs
+\begin{equation}
+ \phi_{j,\varepsilon}(z)
+ =\frac{1}{\sqrt{2\pi}\,\varepsilon\rho}
+  \exp\!\left[-\frac{(z-\mu(t_j))^2}
+  {2\varepsilon^2\rho^2}\right].
+ \label{eq:exactmfull-slabs}
+\end{equation}
+Let \(0<w_*\le1/m\) and
+\begin{equation}
+ \mathcal W_{w_*}
+ =\left\{w=(w_1,\ldots,w_m):
+   \sum_{j=1}^m w_j=1,\quad w_j\ge w_*>0\right\}.
+ \label{eq:exactmfull-weight-set}
+\end{equation}
+For \(w\in\mathcal W_{w_*}\), define the Doi killing field
+\begin{equation}
+ K_{B,w,\varepsilon}(Z,R)
+ =\mathbf{1}_{\{|R|_{\rm mi}<a\}}
+  \frac{B}{W^{d-1}}\sum_{j=1}^m
+  w_j\phi_{j,\varepsilon}(Z)
+ =B V_{w,\varepsilon}(Z,R).
+ \label{eq:exactmfull-killing}
+\end{equation}
+Every slab has unit full longitudinal integral, so \(B\) is the same
+installed centre-space budget for every allocation.
+
+\begin{lemma}[Exact common-variance free-exposure factorization]
+\label{lem:exactmfull-factorization}
+Let \(T_0(t)\) be the unkilled semigroup and \(q_0\) the initial law above.
+The unit-budget free-exposure clock is exactly
+\begin{align}
+ G_{\varepsilon,w}(t)
+ &:=\langle V_{w,\varepsilon},T_0(t)q_0\rangle
+ =a_\varepsilon(t)H_{\sigma,w}(x(t)),
+ \label{eq:exactmfull-factorization}\\
+ a_\varepsilon(t)
+ &:=\frac{c_{d,\varepsilon}(t)}
+ {W^{d-1}\sqrt{2\pi}\,\varepsilon S_*},
+ \label{eq:exactmfull-slow-factor}\\
+ H_{\sigma,w}(x)
+ &:=\sum_{j=1}^m w_j
+ \exp\!\left[-\frac{(x-c_j)^2}{2\sigma^2}\right].
+ \label{eq:exactmfull-mixture}
+\end{align}
+The positive factor \(a_\varepsilon\) has uniformly bounded first two
+logarithmic time derivatives for all sufficiently small \(\varepsilon\).
+\end{lemma}
+
+\begin{proof}
+Independence factors the contact event from every longitudinal slab
+expectation.  By Eq.~\eqref{eq:exactmfull-stationary-variance}, convolution
+of \(\phi_{j,\varepsilon}\) with the law of \(Z_t\) gives
+\begin{equation}
+ \mathbb E[\phi_{j,\varepsilon}(Z_t)]
+ =\frac{1}{\sqrt{2\pi}\,\varepsilon S_*}
+ \exp\!\left[-\frac{(\mu(t)-\mu(t_j))^2}
+ {2\varepsilon^2S_*^2}\right].
+ \label{eq:exactmfull-gaussian-convolution}
+\end{equation}
+Since
+\(\mu(t)-\mu(t_j)=\varsigma\ell_0(x(t)-c_j)\),
+Eqs.~\eqref{eq:exactmfull-common-width} and
+\eqref{eq:exactmfull-gaussian-convolution} give
+Eqs.~\eqref{eq:exactmfull-factorization}--
+\eqref{eq:exactmfull-mixture}.  The last assertion follows from
+Lemma~\ref{lem:exactmfull-contact-tail}, because the remaining factors in
+\(a_\varepsilon\) are independent of time.
+\end{proof}
+
+\subsection{The pure common-variance mixture}
+\label{subsec:exactmfull-pure-mixture}
+
+Set \(J=x(I)=[\alpha,\beta]\).  The targets are interior, so
+\begin{equation}
+ \alpha<c_1<\cdots<c_m<\beta.
+ \label{eq:exactmfull-centre-order}
+\end{equation}
+For \(m\ge2\), let
+\begin{equation}
+ \Delta_j=c_{j+1}-c_j,
+ \qquad \Delta_*:=\min_{1\le j<m}\Delta_j>0.
+ \label{eq:exactmfull-gaps}
+\end{equation}
+No empty minimum is used when \(m=1\).
+
+Define
+\begin{equation}
+ q_j(x)=w_j\e^{-(x-c_j)^2/(2\sigma^2)},
+ \qquad
+ \pi_j(x)=\frac{q_j(x)}{H_{\sigma,w}(x)},
+ \qquad
+ \bar c(x)=\sum_{j=1}^m\pi_j(x)c_j.
+ \label{eq:exactmfull-posterior}
+\end{equation}
+The logarithmic slope \(L_{\sigma,w}=\partial_x\log H_{\sigma,w}\) obeys
+the exact identities
+\begin{align}
+ L_{\sigma,w}(x)
+ &=\frac{\bar c(x)-x}{\sigma^2},
+ \label{eq:exactmfull-log-slope}\\
+ L_{\sigma,w}'(x)
+ &=\frac{\operatorname{Var}_{\pi(x)}(c)}{\sigma^4}
+   -\frac{1}{\sigma^2}.
+ \label{eq:exactmfull-log-slope-derivative}
+\end{align}
+Indeed, differentiation of \(q_j\) gives the first identity, while
+\(\pi_j'=\pi_j(c_j-\bar c)/\sigma^2\) gives the second.
+
+The mode cap for univariate Gaussian mixtures is classical
+\cite{carreiraPerpinanWilliams2003modes,amendolaEngstromHaase2020modes}.
+We retain the direct multiplicity-counting proof because the later Doi
+transfer also needs explicit uniform root locations, curvature scales, and
+full-complement margins.
+
+\begin{lemma}[Global extended-Chebyshev zero bound]
+\label{lem:exactmfull-zero-bound}
+For distinct real centres and positive weights,
+\(H_{\sigma,w}'\) has at most \(2m-1\) real zeros counted with
+multiplicity.  Its real zero set is finite.
+\end{lemma}
+
+\begin{proof}
+Multiplication by a nowhere-zero function preserves both zeros and their
+multiplicities, and direct differentiation gives
+\begin{equation}
+ \sigma^2\e^{x^2/(2\sigma^2)}H_{\sigma,w}'(x)
+ =\sum_{j=1}^m w_j(c_j-x)
+   \e^{-c_j^2/(2\sigma^2)}\e^{c_jx/\sigma^2}.
+ \label{eq:exactmfull-exponential-polynomial}
+\end{equation}
+We prove the slightly more general claim that a nonzero function
+\begin{equation}
+ P_m(x)=\sum_{j=1}^m(a_j+b_jx)\e^{\lambda_jx},
+ \qquad \lambda_1<\cdots<\lambda_m,
+ \label{eq:exactmfull-general-exp-polynomial}
+\end{equation}
+with no identically zero summand has at most \(2m-1\) real zeros counted
+with multiplicity.
+
+First, the zero set is finite.  After multiplication by
+\(\e^{-\lambda_1x}\), the first affine term dominates as \(x\to-\infty\);
+the last affine-exponential term dominates as \(x\to+\infty\).  Each
+dominating affine factor has a fixed sign sufficiently far in its tail.
+Thus all zeros lie in a compact interval.  A nonzero real-analytic function
+has only finitely many zeros there.
+
+Now induct on \(m\).  The \(m=1\) case is the affine zero bound.  For
+\(m>1\), put \(Q=\e^{-\lambda_1x}P_m\).  Two derivatives annihilate the first
+affine term.  For every \(j\ge2\), the second derivative of
+\((a_j+b_jx)\e^{(\lambda_j-\lambda_1)x}\) is a nonzero affine polynomial
+times the same exponential, and the remaining positive exponents are
+distinct.  If a \(C^2\) function has \(N\ge2\) real zeros counted with
+multiplicity, generalized Rolle counting gives at least \(N-2\) zeros of
+its second derivative counted with multiplicity: differentiation reduces
+the multiplicity at each root, and ordinary Rolle supplies a root between
+each pair of distinct roots.  Hence
+\begin{equation}
+ N(Q)-2\le N(Q'')\le2(m-1)-1,
+ \label{eq:exactmfull-rolle-count}
+\end{equation}
+so \(N(P_m)\le2m-1\); the cases \(N<2\) are immediate.  In
+Eq.~\eqref{eq:exactmfull-exponential-polynomial}, every affine coefficient
+has nonzero slope
+\(-w_j\e^{-c_j^2/(2\sigma^2)}\), so the claim applies.
+\end{proof}
+
+\begin{lemma}[Uniform adjacent isolation]
+\label{lem:exactmfull-adjacent-isolation}
+For the fixed finite centre set and the compact weight family, there are
+\(C_{\rm iso},q_{\rm iso}>0\) such that, for every \(j<m\),
+\begin{equation}
+ \sup_{x\in[c_j,c_{j+1}]}
+ \frac{\sum_{k\notin\{j,j+1\}}q_k(x)}
+      {q_j(x)+q_{j+1}(x)}
+ \le C_{\rm iso}\e^{-q_{\rm iso}/\sigma^2}
+ \label{eq:exactmfull-adjacent-isolation}
+\end{equation}
+for all sufficiently small \(\sigma\), uniformly in \(w\).  On
+\([\alpha,c_1]\), component \(1\) has the analogous one-component bound, and
+on \([c_m,\beta]\), component \(m\) does.
+\end{lemma}
+
+\begin{proof}
+For \(x\in[c_j,c_{j+1}]\) and \(k<j\),
+\begin{equation}
+ (x-c_k)^2-(x-c_j)^2
+ =(c_j-c_k)(2x-c_j-c_k)\ge(c_j-c_k)^2.
+ \label{eq:exactmfull-left-square-comparison}
+\end{equation}
+For \(k>j+1\), comparison with \(c_{j+1}\) gives the corresponding positive
+lower bound.  Since \(w_k/w_j\le1/w_*\), summation over the finite centre set
+proves Eq.~\eqref{eq:exactmfull-adjacent-isolation}.  The same
+difference-of-squares comparison proves the two tail statements.  The
+posterior mean and variance of the full mixture therefore differ from those
+of the isolated adjacent pair by \(O(\e^{-q/\sigma^2})\), uniformly in the
+gap, the allocation, and sufficiently small \(\sigma\).
+\end{proof}
+
+\begin{theorem}[Exact topology of the pure mixture]
+\label{thm:exactmfull-pure-topology}
+Uniformly for \(w\in\mathcal W_{w_*}\), every sufficiently small
+\(\sigma>0\) gives exactly \(m\) simple local maxima and \(m-1\) simple local
+minima of \(H_{\sigma,w}\) on \(J\), ordered alternately, with nonzero
+endpoint derivatives.  The maximum near \(c_j\), denoted \(p_j(\sigma,w)\),
+satisfies
+\begin{equation}
+ p_j=c_j+O(\e^{-q/\sigma^2}),
+ \qquad L_{\sigma,w}'(p_j)
+ =-\sigma^{-2}+o(\sigma^{-2}).
+ \label{eq:exactmfull-peak-location}
+\end{equation}
+For \(m\ge2\), define the weighted equality point
+\begin{equation}
+ s_j(\sigma,w)
+ =\frac{c_j+c_{j+1}}2
+  +\frac{\sigma^2}{\Delta_j}\log\frac{w_j}{w_{j+1}}.
+ \label{eq:exactmfull-weighted-crossover}
+\end{equation}
+The minimum in the \(j\)-th gap, denoted \(r_j(\sigma,w)\), satisfies
+\begin{align}
+ r_j&=s_j+O(\sigma^4),
+ \label{eq:exactmfull-valley-location}\\
+ L_{\sigma,w}'(r_j)
+ &=\frac{\Delta_j^2}{4\sigma^4}+O(\sigma^{-2}).
+ \label{eq:exactmfull-valley-curvature}
+\end{align}
+All remainders are uniform on the compact weight set.
+\end{theorem}
+
+\begin{proof}
+Fix a constant \(A>1\).  On
+\(|x-c_j|\le A\sigma^2\), one-component isolation gives
+\begin{align}
+ L_{\sigma,w}(x)
+ &=\frac{c_j-x}{\sigma^2}
+   +O(\sigma^{-2}\e^{-q/\sigma^2}),
+ \label{eq:exactmfull-peak-slope-expansion}\\
+ L_{\sigma,w}'(x)
+ &=-\sigma^{-2}
+   +O(\sigma^{-4}\e^{-q/\sigma^2}).
+ \label{eq:exactmfull-peak-derivative-expansion}
+\end{align}
+At \(c_j-\sigma^2\) the slope is positive, at
+\(c_j+\sigma^2\) it is negative, and it is strictly decreasing between
+them.  Hence there is one simple maximum with the location and derivative in
+Eq.~\eqref{eq:exactmfull-peak-location}.
+
+For a gap, the isolated adjacent odds are exactly
+\begin{equation}
+ \frac{q_{j+1}(x)}{q_j(x)}
+ =\exp\!\left[\frac{\Delta_j(x-s_j)}{\sigma^2}\right].
+ \label{eq:exactmfull-adjacent-odds}
+\end{equation}
+Put \(h_j=(\log9)/\Delta_j\) and
+\begin{equation}
+ C_j=[s_j-h_j\sigma^2,s_j+h_j\sigma^2].
+ \label{eq:exactmfull-crossover-interval}
+\end{equation}
+At the left and right endpoints the adjacent posterior masses are,
+respectively, \((9/10,1/10)\) and \((1/10,9/10)\).  By
+Lemma~\ref{lem:exactmfull-adjacent-isolation}, after reducing a common
+\(\sigma_0\), both adjacent posterior masses are bounded below throughout
+\(C_j\), and
+\begin{equation}
+ \operatorname{Var}_{\pi(x)}(c)\ge\kappa_0\Delta_*^2,
+ \qquad
+ L_{\sigma,w}'(x)\ge\frac{\kappa_v}{\sigma^4}>0
+ \quad(x\in C_j)
+ \label{eq:exactmfull-crossover-monotonicity}
+\end{equation}
+for constants independent of \(j,w,\sigma\).  At the two endpoints of
+\(C_j\), Eq.~\eqref{eq:exactmfull-log-slope} gives, for sufficiently small
+\(\sigma\),
+\begin{equation}
+ L_{\sigma,w}(s_j-h_j\sigma^2)
+ \le-\frac{\Delta_j}{5\sigma^2},
+ \qquad
+ L_{\sigma,w}(s_j+h_j\sigma^2)
+ \ge \frac{\Delta_j}{5\sigma^2}.
+ \label{eq:exactmfull-crossover-signs}
+\end{equation}
+Thus \(C_j\) contains exactly one simple minimum root.
+
+At \(s_j\), the adjacent posterior masses are equal and the adjacent
+posterior mean is \((c_j+c_{j+1})/2\).  Hence
+\begin{equation}
+ L_{\sigma,w}(s_j)
+ =-\frac{1}{\Delta_j}\log\frac{w_j}{w_{j+1}}
+ +O(\sigma^{-2}\e^{-q/\sigma^2})=O(1)
+ \label{eq:exactmfull-slope-at-crossover}
+\end{equation}
+uniformly in \(w\).  The mean-value theorem and
+Eq.~\eqref{eq:exactmfull-crossover-monotonicity} give
+\(r_j-s_j=O(\sigma^4)\).  At \(r_j\), the two adjacent posterior masses are
+\(1/2+O(\sigma^2)\); substitution in
+Eq.~\eqref{eq:exactmfull-log-slope-derivative} proves
+Eq.~\eqref{eq:exactmfull-valley-curvature}.
+
+For small \(\sigma\), the constructed peak and gap neighbourhoods are
+pairwise disjoint and contained in \((\alpha,\beta)\).  They contain
+\(m+(m-1)=2m-1\) distinct simple stationary points.  The global bound in
+Lemma~\ref{lem:exactmfull-zero-bound} excludes every additional real
+stationary point, including multiple ones.  Tail isolation and the fixed
+separations \(c_1-\alpha>0\) and \(\beta-c_m>0\) give
+\begin{equation}
+ L_{\sigma,w}(\alpha)>0,
+ \qquad L_{\sigma,w}(\beta)<0,
+ \label{eq:exactmfull-endpoint-signs}
+\end{equation}
+so neither endpoint is stationary.  When \(m=1\), there are no gaps or
+valley definitions: the exact identity
+\(L_{\sigma,w}(x)=(c_1-x)/\sigma^2\) gives one maximum and both endpoint
+signs directly.
+\end{proof}
+
+\subsection{Full posterior-sector certificate and a slow positive factor}
+\label{subsec:exactmfull-slow-factor}
+
+The zero bound above does not apply after multiplication by a nonconstant
+positive factor.  We therefore certify the complete complement of small peak
+and valley boxes.
+
+\begin{lemma}[Posterior-sector certificate]
+\label{lem:exactmfull-posterior-sectors}
+Fix \(K>0\).  There are constants
+\(A_{\rm p},A_{\rm v},C_{\rm p},C_{\rm v},
+\kappa_{\rm p},\kappa_{\rm v}>0\) and \(\sigma_K>0\), depending only on the
+fixed centre set, \(J\), \(w_*\), and \(K\), such that, for every
+\(0<\sigma<\sigma_K\) and every admissible \(w\), the boxes
+\begin{align}
+ P_j&=[c_j-A_{\rm p}\sigma^2,c_j+A_{\rm p}\sigma^2],
+ \label{eq:exactmfull-peak-boxes}\\
+ V_j&=[r_j-A_{\rm v}\sigma^4,r_j+A_{\rm v}\sigma^4]
+ \quad(j<m)
+ \label{eq:exactmfull-valley-boxes}
+\end{align}
+are pairwise disjoint and contained in \((\alpha,\beta)\), and the following
+hold:
+\begin{align}
+ |L_{\sigma,w}|&\le C_{\rm p},&
+ L_{\sigma,w}'&\le-\kappa_{\rm p}\sigma^{-2}
+ &&\text{on }P_j,
+ \label{eq:exactmfull-peak-box-control}\\
+ |L_{\sigma,w}|&\le C_{\rm v},&
+ L_{\sigma,w}'&\ge \kappa_{\rm v}\sigma^{-4}
+ &&\text{on }V_j.
+ \label{eq:exactmfull-valley-box-control}
+\end{align}
+At the left and right box boundaries, respectively, the slope signs are
+\begin{equation}
+ \begin{array}{c|cc}
+ &\text{left boundary}&\text{right boundary}\\ \hline
+ P_j&L_{\sigma,w}\ge2K&L_{\sigma,w}\le-2K\\
+ V_j&L_{\sigma,w}\le-2K&L_{\sigma,w}\ge2K.
+ \end{array}
+ \label{eq:exactmfull-box-boundary-signs}
+\end{equation}
+On the entire complement in \(J\) of the open boxes,
+\begin{equation}
+ |L_{\sigma,w}(x)|\ge2K,
+ \label{eq:exactmfull-complement-margin}
+\end{equation}
+with the exhaustive alternating sign order
+\begin{equation}
+ +\;P_1\;-\;V_1\;+\;P_2\;-\;\cdots\;+\;P_m\;-.
+ \label{eq:exactmfull-complement-sign-order}
+\end{equation}
+For \(m=1\), every valley clause is omitted.
+\end{lemma}
+
+\begin{proof}
+Choose \(A_{\rm p}\ge4K\).  The uniform expansions
+\eqref{eq:exactmfull-peak-slope-expansion}--
+\eqref{eq:exactmfull-peak-derivative-expansion} give, after reducing
+\(\sigma_K\), Eq.~\eqref{eq:exactmfull-peak-box-control} and the peak row of
+Eq.~\eqref{eq:exactmfull-box-boundary-signs}.  The convex-hull property
+\(\bar c(x)\in[c_1,c_m]\) gives the full outer-tail estimates without any
+local expansion:
+\begin{align}
+ x\le c_1-A_{\rm p}\sigma^2&\Longrightarrow
+ L_{\sigma,w}(x)\ge A_{\rm p},\nonumber\\
+ x\ge c_m+A_{\rm p}\sigma^2&\Longrightarrow
+ L_{\sigma,w}(x)\le-A_{\rm p}.
+ \label{eq:exactmfull-outer-tail-sector}
+\end{align}
+
+Fix a gap and abbreviate \(\Delta=\Delta_j\), \(s=s_j\).  The right
+adjacent posterior mass is
+\begin{equation}
+ p(x)=\frac{q_{j+1}(x)}{q_j(x)+q_{j+1}(x)}
+ =\frac{1}{1+\exp[-\Delta(x-s)/\sigma^2]}.
+ \label{eq:exactmfull-logistic-posterior}
+\end{equation}
+On the crossover interval \(C_j\) in
+Eq.~\eqref{eq:exactmfull-crossover-interval}, its edge odds are \(1/9\) and
+\(9\), not exponentially small or large.  Both adjacent masses are therefore
+bounded below throughout \(C_j\), and
+Eq.~\eqref{eq:exactmfull-crossover-monotonicity} holds there.  Conversely,
+the fixed finite centre diameter bounds the posterior variance, so
+\(|L'|\le C\sigma^{-4}\) on \(C_j\).
+
+The pure root satisfies \(L(r_j)=0\).  Choose \(A_{\rm v}\) large enough that
+\(\kappa_vA_{\rm v}\ge2K\).  Since
+\(A_{\rm v}\sigma^4=o(\sigma^2)\), the valley box lies in \(C_j\) for small
+\(\sigma\).  Integrating the lower and upper bounds for \(L'\) from \(r_j\)
+proves Eq.~\eqref{eq:exactmfull-valley-box-control}, the valley row of
+Eq.~\eqref{eq:exactmfull-box-boundary-signs}, and the required negative and
+positive bounds on \(C_j\setminus\operatorname{int}V_j\).
+
+It remains to cover both outer sectors of every gap; this is the step that
+prevents an unproved dominance claim at a crossover edge.  Consider first
+\begin{equation}
+ [c_j+A_{\rm p}\sigma^2,s_j-h_j\sigma^2]
+ \label{eq:exactmfull-left-gap-sector}
+\end{equation}
+and split it at \(c_j+\Delta_j/4\), which lies in the stated interval for all
+sufficiently small \(\sigma\), uniformly in \(w\).  On the portion nearer
+\(c_j\), every other component is exponentially small relative to component
+\(j\), so
+\begin{equation}
+ \bar c(x)-x\le-\tfrac12A_{\rm p}\sigma^2,
+ \qquad L_{\sigma,w}(x)\le-A_{\rm p}/2\le-2K.
+ \label{eq:exactmfull-left-near-peak-sector}
+\end{equation}
+On the remaining portion, monotonicity of
+Eq.~\eqref{eq:exactmfull-logistic-posterior} and the left crossover edge give
+\(p(x)\le1/10\), while \(x-c_j\ge\Delta_j/4\).  The adjacent-pair mean then
+obeys
+\begin{equation}
+ c_j+\Delta_jp(x)-x
+ \le\frac{\Delta_j}{10}-\frac{\Delta_j}{4}
+ =-\frac{3\Delta_j}{20}.
+ \label{eq:exactmfull-left-crossover-sector}
+\end{equation}
+The nonadjacent correction is exponentially small by
+Lemma~\ref{lem:exactmfull-adjacent-isolation}; hence this sector also has
+\(L\le-2K\) for small \(\sigma\), including its \(1/9\)-odds edge.
+
+Symmetrically, split
+\([s_j+h_j\sigma^2,c_{j+1}-A_{\rm p}\sigma^2]\) at
+\(c_{j+1}-\Delta_j/4\).  On the portion nearer the crossover,
+\(p(x)\ge9/10\) and \(c_{j+1}-x\ge\Delta_j/4\), giving the positive analogue
+of Eq.~\eqref{eq:exactmfull-left-crossover-sector}; on the portion nearer
+\(c_{j+1}\), one-component isolation gives
+\(L\ge A_{\rm p}/2\ge2K\).  Thus the right outer sector has \(L\ge2K\).
+
+The fixed centre and endpoint separations make all boxes disjoint and
+interior for one common sufficiently small \(\sigma_K\).  The outer tails,
+all peak boundaries, both outer sectors of every gap, and every
+crossover-minus-valley sector cover every point of the box complement.
+This proves Eqs.~\eqref{eq:exactmfull-complement-margin}--
+\eqref{eq:exactmfull-complement-sign-order}.  When \(m=1\), the same result
+follows directly from \(L=(c_1-x)/\sigma^2\) and
+Eq.~\eqref{eq:exactmfull-outer-tail-sector}.
+\end{proof}
+
+\begin{theorem}[Slow positive factors preserve the exact topology]
+\label{thm:exactmfull-slow-factor}
+Let \(x\in C^2(I)\) be strictly increasing with
+\(\inf_Ix'=v_0>0\).  Let \(a_\sigma\in C^2(I)\) be positive and assume
+\begin{equation}
+ M_0:=\sup_{\sigma<\sigma_0}
+ \|\partial_t\log a_\sigma\|_{L^\infty(I)}<\infty,
+ \qquad
+ M_1:=\sup_{\sigma<\sigma_0}
+ \|\partial_t^2\log a_\sigma\|_{L^\infty(I)}<\infty.
+ \label{eq:exactmfull-slow-factor-hypothesis}
+\end{equation}
+Then, uniformly for \(w\in\mathcal W_{w_*}\), all sufficiently small
+\(\sigma>0\) give exactly \(m\) nondegenerate maxima and \(m-1\)
+nondegenerate minima of
+\begin{equation}
+ F_{\sigma,w}(t)=a_\sigma(t)H_{\sigma,w}(x(t))
+ \label{eq:exactmfull-slow-product}
+\end{equation}
+on \(I\), ordered alternately, with no stationary endpoint.  Relative to the
+pure roots in the \(x\) coordinate,
+\begin{align}
+ x(t_{j,\sigma}^{\max})-p_j(\sigma,w)&=O(\sigma^2),
+ \label{eq:exactmfull-slow-peak-shift}\\
+ x(t_{j,\sigma}^{\min})-r_j(\sigma,w)&=O(\sigma^4),
+ \label{eq:exactmfull-slow-valley-shift}
+\end{align}
+uniformly in \(w\).  Thus
+\begin{equation}
+ x(t_{j,\sigma}^{\min})=s_j(\sigma,w)+O(\sigma^4).
+ \label{eq:exactmfull-slow-valley-location}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Put
+\begin{equation}
+ b_\sigma=\partial_t\log a_\sigma,
+ \qquad
+ D_{\sigma,w}(t)=\partial_t\log F_{\sigma,w}(t)
+ =b_\sigma(t)+x'(t)L_{\sigma,w}(x(t)).
+ \label{eq:exactmfull-stationarity-function}
+\end{equation}
+Since \(F_{\sigma,w}>0\), its stationary points are precisely the zeros of
+\(D_{\sigma,w}\), and
+\begin{equation}
+ D_{\sigma,w}'
+ =b_\sigma'+x''L_{\sigma,w}+(x')^2L_{\sigma,w}'.
+ \label{eq:exactmfull-stationarity-derivative}
+\end{equation}
+Choose \(K>(M_0+1)/v_0\) and apply
+Lemma~\ref{lem:exactmfull-posterior-sectors}.  On the full complement of the
+open boxes, the term \(x'L\) strictly dominates \(b_\sigma\), so \(D\) has
+the alternating signs in Eq.~\eqref{eq:exactmfull-complement-sign-order} and
+has no complement zero.
+
+On a peak box, Eqs.~\eqref{eq:exactmfull-peak-box-control} and
+\eqref{eq:exactmfull-stationarity-derivative} give
+\begin{equation}
+ D_{\sigma,w}'
+ \le M_1+\|x''\|_\infty C_{\rm p}
+ -v_0^2\kappa_{\rm p}\sigma^{-2}<0
+ \label{eq:exactmfull-peak-root-monotonicity}
+\end{equation}
+for small \(\sigma\).  Its boundary signs give exactly one zero.  At that
+zero \(F''=FD'<0\), hence the root is a nondegenerate maximum.  Similarly,
+on a valley box,
+\begin{equation}
+ D_{\sigma,w}'
+ \ge-M_1-\|x''\|_\infty C_{\rm v}
+ +v_0^2\kappa_{\rm v}\sigma^{-4}>0,
+ \label{eq:exactmfull-valley-root-monotonicity}
+\end{equation}
+so its unique zero is a nondegenerate minimum.  The certified tail signs
+exclude endpoint stationary points.
+
+At a slow-factor root, Eq.~\eqref{eq:exactmfull-stationarity-function} gives
+\(|L|\le M_0/v_0\).  The pure peak root has \(L(p_j)=0\), and the uniform
+negative \(L'=\Theta(\sigma^{-2})\) on its box implies the peak displacement
+in Eq.~\eqref{eq:exactmfull-slow-peak-shift}.  The uniform positive
+\(L'=\Theta(\sigma^{-4})\) on a valley box gives
+Eq.~\eqref{eq:exactmfull-slow-valley-shift}.  Combining the latter with
+Eq.~\eqref{eq:exactmfull-valley-location} proves
+Eq.~\eqref{eq:exactmfull-slow-valley-location}.  Every constant is uniform
+over the compact allocation family.
+\end{proof}
+
+\subsection{Fixed-\texorpdfstring{\(\varepsilon\)}{epsilon} Doi transfer and
+theorem boundary}
+\label{subsec:exactmfull-doi-transfer}
+
+For \(B>0\), let
+\begin{equation}
+ f_{B,\varepsilon,w}(t)
+ =\mathbb E_0\!\left[
+ K_{B,w,\varepsilon}(Z_t,R_t)
+ \exp\!\left(-\int_0^tK_{B,w,\varepsilon}(Z_s,R_s)\,\dd s\right)
+ \right]
+ \label{eq:exactmfull-reaction-density}
+\end{equation}
+be the Doi reaction-time density and set
+\begin{equation}
+ \mathcal F_{B,\varepsilon,w}=f_{B,\varepsilon,w}/B.
+ \label{eq:exactmfull-rescaled-density}
+\end{equation}
+This is budget-rescaling, not normalization to unit time integral.
+
+\begin{theorem}[Exact \(m\) Doi modes for fixed finite \((d,m)\)]
+\label{thm:exactmfull-doi}
+Fix all data in Eqs.~\eqref{eq:exactmfull-midpoint-sde}--
+\eqref{eq:exactmfull-killing}, including the stationary midpoint variance,
+mutual independence, the strict weighted-space variance inequalities, target
+times strictly inside \(I\), consistently oriented physical centres,
+normalized slabs of physical width \(\varepsilon\rho\), the whole-window
+contact margin, and the compact allocation family.  Then there is
+\(\varepsilon_0>0\), depending on these fixed data, such that for every
+\(0<\varepsilon<\varepsilon_0\) and every
+\(w\in\mathcal W_{w_*}\), the continuum free-exposure clock
+\(G_{\varepsilon,w}\) has exactly \(m\) nondegenerate maxima and \(m-1\)
+nondegenerate minima on \(I\), ordered alternately, and no stationary
+endpoint.
+
+For each fixed such \(\varepsilon\) and allocation set
+\(\mathcal A\subseteq\mathcal W_{w_*}\), define
+\begin{align}
+ B_{\rm top}(\varepsilon;\mathcal A)
+ :=\sup\bigl\{b>0:\;&
+ \mathcal F_{\beta,\varepsilon,w}
+ \text{ has that complete signature on }I
+ \nonumber\\[-2pt]
+ &\text{for every }w\in\mathcal A
+ \text{ and every }0<\beta<b\bigr\}.
+ \label{eq:exactmfull-btop}
+\end{align}
+Then
+\(B_{\rm top}^{\rm unif}(\varepsilon):=
+B_{\rm top}(\varepsilon;\mathcal W_{w_*})>0\).
+Consequently \(\mathcal F_{B,\varepsilon,w}\) has the stated signature for
+every \(0<B<B_{\rm top}^{\rm unif}(\varepsilon)\) and every admissible
+allocation.  Multiplication by \(B>0\) changes no stationary point, so the
+statement also holds for the physical density \(f_{B,\varepsilon,w}\).
+\end{theorem}
+
+\begin{proof}
+In Lemma~\ref{lem:exactmfull-factorization}, take
+\(a_\sigma=a_\varepsilon\), with
+\(\sigma=\varepsilon S_*/\ell_0\).  Lemma
+\ref{lem:exactmfull-contact-tail} supplies
+Eq.~\eqref{eq:exactmfull-slow-factor-hypothesis}; hence
+Theorem~\ref{thm:exactmfull-slow-factor} proves the exact stationary
+signature of \(G_{\varepsilon,w}\), uniformly over the compact allocation
+family.
+
+Fix one \(0<\varepsilon<\varepsilon_0\).  The ordered simple roots depend
+continuously on \(w\) by the implicit-function theorem.  Their finitely many
+graphs over the compact set \(\mathcal W_{w_*}\) are compact and disjoint.
+Continuity of the second time derivative gives pairwise disjoint root tubes
+on which \(G''\) has a uniform nonzero sign and magnitude.  After shrinking
+the tubes if necessary, \(G'\) has fixed opposite signs at the two boundaries
+of each tube.  On the compact complement in
+\(I\times\mathcal W_{w_*}\), \(|G'|\) has a positive minimum; the two endpoint
+slopes have positive uniform absolute minima as well.
+
+For this fixed \(\varepsilon\), \(V_{w,\varepsilon}\) is bounded uniformly in
+\(w\), and Eqs.~\eqref{eq:exactmfull-midpoint-initial}--
+\eqref{eq:exactmfull-relative-perp-initial} put \(q_0\) in the required
+weighted state space.  Because \(w_j\ge w_*>0\), the compact allocation set
+lies strictly inside the simplex and admits the affine control chart and a
+complex tube required by Theorem~\ref{thm:mixed-jet}.  (If the set is the
+singleton \(w_j=1/m\), the same conclusion is the corresponding pointwise
+case.)  Applying that theorem with time orders \(0,1,2\) and no control
+derivative gives
+\begin{equation}
+ \sup_{w\in\mathcal W_{w_*}}
+ \|\mathcal F_{B,\varepsilon,w}-G_{\varepsilon,w}\|_{C^2(I)}
+ \longrightarrow0
+ \qquad(B\downarrow0).
+ \label{eq:exactmfull-fixed-epsilon-c2-transfer}
+\end{equation}
+Choose \(b_\varepsilon>0\) so that the \(C^1\) error is smaller than all
+boundary, complement, and endpoint margins and the second-derivative error
+is smaller than the root-tube curvature margin.  In each tube,
+\(\mathcal F'\) has opposite boundary signs and \(\mathcal F''\) keeps the
+sign of \(G''\), so it has exactly one root of the same type.  The complement
+and endpoints contain none.  Thus \(b_\varepsilon\) belongs to the defining
+set in Eq.~\eqref{eq:exactmfull-btop}, so
+\(B_{\rm top}^{\rm unif}(\varepsilon)\ge b_\varepsilon>0\).  This proves the
+complete finite-window signature.
+\end{proof}
+
+\begin{remark}[Quantifiers, saturation, and scope]
+\label{rem:exactmfull-scope}
+The quantifier order is
+\begin{equation}
+ \text{fix }(d,m,\text{all geometric and probabilistic data})
+ \ \Longrightarrow\ 
+ 0<\varepsilon<\varepsilon_0
+ \ \Longrightarrow\ 
+ 0<B<B_{\rm top}^{\rm unif}(\varepsilon).
+ \label{eq:exactmfull-quantifier-order}
+\end{equation}
+There is no asserted lower bound for
+\(B_{\rm top}^{\rm unif}(\varepsilon)\) uniform as
+\(\varepsilon\downarrow0\), and no interchange of the two limits.  The
+construction is not uniform in \(d\) or \(m\), does not provide one geometry
+with arbitrarily many modes, does not count stationary points outside \(I\),
+and gives no process-level event-mass floor.  It treats normalized
+longitudinal Gaussian slabs, not arbitrary localized catalyst patches.
+
+Moreover, Lemma~\ref{lem:exactmfull-contact-tail} shows that the relative
+contact factor is asymptotically saturated on the theorem window:
+\begin{equation}
+ c_{d,\varepsilon}=1
+ +O(\varepsilon^{-N}\e^{-q/\varepsilon^2})
+ \quad\text{in }C^2(I).
+ \label{eq:exactmfull-saturated-contact}
+\end{equation}
+Thus the exact Doi embedding is rigorous, but the modal basis is created by
+the ordered narrow slabs sampled by the monotone constant-variance midpoint;
+the relative encounter factor is a slow perturbation in this asymptotic
+family.  Nontrivial contact, a useful common positive budget, deterministic
+finite-parameter complement certificates, survival, and event-basin masses
+remain separate continuum-validation requirements rather than consequences
+of Theorem~\ref{thm:exactmfull-doi}.
+\end{remark}

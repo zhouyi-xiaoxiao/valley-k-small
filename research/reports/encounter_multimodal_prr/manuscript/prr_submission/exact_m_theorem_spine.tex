@@ -1,0 +1,273 @@
+% Reader-facing theory fragment for the main-article manuscript.
+% It contains no finite-parameter numerical claim and is not input by the
+% historical working manuscript.
+
+\subsection{Prescribed finite modality from separated exposure clocks}
+\label{sec:exact-m-spine}
+
+The conserved-budget support construction admits encounter processes with any
+prescribed \emph{fixed finite} number of reaction-time modes.  We state this
+existence result in an exact quotient of a two-particle Doi process; the
+construction depends on the prescribed dimension and mode count and does not
+assert mode-count switching by weight redistribution on one fixed support.
+
+Fix finite $d\ge2$, finite $m\ge1$, a transverse period $W>0$, a contact
+radius $0<a<W/2$, positive scales $\ell_0,\rho>0$, and a compact interval
+$I=[\tau,T]\subset(0,\infty)$.
+On $\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}$, consider the
+independent midpoint and relative processes
+
+\begin{equation}
+ \begin{aligned}
+ dZ_t&=-\gamma(Z_t-\bar z)\,dt
+       +\varepsilon\sqrt{D_0}\,dW_t,\\
+ dR_{\parallel,t}&=-\gamma R_{\parallel,t}\,dt
+       +2\varepsilon\sqrt{D_0}\,dW_{\parallel,t},\\
+ dR_{\perp,t}&=2\varepsilon\sqrt{D_0}\,dW_{\perp,t}\pmod W.
+ \end{aligned}
+ \label{eq:exact-m-process}
+\end{equation}
+
+The mutually independent initial laws satisfy
+
+\begin{equation}
+ \begin{aligned}
+ Z_0&\sim N\!\left(z_0,\varepsilon^2D_0/(2\gamma)\right),\\
+ R_{\parallel,0}&\sim N(r_{\parallel,0},\varepsilon^2u_0^2),\\
+ R_{\perp,0}&\sim
+ \operatorname{WN}(r_{\perp,0},\varepsilon^2\Sigma_{\perp,0}),
+ \end{aligned}
+ \qquad
+ \begin{gathered}
+ D_0,\gamma,u_0>0,\quad z_0\ne\bar z,\\
+ u_0^2<4D_0/\gamma,\quad \Sigma_{\perp,0}\succ0.
+ \end{gathered}
+ \label{eq:exact-m-initial}
+\end{equation}
+
+Here $\operatorname{WN}$ is the wrapped Gaussian on
+$\mathbb T_W^{d-1}$, $\Sigma_{\perp,0}$ is a positive-definite
+$(d-1)\times(d-1)$ covariance matrix, and $|r|_{\rm mi}$ is the Euclidean norm
+of the longitudinal relative coordinate together with the shortest transverse
+representatives modulo $W$.
+
+All driving Brownian motions are also independent.  Thus
+$\mu(t)=\bar z+(z_0-\bar z)e^{-\gamma t}$ is strictly monotone and
+$\operatorname{Var}Z_t=\varepsilon^2D_0/(2\gamma)$.  Under the minimum-image
+convention, assume the deterministic relative trajectory
+$r_*(t)=(r_{\parallel,0}e^{-\gamma t},r_{\perp,0})$ obeys
+$\sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta$ for some $\eta>0$.
+
+Choose target times
+
+\begin{equation}
+ \begin{aligned}
+  &\tau<t_1<\cdots<t_m<T,\qquad c_j=x(t_j),\\
+  &x(t)=\frac{\operatorname{sgn}(\mu')\mu(t)}{\ell_0},
+ \end{aligned}
+ \label{eq:exact-m-centres}
+\end{equation}
+
+so that $x'(t)$ is bounded away from zero.  At the corresponding physical
+centres, place normalized Gaussian catalyst slabs of width
+$\varepsilon\rho$.  Their nonnegative weights belong to a compact subset of
+the simplex,
+
+\begin{equation}
+ \mathcal W_{w_*}
+ =\left\{\bm w:\
+   \substack{\sum_{j=1}^{m}w_j=1,\\ w_j\ge w_*>0}\right\},
+ \qquad 0<w_*\le\frac1m,
+ \label{eq:exact-m-simplex}
+\end{equation}
+
+and define
+
+\begin{equation}
+ \begin{aligned}
+ \phi_{j,\varepsilon}(z)
+ &=\frac{\exp[-(z-\mu(t_j))^2/(2\varepsilon^2\rho^2)]}
+        {\sqrt{2\pi}\,\varepsilon\rho},\\
+ K_{B,\bm w,\varepsilon}(Z,R)
+ &=\bm1_{\{|R|_{\rm mi}<a\}}\frac{B}{W^{d-1}}
+   \sum_{j=1}^{m}w_j\phi_{j,\varepsilon}(Z).
+ \end{aligned}
+ \label{eq:exact-m-killing}
+\end{equation}
+
+The slab normalization makes $B$ the same installed centre-space budget for
+every allocation.  Set $K_{B,\bm w,\varepsilon}=B V_{\bm w,\varepsilon}$,
+and let $T_0(t)$ and $q_0$ denote the unkilled semigroup and initial law.  Then
+
+\begin{equation}
+ \begin{aligned}
+ G_{\varepsilon,\bm w}(t)
+ &=B^{-1}\mathbb E_0[K_{B,\bm w,\varepsilon}(Z_t,R_t)]
+ =\langle V_{\bm w,\varepsilon},T_0(t)q_0\rangle,\\
+ f_{B,\varepsilon,\bm w}(t)
+ &=\mathbb E_0\!\left[K_{B,\bm w,\varepsilon}(Z_t,R_t)
+  e^{-\int_0^tK_{B,\bm w,\varepsilon}(Z_s,R_s)\,ds}\right].
+ \end{aligned}
+ \label{eq:exact-m-observables}
+\end{equation}
+
+The expectation $\mathbb E_0$ is with respect to the unkilled process started
+from Eq.~\eqref{eq:exact-m-initial}.  Independence gives the exact
+factorization
+
+\begin{align}
+ G_{\varepsilon,\bm w}(t)
+ &=A_\varepsilon(t)H_{\sigma,\bm w}(x(t)),\nonumber\\
+ A_\varepsilon(t)
+ &=\frac{c_{d,\varepsilon}(t)}
+ {W^{d-1}\sqrt{2\pi}\,\varepsilon
+  \sqrt{D_0/(2\gamma)+\rho^2}},
+ \label{eq:exact-m-factorization}
+\end{align}
+
+where $c_{d,\varepsilon}(t)=
+\mathbb P_0(|R_t|_{\rm mi}<a)$ and $H_{\sigma,\bm w}$ is defined below.
+
+\medskip
+\noindent\textit{Theorem 1 (exact prescribed finite modality).---}
+Fix finite $d\ge2$, finite $m\ge1$, the data above, and the compact window
+$I$.  There is $\varepsilon_0>0$ such that, for every
+$0<\varepsilon<\varepsilon_0$ and every
+$\bm w\in\mathcal W_{w_*}$, the unit-budget free-exposure clock has exactly
+$m$ nondegenerate maxima and $m-1$ nondegenerate minima on $I$, ordered
+alternately, and no stationary endpoint.  For each fixed such
+$\varepsilon$ and allocation set
+$\mathcal A\subseteq\mathcal W_{w_*}$, define the connected
+topology-retention budget
+\begin{align}
+ B_{\rm top}(\varepsilon;\mathcal A)
+ &:=\sup\bigl\{b>0:\nonumber\\[-2pt]
+ &\quad f_{\beta,\varepsilon,\bm w}/\beta
+ \text{ has the stated}\nonumber\\[-2pt]
+ &\quad\text{complete stationary signature on }I
+ \nonumber\\[-2pt]
+ &\quad\text{for every }\bm w\in\mathcal A
+ \text{ and every }0<\beta<b\bigr\}.
+ \label{eq:exact-m-btop}
+\end{align}
+Then
+\begin{equation}
+ B_{\rm top}^{\rm unif}(\varepsilon)
+ :=B_{\rm top}(\varepsilon;\mathcal W_{w_*})>0.
+ \label{eq:exact-m-btop-unif}
+\end{equation}
+Consequently the budget-rescaled Doi reaction-time density has the stated
+signature for every
+$0<B<B_{\rm top}^{\rm unif}(\varepsilon)$ and every admissible allocation.
+Multiplication by $B$ leaves the stationary points unchanged, so the
+conclusion also holds for the physical density
+$f_{B,\varepsilon,\bm w}$.
+
+The mechanism can be seen without invoking a normal form.  Gaussian
+convolution reduces the longitudinal part of the unit-budget exposure to
+
+\begin{equation}
+ \begin{aligned}
+  H_{\sigma,\bm w}(x)
+  &=\sum_{j=1}^{m}w_j
+    \exp\!\left[-\frac{(x-c_j)^2}{2\sigma^2}\right],\\
+  \sigma&=\frac{\varepsilon}{\ell_0}
+  \sqrt{\frac{D_0}{2\gamma}+\rho^2}.
+ \end{aligned}
+ \label{eq:exact-m-mixture}
+\end{equation}
+
+Writing $q_j(x)=w_j\exp[-(x-c_j)^2/(2\sigma^2)]$,
+$\pi_j(x)=q_j(x)/H_{\sigma,\bm w}(x)$, and
+$L=\partial_x\log H$, let $\bar c(x)$ and
+$\operatorname{Var}_{\pi(x)}(c)$ denote the mean and variance of the centres
+under the finite probability vector $\bm\pi(x)$.  Then
+
+\begin{equation}
+ L(x)=\frac{\bar c(x)-x}{\sigma^2},
+ \qquad
+ L'(x)=\frac{\operatorname{Var}_{\pi(x)}(c)}{\sigma^4}
+       -\frac{1}{\sigma^2}.
+ \label{eq:exact-m-log-slope}
+\end{equation}
+
+The univariate upper bound of $m$ modes for an $m$-component Gaussian mixture
+is classical \cite{carreiraPerpinanWilliams2003modes,
+amendolaEngstromHaase2020modes}.  Here a direct affine--exponential proof is
+retained because the Doi transfer needs all critical zeros counted with
+multiplicity together with uniform root-tube, complement, curvature, and
+endpoint margins.
+
+For the adjacent pair $c_j<c_{j+1}$, the weighted crossover is
+
+\begin{equation}
+ s_j=\frac{c_j+c_{j+1}}{2}
+ +\frac{\sigma^2}{c_{j+1}-c_j}
+  \log\!\frac{w_j}{w_{j+1}}.
+ \label{eq:exact-m-crossover}
+\end{equation}
+
+The adjacent ratio obeys
+$q_{j+1}/q_j=1/9$ at
+$s_j-\sigma^2\log(9)/(c_{j+1}-c_j)$ and $q_{j+1}/q_j=9$ at the corresponding
+plus edge.  Thus both adjacent components remain uniformly present throughout
+the crossover, while all nonadjacent components are exponentially small.
+Equation~\eqref{eq:exact-m-log-slope} then yields one simple minimum at
+
+\begin{equation}
+ r_j=s_j+O(\sigma^4),
+ \qquad
+ L'(r_j)=\frac{(c_{j+1}-c_j)^2}{4\sigma^4}
+          +O(\sigma^{-2}).
+ \label{eq:exact-m-valley}
+\end{equation}
+
+Each centre similarly contributes one simple maximum at
+$p_j=c_j+O(\exp[-q/\sigma^2])$, with
+$L'(p_j)=-\sigma^{-2}+o(\sigma^{-2})$.  These constructions give
+$2m-1$ simple stationary points.  They are exhaustive: after multiplication
+by a positive Gaussian factor, $H'$ is an exponential polynomial
+
+\begin{equation}
+ \sum_{j=1}^{m}(a_j+b_jx)e^{\lambda_jx},
+ \qquad \lambda_1<\cdots<\lambda_m,
+ \label{eq:exact-m-exp-polynomial}
+\end{equation}
+
+which has at most $2m-1$ real zeros counted with multiplicity.  The extreme
+affine--exponential terms dominate in the two tails, so all zeros lie in a
+compact interval and real analyticity makes their number finite.  A
+generalized Rolle induction then proves the bound by differentiating twice to
+remove the lowest-exponent affine term.
+
+The remaining relative-coordinate contact probability is a positive slow
+factor.  Uniform bounds on its first two logarithmic time derivatives, peak
+boxes of width $O(\sigma^2)$, valley boxes of width $O(\sigma^4)$, and a
+posterior-sector sign certificate exclude stationary points on the full box
+complement.  Consequently the slow factor moves maxima by $O(\sigma^2)$ and
+minima by $O(\sigma^4)$ without changing their number or type.  Finally, on
+every fixed positive $\varepsilon$, compact-positive-time mixed-jet
+convergence
+
+\begin{equation}
+ \sup_{\bm w\in\mathcal W_{w_*}}
+ \left\|\frac{f_{B,\varepsilon,\bm w}}{B}
+       -G_{\varepsilon,\bm w}\right\|_{C^2(I)}
+ \longrightarrow0
+ \qquad (B\downarrow0)
+ \label{eq:exact-m-weak-budget}
+\end{equation}
+
+preserves the disjoint root tubes, signed curvature margins, complement
+margin, and endpoint slopes.
+
+The quantifier order is essential: the geometry and admissible scales may
+depend on fixed $(d,m)$; one first fixes a sufficiently small
+$\varepsilon>0$ and only then chooses
+$B<B_{\rm top}^{\rm unif}(\varepsilon)$.  The theorem does not provide a
+useful lower bound for that threshold, a uniform-in-$d$ or uniform-in-$m$
+construction, an event-mass floor, or a stationary-point count outside $I$;
+it also uses a whole-window contact-interior condition whose small-noise limit
+is asymptotically saturated contact.  Nontrivial contact, observability at a
+common positive budget, and finite-parameter robustness remain separate
+numerical checks.

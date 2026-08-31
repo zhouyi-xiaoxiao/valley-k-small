@@ -1,0 +1,1575 @@
+ Supplemental Material for: Spectral diagnostics and local fixed-budget sensitivity of
+                critical points in finite encounter-reaction models
+                                                      Xiaoxiao Zhouyi*
+                                    School of Engineering Mathematics and Technology,
+                                  University of Bristol, Bristol BS8 1TW, United Kingdom
+                                                    (Dated: July 30, 2026)
+                 This Supplemental Material is a standalone detailed record for the associated article. It gives
+              the full coordinate and reaction-model qualifications, finite-support Green and spectral audits,
+              generalized-inverse-Gaussian screening construction, finite-state discovery and clock controls, com-
+              plete two-dimensional discretization and endpoint families, capacity calibrations, multichannel
+              screening calculations, normal-form derivations, provenance boundary, and limitations. The main
+              article retains only the Green–Woodbury reduction, the necessary spectral gate, fixed-budget sensi-
+              tivity, the finite CTMC fold, and the M2D-F finite-generator fold certificate. All results here remain
+              finite-model or screening statements unless an exact identity is explicitly identified; no continuum
+              modality theorem is asserted.
+
+
+ S1.   SCOPE AND DETAILED EVIDENCE MAP                                     S2.      FINITE-RADIUS PATTERNED
+                                                                                     ENCOUNTER MODEL
+
+
+   This file is the technical companion to the focused                  S2.1.      Joint dynamics and reaction channels
+main article, not a second statement of its narrative.
+It retains the full model qualifications, derivations, sec-           Let 𝑋𝑖 (𝑡) ∈ Ω ⊂ R𝑑 denote two independent particles
+ondary finite-grid families, screening calculations, prove-        before reaction,
+nance boundary, and limitations needed to audit the ev-                                  √︀
+idence. The present work is a direct extension of that               d𝑋𝑖 = 𝑏𝑖 (𝑋𝑖 ) d𝑡 + 2𝐷𝑖 d𝑊𝑖 ,        𝐷𝑖 > 0, 𝑖 = 1, 2,
+encounter and heterogeneous-transmission program; it                                                                    (S1)
+does not claim a new Green, multi-target, fold-criterion,          with independent Brownian motions. We use reflecting
+or fixed-total-reactivity theory. The finite evidence uses         outer boundaries unless stated otherwise. The unreacted
+separately declared M2D-E, M2D-F, M2D-C, and M2D-                  joint density 𝑝(𝑥1 , 𝑥2 , 𝑡) satisfies
+T families. No common continuation relation between
+M2D-E and M2D-F is asserted.                                                             𝜕𝑡 𝑝 = ℒ0 𝑝 − 𝐾(𝑥1 , 𝑥2 )𝑝,            (S2)
+
+  Three evidence levels remain separate throughout: ex-
+act identities under stated hypotheses, certificates for            ℒ0 𝑝 = −∇𝑥1·(𝑏1 𝑝)−∇𝑥2·(𝑏2 𝑝)+𝐷1 Δ𝑥1 𝑝+𝐷2 Δ𝑥2 𝑝, (S3)
+declared finite generators, and numerical screening or
+continuum-consistency evidence. In particular, the finite-         with no-flux currents 𝐽𝑖 = 𝑏𝑖 𝑝 − 𝐷𝑖 ∇𝑥𝑖 𝑝.
+grid folds and endpoint audits do not establish a contin-            The finite contact radius is 𝑎 > 0. A physical catalyst
+uum modality theorem.                                              must also declare which affine location of the pair it reads:
+
+                                                                       𝐶𝜂 (𝑥1 , 𝑥2 ) = 𝜂𝑥1 + (1 − 𝜂)𝑥2 ,         0 ≤ 𝜂 ≤ 1.     (S4)
+   Table SI fixes the evidence level and corresponding
+claim boundary for every analytical and numerical layer            Catalytic patch 𝐶𝑗 is specified in this 𝐶𝜂 -space, with in-
+used below.                                                        trinsic Doi rate 𝜅𝑗 (𝐶𝜂 ) ≥ 0. The channel-resolved killing
+                                                                   fields are
+   The spatial-channel schematic and generic fold geome-
+try appear as Fig. 1 of the main article. The supplemen-                     (𝜂)
+                                                                          𝐾𝑎,𝑗 (𝑥1 , 𝑥2 ) = 𝜅𝑗 (𝐶𝜂 )1𝐶𝑗 (𝐶𝜂 )1{|𝑥1 −𝑥2 |<𝑎} ,
+tal record therefore begins directly with the model qual-                                       𝑚
+ifications and derivations rather than duplicating that                                                (𝜂)
+                                                                                               ∑︁
+                                                                                     𝐾𝑎(𝜂) =         𝐾𝑎,𝑗 .                     (S5)
+figure.                                                                                        𝑗=1
+
+                                                                   The survival probability and reaction-channel densities
+                                                                   are
+                                                                                ∫︁
+                                                                       𝑆(𝑡) =        𝑝(𝑥1 , 𝑥2 , 𝑡) d𝑥1 d𝑥2 ,                (S6)
+                                                                                  Ω2
+                                                                                ∫︁
+                                                                                       (𝜂)
+* xiaoxiao.zhouyi@bristol.ac.uk
+                                                                       𝑓𝑗 (𝑡) =      𝐾𝑎,𝑗 (𝑥1 , 𝑥2 )𝑝(𝑥1 , 𝑥2 , 𝑡) d𝑥1 d𝑥2 , (S7)
+                                                                                    Ω2
+                                                                                                                                   2
+
+
+                             TABLE SI. Statement/evidence boundary used in this manuscript.
+
+Statement                              Evidence level                           Boundary
+Coordinate decoupling, mass            Exact identities under stated alge-      Inverse-free volume-reaction identity; no con-
+balance, Woodbury reduction,           braic or operator hypotheses             tinuum meromorphic continuation, bounded-
+fixed-shape fold, generic normal                                                coordinate independence, or unqualified Robin
+form                                                                            trace claim
+Finite reversible spectral diag-       Classical    generalized-Descartes       Necessary sign-variation bound only; not suffi-
+nostic                                 corollary plus spectral reconstruc-      cient, not a channel-rank bound, and not applied
+                                       tions of the 961-state encounter         to complex-spectrum, Jordan, or continuum laws;
+                                       and 2025-state M2D-T primary             this is a loose consistency/falsification gate, not
+                                       generators                               independent root discovery
+Fixed-budget modality suscep-          Exact finite Fréchet–Duhamel             Infinitesimal interior-rate design only; no finite-
+tibility                               identity, closed-form projected          amplitude, binary-mask, moving-support, or con-
+                                       optimum, 256 independent direc-          tinuum optimum is claimed
+                                       tions, and 20,000 random feasible
+                                       controls
+Finite CTMC physical fold              Finite-matrix derivative identities      One finite model; minority splitting probability
+                                       evaluated numerically, plus a root       8.95 × 10−6
+                                       solve and independent continua-
+                                       tion
+M2D-F matched-budget folds             Three     nondegenerate      finite-     Separate finite-model mechanism certificates; fold
+                                       generator folds and a budget-            coordinates span 0.262 and move under product-
+                                       measure control                          control-volume weighting; no common continua-
+                                                                                tion with M2D-E or continuum critical value is
+                                                                                claimed
+M2D-E equal-budget endpoint            A five-grid resolution, tail, mor-       Four finer patterned endpoints are resolved-
+amplification                          phology, and 101-cutoff audit            bimodal and the coarse endpoint is a shoulder;
+                                                                                the cutoff interval is post-hoc and sample-derived,
+                                                                                not a detector/noise-robustness result; no M2D-E
+                                                                                fold is claimed
+2D catalytic-coordinate sensi-         One-factor      midpoint/weighted        Labels agree but masks and densities change; the
+tivity                                 comparison on three principal            physical sink models are not equivalent
+                                       grids
+Bounded 2D three-channel tri-          Five     detected     sign-changing      Patch radii are below ℎ𝑥 , reactive-state counts are
+modality                               derivative roots of alternating          nonmonotone, and there is no interval-exhaustive
+                                       type (hence at least five positive-      root certificate, cell-averaged continuum trimodal
+                                       time roots) and ordered channel          region, or phase boundary
+                                       attribution on four finite grids;
+                                       three classifier-resolved trimodal
+                                       cases and one three-maximum
+                                       shoulder
+2D and 3D capacity laws                Translation-invariant       relative-    Not centre-patterned density or modality calcula-
+                                       coordinate mean-time calculations        tions
+Multidimensional multi-channel         Exact design algebra plus floating-      Not a bounded Doi three- or four-mode theorem
+GIG construction                       point derivative-root isolation in
+                                       12 declared screening cases
+GIG encounter channels                 Exact GIG algebra, approximate           No uniform confined-channel remainder
+                                       mapping from free encounter ge-
+                                       ometry
+
+
+
+Reflecting outer boundaries give the exact mass balance               S2.2.    Relative, diffusion-decoupling, and catalytic
+                                      𝑚                                                      coordinates
+                                     ∑︁
+                −𝑆 ′ (𝑡) = 𝑓 (𝑡) =         𝑓𝑗 (𝑡).         (S8)
+                                     𝑗=1                                Set
+The
+∫︀ ∞ splitting probability into channel  ∑︀ 𝑗 is 𝜋𝑗 =
+  0
+    𝑓𝑗 (𝑡) d𝑡; when reaction is certain,   𝑗 𝜋𝑗 = 1, and                                                      𝐷1 𝐷2
+𝑔𝑗 = 𝑓𝑗 /𝜋𝑗 is the conditional channel-time density.                            𝐷r = 𝐷1 + 𝐷2 ,        𝐷c =           ,         (S9)
+                                                                                                             𝐷1 + 𝐷2
+                                                                                                                            3
+
+and define                                                                S2.3.        Doi and radiation descriptions
+
+                                 𝐷2 𝑋1 + 𝐷1 𝑋2
+        𝑟 = 𝑋1 − 𝑋2 ,       𝑅=                 .         (S10)      The dimensionless Doi strength is
+                                    𝐷1 + 𝐷2
+                                                                                                    𝜅𝑎2
+The catalytic coordinate in Eq. (S4) is related to the                                      DaDoi =      .            (S18)
+                                                                                                     𝐷r
+diffusion-decoupling coordinate by
+                                                                  Consequently, a radius comparison at fixed intrinsic
+                           (︂
+                                 𝐷2
+                                    )︂                            regime scales 𝜅 ∝ 𝑎−2 . Holding a per-grid-site reaction
+                 𝐶𝜂 = 𝑅 + 𝜂 −          𝑟.        (S11)            probability fixed does not define a continuum comparison
+                                 𝐷r                               in 𝑑 ≥ 2.
+                                                                     One can alternatively remove |𝑟| < 𝑎 and impose a
+Hence 𝐶𝐷2 /𝐷r = 𝑅. The bounded two-dimensional cal-
+                                                                  radiation condition on the contact surface. With outward
+culations below use the physical midpoint convention
+                                                                  normal 𝑛𝒟 for the admissible domain |𝑟| > 𝑎,
+                      𝑋1 + 𝑋2       𝐷1 − 𝐷 2
+                                                                               ∑︁
+               𝐶1/2 =          =𝑅+           𝑟,                     𝐽𝑟 · 𝑛 𝒟 =     𝜅𝑠,𝑗 (𝐶𝜂 , 𝜔)1𝐶𝑗 (𝐶𝜂 )𝑞,  |𝑟| = 𝑎, (S19)
+                          2            2𝐷r                                        𝑗
+                      |𝐷1 − 𝐷2 |
+         |𝐶1/2 − 𝑅| ≤            𝑎, |𝑟| < 𝑎.             (S12)    and Darad = 𝜅𝑠 𝑎/𝐷r . Doi and radiation models are not
+                         2𝐷r                                      identical at equal bare parameters. They can be matched
+                                                                  through effective reactivity in a small-target regime [1,
+The inverse map is
+                                                                  2]; no independent Robin calculation is claimed in the
+                    𝐷1                        𝐷2                  present numerical results.
+         𝑥1 = 𝑅 +      𝑟,      𝑥2 = 𝑅 −          𝑟,      (S13)
+                    𝐷r                        𝐷r
+                                                                          S3.   REACTION-SUPPORT GREEN
+and the absolute Jacobian is one. Direct substitution
+                                                                                    REDUCTION
+gives the exact cancellation
+
+             𝐷1 Δ𝑥1 + 𝐷2 Δ𝑥2 = 𝐷r Δ𝑟 + 𝐷c Δ𝑅 .           (S14)      Let H = 𝐿2 (𝒟). Write the Doi killing operator as
+                                                                                  𝑉 = Γ* KΓ,          𝒯 = ℒ0 − 𝑉,        (S20)
+Thus
+                                                                  where Γ restricts a function to a declared volume-reaction
+   𝜕𝑡 𝑞 = − ∇𝑟 · (𝑢𝑞) − ∇𝑅 · (𝑣c 𝑞) + 𝐷r Δ𝑟 𝑞 + 𝐷c Δ𝑅 𝑞           support, Γ* extends it by zero, and K is a bounded non-
+                                                                  negative multiplication operator on that support. It may
+           − 𝐾𝑎(𝜂) (𝑥1 (𝑅, 𝑟), 𝑥2 (𝑅, 𝑟))𝑞,              (S15)    have a kernel: zero-rate channels and zero-rate subsets
+                                                                  are permitted. For Re 𝑠 above the spectral bound, define
+where
+                                                                      ℛ0 (𝑠) = (𝑠 − ℒ0 )−1 ,        𝒢(𝑠) = Γℛ0 (𝑠)Γ* .   (S21)
+                                    𝐷2 𝑏1 (𝑥1 ) + 𝐷1 𝑏2 (𝑥2 )
+  𝑢 = 𝑏1 (𝑥1 ) − 𝑏2 (𝑥2 ),     𝑣c =                           .   Put M = 𝐼 + 𝒢K. Whenever the displayed bounded oper-
+                                               𝐷r                 ators and inverse exist, the inverse-free resolvent identity
+                                                          (S16)
+                                                                  is
+For constant drifts in free space, relative and centre noises
+are independent. This statement must not be transferred                   (𝑠 − 𝒯 )−1 = ℛ0 − ℛ0 Γ* KM−1 Γℛ0 .             (S22)
+unqualified to bounded domains: the transformed do-
+                                                                  If 𝑢 = Γℛ0 𝑞0 , the restricted state and transformed reac-
+main
+                                                                  tion density on the support are
+       {︂                                           }︂
+                         𝐷1                𝐷2                                         𝑥 = Γ(𝑠 − 𝒯 )−1 𝑞0 = M−1 𝑢,
+  𝒟 = (𝑅, 𝑟) : 𝑅 +          𝑟 ∈ Ω, 𝑅 −         𝑟∈Ω        (S17)
+                         𝐷r                𝐷r
+                                                                                      𝑦 = K𝑥 = KM−1 𝑢.                   (S23)
+has coupled boundaries. Nonconstant drifts can also cou-          No inverse of K is required. If K is boundedly invertible
+ple 𝑟 and 𝑅. The weighted coordinate in Eq. (S10) is se-          on the chosen support, the push-through identity gives
+lected by diffusion, not imposed as the physical catalyst         the optional corollary
+location. In (𝑟, 𝐶𝜂 ) coordinates, the centre diffusivity is
+                                                                                  K(𝐼 + 𝒢K)−1 = (K−1 + 𝒢)−1 .            (S24)
+𝐷𝜂 = 𝐷1 𝜂 2 + 𝐷2 (1 − 𝜂)2 and the mixed second-order
+coefficient is 2[𝜂𝐷1 − (1 − 𝜂)𝐷2 ]. It vanishes only for          Equations (S22) and (S23) show precisely how free trans-
+𝜂 = 𝐷2 /𝐷r . For 𝜂 = 1/2 the mixed coefficient is 𝐷1 −𝐷2 ;        port, reaction geometry, and intrinsic rates enter. For a
+equivalently, the decoupled (𝑟, 𝑅) representation retains         volume sink they are conditional operator identities un-
+the slanted sink support in Eq. (S11). The Green for-             der the usual domain assumptions. A Robin analogue
+mulation below accepts either declared joint-space sink,          lives in trace spaces and cannot be obtained by treat-
+whereas the factorized GIG screening law uses the special         ing boundary restriction as a bounded 𝐿2 map without
+choice 𝐶𝜂 = 𝑅.                                                    qualification.
+                                                                                                                                4
+
+  S3.1.   Finite hotspots and splitting probabilities               The free reflecting generator has a zero mode, so 𝐺(𝑠)
+                                                                 is singular as 𝑠 ↓ 0. Splitting probabilities are evaluated
+   For a finite CTMC, use the row-vector convention. Let         stably from the killed solve,
+𝐿0 = 𝐿1 ⊕ 𝐿2 be the free two-particle generator, let the
+                                                                                          𝜋 = 𝛼(−𝑇 )−1 𝑈 𝐾,                  (S33)
+columns of 𝑈 select the catalytic co-location states, and
+let 𝐾 = diag(𝜅1 , . . . , 𝜅𝑚 ). Then                             rather than by substituting 𝑠 = 0 into individually di-
+                                                                 vergent free resolvents, provided the full killed live oper-
+                      𝑇 = 𝐿0 − 𝑈 𝐾𝑈 T ,                  (S25)
+                                                                 ator is transient and −𝑇 is invertible. Initial-class-only
+                                                                 transience requires restriction to the reachable transient
+and for an initial distribution 𝛼,
+                                                                 subspace. At small nonzero 𝑠, the finite Green routine
+                      𝑓𝑗 (𝑡) = 𝛼e𝑇 𝑡 𝑈 𝐾𝑒𝑗 .             (S26)   also fails closed if its combined solve, condition-number,
+                                                                 reconstructed equation, or direct-comparison diagnostic
+The free hotspot Green matrix is                                 exceeds 10−8 ; it never silently switches methods. The
+                                                                 exact time derivatives are
+                   𝐺(𝑠) = 𝑈 T (𝑠𝐼 − 𝐿0 )−1 𝑈.            (S27)
+                                                                                       𝜕𝑡𝑛 𝑓 (𝑡) = 𝛼e𝑇 𝑡 𝑇 𝑛 𝑈 𝐾1.           (S34)
+For finite matrices and any 𝑠 ∈
+                              / 𝜎(𝐿0 ), define the inverse-
+                                                                 For a parameter 𝜃,
+free renewal determinant
+                                                                        𝜕𝜃 (𝑠 − 𝑇 )−1 = (𝑠 − 𝑇 )−1 𝑇𝜃 (𝑠 − 𝑇 )−1 ,           (S35)
+                   Δ(𝑠) = det[𝐼 + 𝐺(𝑠)𝐾].                (S28)
+                                                                 Writing 𝑅 = (𝑠 − 𝑇 )−1 and 𝐹 = 𝛼𝑅𝑈 𝐾, the complete
+The matrix determinant lemma gives                               fixed-space sensitivity is
+            det(𝑠𝐼 − 𝑇 ) = det(𝑠𝐼 − 𝐿0 )Δ(𝑠).            (S29)                  𝜕𝜃 𝐹 = 𝛼𝜃 𝑅𝑈 𝐾 + 𝛼𝑅𝑇𝜃 𝑅𝑈 𝐾
+For two hotspots,                                                                      + 𝛼𝑅𝑈𝜃 𝐾 + 𝛼𝑅𝑈 𝐾𝜃 .                   (S36)
+
+                                                                 The fixed-initial-law, fixed-support rate Jacobian used
+   Δ(𝑠) = (1 + 𝜅1 𝑔11 )(1 + 𝜅2 𝑔22 ) − 𝜅1 𝜅2 𝑔12 𝑔21 .   (S30)
+                                                                 below retains the second and fourth terms. Moving a
+                                                                 sharp patch changes 𝑈 and need not be a smooth parame-
+When both rates are nonzero, this is 𝜅1 𝜅2 det(𝐾 −1 + 𝐺);
+                                                                 ter on a fixed grid. These identities avoid finite-difference
+the latter normalization is not used at a zero rate. A zero
+                                                                 derivatives at a modality fold.
+of Δ is only a candidate killed pole coupled to the reactive
+subspace. Numerator cancellation, vanishing observable
+residue, and modes dark to 𝑈 must be checked separately.          S4.   SPECTRAL CONSTRAINTS AND LOCAL
+A root of Δ(𝑠) is not, by itself, a time-domain mode of                   FIXED-BUDGET SENSITIVITY
+the density. Negative-half-plane evaluation here is finite
+rational matrix algebra, not a Laplace transform. For the          S4.1.   A necessary spectral sign-variation bound
+continuum operator, the present Green result remains a
+right-half-plane Laplace-response identity; meromorphic
+continuation and continuum pole/residue claims require             Consider first a finite killed model whose observable
+additional Fredholm hypotheses not established here.             density has a real, diagonalizable spectral expansion. Af-
+   An exact finite two-site audit exercises all three ex-        ter equal decay rates are grouped and zero residues re-
+clusions. With identical two-state walkers, rates 𝜅1 =           moved, write
+𝜅2 = 1/2, and co-location selectors, 𝑣dark = (0, 1, −1, 0)T                     𝑛
+                                                                               ∑︁
+obeys                                                                𝑓 (𝑡) =         𝑎𝑗 𝑒−𝜆𝑗 𝑡 ,     0 < 𝜆1 < · · · < 𝜆𝑛 .   (S37)
+                                                                               𝑗=1
+  𝑈 T 𝑣dark = 0,       𝐿0 𝑣dark = 𝑇 𝑣dark = −2𝑣dark .    (S31)
+                                                                 Reversibility is a sufficient, not necessary, hypothesis: de-
+At the coupled killed pole 𝑠* = −5/2 ∈/ 𝜎(𝐿0 ),                  tailed balance makes the killed generator similar to a real
+                    (︃   )︃                                      symmetric matrix, while the residues are products of the
+                                                                 initial-state and reaction-observable spectral projections.
+                                       (︂       )︂
+                 8 1 1                    1 1
+ 𝐼 + 𝐺(𝑠* )𝐾 =              ,    𝑟ch =     ,−      . (S32)       Applying the classical generalized Descartes rule [3] to
+                15 1 1                    4 4
+                                                                                                     𝑛
+                                                                                                    ∑︁
+Thus both channels carry a nonzero residue while the                                   𝑓𝑡 (𝑡) = −         𝜆𝑗 𝑎𝑗 𝑒−𝜆𝑗 𝑡       (S38)
+ordinary total reaction flux cancels this pole exactly. This                                        𝑗=1
+finite rational audit validates the warning; it is not a
+continuum spectral theorem and no modality conclusion            after the substitution 𝑥 = 𝑒−𝑡 gives the following imme-
+is inferred from it.                                             diate corollary.
+                                                                                                                                          5
+
+   Spectral sign-variation corollary.          The number of      where 𝑘 > 0 on the allowed design support. For an ad-
+positive-time zeros of 𝑓𝑡 , counted with multiplicity, is at      ditive perturbation 𝑘𝜖 = 𝑘 + 𝜖ℎ, put 𝐻 = − diag ℎ. The
+most the number 𝑉 (𝑎1 , . . . , 𝑎𝑛 ) of sign changes in the or-   exact finite-matrix Fréchet–Duhamel identity is
+dered residue sequence. Consequently, 𝑚 nondegenerate
+interior maxima separated by minima require                                                        ∫︁ 𝑡
+                                                                                     𝑇𝑡
+                                                                                𝐷𝑒 [𝐻] =                  𝑒𝑇 (𝑡−𝑠) 𝐻𝑒𝑇 𝑠 d𝑠.        (S42)
+                                            ⌊︂      ⌋︂                                              0
+                                               𝑉 +1
+    𝑉 (𝑎1 , . . . , 𝑎𝑛 ) ≥ 2𝑚 − 1,    𝑚≤               . (S39)
+                                                 2                This is the standard Fréchet derivative of the matrix ex-
+                                                                  ponential [5]. Since 𝑓𝑡 = 𝛼𝑒𝑇 𝑡 𝑇 𝑘, its complete directional
+Thus bimodality needs at least three sign changes and             derivative is
+trimodality at least five. This is a classical zero-count
+consequence used here as a spectral design diagnostic,
+not a new theorem. It complements established shape                𝐷𝑘 𝑓𝑡 (𝑡; 𝑘)[ℎ] = 𝛼𝐷𝑒𝑇 𝑡 [𝐻]𝑇 𝑘 + 𝛼𝑒𝑇 𝑡 (𝐻𝑘 + 𝑇 ℎ). (S43)
+results for phase-type densities [4]; it does not cover com-
+plex eigenvalues, Jordan terms, or an infinite continuum          The second term is essential because the killing field is
+expansion.                                                        also the measured reaction observable. Equation (S43) is
+   The bound is deliberately one-sided. For example,              linear in ℎ, so write it as 𝑔 T ℎ. Componentwise,
+
+ 4𝑒−𝑡 − 12𝑒−2𝑡 + 12𝑒−3𝑡 − 4𝑒−4𝑡 = 4𝑒−𝑡 (1 − 𝑒−𝑡 )3 (S40)                      𝑔𝑖 = (𝛼𝑒𝑇 𝑡 𝑇 )𝑖 − 𝑘𝑖 (𝛼𝑒𝑇 𝑡 )𝑖
+                                                                                      ∫︁ 𝑡
+has three residue sign changes but only one positive                                −      (𝛼𝑒𝑇 (𝑡−𝑠) )𝑖 (𝑒𝑇 𝑠 𝑇 𝑘)𝑖 d𝑠.            (S44)
+critical point, 𝑡 = log 4. Nor can reaction-support                                        0
+
+rank replace the residue condition. Two 12-stage Er-
+lang transport branches with rates 12 and 1.2, initial-              Let 𝑐 > 0 define the chosen discrete killing budget,
+ized with equal weight and feeding a single state killed at       𝑐T ℎ = 0, and let 𝑀 ≻ 0 define the local design norm
+rate 100, have direct matrix-exponential critical points          ℎT 𝑀 ℎ = 1. Setting
+at 0.92676432 (maximum), 2.65921039 (minimum), and
+9.17667747 (maximum). A rank-one killing support can                                    𝑐T 𝑀 −1 𝑔
+                                                                              𝜆𝐵 =                ,           𝑔̃︀ = 𝑔 − 𝜆𝐵 𝑐,       (S45)
+therefore already be bimodal. Transport clocks and ob-                                  𝑐T 𝑀 −1 𝑐
+servable residues, not the number of patch labels, control
+the available temporal structure.                                 Cauchy–Schwarz on the budget tangent space gives
+   Full symmetric eigendecompositions test Eq. (S39) in
+the primary models. The 961-state supercritical finite                         𝑀 −1 𝑔̃︀                                  √︀
+encounter CTMC has three reported critical points, and               ℎ* = √︀                   ,     max 𝐷𝑘 𝑓𝑡 [ℎ] =       𝑔̃︀T 𝑀 −1 ̃︀
+                                                                                                                                     𝑔.
+                                                                               𝑔̃︀T 𝑀 −1 𝑔̃︀
+the 2025-state 9 × 5 M2D-T model is evaluated at five                                                                    (S46)
+detected critical points. The spectral audit rebuilds the         At a double stationary point, 𝑔̃︀ ̸= 0 is exactly the condi-
+same primary generators and imports or reconstructs               tion that some infinitesimal fixed-budget redistribution
+those reported critical times; it is therefore not an in-         is transverse to the fold. For two controls, projected ver-
+dependent root-finding implementation. Both cases re-             sions of the 𝑓𝑡 and 𝑓𝑡𝑡 gradients must be linearly indepen-
+tain more than the required three and five sign changes           dent before a budget-constrained cusp unfolding is pos-
+when grouped residues below relative cutoffs from 10−12           sible. These are local interior-rate statements. Positivity
+through 10−6 are removed. Density and derivative re-              constraints, zero baseline rates, binary masks, and mov-
+constructions are checked at every supplied root. The             ing sharp supports require a constrained finite-amplitude
+observed sign counts are much larger than the minima              design problem.
+and are not interpreted as predicted mode counts: across
+                                                                     An eleven-state falsification fixture compares the ba-
+the stated cutoff sweep, the minimum retained counts
+                                                                  sis Fréchet gradient with Eq. (S44), 256 independent
+are 444 versus the required 3 in the bimodal case and
+                                                                  budget-zero five-point derivatives, a state permutation,
+191 versus the required 5 in the trimodal case. This is a
+                                                                  and 20,000 random feasible directions. The relative
+loose falsification gate, not a mode-count predictor.
+                                                                  Duhamel error is 3.3 × 10−15 , the maximum indepen-
+                                                                  dent finite-difference error is 2.4 × 10−8 , and the best
+                                                                  random response is only 0.933 of Eq. (S46). At the pri-
+  S4.2.    Budget-projected modality susceptibility               mary finite encounter fold, the chain-rule reconstruction
+                                                                  of the already computed log-rate transversality agrees to
+   The spectral corollary can rule out a mode count but           6.8 × 10−15 relative error. The orthogonal near-to-far
+does not tell us how to move the reaction field. For a            fixed-state-sum redistribution has nonzero transversality
+finite live-state transport generator 𝐿, let                      −1.1621 × 10−5 . Thus the new calculation predicts a
+                                                                  budget-feasible unfolding direction; it does not merely
+     𝑇 (𝑘) = 𝐿 − diag 𝑘,       𝑓 (𝑡; 𝑘) = 𝛼𝑒𝑇 (𝑘)𝑡 𝑘,    (S41)    refit the fold path.
+                                                                                                                                         6
+
+   S5.   CHANNEL CLOCKS AND MODALITY                                for 𝜈 > 0, but it defines the mode of a normalized den-
+                CALCULUS                                            sity only when the normalizer is finite. These formulas
+                                                                    are exact for the GIG family. Their use for a confined
+      S5.1.    Relative–centre GIG screening law                    encounter channel is a screening approximation until a
+                                                                    mode-window remainder is controlled.
+   This screening calculation uses the special catalytic
+convention 𝜂 = 𝐷2 /𝐷r , so that 𝐶𝜂 = 𝑅 and the free
+                                                                             S5.2.     Fixed-shape and physical folds
+relative and centre noises decouple. It is not an exact
+factorization of a midpoint catalyst when 𝐷1 ̸= 𝐷2 .
+   For constant drifts in free space,                                 Let two normalized conditional densities be 𝑔1 and 𝑔2 ,
+                √︀                               √︀                 and consider
+  d𝑟 = 𝑢 d𝑡 + 2𝐷r d𝑊𝑟 ,          d𝑅 = 𝑣c d𝑡 + 2𝐷c d𝑊𝑐 .
+                                                     (S47)           𝑓 (𝑡; 𝑤) = 𝑤𝑔1 (𝑡) + (1 − 𝑤)𝑔2 (𝑡),                 0 < 𝑤 < 1. (S54)
+In a one-dimensional closing geometry, let ℓ > 0 be the             A fold of the critical points satisfies 𝑓𝑡 = 𝑓𝑡𝑡 = 0. Elimi-
+initial gap and 𝑢 > 0 the closing speed. The first-contact          nating the weight gives
+density of the relative process is
+                                                                                        𝑔1′ 𝑔2′′ − 𝑔2′ 𝑔1′′ = 0,                      (S55)
+                                   (ℓ − 𝑢𝑡)2
+                               [︂            ]︂
+                      ℓ
+         ℎ𝑟 (𝑡) = √         exp  −              .    (S48)                                                         𝑔2′
+                    4𝜋𝐷r 𝑡3          4𝐷r 𝑡                                                           𝑤* = − ′       .                 (S56)
+                                                                                                           𝑔1 − 𝑔2′
+For a narrow centre patch at 𝑧 ∈ R𝑑 , the free centre
+density is                                                          Admissibility additionally requires 𝑔1′ ̸= 𝑔2′ and 0 < 𝑤* <
+                                                                    1. For 𝑔𝑖 = 𝐶𝑖 𝑡−𝜈𝑖 exp(−𝐴𝑖 /𝑡 − 𝐵𝑖 𝑡), define
+                                |𝑧 − 𝑅0 − 𝑣c 𝑡|2
+                             [︂                  ]︂
+                  1
+  𝑝𝑐 (𝑧, 𝑡) =             exp −                     . (S49)                                           𝐴𝑖          𝜈𝑖
+              (4𝜋𝐷c 𝑡)𝑑/2            4𝐷c 𝑡                                           𝑎𝑖 = (log 𝑔𝑖 )′ =    − 𝐵𝑖 − ,
+                                                                                                      𝑡2          𝑡
+Multiplying the two leading factors produces the general-                                          ′′    2𝐴𝑖   𝜈𝑖
+                                                                                     𝑏𝑖 = (log 𝑔𝑖 ) = − 3 + 2 .                       (S57)
+ized inverse Gaussian first-hitting-time family, whose use                                                𝑡    𝑡
+as a diffusion hitting-time law is longstanding [6]:
+                                                                    Equation (S55) then becomes
+                             −1 −𝜈
+      𝑔(𝑡; 𝐴, 𝐵, 𝜈) = 𝑍         𝑡    exp(−𝐴/𝑡 − 𝐵𝑡),        (S50)                    𝑎1 (𝑎22 + 𝑏2 ) − 𝑎2 (𝑎21 + 𝑏1 ) = 0.             (S58)
+with, for a narrow centre patch,                                    This is exact for fixed channel shapes. A physical param-
+     𝑑+3              ℓ  2
+                           |𝑧 − 𝑅0 |       2
+                                                 𝑢      2
+                                                       |𝑣c |  2     eter generally changes both the weights and shapes. Its
+𝜈=       ,     𝐴=        +           ,         𝐵=   +        .      fold must be solved in the full model,
+      2              4𝐷r      4𝐷c               4𝐷r    4𝐷c
+                                                       (S51)                           𝑓𝑡 (𝑡* , 𝜃* ) = 𝑓𝑡𝑡 (𝑡* , 𝜃* ) = 0,            (S59)
+Here the initial relative displacement is −ℓ^   𝑒 and 𝑢 > 0
+denotes closing drift along 𝑒^. Writing 𝛿 = 𝑧 − 𝑅0 , di-            with
+rect expansion also produces the time-independent factor
+exp[ℓ𝑢/(2𝐷r )+𝛿 ·𝑣c /(2𝐷c )]. It cancels from each normal-             𝑎* = 𝑓𝑡𝜃 (𝑡* , 𝜃* ) ̸= 0,         𝑏* = 𝑓𝑡𝑡𝑡 (𝑡* , 𝜃* ) ̸= 0.   (S60)
+ized conditional shape 𝑔𝑗 , but it is channel- and direction-
+dependent and therefore contributes to the physical split-          Taylor expansion yields
+ting amplitude; it cannot in general be discarded from                                       𝑏* 2
+mixture weights. The power 𝜈 = (𝑑 + 3)/2 is a narrow-                      𝑓𝑡 = 𝑎* Δ𝜃 +        Δ𝑡 + 𝑜(|Δ𝜃| + |Δ𝑡|2 ).                 (S61)
+                                                                                             2
+patch screening value, not a universal exponent. Inte-
+grating over tangential or centre coordinates changes the           On the side for which −2𝑎* Δ𝜃/𝑏* > 0,
+power; reflections generate a sum of image contributions.                               √︂
+   For 𝐴, 𝐵 > 0,                                                                            2𝑎*
+                                                                               Δ𝑡± = ± −        Δ𝜃 + 𝑜(|Δ𝜃|1/2 ),                     (S62)
+                             )︂(1−𝜈)/2                                                       𝑏*
+                                                √
+                    (︂
+                         𝐴
+              𝑍=2                        𝐾1−𝜈 (2 𝐴𝐵),       (S52)   so the maximum–minimum separation scales as |Δ𝜃|1/2 ,
+                         𝐵
+                                                                    while the prominence obtained by integrating the
+and the mode is                                                     quadratic derivative scales as |Δ𝜃|3/2 .
+              √                                                       The regularity needed to transfer this fold between dis-
+         −𝜈 + 𝜈 2 + 4𝐴𝐵        2𝐴                                   cretizations is one derivative stronger than that needed
+   𝑡m =                 =    √          .                   (S53)
+                2𝐵        𝜈 + 𝜈 2 + 4𝐴𝐵                             to preserve already simple modes. Let 𝐻 = (𝑓𝑡 , 𝑓𝑡𝑡 ). At
+                                                                    a nondegenerate fold,
+At 𝐵 = 0, the normalizer is 𝑍 = 𝐴1−𝜈 Γ(𝜈 − 1) only for
+𝜈 > 1. The positive stationary mode remains 𝑡m = 𝐴/𝜈                                  det 𝐷(𝑡,𝜃) 𝐻 = −𝑓𝑡𝜃 𝑓𝑡𝑡𝑡 ̸= 0.                  (S63)
+                                                                                                                             7
+
+A sufficient condition for transfer is joint local 𝐶 3 conver-      The discovery family uses reflecting attempted steps,
+gence of 𝑓ℎ (𝑡, 𝜃). More minimally, the implicit-function        equal reaction probabilities 𝜌1 = 𝜌2 = 0.6, movement
+argument requires 𝐶 1 convergence of 𝐻ℎ = (𝜕𝑡 𝑓ℎ , 𝜕𝑡𝑡 𝑓ℎ ),     probabilities (𝑞1 , 𝑞2 ) = (0.7, 0.2), and right biases 0.3.
+including the specific time and parameter derivatives en-        The near catalyst and starting configuration are trans-
+tering 𝐷𝐻ℎ . These two regularity statements are not             lated with system size while a far catalyst remains at
+equivalent. Under either sufficient set of hypotheses, the       the right boundary. Figure S1 shows a stable early chase
+implicit-function theorem transfers a unique nearby non-         channel and a late boundary-transport channel. Across
+degenerate fold. Mere 𝐶 2 convergence of the densities is        𝐿 = 31, 41, 61, 81, the early peak remains at 𝑛 = 33,
+not sufficient. Indeed,                                          while the late peak moves from 194 to 598. The near-
+                                                                 channel weight approaches 0.05369, the valley ratio falls
+   𝑓 (𝑡, 𝜃) = 𝜃𝑡 + 𝑡3 /3,    𝑓𝑛 = 𝑓 + 2𝑛−3 sin(𝑛𝑡)      (S64)    from 0.308 to 9.20 × 10−4 , and all 155 multiscale mor-
+                        2
+satisfies 𝑓𝑛 → 𝑓 in 𝐶 , but the nearby double stationary         phology views retain two peaks. Tail mass is below 10−12 .
+point (𝑡𝑛 , 𝜃𝑛 ) = (0, −2/𝑛2 ) has 𝑓𝑛,𝑡𝑡𝑡 = 0 and is degen-      A local perturbation box gives 37 bimodal cases among
+erate. The continuum bridge therefore requires uniform           40 draws; the remaining three are shoulder or unimodal
+semigroup and parameter derivatives through third time           cases and are not discarded.
+order near the fold, not only convergence of the density            Poissonization and an independent-clock CTMC retain
+curves.                                                          the two clock windows (Fig. S2), but they are robustness
+  For three channels, a positive simplex solution of             tests rather than a calibrated continuous-time limit of
+                ⎛                ⎞⎛ ⎞ ⎛ ⎞                        the synchronous chain. In particular, rate and time pa-
+                   1 1 1           𝑤1      1                     rameters must not be exchanged between these models.
+                ⎜ ′ ′ ′ ⎟⎜ ⎟ ⎜ ⎟
+                ⎝ 𝑔1 𝑔2 𝑔3 ⎠ ⎝𝑤2 ⎠ = ⎝0⎠              (S65)
+                  𝑔1′′ 𝑔2′′ 𝑔3′′   𝑤3      0
+                                                                     S6.2.   Numerically located finite-CTMC fold
+locates only a candidate double stationary∑︀ point. It is a
+nondegenerate fixed-shape fold only if 𝑖 𝑤𝑖 𝑔𝑖′′′ (𝑡* ) ̸= 0       In the independent-clock 𝐿 = 31 model, we vary
+and a declared one-parameter control direction also has
+𝑓𝑡𝜃 (𝑡* ) ̸= 0. Equation (S65) alone supplies neither condi-                         𝜃 = log(𝜅near /𝜅far ),               (S69)
+tion and does not prove trimodality. Existence of three
+resolved modes requires five alternating simple critical         holding 𝜅far = 0.9162907319 fixed. Because 𝜃 changes
+points with positive margins and tail control. Only a            both 𝑇 and the reaction observable, this is a physical pa-
+claim of an exact global root or mode count additionally         rameter path, not a freely adjusted mixture weight. The
+requires interval-exhaustive root isolation. No cusp or          finite-matrix time-derivative identities follow Eq. (S34).
+trimodal claim follows from Eq. (S65) alone; the inde-           Parameter derivatives are obtained by propagating the
+pendent finite-state certificate in Sec. S7.6 supplies the       column state and sensitivity,
+existence checks for one declared bounded family while
+explicitly withholding a global root-count theorem.                 𝑝′ = 𝑇 T 𝑝,     𝑠′ = 𝑇 T 𝑠 + 𝑇𝜃T 𝑝,       𝑠(0) = 0,   (S70)
+
+                                                                 in one augmented exponential.
+        S6.    FINITE LATTICE AND CTMC                              The fold occurs at
+              MECHANISM CERTIFICATE
+                                                                   𝑡* = 37.0749586402,         𝜃* = −9.6753635853,        (S71)
+         S6.1.    Synchronous discovery family
+                                                                 or 𝜅near = 5.755410148 × 10−5 . Dimensionless first- and
+                                                                 second-derivative residuals are 7.1 × 10−15 and 6.8 ×
+  For independent one-step kernels 𝑃1 and 𝑃2 , let 𝑃 =           10−13 ; the dimensionless third derivative is 69.94 and pa-
+𝑃1 ⊗ 𝑃2 . With 𝑈 selecting catalytic co-locations and            rameter transversality is −0.1962. Independent points,
+𝐷𝜌 = diag(𝜌1 , 𝜌2 ), the arrival-then-react convention gives     which were not used to locate the fold, give log–log
+       𝑄 = 𝑃 (𝐼 − 𝑈 𝐷𝜌 𝑈 T ),      𝐵 = 𝑃 𝑈 𝐷𝜌 ,         (S66)    slopes 0.50095 for critical-point separation and 1.50877
+                                                                 for prominence (Fig. 2 of the main article). The mass-
+                                                                 closure error is 4.0 × 10−15 , and survival at 𝑡 = 5000 is
+                    𝑓𝑗 (𝑛 + 1) = 𝛼𝑄𝑛 𝐵𝑒𝑗 .              (S67)    1.3 × 10−21 .
+Here 𝛼 is live mass conditioned on surviving any time-              For the canonical channel comparison, the joint
+zero reaction check; the convention includes no 𝑛 = 0            relative–centre GIG predicts the early mode at 26.50,
+reaction atom, and the first reported flux is at step one.       versus 32.1534 for the CTMC, and the inverse-Gaussian
+The discovery starts away from catalytic states, so this         boundary clock predicts 180.19, versus 196.1459. The
+conditioning does not alter its saved curves. The gener-         CTMC values are Brent roots of the analytical chan-
+ating function is                                                nel derivative 𝛼𝑒𝑇 𝑡 𝑇 𝑏𝑗 , with negative second derivatives,
+                                                                 rather than maxima of a sampled time series. The rel-
+                  𝑓̂︀(𝑧) = 𝑧𝛼(𝐼 − 𝑧𝑄)−1 𝐵1.             (S68)    ative errors are 17.6% and 8.1%, respectively. These
+                                                                                                                                                                                                             8
+
+                               (a) chase and boundary-return channels                                                                   (b) site-resolved channels (L = 41)
+                                                                                                    0.0035                                                          total
+                                                       boundary patch
+                                                                                                    0.0030                                                          near
+
+
+
+
+                                                                             reaction probability
+                                                near patch
+                                                                                                                                                                    boundary
+                                        fast walker                                                 0.0025
+                                                                                                    0.0020
+                                                  slow walker                                       0.0015
+                                                                                                    0.0010
+                                                                                                    0.0005
+                                                                                                    0.0000
+                                    0        10       20        30      40                                                              0       200    400    600        800
+                                                  physical site                                                                                       time step
+                                         (c) domain-size continuation                                                                        (d) mode resolution versus L
+
+
+
+
+                                                                                                    width-normalized separation
+                                                                     L=31
+                            0.004                                    L=41                                                         2.4
+
+
+
+
+     reaction probability                                                                                                                                                              valley / minor peak
+                                                                     L=61                                                                                                       10−1
+                            0.003                                    L=81                                                         2.2
+
+                                                                                                                                  2.0
+                            0.002
+                                                                                                                                                                                10−2
+                                                                                                                                  1.8
+                            0.001
+                                                                                                                                  1.6
+                            0.000                                                                                                                                               10−3
+                                    0       200      400    600      800                                                                30     40     50       60   70     80
+                                                   time step                                                                                               L
+
+
+FIG. S1.    Finite synchronous discovery family. The total reaction-time mass is resolved into a weak early chase channel
+at the near catalytic site and a strong late channel associated with transport to the far site. The early peak and splitting
+weight stabilize while the late peak moves with domain length. The displayed finite-size trends are descriptive evidence, not
+an asymptotic theorem.
+
+
+non-negligible errors are reported because no uniform                                                                      geometric state-sum quadrature assigns equal weights
+reflected-path remainder is available. The screening law                                                                   to nodes, and contact and patch supports are binary
+organizes parameter search; it does not replace the direct                                                                 node tests. With drift, that equal-node measure is not
+finite-matrix semigroup calculation.                                                                                       the CTMC stationary distribution. Accordingly, the
+                                                                                                                           matched catalyst budget below is an unweighted state-
+                                                                                                                           wise sum, not a stationary-exposure match. The free
+   S7.                      FINITE-RADIUS TWO-DIMENSIONAL                                                                  pair generator is the Kronecker sum of the two one-
+                                    REALIZATION                                                                            particle generators. Killing is applied whenever the pair
+                                                                                                                           distance is below the physical reaction radius 𝑎 = 0.13
+     S7.1.                     Discretization and morphology audit                                                         and the declared midpoint 𝐶1/2 = (𝑋1 + 𝑋2 )/2 lies in-
+                                                                                                                           side a catalytic patch. In the continuum, replacing the
+   The physical domain is the obstacle-free unit square                                                                    open contact and patch disks by their closures changes
+with reflecting outer boundaries. Each one-particle gen-                                                                   only zero-measure boundaries. On every saved lattice,
+erator is a conservative boundary-node lattice CTMC                                                                        however, both contact and patch masks use closed “less-
+with grid spacing 𝐿/(𝑛 − 1), central nearest-neighbour                                                                     than-or-equal” tests with a declared scale-aware floating-
+diffusion, upwind longitudinal drift, a smooth transverse                                                                  point length tolerance. This convention can change bi-
+restoring drift, and reflection by omission of outward                                                                     nary state counts at a grid boundary, so those counts
+jumps. This is not a cell-centred finite-volume scheme:                                                                    and the same closed-mask convention are retained in the
+physical 𝐷, 𝑣, 𝛾, 𝜅 have dimensions 𝐿2 /𝑇, 𝐿/𝑇, 𝑇 −1 , 𝑇 −1 ,                                                              machine artifacts and contact-safe diagnostics. Bilinear
+respectively. Length and time are scaled by the square                                                                     initial weights preserve physical starting positions across
+side 𝐿 and a declared time 𝑇 , and the reported numbers                                                                    grids, but their independent product can put artificial
+are the dimensionless groups 𝐷𝑇 /𝐿2 , 𝑣𝑇 /𝐿, 𝛾𝑇, 𝜅𝑇 . The                                                                  mass in the discrete contact tube on a coarse lattice even
+                                                                                                                                                 9
+
+
+                                                      Clock check: the resolved double peak is not a parity artifact
+                                                                                                                    discrete raw
+                                                                                                                    Poissonized discrete
+                             0.004
+                                                                                                                    CTMC
+
+
+
+
+     reaction-time density
+                             0.003
+
+
+
+
+                             0.002
+
+
+
+
+                             0.001
+
+
+
+
+                             0.000
+
+                                           0            100       200        300          400           500             600          700
+                                                                                   time
+
+
+FIG. S2. Clock robustness. Poissonized synchronous dynamics and an independent-clock CTMC retain separated early/late
+windows. The curves test mechanism robustness under clock changes; they do not establish a calibrated synchronous-to-CTMC
+continuum limit.
+
+
+when the two physical starts satisfy |𝑥01 − 𝑥02 | > 𝑎. We                          bilinear product weights; the result therefore does not
+therefore use the product weights unchanged when they                              depend on an arbitrary linear-programming basis. Phys-
+are contact-safe and otherwise construct a joint initial                           ical starts in the closed contact region are rejected. Saved
+law by the nonnegative programme                                                   diagnostics verify unit mass, nonnegativity, both vector
+                ∑︁                                                                 means, zero initial mass on the contact and active-sink
+                    𝛼𝑖𝑗 |𝑥𝑖 − 𝑥01 |2 + |𝑥𝑗 − 𝑥02 |2 ,
+                       (︀                          )︀
+    minimize                                                                       supports, and the root-mean-square and maximum dis-
+                         𝛼𝑖𝑗
+                                      𝑖𝑗                                           placement of each represented start. The coarse-grid so-
+                                     ∑︁                                            lution need not retain independent marginals; it is the de-
+   subject to                              𝛼𝑖𝑗 = 1,
+                                                                                   clared minimum-spread, closest-product representation
+                                      𝑖𝑗
+                                     ∑︁                                            of two deterministic, noncontacting starts. Consequently,
+                                           𝛼𝑖𝑗 𝑥𝑖 = 𝑥01 ,                (S72)
+                                                                                   all results in this section are finite-state mechanism cer-
+                                      𝑖𝑗                                           tificates; no continuum claim is deduced from the bound-
+                                     ∑︁                                            ary discretization.
+                                           𝛼𝑖𝑗 𝑥𝑗 = 𝑥02 ,
+                                                                                      The principal matched-control family uses
+                                      𝑖𝑗
+
+                                     𝛼𝑖𝑗 ≥ 0,                                        (𝐷1 , 𝑣1 ) = (0.0025, 0.18),    (𝐷2 , 𝑣2 ) = (0.0008, 0.02),
+                                     𝛼𝑖𝑗 = 0 if |𝑥𝑖 − 𝑥𝑗 | ≤ 𝑎 + 𝜏ℓ .                                                                         (S73)
+
+                                                                                   transverse confinement 1.5, starts (0.10, 0.50) and
+Here 𝜏ℓ = 64𝜖mach max(𝐿𝑥 , 𝐿𝑦 , 𝑎) is the binary64 scale-
+                                                                                   (0.35, 0.50), and patterned reactivity
+aware length guard used by the saved contact mask.
+Patch disks use the analogous guard with their radius                                𝜅pat (𝐶1/2 ) = 0.5 1𝐶near (𝐶1/2 ) + 15 1𝐶far (𝐶1/2 ),   (S74)
+and centre coordinates included in the maximum. Thus
+Eq. (S72) and the implementation use the same tolerant                             with 𝐶near centered at (0.25, 0.50), radius 0.18, and 𝐶far
+closed-support convention. The smallest feasible expand-                           centered at (0.72, 0.50), radius 0.20. The far patch has
+ing local stencil is selected. Because the minimum-spread                          positive boundary clearance 0.08.
+linear programme can have a degenerate optimal face, a                                To prevent controls from being mistaken for one-
+second, strictly convex programme selects on that face                             factor ablations, Table SII assigns each numerical fam-
+the unique law closest in Euclidean norm to the original                           ily an immutable identifier. All four use (𝐷1 , 𝐷2 ) =
+                                                                                                                          10
+
+(0.0025, 0.0008), transverse confinement 1.5, midpoint          classified resolved-unimodal, with an accepted peak 1.1–
+catalysis, and patch 𝑦-coordinate 0.5; the entries 𝑥/𝑟/𝜅        1.2. An independent finite-matrix semigroup derivative
+specify patch centre, radius, and rate. The families are        audit retains a strict late secondary maximum in each
+separate examples unless an explicit matched path is            homogeneous model, but its height is only 1.02%–1.81%
+stated.                                                         of the primary peak; the patterned secondary/primary
+  At each grid, a homogeneous rate ¯ 𝜅ℎ is chosen so that       ratios are 4.43%–8.15%. A persisted 101-point sweep of
+               ∑︁              ∑︁                               the full classifier at cutoffs strictly inside the unrounded
+                   𝐾hom (𝑥) =     𝐾pat (𝑥)          (S75)       interval (1.809905%, 4.434632%) retains every displayed
+                 𝑥               𝑥                              label: the homogeneous cases remain unimodal, the four
+                                                                finer patterned cases remain bimodal, and the coarse
+on the same discrete encounter tube. This is an equal           patterned case remains a shoulder. The interval end-
+per-lattice discrete state-sum killing budget. It is not        points were computed from these same patterned and
+equality of every trajectory-level hazard, splitting prob-      control realizations, so this is a post-hoc finite-sample
+ability, or mean lifetime.                                      separation audit. It is neither a predeclared detector
+   For the midpoint coordinate, the change of variables         range nor an experiment-specific noise-robustness result,
+𝐶 = (𝑥1 + 𝑥2 )/2, 𝑟 = 𝑥1 − 𝑥2 has unit Jacobian. In the         and it is not a continuous-interval theorem. Repeating
+unit square, for 0 ≤ 𝑎 ≤ 1, the exact finite-radius volume      the homogeneous control with tensor-product boundary
+of the contact tube is                                          control-volume budget weights gives strict secondary ra-
+          ∫︁
+                                                    8    1      tios 0.637%–1.217%, zero two-peak classifier views on
+𝑉𝑇 (𝑎) =          (1 − |𝑟𝑥 |)(1 − |𝑟𝑦 |) d𝑟 = 𝜋𝑎2 − 𝑎3 + 𝑎4 .   every grid, and the same non-bimodal resolution class
+            |𝑟|≤𝑎                                   3    2
+                                                                (one morphology is a shoulder). Thus the resolution-class
+                                                        (S76)   contrast is not an artifact of the state-sum budget mea-
+If every catalyst disk has boundary clearance at least 𝑎/2,     sure. Spatial patterning promotes a subthreshold trans-
+its centre-space section is untruncated for every admissi-      port clock to a resolved mode; it is not claimed to create
+ble 𝑟. The finite-𝑎 continuum counterpart of Eq. (S75) is       the mathematical existence of a second local maximum.
+then                                                            The discrete budget mismatch is at most 4.2 × 10−16 .
+                                𝜋𝑎2 [𝜋 𝑗 𝜅𝑗 𝜌2𝑗 ]
+                                        ∑︀                      No post-window maxima are found, and the propagated
+                𝜅ℎ,cont (𝑎) =
+                ¯                                 .     (S77)   tail at 𝑡 = 960 is at most 1.23 × 10−10 for the patterned
+                                     𝑉𝑇 (𝑎)                     family and 8.54 × 10−30 for the homogeneous family. Ta-
+                                                                ble SIII records the gridwise peak calls and verifies the
+For M2D-E, 𝑎 = 0.13, both clearances exceed 𝑎/2, and
+                                                                state-sum budget equality separately on every lattice; the
+𝜅ℎ,cont = 2.169402271. The present 17 × 13 state-sum
+¯
+                                                                figure also shows the control-volume-matched rates.
+rate is 1.849069451, still 14.8% below this reference; the
+line in Fig. S3 is therefore a finite-radius quadrature tar-       These are finite-lattice comparisons, not a continuum
+get, not a claim that the five dynamics grids have reached      convergence study. For M2D-E walker 1, the longitudi-
+the continuum.                                                  nal cell Péclet number decreases only from 9.0 to 4.5, so
+   The density is propagated by sparse matrix exponen-          the upwind effective-diffusion ratio 𝐷eff /𝐷 = 1 + Peℎ /2
+tials on 0 ≤ 𝑡 ≤ 80 with spacing 0.1. The audit uses raw        decreases from 5.5 to 3.25. Even one transverse cell from
+and binned densities, smoothing windows 1, 3, 5, 9, 15,         the centre on the finest lattice gives local Péclet numbers
+bin widths 1, 2, 4, 8, 16, prominence, lobe mass, valley        4.17 and 13.02 for walkers 1 and 2. These diagnostics
+depth, and persistence across 155 scale views. Survival is      block an SDE-refinement interpretation while leaving the
+propagated separately to 𝑡 = 960, and the post-window           declared finite CTMC comparison exact.
+density is searched for additional extrema. The discrete
+generator satisfies channel mass balance to 3.8 × 10−15
+or better. Trapezoidal time integration is used only as a         S7.3.   M2D-F matched-budget fold continuation
+secondary closure diagnostic.
+                                                                  For the separate M2D-F family, a natural physical
+                                                                continuation redistributes its fixed per-lattice state-sum
+     S7.2.   M2D-E equal-budget patterned and                   budget,
+              homogeneous endpoints
+                                                                  𝜅𝜃 (𝐶1/2 ) = (1 − 𝜃)¯
+                                                                                      𝜅ℎ + 𝜃𝜅pat (𝐶1/2 ),      0 ≤ 𝜃 ≤ 1.
+   Figure S3 compares the M2D-E patterned model with                                                                   (S78)
+its homogeneous equal-budget counterpart. The four              Along this path, both splitting weights and conditional
+finer patterned grids are classified resolved-bimodal, with     shapes vary. To resolve the interior fold directly, we use
+early peaks 1.3–1.5 and late peaks 19.2–20.8. The 9 × 5         a second declared family with the same patch geometry
+patterned grid is a resolved shoulder: its detected roots,      and rates but reaction radius 𝑎 = 0.17, walker parameters
+refined by direct finite-matrix semigroup derivative eval-      (𝐷1 , 𝑣1 ) = (0.0025, 0.115) and (𝐷2 , 𝑣2 ) = (0.0008, 0.02),
+uations, give strict maxima at 0.814 and 17.816, but only       and starts (0, 0.5) and (0.28, 0.5). The distinction from
+one classifier mode. All homogeneous counterparts are           the endpoint-ablation family above is explicit: the fold
+                                                                                                                                                                                        11
+
+
+TABLE SII. Declared bounded two-dimensional model families and M2D-C branches. Starts list the two initial 𝑥-coordinates;
+all initial 𝑦-coordinates are 0.5. The uniform M2D-C row is the unit-domain member of the separately audited domain-length
+sweep.
+
+ ID                                        Role                         𝑎; starts                 (𝑣1 , 𝑣2 )                                                  Patches 𝑥/𝑟/𝜅
+M2D-E                              matched endpoints                0.13; 0.10, 0.35            0.18, 0.02                                             0.25/0.18/0.5; 0.72/0.20/15
+M2D-F                                 matched fold                    0.17; 0, 0.28             0.115, 0.02                                            0.25/0.18/0.5; 0.72/0.20/15
+M2D-C                             separated boundary                0.13; 0.10, 0.35             0.18, 0.02                                            0.28/0.12/0.2; 0.90/0.20/4
+M2D-C                              interior two-patch               0.13; 0.10, 0.35            0.18, 0.02                                             0.28/0.12/0.2; 0.75/0.18/4
+M2D-C                                   single far                  0.13; 0.10, 0.35             0.18, 0.02                                                    0.90/0.20/4
+M2D-C                               co-located labels               0.13; 0.10, 0.35            0.18, 0.02                                             0.90/0.20/0.2; 0.90/0.20/4
+M2D-C                           uniform (unit domain)               0.13; 0.10, 0.35            0.18, 0.02                                                    0.50/2.00/0.2
+M2D-T                           three-patch trimodality             0.13; 0.05, 0.20             0.10, 0.02                                    0.20/0.06/0.03; 0.70/0.05/1; 0.94/0.05/0.05
+
+
+                                             (a) patterned patches                                                                  (b) matched transport and killing budget
+                                    1.0
+                                                                                                                     0.40                                        patterned
+
+
+
+
+                                                                                       reaction-time density
+                                                      both patches interior                                          0.35                                        homogeneous
+                                    0.8
+                                                                                                                     0.30
+                                    0.6                                                                              0.25
+                                y                                                                                    0.20
+                                    0.4                                                                              0.15
+                                                                    near
+                                                                    far                                              0.10
+                                    0.2                             start 1                                          0.05
+                                                                    start 2                                          0.00
+                                    0.0
+                                      0.0     0.2   0.4       0.6    0.8   1.0                                                          0       10       20       30       40
+                                                          x                                                                                               time
+                                          (c) patterned curves by grid                                                                      (d) matched homogeneous rate
+
+
+
+
+                                                                                                  matched uniform reaction rate
+                         0.20                                                 9x5                                                 2.4
+                                                                              11x7
+
+
+
+
+     patterned density
+                                                                              13x9                                                2.2
+                         0.15                                                 15x11                                               2.0
+                                                                              17x13
+                         0.10                                                                                                     1.8
+                                                                                                                                  1.6
+                         0.05                                                                                                     1.4                    grid match
+                                                                                                                                                         control-volume match
+                                                                                                                                  1.2                    continuum tube
+                         0.00
+                                 0          10      20              30        40                                                        0.12 0.11 0.10 0.09 0.08 0.07 0.06
+                                                     time                                                                                  grid spacing hx (finer right)
+
+
+FIG. S3. M2D-E finite-radius two-dimensional matched control. At each grid, the patterned and homogeneous fields have the
+same sum of statewise killing rates on the same encounter tube. Homogeneous endpoints are resolved-unimodal on all five grids;
+patterned endpoints are resolved-bimodal on the four finer grids and a resolved shoulder on the coarsest. All strict stationary
+points, including the coarse patterned and small homogeneous secondary maxima, are retained separately. A separate product-
+control-volume match retains the non-bimodal homogeneous controls. This establishes finite-grid amplification of a transport
+clock under spatial redistribution of a fixed discrete killing budget; it does not, by itself, locate or prove a continuum fold.
+
+
+family is a mechanism certificate, not a post hoc claim                                           and per-lattice budget path differ, so neither a common
+that every matched endpoint path has the same critical                                            continuation nor a shared critical coordinate is claimed.
+coordinate. In particular, M2D-F is not a continuation of                                         On each grid,
+                                                                                                             ∑︀ ¯𝜅ℎ is recomputed from the reactive-state
+M2D-E: its transport parameters, reaction radius, starts,                                         counts, so 𝑥 𝐾𝜃 (𝑥) is constant along 𝜃 to roundoff.
+                                                                                                                            12
+
+
+TABLE SIII. M2D-E two-dimensional equal-budget endpoint audit. 𝑁+ is the number of multiscale views containing two
+accepted peaks out of 155. The displayed homogeneous column uses state-sum matching; the control-volume-matched homo-
+geneous model also has 𝑁+ = 0 on every grid. “Strict maxima” lists both detected, derivative-refined patterned maxima even
+when the classifier calls a shoulder. Each homogeneous model also has a small strict secondary maximum in the machine
+artifact; the displayed homogeneous column lists only the classifier-accepted peak.
+
+                                      Patterned strict         Homogeneous                    𝑁+                    Relative
+ Grid           Patterned call            maxima               accepted peak        patterned/homogeneous         budget error
+ 9×5              shoulder             0.814, 17.816                1.1                      123/0                4.10 × 10−16
+11 × 7            bimodal              0.990, 19.518                1.1                      153/0                3.08 × 10−16
+13 × 9            bimodal              1.142, 20.679                1.1                      155/0                3.51 × 10−16
+15 × 11           bimodal              1.191, 20.831                1.2                      155/0                      0
+17 × 13           bimodal              0.962, 19.061                1.1                      152/0                2.23 × 10−16
+
+
+
+   Sparse generator actions give 𝑓𝑡 , 𝑓𝑡𝑡 , 𝑓𝑡𝑡𝑡 , while an aug-   nondegenerate continuation root occurs at (𝑡𝑐 , 𝜃𝑐 ) =
+mented matrix exponential gives the parameter deriva-              (18.26877, −0.06158), outside the physical interval. On
+tives. On the 9 × 5 grid the fold is                               10 × 6, a declared scan of the 𝑓𝑡𝑡 = 0 branches over
+                                                                   𝑡 ∈ [0.01, 40], 𝜃 ∈ [−0.2, 0.1], followed by four bounded
+            (𝑡𝑐 , 𝜃𝑐 ) = (16.8093321, 0.27537300),       (S79)     least-squares starts, finds no fold; every optimizer reaches
+                                                                   the same positive near miss with 𝑓𝑡 = 3.8721 × 10−6 .
+with residuals below 3.5 × 10−17 , 𝑓𝑡𝑡𝑡 = −1.34 × 10−5 ,           This is only “no root found under the declared search,”
+and 𝑓𝑡𝜃 = 1.67 × 10−4 . On the 11 × 7 grid the fold is             not proof of absence.
+                                                                      A separate endpoint audit on 9 × 5, 10 × 6, 11 × 7, 12 ×
+            (𝑡𝑐 , 𝜃𝑐 ) = (18.0995323, 0.01381035),       (S80)
+                                                                   8, 13 × 9 grids retains every detected sign-changing sta-
+with residuals (|𝑓𝑡 |, |𝑓𝑡𝑡 |) = (8.7 × 10−19 , 3.5 × 10−18 ),     tionary point and calls a secondary maximum resolved
+𝑓𝑡𝑡𝑡 = −7.81 × 10−6 , and 𝑓𝑡𝜃 = 2.83 × 10−4 . On the               only if its height exceeds 3% of the primary peak and its
+13 × 9 grid,                                                       intervening valley is below 95% of the smaller maximum.
+                                                                   The finite scan does not certify the absence of tangen-
+            (𝑡𝑐 , 𝜃𝑐 ) = (16.5807587, 0.25589201),       (S81)     tial or narrower roots between sampled times. All ho-
+                                                                   mogeneous endpoints are resolved-unimodal and all pat-
+with residuals below 2.8 × 10−17 , 𝑓𝑡𝑡𝑡 = −5.96 × 10−6 ,           terned endpoints are resolved-bimodal. The two even
+and 𝑓𝑡𝜃 = 7.46 × 10−5 . Independent continuation gives             grids contain homogeneous reflection ripples below the
+separation and prominence exponents (0.4989, 1.5001),              declared resolution threshold; these roots are reported
+(0.4933, 1.4843), and (0.4993, 1.5039), respectively. Thus         rather than deleted. All ten endpoint tails at 𝑡 = 480 are
+all three finite generators verify the nondegenerate nor-          below 1.9 × 10−6 . The fixed-budget path, endpoint au-
+mal form. They are three separate finite-model mecha-              dit, finite-grid tangencies, and independent normal-form
+nism certificates, not a convergent refinement sequence            scaling are collected in Fig. 3 of the main article and are
+or an estimator of a continuum critical control.                   not duplicated here.
+   The state-count-matched critical controls span 0.262
+and are nonmonotone. As a one-factor budget-measure
+audit, we replace equal node weights by the tensor-                        S7.4.    Catalytic-coordinate sensitivity
+product boundary trapezoidal weights on the four-
+dimensional two-walker domain, without changing the                  Equation (S11) shows that midpoint catalysis and
+CTMC generator or reaction masks. The three nonde-                 the diffusion-decoupling coordinate define different sinks
+generate folds persist at 𝜃𝑐 = 0.6244, 0.2408, 0.4593, but         when 𝐷1 ̸= 𝐷2 . We therefore repeat the M2D-E pat-
+remain nonmonotone and span 0.384. The M2D-F clear-                terned endpoint calculation with only
+ances 0.070 and 0.080 are slightly below 𝑎/2 = 0.085,
+so Eq. (S77) is not exact for this family. Direct one-
+dimensional quadrature of the boundary-clipped mid-                                 1      𝐷2
+point sections gives ¯ 𝜅ℎ,cont = 2.2501572; the factorized                     𝜂:     −→         = 0.242424 . . .        (S82)
+                                                                                    2    𝐷1 + 𝐷2
+interior-patch counterfactual is 2.2502051, a relative dif-
+ference of only 2.13 × 10−5 . The weighted homogeneous                changed. Since this alters the discrete patch support
+rates lie closer to the clipped reference, yet their fold sen-     and its raw state-sum budget, the homogeneous control
+sitivity confirms that neither sequence estimates a con-           is rematched independently within every (grid, 𝜂) pair.
+tinuum critical value.                                             All six homogeneous controls remain resolved-unimodal
+   The two even grids clarify the observed topology with-          under the same canonical threshold; small strict sec-
+out supplying a root-count theorem. On 12 × 8, a                   ondary maxima are retained by the derivative audit. The
+                                                                                                                       13
+
+midpoint and weighted patterned labels are respectively       tion patterning is not necessary. The matched result in
+shoulder/shoulder on 9 × 5, bimodal/bimodal on 11 × 7,        Sec. S7.2 consequently supports the restricted statement
+and bimodal/bimodal on 13 × 9. Near-patch mask Jac-           that spatial redistribution of a fixed budget can promote
+card distances are 0.2222, 0.1000, and 0.2295; far-patch      a subthreshold transport clock into a resolved mode in the
+distances are 0.1000, 0.0769, and 0.1493. Thus the cat-       stated family. It does not support a universal necessity
+alytic coordinate is an observable model convention, not      claim or creation of a previously nonexistent strict ex-
+a relabeling. Label agreement is not model equivalence:       tremum.
+the masks and densities differ on every grid. The finest
+two comparisons support persistence of the bimodality
+mechanism under this diagnostic change, but the coarse              S7.6.   Three-patch finite-grid trimodality
+shoulder, nonmonotone masks, and short sequence pre-
+clude a continuum-robustness claim.
+                                                                 The separate M2D-T family tests whether three non-
+  A supplemental 13 × 9 M2D-T calculation remains             negative spatial channels can produce three resolved
+three-mode for both coordinates even though its three         modes in a bounded finite-radius encounter model. Its
+patch-mask distances are 0.556, 0.333, and 0.500. This        parameters are listed in Table SII. Direct channel-flux
+check is reported separately and does not merge the two       dominance associates the three detected maxima, in time
+physical models. Figure S4 displays the one-factor mask       order, with the near, middle, and far patches. Their
+and morphology sensitivity audit.                             timing is consistent with short-launch, advective, and
+                                                              delayed downstream-return interpretations, respectively,
+                                                              but the calculation does not provide a pathwise occu-
+         S7.5.   Interior and adverse controls                pancy decomposition. The far disk remains inside the
+                                                              square with clearance 0.01. This geometry is deliberately
+   The separately declared M2D-C examples in Fig. S5          reported as a finite-lattice construction: the patch radii
+illustrate spatial reaction selection and transport clocks.   0.06, 0.05, 0.05 are smaller than ℎ𝑥 on all four lattices.
+They change the patch geometry and rates listed in Ta-        Their near/middle/far reactive-state counts are respec-
+ble SII and therefore are not factorial one-parameter ab-     tively 3/3/2, 5/5/3, 4/4/3, and 18/5/5; the nonmonotone
+lations of M2D-E or M2D-F. Removing the near patch            counts expose binary-mask aliasing rather than contin-
+within M2D-C gives a resolved-unimodal single-far case.       uum refinement.
+Co-locating the two channel labels at the far position is        On each of the 9 × 5, 11 × 7, 13 × 9, and 15 × 11 grids,
+also resolved-unimodal, showing that two labels are not       the raw density has three strict maxima. The canonical
+sufficient for a resolved second mode. Direct finite-matrix   multiscale classifier resolves all three on the latter three
+semigroup derivative evaluations retain a shallow strict      grids; on 9 × 5 it retains many three-peak scale views but
+max–min–max pattern in both controls; the second peak         makes the conservative one-mode “shoulder” call. Inde-
+fails the scale-persistence and valley-depth criteria (not    pendently, the exact finite-state identity
+the standalone prominence threshold). Moving the far
+patch to centre 𝑥 = 0.75, radius 0.18, leaves a strictly
+positive clearance 0.07; the resulting family remains bi-                         𝑓 (𝑗) (𝑡) = 𝛼𝑒𝑇 𝑡 𝑇 𝑗 𝑏           (S83)
+modal on the 9 × 5 through 15 × 11 grids. This is a
+non-touching interior control, not proof that the reflect-       is used to scan 𝑓𝑡 to 𝑡 = 2000 and refine every sign-
+ing wall is dynamically irrelevant: late trajectories can     change bracket. The declared scan detects five simple
+still visit the wall.                                         sign-changing roots on each grid, establishing at least five
+   Most importantly, a separate spatially uniform reac-       positive-time roots in the alternating order maximum–
+tivity 𝜅 = 0.20 is bimodal on the 11 × 7 grid, with ac-       minimum–maximum–minimum–maximum (Table SIV).
+cepted peaks near 1.3 and 24.0. Domain-length scans           Here “detected” is essential: the finite sign-change scan
+keep the early peak near one and move the late peak           and off-root logarithmic-slope diagnostic do not consti-
+linearly; the fitted late-peak slope times the slow drift     tute an interval-certified exclusion of an additional tan-
+is 0.983, which is consistent with a first-pass/boundary-     gential root or unresolved narrow root pair. The three
+return interpretation. This scaling fit is descriptive over   resolved maxima themselves, their intervening minima,
+the finite 0 ≤ 𝑡 ≤ 160 window: the 𝐿𝑥 = 3 survival is         and their channel attribution do not rely on such an ex-
+still 0.152 at its endpoint. A separate post-window au-       haustiveness claim. At the three maxima the dominant
+dit propagates every domain-scan member to 𝑡 = 480,           flux channels are, in order, near, middle, and far, with
+where the maximum survival is below 6.8 × 10−9 . On           minimum dominant share 0.721. The maximum absolute
+the declared 0.25-spaced audit mesh, direct finite-matrix     root residual is 1.73 × 10−15 , the smallest raw adjacent
+derivative observables satisfy 𝑓𝑡 < 0 and 𝑓𝑡𝑡 > 0, with       prominence is 0.124 relative to the primary peak, and the
+no detected post-window stationary point. This closes         largest remaining survival at 𝑡 = 2000 is 4.20 × 10−11 .
+the stated tail gate but is neither an interval-exhaustive       Figure S6 shows the five-root alternation and the di-
+root proof nor a pathwise clock decomposition. Thus           rect near/middle/far channel attribution across the four
+bimodality persists under uniform reactivity, and reac-       declared finite grids.
+                                                                                                                                                                                   14
+
+                                             mid pat.        mid hom.          weighted pat.                                                  weighted hom.
+
+                                                   (a) 9x5                                                                                 (b) 11x7
+                                    midpoint: shoulder; weighted: shoulder                                                   midpoint: bimodal; weighted: bimodal
+
+
+
+
+      reaction-time density                                                                   reaction-time density
+                              0.4                                                                                     0.4
+
+                              0.3                                                                                     0.3
+
+                              0.2                                                                                     0.2
+
+                              0.1                                                                                     0.1
+
+                              0.0                                                                                     0.0
+                                    0      10      20        30       40                                                     0           10       20         30         40
+                                                    time                                                                                           time
+                                                  (c) 13x9
+
+
+
+
+                                                                               symmetric difference / union
+                                    midpoint: bimodal; weighted: bimodal                                                                  (d) mask sensitivity
+                              0.4
+
+
+
+
+      reaction-time density
+                                                                                                              0.25                 near         far      patterned_union
+                              0.3                                                                             0.20
+                                                                                                              0.15
+                              0.2
+                                                                                                              0.10
+                              0.1
+                                                                                                              0.05
+                              0.0                                                                             0.00
+                                    0      10      20        30       40                                                           9x5                11x7           13x9
+                                                    time                                                                                              grid
+
+
+FIG. S4. Catalytic-coordinate sensitivity. The physical midpoint and the diffusion-decoupling weighted coordinate produce
+different finite-state patch masks and densities. Both conventions give a shoulder on the coarsest grid and bimodality on two
+finer grids; every within-coordinate budget-matched homogeneous control is resolved-unimodal under the declared classifier.
+This is a finite-grid sensitivity audit, not evidence that the two models are equivalent in a continuum limit.
+
+
+TABLE SIV. The five listed positive-time detected sign-changing derivative roots for the M2D-T family establish at least five
+roots on each grid. Each maximum column is dominated respectively by the near, middle, and far Doi flux; the finite scan is
+not interval-exhaustive.
+ Grid                                                                 maxima                                                                                      intervening minima
+ 9×5                                                       1.122294, 8.554300, 34.329213                                                                          3.701089, 17.850451
+11 × 7                                                     1.013153, 8.264158, 38.893714                                                                          3.898736, 16.798381
+13 × 9                                                     1.016730, 8.936256, 48.281973                                                                          4.455170, 15.934062
+15 × 11                                                    0.854207, 9.315094, 48.836751                                                                          4.951229, 15.557974
+
+
+
+S8.       CAPACITY-CALIBRATED DIMENSIONAL                                                                               S8.1.      Two-dimensional logarithmic capacity
+                   EXTENSION
+                                                                                                                      Locally in the relative coordinate,
+                                                                                                                                        1
+                                                                                                                      𝐺(𝑟, 𝑟′ ) ∼ −        log |𝑟 − 𝑟′ | + 𝐻         (𝑑 = 2),   (S84)
+                                                                                                                                      2𝜋𝐷r
+  Point co-location is not a mesh-independent reaction                                            so the effective conductance of a small reactive cross-
+prescription in physical dimension 𝑑 ≥ 2. The encounter                                           section is inverse-logarithmic,
+tube has normal dimension 𝑑, even though configuration
+space has dimension 2𝑑. That codimension selects the                                                                   (2)                         2𝜋𝐷r
+                                                                                                                      𝑘eff (𝑎) ≃                                       .        (S85)
+small-radius capacity law.                                                                                                         log[ℓ/(𝑎 caplog 𝐾)] + 𝛽int + 2𝜋𝐷r 𝐻
+                                                                                                                                                                                  15
+
+                                                  (a) interior patches                                                               (b) interior family by grid
+                                        1.0
+                                                                                                                                                                        9x5
+                                                                                                                    0.08
+
+
+
+
+                                                                                            reaction-time density
+                                                                                                                                                                        11x7
+                                        0.8                        clearance=0.07
+                                                                                                                                                                        13x9
+                                                                                                                    0.06                                                15x11
+                                        0.6
+                                   y
+                                                                                                                    0.04
+                                        0.4
+                                                             near
+                                                             far                                                    0.02
+                                        0.2                  walker 1 start
+                                                             walker 2 start                                         0.00
+                                        0.0
+                                          0.0     0.2     0.4       0.6    0.8   1.0                                        0         10          20        30          40
+                                                                x                                                                                  time
+                                               (c) mechanism controls                                                              (d) boundary clock versus size
+                                                                               separated                            120         late peak
+                            0.08
+
+
+
+
+    reaction-time density
+                                                                               far only                                         fit: slope=49.13, R 2=1.0000
+                                                                               co-located                           100
+
+
+
+
+                                                                                                 late peak time
+                            0.06                                               uniform
+                                                                                                                     80
+                            0.04
+                                                                                                                     60
+                            0.02
+                                                                                                                     40
+                            0.00                                                                                     20
+                                    0           10         20             30      40                                       1.00 1.25 1.50 1.75 2.00 2.25 2.50 2.75 3.00
+                                                            time                                                                        domain length Lx
+
+
+FIG. S5. Separate mechanism examples in the finite-radius two-dimensional model. The non-touching interior two-patch
+family remains resolved-bimodal; single and co-located reaction opportunities are resolved-unimodal despite retained shallow
+strict extrema. A different uniformly reactive model is bimodal, with its descriptive domain-length scaling consistent with a
+first-pass and boundary-return interpretation. A separate tail and finite-matrix derivative audit through 𝑡 = 480 finds no later
+stationary point, but is not interval-exhaustive. These are M2D-C examples rather than one-factor ablations of the matched
+M2D-E family. They fix the causal language: patterning is one controllable route, not a necessary condition.
+
+                                                            √︀
+For a circular Doi disk with 𝜆 = 𝑎                               𝜅/𝐷r , a local intrinsic                      (Fig. S7). At fixed 𝜅 = 1, the reaction-limited bench-
+impedance benchmark is                                                                                         mark ⟨𝑇 ⟩ ∼ 1/(𝜅𝜋𝑎2 ) is recovered to within 0.83% over
+                                                                                                               the tested radii.
+                                               Doi      𝐼0 (𝜆)
+                                              𝛽int =           .                   (S86)
+                                                       𝜆𝐼1 (𝜆)
+                                                                                                                           S8.2.    Three-dimensional effective radius
+The domain regular part 𝐻, drift, and stationary centre
+weight cannot be dropped in the full patterned problem.
+   To test the normal capacity law without centre het-                                                               In three relative dimensions,
+erogeneity, both particles are placed on the same flat
+                                                                                                                                                       1
+two-torus with translation-invariant reaction. The pair                                                                             𝐺(𝑟, 𝑟′ ) ∼                  + 𝐻.           (S88)
+problem then reduces exactly to a two-dimensional rel-                                                                                            4𝜋𝐷r |𝑟 − 𝑟′ |
+ative process with diffusivity 𝐷r = 𝐷1 + 𝐷2 . At fixed
+                                                                                                               For a Doi sphere, matching the regular interior radial
+𝜒 = 𝜅𝑎2 /𝐷r = 1, the unit-area mean time has leading
+                                                                                                               solution to the exterior capture field gives
+slope
+                                                                                                                                         √ )︂
+                                                                                                                                                          𝜅𝑎2
+                                                                                                                             (︂
+                                              1                                                                                    tanh 𝜒
+                                   ⟨𝑇 ⟩ =        log(1/𝑎) + 𝑂(1).                  (S87)                             𝑎eff = 𝑎 1 − √           ,      𝜒=       , (S89)
+                                            2𝜋𝐷r                                                                                        𝜒                 𝐷r
+
+For grids 161, 241, 321, 401,          fits over 𝑎        =                                                    and
+0.05, 0.04, 0.03, 0.025, 0.02 give slope ratios to 1/(2𝜋) of
+                                                                                                                                            (3)
+0.950, 0.979, 0.984, 0.985, with finest-grid 𝑅2 = 0.99996                                                                                  𝑘Doi = 4𝜋𝐷r 𝑎eff .                   (S90)
+                                                                                                                                                                                                         16
+
+
+                                               (a) three-patch geometry                                                                              (b) contact-safe densities by grid
+                                        1.0                                                                 0.012
+
+
+
+
+                                                                                    reaction-time density
+                                        0.8                                                                 0.010
+                                                  near          middle
+                                                κ = 0.03        κ=1                                         0.008
+                                        0.6
+                                    y                                                                       0.006
+                                        0.4                              far                                                                                                                 9x5
+                                                                                                            0.004
+                                                      drift           κ = 0.05                                                                                                               11x7
+                                        0.2                                                                 0.002
+                                                              walker 1 start                                                                                                                 13x9
+                                                              walker 2 start                                0.000                                                                            15x11
+                                        0.0
+                                              0.0 0.2 0.4 0.6 0.8 1.0                                                                            0     10   20     30      40 50       60   70   80
+                                                         x                                                                                                                time
+                                         (c) channel attribution (15 × 11)                                                                                  (d) five-root ordering
+
+
+
+
+                                                                                                            detected stationary-root time
+                            0.012                                                                                                           50
+                                         total
+                            0.010        near
+
+
+
+
+     channel flux density
+                                                                                                                                            40
+                                         middle
+                            0.008        far
+                                                                                                                                            30                             peak 1           valley 2
+                            0.006                                                                                                                                          valley 1         peak 3
+                                                                                                                                            20                             peak 2
+                            0.004
+
+                            0.002                                                                                                           10
+
+                            0.000                                                                                                            0
+                                    0     10     20   30    40 50      60      70   80                                                               0.12    0.11 0.10 0.09 0.08                 0.07
+                                                           time                                                                                             spacing hx (finer right)
+
+
+FIG. S6. Finite-radius bounded-domain multi-clock certificate. Three nonnegative midpoint-selected Doi patches generate
+three strict maxima on four boundary-node grids; the classifier resolves all three on the three finer grids and calls the coarsest
+a shoulder. Direct finite-matrix semigroup derivative evaluations detect five alternating sign-changing derivative roots, thereby
+establishing at least five positive-time roots, and the three maxima are attributed directly to the near, middle, and far channel
+fluxes. The repeated finite-grid pattern is based on underresolved binary patch masks, and the finite scan is not interval-
+exhaustive; it is not a cell-averaged continuum theorem or a converged trimodality phase boundary.
+
+
+On a periodic volume 𝑉 , the small-target mean has the                                                              residual is 6.3 × 10−14 . At fixed 𝜅,
+form
+                                                                                                                                                                              𝑉
+                                                                                                                                                                 ⟨𝑇 ⟩ ∼                                (S92)
+                    𝑉                𝐿2                                                                                                                                   𝜅(4𝜋𝑎3 /3)
+           ⟨𝑇 ⟩ =           + 𝐶torus    + 𝑜(𝐿2 /𝐷r ).                          (S91)
+                  4𝜋𝐷r 𝑎eff          𝐷r
+                                                                                                                    is recovered at the smallest radius with 0.042% relative
+The finite-volume correction is additive, so the clean test                                                         error. Figure S8 displays the fixed-radius convergence,
+is the slope against 1/𝑎eff , not equality to the leading                                                           coupled capacity path, and reaction-limited cross-check
+term at finite radius.                                                                                              without conflating their distinct limiting statements.
+   The matrix-free periodic solver uses cell-averaged Doi
+spheres, conjugate gradients, and an FFT inverse of
+a shifted discrete Laplacian as preconditioner. Up to                                                                                            S9.    ADDITIONAL ANALYSES AND
+4.83×106 states are treated without assembling the back-                                                                                               ANALYTICAL OBLIGATIONS
+ward operator. Along the coupled fixed-𝜒 radius/grid
+path, where 𝑎/ℎ stays between about 7.4 and 7.6, the                                                                   The finite controls distinguish transport-supplied
+smallest-four-radius fit has a slope error 0.114% relative                                                          clocks from their reaction-field weighting; neither trans-
+to 1/(4𝜋). This is continuum-compatible finite-grid evi-                                                            port alone nor heterogeneity alone is a general explana-
+dence, not a separated double-limit certification. At the                                                           tion. A visible time-domain fold is also not a spectral
+separately refined fixed radius 𝑎 = 0.09, the finest-grid-                                                          exceptional point: poles may be dark or cancelled in the
+pair difference is 0.065%, and the largest relative linear                                                          selected observable.
+                                                                                                                                                                           17
+
+                                              (a) relative-coordinate torus                                                         (b) reaction-limited target-area law
+                                        1.0                                                                                            computed
+                                                 periodic relative coordinate r = X1 − X2
+                                                                                                                                       1/(κπa 2)
+
+
+
+
+                                                                                                       mean reaction time
+                                        0.8
+
+
+
+                           relative y
+                                        0.6
+
+                                        0.4                                                                                  102
+
+                                        0.2
+                                         periodic in both coordinates
+                                        0.0
+                                            0.0 0.2 0.4 0.6 0.8 1.0                                                              0.12            0.05              0.02
+                                                     relative x                                                                 reaction radius a (smaller to the right)
+                                          (c) logarithmic-capacity slope                                                                  (d) slope convergence
+
+
+
+
+                                                                                            fitted slope / predicted slope
+                         0.78                 N=161                                                                          1.00
+                         0.76                 N=241
+
+
+
+
+    mean reaction time
+                                              N=321                                                                          0.99
+                         0.74
+                                              N=401
+                         0.72                 theory                                                                         0.98
+                         0.70
+                                                                                                                             0.97
+                         0.68
+                         0.66                                                                                                0.96
+                         0.64                                                                                                                               continuum
+                                                                                                                             0.95
+                                        3.0      3.2     3.4    3.6      3.8                                                         6.0 5.5 5.0 4.5 4.0 3.5 3.0 2.5
+                                                        log(1/a)                                                                         103h (finer to the right)
+
+
+FIG. S7. Two-dimensional finite-radius calibration on a translation-invariant flat torus. Fixed-𝜒 mean times approach the
+predicted logarithmic-capacity slope under grid refinement, while fixed-𝜅 calculations recover the reaction-limited target-area
+law. These are relative-coordinate mean-time benchmarks, not centre-patterned modality calculations.
+
+
+  S9.1.                    Constructive multidimensional screening                      In the reference mapping this is 𝐵𝑚2𝑗 + 𝑝𝑚𝑗 ≥ 1/4, or
+                                        designs
+                                                                                                       √︀
+                                                                                        𝑚𝑗 ≥ [−𝑝 + 𝑝2 + 𝐵]/(2𝐵); the threshold ranges from
+                                                                                        0.12492 in 𝑑 = 1 to 0.071414 in 𝑑 = 4, below every tested
+   The free-space GIG approximation also gives a con-                                   target 𝑚𝑗 ≥ 1.
+structive screening rule for more than two clocks. In                                      For dimensions 𝑑 = 1, 2, 3, 4 and target clocks (1, 10),
+physical dimension 𝑑, write 𝑝 = (𝑑 + 3)/2 and use a com-                                (1, 10, 100), and (1, 10, 100, 1000), direct isolation of the
+mon 𝐵 > 0. To place the isolated mode of channel 𝑗 at                                   analytical derivative roots gives respectively two, three,
+a prescribed time 𝑚𝑗 , choose                                                           and four resolved modes in all 12 tested cases (Fig. S9).
+                                                              𝑔𝑗 (𝑚𝑗 )−1                The finite logarithmic scan found 2𝑚 − 1 alternating
+    𝐴𝑗 = 𝐵𝑚2𝑗 + 𝑝𝑚𝑗 ,                                  𝑤𝑗 = ∑︀           −1
+                                                                            .   (S93)   simple critical points for 𝑚 channels in every case; an
+                                                              𝑘 𝑔𝑘 (𝑚𝑘 )                interval-certified exclusion of additional tangential roots
+The first identity solves the GIG mode equation exactly;                                is not claimed. The weakest peak-to-adjacent-valley ra-
+the second equalizes the isolated weighted peak heights                                 tio exceeds 1.9, and the largest scaled derivative residual
+without an optimization. For the reference free-motion                                  is below 2 × 10−10 .
+mapping 𝐷1 = 𝐷2 = 1/2, initial gap ℓ = 1, zero relative                                    This result is a free-space, narrow-patch GIG screening
+drift 𝑢 = 0, and centre speed |𝑣c | = 0.1, one has 𝐵 = 0.01                             construction. It is not a theorem for a bounded Doi prob-
+and                                                                                     lem. Reflections, finite-patch averaging, capacity renor-
+                           √︁                                                           malization, and the physical realization of the designed
+              |𝑧𝑗 − 𝑅0 | = 𝐵𝑚2𝑗 + 𝑝𝑚𝑗 − 14 .          (S94)                             splitting weights—including compensation for the time-
+                                 √︀                                                     independent drift cross factors above—remain to be con-
+More generally the distance is 4𝐷𝑐 (𝐴𝑗 − 𝐴rel ), so a                                   trolled before a three- or four-mode encounter claim can
+real catalyst location requires 𝐴𝑗 ≥ 𝐴rel = ℓ2 /(4𝐷𝑟 ).                                 be made.
+                                                                                                                                                          18
+
+                                 (a) relative-coordinate Doi ball                                            (b) grid/cell-average convergence
+                                                                                                  1.002
+                                                                                                                                 mean / finest
+                                                                                                                                 cell volume / exact
+
+
+
+
+                                                                            normalized quantity
+                                                                                                  1.001
+                                             Doi ball |r| < a
+                                                                                                  1.000
+
+                                                                                                  0.999
+
+                                                                                                  0.998
+                                      r = X1 − X2, Drel = D1 + D2
+                                                                                                          0.27                       0.15          0.09
+                                                                                                                     h/a (finer to the right)
+                               (c) inverse-effective-radius slope                                                (d) reaction-limited volume law
+                               computed means                                                     1.008                                reaction limit
+                         7
+                               four-radius fit                                                    1.007
+
+
+
+
+    mean reaction time
+                         6     theory                                                             1.006
+
+
+
+
+                                                                           κ(4πa 3/3)⟨T⟩/V
+                         5                                                                        1.005
+                                                                                                  1.004
+                         4
+                                                                                                  1.003
+                         3                                                                        1.002
+                                                                                                  1.001
+                         2
+                                                                                                  1.000
+                         20     30      40    50     60     70   80   90                                  0.18 0.16 0.14 0.12 0.10 0.08 0.06 0.04
+                                                   1/aeff                                                   reaction radius a (smaller to the right)
+
+
+FIG. S8. Three-dimensional Doi capacity on a translation-invariant flat torus. Fixed-radius grid convergence, coupled-path
+inverse-effective-radius scaling, and the fixed-𝜅 reaction-limited law test the relative-coordinate solver. The radius and grid
+limits of the shrinking-radius path are not separately extrapolated. Translation invariance is essential to the exact quotient;
+this calculation is not a six-dimensional centre-patterned modality result.
+
+
+                              S9.2.     Relation to prior work                                     killing budget, which is the control studied here. The
+                                                                                                   Giuggioli program already contains multiple peaks gen-
+                                                                                                   erated by periodic-domain bias, persistence, competing
+   The novelty boundary is deliberately narrow. Con-                                               target routes, and small-world disorder, while resetting
+fined encounter distributions, Green and multi-target re-                                          and inert heterogeneity reshape peak weights or the lo-
+ductions, heterogeneous reactive locations, GIG hitting-                                           cation of a first-passage mode [12–17], while Grebenkov
+time laws, capacity asymptotics, and multimodal first-                                             showed that encounter-history-dependent surface activa-
+passage densities are all established. Static heteroge-                                            tion can induce a mono-to-bimodal reaction-time change
+neous bulk killing has already been optimized at fixed to-                                         [18], and reactive-state gating can produce multimodal
+tal strength, and partially reactive network elements have                                         reaction times [19, 20].
+been rearranged at fixed total absorbance [7, 8]. Position-                                           We use those established propagator, Green, and chan-
+dependent Robin reactivity has also been optimized un-                                             nel ideas as a computational layer rather than claim-
+der a fixed integral constraint to maximize steady flux                                            ing a new Green theory. The generalized Descartes rule
+[9]. Fixed-total-reactivity spatial optimization is there-                                         and Fréchet–Duhamel calculus are likewise classical tools;
+fore not claimed here. Recent reactive capacitance the-                                            their mathematical novelty is not claimed. The general
+ory treats arbitrary patch shapes [10]. In particular, the                                         increment is to join a necessary spectral-residue diagnos-
+Brownian first-passage transition of Besga et al. already                                          tic to a fixed-budget modality gradient and test both
+supplies a two-time-scale shape change and the merger                                              on the same derivative-certified encounter-fold program.
+criterion 𝑓𝑡 = 𝑓𝑡𝑡 = 0 under a target-distance/initial-                                            The spatial evidence then uses two separately declared
+spread control [11]. It does not redistribute static Doi                                           matched families. M2D-E fixes its transport generator
+reactivity at fixed transport, initial law, and discrete                                           and discrete state-sum killing budget on each lattice to
+                                                                                                                                                                                    19
+
+
+                                        Constructive multidimensional GIG channel designs
+                            (a) Designed clocks (d = 3)                                             (b) Channels → modes (d = 2)
+
+
+                              target modes: 1, 10, 100, 1000
+                                                                                                     2 channels
+                                             C1   C2     C3         C4
+
+
+                                                                                                     3 channels
+
+
+                              R0
+                                                                                                     4 channels
+
+                              010−1         100      101      102                                   10−1        100     101     102       103
+                             catalyst distance (screening units)                                                   reaction time t
+                            (c) Four-channel decomposition                                          (d) Root audit
+                      1.0
+
+
+
+
+                                                                                                                                                        minimum peak/valley ratio
+                                                                                                      2 modes         3 modes     4 modes
+                                                                                                1                                                 4.5
+
+
+
+
+                                                                         physical dimension d
+                                                                                                      R=2.00          R=2.00      R=2.00
+                      0.8                                                                                                                         4.0
+
+
+
+
+     scaled density
+                                                                                                      2 modes         3 modes     4 modes
+                                                                                                2                                                 3.5
+                      0.6                                                                             R=2.70          R=2.70      R=2.70
+                                                                                                                                                  3.0
+                                                                                                      2 modes         3 modes     4 modes
+                      0.4                                                                       3                                                 2.5
+                                                                                                      R=3.65          R=3.65      R=3.65
+                                total          channel 3                                                                                          2.0
+                      0.2       channel 1      channel 4                                              2 modes         3 modes     4 modes
+                                                                                                4     R=4.96          R=4.96      R=4.96          1.5
+                                channel 2
+                      0.0                                                                                                                         1.0
+                            10−1   100     101     102        103                                          2             3            4
+                                      reaction time t                                                          designed channel count
+
+
+FIG. S9. Constructive multidimensional GIG channel designs. Prescribed clocks are mapped to catalyst distances and inverse-
+isolated-height weights. Analytical derivatives are numerically root-isolated for two, three, and four channels in 𝑑 = 1, . . . , 4.
+The figure validates the declared GIG family only; it is not evidence for bounded finite-radius Doi trimodality.
+
+
+test endpoint amplification under spatial redistribution.                                               S9.3.     Limitations and analytical obligations
+M2D-F fixes a different transport generator and its own
+per-lattice state-sum budget, then locates a density tran-                                            Several limitations are necessary to interpret the re-
+sition through 𝑓𝑡 = 𝑓𝑡𝑡 = 0 with nondegeneracy and                                                  sults correctly.
+physical-path transversality. The supporting spatial re-
+sults are the M2D-E five-grid endpoint audit with four                                                 1. The GIG law has no uniform remainder over
+resolved label contrasts, three nondegenerate but non-                                                    a mode-containing window and is not a global
+converged M2D-F finite-grid folds, and a bounded finite-                                                  reflected-path expansion.
+grid three-channel mechanism certificate. They are not
+                                                                                                       2. The inverse-free continuum Green identity requires
+a first observation of multiple peaks or of a passage-time
+                                                                                                          operator-domain hypotheses. The implemented
+shape transition, a new Woodbury identity, or a con-
+                                                                                                          left-half-plane pole/residue and derivative valida-
+tinuum modality theorem. Static fixed-total-reactivity
+                                                                                                          tions are finite-dimensional; continuum meromor-
+design, heterogeneous reaction, reactivity-generated bi-
+                                                                                                          phic continuation is not established. Near the re-
+modality, and the Green machinery are not claimed as
+                                                                                                          flecting zero mode, the free-Green implementation
+new; the model-specific new object is the finite-grid den-
+                                                                                                          is fail-closed and the stable zero-frequency quanti-
+sity fold under the stated M2D-F matched experiment,
+                                                                                                          ties use the killed solve.
+with M2D-E providing a separate endpoint-amplification
+audit. The finite-state local-sensitivity calculus explains                                            3. The spectral sign-variation corollary is necessary
+which budget-feasible perturbations can unfold such a                                                     but not sufficient and is used only for finite re-
+boundary without asserting a continuum optimum.                                                           versible generators with grouped real decay rates.
+                                                                                                                      20
+
+  The primary-model spectra have far more sign                10. The 2D and 3D capacity studies exploit translation
+  changes than the observed roots, so the count is                invariance and concern mean reaction times. They
+  a falsification gate rather than a mode predictor.              do not prove full centre-patterned channel-density
+  It does not apply unchanged to complex spectra,                 or modality convergence.
+  Jordan terms, or an infinite continuum expansion.
+                                                              11. Four-size scaling fits are descriptive. Peak separa-
+4. The budget-projected modality gradient is an in-               tion alone does not prove a large-distance two-mode
+   finitesimal interior-rate result. Its closed-form op-          theorem; derivative-dominance bounds, weights,
+   timizer ignores finite-amplitude nonnegativity, box            widths, and a controlled remainder are required.
+   constraints, binary patch masks, and the nons-             12. The M2D-T family establishes three classifier-
+   mooth motion of a sharp support. Those con-                    resolved finite-grid trimodal cases and a fourth
+   straints require a separate quadratic, shape, or               finite-grid density with three strict maxima but
+   mixed-integer design problem.                                  a classifier shoulder. Each grid has at least five
+                                                                  detected sign-changing roots in the alternating
+5. The physical fold is numerically located to the                pattern, but the finite scan is not an interval-
+   stated tolerances for one finite CTMC using exact              exhaustive root certificate and establishes no cell-
+   finite-matrix derivative identities; it is not uniform         averaged continuum trimodal region, converged
+   in lattice spacing, radius, or system size. Its minor-         cusp, or general-𝑑 modality theorem. Every patch
+   ity splitting probability is 8.95 × 10−6 . The corre-          radius is below the longitudinal grid spacing, and
+   sponding absorption law is phase type; finite-state            the reactive-state counts are nonmonotone. The
+   multimodality is not claimed as a new probability-             multi-channel GIG construction remains a free-
+   law class.                                                     space screening result.
+6. The M2D-E endpoint and M2D-F fold comparisons              A continuum persistence theorem should decompose
+   use moderate grids and an upwind Doi discretiza-
+   tion. Cell Péclet numbers remain large, so the                        𝑓𝐿 = 𝑤𝐸,𝐿 𝑔𝐸,𝐿 + 𝑤𝐵,𝐿 𝑔𝐵,𝐿 + 𝜀𝐿            (S95)
+   tested lattices are not a controlled refinement of the   and control both channels and their first two derivatives
+   displayed continuum SDE. The three fold controls         in neighborhoods of the early peak, the late peak after
+   are nonmonotone, span 0.262, and move substan-           centering and scaling, and the intervening valley. Nonva-
+   tially under a product-control-volume budget mea-        nishing limiting weights, nondegenerate channel maxima,
+   sure. Their location is not grid-converged. The          and cross-channel derivative margins would then imply
+   resolved endpoint contrast is operational: the full      two persistent modes by stability of simple critical points.
+   classifier is stated, but no experiment-specific de-     Transferring the fold itself additionally requires the joint
+   tector or noise model derives its 3% scale. An in-       𝐶 3 control in Eq. (S63) and convergence of the budget-
+   dependent Robin solver and Doi–Robin matching            projected parameter derivative. Establishing these as-
+   are not included. Even convergence of the density        sumptions from the encounter generator, rather than fit-
+   in 𝐶 2 would not by itself transfer a nondegenerate      ting peak locations, is the next analytical step.
+   fold; the required target is joint 𝐶 3 convergence in
+   time and control, including the parameter Duhamel
+   derivatives.                                                   Appendix SA: Fold normal-form prominence
+
+7. The bounded 2D model declares midpoint cataly-
+                                                              Let
+   sis. The diffusion-decoupling weighted-coordinate
+   control changes discrete masks and the quantita-                                              𝑏* 2
+                                                              𝐹 (𝑡, 𝜃) = 𝑓𝑡 (𝑡, 𝜃) = 𝑎* Δ𝜃 +       Δ𝑡 + 𝑜(|Δ𝜃| + |Δ𝑡|2 ).
+   tive densities even though the three tested mor-                                              2
+   phology labels agree; no invariance with respect to                                                             (SA1)
+   𝜂 or equivalence of these physical sink models is        Set
+   claimed.                                                                            √︂
+                                                                                                2𝑎*
+                                                                                  𝑐=        −       Δ𝜃.            (SA2)
+8. Equal per-lattice discrete state-sum killing is one                                           𝑏*
+   matching rule; it does not match every pathwise          At leading order the two new critical points are at Δ𝑡± =
+   hazard, splitting weight, or mean lifetime. The          ±𝑐. The density difference between the local maximum
+   separate M2D-C uniform-reactivity counterexam-           and minimum is the integral of 𝐹 ,
+   ple rules out necessity language.                                   ⃒∫︁ 𝑐 (︂                 )︂ ⃒
+                                                                       ⃒                  𝑏* 2        ⃒
+                                                                  𝒫=⃒  ⃒        𝑎* Δ𝜃 + 𝑥 d𝑥⃒⃒                    (SA3)
+9. The interior far patch has clearance 0.07, but late                    −𝑐               2
+   trajectories can still feel the reflecting boundary.                                     ⃒      ⃒3/2
+                                                                       2|𝑏* | 3     2|𝑏* | ⃒⃒ 2𝑎* ⃒⃒
+   Enlarged-domain or periodic matched controls are                 =        𝑐 =              −         |Δ𝜃|3/2 , (SA4)
+   needed before claiming boundary independence.                          3           3 ⃒ 𝑏* ⃒
+                                                                                                                                 21
+
+up to 𝑜(|Δ𝜃|3/2 ). This gives the 3/2 exponent used in               hashes. Before submission, these manifests must be re-
+the independent CTMC validation.                                     generated from a clean tagged commit and aggregated by
+                                                                     a transitive top-level manifest.
+                                                                        The accompanying Lean 4/mathlib package con-
+                                                                     tains 140 theorem/lemma declarations, including 60
+   Appendix SB: Finite-state mass and derivative                     encounter-specific statements. Static source inspection
+                    identities
+                                                                     finds no executable sorry, admit, or declared axiom.
+                                                                     The preserved 2026-07-14 build and theorem-printing
+  For a row generator 𝑇 , initial row distribution 𝛼, and            logs record a local build without errors, and the pre-
+total killing vector 𝑏 = 𝑈 𝐾1 = −𝑇 1,                                served theorem-by-theorem reports list only propext,
+                                                                     Classical.choice, and Quot.sound. No independent
+             𝑆(𝑡) = 𝛼e𝑇 𝑡 1,              𝑓 (𝑡) = 𝛼e𝑇 𝑡 𝑏.   (SB1)   Lean rebuild is claimed here. The encoded results
+                                                                     cover the two-channel fold elimination and quadratic nor-
+Therefore                                                            mal form, the two-hotspot inverse, scalar/componentwise
+                                                                     affine-centre algebra and a one-dimensional absolute-
+        −𝑆 ′ (𝑡) = −𝛼e𝑇 𝑡 𝑇 1 = 𝛼e𝑇 𝑡 𝑏 = 𝑓 (𝑡),             (SB2)   value contact bound, the scalar relative–centre trans-
+                                                                     form, the GIG stationary-point equation, the pure 𝑎𝑑−2
+                                                                     capacity-power algebra without its geometric constant
+which is the exact finite-state version of Eq. (S8). If the
+                                                                     or a capacity theorem, finite exponential-mixture deriva-
+killed chain is transient,
+                                                                     tives, and inverse-height design weights. In a general
+             ∫︁ ∞                                                    real inner-product design space, it also proves that the
+                    𝛼e𝑇 𝑡 𝑈 𝐾 d𝑡 = 𝛼(−𝑇 )−1 𝑈 𝐾.             (SB3)   one-budget projected gradient is tangent, preserves every
+              0                                                      feasible response, bounds every unit feasible response,
+                                                                     and that its normalized nonzero direction attains the
+Repeated time differentiation yields Eq. (S34). For 𝑇 =              bound. Taking the inner product to be ⟨𝑥, 𝑦⟩𝑀 = 𝑥T 𝑀 𝑦,
+𝑇 (𝜃), Duhamel’s identity gives                                      with Riesz vectors 𝑀 −1 𝑐 and 𝑀 −1 𝑔, gives Eqs. (S45)
+                              ∫︁ 𝑡                                   and (S46). The prescribed-action results prove vanish-
+                                                                     ing log derivative at the chosen time, not formal unique-
+                  𝜕𝜃 e𝑇 𝑡 =          e𝑇 (𝑡−𝑠) 𝑇𝜃 e𝑇 𝑠 d𝑠,    (SB4)   ness or maximality of that stationary point. This formal
+                               0
+                                                                     build certifies only those algebraic implications. It does
+which is equivalent to the augmented sensitivity propa-              not certify PDE regularity, floating-point roots, grid or
+gation in Eq. (S70).                                                 continuum limits, or the applicability of the encoded as-
+                                                                     sumptions to the physical model.
+
+
+ Appendix SC: Numerical evidence and provenance                                       DATA AVAILABILITY
+                  boundary
+                                                                        All source code, numerical tables, vector figures, clas-
+  The numerical sources are the JSON and CSV artifacts               sifier specifications, and machine-readable provenance
+accompanying this article. Each secondary calculation                manifests used in this study are contained in the accom-
+has a machine-readable manifest recording the command,               panying research repository. A public archival DOI will
+source hashes, model specification, runtime, and output              be supplied at submission.
+
+
+
+
+ [1] S. A. Isaacson, A. J. Mauro, and J. Newby, Uniform               [5] A. H. Al-Mohy and N. J. Higham, Computing the Fréchet
+     asymptotic approximation of diffusion to a small tar-                derivative of the matrix exponential, with an application
+     get: Generalized reaction models, Physical Review E 94,              to condition number estimation, SIAM Journal on Matrix
+     042414 (2016).                                                       Analysis and Applications 30, 1639 (2009).
+ [2] S. J. Chapman, R. Erban, and S. A. Isaacson, Reactive            [6] O. Barndorff-Nielsen, P. Blæsild, and C. Halgreen, First
+     boundary conditions as limits of interaction potentials              hitting time models for the generalized inverse gaussian
+     for Brownian and Langevin dynamics, SIAM Journal on                  distribution, Stochastic Processes and their Applications
+     Applied Mathematics 76, 368 (2016).                                  7, 49 (1978).
+ [3] G. J. O. Jameson, Counting zeros of generalised polyno-          [7] B. T. Nguyen and D. S. Grebenkov, A spectral approach
+     mials: Descartes’ rule of signs and Laguerre’s extensions,           to survival probabilities in porous media, Journal of Sta-
+     The Mathematical Gazette 90, 223 (2006).                             tistical Physics 141, 532 (2010).
+ [4] Y.-C. Yao, A proof of the steepest increase conjecture of        [8] Z. C. Scott, A. I. Brown, S. S. Mogre, L. M. Westrate,
+     a phase-type density, Stochastic Models 18, 1 (2002).                and E. F. Koslover, Diffusive search and trajectories on
+                                                                                                                              22
+
+     tubular networks: a propagator approach, The European              073020 (2024).
+     Physical Journal E 44, 80 (2021).                             [15] A. Barbini and L. Giuggioli, Lattice random walk dy-
+ [9] K. Nicolaou and B. M. Mulder, A probabilistic algo-                namics with stochastic resetting in heterogeneous space,
+     rithm for optimising the steady-state diffusional flux into        Journal of Physics A: Mathematical and Theoretical 57,
+     a partially absorbing body, Scientific Reports 13, 22815           425001 (2024).
+     (2023).                                                       [16] L. Giuggioli, S. Sarvaharman, D. Das, D. Marris, and
+[10] D. S. Grebenkov and R. Maurette, Reactive capacitance              T. Kay, Multi-target search in bounded and heteroge-
+     of flat patches of arbitrary shape, Physical Review E 113,         neous environments: A lattice random walk perspective,
+     034112 (2026).                                                     in Target Search Problems, edited by D. S. Grebenkov,
+[11] B. Besga, F. Faisant, A. Petrosyan, S. Ciliberto, and              R. Metzler, and G. Oshanin (Springer Nature Switzer-
+     S. N. Majumdar, Dynamical phase transition in the first-           land, Cham, 2024) pp. 107–133.
+     passage probability of a Brownian motion, Physical Re-        [17] D. Marris, C. Hens, S. Ghosh, and L. Giuggioli, Pre-
+     view E 104, L012102 (2021).                                        dicting first-passage dynamics in disordered systems ex-
+[12] S. Sarvaharman and L. Giuggioli, Closed-form solutions             actly: Application to sparse networks (2025), preprint,
+     to the dynamics of confined biased lattice random walks            arXiv:2508.10140 [cond-mat.stat-mech].
+     in arbitrary dimensions, Physical Review E 102, 062124        [18] D. S. Grebenkov, Paradigm shift in diffusion-mediated
+     (2020).                                                            surface phenomena, Physical Review Letters 125, 078102
+[13] D. Das and L. Giuggioli, Discrete space-time resetting             (2020).
+     model: application to first-passage and transmission          [19] Y. Scher and S. Reuveni, Unified approach to gated reac-
+     statistics, Journal of Physics A: Mathematical and The-            tions on networks, Physical Review Letters 127, 018301
+     oretical 55, 424004 (2022).                                        (2021).
+[14] D. Marris and L. Giuggioli, Persistent and anti-persistent    [20] Y. Scher and S. Reuveni, Gated reactions in discrete time
+     motion in bounded and unbounded space: resolution of               and space, The Journal of Chemical Physics 155, 234112
+     the first-passage problem, New Journal of Physics 26,              (2021).
+

@@ -1,12 +1,12 @@
 % ======================================================================
 % ASSET 3 -- Design recipe box (RevTeX snippet, ruledtabular).
-% Standalone asset for encounter_multimodal_prr_submission.tex.
+% \input by encounter_multimodal_prr_v2.tex (Numerical realization section).
 %
 % REQUIREMENTS: none beyond the submission preamble (uses \e, \bm,
 %   ruledtabular; all already available in the manuscript).
-% SUGGESTED PLACEMENT: Discussion (Sec.~\ref{sec:discussion}), referenced
-%   as ``Table~\ref{tab:design-recipe} summarizes the construction as a
-%   checkable procedure.''
+% PLACEMENT: Numerical realization (Sec.~\ref{sec:numerics}), referenced
+%   there as ``Table~\ref{tab:design-recipe} summarizes the construction as
+%   the checkable procedure'' and forward-referenced at the end of Sec. I.
 % TRACEABILITY: every step cites the licensing statement --
 %   step 1-2 -> Eq. (eq:exact-m-centres); step 3 -> Eqs. (eq:exact-m-mixture),
 %   (eq:exact-m-crossover), (eq:exact-m-valley); step 4 -> Eqs.
@@ -16,7 +16,7 @@
 %   explicitly labelled heuristics, not theorem content.
 % ======================================================================
 
-\begin{table}[t]
+\begin{table}[!t]
 \caption{Finite-window design recipe implied by Theorem~1.  Each step
 cites the statement that licenses it; the recipe prescribes modality only
 inside the declared window $I$.
@@ -33,7 +33,11 @@ monotonically with $x'(t)$ bounded away from zero on $I$
 [Eq.~\eqref{eq:exact-m-centres}].  On a compact window $x'>0$ holds
 automatically; the quantitative point is to keep
 $T\lesssim{}$a few $\gamma^{-1}$ so $x'(t_m)$ is not exponentially
-small (late peaks widen as $\sigma/x'(t_j)$).\\[3pt]
+small (late peaks widen as $\sigma/x'(t_j)$); at the $m=3$ anchors these
+temporal widths are $0.07,0.15,0.50$ at $\varepsilon=0.1$ and
+$0.14,0.30,1.01$ at $\varepsilon=0.2$, the last exceeding the remaining
+window $T-t_3=0.7$, so choose $T-t_m$ larger than the last width to keep the
+final peak inside $I$.\\[3pt]
 \textbf{(2) Support.}  Place the slab centres at $c_j=x(t_j)$,
 i.e.\ physical centres $\mu(t_j)$
 [Eq.~\eqref{eq:exact-m-centres}].\\[3pt]
@@ -49,7 +53,7 @@ Theorem~1 guarantees only that some $\varepsilon<\varepsilon_0$ works;
 $C\approx2.3$ is a practical proxy, slightly above the equal-weight
 two-Gaussian bimodality threshold $2\sigma$.\\[3pt]
 \textbf{(4) Verify the free clock.}  Evaluate
-$G_{\varepsilon,\bm w}(t)=A_\varepsilon(t)H_{\sigma,\bm w}(x(t))$
+$G_{\varepsilon,\bm w}(t)=a_\varepsilon(t)H_{\sigma,\bm w}(x(t))$
 [Eqs.~\eqref{eq:exact-m-factorization}--\eqref{eq:exact-m-mixture}]
 on $I$---a cheap one-dimensional computation; the contact factor
 $c_{d,\varepsilon}(t)$ follows from Gaussian and wrapped-Gaussian
@@ -58,7 +62,7 @@ nondegenerate minima, with clear root separation, curvature signs, and
 endpoint slopes.\\[3pt]
 \textbf{(5) Budget.}  Theorem~1 guarantees the complete signature for
 $B<B_{\rm top}(\varepsilon;\mathcal W_{w_*})$, where $B_{\rm top}$ is the
-connected topology-retention threshold uniform over the declared allocation
+topology-retention threshold uniform over the declared allocation
 family; equivalently, $f_{B,\varepsilon,\bm w}/B$ inherits the complete
 stationary signature
 of $G_{\varepsilon,\bm w}$ [Theorem~1;

@@ -1,8 +1,7 @@
-% Reader-facing theory fragment for the main-article manuscript.
-% It contains no finite-parameter numerical claim and is not input by the
-% historical working manuscript.
+% INLINED into encounter_multimodal_prr_v2.tex on 2026-09-03 (Sec. III); this file is no
+% longer \input anywhere and is kept for reference only -- edit the master file instead.
 
-\subsection{Prescribed finite modality from separated exposure clocks}
+\section{Prescribed finite modality: model and theorem}
 \label{sec:exact-m-spine}
 
 The conserved-budget support construction admits encounter processes with any
@@ -16,20 +15,18 @@ radius $0<a<W/2$, positive scales $\ell_0,\rho>0$, and a compact interval
 $I=[\tau,T]\subset(0,\infty)$.
 On $\mathbb R\times\mathbb R\times\mathbb T_W^{d-1}$, consider the
 independent midpoint and relative processes
-
 \begin{equation}
  \begin{aligned}
- dZ_t&=-\gamma(Z_t-\bar z)\,dt
-       +\varepsilon\sqrt{D_0}\,dW_t,\\
- dR_{\parallel,t}&=-\gamma R_{\parallel,t}\,dt
-       +2\varepsilon\sqrt{D_0}\,dW_{\parallel,t},\\
- dR_{\perp,t}&=2\varepsilon\sqrt{D_0}\,dW_{\perp,t}\pmod W.
+ \dd Z_t&=-\gamma(Z_t-\bar z)\,\dd t
+       +\varepsilon\sqrt{D_0}\,\dd W_t,\\
+ \dd R_{\parallel,t}&=-\gamma R_{\parallel,t}\,\dd t
+       +2\varepsilon\sqrt{D_0}\,\dd W_{\parallel,t},\\
+ \dd R_{\perp,t}&=2\varepsilon\sqrt{D_0}\,\dd W_{\perp,t}\pmod W.
  \end{aligned}
  \label{eq:exact-m-process}
 \end{equation}
 
 The mutually independent initial laws satisfy
-
 \begin{equation}
  \begin{aligned}
  Z_0&\sim N\!\left(z_0,\varepsilon^2D_0/(2\gamma)\right),\\
@@ -52,14 +49,18 @@ of the longitudinal relative coordinate together with the shortest transverse
 representatives modulo $W$.
 
 All driving Brownian motions are also independent.  Thus
-$\mu(t)=\bar z+(z_0-\bar z)e^{-\gamma t}$ is strictly monotone and
-$\operatorname{Var}Z_t=\varepsilon^2D_0/(2\gamma)$.  Under the minimum-image
+$\mu(t)=\bar z+(z_0-\bar z)\e^{-\gamma t}$ is strictly monotone and
+$\operatorname{Var}Z_t=\varepsilon^2D_0/(2\gamma)$: the midpoint is prepared
+with its stationary variance so that only its mean relaxes, which makes every
+exposure clock below have the same width $\sigma$.  The inequality
+$u_0^2<4D_0/\gamma$ is used only to place the initial law in the weighted
+state space of the transfer estimate in the Supplemental Material.  Under the
+minimum-image
 convention, assume the deterministic relative trajectory
-$r_*(t)=(r_{\parallel,0}e^{-\gamma t},r_{\perp,0})$ obeys
-$\sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta$ for some $\eta>0$.
+$r_*(t)=(r_{\parallel,0}\e^{-\gamma t},r_{\perp,0})$ obeys
+$\sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta_*$ for some $\eta_*>0$.
 
 Choose target times
-
 \begin{equation}
  \begin{aligned}
   &\tau<t_1<\cdots<t_m<T,\qquad c_j=x(t_j),\\
@@ -67,12 +68,10 @@ Choose target times
  \end{aligned}
  \label{eq:exact-m-centres}
 \end{equation}
-
 so that $x'(t)$ is bounded away from zero.  At the corresponding physical
 centres, place normalized Gaussian catalyst slabs of width
 $\varepsilon\rho$.  Their nonnegative weights belong to a compact subset of
 the simplex,
-
 \begin{equation}
  \mathcal W_{w_*}
  =\left\{\bm w:\
@@ -80,9 +79,7 @@ the simplex,
  \qquad 0<w_*\le\frac1m,
  \label{eq:exact-m-simplex}
 \end{equation}
-
 and define
-
 \begin{equation}
  \begin{aligned}
  \phi_{j,\varepsilon}(z)
@@ -98,7 +95,6 @@ and define
 The slab normalization makes $B$ the same installed centre-space budget for
 every allocation.  Set $K_{B,\bm w,\varepsilon}=B V_{\bm w,\varepsilon}$,
 and let $T_0(t)$ and $q_0$ denote the unkilled semigroup and initial law.  Then
-
 \begin{equation}
  \begin{aligned}
  G_{\varepsilon,\bm w}(t)
@@ -106,7 +102,7 @@ and let $T_0(t)$ and $q_0$ denote the unkilled semigroup and initial law.  Then
  =\langle V_{\bm w,\varepsilon},T_0(t)q_0\rangle,\\
  f_{B,\varepsilon,\bm w}(t)
  &=\mathbb E_0\!\left[K_{B,\bm w,\varepsilon}(Z_t,R_t)
-  e^{-\int_0^tK_{B,\bm w,\varepsilon}(Z_s,R_s)\,ds}\right].
+  \e^{-\int_0^tK_{B,\bm w,\varepsilon}(Z_s,R_s)\,\dd s}\right].
  \end{aligned}
  \label{eq:exact-m-observables}
 \end{equation}
@@ -114,31 +110,40 @@ and let $T_0(t)$ and $q_0$ denote the unkilled semigroup and initial law.  Then
 The expectation $\mathbb E_0$ is with respect to the unkilled process started
 from Eq.~\eqref{eq:exact-m-initial}.  Independence gives the exact
 factorization
-
 \begin{align}
  G_{\varepsilon,\bm w}(t)
- &=A_\varepsilon(t)H_{\sigma,\bm w}(x(t)),\nonumber\\
- A_\varepsilon(t)
+ &=a_\varepsilon(t)H_{\sigma,\bm w}(x(t)),\nonumber\\
+ a_\varepsilon(t)
  &=\frac{c_{d,\varepsilon}(t)}
  {W^{d-1}\sqrt{2\pi}\,\varepsilon
   \sqrt{D_0/(2\gamma)+\rho^2}},
  \label{eq:exact-m-factorization}
 \end{align}
-
 where $c_{d,\varepsilon}(t)=
 \mathbb P_0(|R_t|_{\rm mi}<a)$ and $H_{\sigma,\bm w}$ is defined below.
+All dependence on $d$ enters through $c_{d,\varepsilon}$ and the
+normalization $W^{-(d-1)}$.
 
 \medskip
 \noindent\textit{Theorem 1 (exact prescribed finite modality).---}
 Fix finite $d\ge2$, finite $m\ge1$, the data above, and the compact window
-$I$.  There is $\varepsilon_0>0$ such that, for every
-$0<\varepsilon<\varepsilon_0$ and every
-$\bm w\in\mathcal W_{w_*}$, the unit-budget free-exposure clock has exactly
-$m$ nondegenerate maxima and $m-1$ nondegenerate minima on $I$, ordered
-alternately, and no stationary endpoint.  For each fixed such
-$\varepsilon$ and allocation set
-$\mathcal A\subseteq\mathcal W_{w_*}$, define the connected
-topology-retention budget
+$I$.
+(i) There is $\varepsilon_0>0$ such that, for every
+$0<\varepsilon<\varepsilon_0$ and every $\bm w\in\mathcal W_{w_*}$, the
+unit-budget free-exposure clock $G_{\varepsilon,\bm w}$ has exactly $m$
+nondegenerate interior maxima and $m-1$ nondegenerate interior minima on
+$I$, ordered alternately, and no stationary endpoint.
+(ii) For each such $\varepsilon$ there is a budget
+$B_{\rm top}^{\rm unif}(\varepsilon)>0$ such that the budget-rescaled Doi
+reaction-time density $f_{B,\varepsilon,\bm w}/B$ has the same complete
+stationary signature on $I$ for every
+$0<B<B_{\rm top}^{\rm unif}(\varepsilon)$ and every
+$\bm w\in\mathcal W_{w_*}$.  Multiplication by $B$ leaves the stationary
+points unchanged, so the conclusion also holds for the physical density
+$f_{B,\varepsilon,\bm w}$.
+
+Precisely, for each fixed such $\varepsilon$ and allocation set
+$\mathcal A\subseteq\mathcal W_{w_*}$, define the topology-retention budget
 \begin{align}
  B_{\rm top}(\varepsilon;\mathcal A)
  &:=\sup\bigl\{b>0:\nonumber\\[-2pt]
@@ -156,16 +161,10 @@ Then
  :=B_{\rm top}(\varepsilon;\mathcal W_{w_*})>0.
  \label{eq:exact-m-btop-unif}
 \end{equation}
-Consequently the budget-rescaled Doi reaction-time density has the stated
-signature for every
-$0<B<B_{\rm top}^{\rm unif}(\varepsilon)$ and every admissible allocation.
-Multiplication by $B$ leaves the stationary points unchanged, so the
-conclusion also holds for the physical density
-$f_{B,\varepsilon,\bm w}$.
+and (ii) holds with this value.
 
 The mechanism can be seen without invoking a normal form.  Gaussian
 convolution reduces the longitudinal part of the unit-budget exposure to
-
 \begin{equation}
  \begin{aligned}
   H_{\sigma,\bm w}(x)
@@ -182,7 +181,6 @@ $\pi_j(x)=q_j(x)/H_{\sigma,\bm w}(x)$, and
 $L=\partial_x\log H$, let $\bar c(x)$ and
 $\operatorname{Var}_{\pi(x)}(c)$ denote the mean and variance of the centres
 under the finite probability vector $\bm\pi(x)$.  Then
-
 \begin{equation}
  L(x)=\frac{\bar c(x)-x}{\sigma^2},
  \qquad
@@ -199,7 +197,6 @@ multiplicity together with uniform root-tube, complement, curvature, and
 endpoint margins.
 
 For the adjacent pair $c_j<c_{j+1}$, the weighted crossover is
-
 \begin{equation}
  s_j=\frac{c_j+c_{j+1}}{2}
  +\frac{\sigma^2}{c_{j+1}-c_j}
@@ -213,7 +210,6 @@ $s_j-\sigma^2\log(9)/(c_{j+1}-c_j)$ and $q_{j+1}/q_j=9$ at the corresponding
 plus edge.  Thus both adjacent components remain uniformly present throughout
 the crossover, while all nonadjacent components are exponentially small.
 Equation~\eqref{eq:exact-m-log-slope} then yields one simple minimum at
-
 \begin{equation}
  r_j=s_j+O(\sigma^4),
  \qquad
@@ -227,13 +223,11 @@ $p_j=c_j+O(\exp[-q/\sigma^2])$, with
 $L'(p_j)=-\sigma^{-2}+o(\sigma^{-2})$.  These constructions give
 $2m-1$ simple stationary points.  They are exhaustive: after multiplication
 by a positive Gaussian factor, $H'$ is an exponential polynomial
-
 \begin{equation}
- \sum_{j=1}^{m}(a_j+b_jx)e^{\lambda_jx},
+ \sum_{j=1}^{m}(a_j+b_jx)\e^{\lambda_jx},
  \qquad \lambda_1<\cdots<\lambda_m,
  \label{eq:exact-m-exp-polynomial}
 \end{equation}
-
 which has at most $2m-1$ real zeros counted with multiplicity.  The extreme
 affine--exponential terms dominate in the two tails, so all zeros lie in a
 compact interval and real analyticity makes their number finite.  A
@@ -243,12 +237,14 @@ remove the lowest-exponent affine term.
 The remaining relative-coordinate contact probability is a positive slow
 factor.  Uniform bounds on its first two logarithmic time derivatives, peak
 boxes of width $O(\sigma^2)$, valley boxes of width $O(\sigma^4)$, and a
-posterior-sector sign certificate exclude stationary points on the full box
-complement.  Consequently the slow factor moves maxima by $O(\sigma^2)$ and
+sign argument on the complement of these boxes (the posterior-sector
+certificate of the Supplemental Material: a sign bound on the logarithmic
+slope $L$ obtained from the relative weights $\pi_j(x)$ of the slabs)
+exclude any further stationary point.  Consequently the slow factor moves maxima by $O(\sigma^2)$ and
 minima by $O(\sigma^4)$ without changing their number or type.  Finally, on
-every fixed positive $\varepsilon$, compact-positive-time mixed-jet
-convergence
-
+every fixed positive $\varepsilon$, convergence of the budget-rescaled
+density together with its first two time derivatives, uniformly in the slab
+weights (Sec.~\ref{sec:transfer}),
 \begin{equation}
  \sup_{\bm w\in\mathcal W_{w_*}}
  \left\|\frac{f_{B,\varepsilon,\bm w}}{B}
@@ -257,9 +253,9 @@ convergence
  \qquad (B\downarrow0)
  \label{eq:exact-m-weak-budget}
 \end{equation}
-
-preserves the disjoint root tubes, signed curvature margins, complement
-margin, and endpoint slopes.
+preserves the disjoint neighbourhoods of the stationary points (root
+tubes), their signed curvature margins, the derivative margin on their
+complement, and the endpoint slopes.
 
 The quantifier order is essential: the geometry and admissible scales may
 depend on fixed $(d,m)$; one first fixes a sufficiently small

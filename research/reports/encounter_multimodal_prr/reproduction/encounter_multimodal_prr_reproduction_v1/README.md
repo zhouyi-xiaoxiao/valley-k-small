@@ -5,28 +5,47 @@ with a static fixed-budget Doi reactivity field”** by Xiaoxiao Zhouyi.  It
 contains the exact scripts, stored Monte Carlo sufficient statistics,
 robustness checks, and publication figures used for the numerical claims.
 
-No DOI is assigned in this local package.  If the archive is deposited, cite
-the version and DOI shown by the repository record rather than inventing one.
+This package is released as tag `v1.0.0` of
+https://github.com/zhouyi-xiaoxiao/prescribed-reaction-time-modes; verify it
+from the archive root with `shasum -a 256 -c MANIFEST.sha256`.  If a
+persistent identifier is later minted for this release, cite the identifier
+shown by the repository record together with the tag.
 
 ## Contents
 
 - `code/`: deterministic off-lattice simulator, W1–W5 drivers, campaign
-  summary, and robustness driver.
+  summary, robustness driver, and the covariance-aware reclassification and
+  figure scripts (`reclassify_covariance_aware.py`,
+  `w3_jitter_covariance_recheck.py`, `remake_b0_figure_covariance.py`,
+  `remake_jitter_figure_covariance.py`).
 - `artifacts/data/exact_m_offlattice_production/`: high-statistics anchor
   simulations.
 - `artifacts/data/exact_m_prr_upgrade/`: W1 phase-diagram cells, W2 empirical
   operational-threshold probes, W3 jitter tests, W4 five-mode example, W5
-  three-dimensional spot check, and the added classifier/seed/time-step
-  robustness results.
+  three-dimensional spot check, the added classifier/seed/time-step
+  robustness results, and the covariance-aware re-judgement of every stored
+  classifier record (`covariance_aware_reclassification.json`, its
+  `_summary.txt`, and `w3_jitter/covariance_aware_recheck.json`).
 - `artifacts/figures/`: PDF and PNG versions of the six numerical figures.
-- `manuscript/`: final compiled article and Supplemental Material when the
-  release package is frozen.
+- `manuscript/`: final compiled article and Supplemental Material, and their
+  LaTeX sources under `manuscript/source/`.
+- `lean/formal_lean_prr/`: the Lean 4 package of the Supplemental Material
+  (toolchain `leanprover/lean4:v4.32.0-rc1`, mathlib4 pinned by
+  `lake-manifest.json`); build with `lake exe cache get && lake build` from
+  that directory (see its `README.md`); `consolidated_axioms.txt` and
+  `BUILD_RECEIPT.txt` record the 138 `#print axioms` lines and the build on
+  the released hashes; the SHA-256 anchors quoted in the Supplemental
+  Material are `shasum -a 256 FormalPRR/<Module>.lean | cut -c1-16`.
+  `FORMALIZATION_TARGETS.md` is the original task brief and refers to the
+  author's working paths and to a `tex_anchors/` mirror that is not shipped.
 - `environment/`: the Python package versions and platform provenance of the
-  reference run.
+  reference run, and the source commit the archive was built from
+  (`reference_platform.json`, key `release_commit`, written by the builder).
 - `.zenodo.json` and `CITATION.cff`: deposit and citation metadata with no
   fabricated DOI.
-- `RESULTS_SUMMARY.md`: a compact, explicitly qualified guide to the added
-  classifier, seed, and time-step robustness records.
+- `RESULTS_SUMMARY.md`: a compact, explicitly qualified guide to the
+  covariance-aware reclassification and to the added classifier, seed, and
+  time-step robustness records.
 - `MANIFEST.sha256`: SHA-256 checksums, generated only after the release tree
   is frozen.
 
@@ -51,16 +70,29 @@ These commands do not rerun Monte Carlo walkers:
 
 ```bash
 python code/exact_m_prr_robustness.py --phase sensitivity
+python code/reclassify_covariance_aware.py
 python code/exact_m_prr_upgrade_w1.py --phase figure
-python code/exact_m_prr_upgrade_w2.py --figure-only
-python code/exact_m_prr_upgrade_w3.py --figure-only
+python code/remake_b0_figure_covariance.py
+python code/remake_jitter_figure_covariance.py
 python code/exact_m_prr_upgrade_w4.py --replot
 python code/exact_m_prr_upgrade_w5.py --replot
 ```
 
 The first command reclassifies the stored 0.02-wide histogram counts over the
-declared bandwidth and relative-prominence grids.  The remaining commands
-recreate all six numerical figures in `artifacts/figures/`.
+declared bandwidth and relative-prominence grids under the peak-only
+convention (legacy `robustness/classifier_sensitivity.json`).  The second
+re-judges all 201 stored classifier records with the covariance-aware
+statistic that the article uses as its formal definition and rewrites
+`covariance_aware_reclassification.json` and its `_summary.txt` in place.
+The remaining commands recreate the six published figures in
+`artifacts/figures/`: `remake_b0_figure_covariance.py` draws the
+operational-threshold figure from the stored W2 chains and the
+covariance-aware verdicts (the legacy `exact_m_prr_upgrade_w2.py
+--figure-only` reproduces the superseded peak-only version), and
+`remake_jitter_figure_covariance.py` redraws the W3 figure from the stored
+`w3_jitter/covariance_aware_recheck.json`.  `reclassify_covariance_aware.py`
+and the two `remake_*` scripts take no options and run on any invocation,
+including `--help`.
 
 The independent high-precision analytic checks can be rerun with:
 
@@ -110,6 +142,27 @@ python code/exact_m_prr_robustness.py --phase dt --workers 3 \
   --dt-walkers 500000
 python code/exact_m_prr_upgrade_campaign_summary.py
 ```
+
+The preflight, campaign-summary and Dyson-check scripts take no options: any
+invocation, including `--help`, executes the full script.
+`exact_m_prr_upgrade_preflight.py` and
+`exact_m_prr_upgrade_campaign_summary.py` rewrite
+`artifacts/data/exact_m_prr_upgrade/preflight_theory.json` and
+`campaign_summary.json` in place (deterministically, byte-identical to the
+archived files); run them in a copy of the archive if you wish to keep
+`MANIFEST.sha256` verification intact.  `b0_dyson_numerics.py` and
+`b0_dyson_chaincheck.py` only print to standard output.
+
+The covariance-aware W3 recheck is a deterministic Monte Carlo rerun, not a
+stored-count computation:
+
+```bash
+python code/w3_jitter_covariance_recheck.py --workers 5
+```
+
+This re-simulates all 700 W3 replicas (200,000 walkers each)
+deterministically, checks that every stored peak-only verdict is reproduced
+bit-for-bit, and rewrites `w3_jitter/covariance_aware_recheck.json`.
 
 The high-statistics campaign is computationally substantial.  Each JSON
 records its own walker count, seed, step size, model parameters, measured

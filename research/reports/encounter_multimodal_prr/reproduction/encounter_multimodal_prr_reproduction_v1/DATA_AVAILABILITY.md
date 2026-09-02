@@ -35,6 +35,16 @@ name their source files.
 - `robustness/dt_halving/*.json` compare `dt=0.001` and `dt=0.0005` with the
   same declared seed and tag; `dt` itself enters the `SeedSequence` entropy,
   hence the two records use independent streams rather than coupled paths.
+- `exact_m_prr_upgrade/covariance_aware_reclassification.json`
+  (+ `_summary.txt`): covariance-aware prominence `z` for every local maximum
+  of every stored classifier record (keys `records`, `flips`, `w2_chains`,
+  `sensitivity_new_rule`, `headline_numbers`); this is the statistic used as
+  the formal mode-count definition in the article.
+  `w3_jitter/covariance_aware_recheck.json`: the same rule applied to the 700
+  W3 replicas (all reproduced, no flips).  The legacy
+  `w2_b0_empirical/B0_empirical.json` fields for the chain `m=3`, `eps=0.20`
+  (`status`, `b0`, `b0_bracket`) were written under the peak-only convention
+  and are superseded by `w2_chains` in the reclassification file.
 
 ## Production-record and legacy-schema notes
 

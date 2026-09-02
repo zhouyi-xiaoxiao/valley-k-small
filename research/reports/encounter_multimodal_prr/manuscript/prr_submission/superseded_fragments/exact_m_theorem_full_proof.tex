@@ -1,11 +1,10 @@
-% Reader-facing complete proof fragment for inclusion in
-% encounter_multimodal_prr_supplement.tex.  This file deliberately contains
-% no document class, package import, bibliography, or end-document command.
+% Input asset for encounter_multimodal_prr_v2_supplement.tex
 
 \section{Exact prescribed finite modality: complete proof}
 \label{sec:exactmfull-proof}
 
-This section proves the exact finite-mode statement used in the main article.
+This section proves the exact finite-mode statement used in the main article;
+Theorem~\ref{thm:exactmfull-doi} below is Theorem~1 of the main text.
 The construction is pointwise in a fixed finite dimension and
 a fixed finite mode count.  Its two small parameters are ordered: first the
 narrow-noise parameter is fixed sufficiently small, and only then is the Doi
@@ -66,13 +65,17 @@ The midpoint has mean and variance
 Thus only the variance, not the mean, is stationary.  This constant variance
 is what produces a common-variance Gaussian mixture below.
 
-Let \(\varsigma=\operatorname{sgn}\mu'\in\{-1,1\}\), fix a physical
-reference length \(\ell_0>0\), and define
+Since \(\mu'\) has constant sign, write \(\operatorname{sgn}\mu'\in\{-1,1\}\);
+fix a physical reference length \(\ell_0>0\), and define
 \begin{equation}
- x(t)=\frac{\varsigma\mu(t)}{\ell_0},
+ x(t)=\frac{\operatorname{sgn}(\mu')\,\mu(t)}{\ell_0},
  \qquad v_0:=\inf_{t\in I}x'(t)>0.
  \label{eq:exactmfull-increasing-coordinate}
 \end{equation}
+For the present design \(x'(t)=\gamma|z_0-\bar z|\e^{-\gamma t}/\ell_0\), so
+\(v_0=\gamma|z_0-\bar z|\e^{-\gamma T}/\ell_0\); the constant \(K\) of
+Lemma~\ref{lem:exactmfull-posterior-sectors} is chosen of order \(1/v_0\)
+below, which is why later windows require smaller \(\varepsilon\).
 Choose target times and their dimensionless centres by
 \begin{equation}
  \tau<t_1<\cdots<t_m<T,
@@ -80,7 +83,7 @@ Choose target times and their dimensionless centres by
  \label{eq:exactmfull-targets}
 \end{equation}
 Then \(c_1<\cdots<c_m\), and the physical centre of slab \(j\) is
-\(\varsigma\ell_0c_j=\mu(t_j)\).  In particular, reversing the trajectory
+\(\operatorname{sgn}(\mu')\,\ell_0c_j=\mu(t_j)\).  In particular, reversing the trajectory
 orientation reverses the physical centres at the same time; no centre is
 held fixed under the coordinate reversal.
 
@@ -106,7 +109,7 @@ Let
  =\mathbb P\{|R_t|_{\rm mi}<a\}.
  \label{eq:exactmfull-contact-probability}
 \end{equation}
-Under Eqs.~\eqref{eq:exactmfull-relative-long-sde}--
+Under Eqs.~\eqref{eq:exactmfull-relative-long-sde}--%
 \eqref{eq:exactmfull-whole-window-contact}, for \(r=0,1,2\) there are finite
 constants \(C_{r,d},N_{r,d},q_d>0\), independent of all sufficiently small
 \(\varepsilon\), such that
@@ -240,10 +243,10 @@ of \(\phi_{j,\varepsilon}\) with the law of \(Z_t\) gives
  \label{eq:exactmfull-gaussian-convolution}
 \end{equation}
 Since
-\(\mu(t)-\mu(t_j)=\varsigma\ell_0(x(t)-c_j)\),
+\(\mu(t)-\mu(t_j)=\operatorname{sgn}(\mu')\,\ell_0(x(t)-c_j)\),
 Eqs.~\eqref{eq:exactmfull-common-width} and
 \eqref{eq:exactmfull-gaussian-convolution} give
-Eqs.~\eqref{eq:exactmfull-factorization}--
+Eqs.~\eqref{eq:exactmfull-factorization}--%
 \eqref{eq:exactmfull-mixture}.  The last assertion follows from
 Lemma~\ref{lem:exactmfull-contact-tail}, because the remaining factors in
 \(a_\varepsilon\) are independent of time.
@@ -290,9 +293,14 @@ Indeed, differentiation of \(q_j\) gives the first identity, while
 
 The mode cap for univariate Gaussian mixtures is classical
 \cite{carreiraPerpinanWilliams2003modes,amendolaEngstromHaase2020modes}.
-We retain the direct multiplicity-counting proof because the later Doi
-transfer also needs explicit uniform root locations, curvature scales, and
-full-complement margins.
+We retain the direct multiplicity-counting proof: it makes the pure-mixture
+count of Theorem~\ref{thm:exactmfull-pure-topology} exhaustive including
+multiple zeros, and it is the statement machine-checked in
+Sec.~\ref{sec:supp-lean}.  The explicit root locations, curvature scales,
+and full-complement margins that the Doi transfer needs, and that the zero
+bound alone does not supply, come from
+Theorem~\ref{thm:exactmfull-pure-topology} and
+Lemma~\ref{lem:exactmfull-posterior-sectors} below.
 
 \begin{lemma}[Global extended-Chebyshev zero bound]
 \label{lem:exactmfull-zero-bound}
@@ -331,7 +339,8 @@ Now induct on \(m\).  The \(m=1\) case is the affine zero bound.  For
 affine term.  For every \(j\ge2\), the second derivative of
 \((a_j+b_jx)\e^{(\lambda_j-\lambda_1)x}\) is a nonzero affine polynomial
 times the same exponential, and the remaining positive exponents are
-distinct.  If a \(C^2\) function has \(N\ge2\) real zeros counted with
+distinct.  If a real-analytic function such as \(Q\) has \(N\ge2\) real
+zeros counted with
 multiplicity, generalized Rolle counting gives at least \(N-2\) zeros of
 its second derivative counted with multiplicity: differentiation reduces
 the multiplicity at each root, and ordinary Rolle supplies a root between
@@ -552,7 +561,7 @@ For \(m=1\), every valley clause is omitted.
 
 \begin{proof}
 Choose \(A_{\rm p}\ge4K\).  The uniform expansions
-\eqref{eq:exactmfull-peak-slope-expansion}--
+\eqref{eq:exactmfull-peak-slope-expansion}--%
 \eqref{eq:exactmfull-peak-derivative-expansion} give, after reducing
 \(\sigma_K\), Eq.~\eqref{eq:exactmfull-peak-box-control} and the peak row of
 Eq.~\eqref{eq:exactmfull-box-boundary-signs}.  The convex-hull property
@@ -630,7 +639,7 @@ The fixed centre and endpoint separations make all boxes disjoint and
 interior for one common sufficiently small \(\sigma_K\).  The outer tails,
 all peak boundaries, both outer sectors of every gap, and every
 crossover-minus-valley sector cover every point of the box complement.
-This proves Eqs.~\eqref{eq:exactmfull-complement-margin}--
+This proves Eqs.~\eqref{eq:exactmfull-complement-margin}--%
 \eqref{eq:exactmfull-complement-sign-order}.  When \(m=1\), the same result
 follows directly from \(L=(c_1-x)/\sigma^2\) and
 Eq.~\eqref{eq:exactmfull-outer-tail-sector}.
@@ -745,7 +754,7 @@ This is budget-rescaling, not normalization to unit time integral.
 
 \begin{theorem}[Exact \(m\) Doi modes for fixed finite \((d,m)\)]
 \label{thm:exactmfull-doi}
-Fix all data in Eqs.~\eqref{eq:exactmfull-midpoint-sde}--
+Fix all data in Eqs.~\eqref{eq:exactmfull-midpoint-sde}--%
 \eqref{eq:exactmfull-killing}, including the stationary midpoint variance,
 mutual independence, the strict weighted-space variance inequalities, target
 times strictly inside \(I\), consistently oriented physical centres,
@@ -800,7 +809,7 @@ of each tube.  On the compact complement in
 slopes have positive uniform absolute minima as well.
 
 For this fixed \(\varepsilon\), \(V_{w,\varepsilon}\) is bounded uniformly in
-\(w\), and Eqs.~\eqref{eq:exactmfull-midpoint-initial}--
+\(w\), and Eqs.~\eqref{eq:exactmfull-midpoint-initial}--%
 \eqref{eq:exactmfull-relative-perp-initial} put \(q_0\) in the required
 weighted state space.  Because \(w_j\ge w_*>0\), the compact allocation set
 lies strictly inside the simplex and admits the affine control chart and a

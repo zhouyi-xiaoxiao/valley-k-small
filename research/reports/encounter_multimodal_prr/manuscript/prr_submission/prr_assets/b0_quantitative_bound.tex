@@ -1,69 +1,4 @@
-%% ---------------------------------------------------------------------------
-%% b0_quantitative_bound.tex
-%%
-%% A fixed-allocation sufficient budget B_cert(varepsilon) for the exact
-%% prescribed-finite-modality theorem, with worked floating-point evaluations
-%% at a concrete anchor parameter set and two secondary parameter sets.
-%%
-%% Intended insertion point: end of appendix C of encounter_multimodal_jpa.tex
-%% (immediately after remark \ref{rem:exactmfull-scope}), as a new subsection.
-%% All \ref/\eqref targets below are labels of that manuscript.  The snippet
-%% uses only amsmath/amssymb-level math plus the manuscript's own macros
-%% \e, \dd, \Lfree, \Qinf and its shared theorem environments (lemma,
-%% proposition, remark); it is therefore RevTeX-compatible and can be dropped
-%% unchanged into the APS version, whose appendix sources define the same
-%% labels and macros.
-%%
-%% STRUCTURE OF THIS VERSION.  The MAIN result is the sharpened,
-%% weighted-norm-free threshold of proposition \ref{prop:exactmfull-b0}
-%% (flat-pairing Dyson expansion + complex-time Cauchy estimate on disks of
-%% eps-scaled radius r_0), built from lemmas
-%% \ref{lem:exactmfull-b0-domination}--\ref{lem:exactmfull-b0-absorption}
-%% and proposition \ref{prop:exactmfull-b0-chain}.  The original
-%% weighted-norm route through theorem \ref{thm:mixed-jet} is retained,
-%% statement, closed norm forms, and anchor value, as remark
-%% \ref{rem:exactmfull-b0-baseline} for comparison.  Anchor values:
-%% sharpened B_cert ~= 8.90e-15 (log10 = -14.0507); weighted-norm route
-%% B_cert^wt ~= 8.19e-708 (log10 = -707.0867).  The roughly 693-order gain
-%% comes from removing ||q_0||_X ~ e^{1601.9} plus O(1) bookkeeping.
-%%
-%% Numerical status: b0_dyson_numerics.py reproduces the matched-law values
-%% below and cross-checks endpoint derivatives against direct differentiation.
-%% Earlier kernel/chain implementations support the analytic bookkeeping but
-%% do not constitute an independent interval enclosure of the matched-law
-%% extrema.  All displayed decimals are float evaluations, not interval
-%% certificates (numerical-status paragraph of remark
-%% \ref{rem:exactmfull-b0-anchor}).
-%%
-%% First-round referee items R1-R9 (weighted-norm route) remain incorporated
-%% in every part reused here: margin-inventory conventions, the closed norm
-%% forms, the endpoint-slope closed form, and the r-separated assembly.
-%% Second-round referee items, all fixed in this version:
-%%  S1 The Tonelli/Morera/identity-theorem bridge between the weighted-space
-%%     Dyson term and the flat complex-time chain integral is written out
-%%     explicitly (proof of proposition \ref{prop:exactmfull-b0-chain},
-%%     step 2).
-%%  S2 x_max is defined as the maximum over ALL complete-square arguments
-%%     (node, midpoint-initial, longitudinal-initial): for parameter sets
-%%     with D_0/(2 gamma) > rho^2 the initial-law argument exceeds the node
-%%     argument, so a node-only definition would not be conservative in
-%%     general.  Numerically invisible at all three evaluation points.
-%%  S3 The statement of lemma \ref{lem:exactmfull-b0-absorption}(a) (the
-%%     inflated-mixture supremum S_w) and the sign remark in the proof of
-%%     lemma \ref{lem:exactmfull-b0-domination} are rewritten; the
-%%     working-draft prose at both places was garbled.
-%%  S4 The independent chain-integral check is reported honestly: scanning
-%%     the time t as well as disk angles and leg configurations, the worst
-%%     observed |C_1|/bound is 0.61 (t = 1.0, legs (0.01,0.99)), not the
-%%     0.105 of a coarser scan that missed slab-resonant times; n = 2 worst
-%%     0.041.  Domination holds with about 40% headroom at n = 1.
-%%  S5 delta_v = 0 is observed numerically at all three evaluation points
-%%     (width inflation lowers the mixture peak; sampled supremum ratios <= 1).
-%%  S6 The exponential-rate discussion is updated: the sharpened route has
-%%     c_B = D_L^2/(2 S_*^2) = 0.30376 at the anchor, replacing the
-%%     weighted-norm rate 16.27681, of which 16 was the weighted norm and
-%%     -0.02695 the v_* factor, both now absent.
-%% ---------------------------------------------------------------------------
+% Input asset for encounter_multimodal_prr_v2_supplement.tex
 
 \subsection{A fixed-allocation sufficient budget}
 \label{subsec:exactmfull-b0}
@@ -87,12 +22,12 @@ unless all constants are made uniform over that family.  It must also not be
 identified with the operational finite-sample classifier crossing
 \(B_{\rm op}\) reported in the numerical campaign.  Two
 quantitative routes are available.  The route through
-theorem~\ref{thm:mixed-jet} --- Cauchy--Schwarz in the weighted space
+Theorem~\ref{thm:mixed-jet} --- Cauchy--Schwarz in the weighted space
 \(X_\pi=L^2(\pi^{-1}\dd x)\) --- is completely general but pays the weighted
 norm \(\|q_0\|_X\sim\e^{\gamma(z_0-\bar z)^2/(\varepsilon^2D_0)}\), which
 destroys the numerical value of the resulting threshold; it is retained for
-comparison as remark~\ref{rem:exactmfull-b0-baseline}.  The main result,
-proposition~\ref{prop:exactmfull-b0}, avoids the weighted norm altogether:
+comparison as Remark~\ref{rem:exactmfull-b0-baseline}.  The main result,
+Proposition~\ref{prop:exactmfull-b0}, avoids the weighted norm altogether:
 it bounds the observable remainder by a Dyson expansion in the flat
 (forward, probabilistic) pairing, estimated leg by leg on the explicit
 complex-time Mehler kernels of the slab design, and recovers the two time
@@ -109,18 +44,18 @@ free process, the Gaussian slabs with the compactly supported contact
 indicator, and the Gaussian initial law
 [Eqs.~\eqref{eq:exactmfull-midpoint-sde}--\eqref{eq:exactmfull-killing}];
 it is a proposition about this slab design, not a replacement for the
-abstract theorem~\ref{thm:mixed-jet}.
+abstract Theorem~\ref{thm:mixed-jet}.
 Remark~\ref{rem:exactmfull-b0-anchor} evaluates both routes at a worked
 anchor and at two secondary parameter sets, using the same relative-coordinate
 initial law as the off-lattice campaign.  The comparison with \(B_{\rm op}\)
 is diagnostic only.
 
 \emph{Setting and notation.}
-Throughout this subsection the data of theorem~\ref{thm:exactmfull-doi} are
+Throughout this subsection the data of Theorem~\ref{thm:exactmfull-doi} are
 fixed on the unbounded natural-decay quotient \(\Qinf\) of
 Eq.~\eqref{eq:supp-domains}, with the allocation family the singleton
 \(\mathcal W=\{w\}\) for one fixed interior allocation \(w\) (the pointwise
-case recorded in the proof of theorem~\ref{thm:exactmfull-doi}).  We write
+case recorded in the proof of Theorem~\ref{thm:exactmfull-doi}).  We write
 \(\langle\cdot,\cdot\rangle\) for the flat (Lebesgue) pairing of a bounded
 function against an integrable density on \(\Qinf\), so that the
 free-exposure clock and the budget-rescaled Doi density of
@@ -143,7 +78,7 @@ remainder at complex time,
 so that \(\mathcal R_B(t)=G(t)-\mathcal F(t)\) for real \(t>0\).
 
 \emph{Why the weighted norm appears, and how it is avoided.}
-The route of theorem~\ref{thm:mixed-jet} estimates \(\mathcal R_B\) by an
+The route of Theorem~\ref{thm:mixed-jet} estimates \(\mathcal R_B\) by an
 operator bound plus Cauchy--Schwarz in \(X_\pi\)
 [Eqs.~\eqref{eq:supp-operator-bound}--\eqref{eq:supp-remainder}]; since
 \(q_0\) is centred at \(z_0\ne\bar z\) while \(\pi\) is centred at \(\bar z\)
@@ -166,13 +101,13 @@ and both confine the leg's starting point to an \(O(\varepsilon)\)
 neighbourhood of an \(O(1)\) centre; with \(|\operatorname{Im}z|\le
 r_0=O(\varepsilon)\), the imaginary-displacement penalties are linear in the
 leg durations and total \(O(1)\) per chain, uniformly in the chain order
-(lemma~\ref{lem:exactmfull-b0-legs}).  No operator bound on a flat complex
+(Lemma~\ref{lem:exactmfull-b0-legs}).  No operator bound on a flat complex
 semigroup is ever used: the weighted-space theory of
-proposition~\ref{prop:supp-analytic} enters only \emph{qualitatively}, to
+Proposition~\ref{prop:supp-analytic} enters only \emph{qualitatively}, to
 guarantee that \(z\mapsto\mathcal R_B(z)\) is analytic and that its Dyson
 series converges, while every quantitative estimate is performed on
 explicit finite-dimensional complex Gaussian integrals
-(proposition~\ref{prop:exactmfull-b0-chain}).
+(Proposition~\ref{prop:exactmfull-b0-chain}).
 
 \emph{Kernels.}
 For \(\upsilon\in\mathbb C\) with \(\operatorname{Re}\upsilon>0\) write
@@ -212,7 +147,7 @@ consistent with Eqs.~\eqref{eq:exactmfull-stationary-variance} and
 \(\perp\)) and the variances \eqref{eq:exactmfull-b0-blockvar} are entire in
 the duration; their values at \(\zeta=zh\), \(\operatorname{Re}z>0\),
 \(h\in(0,1]\), define the \emph{complex-leg kernels} used below (well
-defined by lemma~\ref{lem:exactmfull-b0-legs}(a)).
+defined by Lemma~\ref{lem:exactmfull-b0-legs}(a)).
 
 \begin{lemma}[Complex Gaussian domination]
 \label{lem:exactmfull-b0-domination}
@@ -281,7 +216,7 @@ by \(\mathfrak a=\cos\vartheta/(2|\upsilon|)\).  The alternative forms of
 \(\mathfrak m_I=0\) the cross term vanishes and no Young step is needed.
 \end{proof}
 
-Only three consequences of lemma~\ref{lem:exactmfull-b0-domination} are used
+Only three consequences of Lemma~\ref{lem:exactmfull-b0-domination} are used
 below: the dominating Gaussian has unit mass (its variance is irrelevant);
 the penalty factor depends on the leg's starting point only through
 \(\mathfrak m_I^2\); and the final bound in
@@ -309,7 +244,7 @@ blocks.
 \(\parallel\) blocks; the \(\perp\) multiplier is \(1\).
 \item[(d)] If additionally \(|\operatorname{Im}z|\le r_0\) and
 \(u\ge\tau-r_0\) for some \(0<r_0<\tau\), then, after
-lemma~\ref{lem:exactmfull-b0-domination} with parameter
+Lemma~\ref{lem:exactmfull-b0-domination} with parameter
 \(\lambda\in(0,1)\) is applied blockwise, a \(Z\)-block leg of duration
 \(\zeta\) started at \(y_Z\) carries the penalty factor
 \(\exp[\omega_Z(h)(y_Z-\bar z)^2]\) and a \(\parallel\)-block leg started at
@@ -388,7 +323,7 @@ the factors \(\e^{-A}\) cancel exactly, and
 step.  The \(\parallel\) block is identical with \(4D_0\) in place of
 \(D_0\) and mean \(y_\parallel\e^{-\gamma\zeta}\), which yields the extra
 factor \(1/4\).  The \(\perp\) blocks have \(\mathfrak m_I=0\) by (c) and
-the final sentence of lemma~\ref{lem:exactmfull-b0-domination}.  Linearity
+the final sentence of Lemma~\ref{lem:exactmfull-b0-domination}.  Linearity
 in \(h\) and \(\sum_kh_k=1\) give the budget statement.
 
 (e) The \(Z\) and \(\parallel\) blocks contribute
@@ -400,7 +335,7 @@ blocks \((\cos\vartheta)^{-1/2}\) each, with
 \le(1-\lambda)^{-1}(1+t_\vartheta^2)^{(d+1)/4}\).
 \end{proof}
 
-After lemma~\ref{lem:exactmfull-b0-domination} has been applied to every
+After Lemma~\ref{lem:exactmfull-b0-domination} has been applied to every
 leg of a chain, the surviving dependence on a chain node \(y\) is the
 factor
 \(\exp[\sigma(y_Z-\bar z)^2+\sigma'y_\parallel^2]\)
@@ -411,7 +346,9 @@ algebra.
 \begin{lemma}[Penalty absorption by complete squares]
 \label{lem:exactmfull-b0-absorption}
 Write \(\phi_w=\sum_jw_j\phi_{j,\varepsilon}\) for the slab mixture of
-Eq.~\eqref{eq:exactmfull-slabs}, \(c_j=\mu(t_j)\) for its physical centres,
+Eq.~\eqref{eq:exactmfull-slabs}, \(\mu_j=\mu(t_j)\) for its physical centres
+(distinct from the dimensionless \(c_j=x(t_j)\) of
+Eq.~\eqref{eq:exactmfull-targets}),
 and note \(\sup_y\phi_w=W^{d-1}v_\infty\)
 [Eq.~\eqref{eq:exactmfull-killing}; the contact indicator attains
 \(\sup\chi_a=1\)].
@@ -421,17 +358,17 @@ Let \(\sigma\ge0\) with \(x=2\varepsilon^2\rho^2\sigma<1\).  For each
 component the exact complete-square identity
 \begin{equation}
  \begin{gathered}
- \mathcal N(y-c_j;\varepsilon^2\rho^2)\,
+ \mathcal N(y-\mu_j;\varepsilon^2\rho^2)\,
  \e^{\sigma(y-\bar z)^2}
  =(1-x)^{-1/2}
- \exp\!\left[\frac{\sigma(c_j-\bar z)^2}{1-x}\right]
- \mathcal N\!\left(y-c_j(x);\frac{\varepsilon^2\rho^2}{1-x}\right),\\
- c_j(x)=\frac{c_j-x\bar z}{1-x},
+ \exp\!\left[\frac{\sigma(\mu_j-\bar z)^2}{1-x}\right]
+ \mathcal N\!\left(y-\mu_j(x);\frac{\varepsilon^2\rho^2}{1-x}\right),\\
+ \mu_j(x)=\frac{\mu_j-x\bar z}{1-x},
  \end{gathered}
  \label{eq:exactmfull-b0-square}
 \end{equation}
 holds.  Consequently, with
-\(\hat c=\max_j|c_j-\bar z|\),
+\(\hat c=\max_j|\mu_j-\bar z|\),
 \begin{equation}
  \begin{gathered}
  \sup_y\bigl[\phi_w(y)\,\e^{\sigma(y-\bar z)^2}\bigr]
@@ -439,13 +376,13 @@ holds.  Consequently, with
  \exp\!\left[\frac{\sigma\hat c^{\,2}}{1-x}\right]
  S_w(x),\\
  S_w(x)=\sup_y\sum_{j=1}^m w_j\,
- \mathcal N\!\left(y-c_j(x);\frac{\varepsilon^2\rho^2}{1-x}\right):
+ \mathcal N\!\left(y-\mu_j(x);\frac{\varepsilon^2\rho^2}{1-x}\right):
  \end{gathered}
  \label{eq:exactmfull-b0-Sw}
 \end{equation}
 \(S_w(x)\) is the supremum of the same mixture with every component width
 inflated by \((1-x)^{-1/2}\) and every centre moved outward from \(\bar z\)
-by the map \(c_j\mapsto c_j(x)\).  With \(x_V=2\varepsilon^2\rho^2\Omega_Z\)
+by the map \(\mu_j\mapsto\mu_j(x)\).  With \(x_V=2\varepsilon^2\rho^2\Omega_Z\)
 (an upper bound for every node argument occurring below), define the
 inflation slack
 \begin{equation}
@@ -455,7 +392,7 @@ inflation slack
  \;\ge\;0 .
  \label{eq:exactmfull-b0-deltav}
 \end{equation}
-(At all three evaluation points of remark~\ref{rem:exactmfull-b0-anchor},
+(At all three evaluation points of Remark~\ref{rem:exactmfull-b0-anchor},
 the floating-point search gives \(\widehat\delta_v=0\): the width inflation
 lowers the sampled mixture supremum.  This observation is not an interval
 enclosure of the exact supremum.)
@@ -531,7 +468,7 @@ penalty lands on the object at its starting point: an interior node ---
 apply (a) and (b) with node argument
 \(x_k=2\varepsilon^2\rho^2\sigma_k\le x_V\) --- or the initial law ---
 apply (c) with arguments at most \(x_{Z,0}\), \(x_{\parallel,0}\).  Every
-midpoint centre obeys \((c_j-\bar z)^2\le\hat y^{\,2}\) and
+midpoint centre obeys \((\mu_j-\bar z)^2\le\hat y^{\,2}\) and
  \((z_0-\bar z)^2\le\hat y^{\,2}\); every longitudinal centre term is at
  most \(\sigma_k'a^2\le\sigma_k'\hat r^{\,2}\) at interior nodes
  (\(|y_\parallel|<a\)) and, for the leg starting at the initial law, at most
@@ -540,7 +477,7 @@ midpoint centre obeys \((c_j-\bar z)^2\le\hat y^{\,2}\) and
  The whole-window contact condition controls the deterministic relative
  trajectory only on \(I\); no condition on \(|r_{\parallel,0}|\) at time zero
  is used here.  By
-lemma~\ref{lem:exactmfull-b0-legs}(d),
+Lemma~\ref{lem:exactmfull-b0-legs}(d),
 \(\sum_k\sigma_k\le\Omega_Z\) and
 \(\sum_k\sigma_k'\le\Omega_\parallel\), and every denominator obeys
 \(1-x\ge1-x_{\max}\), so the exponential factors multiply to at most
@@ -586,7 +523,7 @@ Eqs.~\eqref{eq:exactmfull-b0-kappahat}, \eqref{eq:exactmfull-b0-Pi},
 \begin{proof}
 \emph{Step 1: analyticity and the Dyson series (the only, qualitative, use
 of the weighted space).}
-By proposition~\ref{prop:supp-analytic}, in the self-adjoint representation
+By Proposition~\ref{prop:supp-analytic}, in the self-adjoint representation
 \(q=\pi u\) the free generator is nonpositive self-adjoint on
 \(L^2(\pi\dd x)\) and \(-BM_{V_{w,\varepsilon}}\) is a bounded self-adjoint
 perturbation, so spectral calculus defines both semigroups as analytic
@@ -647,12 +584,22 @@ property of the free semigroup, and Tonelli's theorem identifies the
 iterated integral with Eq.~\eqref{eq:exactmfull-b0-chainint}, the
 \((n+1)\)-point free exposure correlation
 \(\mathbb E_0[V(X_{t's_n})\cdots V(X_{t's_1})V(X_{t'})]\).
-(ii)~For every \(z\in D_t\), lemmas
+(ii)~For every \(z\in D_t\), Lemmas
 \ref{lem:exactmfull-b0-domination}--\ref{lem:exactmfull-b0-absorption}
 dominate the integrand of Eq.~\eqref{eq:exactmfull-b0-chainint} in absolute
-value by a \(z\)-independent integrable function (a product of unit-mass
-real Gaussians and image sums, times the node suprema and initial-law
-factors); the integral therefore converges absolutely, uniformly on
+value by a \(z\)-independent integrable function (for the fixed leg
+fractions \(h_k\), every dominating Gaussian and image sum of
+Lemma~\ref{lem:exactmfull-b0-domination} has variance bounded below on
+\(D_t\) by Lemma~\ref{lem:exactmfull-b0-legs}(a), hence is bounded by a
+constant; the per-leg penalties are at most \(\Omega_Zh_k\le\Omega_Z\) and
+\(\Omega_\parallel h_k\le\Omega_\parallel\) by
+Lemma~\ref{lem:exactmfull-b0-legs}(d); so the integrand is dominated by
+\(C\prod_{k=1}^{n+1}V(x_k)\prod_{k=0}^{n}\e^{\Omega_Z(x_{k,Z}-\bar z)^2
++\Omega_\parallel x_{k,\parallel}^2}\,q_0(x_0)\), which is
+\(z\)-independent and integrable because
+\(x_V,x_{Z,0},x_{\parallel,0}<1\), the contact indicator bounds
+\(|x_{k,\parallel}|<a\), and the transverse torus is compact); the integral
+therefore converges absolutely, uniformly on
 \(D_t\), and \(C_n(\cdot;\bm s)\) is continuous on \(D_t\) by dominated
 convergence.
 (iii)~\(C_n(\cdot;\bm s)\) is analytic on the interior of \(D_t\): for
@@ -660,7 +607,7 @@ every fixed configuration \((x_0,\ldots,x_{n+1})\) the integrand is
 analytic in \(z\) there (each block kernel composes the entire functions
 \(\e^{-\gamma\zeta}\) and \(v(\zeta)\) with \(\mathcal N\), well defined
 because \(\operatorname{Re}v(\zeta_k)>0\) by
-lemma~\ref{lem:exactmfull-b0-legs}(a); the transverse image sums converge
+Lemma~\ref{lem:exactmfull-b0-legs}(a); the transverse image sums converge
 locally uniformly by the same Gaussian domination); it is jointly
 measurable; and it is dominated as in (ii).  Hence, for every closed
 triangular contour \(\mathcal C\subset\operatorname{int}D_t\), Fubini's
@@ -690,7 +637,7 @@ continuous up to the boundary circle (for \(\mathcal T_n\) because
 holds on all of \(D_t\).
 
 \emph{Step 3: the chain bound.}
-Apply lemma~\ref{lem:exactmfull-b0-domination} blockwise to every leg
+Apply Lemma~\ref{lem:exactmfull-b0-domination} blockwise to every leg
 kernel in Eq.~\eqref{eq:exactmfull-b0-chainint}:
 \begin{equation*}
  |p_{\zeta_k}(x\,|\,y)|
@@ -700,15 +647,15 @@ kernel in Eq.~\eqref{eq:exactmfull-b0-chainint}:
 \end{equation*}
 where \(\bar g_k\) is a product of unit-mass real Gaussians and unit-cell-%
 mass image sums and the constants come from
-lemma~\ref{lem:exactmfull-b0-legs}(d), (e).  Insert these dominations (all
+Lemma~\ref{lem:exactmfull-b0-legs}(d), (e).  Insert these dominations (all
 \(V\ge0\), \(q_0\ge0\)) and integrate from \(x_{n+1}\) inward: the
 \(x_{n+1}\) integral is at most \(v_\infty\) (unit mass of
 \(\bar g_0\)); each \(x_k\) integral (\(k=n,\ldots,1\)) is at most
 \(\sup_x[V(x)\e^{\text{penalty}_k(x)}]\le(1+\delta_v)v_\infty\) times the
 exponential and normalization factors of
-lemma~\ref{lem:exactmfull-b0-absorption}(a), (b); the \(x_0\) integral is
-the initial-law factor of lemma~\ref{lem:exactmfull-b0-absorption}(c).  By
-lemma~\ref{lem:exactmfull-b0-absorption}(d) the product of all exponential
+Lemma~\ref{lem:exactmfull-b0-absorption}(a), (b); the \(x_0\) integral is
+the initial-law factor of Lemma~\ref{lem:exactmfull-b0-absorption}(c).  By
+Lemma~\ref{lem:exactmfull-b0-absorption}(d) the product of all exponential
 and normalization factors is at most \(\e^{\Pi}\), uniformly in \(n\) and
 \(\bm s\).  Hence
 \begin{equation}
@@ -745,7 +692,7 @@ clock \(G=G_{\varepsilon,w}\) of
 Eq.~\eqref{eq:exactmfull-factorization} has exactly \(m\) nondegenerate
 maxima and \(m-1\) nondegenerate minima on \(I=[\tau,T]\), ordered
 alternately, and no stationary endpoint
-(theorem~\ref{thm:exactmfull-doi} furnishes this for every
+(Theorem~\ref{thm:exactmfull-doi} furnishes this for every
 \(0<\varepsilon<\varepsilon_0\); a direct verification at one concrete
 \(\varepsilon\) serves equally).  Let \(t_1^*<\cdots<t_{2m-1}^*\) denote
 the stationary points, and let
@@ -780,7 +727,7 @@ with \(t_\vartheta\), \(\Omega_Z\), \(\Omega_\parallel\), \(\hat\kappa\)
 from Eqs.~\eqref{eq:exactmfull-b0-budget}--%
 \eqref{eq:exactmfull-b0-kappahat} and \(x_V\), \(x_{Z,0}\),
 \(x_{\parallel,0}\), \(x_{\max}\), \(\Pi\), \(\delta_v\) from
-lemma~\ref{lem:exactmfull-b0-absorption} --- all explicit functions of the
+Lemma~\ref{lem:exactmfull-b0-absorption} --- all explicit functions of the
 fixed data.  Set
 \begin{equation}
  \hat M=\min\!\left(r_0\mu_1,\ \frac{r_0^2\mu_2}{2}\right),
@@ -804,20 +751,20 @@ root tubes.  No weighted-space constant enters: \(v_*\),
 \(\kappa_\pi\), and \(\|q_0\|_X\) do not appear.
 \end{proposition}
 
-The closed form \eqref{eq:exactmfull-b0-r0} is chosen for statement
+The closed form Eq.~\eqref{eq:exactmfull-b0-r0} is chosen for statement
 cleanliness, not optimality: it makes the leading penalty term manifestly
 \(O(1)\) uniformly in \(\varepsilon\), namely
 \(\Omega_Z\hat y^{\,2}=(1+t_\vartheta^2/\lambda)\,\tau/(4(\tau-r_0))\); any
 \(r_0\) and \(\lambda\) satisfying (R1)--(R2) are admissible in the proof,
 and per-case optimization moves the threshold only by an \(O(1)\) factor
-(remark~\ref{rem:exactmfull-b0-anchor}).
+(Remark~\ref{rem:exactmfull-b0-anchor}).
 
 \begin{proof}
 \emph{Step 1: jet bound at the real control point, weighted-norm-free.}
 Under (R1) every closed disk \(D_t=\{|z-t|\le r_0\}\), \(t\in I\), lies in
 the open right half-plane, where \(G-\mathcal F\) extends to the analytic
 function \(\mathcal R_B\)
-(proposition~\ref{prop:exactmfull-b0-chain}).  Cauchy's estimate on
+(Proposition~\ref{prop:exactmfull-b0-chain}).  Cauchy's estimate on
 \(D_t\) together with Eq.~\eqref{eq:exactmfull-b0-Ec} gives
 \begin{equation}
  \sup_{t\in I}
@@ -874,7 +821,7 @@ Eq.~\eqref{eq:exactmfull-b0-conditions} holds for every
 \end{proof}
 
 For the concrete slab design, the only norm entering
-proposition~\ref{prop:exactmfull-b0} has a closed Gaussian form.  First,
+Proposition~\ref{prop:exactmfull-b0} has a closed Gaussian form.  First,
 for \(m=2\), every \(z\in\mathbb R\) lies at distance at least
 \(\Delta_{\rm phys}/2\) from one of the two slab centres
 [Eq.~\eqref{eq:exactmfull-slabs}], whence
@@ -896,7 +843,7 @@ bound is safe).
 \begin{remark}[The weighted-norm route, retained for comparison]
 \label{rem:exactmfull-b0-baseline}
 The first quantitative route --- the main proposition of earlier versions
-of this subsection --- applies theorem~\ref{thm:mixed-jet} with control
+of this subsection --- applies Theorem~\ref{thm:mixed-jet} with control
 multi-index \(\alpha=0\) and time orders \(r\in\{1,2\}\).  For the
 singleton family the affine chart preceding Eq.~\eqref{eq:supp-tube} may be
 taken constant (\(P=0\)), so the complex-tube suprema of
@@ -918,7 +865,7 @@ with \(\kappa_\pi=1\) on \(\Qinf\),
 \(v_*=\|V_{w,\varepsilon}\|_{L^2(\pi\dd x)}\), and
 \(\|q_0\|_X=\|q_0\|_{L^2(\pi^{-1}\dd x)}\), all evaluated at the real
 control point.  Steps~2 and 3 of the proof of
-proposition~\ref{prop:exactmfull-b0} apply verbatim with
+Proposition~\ref{prop:exactmfull-b0} apply verbatim with
 \((E_{\rm c},r_0)\) replaced by \((E_{\rm wt},\tau/2)\), giving the
 weighted-norm threshold
 \begin{equation}
@@ -997,12 +944,12 @@ of the logarithm drops from \(v_*\kappa_\pi\|q_0\|_X\) --- carrying
 denominator changes from \(\tfrac32v_\infty T\) to
 \(v_{\rm eff}(T+r_0)\) (at the anchor slightly \emph{smaller}, i.e.
 favourable).  The weighted norm is intrinsic to the route through
-theorem~\ref{thm:mixed-jet}: its Cauchy--Schwarz pairing must be performed
+Theorem~\ref{thm:mixed-jet}: its Cauchy--Schwarz pairing must be performed
 in \(X_\pi\), where the complex-time free semigroup is a bounded analytic
 family, and a bounded-quotient realization pays comparably through its
 similarity bound \(\kappa_\pi\).  The sharpened route touches \(q_0\) only
 through mass-one integrals and the initial-law factor of
-lemma~\ref{lem:exactmfull-b0-absorption}(c) (\(\approx1.29\) at the
+Lemma~\ref{lem:exactmfull-b0-absorption}(c) (\(\approx1.29\) at the
 anchor, part of \(\e^{\Pi}\)); neither \(\|q_0\|_X\) nor
 \(\|q_0\|_\infty\) ever enters.  The price of generality is reversed: the
 weighted-norm route applies to any analytic positive semigroup with
@@ -1030,7 +977,7 @@ Eq.~\eqref{eq:exactmfull-whole-window-contact} holds, for example, with
 (\(z_0\ne\bar z\); \(u_0^2<4D_0/\gamma\);
 \(a<W/2\); interior targets; \(w=(1/2,1/2)\) is the singleton allocation
 \(w_j=1/m\)).  The signature hypothesis of
-proposition~\ref{prop:exactmfull-b0} at \(\varepsilon=0.1\) is verified
+Proposition~\ref{prop:exactmfull-b0} at \(\varepsilon=0.1\) is verified
 directly, in place of the unquantified \(\varepsilon_0\): the stationarity
 function of Eq.~\eqref{eq:exactmfull-stationarity-function} changes sign
 exactly three times on \(I\), with no stationary endpoint, giving
@@ -1219,13 +1166,16 @@ anchor family, the analytic sufficient expression has the leading rate
 \end{equation}
 The evaluations at \(\varepsilon=0.1\) and \(0.05\) give the predicted
 decade drop \(39.58\) and the observed nominal drop \(39.57\).  For the
-\(m=3\) geometry the corresponding coefficient is \(0.13180\).  Since
+\(m=3\) geometry the corresponding coefficient is \(0.13180\).  Provided
+the leading rate of Eq.~\eqref{eq:exactmfull-b0-rate} persists for all
+sufficiently small \(\varepsilon\) (the evaluations verify it only at
+\(\varepsilon=0.1\) and \(0.05\)), and since
 Eq.~\eqref{eq:exactmfull-bcert-relation} is one-sided, the only conclusion
 for the singleton topology threshold is
-\begin{equation}
+\begin{equation*}
  \liminf_{\varepsilon\downarrow0}
  \varepsilon^2\log B_{\rm top}(\varepsilon;\{w\})\ge-c_B.
-\end{equation}
+\end{equation*}
 No asymptotic equality is claimed for \(B_{\rm top}\), and no asymptotic
 relation is claimed for the protocol-defined \(B_{\rm op}\).  The Cauchy
 radius \(r_0\propto\varepsilon\) contributes only to the logarithmic
@@ -1233,11 +1183,11 @@ correction.  Per-case optimization of \(r_0\) and \(\lambda\) changes the
 nominal expression only by an \(O(1)\) factor at the displayed points.
 
 \emph{Numerical-evaluation status.}  The transfer constants of
-proposition~\ref{prop:exactmfull-b0}
+Proposition~\ref{prop:exactmfull-b0}
 [Eqs.~\eqref{eq:exactmfull-b0-budget}--\eqref{eq:exactmfull-b0-kappahat},
 \eqref{eq:exactmfull-b0-xmax}--\eqref{eq:exactmfull-b0-Pi}] are exact
 closed forms, and the complete-square identities of
-lemma~\ref{lem:exactmfull-b0-absorption} and both norm factorizations
+Lemma~\ref{lem:exactmfull-b0-absorption} and both norm factorizations
 [Eqs.~\eqref{eq:exactmfull-b0-vinf}--\eqref{eq:exactmfull-b0-q0norm}] are
 exact Gaussian algebra, verified symbolically.  The displayed margin inventory
 (contact quadrature, stationary roots, tube edges, complement scan) is
@@ -1255,7 +1205,7 @@ certified decimal value would additionally require interval enclosures for
 the contact quadrature, every stationary root and tube extremum, the
 complement derivative minimum, and the slab-mixture supremum.
 The current reproducibility run also stress-tests
-lemma~\ref{lem:exactmfull-b0-domination} on \(10^4\) random samples
+Lemma~\ref{lem:exactmfull-b0-domination} on \(10^4\) random samples
 (worst left/right ratio \(0.99999979\)), the two complex-leg inequalities
 on \(4\times10^3\) samples (worst ratios \(0.99999815\) and
 \(0.99999968\)), and the complete-square identities (largest mismatch

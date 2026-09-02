@@ -3,13 +3,21 @@ budget thresholds and described related manuscripts as non-overlapping. -->
 
 # Cover letter — Physical Review Research
 
-14 August 2026
+3 September 2026
 
 Dear Editors,
 
 Please consider my Regular Article, “Prescribing finite-window reaction-time
 modes with a static fixed-budget Doi reactivity field,” for publication in
 *Physical Review Research*.
+
+The question is a design question of broad interest in diffusion-controlled
+kinetics: a fixed reactivity budget — reactive patches on a surface, a
+catalyst or enzyme load — installed once and never switched, is shown to
+suffice for prescribing the number of peaks of a reaction-time distribution
+on a chosen window, together with the complete peak–valley structure,
+without the time-dependent barriers, gating states, or hidden kinetic phases
+used by existing inverse-design constructions.
 
 The manuscript asks whether a fixed amount of static spatial reactivity can be
 arranged so that a two-particle Doi reaction-time density has exactly a
@@ -44,11 +52,23 @@ A direct off-lattice realization tests the construction at finite parameters.
 Two 48-cell mode-retention phase diagrams, operational budget-crossing
 measurements, geometry and weight perturbations, an m = 5 realization, and a
 d = 3 check show where the designed modes persist and where they are lost by
-merger or depletion. These computations are presented as finite-parameter
-evidence: the classifier was fixed in advance but is operational, and no
-numerical continuum theorem is claimed. The manuscript also distinguishes the
-existential topological threshold, an explicit sufficient analytic bound, and
-the classifier-dependent numerical crossing.
+merger or depletion. That boundary is reproduced without adjustable
+parameters, to within about 5%, by a mean-field hazard–survival law built from
+the free exposure clock, so the finite-budget regime is quantitatively
+understood; physically, the static slabs convert the deterministic relaxation
+of a trapped pair into a prescribed sequence of reaction-time clocks. These
+computations are presented as finite-parameter evidence: the classifier was
+fixed in advance but is operational, and no numerical continuum theorem is
+claimed. The manuscript also distinguishes the existential topological
+threshold, an explicit sufficient analytic bound, and the
+classifier-dependent numerical crossing. All code, the stored histogram
+sufficient statistics and classifier diagnostics (including the
+covariance-aware re-judgement of every stored record), and a Lean 4 package
+that machine-checks kernels of the exact-m proof chain and selected kernels of
+the explicit budget-threshold proposition (138 audited theorems, standard
+axioms only) are public at
+https://github.com/zhouyi-xiaoxiao/prescribed-reaction-time-modes (release
+v1.0.0, SHA-256 manifest).
 
 **Related manuscripts by the same author.** Two manuscripts from the same
 research program are under consideration elsewhere:

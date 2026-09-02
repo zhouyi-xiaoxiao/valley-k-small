@@ -230,7 +230,7 @@ and the transient supplies the time dependence.
   \caption{Mechanism of prescribed finite modality ($m=3$ shown).
     (a)~The midpoint mean $\mu(t)=\bar z+(z_0-\bar z)\e^{-\gamma t}$
     drifts monotonically toward $\bar z$ (thick curve; a sample path of
-    $Z_t$ in gray) past three narrow normalized Gaussian catalyst slabs
+    $Z_t$ in grey) past three narrow normalized Gaussian catalyst slabs
     $w_j\phi_{j,\varepsilon}$ of width $\varepsilon\rho$ centred at the
     positions $z_j=\mu(t_j)$ that the midpoint mean reaches at the target
     times $t_j$, under the conserved installed budget
@@ -419,6 +419,8 @@ and let $T_0(t)$ and $q_0$ denote the unkilled semigroup and initial law.  Then
  \label{eq:exact-m-observables}
 \end{equation}
 
+When the noise scale is displayed we write $f_{B,\varepsilon,\bm w}$ for the
+density $f_{B,\bm w}$ of Eq.~\eqref{eq:killed-law}.
 The expectation $\mathbb E_0$ is with respect to the unkilled process started
 from Eq.~\eqref{eq:exact-m-initial}.  Independence gives the exact
 factorization
@@ -452,7 +454,8 @@ stationary signature on $I$ for every
 $0<B<B_{\rm top}^{\rm unif}(\varepsilon)$ and every
 $\bm w\in\mathcal W_{w_*}$.  Multiplication by $B$ leaves the stationary
 points unchanged, so the conclusion also holds for the physical density
-$f_{B,\varepsilon,\bm w}$.
+$f_{B,\varepsilon,\bm w}$ (Theorem~S3.8 of the Supplemental Material
+\cite{supplementalMaterial}).
 
 Precisely, for each fixed such $\varepsilon$ and allocation set
 $\mathcal A\subseteq\mathcal W_{w_*}$, define the topology-retention budget
@@ -704,8 +707,9 @@ realized by per-step thinning with probability
 position.  All runs use deterministically seeded counter-based random
 streams, one substream per walker chunk.  Two automated checks accompany
 every configuration: the per-step kill probability must remain in the unit
-interval (largest value \(5.6\times10^{-3}\) over the eighteen production
-configurations and \(3.1\times10^{-2}\) over every campaign run, attained at
+interval (largest value \(5.6\times10^{-3}\) over the seventeen production
+configurations and their \(\Delta t\)-halving twin, and \(3.1\times10^{-2}\)
+over every campaign run, attained at
 the \(m=2\), \(\varepsilon=0.05\), \(B=8\) threshold probe), and event counts must balance mass exactly (kills plus
 survivors equal walkers).  Separately, a campaign-level zero-budget twin run
 accumulates about \(10^{7}\) contact steps and produces no kills.  A
@@ -761,7 +765,7 @@ the fixed rule,
 with the weakest counted peak still \(72\) covariance-aware smoothed-Poisson
 standard deviations prominent.  Event mass is order one throughout: between \(0.29\) and
 \(0.92\) of all walkers react inside the window.  The early peak sits within
-\(0.01\)--\(0.03\) of its target time in every configuration; the late peak
+\(0.01\)--\(0.03\) of its target time (histogram bin width \(0.02\)) in every configuration; the late peak
 is pulled earlier by progressive depletion as the budget grows, by
 \(0.05\)--\(0.11\) at \(B=0.5\), \(0.09\)--\(0.19\) at \(B=1\), and
 \(0.15\)--\(0.29\) at \(B=2\).

@@ -26,6 +26,17 @@ PDFs have passed final readback.
 
 ## Required author confirmations before upload
 
+- [ ] Portal source upload set (all from `../manuscript/prr_submission/`):
+      `encounter_multimodal_prr_v2.tex`, `encounter_multimodal_prr_v2_supplement.tex`,
+      `prr_assets/fig1_mechanism_schematic.tex`, `prr_assets/design_recipe_box.tex`
+      (both `\input` by the main text), `prr_assets/b0_quantitative_bound.tex`,
+      `prr_assets/physical_units_mapping.tex` (both `\input` by the Supplemental
+      Material), `references.bib` (or the two compiled `.bbl` files), and
+      `figures/*.pdf` (six files). The former theorem fragments
+      `exact_m_theorem_spine.tex` and `exact_m_theorem_full_proof.tex` are now
+      inlined into the two master files; the copies under `superseded_fragments/`
+      are NOT to be uploaded. Verify by compiling the uploaded set in an empty
+      directory with `latexmk -pdf` before submission.
 - [ ] Xiaoxiao Zhouyi’s ORCID for the corresponding-author submission record,
       authenticated in the APS account.
 - [ ] Active email address and exact affiliation rendering in the portal.

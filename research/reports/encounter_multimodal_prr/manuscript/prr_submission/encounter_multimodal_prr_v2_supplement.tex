@@ -1180,7 +1180,9 @@ times \((1.0,2.5)\) for \(m=2\) and \((0.8,1.6,2.8)\) for \(m=3\).
 
 Two automated checks accompany every configuration: the per-step kill
 probability remains in the unit interval, with largest value
-\(5.6\times10^{-3}\) over all production configurations, and kills plus
+\(5.6\times10^{-3}\) over the seventeen production configurations and their
+\(\Delta t\)-halving twin and \(3.1\times10^{-2}\) over every campaign run
+(the \(m=2\), \(\varepsilon=0.05\), \(B=8\) threshold probe), and kills plus
 survivors equal the walker count exactly.  Separately, a campaign-level
 \(B=0\) twin run of \(2\times10^{4}\) walkers for \(500\) steps accumulates
 about \(10^{7}\) contact steps and produces zero kills.  These are
@@ -1237,8 +1239,8 @@ counts.
 \subsection{Production configuration table}
 \label{sec:supp-numerics-production}
 
-Table~\ref{tab:supp-production} lists all eighteen production
-configurations (\(5\times10^{6}\) walkers each, \(d=2\), seed
+Table~\ref{tab:supp-production} lists all seventeen production
+configurations and the \(\Delta t\)-halving twin (\(5\times10^{6}\) walkers each, \(d=2\), seed
 \(20260808\)) with their classifier verdicts.
 
 \begin{table}[t]
@@ -1304,7 +1306,10 @@ the theorem threshold \(B_{\rm top}\).  Right-censored
 entries exceeded the scan limit \(B=8\).  In the \((3,0.2)\) column no
 stored probe certifies the third mode at any scanned budget
 \(B\in[0.125,8]\), so no operational crossing exists there under the
-classifier rule (main text, Sec.~IV\,D).
+classifier rule (main text, Sec.~IV\,D).  The closest candidates reach
+\(4.2\)--\(4.4\sigma\) at \(5.3\)--\(7.5\%\) relative prominence with
+\(10^{6}\) walkers, and \(3.4\sigma\) at \(3.5\%\) in the
+\(3\times10^{6}\)-walker \(B=0.125\) phase-grid cell.
 \label{tab:supp-bop}}
 \begin{ruledtabular}
 \begin{tabular}{ccccc}
@@ -1393,6 +1398,9 @@ left- and right-censored settings, respectively.
 \end{ruledtabular}
 \end{table}
 
+The sixteen verdict-boundary-adjacent \(m=3\) cells marked with an asterisk
+in the main-text phase diagram were re-run at \(3\times10^{6}\) walkers; all
+sixteen reproduced their \(10^{6}\)-walker classifier verdict.
 Three independent deterministic seeds (\(20260814\)--\(20260816\)) at
 \(10^6\) walkers were run for each
 of six reviewer-sensitive configurations.  All 18 verdicts agree within each
@@ -1419,6 +1427,14 @@ candidate peak falls from \(7.32\%\) to \(4.23\%\) of the global maximum
 and from \(7.5\) to \(4.2\) covariance-aware standard deviations, crossing
 both classifier conditions.  Because the streams differ, this one
 comparison cannot isolate time-step error from sampling fluctuation.
+For context, the six other stored runs of this cell at
+\(\Delta t=10^{-3}\) (the \(10^{6}\)- and \(3\times10^{6}\)-walker
+phase-grid runs, the three \(10^{6}\)-walker seed repeats, and the
+\(5\times10^{5}\)-walker half of this pair) place the late peak at
+\(6.2\)--\(7.3\%\) of the global maximum and \(7.5\)--\(15.3\)
+covariance-aware standard deviations, so the \(\Delta t/2\) value is a
+single low outlier among seven runs; a paired common-random-number or
+multi-seed \(\Delta t/2\) study would be needed to attribute it.
 Kill-fraction changes are at most
 \(9.86\times10^{-4}\) across the four pairs.  The full histogram sufficient
 statistics and comparisons are supplied in the versioned reproduction

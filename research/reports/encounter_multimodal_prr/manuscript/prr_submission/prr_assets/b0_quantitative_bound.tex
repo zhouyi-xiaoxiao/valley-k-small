@@ -338,7 +338,7 @@ blocks \((\cos\vartheta)^{-1/2}\) each, with
 After Lemma~\ref{lem:exactmfull-b0-domination} has been applied to every
 leg of a chain, the surviving dependence on a chain node \(y\) is the
 factor
-\(\exp[\sigma(y_Z-\bar z)^2+\sigma'y_\parallel^2]\)
+\(\exp[\nu(y_Z-\bar z)^2+\nu'y_\parallel^2]\)
 multiplying \(V_{w,\varepsilon}(y)\) at interior nodes or \(q_0(y)\) at the
 starting point.  The next lemma absorbs these factors by exact Gaussian
 algebra.
@@ -354,14 +354,14 @@ and note \(\sup_y\phi_w=W^{d-1}v_\infty\)
 \(\sup\chi_a=1\)].
 \begin{enumerate}
 \item[(a)] \emph{(Weighted slab-mixture supremum.)}
-Let \(\sigma\ge0\) with \(x=2\varepsilon^2\rho^2\sigma<1\).  For each
+Let \(\nu\ge0\) with \(x=2\varepsilon^2\rho^2\nu<1\).  For each
 component the exact complete-square identity
 \begin{equation}
  \begin{gathered}
  \mathcal N(y-\mu_j;\varepsilon^2\rho^2)\,
- \e^{\sigma(y-\bar z)^2}
+ \e^{\nu(y-\bar z)^2}
  =(1-x)^{-1/2}
- \exp\!\left[\frac{\sigma(\mu_j-\bar z)^2}{1-x}\right]
+ \exp\!\left[\frac{\nu(\mu_j-\bar z)^2}{1-x}\right]
  \mathcal N\!\left(y-\mu_j(x);\frac{\varepsilon^2\rho^2}{1-x}\right),\\
  \mu_j(x)=\frac{\mu_j-x\bar z}{1-x},
  \end{gathered}
@@ -371,9 +371,9 @@ holds.  Consequently, with
 \(\hat c=\max_j|\mu_j-\bar z|\),
 \begin{equation}
  \begin{gathered}
- \sup_y\bigl[\phi_w(y)\,\e^{\sigma(y-\bar z)^2}\bigr]
+ \sup_y\bigl[\phi_w(y)\,\e^{\nu(y-\bar z)^2}\bigr]
  \le(1-x)^{-1/2}
- \exp\!\left[\frac{\sigma\hat c^{\,2}}{1-x}\right]
+ \exp\!\left[\frac{\nu\hat c^{\,2}}{1-x}\right]
  S_w(x),\\
  S_w(x)=\sup_y\sum_{j=1}^m w_j\,
  \mathcal N\!\left(y-\mu_j(x);\frac{\varepsilon^2\rho^2}{1-x}\right):
@@ -398,23 +398,23 @@ lowers the sampled mixture supremum.  This observation is not an interval
 enclosure of the exact supremum.)
 \item[(b)] \emph{(Contact node.)}  On the support of \(\chi_a\),
 \(|y_\parallel|\le|y|_{\rm mi}<a\), so
-\(\e^{\sigma'y_\parallel^2}\le\e^{\sigma'a^2}\) there; the transverse
+\(\e^{\nu'y_\parallel^2}\le\e^{\nu'a^2}\) there; the transverse
 blocks carry no penalty.
-\item[(c)] \emph{(Initial law.)}  For \(\sigma\ge0\) with
-\(x_Z=\varepsilon^2D_0\sigma/\gamma<1\) and \(\sigma'\ge0\) with
-\(x_\parallel=2\varepsilon^2u_0^2\sigma'<1\),
+\item[(c)] \emph{(Initial law.)}  For \(\nu\ge0\) with
+\(x_Z=\varepsilon^2D_0\nu/\gamma<1\) and \(\nu'\ge0\) with
+\(x_\parallel=2\varepsilon^2u_0^2\nu'<1\),
 \begin{equation}
  \begin{aligned}
  \int_{\mathbb R}
  \mathcal N\!\Bigl(y-z_0;\tfrac{\varepsilon^2D_0}{2\gamma}\Bigr)
- \e^{\sigma(y-\bar z)^2}\,\dd y
+ \e^{\nu(y-\bar z)^2}\,\dd y
  &=(1-x_Z)^{-1/2}
- \exp\!\left[\frac{\sigma(z_0-\bar z)^2}{1-x_Z}\right],\\
+ \exp\!\left[\frac{\nu(z_0-\bar z)^2}{1-x_Z}\right],\\
  \int_{\mathbb R}
  \mathcal N(y-r_{\parallel,0};\varepsilon^2u_0^2)\,
- \e^{\sigma'y^2}\,\dd y
+ \e^{\nu'y^2}\,\dd y
  &=(1-x_\parallel)^{-1/2}
- \exp\!\left[\frac{\sigma'r_{\parallel,0}^2}{1-x_\parallel}\right],
+ \exp\!\left[\frac{\nu'r_{\parallel,0}^2}{1-x_\parallel}\right],
  \end{aligned}
  \label{eq:exactmfull-b0-initlaw}
 \end{equation}
@@ -463,23 +463,23 @@ by \(\hat c\).  For (b), note that the minimum-image norm dominates the
 longitudinal component.
 
 (d)  Leg \(k\) of the chain carries coefficients
-\(\sigma_k=\omega_Z(h_k)\) and \(\sigma_k'=\omega_\parallel(h_k)\), and its
+\(\nu_k=\omega_Z(h_k)\) and \(\nu_k'=\omega_\parallel(h_k)\), and its
 penalty lands on the object at its starting point: an interior node ---
 apply (a) and (b) with node argument
-\(x_k=2\varepsilon^2\rho^2\sigma_k\le x_V\) --- or the initial law ---
+\(x_k=2\varepsilon^2\rho^2\nu_k\le x_V\) --- or the initial law ---
 apply (c) with arguments at most \(x_{Z,0}\), \(x_{\parallel,0}\).  Every
 midpoint centre obeys \((\mu_j-\bar z)^2\le\hat y^{\,2}\) and
  \((z_0-\bar z)^2\le\hat y^{\,2}\); every longitudinal centre term is at
- most \(\sigma_k'a^2\le\sigma_k'\hat r^{\,2}\) at interior nodes
+ most \(\nu_k'a^2\le\nu_k'\hat r^{\,2}\) at interior nodes
  (\(|y_\parallel|<a\)) and, for the leg starting at the initial law, at most
- \(\sigma_k'r_{\parallel,0}^2/(1-x_\parallel)
- \le\sigma_k'\hat r^{\,2}/(1-x_{\max})\).
+ \(\nu_k'r_{\parallel,0}^2/(1-x_\parallel)
+ \le\nu_k'\hat r^{\,2}/(1-x_{\max})\).
  The whole-window contact condition controls the deterministic relative
  trajectory only on \(I\); no condition on \(|r_{\parallel,0}|\) at time zero
  is used here.  By
 Lemma~\ref{lem:exactmfull-b0-legs}(d),
-\(\sum_k\sigma_k\le\Omega_Z\) and
-\(\sum_k\sigma_k'\le\Omega_\parallel\), and every denominator obeys
+\(\sum_k\nu_k\le\Omega_Z\) and
+\(\sum_k\nu_k'\le\Omega_\parallel\), and every denominator obeys
 \(1-x\ge1-x_{\max}\), so the exponential factors multiply to at most
  \(\exp[(\Omega_Z\hat y^{\,2}+\Omega_\parallel\hat r^{\,2})/(1-x_{\max})]\).  For
 the normalization factors, \(\log[1/(1-x)]\le x/(1-x)\le x/(1-x_{\max})\)
@@ -487,7 +487,7 @@ gives
 \(\prod_k(1-x_k)^{-1/2}
 \le\exp[\sum_kx_k/(2(1-x_{\max}))]
 \le\exp[x_V/(2(1-x_{\max}))]\)
-(using \(\sum_kx_k=2\varepsilon^2\rho^2\sum_k\sigma_k\le x_V\)), and the
+(using \(\sum_kx_k=2\varepsilon^2\rho^2\sum_k\nu_k\le x_V\)), and the
 two initial-law factors contribute at most
 \(\exp[(x_{Z,0}+x_{\parallel,0})/(2(1-x_{\max}))]\).  Multiplying proves
 the claim.
@@ -973,7 +973,7 @@ take
 \(\Sigma_{\perp,0}=0.3^2\).  Then
 \(r_*(t)=(0.1\e^{-t},0)\), so the whole-window contact margin
 Eq.~\eqref{eq:exactmfull-whole-window-contact} holds, for example, with
-\(\eta=0.3\), and all remaining hypotheses hold
+\(\eta_*=0.3\), and all remaining hypotheses hold
 (\(z_0\ne\bar z\); \(u_0^2<4D_0/\gamma\);
 \(a<W/2\); interior targets; \(w=(1/2,1/2)\) is the singleton allocation
 \(w_j=1/m\)).  The signature hypothesis of

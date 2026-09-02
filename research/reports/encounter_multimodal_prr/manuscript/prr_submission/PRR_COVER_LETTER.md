@@ -49,10 +49,10 @@ the declared window, or switching among arbitrary mode counts on one fixed
 support family.
 
 A direct off-lattice realization tests the construction at finite parameters.
-Two 48-cell mode-retention phase diagrams, operational budget-crossing
-measurements, geometry and weight perturbations, an m = 5 realization, and a
-d = 3 check show where the designed modes persist and where they are lost by
-merger or depletion. That boundary is reproduced without adjustable
+A 96-cell mode-retention campaign (two 48-cell phase diagrams, one for
+m = 2 and one for m = 3), operational budget-crossing measurements, geometry
+and weight perturbations, an m = 5 realization, and a d = 3 check show where
+the designed modes persist and where they are lost by merger or depletion. That boundary is reproduced without adjustable
 parameters, to within about 5%, by a mean-field hazard–survival law built from
 the free exposure clock, so the finite-budget regime is quantitatively
 understood; physically, the static slabs convert the deterministic relaxation

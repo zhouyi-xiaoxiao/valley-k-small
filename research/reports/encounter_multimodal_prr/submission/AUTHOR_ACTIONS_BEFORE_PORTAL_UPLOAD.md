@@ -67,6 +67,28 @@ PDFs have passed final readback.
       PDFs, their hashes, the cover letter, declarations, and portal metadata.
 - [ ] Article-processing-charge and open-access arrangements.
 
+## Upload set (current, after the 2026-09-03 inlining of the theorem fragments)
+
+Each document is now a single master source; `exact_m_theorem_spine.tex` and
+`exact_m_theorem_full_proof.tex` were inlined and moved to
+`../manuscript/prr_submission/superseded_fragments/` (do **not** upload them).
+
+- Main article: `encounter_multimodal_prr_v2.tex`, `references.bib` (or the
+  generated `encounter_multimodal_prr_v2.bbl`), `prr_assets/fig1_mechanism_schematic.tex`,
+  `prr_assets/design_recipe_box.tex`, the six `figures/*.pdf`, and the compiled
+  `encounter_multimodal_prr_v2.pdf` rebuilt on upload day (`\date{\today}`).
+- Supplemental Material: `encounter_multimodal_prr_v2_supplement.tex`,
+  `prr_assets/b0_quantitative_bound.tex`, `prr_assets/physical_units_mapping.tex`,
+  `references.bib` (or `..._supplement.bbl`), the same `figures/*.pdf`, and the
+  compiled `encounter_multimodal_prr_v2_supplement.pdf`.
+- Cover letter: `PRR_COVER_LETTER.md` rendered to PDF with the upload-day date.
+- Public archive: <https://github.com/zhouyi-xiaoxiao/prescribed-reaction-time-modes>,
+  release `v1.0.0` (rebuilt from `../reproduction/build_reproduction_archive.py`
+  after the final PDFs are frozen; MANIFEST.sha256 inside). A Zenodo DOI is to
+  be minted from that release once the author enables the Zenodo–GitHub
+  integration; add it to the Data Availability statement at proof stage if the
+  portal record lacks it.
+
 Suggested and excluded referees are optional editorial choices. If used, the
 sole author must check current affiliations and conflicts immediately before
 submission.

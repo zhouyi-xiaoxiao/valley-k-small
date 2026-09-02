@@ -128,7 +128,7 @@ indicator, and let normalized nonnegative longitudinal profiles obey
 \(\phi_j\in L^\infty\) and \(\int\phi_j(z)\,\dd z=1\).  Put
 \begin{equation}
  V_j(z,r)=W^{-(d-1)}\chi_a(r)\phi_j(z),\qquad
- V_w=\sum_{j=1}^Jw_jV_j,\qquad K_{B,w}=BV_w,
+ V_w=\sum_{j=1}^m w_jV_j,\qquad K_{B,w}=BV_w,
  \label{eq:supp-profiles}
 \end{equation}
 where \(w_j\ge0\) and \(\sum_jw_j=1\); in
@@ -189,7 +189,7 @@ coordinate polydisc of radius \(\delta\) about a point of \(\Theta\) lies in
 the complex tube
 \begin{equation}
  \Theta_\delta^+
- =\{\zeta\in\mathbb C^{J-1}:
+ =\{\zeta\in\mathbb C^{m-1}:
    \operatorname{dist}_\infty(\zeta,\Theta)<2\delta\}.
  \label{eq:supp-tube}
 \end{equation}
@@ -368,8 +368,8 @@ Write
 \end{equation}
 and impose the whole-window, minimum-image contact margin
 \begin{equation}
- \sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta
- \quad\text{for some }\eta>0.
+ \sup_{t\in I}|r_*(t)|_{\rm mi}\le a-\eta_*
+ \quad\text{for some }\eta_*>0.
  \label{eq:exactmfull-whole-window-contact}
 \end{equation}
 The word ``whole-window'' is essential: the condition is required on every
@@ -417,7 +417,7 @@ two positive constants.  The reverse triangle inequality and
 Eq.~\eqref{eq:exactmfull-whole-window-contact} give
 \begin{equation}
  \inf_{t\in I}\inf_{|r|_{\rm mi}\ge a}
- d_{\rm cyl}(r,r_*(t))\ge\eta.
+ d_{\rm cyl}(r,r_*(t))\ge\eta_*.
  \label{eq:exactmfull-contact-separation}
 \end{equation}
 The assumption \(a<W/2\) keeps the contact ball away from the transverse cut
@@ -1193,7 +1193,9 @@ implementation sanity checks, not an accuracy certificate.  A
 peak times at bin resolution and both peak prominences to within
 \(0.3\%\) (Table~\ref{tab:supp-production}, last row), and the \(d=3\)
 spot check passes a per-bin \(\Delta t\)-halving comparison with maximum
-\(|z|=1.67\) over \(26\) populated bins.
+standardized bin difference \(|z_{\rm bin}|=1.67\) (difference of the two
+histograms' bin fractions divided by its pooled binomial standard error)
+over \(26\) populated bins.
 
 Modality is decided by a fixed operational classifier: window reaction times
 are histogrammed with bin width \(0.02\), smoothed with a Gaussian kernel
@@ -1252,14 +1254,14 @@ reacting inside \(I=[0.5,3.5]\); prominence of the weakest counted peak in
 covariance-aware smoothed-Poisson standard deviations.  In the \(B=0.25\)
 recovery row the
 classifier additionally finds a third, subthreshold local maximum at
-\(t=2.49\) with \(4.8\sigma\) prominence and only \(2.7\%\) of the maximum
+\(t=2.49\) with \(4.8\sigma_{\rm prom}\) prominence and only \(2.7\%\) of the maximum
 smoothed height, below both the five-sigma condition and the \(5\%\)
 floor.
 \label{tab:supp-production}}
 \begin{ruledtabular}
 \begin{tabular}{cccccccc}
 \(m\) & \(\varepsilon\) & \(B\) & \(\bm w\) & modes & peak times &
-event mass & min.\ prom.\ [\(\sigma\)]\\
+event mass & min.\ prom.\ [\(\sigma_{\rm prom}\)]\\
 \hline
 2 & 0.1 & 0.5 & \((0.5,0.5)\) & 2 & 0.99, 2.41 & 0.53 & 417 \\
 2 & 0.1 & 0.5 & \((0.7,0.3)\) & 2 & 0.99, 2.45 & 0.44 & 309 \\
@@ -1307,8 +1309,8 @@ entries exceeded the scan limit \(B=8\).  In the \((3,0.2)\) column no
 stored probe certifies the third mode at any scanned budget
 \(B\in[0.125,8]\), so no operational crossing exists there under the
 classifier rule (main text, Sec.~IV\,D).  The closest candidates reach
-\(4.2\)--\(4.4\sigma\) at \(5.3\)--\(7.5\%\) relative prominence with
-\(10^{6}\) walkers, and \(3.4\sigma\) at \(3.5\%\) in the
+\(4.2\)--\(4.4\sigma_{\rm prom}\) at \(5.3\)--\(7.5\%\) relative prominence with
+\(10^{6}\) walkers, and \(3.4\sigma_{\rm prom}\) at \(3.5\%\) in the
 \(3\times10^{6}\)-walker \(B=0.125\) phase-grid cell.
 \label{tab:supp-bop}}
 \begin{ruledtabular}
@@ -1454,7 +1456,8 @@ check.
 \includegraphics[width=0.9\textwidth]{figures/exact_m_phase_diagram_m2_prr}
 \caption{Observed modality phase diagram for the equal-weight \(m=2\) design: the
 fixed classifier identifies two significant modes in all \(48\)
-\((\varepsilon,B)\) cells, and the semi-analytic free clock retains both
+\((\varepsilon,B)\) cells (blue: both target modes retained; the printed
+number is the classified count), and the semi-analytic free clock retains both
 window maxima throughout the scanned range.  (Plotting code revised with
 Codex assistance; numerical content author-verified.)
 \label{fig:supp-phase-m2}}
@@ -1490,7 +1493,8 @@ prefactor \(B/W^{2}\), all remaining parameters unchanged from the
 collects Euler--Maruyama window reaction times.  The fixed classifier
 identifies two significant modes at \(t=0.99\) and \(2.37\), with \(0.60\)
 reaction events per
-walker inside the window and \(\Delta t\)-halving maximum \(|z|=1.67\).
+walker inside the window and \(\Delta t\)-halving maximum standardized bin
+difference \(|z_{\rm bin}|=1.67\) (Sec.~\ref{sec:supp-numerics-method}).
 (Plotting code revised with Codex assistance; numerical content
 author-verified.)
 \label{fig:supp-d3}}
@@ -1527,7 +1531,8 @@ Secs.~\ref{sec:supp-model}--\ref{sec:exactmfull-proof} is
 theory of a related manuscript by the author \cite{zhouyi2026jcp}
 and are so labelled in their file headers. The package contains no \texttt{sorry},
 \texttt{admit}, or added axiom.  Of its 173 theorem and lemma declarations,
-the 138 public theorems listed in its \texttt{\#print axioms} reports report
+the 138 public theorems listed in its consolidated \texttt{\#print axioms}
+report (\texttt{consolidated\_axioms.txt}) report
 exactly the standard foundation \([\texttt{propext},
 \texttt{Classical.choice}, \texttt{Quot.sound}]\); the remaining
 declarations are internal proof steps and a smoke test and are not listed

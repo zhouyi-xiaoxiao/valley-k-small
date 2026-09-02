@@ -112,11 +112,11 @@ LEAN_FILES = (
     "codex_lean_recheck.txt",
     "FORMALIZATION_TARGETS.md",
 )
-# Receipts produced at freeze time (audit-resolution note, build receipt on
-# the released hashes, package README).  Required for a release.
+# Receipts produced at freeze time (audit-resolution note and package README).
+# Required for a release.  No build receipt/log is shipped: the axiom record
+# is consolidated_axioms.txt and the build is reproduced from the README.
 LEAN_RECEIPT_FILES = (
     "codex_lean_recheck_resolution.txt",
-    "BUILD_RECEIPT.txt",
     "README.md",
 )
 LEAN_SOURCE_GLOB = "FormalPRR/*.lean"
@@ -201,7 +201,7 @@ def copy_lean_package(*, require_receipts: bool) -> None:
         elif require_receipts:
             raise FileNotFoundError(
                 f"Lean release receipt is missing: {source} "
-                "(build the package on the released hashes first, or pass "
+                "(write it in code/formal_lean_prr first, or pass "
                 "--allow-missing-lean-receipts for a non-release staging tree)"
             )
         else:
@@ -394,8 +394,8 @@ def main() -> None:
         "--allow-missing-lean-receipts",
         action="store_true",
         help=(
-            "do not fail when BUILD_RECEIPT.txt / README.md / "
-            "codex_lean_recheck_resolution.txt are absent from the Lean package "
+            "do not fail when README.md / codex_lean_recheck_resolution.txt "
+            "are absent from the Lean package "
             "(staging only; a release must ship them)"
         ),
     )

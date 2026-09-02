@@ -32,10 +32,17 @@ shown by the repository record together with the tag.
 - `lean/formal_lean_prr/`: the Lean 4 package of the Supplemental Material
   (toolchain `leanprover/lean4:v4.32.0-rc1`, mathlib4 pinned by
   `lake-manifest.json`); build with `lake exe cache get && lake build` from
-  that directory (see its `README.md`); `consolidated_axioms.txt` and
-  `BUILD_RECEIPT.txt` record the 138 `#print axioms` lines and the build on
-  the released hashes; the SHA-256 anchors quoted in the Supplemental
-  Material are `shasum -a 256 FormalPRR/<Module>.lean | cut -c1-16`.
+  that directory (see its `README.md`).  `consolidated_axioms.txt` is the
+  authoritative axiom record: the 138 `#print axioms` lines of the public
+  theorems, each on `[propext, Classical.choice, Quot.sound]` and none on
+  `sorryAx` (`axioms_report_alpha.txt` and `axioms_report_beta.txt` are
+  earlier per-file extracts kept for history; no separate build log ships).
+  The two adversarial audit reports (`codex_lean_audit.txt`,
+  `codex_lean_recheck.txt`) and the per-finding resolution record
+  (`codex_lean_recheck_resolution.txt`) ship alongside the sources; the
+  SHA-256 anchors quoted in the Supplemental Material are
+  `shasum -a 256 FormalPRR/<Module>.lean | cut -c1-16`, and the builder
+  refuses to archive sources whose anchors differ from those quoted.
   `FORMALIZATION_TARGETS.md` is the original task brief and refers to the
   author's working paths and to a `tex_anchors/` mirror that is not shipped.
 - `environment/`: the Python package versions and platform provenance of the

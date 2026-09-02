@@ -21,5 +21,15 @@ robustness seeds are separate simulations.  The `dt` and `dt/2` comparisons
 use the same declared seed and tag, while `dt` itself enters the entropy, so
 the paths are independent rather than coupled.
 
+The Lean 4 package under `lean/formal_lean_prr/` is shipped at the source
+hashes quoted in the Supplemental Material (Table of SHA-256 anchors); the
+builder recomputes those anchors and refuses to archive sources that differ.
+Its axiom record `consolidated_axioms.txt` was written on 2026-08-25 after
+the last source change; the audit reports `codex_lean_audit.txt` and
+`codex_lean_recheck.txt` and the resolution record
+`codex_lean_recheck_resolution.txt` document how the released sources were
+reached.  No independent build log on the released hashes is included; the
+build is reproduced with the commands in the package `README.md`.
+
 If a persistent identifier is minted for this release, it is recorded in
 `CITATION.cff` and `.zenodo.json`.

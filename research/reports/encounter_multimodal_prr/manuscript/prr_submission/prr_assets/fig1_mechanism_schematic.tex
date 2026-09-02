@@ -1,43 +1,4 @@
-% ======================================================================
-% Figure 1 (mechanism schematic) -- TikZ snippet, RevTeX-compatible.
-% Standalone asset for encounter_multimodal_prr_submission.tex.
-%
-% REQUIREMENTS (add to the manuscript preamble if not present):
-%   \usepackage{tikz}
-%   \usetikzlibrary{arrows.meta}
-%   (bm and amssymb are already loaded by the submission class/options)
-%
-% SUGGESTED USAGE in the manuscript:
-%   \begin{figure}[t]
-%     \resizebox{\columnwidth}{!}{\input{prr_assets/fig1_mechanism_schematic}}
-%     \caption{Mechanism of prescribed finite modality ($m=3$ shown).
-%       (a)~The midpoint mean $\mu(t)=\bar z+(z_0-\bar z)\e^{-\gamma t}$
-%       drifts monotonically toward $\bar z$ (thick curve; a sample path of
-%       $Z_t$ in gray) past three narrow normalized Gaussian catalyst slabs
-%       $w_j\phi_{j,\varepsilon}$ of width $\varepsilon\rho$ centred at
-%       $z_1,z_2,z_3$ on the physical $Z$ axis, under the conserved installed budget
-%       $\int\kappa_{\bm w}\,\dd c=B$ [Eq.~\eqref{eq:conserved-budget}].
-%       The relative coordinate stays inside the contact tube
-%       $|R|_{\mathrm{mi}}<a$ on the window, with transverse directions on
-%       the torus $\mathbb T_W^{d-1}$ (right).  (b)~Each slab acts as a
-%       separated exposure clock: the reaction-time density develops one
-%       peak at each passage time $t_j$, defined by $\mu(t_j)=c_j$ (dashed
-%       guides), and one valley between adjacent peaks, so
-%       $f_{B,\bm w}/B$ has exactly $m$ maxima and $m-1$ minima on
-%       $[\tau,T]$ [Theorem~1].}
-%     \label{fig:mechanism}
-%   \end{figure}
-%
-% NOTATION NOTES (for the integrating editor):
-%   * The schematic sets \ell_0=1 and sgn(mu')=+1, so the dimensionless
-%     centres c_j = x(t_j) of Eq. (eq:exact-m-centres) coincide with the
-%     physical slab centres mu(t_j).  Flagged so nobody double-scales.
-%   * Slab widths, peak widths, and the sample-path noise amplitude are
-%     drawn exaggerated for legibility; the theorem regime is
-%     eps -> small first, then B < B_top^unif(eps).
-%   * Panel (b) draws f_{B,w}(t)/B, which converges to the free exposure
-%     clock G_{eps,w}(t) as B -> 0 [Eq. (eq:exact-m-weak-budget)].
-% ======================================================================
+% Input asset for encounter_multimodal_prr_v2.tex
 \begin{tikzpicture}[>={Stealth[length=2.0mm]}, line cap=round, line join=round]
   % ---------------- tunables ----------------
   \pgfmathsetmacro\xu{1.40}    % cm per time unit

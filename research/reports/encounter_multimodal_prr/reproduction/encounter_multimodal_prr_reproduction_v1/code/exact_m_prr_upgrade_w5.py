@@ -114,10 +114,14 @@ def dt_halving_check_d3(centres: np.ndarray, p) -> dict:
 
 
 def theory_curve() -> tuple[np.ndarray, np.ndarray]:
-    """Semi-analytic d=3 free-exposure overlay B*G(t) (quadrature only)."""
+    """Semi-analytic d=3 free-exposure overlay B*G(t) (quadrature only).
+
+    The grid starts at t=0 so that the cumulative exposure Lambda(t) used by
+    the mean-field overlay implements the lower limit of Eq. (mean-field).
+    """
     p5 = core.make_model(dim=3)
     centres = core.centres_z_for(M, p=p5)
-    ts = np.linspace(base.THEORY_T_MIN, TMAX, core.D3_T_POINTS)
+    ts = np.linspace(0.0, TMAX, core.D3_T_POINTS)
     theory = core.free_exposure_general(
         ts, centres_z=centres, eps=EPS, weights=WEIGHTS, p=p5, n_perp=N_PERP
     )
@@ -151,6 +155,15 @@ def make_figure(payload: dict) -> list[str]:
             label=f"smoothed ($h={classifier['bandwidth']:g}$)")
     ax.plot(ts, BUDGET * g_vals, color=core.OI_VERMILLION, lw=1.2, ls="--",
             label=r"$B\,G(t)$, $d=3$ contact factor")
+    # Mean-field hazard--survival law f1 = B G exp(-B Lambda), Lambda = int_0^t G
+    # (deterministic; trapezoid on the theory grid; no simulation input).
+    B = float(payload["parameters"]["config"]["budget"])
+    lam = np.concatenate(
+        ([0.0], np.cumsum(0.5 * (g_vals[1:] + g_vals[:-1]) * np.diff(ts)))
+    )
+    f1 = B * g_vals * np.exp(-B * lam)
+    ax.plot(ts, f1, linestyle="-.", color="#009E73", linewidth=1.2,
+            label=r"$f_1=B\,G\,\mathrm{e}^{-B\Lambda}$ mean field")
     for tj in target_times:
         ax.axvline(tj, color="0.45", lw=0.7, ls=":")
     # Info note drawn before the peak labels so the labels stay on top of

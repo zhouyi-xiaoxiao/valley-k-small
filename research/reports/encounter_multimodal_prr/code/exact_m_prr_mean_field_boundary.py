@@ -222,7 +222,7 @@ def _read(path: Path) -> dict:
 
 
 def regression_test_against_classify_both() -> dict:
-    """Check classify_real == classify_both on every stored integer histogram."""
+    """Check classify_real == classify_both on the 173 stored integer histograms of the production grid, W1 map, and W2 probes."""
 
     files = sorted(PRODUCTION_DIR.glob("*.json"))
     files += sorted(W1_DIR.glob("cell_*.json"))

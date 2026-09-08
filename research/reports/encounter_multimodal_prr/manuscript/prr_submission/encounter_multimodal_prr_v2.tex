@@ -921,7 +921,7 @@ walker's past exposure and its present position gives the hazard--survival law
 which has no adjustable parameter.  Applying the fixed classifier and last-mode pass rule to bin-integrated
 expected counts from \(f_1\) at nominal \(N=10^{6}\) walkers, with no
 sampled trajectories, gives \(B_{\rm op}^{\rm mf}=7.36\), \(7.48\), \(>8\), \(>8\) for \(m=2\)
-and \(4.29\), \(3.63\), \(1.53\), none for \(m=3\) at
+and \(4.29\), \(3.63\), \(1.52\), none for \(m=3\) at
 \(\varepsilon=0.05\), \(0.1\), \(0.15\), \(0.2\), against the measured
 crossings above; the largest relative discrepancy is \(5.3\%\) at \((2,0.05)\).  The
 mean-field value \(7.36\) lies above the post-hoc bracketed midpoint span
@@ -975,9 +975,10 @@ slab centre outside the swept range (in \(32\) the late centre lies at or
 below the trap centre, which the mean never reaches) while the adjacent
 spacing remains above \(3\sigma\), and only \(5\) have spacing below
 \(2.3\sigma\); for \(m=3\), \(34\) of \(62\) failures have a centre
-outside the swept range, \(20\) have spacing below \(2.3\sigma\), and the
-remaining \(9\) sit at \(2.4\)--\(4.4\sigma\), where the free clock
-retains three maxima but the classified prominence falls below the floor.
+outside the swept range and \(20\) have spacing below \(2.3\sigma\) (one
+replica satisfies both), while the \(9\) that satisfy neither sit at
+\(2.4\)--\(4.4\sigma\), where the free clock retains three maxima but the
+classified prominence falls below the floor.
 No failure produced an extra peak.  Loss of the last clock past the window
 end is therefore the dominant jitter failure for \(m=2\) and comparable to
 spacing collapse for \(m=3\); both are geometric, and the margin
@@ -1083,6 +1084,13 @@ does not isolate time-step from sampling error; the displayed phase-grid
 verdict is resolution/stream-sensitive, although the six other stored runs
 of this cell at \(\Delta t=10^{-3}\) (\(5\times10^{5}\)--\(3\times10^{6}\)
 walkers, five seeds) all retain three modes (Supplemental Material).
+Three further independent \(10^{6}\)-walker runs at \(\Delta t/2\) also
+retain three classified modes, with the late candidate at \(6.9\)--\(8.6\%\)
+of the global maximum and \(9.8\)--\(12.3\) covariance-aware standard
+deviations (Supplemental Material), which places the single
+\(5\times10^{5}\)-walker flip as a low outlier among the stored runs of this
+cell; three seeds do not, however, exclude a systematic time-step
+contribution near this boundary.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -1137,8 +1145,9 @@ grows.  Both mechanisms, and the
 operational boundary itself, are reproduced without adjustable parameters by
 the mean-field hazard--survival law \(f_1=BG\,\e^{-B\Lambda}\) built from
 the free exposure clock, to within about \(5\%\) in the crossings and one
-bin in the peak times; the residual is the exposure fluctuation and
-exposure--position correlation of the exact Doi process, which Theorem~1
+bin in the peak times; the residual is dominated by the exposure
+fluctuation and exposure--position correlation of the exact Doi process,
+which Theorem~1
 controls only in the small-\(B\) limit.  The semi-analytic free clock is
 consequently a quantitative preflight diagnostic, but the finite-walker
 classifier, seed, bandwidth, prominence rule, and time step remain part of
@@ -1195,14 +1204,11 @@ literature and cross-document consistency checks and with drafting or revising
 explanatory text.  Retained citations were checked against the cited records,
 and the manuscript was rebuilt and inspected after revision.  The AI tool is
 not an author; the sole author takes responsibility for the retained content.
-% AUTHOR ACTION (editor_desk-r1-11; referee2-r2-08; gpt6-09), author-owned,
-% must be resolved by the author before portal upload: replace this comment
-% block with ONE factual paragraph stating (a) the funding actually relevant
-% to this work with its award identifier (e.g. a named scholarship), or that
-% no external funding was received; (b) the computational resources actually
-% used; (c) the competing-interest declaration.  Enter the same information
-% in the portal metadata.  No default may be assumed and this comment must
-% not remain in the uploaded source.
+
+X.Z. is supported by a China Scholarship Council doctoral scholarship.  All
+simulations reported here were run on a single Apple M4 Pro workstation; no
+external computing allocation was used.  The author declares no competing
+interests.
 
 \section*{Data availability}
 

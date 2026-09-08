@@ -36,7 +36,9 @@ shown by the repository record together with the tag.
   `robustness/dt_half_seed_repeat_summary.json`).
 - `artifacts/figures/`: PDF and PNG versions of the six numerical figures.
 - `manuscript/`: final compiled article and Supplemental Material, and their
-  LaTeX sources under `manuscript/source/`.
+  LaTeX sources under `manuscript/source/` (the six submitted figure PDFs
+  are duplicated under `manuscript/source/figures/`, so the sources compile
+  in place).
 - `lean/formal_lean_prr/`: the Lean 4 package of the Supplemental Material
   (toolchain `leanprover/lean4:v4.32.0-rc1`, mathlib4 pinned by
   `lake-manifest.json`); build with `lake exe cache get && lake build` from
@@ -103,9 +105,12 @@ statistic that the article uses as its formal definition and rewrites
 The third evaluates the parameter-free mean-field law
 `f_1 = B G exp(-B Lambda)` of the main text on the fixed covariance-aware
 classifier: it first regression-tests its real-valued-count classifier
-against `classify_both` on every stored integer histogram, then scans and
-bisects the eight W2 chains, compares the 96 W1 cells and the 17 production
-configurations with their covariance-aware verdicts, and rewrites
+against `classify_both` on all 173 stored integer histograms of the
+production grid, W1 map, and W2 probes (501 local maxima; this adapter test
+is distinct from the covariance-aware reclassification of all 201 stored
+classifier records), then scans and bisects the eight W2 chains, compares
+the 96 W1 cells and the 17 production configurations with their
+covariance-aware verdicts, and rewrites
 `mean_field_boundary.json` (about 40 s; all numerical conventions are stored
 under its `conventions` key).
 The remaining commands recreate the six published figures in

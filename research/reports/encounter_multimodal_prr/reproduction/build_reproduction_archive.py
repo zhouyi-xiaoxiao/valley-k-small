@@ -268,6 +268,15 @@ def copy_release_inputs(*, include_manuscripts: bool, require_lean_receipts: boo
             dst = manuscript_out / "source" / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(require(source_manuscript / rel), dst)
+        # Both masters use \includegraphics{figures/<stem>} with no
+        # \graphicspath, so the sources only compile with the figures beside them.
+        src_fig_dir = manuscript_out / "source" / "figures"
+        src_fig_dir.mkdir(parents=True, exist_ok=True)
+        for stem in FIGURE_STEMS:
+            shutil.copy2(
+                require(source_manuscript / "figures" / f"{stem}.pdf"),
+                src_fig_dir / f"{stem}.pdf",
+            )
 
 
 def _pdf_text(pdf: Path) -> str:

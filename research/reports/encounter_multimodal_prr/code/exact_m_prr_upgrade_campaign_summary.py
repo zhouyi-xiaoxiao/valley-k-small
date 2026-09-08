@@ -69,6 +69,10 @@ def main() -> None:
                 "threshold B_op only, not B_top or B_cert"
             ),
         ),
+        # Mirror the 2026-08-24 provenance note verbatim: the m=3, eps=0.2
+        # chain fields below were written under the superseded peak-only
+        # convention (see covariance_aware_reclassification.json, w2_chains).
+        "covariance_aware_note": s.get("covariance_aware_note"),
         "pass_rule": s["pass_rule"],
         "probe_walkers": s["probe_walkers"],
         "chains": [

@@ -12,8 +12,8 @@ modes with a static fixed-budget Doi reactivity field,” for publication in
 *Physical Review Research*.
 
 The question is a design question of broad interest in diffusion-controlled
-kinetics: a fixed reactivity budget — reactive patches on a surface, a
-catalyst or enzyme load — installed once and never switched, is shown to
+kinetics: a fixed reactivity budget — a catalyst or enzyme load distributed in
+space — installed once and never switched, is shown to
 suffice for prescribing the number of peaks of a reaction-time distribution
 on a chosen window, together with the complete peak–valley structure,
 without the time-dependent barriers, gating states, or hidden kinetic phases
@@ -52,7 +52,8 @@ A direct off-lattice realization tests the construction at finite parameters.
 A 96-cell mode-retention campaign (two 48-cell phase diagrams, one for
 m = 2 and one for m = 3), operational budget-crossing measurements, geometry
 and weight perturbations, an m = 5 realization, and a d = 3 check show where
-the designed modes persist and where they are lost by merger or depletion. That boundary is reproduced without adjustable
+the designed modes persist and where they are lost by peak merger, by depletion, or, under geometric
+jitter, by a slab displaced past the design window. That boundary is reproduced without adjustable
 parameters, to within about 5%, by a mean-field hazard–survival law built from
 the free exposure clock, so the finite-budget regime is quantitatively
 understood; physically, the static slabs convert the deterministic relaxation

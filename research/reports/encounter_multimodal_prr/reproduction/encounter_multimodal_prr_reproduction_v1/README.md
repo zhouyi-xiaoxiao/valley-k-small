@@ -17,7 +17,10 @@ shown by the repository record together with the tag.
   summary, robustness driver, and the covariance-aware reclassification and
   figure scripts (`reclassify_covariance_aware.py`,
   `w3_jitter_covariance_recheck.py`, `remake_b0_figure_covariance.py`,
-  `remake_jitter_figure_covariance.py`).
+  `remake_jitter_figure_covariance.py`), the mean-field evaluation of the
+  retention boundary (`exact_m_prr_mean_field_boundary.py`), and the
+  independent-seed repeats at the halved time step
+  (`exact_m_prr_dt_half_seed_repeat.py`).
 - `artifacts/data/exact_m_offlattice_production/`: high-statistics anchor
   simulations.
 - `artifacts/data/exact_m_prr_upgrade/`: W1 phase-diagram cells, W2 empirical
@@ -25,7 +28,12 @@ shown by the repository record together with the tag.
   three-dimensional spot check, the added classifier/seed/time-step
   robustness results, and the covariance-aware re-judgement of every stored
   classifier record (`covariance_aware_reclassification.json`, its
-  `_summary.txt`, and `w3_jitter/covariance_aware_recheck.json`).
+  `_summary.txt`, and `w3_jitter/covariance_aware_recheck.json`), the
+  mean-field hazard--survival evaluation quoted in the main text
+  (`mean_field_boundary.json`), and the three independent-seed runs at the
+  halved time step of the boundary-adjacent cell
+  (`robustness/dt_half_seed_repeats/` and
+  `robustness/dt_half_seed_repeat_summary.json`).
 - `artifacts/figures/`: PDF and PNG versions of the six numerical figures.
 - `manuscript/`: final compiled article and Supplemental Material, and their
   LaTeX sources under `manuscript/source/`.
@@ -33,7 +41,7 @@ shown by the repository record together with the tag.
   (toolchain `leanprover/lean4:v4.32.0-rc1`, mathlib4 pinned by
   `lake-manifest.json`); build with `lake exe cache get && lake build` from
   that directory (see its `README.md`).  `consolidated_axioms.txt` is the
-  authoritative axiom record: the 138 `#print axioms` lines of the public
+  authoritative axiom record: the 138 `#print axioms` lines of the audited
   theorems, each on `[propext, Classical.choice, Quot.sound]` and none on
   `sorryAx` (`axioms_report_alpha.txt` and `axioms_report_beta.txt` are
   earlier per-file extracts kept for history; no separate build log ships).
@@ -78,6 +86,7 @@ These commands do not rerun Monte Carlo walkers:
 ```bash
 python code/exact_m_prr_robustness.py --phase sensitivity
 python code/reclassify_covariance_aware.py
+python code/exact_m_prr_mean_field_boundary.py
 python code/exact_m_prr_upgrade_w1.py --phase figure
 python code/remake_b0_figure_covariance.py
 python code/remake_jitter_figure_covariance.py
@@ -91,6 +100,14 @@ convention (legacy `robustness/classifier_sensitivity.json`).  The second
 re-judges all 201 stored classifier records with the covariance-aware
 statistic that the article uses as its formal definition and rewrites
 `covariance_aware_reclassification.json` and its `_summary.txt` in place.
+The third evaluates the parameter-free mean-field law
+`f_1 = B G exp(-B Lambda)` of the main text on the fixed covariance-aware
+classifier: it first regression-tests its real-valued-count classifier
+against `classify_both` on every stored integer histogram, then scans and
+bisects the eight W2 chains, compares the 96 W1 cells and the 17 production
+configurations with their covariance-aware verdicts, and rewrites
+`mean_field_boundary.json` (about 40 s; all numerical conventions are stored
+under its `conventions` key).
 The remaining commands recreate the six published figures in
 `artifacts/figures/`: `remake_b0_figure_covariance.py` draws the
 operational-threshold figure from the stored W2 chains and the
@@ -147,6 +164,7 @@ python code/exact_m_prr_robustness.py --phase seeds --workers 3 \
   --seed-walkers 1000000
 python code/exact_m_prr_robustness.py --phase dt --workers 3 \
   --dt-walkers 500000
+python code/exact_m_prr_dt_half_seed_repeat.py --workers 3
 python code/exact_m_prr_upgrade_campaign_summary.py
 ```
 
@@ -179,7 +197,10 @@ production records serialize the seed but not the tag; the deterministic
 production driver fixes their tag to `1`, audits their complete parameter
 matrix, and writes the tag explicitly in new reruns.  The robustness driver
 is resumable: it reuses completed per-run JSON files unless `--force` is
-given.
+given; so is `exact_m_prr_dt_half_seed_repeat.py`, which reruns the
+boundary-adjacent cell `(m, eps, B) = (3, 0.175, 0.5)` at `dt = 0.0005` with
+seeds 20260814--20260816 and 10^6 walkers each (stream tag 65) and
+classifies the stored counts through `classify_both`.
 
 ## Legacy schema names
 

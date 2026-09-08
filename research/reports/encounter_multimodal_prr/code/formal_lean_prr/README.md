@@ -11,7 +11,7 @@ audit modules).
 Expected result: `Build completed successfully`; 138 lines of the form
 `'<theorem>' depends on axioms: [propext, Classical.choice, Quot.sound]` and
 no `sorryAx`.  The reference output is `consolidated_axioms.txt` (138 lines,
-one per public theorem, written 2026-08-25 after the last source change; it
+one per audited theorem, written 2026-08-25 after the last source change; it
 is the authoritative axiom record for the released hashes).
 `axioms_report_alpha.txt` and `axioms_report_beta.txt` are earlier per-file
 extracts that predate the final sources and are retained only as historical

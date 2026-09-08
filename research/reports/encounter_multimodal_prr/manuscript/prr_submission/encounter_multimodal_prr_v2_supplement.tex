@@ -1212,7 +1212,10 @@ weights of the peak bin and of the selected contour-base bin, \(N\) the
 walker count, and \(\delta\) the bin width.  Because each walker reacts at
 most once, the window counts are multinomial across bins and the Poisson
 form omits a negative covariance term, so \(\sigma_{\rm prom}\) is mildly
-conservative.  A peak-only convention
+conservative.  This fixed-index plug-in scale does not account for the
+data-driven selection of the peak and contour-base bins; the five-sigma
+rule is an operational gate, not a calibrated post-selection significance
+level.  A peak-only convention
 \(\sigma_{\rm peak}^2=\sum_j A_{p,j}^2C_j/(N\delta)^2\), which omits the
 base variance and the peak--base covariance, was the gate applied by the
 simulation driver at run time and is retained in every stored record for
@@ -1236,7 +1239,13 @@ text discusses the one scanned column, \((m,\varepsilon)=(3,0.2)\), that
 sits at the \(5\%\) floor.  Because bandwidth, prominence rule, seed,
 walker count, and step size enter this operational definition, results near a
 boundary are reported as classifier outcomes rather than exact stationary-point
-counts.
+counts.  The mean-field crossings \(B_{\rm op}^{\rm mf}\), the 96-cell
+verdict comparison, the production peak-time comparison, and the contact
+factors \(c(\tau;\varepsilon)\) quoted for the mean-field hazard--survival
+law of the main text are computed from the free-clock evaluation by
+\texttt{exact\_m\_prr\_mean\_field\_boundary.py}; the numerical
+conventions, grid checks, and outputs are stored in
+\texttt{mean\_field\_boundary.json} in the reproduction archive.
 
 \subsection{Production configuration table}
 \label{sec:supp-numerics-production}
@@ -1434,9 +1443,20 @@ For context, the six other stored runs of this cell at
 phase-grid runs, the three \(10^{6}\)-walker seed repeats, and the
 \(5\times10^{5}\)-walker half of this pair) place the late peak at
 \(6.2\)--\(7.3\%\) of the global maximum and \(7.5\)--\(15.3\)
-covariance-aware standard deviations, so the \(\Delta t/2\) value is a
-single low outlier among seven runs; a paired common-random-number or
-multi-seed \(\Delta t/2\) study would be needed to attribute it.
+covariance-aware standard deviations, so the \(5\times10^{5}\)-walker
+\(\Delta t/2\) value is a single low outlier among seven runs.  Three
+additional independent-stream runs of this cell at
+\(\Delta t=5\times10^{-4}\) (seeds \(20260814\)--\(20260816\),
+\(10^{6}\) walkers each, matching the walker count of the three
+\(\Delta t=10^{-3}\) seed repeats; the streams at the two resolutions are
+independent, not paired common random numbers) all retain three classified
+modes under the covariance-aware rule, with the late candidate at
+\(6.9\)--\(8.6\%\) of the global maximum and \(9.8\)--\(12.3\)
+covariance-aware standard deviations, against \(6.3\)--\(6.6\%\) and
+\(9.0\)--\(9.4\) for the matched-walker \(\Delta t=10^{-3}\) seeds.
+These additional independent-stream runs characterize sampling variability
+at the finer step, but three seeds do not exclude a systematic time-step
+contribution near this classifier boundary.
 Kill-fraction changes are at most
 \(9.86\times10^{-4}\) across the four pairs.  The full histogram sufficient
 statistics and comparisons are supplied in the versioned reproduction
@@ -1515,7 +1535,7 @@ exact-\(m\) proof chain---the \(2m-1\) zero bound for the exponential
 polynomial of Eq.~\eqref{eq:exactmfull-general-exp-polynomial}, both in the
 distinct-zeros form and in the full count with multiplicity of
 Lemma~\ref{lem:exactmfull-zero-bound}, the mixture log-derivative identities of
-Eq.~\eqref{eq:exactmfull-log-slope}, and the crossover ratio and nonadjacent
+Eqs.~\eqref{eq:exactmfull-log-slope}--\eqref{eq:exactmfull-log-slope-derivative}, and the crossover ratio and nonadjacent
 smallness bounds with explicit constants---together with selected scalar,
 Gaussian-integral, and normalization kernels of the explicit
 budget-threshold proposition (Proposition~\ref{prop:exactmfull-b0}), including the two-sided threshold
@@ -1530,19 +1550,19 @@ Secs.~\ref{sec:supp-model}--\ref{sec:exactmfull-proof} is
 \emph{not} formalized; four additional kernels anchor to the fold-transfer
 theory of a related manuscript by the author \cite{zhouyi2026jcp}
 and are so labelled in their file headers. The package contains no \texttt{sorry},
-\texttt{admit}, or added axiom.  Of its 173 theorem and lemma declarations,
-the 138 public theorems listed in its consolidated \texttt{\#print axioms}
+\texttt{admit}, or added axiom.  Of its 174 theorem and lemma declarations,
+the 138 theorems audited in its consolidated \texttt{\#print axioms}
 report (\texttt{consolidated\_axioms.txt}) report
 exactly the standard foundation \([\texttt{propext},
 \texttt{Classical.choice}, \texttt{Quot.sound}]\); the remaining
-declarations are internal proof steps and a smoke test and are not listed
+declarations are auxiliary lemmas and a smoke test and are not listed
 separately.  Theorem~1 itself is not machine-checked end to end: the
 budget-threshold kernels take the constants of
 Proposition~\ref{prop:exactmfull-b0} (\(\hat\kappa\), \(v_\infty\), \(\Pi\),
 \(\delta_v\), and the margin \(\hat M\)) as abstract real parameters under
 the positivity hypotheses stated in each theorem, and the block angles of
 Eq.~\eqref{eq:exactmfull-b0-kappahat} as abstract data.  The build and the
-statement-fidelity of every public theorem were additionally audited
+statement-fidelity of every audited theorem were additionally audited
 adversarially in two separate Codex sessions (the computational-tool
 disclosure of the main text identifies the system); both audit reports and
 a per-finding resolution record ship with the package, and the residual

@@ -57,6 +57,10 @@ CODE_FILES = (
     "w3_jitter_covariance_recheck.py",
     "remake_b0_figure_covariance.py",
     "remake_jitter_figure_covariance.py",
+    # mean-field hazard-survival evaluation of the retention boundary (main text)
+    "exact_m_prr_mean_field_boundary.py",
+    # independent-seed repeats at the halved time step (SM robustness section)
+    "exact_m_prr_dt_half_seed_repeat.py",
 )
 ANALYSIS_FILES = (
     "b0_dyson_numerics.py",

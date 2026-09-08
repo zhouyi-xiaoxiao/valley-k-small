@@ -38,7 +38,7 @@ Bristol BS8 1TW, United Kingdom}
 
 \begin{abstract}
 Diffusing molecules that react on contact do so at random times, and the
-distribution of these reaction times can have several peaks.  We ask whether
+distribution of these reaction times can have several peaks.  We show that
 a fixed amount of static catalyst, installed once in space and never
 switched, can be arranged so that the reaction-time density of a diffusing
 pair has exactly a prescribed number of peaks on a chosen time window.  For a
@@ -51,16 +51,15 @@ density has exactly \(m\) nondegenerate maxima and \(m-1\) nondegenerate
 minima on a declared compact positive-time window.  The construction places
 \(m\) narrow catalyst slabs along the monotone mean trajectory of the pair's
 centre as it relaxes in a common harmonic trap, so that each slab acts as a
-separated Gaussian exposure clock; a global bound on the number of
-derivative zeros and a whole-window sign certificate fix the complete
-stationary signature uniformly over a compact family of positive slab
-weights, and \(C^2\) convergence of the budget-rescaled density on positive
-times transfers it to the killed process for all sufficiently small \(B\).
+separated Gaussian exposure clock; the complete peak--valley pattern of the
+free clock is fixed uniformly over a compact family of positive slab weights
+and transfers to the killed process for all sufficiently small \(B\).
 Off-lattice simulations realize the design at moderate noise and order-one
 budgets and event mass, with up to five prescribed peaks in \(d=2\) and a
 two-peak check in \(d=3\); they map the noise--budget boundary beyond which
-modes are lost and show that loss occurs by peak merger or by depletion, the
-two failure directions indicated by the proof margins, and a mean-field
+modes are lost and show that loss occurs by the approach and merger of
+adjacent peaks or by depletion, the two failure directions indicated by the
+proof margins, and a mean-field
 hazard--survival law built from the free exposure clock reproduces that
 boundary to within about \(5\%\) with no adjustable parameter.  The theorem
 is an existence statement with a sequential quantifier order: it supplies
@@ -126,7 +125,7 @@ first-passage statistics change under small perturbations
 \cite{keidarReuveni2026linear}; the question here is instead constructive:
 which static field realizes a prescribed peak count.
 
-Static spatial reactivity under a fixed total resource is itself also
+Static spatial reactivity under a fixed total resource is likewise
 established.  Heterogeneous bulk killing has been studied with fixed total
 reactive strength, partially reactive network elements have been rearranged at
 fixed total absorbance, and position-dependent Robin reactivity has been
@@ -151,8 +150,8 @@ whether a prescribed number of reaction-time modes can nevertheless be made
 exact on a specified time window.  Table~\ref{tab:design-recipe} states the
 resulting construction as a five-step recipe.
 
-\noindent\textit{Main result.}---In words: for any fixed dimension and any
-target number \(m\) of peaks, one can place \(m\) narrow catalyst slabs of
+\noindent\textit{Main result.}---In words: for any fixed finite dimension \(d\ge2\) and any fixed finite
+target number \(m\ge1\) of peaks, one can place \(m\) narrow catalyst slabs of
 fixed total strength \(B\) along the path of the pair's centre so that, once
 the noise-and-width scale \(\varepsilon\) is small enough and then \(B\) is
 small enough, the reaction-time density on the design window has exactly
@@ -160,21 +159,8 @@ small enough, the reaction-time density on the design window has exactly
 total strength that gives each slab at least a fixed fraction.  The
 free-exposure clock used below is the budget-rescaled density \(f_B/B\) in
 the limit \(B\to0\), i.e.\ the rate at which the unkilled pair is exposed to
-the catalyst.  Formally: fix finite \(d\ge2\), finite \(m\ge1\), a compact
-interval \(I=[\tau,T]\subset(0,\infty)\), and a weight floor
-\(0<w_*\le1/m\).  We construct transport and initial data, contact geometry,
-and \(m\) ordered normalized catalyst slabs; these data may depend on
-\((d,m)\).  There is \(\varepsilon_0>0\), depending on these data and on
-\(w_*\), such that, for every \(0<\varepsilon<\varepsilon_0\), the
-free-exposure clock has exactly \(m\) nondegenerate interior maxima and
-\(m-1\) nondegenerate interior minima on \(I\) and no stationary endpoint,
-uniformly for all slab weights satisfying \(w_j\ge w_*\) and
-\(\sum_jw_j=1\).  For each fixed such \(\varepsilon\), there is a positive
-uniform topological threshold \(B_{\rm top}^{\rm unif}(\varepsilon)\) such
-that the positive-budget Doi reaction-time density has the identical
-stationary signature whenever \(0<B<B_{\rm top}^{\rm unif}(\varepsilon)\).
-For every allocation the field remains static and satisfies
-Eq.~\eqref{eq:intro-budget}.
+the catalyst.  The precise construction and quantifier order are stated in
+Theorem~1 (Sec.~\ref{sec:exact-m-spine}).
 
 The result shows that a static, non-switchable resource of fixed integrated
 strength suffices to prescribe the complete finite-window peak--valley
@@ -191,8 +177,9 @@ multiplication by the contact probability, and preserving the root tubes
 signs, endpoint slopes, and complement margin (a nonzero derivative bound
 outside the tubes) under positive-budget Doi killing---is taken up in
 Sec.~\ref{sec:exact-m-spine}, with the last transfer supplied by convergence
-of the budget-rescaled density together with its time and allocation
-derivatives, uniformly on the window (Sec.~\ref{sec:transfer}).
+of the budget-rescaled density together with its first two time
+derivatives, uniformly over the window and over the allocation family
+(Sec.~\ref{sec:transfer}).
 
 The theorem is an existence statement with a sequential quantifier order
 (Sec.~\ref{sec:exact-m-spine}).  The off-lattice campaigns of
@@ -205,7 +192,7 @@ balance, and spatially heterogeneous reactivity are established ingredients
 
 \paragraph{Physical picture.}
 Two particles subject to the same longitudinal harmonic trap start displaced
-from the trap centre and in contact, and their midpoint relaxes past \(m\)
+from the trap centre and close together, and their midpoint relaxes past \(m\)
 static catalyst slabs of fixed total strength \(B\).  Because the slabs are
 static, the only clock is the relaxation itself: the field converts the
 position of the pair into a reaction time, and the modes are the image of the
@@ -217,8 +204,8 @@ at leading order, the pair acts as a single reactive complex sampling the
 striped hazard \(BG(t)\); the exact Doi law differs from this
 time-inhomogeneous Poisson clock through the fluctuation of each walker's
 exposure and its correlation with position, which Theorem~1 controls in the
-small-\(B\) limit and which the simulations of Sec.~\ref{sec:numerics}
-bound at order-one \(B\).  A pair started at the trap centre would sample a
+small-\(B\) limit and whose net effect on the operational crossings the
+simulations of Sec.~\ref{sec:numerics} measure at order-one \(B\).  A pair started at the trap centre would sample a
 time-independent slab profile: the static constraint is on the reactivity,
 and the transient supplies the time dependence.
 
@@ -473,7 +460,7 @@ $\mathcal A\subseteq\mathcal W_{w_*}$, define the topology-retention budget
 Then
 \begin{equation}
  B_{\rm top}^{\rm unif}(\varepsilon)
- :=B_{\rm top}(\varepsilon;\mathcal W_{w_*})>0.
+ :=B_{\rm top}(\varepsilon;\mathcal W_{w_*})>0
  \label{eq:exact-m-btop-unif}
 \end{equation}
 and (ii) holds with this value.
@@ -534,7 +521,8 @@ Equation~\eqref{eq:exact-m-log-slope} then yields one simple minimum at
 \end{equation}
 
 Each centre similarly contributes one simple maximum at
-$p_j=c_j+O(\exp[-q/\sigma^2])$, with
+$p_j=c_j+O(\e^{-q/\sigma^2})$ for some $q>0$ depending only on the centre
+separations (Supplemental Material, Lemma~S3.4), with
 $L'(p_j)=-\sigma^{-2}+o(\sigma^{-2})$.  These constructions give
 $2m-1$ simple stationary points.  They are exhaustive: after multiplication
 by a positive Gaussian factor, $H'$ is an exponential polynomial
@@ -640,9 +628,11 @@ Dyson-expansion estimate (a bound of the budget expansion in the unweighted
 pairing, which avoids the weighted norm of the initial law), such
 that every \(0<B<B_{\rm cert}\) preserves the free-clock signature.  Only
 this sufficient value, along the fixed anchor family used in its evaluation,
-has a leading-order form, predicted by the endpoint-slope closed form of the
-Supplemental Material and confirmed numerically at \(\varepsilon=0.1\) and
-\(0.05\),
+has a leading-order form---valid provided that, as at both evaluated points,
+the complement derivative minimum is attained at the window's left endpoint
+and the first-derivative condition of the certificate is the binding
+one---predicted by the endpoint-slope closed form of the Supplemental
+Material and confirmed numerically at \(\varepsilon=0.1\) and \(0.05\),
 \begin{equation}
  \log B_{\rm cert}
  =-\frac{c_B}{\varepsilon^2}
@@ -664,12 +654,14 @@ crossing of a stated classifier: \(B_{\rm op}\simeq7.6\) and \(3.6\),
 respectively.  It is not identified with either \(B_{\rm top}\) or
 \(B_{\rm cert}\).
 The gap measures the conservatism of the certificate rather than the reach
-of the mechanism: \(B_{\rm cert}\) is a sufficient bound obtained by
-controlling every term of a Dyson expansion uniformly over the whole window,
-whereas the fixed classifier of Sec.~\ref{sec:numerics} records the
-designed mode count at budgets of order one.  The gap is a window-endpoint
-effect rather than a property of the transfer estimate.  The certificate must preserve the sign of \(G'\) at the left
-endpoint \(\tau\), where the first clock is \(D_L=\mu(\tau)-\mu(t_1)\) away
+of the mechanism: \(B_{\rm cert}\) is obtained by comparing uniform
+derivative-error bounds with curvature margins inside the root tubes and
+derivative margins on their complement, including the window endpoints.  By
+contrast, the fixed classifier of Sec.~\ref{sec:numerics} records the
+designed mode count at budgets of order one.  At the evaluated anchors, the
+dominant loss comes from the left-endpoint derivative margin (Supplemental
+Material, Remark~S3.16): the certificate must preserve the sign of \(G'\)
+at \(\tau\), where the first clock is \(D_L=\mu(\tau)-\mu(t_1)\) away
 and \(|G'(\tau)|\) carries the Gaussian factor
 \(\exp[-D_L^2/(2\ell_0^2\sigma^2)]\) with \(\sigma\) from
 Eq.~\eqref{eq:exact-m-mixture}; hence
@@ -677,10 +669,11 @@ Eq.~\eqref{eq:exact-m-mixture}; hence
 (\(D_L=0.955\)) and \(0.132\) for the \(m=3\) geometry.  At
 \(\varepsilon=0.1\) this single factor accounts for thirteen of the fifteen
 decades and for about six of the seven, respectively.  Depletion does not see
-the endpoint slope, so the conservatism is that of a whole-window sign
-certificate; a localized or degree-theoretic sign argument, not a sharper
-transfer estimate, could reduce it.  The weighted-norm route of the
-Supplemental Material is worse by a further \(693\) decades and is not used.
+the endpoint slope, so the conservatism is that of a whole-window
+certificate built from a uniform absolute-error margin; sharper constants in
+that margin cannot remove the endpoint factor, whereas a localized,
+relative-error, or degree-theoretic sign argument could.  A general weighted-norm route is far more
+conservative still (Supplemental Material, Remarks~S3.15 and S3.16).
 Closing this gap analytically is open.
 
 \section{Numerical realization}
@@ -846,8 +839,9 @@ to \(\varepsilon\in(0.2,0.25]\), overlaid on the figure.
     slab weights and the fixed protocol \(\mathcal P\).  The crossing is
     determined by the stated last-mode pass rule at \(10^{6}\) walkers per
     probe and is protocol-dependent; the geometric bisection brackets
-    (Table~S2 of the Supplemental Material), of half-width at most
-    \(0.04\), are narrower than the marker size and are not drawn.  They are
+    (Table~S2 of the Supplemental Material), of half-width approximately
+    \(0.008\)--\(0.041\), are plotted as error bars but are not separately
+    resolved at the displayed scale.  They are
     the deterministic bisection resolution (relative half-width below
     \(0.6\%\)), not sampling intervals; for \((m,\varepsilon)=(3,0.1)\) three
     independent \(10^{6}\)-walker seeds give \(3/3/3\) modes at \(B=3.50\)
@@ -899,7 +893,9 @@ estimate sharpens, so the absent certification is a classifier-floor outcome
 rather than a sampling-power limitation.  A
 peak-only sigma convention, which omits the base variance and the
 peak--base covariance, would instead pass three probes in this column at a
-nominal \(5.8\)--\(6.1\sigma_{\rm prom}\) and would manufacture both an apparent
+nominal \(5.8\)--\(6.1\sigma_{\rm peak}\), where \(\sigma_{\rm peak}\) is that
+convention's own peak-only standard error (Supplemental Material), and
+would manufacture both an apparent
 crossing near \(B=0.28\) and an unexplained disagreement between the two
 streams; the covariance-aware statistic removes both.  The remaining seven
 chains are unaffected: every bracket-defining probe verdict is unchanged
@@ -911,7 +907,9 @@ for \((m,\varepsilon)=(2,0.1)\) and \(3.08\)--\(3.63\) for
 ranges; complete
 spans and censoring counts are reported in the Supplemental Material.
 
-\paragraph{Mean-field prediction of the retention boundary.}
+\subsection{Mean-field hazard--survival law and the retention boundary}
+\label{sec:mean-field}
+
 The free clock also predicts where the modes are lost.  Replacing the random
 exposure of a walker by its mean and neglecting the correlation between a
 walker's past exposure and its present position gives the hazard--survival law
@@ -920,13 +918,17 @@ walker's past exposure and its present position gives the hazard--survival law
  \Lambda(t)=\int_0^tG(s)\,\dd s,
  \label{eq:mean-field-density}
 \end{equation}
-which has no adjustable parameter.  Applying the fixed classifier and pass
-rule to \(f_1\) (expected counts at \(10^{6}\) walkers, no sampling noise)
-gives \(B_{\rm op}^{\rm mf}=7.36\), \(7.48\), \(>8\), \(>8\) for \(m=2\)
+which has no adjustable parameter.  Applying the fixed classifier and last-mode pass rule to bin-integrated
+expected counts from \(f_1\) at nominal \(N=10^{6}\) walkers, with no
+sampled trajectories, gives \(B_{\rm op}^{\rm mf}=7.36\), \(7.48\), \(>8\), \(>8\) for \(m=2\)
 and \(4.29\), \(3.63\), \(1.53\), none for \(m=3\) at
 \(\varepsilon=0.05\), \(0.1\), \(0.15\), \(0.2\), against the measured
-crossings above; the largest deviation, \(5\%\) at \((2,0.05)\), lies inside
-the post-hoc classifier spans reported in the Supplemental Material.  The
+crossings above; the largest relative discrepancy is \(5.3\%\) at \((2,0.05)\).  The
+mean-field value \(7.36\) lies above the post-hoc bracketed midpoint span
+\(6.17\)--\(7.18\), while three of the nine classifier settings remain
+right-censored at \(B=8\) (Table~S4 of the Supplemental Material).  These
+spans describe classifier sensitivity, not an uncertainty interval for the
+fixed-protocol crossing.  The
 same evaluation reproduces the classifier verdict in \(95\) of the \(96\)
 phase-diagram cells [the exception, \((m,\varepsilon,B)=(3,0.075,4)\), is one
 of the four classifier-sensitive cells], reproduces every counted peak time
@@ -938,13 +940,16 @@ relative-prominence floor by depletion, \(\e^{-B\Lambda}\); the exposure
 accumulated before the second clock decreases with \(\varepsilon\) because
 the contact factor decays [\(c(\tau)\) falls from \(1.00\) at
 \(\varepsilon=0.05\) to \(0.71\) at \(\varepsilon=0.2\)], so a larger budget
-is needed to suppress it.  For \(m=3\) the third mode is lost by merger: its
-free-clock prominence falls to \(5\%\) of the window maximum as the adjacent
-spacing shrinks to \(2.3\sigma\) at \(\varepsilon=0.2\), so a smaller
-depletion tilt suffices.  Equation~\eqref{eq:mean-field-density} is a
-preflight estimate, not a theorem: the residual, the exposure fluctuation and
-exposure--position correlation of the exact Doi process, shifts the
-operational crossings by at most about \(5\%\) at these parameters.
+is needed to suppress it.  For \(m=3\) the third mode is lost as the last two clocks approach: their
+spacing shrinks to \(2.3\sigma\) at \(\varepsilon=0.2\), the free-clock
+prominence of the third maximum falls to \(5\%\) of the window maximum, and
+a smaller depletion tilt then suffices to push it below the classifier
+floor; the free-clock maximum itself persists through \(\varepsilon=0.2\)
+and merges only between \(0.2\) and \(0.25\).  Equation~\eqref{eq:mean-field-density} is a
+preflight estimate, not a theorem: the residual---dominated by the exposure fluctuation and
+exposure--position correlation of the exact Doi process, with sampling and
+time-step error also present---shifts the operational crossings by about
+\(5\%\) or less at these parameters.
 
 \subsection{Robustness and failure modes}
 \label{sec:numerics-robustness}
@@ -958,13 +963,26 @@ anchors (Fig.~S2 of the Supplemental Material).  The target classifier mode coun
 replicas up
 to \(\eta=0.15\) for both designs, decaying to \(46\%\) (\(m=2\)) and
 \(40\%\) (\(m=3\)) at \(\eta=0.4\); all \(50\) weight-jitter replicas
-retain the target classifier mode count for both designs.  The observed
-pattern is predominantly consistent with geometric merger: replica-level
-classifier verdicts agree with the
-semi-analytic verdict of each replica's own perturbed geometry in
-\(86\)--\(100\%\) of cases, and the mismatches preclude a purely geometric
-attribution.  Classified failures are associated mainly with mergers of
-adjacent peaks when jittered spacing collapses, rather than with extra peaks.
+retain the target classifier mode count for both designs.  Replica-level
+classifier verdicts agree with the semi-analytic verdict of each replica's
+own perturbed geometry in \(86\)--\(100\%\) of cases, but this agreement
+does not by itself identify the failure mechanism, because the perturbed
+free clock loses a window maximum both when adjacent slabs approach and
+when a slab leaves the range \([\mu(T),\mu(\tau)]\) swept by the midpoint
+mean.  A per-replica inspection of the stored geometries separates the two.
+For \(m=2\), \(50\) of the \(58\) failed centre-jitter replicas have a
+slab centre outside the swept range (in \(32\) the late centre lies at or
+below the trap centre, which the mean never reaches) while the adjacent
+spacing remains above \(3\sigma\), and only \(5\) have spacing below
+\(2.3\sigma\); for \(m=3\), \(34\) of \(62\) failures have a centre
+outside the swept range, \(20\) have spacing below \(2.3\sigma\), and the
+remaining \(9\) sit at \(2.4\)--\(4.4\sigma\), where the free clock
+retains three maxima but the classified prominence falls below the floor.
+No failure produced an extra peak.  Loss of the last clock past the window
+end is therefore the dominant jitter failure for \(m=2\) and comparable to
+spacing collapse for \(m=3\); both are geometric, and the margin
+\(T-t_m\) of Table~\ref{tab:design-recipe} is the relevant one for the
+former.
 
 \subsection{Higher mode count and dimension}
 \label{sec:numerics-m5-d3}
@@ -979,7 +997,10 @@ adjacent peaks when jittered spacing collapses, rather than with extra peaks.
     times (dotted lines), with prominences between \(215\) and \(454\)
     covariance-aware smoothed-Poisson standard deviations
     (\(\sigma_{\rm prom}\)) and \(0.53\) reaction events per walker inside
-    the window.  Dashed curve: free-exposure prediction \(BG(t)\).
+    the window.  Dashed curve: free-exposure prediction \(BG(t)\);
+    dash-dotted curve: mean-field hazard--survival law
+    \(f_1=BG\,\e^{-B\Lambda}\) [Eq.~\eqref{eq:mean-field-density}], shown for
+    comparison with the depletion of the later peaks.
     (Plotting code revised with Codex assistance; numerical content
     author-verified.)}
   \label{fig:m5-demo}
@@ -1022,7 +1043,20 @@ tabulated in the Supplemental Material realizes
 \(5\)--\(35~\mathrm{ms}\) window, and \(100~\mathrm{nm}\)-wide slabs
 spaced by \(0.6\)--\(1~\mu\mathrm m\) for the \(m=3\) design at
 \(\varepsilon=0.1\) (Table~S5 of the Supplemental Material); no
-experimental realization is claimed.
+experimental realization is claimed.  For example, retaining the \(d=2\)
+anchor geometry, the matched initial law, and the remaining parameters of
+Table~S5 of the Supplemental Material, prescribe nominal clocks at \(8\),
+\(16\), and \(28~\mathrm{ms}\) with particle diffusivity
+\(D=1~\mu\mathrm m^2/\mathrm s\), Ornstein--Uhlenbeck relaxation rate
+\(\gamma=100~\mathrm s^{-1}\), and initial midpoint mean \(4~\mu\mathrm m\)
+from the trap centre.  Steps (1)--(3) of Table~\ref{tab:design-recipe} then
+place equal-weight Gaussian slabs of longitudinal standard deviation
+\(100~\mathrm{nm}\) at \(1.80\), \(0.81\), and \(0.24~\mu\mathrm m\) from
+the centre.  The numerical free-clock check in step (4) resolves three
+maxima; at \(B_{\rm phys}=100~\mu\mathrm m^2/\mathrm s\) (\(B=1\)), the
+stored simulation instead places the classifier-significant peaks at
+\(7.9\), \(15.7\), and \(26.3~\mathrm{ms}\), illustrating the earlier shift
+of the last peak by depletion (Sec.~\ref{sec:numerics-production}).
 
 \subsection{Scope of the numerical evidence}
 \label{sec:finite-scope}
@@ -1030,7 +1064,8 @@ experimental realization is claimed.
 The campaigns give finite-parameter evidence that the designed signatures
 can be observed at moderate noise, order-one budgets, and order-one event
 mass.  They also locate failures in the anticipated directions: depletion at
-large budget, clock merger as noise or centre jitter grows, and loss of a
+large budget, approach of adjacent clocks as noise grows, a clock displaced
+past the window end or spacing collapse under centre jitter, and loss of a
 free-clock maximum when its separation margin closes.  These are classifier
 outcomes, not exact root counts for the time-discretized process.
 
@@ -1094,9 +1129,11 @@ Sec.~\ref{sec:numerics}.
 The simulations provide finite-parameter evidence rather than an additional
 theorem.  At the scanned parameters they recover the designed classifier mode
 counts, locate operational mode-retention boundaries, and show failure
-through the same two mechanisms indicated by the proof margins:
-adjacent-clock merger as noise or geometric jitter grows, and suppression of
-a late mode by depletion as the budget grows.  Both mechanisms, and the
+through the same two mechanisms indicated by the proof margins: loss of a
+clock's separation margin---adjacent-clock approach as noise grows or,
+under geometric jitter, a clock displaced past the window end or adjacent
+spacing collapse---and suppression of a late mode by depletion as the budget
+grows.  Both mechanisms, and the
 operational boundary itself, are reproduced without adjustable parameters by
 the mean-field hazard--survival law \(f_1=BG\,\e^{-B\Lambda}\) built from
 the free exposure clock, to within about \(5\%\) in the crossings and one
@@ -1121,7 +1158,9 @@ would convolve each clock with the relative law.  Along the deterministic
 relative trajectory the resulting shift, \(|r_*|/2\le0.03\) on \(I\), is
 well below the slab width, and the added variance
 \(\operatorname{Var}R_{\parallel}/4\le\varepsilon^2D_0/(2\gamma)\) would
-enlarge \(\sigma\) by about \(15\%\) at this anchor; a single-particle field
+enlarge \(\sigma\) by up to about \(15\%\) at this anchor (an ungated
+estimate; conditioning on contact narrows the relative law and reduces the
+broadening); a single-particle field
 is therefore a natural finite-parameter test beyond the theorem, not part of
 it.
 Second, the extension to \(d\ge2\)
@@ -1142,8 +1181,8 @@ identified with another.
 Nothing is proved about topology outside \(I\), a parameter choice uniform in
 \(d\) or \(m\), a common positive event-mass floor, or mode-count switching on
 one fixed support family.  Natural next questions are whether prescribed
-modality persists under simultaneous \(L^1\) and \(L^\infty\) constraints,
-under a minimum catalyst width, or when the contact probability remains
+modality persists at a prescribed nonvanishing budget under simultaneous
+\(L^1\) and \(L^\infty\) constraints, under a minimum catalyst width, or when the contact probability remains
 genuinely nontrivial throughout the design window.  Within the stated scope,
 the result gives a constructive topology theorem for a static
 resource-constrained Doi field and a finite-parameter test of its mechanism.
@@ -1156,15 +1195,14 @@ literature and cross-document consistency checks and with drafting or revising
 explanatory text.  Retained citations were checked against the cited records,
 and the manuscript was rebuilt and inspected after revision.  The AI tool is
 not an author; the sole author takes responsibility for the retained content.
-% AUTHOR ACTION (editor_desk-r1-11): add ONE funding/resources/competing-interest
-% paragraph here before portal upload, and enter the same information in the
-% portal metadata.  Either
-%   This work received no external funding.  Simulations were run on the
-%   author's workstation.  The author declares no competing interests.
-% or
-%   X.Z. acknowledges support from [funder, award/scholarship number].
-%   Simulations were run on [workstation / named University of Bristol
-%   facility].  The author declares no competing interests.
+% AUTHOR ACTION (editor_desk-r1-11; referee2-r2-08; gpt6-09), author-owned,
+% must be resolved by the author before portal upload: replace this comment
+% block with ONE factual paragraph stating (a) the funding actually relevant
+% to this work with its award identifier (e.g. a named scholarship), or that
+% no external funding was received; (b) the computational resources actually
+% used; (c) the competing-interest declaration.  Enter the same information
+% in the portal metadata.  No default may be assumed and this comment must
+% not remain in the uploaded source.
 
 \section*{Data availability}
 

@@ -10,7 +10,12 @@ code shipped here: the 18 production rows and the W1--W5 and robustness
 campaigns with seed `20260808` on the platform recorded in
 `environment/reference_platform.json` (recorded 2026-08-14), and the
 covariance-aware reclassification of all stored records on 2026-08-24
-(`artifacts/data/exact_m_prr_upgrade/covariance_aware_reclassification.json`).
+(`artifacts/data/exact_m_prr_upgrade/covariance_aware_reclassification.json`);
+the deterministic mean-field evaluation
+(`exact_m_prr_upgrade/mean_field_boundary.json`) and the three
+independent-seed runs at the halved time step
+(`exact_m_prr_upgrade/robustness/dt_half_seed_repeats/`, stream tag 65) were
+added on 2026-09-08 with the scripts shipped here.
 File hashes are listed in `MANIFEST.sha256`.
 
 Each stochastic JSON records the seed used to construct its NumPy
@@ -19,7 +24,9 @@ The 18 earlier production JSONs omit the tag field, but their deterministic
 driver fixes it to `1` and writes it explicitly for new reruns.  Independent
 robustness seeds are separate simulations.  The `dt` and `dt/2` comparisons
 use the same declared seed and tag, while `dt` itself enters the entropy, so
-the paths are independent rather than coupled.
+the paths are independent rather than coupled.  The `dt/2` seed repeats use
+the seeds of the `dt` seed repeats with their own tag and `dt=0.0005`, so
+they are independent of both earlier streams.
 
 The Lean 4 package under `lean/formal_lean_prr/` is shipped at the source
 hashes quoted in the Supplemental Material (Table of SHA-256 anchors); the

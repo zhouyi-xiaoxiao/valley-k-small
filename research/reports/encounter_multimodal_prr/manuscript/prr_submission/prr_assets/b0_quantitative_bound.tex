@@ -166,7 +166,8 @@ every \(\lambda\in(0,1)\) and all \(x\in\mathbb R\),
  \label{eq:exactmfull-b0-domination}
 \end{equation}
 where \(g_{s^2}\) is the unit-mass real Gaussian density of variance
-\(s^2=1/(2\mathfrak a(1-\lambda))\) and
+\(s^2=1/(2\mathfrak a(1-\lambda))\) (this variance symbol is unrelated to
+the simplex variables \(s_k\) of the Dyson expansion) and
 \begin{equation}
  \kappa(\lambda,\vartheta)
  =\bigl[(1-\lambda)\cos\vartheta\bigr]^{-1/2},
@@ -435,7 +436,10 @@ to one against the penalty-free dominating image sums.
 and assume \(x_{\max}<1/2\).  (\(x_{\max}\) is the maximum over \emph{all}
 complete-square arguments: for parameter sets with
 \(D_0/(2\gamma)>\rho^2\) the initial-law argument \(x_{Z,0}\) exceeds the
-node argument \(x_V\).)  Define
+node argument \(x_V\).  These scalars, and the node arguments
+\(x_k=2\varepsilon^2\rho^2\nu_k\) in the proof below, are complete-square
+arguments and are not to be confused with the configuration points
+\(x_0,\ldots,x_{n+1}\) of Proposition~\ref{prop:exactmfull-b0-chain}.)  Define
 \(\hat r=\max(a,|r_{\parallel,0}|)\) and set
 \begin{equation}
  \Pi
@@ -1115,8 +1119,9 @@ the endpoints), and the floating-point inventory gives
 \(\widehat\mu_1=3.43246\times10^{-50}\), attained at \(\tau\) [consistent with
 Eq.~\eqref{eq:exactmfull-b0-endpoint-slope}: exponent
 \(D_L^2/(2S_*^2\varepsilon^2)=121.503\)], and
-\(\widehat\mu_2=7.29571\times10^{-15}\) (half the valley curvature; the valley is
-now \(\e^{-19}\)-deep).  Constants: \(r_0=0.00625\),
+\(\widehat\mu_2=7.29571\times10^{-15}\) (half the valley curvature; the valley of \(G\) is now
+approximately \(2.4\times10^{-19}\) of the lower peak height, against
+\(4.1\times10^{-5}\) at \(\varepsilon=0.1\)).  Constants: \(r_0=0.00625\),
 \(t_\vartheta=0.012658\), \(\hat\kappa=1.111245\),
 \(\e^{\Pi}=1.289539\), \(\widehat v_\infty=3.989423\),
 \(\widehat\delta_v=0\); the
@@ -1168,6 +1173,26 @@ expression the leading rate
  c_B=\frac{D_L^2}{2S_*^2}=0.30376.
  \label{eq:exactmfull-b0-rate}
 \end{equation}
+For an asymptotic justification of this proviso in the fixed matched-law
+geometries considered here, choose each \(U_i\) as the maximal connected
+neighbourhood of \(t_i^*\) on which \(G''\) has its sign at \(t_i^*\) and
+\(|G''|\ge|G''(t_i^*)|/2\).  The weights are fixed and positive, and the
+matched contact factor tends to one, with exponentially small
+time-derivative corrections, as \(\varepsilon\downarrow0\).  The peak-tube
+edges remain within \(O(\varepsilon)\) of their peaks, while the
+valley-tube edges approach the neighbouring peaks' inner inflection points;
+their slopes therefore have only algebraic dependence on \(\varepsilon\).
+The outer-tail comparison then selects the left endpoint when \(D_L>D_R\),
+where \(D_R=\mu(t_m)-\mu(T)\), and the shallowest valley has
+\(\log\mu_2=-\Delta_{\max}^2/(8S_*^2\varepsilon^2)+O(\log(1/\varepsilon))\),
+with \(\Delta_{\max}\) the largest adjacent physical gap.  Since \(r_0\)
+is proportional to \(\varepsilon\), the strict inequality
+\(D_L>\max(\Delta_{\max}/2,D_R)\) makes the endpoint term \(r_0\mu_1\)
+asymptotically smaller than \(r_0^2\mu_2/2\).  The inequality holds in the
+anchor geometry, \(0.955>\max(0.572,0.208)\), and in the \(m=3\) geometry,
+\(0.629>\max(0.495,0.122)\).  This comparison concerns these fixed
+geometries and this specified tube choice, not arbitrary root tubes or a
+uniform allocation family.
 The evaluations at \(\varepsilon=0.1\) and \(0.05\) give the predicted
 decade drop \(39.58\) and the observed nominal drop \(39.57\).  For the
 \(m=3\) geometry the corresponding coefficient is \(0.13180\).  Under the

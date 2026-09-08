@@ -21,14 +21,62 @@ first written is superseded; it inflates `z` of counted maxima by factors
 `eps=0.20` (`B = 0.125, 0.210, 0.273`; `z` falls from 5.8--6.1 to 4.2--4.4),
 so that column has no certified crossing at 10^6 walkers.  The legacy fields
 `status="bisected"`, `b0=0.2816`, `b0_bracket=[0.2726, 0.2909]` stored for
-that chain in `w2_b0_empirical/B0_empirical.json` are superseded by
-`covariance_aware_reclassification.json` (`w2_chains`,
-`new_status="no_certified_crossing_at_1e6_walkers"`).  The W1 final map is
+that chain in `w2_b0_empirical/B0_empirical.json`, and the mirrored entry
+`campaign_summary.json` (`streams/w2_b0_empirical/chains[7]`, zero-based),
+are superseded by `covariance_aware_reclassification.json` (`w2_chains`,
+`new_status="no_certified_crossing_at_1e6_walkers"`); both files carry a
+`covariance_aware_note` saying so.  The W1 final map is
 unchanged (0 of 96 cells), every other W2 bracket-defining verdict is
 unchanged, and all 700 W3 replica verdicts are reproduced bit-for-bit and
 unchanged (`w3_jitter/covariance_aware_recheck.json`).  Source:
 `artifacts/data/exact_m_prr_upgrade/covariance_aware_reclassification.json`
 and `covariance_aware_reclassification_summary.txt`.
+
+## Mean-field boundary (parameter-free preflight law of the main text)
+
+`mean_field_boundary.json` (script `exact_m_prr_mean_field_boundary.py`,
+deterministic, about 40 s) evaluates the hazard--survival law
+`f_1 = B G exp(-B Lambda)`, `Lambda(t) = int_0^t G`, built from the free
+exposure clock `G` of `validate_exact_m_offlattice.py`, on the fixed
+covariance-aware classifier and the W2 last-basin pass rule, using the exact
+expected window counts `N [exp(-B Lambda(e_j)) - exp(-B Lambda(e_{j+1}))]`
+as real-valued counts (the classifier adapter is regression-tested against
+`classify_both` on all 173 stored integer histograms of the production grid,
+W1 map, and W2 probes: 501 local maxima, zero difference).  Time grid
+`dt_mf = 2.5e-4` from `t = 0` (80 steps per 0.02 bin); the crossings move by
+less than `1e-5` at `dt_mf = 5e-4` and `1.25e-4`.
+
+| chain (m, eps) | scan on [0.125, 8] | mean-field upper crossing | stored covariance-aware `B_op` | deviation |
+|:---|:---|---:|---:|---:|
+| (2, 0.05) | one pass-to-fail transition | 7.357968 | 6.987 ([6.949, 7.025]) | +5.3% |
+| (2, 0.10) | one pass-to-fail transition | 7.479411 | 7.619 ([7.578, 7.661]) | -1.8% |
+| (2, 0.15) | all 97 points pass | right-censored, > 8 | right-censored, > 8 | -- |
+| (2, 0.20) | all 97 points pass | right-censored, > 8 | right-censored, > 8 | -- |
+| (3, 0.05) | one pass-to-fail transition | 4.286502 | 4.155 ([4.132, 4.177]) | +3.2% |
+| (3, 0.10) | one pass-to-fail transition | 3.632884 | 3.570 ([3.551, 3.589]) | +1.8% |
+| (3, 0.15) | one pass-to-fail transition | 1.524705 | 1.551 ([1.542, 1.559]) | -1.7% |
+| (3, 0.20) | no point passes | no certified crossing in scanned range | no certified crossing at 10^6 walkers | -- |
+
+The crossings are quoted at the nominal walker count `N = 10^6`; they are
+identical to the bisection tolerance (`1e-9`) at `N = 10^5` and `10^7`
+because in every bisected chain the first failing candidate fails the 5%
+relative-prominence floor while its covariance-aware `z` is still far above
+five (`z >= 6.1` at `N = 10^5`, `>= 19` at `10^6`).  This is the sensitivity
+of the upper mean-field crossing to `N` through the five-sigma gate; it is not
+a statement about the finite-walker Monte Carlo verdicts.  For `(3, 0.20)` the
+late candidate never reaches the floor (relative prominence at most 0.030 at
+`B = 0.125`) and the five-sigma gate also fails at every scanned budget, so no
+lower crossing is reported either.  The mean-field verdict agrees with the
+covariance-aware final W1 map in 95 of 96 cells at `N = 10^6` (and at the
+stored walker counts); the exception is `(m, eps, B) = (3, 0.075, 4)`, where
+the mean-field third candidate sits at 5.2% of the window maximum (stored
+record: 2 modes), one of the four classifier-sensitive cells.  For the 17
+production configurations (the `dt/2` control excluded) every covariance-aware
+mode count is reproduced and every counted peak time agrees within one 0.02
+bin (maximum difference 0.02).  Contact factors at the window opening
+`tau = 0.5`: `c = 1.000, 0.999, 0.986, 0.941, 0.869, 0.788, 0.711, 0.588` at
+`eps = 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.25`.  Note that the
+`(3, 0.15)` crossing is 1.5247, i.e. 1.52 to two decimals.
 
 ## Stored-count classifier sensitivity
 
@@ -104,4 +152,35 @@ read 10.29 and 5.89 sigmas).  Thus the
 interior anchors preserve mode count under halving, while the deliberately
 boundary-adjacent case is classifier-sensitive.  No global time-step-stability
 claim is supported or made.
+
+## Independent seeds at the halved time step
+
+`robustness/dt_half_seed_repeats/` and `dt_half_seed_repeat_summary.json`
+(script `exact_m_prr_dt_half_seed_repeat.py`) rerun the boundary-adjacent
+cell `m=3`, `eps=0.175`, `B=0.5` at `dt=0.0005` with seeds
+20260814--20260816 and 10^6 walkers each (stream tag 65), matching the walker
+count of the three `dt=0.001` seed repeats `m3_boundary_pass_seed*.json`.
+The streams at the two resolutions are independent, not paired common random
+numbers.  All records are judged through `classify_both`; the late candidate
+is the local maximum after the last window valley of `G` (2.034) with the
+largest covariance-aware `z`.
+
+| run | dt | walkers | modes (cov.-aware) | late peak time | late prominence / global max | late z |
+|:---|---:|---:|:---:|---:|---:|---:|
+| dt/2 seed 20260814 | 0.0005 | 10^6 | 3 | 2.63 | 6.96% | 10.06 |
+| dt/2 seed 20260815 | 0.0005 | 10^6 | 3 | 2.51 | 8.57% | 12.29 |
+| dt/2 seed 20260816 | 0.0005 | 10^6 | 3 | 2.53 | 6.86% | 9.82 |
+| dt seed 20260814 | 0.001 | 10^6 | 3 | 2.55 | 6.32% | 9.03 |
+| dt seed 20260815 | 0.001 | 10^6 | 3 | 2.63 | 6.54% | 9.25 |
+| dt seed 20260816 | 0.001 | 10^6 | 3 | 2.65 | 6.56% | 9.43 |
+| dt-halving pair, dt | 0.001 | 5x10^5 | 3 | 2.59 | 7.32% | 7.49 |
+| dt-halving pair, dt/2 | 0.0005 | 5x10^5 | 2 | 2.49 | 4.23% | 4.24 |
+
+All three finer-step runs at 10^6 walkers retain three classified modes, so
+the 5x10^5-walker `dt/2` value of the halving pair remains a single low
+outlier among the stored runs of this cell.  These additional
+independent-stream runs characterize sampling variability at the finer step,
+but three seeds do not exclude a systematic time-step contribution near this
+classifier boundary; they are not convergence tests and do not establish a
+theorem threshold.
 

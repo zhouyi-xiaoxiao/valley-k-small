@@ -35,6 +35,34 @@ name their source files.
 - `robustness/dt_halving/*.json` compare `dt=0.001` and `dt=0.0005` with the
   same declared seed and tag; `dt` itself enters the `SeedSequence` entropy,
   hence the two records use independent streams rather than coupled paths.
+- `robustness/dt_half_seed_repeats/*.json` and
+  `robustness/dt_half_seed_repeat_summary.json`: three independent-seed runs
+  (seeds 20260814--20260816, 10^6 walkers, stream tag 65) of the
+  boundary-adjacent cell `m=3`, `eps=0.175`, `B=0.5` at `dt=0.0005`.  Each
+  per-run file stores the raw window counts and edges
+  (`results.histogram`) and the `classify_both` re-judgement under both
+  sigma conventions with the individual five-sigma and 5% flags
+  (`results.classifier_both_conventions`); the records deliberately use the
+  `classify_both` schema rather than the legacy `results.classifier` schema
+  and are therefore outside the 201 retained-campaign records.  The summary
+  compares the late-candidate relative prominence and covariance-aware `z`
+  with the matched-walker `dt=0.001` seed repeats and the stored dt-halving
+  pair; streams at the two resolutions are not paired.
+- `exact_m_prr_upgrade/mean_field_boundary.json`: deterministic evaluation
+  of the mean-field hazard--survival law `f_1 = B G exp(-B Lambda)` on the
+  fixed covariance-aware classifier (real-valued expected counts).  Keys:
+  `conventions` (time grid, contact quadrature, exposure integration,
+  expected-count rule, classifier and count convention with the result of
+  the regression test against `classify_both`, pass rule, crossing search,
+  nominal walker counts), `headline` (rounded and unrounded upper crossings,
+  deviations from the stored covariance-aware midpoints, W1 and production
+  agreement, contact factors), `chains` (per chain and per nominal `N`: the
+  97-point budget scan, all pass/fail transitions, bisection bracket, status,
+  right-censoring at `B=8` or no certified crossing in the scanned range),
+  `grid_checks` (crossings at `dt_mf = 5e-4` and `1.25e-4` against the
+  canonical `2.5e-4`), `w1_comparison` (all 96 cells and all mismatches),
+  `production_comparison` (all 17 configurations, excluding the `dt/2`
+  control, with counted peak-time differences), and `contact_factors`.
 - `exact_m_prr_upgrade/covariance_aware_reclassification.json`
   (+ `_summary.txt`): covariance-aware prominence `z` for every local maximum
   of every stored classifier record (keys `records`, `flips`, `w2_chains`,
@@ -44,7 +72,10 @@ name their source files.
   W3 replicas (all reproduced, no flips).  The legacy
   `w2_b0_empirical/B0_empirical.json` fields for the chain `m=3`, `eps=0.20`
   (`status`, `b0`, `b0_bracket`) were written under the peak-only convention
-  and are superseded by `w2_chains` in the reclassification file.
+  and are superseded by `w2_chains` in the reclassification file; the same
+  holds for the mirrored entry `exact_m_prr_upgrade/campaign_summary.json`
+  (`streams/w2_b0_empirical/chains[7]`, zero-based), which copies those
+  legacy fields unchanged and carries the same `covariance_aware_note`.
 
 ## Production-record and legacy-schema notes
 

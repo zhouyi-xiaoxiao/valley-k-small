@@ -51,9 +51,13 @@ SEED = core.CAMPAIGN_SEED
 
 
 def theory_curve() -> tuple[np.ndarray, np.ndarray]:
-    """Semi-analytic free-exposure overlay B*G(t) (no simulation)."""
+    """Semi-analytic free-exposure overlay B*G(t) (no simulation).
+
+    The grid starts at t=0 so that the cumulative exposure Lambda(t) used by
+    the mean-field overlay implements the lower limit of Eq. (mean-field).
+    """
     p4 = core.make_model(z0=Z0)
-    ts = np.linspace(base.THEORY_T_MIN, TMAX, 1600)
+    ts = np.linspace(0.0, TMAX, 1600)
     theory = core.free_exposure_general(
         ts,
         centres_z=np.array(MU_CENTRES, dtype=float),
@@ -91,6 +95,15 @@ def make_figure(payload: dict) -> list[str]:
             label=f"smoothed ($h={classifier['bandwidth']:g}$)")
     ax.plot(ts, BUDGET * g_vals, color=core.OI_VERMILLION, lw=1.2, ls="--",
             label=r"$B\,G(t)$ free exposure")
+    # Mean-field hazard--survival law f1 = B G exp(-B Lambda), Lambda = int_0^t G
+    # (deterministic; trapezoid on the theory grid; no simulation input).
+    B = float(payload["parameters"]["config"]["budget"])
+    lam = np.concatenate(
+        ([0.0], np.cumsum(0.5 * (g_vals[1:] + g_vals[:-1]) * np.diff(ts)))
+    )
+    f1 = B * g_vals * np.exp(-B * lam)
+    ax.plot(ts, f1, linestyle="-.", color="#009E73", linewidth=1.2,
+            label=r"$f_1=B\,G\,\mathrm{e}^{-B\Lambda}$ mean field")
     for tj in target_times:
         ax.axvline(tj, color="0.45", lw=0.7, ls=":")
     # Peak labels: time only (prominences are quoted in the caption);

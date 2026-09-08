@@ -1,0 +1,47 @@
+BUILD RECEIPT — FormalPRR Lean 4 package
+========================================
+Rebuilt: Thu Sep  3 02:56:23 CST 2026  ->  Thu Sep  3 03:54:18 CST 2026 (local time, Asia/Shanghai)
+Host: macOS 26.6.2 (arm64), Apple M4 Pro
+Toolchain: leanprover/lean4:v4.32.0-rc1
+Lake: Lake version 5.0.0-src+b4812ae (Lean version 4.32.0-rc1)
+mathlib: inputRev v4.32.0-rc1, rev 360da6fa66c1273b76b6b2d8c5666fd5ac2e3b56 (pinned in lake-manifest.json; prebuilt oleans via 'lake exe cache get')
+Commands: lake exe cache get (exit 0) ; lake build (exit 0, 'Build completed successfully (3607 jobs)')
+
+Source hashes (sha256) of the released files at rebuild time:
+  2e1ca434f707e161e784da130a83cc3506dfb78b2866964e447c6a8a8abc23ae  FormalPRR.lean
+  a2ccb926eec38e125167af78349c5dc03429f03da1ffa624ce397750b820c6dc  lakefile.toml
+  6f8737337cc0bad711d5e0b472666c7ba35fdaff91bf2453ce03ac32ccaa1974  lake-manifest.json
+  72681913b978b3f7c2f48229836771f736f6e97d833917726b2263afbc6108ed  lean-toolchain
+  ea19112b15bbf9152a4699d5240e84ec686e4f59b11bb29acf56aed02f25618c  FormalPRR/AxiomsReportAlpha.lean
+  72c01e635dd61beae62af1b0d7268b51edd35b15f917cbc4345e653b50db38e9  FormalPRR/AxiomsReportBeta.lean
+  5ffaed91d4863c9a6330cc1d8a0e1c2e28642717e7e4d31891c3627b786d0f11  FormalPRR/B0ChainKernel.lean
+  8f7dce937bf97771b374863ccc03fca993a580ab75d156481ef047aa8e575cb0  FormalPRR/BZeroThreshold.lean
+  8166ecfc0e2c9390ab36cb6278390b36a8242f10552ce21425bd6c992490e6e3  FormalPRR/BudgetThreshold.lean
+  8e1e0816afea792a04cacb524099c37e76e60ded77b05a6a43b3ca82cdeac301  FormalPRR/CrossoverBounds.lean
+  7d99dc72cfe1cfd892dbde8c6567b6c974a5684ca2882f46fce08d9d8451902e  FormalPRR/ExpPolyZeros.lean
+  7e7e60bccd99bc7408250bb5b7a8f6d3013a9debebb616ce43531ec8e77a4ee0  FormalPRR/GaussianMixture.lean
+  74a8fc956adfabe22ebd5ac190d66ed5873aa3b0e48fdfddd08806c98f95a801  FormalPRR/MixtureIdentities.lean
+  0cfc8e3510bb3b3e26644becf10d663b2f5e81e8bbe69dedefe8282937cd7cae  FormalPRR/NewtonContraction.lean
+  aa190dcf6220ba27a854d3fa23e24aa71b8e93f4ad1c6df6a02dbcb5e7f00a32  FormalPRR/NewtonKernel.lean
+  aac16a265fd7b4b3e9672d384364b213b11f2f438083cb679acecb4fe2e76dfa  FormalPRR/SeedConditioning.lean
+  90d08f1f8eb909dcf825a5d0e9ef9ce630e6ec9f79e21d016596e999ab55fe49  FormalPRR/SigmaBound.lean
+  69ab1ec2e77ecb3da7326e3cd7481db007858e7eb703a0c9a3cadb03f28219ef  FormalPRR/Smoke.lean
+  5bd7020e5b91a5da8b36d35d2588aafa343cc1274e247920333612d8882c0f45  FormalPRR/WindowSignature.lean
+  f29cd9d8b637363b74ccdb24ba98c22ae47dc0f0e989eea70791c8dec6f39f82  FormalPRR/ZeroBound.lean
+
+SM anchors (first 16 hex digits of sha256(FormalPRR/<Module>.lean)) recomputed at rebuild time:
+  ExpPolyZeros       7d99dc72cfe1cfd8
+  ZeroBound          f29cd9d8b637363b
+  MixtureIdentities  74a8fc956adfabe2
+  GaussianMixture    7e7e60bccd99bc74
+  CrossoverBounds    8e1e0816afea792a
+  BudgetThreshold    8166ecfc0e2c9390
+  BZeroThreshold     8f7dce937bf97771
+  B0ChainKernel      5ffaed91d4863c9a
+  WindowSignature    5bd7020e5b91a5da
+
+Axiom footprint: audit_all_138_20260903.lean re-prints the axioms of every theorem listed in consolidated_axioms.txt (2026-08-25).
+  theorems audited: 138 ; every entry reports exactly [propext, Classical.choice, Quot.sound] ; sorryAx occurrences: 0 ; non-standard footprints: 0 ; Lean errors: 0
+  result set identical to consolidated_axioms.txt.
+
+Reproduce: install elan, 'lake exe cache get && lake build' in this directory, then 'lake env lean audit_all_138_20260903.lean'.

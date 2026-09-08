@@ -6,16 +6,25 @@ source commit it was built from is recorded by the builder as
 `release_commit` in `environment/reference_platform.json` (together with
 `release_date`) and as `commit` in `CITATION.cff`; the tag is placed on the
 commit that records these receipts.  Every stored record was produced by the
-code shipped here: the 18 production rows and the W1--W5 and robustness
-campaigns with seed `20260808` on the platform recorded in
-`environment/reference_platform.json` (recorded 2026-08-14), and the
-covariance-aware reclassification of all stored records on 2026-08-24
-(`artifacts/data/exact_m_prr_upgrade/covariance_aware_reclassification.json`);
-the deterministic mean-field evaluation
-(`exact_m_prr_upgrade/mean_field_boundary.json`) and the three
+code shipped here on the platform recorded in
+`environment/reference_platform.json` (recorded 2026-08-14).
+Seeds are per campaign and are recorded in each JSON, which is authoritative
+where this summary and a record differ: the 18 production rows (seventeen
+configurations and the `dt/2` twin) use seed `20260808`; the W1--W5 upgrade
+campaigns use the campaign seed `20260813` (`CAMPAIGN_SEED` in
+`exact_m_prr_upgrade_core.py`, mirrored as `campaign_seed` in
+`exact_m_prr_upgrade/campaign_summary.json`) with per-stream tags; the
+`dt`-halving comparisons use seed `20260819`; the independent seed repeats
+use seeds `20260814`, `20260815`, and `20260816`; and the three
 independent-seed runs at the halved time step
-(`exact_m_prr_upgrade/robustness/dt_half_seed_repeats/`, stream tag 65) were
-added on 2026-09-08 with the scripts shipped here.
+(`exact_m_prr_upgrade/robustness/dt_half_seed_repeats/`, stream tag 65)
+reuse those three seeds. The covariance-aware reclassification of all stored
+records (2026-08-24;
+`artifacts/data/exact_m_prr_upgrade/covariance_aware_reclassification.json`)
+and the deterministic mean-field evaluation
+(`exact_m_prr_upgrade/mean_field_boundary.json`) simulate no walkers; the
+mean-field evaluation and the `dt/2` seed repeats were added on 2026-09-08
+with the scripts shipped here.
 File hashes are listed in `MANIFEST.sha256`.
 
 Each stochastic JSON records the seed used to construct its NumPy

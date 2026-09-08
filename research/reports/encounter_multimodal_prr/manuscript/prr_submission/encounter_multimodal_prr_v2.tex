@@ -182,11 +182,13 @@ derivatives, uniformly over the window and over the allocation family
 (Sec.~\ref{sec:transfer}).
 
 The theorem is an existence statement with a sequential quantifier order
-(Sec.~\ref{sec:exact-m-spine}).  The off-lattice campaigns of
-Sec.~\ref{sec:numerics} therefore test its finite-parameter content
-directly: realizability at order-one budgets, the operational noise--budget
-retention boundary, and the predicted peak-merger and depletion failures,
-all judged by a classifier fixed in advance.  Doi killing, reaction mass
+(Sec.~\ref{sec:exact-m-spine}) and makes no prediction at any particular
+finite parameter set.  The off-lattice campaigns of
+Sec.~\ref{sec:numerics} therefore supply what it does not:
+realizability at order-one budgets, the operational noise--budget
+retention boundary, and the peak-merger and depletion failures in the
+directions indicated by the proof margins, all judged by a classifier fixed
+in advance.  Doi killing, reaction mass
 balance, and spatially heterogeneous reactivity are established ingredients
 \cite{doi1976stochastic,teramotoShigesada1967,erbanChapman2009,isaacsonZhang2018,isaacsonMauroNewby2016uniform,pruestelMeierSchellersheim2014area,bressloff2022feynmanKac,grebenkov2019heterogeneous,grebenkov2020paradigm}.
 
@@ -682,9 +684,11 @@ Closing this gap analytically is open.
 The theorem is an existence statement with a deliberately sequential
 quantifier order, and by itself does not identify a practically resolved
 parameter set.  This section reports an off-lattice time-discrete simulation
-of the same continuum model at moderate noise and order-one budgets, designed to
-test the theorem's falsifiable finite-parameter implications, including its
-predicted failure directions.  Table~\ref{tab:design-recipe} summarizes the
+of the same continuum model at moderate noise and order-one budgets.  These
+parameters have not been placed inside the theorem's guaranteed region, so
+the campaigns do not test the theorem; they test the construction at finite
+parameters and probe the two loss mechanisms---separation loss and
+depletion---indicated by the proof margins.  Table~\ref{tab:design-recipe} summarizes the
 construction as the checkable procedure that the campaigns below execute.
 
 \input{prr_assets/design_recipe_box}
@@ -946,10 +950,12 @@ prominence of the third maximum falls to \(5\%\) of the window maximum, and
 a smaller depletion tilt then suffices to push it below the classifier
 floor; the free-clock maximum itself persists through \(\varepsilon=0.2\)
 and merges only between \(0.2\) and \(0.25\).  Equation~\eqref{eq:mean-field-density} is a
-preflight estimate, not a theorem: the residual---dominated by the exposure fluctuation and
-exposure--position correlation of the exact Doi process, with sampling and
-time-step error also present---shifts the operational crossings by about
-\(5\%\) or less at these parameters.
+preflight estimate, not a theorem.  Its continuum residual is the exposure
+fluctuation and exposure--position correlation that the exact Doi law
+retains and the Poisson clock discards; the measured discrepancy also
+contains sampling and time-step error, and the three contributions have not
+been separated.  Their net effect shifts the retained operational crossings
+by about \(5\%\) or less at these parameters.
 
 \subsection{Robustness and failure modes}
 \label{sec:numerics-robustness}
@@ -1144,11 +1150,13 @@ spacing collapse---and suppression of a late mode by depletion as the budget
 grows.  Both mechanisms, and the
 operational boundary itself, are reproduced without adjustable parameters by
 the mean-field hazard--survival law \(f_1=BG\,\e^{-B\Lambda}\) built from
-the free exposure clock, to within about \(5\%\) in the crossings and one
-bin in the peak times; the residual is dominated by the exposure
-fluctuation and exposure--position correlation of the exact Doi process,
-which Theorem~1
-controls only in the small-\(B\) limit.  The semi-analytic free clock is
+the free exposure clock, to within about \(5\%\) in the retained crossings and one
+bin in the counted peak times.  These are comparisons of finite-sample
+classifier outputs, not bounds on continuum error: the remaining
+discrepancy combines the exposure fluctuation and exposure--position
+correlation that the Poisson clock discards---which Theorem~1 controls
+only in the small-\(B\) limit---with sampling and time-step error, and
+their separate contributions have not been resolved.  The semi-analytic free clock is
 consequently a quantitative preflight diagnostic, but the finite-walker
 classifier, seed, bandwidth, prominence rule, and time step remain part of
 the operational definition near a boundary.

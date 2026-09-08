@@ -53,10 +53,11 @@ A 96-cell mode-retention campaign (two 48-cell phase diagrams, one for
 m = 2 and one for m = 3), operational budget-crossing measurements, geometry
 and weight perturbations, an m = 5 realization, and a d = 3 check show where
 the designed modes persist and where they are lost by peak merger, by depletion, or, under geometric
-jitter, by a slab displaced past the design window. That boundary is reproduced without adjustable
-parameters, to within about 5%, by a mean-field hazard–survival law built from
-the free exposure clock, so the finite-budget regime is quantitatively
-understood; physically, the static slabs convert the deterministic relaxation
+jitter, by a slab displaced past the design window. At the tested parameters, a parameter-free mean-field hazard–survival law
+built from the free exposure clock reproduces the retained operational
+crossings to within about 5% and the counted production peak times to within
+one histogram bin; these are comparisons of finite-sample classifier outputs,
+not bounds on the continuum error. Physically, the static slabs convert the deterministic relaxation
 of a trapped pair into a prescribed sequence of reaction-time clocks. These
 computations are presented as finite-parameter evidence: the classifier was
 fixed in advance but is operational, and no numerical continuum theorem is

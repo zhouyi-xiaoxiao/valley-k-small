@@ -941,8 +941,14 @@ density \(W^{-(d-1)}\) [Eq.~\eqref{eq:supp-pi}].  The strict hypothesis
 Structurally, the two thresholds differ in three places.  The denominator
 of the logarithm drops from \(v_*\kappa_\pi\|q_0\|_X\) --- carrying
 \(\exp[\gamma(z_0-\bar z)^2/(\varepsilon^2D_0)]\), which is
-\(\e^{1601.856}\) at the matched-law anchor --- to the \(O(1)\) constant
-\(\hat\kappa v_\infty\e^{\Pi}\).  The Cauchy radius shrinks from
+\(\e^{1601.856}\) at the matched-law anchor --- to
+\(\hat\kappa v_\infty\e^{\Pi}\), which carries no exponential in
+\(\varepsilon^{-1}\): it equals \(2.87\) at that anchor and, along the
+fixed-geometry family, grows only polynomially, at leading order as
+\(\varepsilon^{-1}\) through \(v_\infty\)
+[Eq.~\eqref{eq:exactmfull-b0-vinf}; \(\widehat v_\infty=1.99\) at
+\(\varepsilon=0.1\) against \(3.99\) at \(\varepsilon=0.05\)].
+The Cauchy radius shrinks from
 \(\tau/2\) to \(r_0\propto\varepsilon\), a polynomial loss (a factor
 \(\tau/(2r_0)=20\) at the anchor inside \(\hat M\)).  The exponential-rate
 denominator changes from \(\tfrac32v_\infty T\) to
@@ -1156,11 +1162,16 @@ whole-window sign-preservation argument built from a uniform absolute-error
 margin pays,
 since the physical depletion mechanism does not care about the tiny
 endpoint slope --- together with the radius factor \(r_0\) and \(O(10)\)
-bookkeeping.  The semigroup side of the ledger is now \(O(1)\)-tight, so
-further improvement requires a different proof topology (for instance
-localizing the signature argument to sub-windows on which \(|G'|\) is not
-uniformly tiny, or replacing the uniform complement margin by a
-degree-theoretic count), not a better transfer estimate.  Along the fixed
+bookkeeping.  The semigroup side of the ledger no longer carries a
+weighted-norm exponential, and its remaining constants are explicit and
+polynomially bounded in \(\varepsilon^{-1}\) (a factor of order ten at the
+anchor); no optimality of these constants is claimed.  Since any
+whole-window sign-preservation argument built from a uniform absolute-error
+margin pays the endpoint factor, further improvement requires a different
+proof topology (for instance localizing the signature argument to
+sub-windows on which \(|G'|\) is not uniformly tiny, or replacing the
+uniform complement margin by a degree-theoretic count) rather than sharper
+constants within the same transfer estimate.  Along the fixed
 anchor family, provided that, as at both evaluated points, the complement
 minimum \(\mu_1\) is attained at the left endpoint \(\tau\) and the \(r=1\)
 condition binds, the endpoint-slope closed form

@@ -3,7 +3,7 @@ budget thresholds and described related manuscripts as non-overlapping. -->
 
 # Cover letter — Physical Review Research
 
-3 September 2026
+8 September 2026
 
 Dear Editors,
 

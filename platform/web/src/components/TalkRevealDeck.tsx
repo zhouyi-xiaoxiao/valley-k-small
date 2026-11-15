@@ -358,6 +358,9 @@ export function TalkRevealDeck({
         onFocus={() => fullscreenLike && setControlsVisible(true)}
       >
         <div className="talk-reveal-toolbar-brand">
+          <a className="talk-reveal-home" href={withBasePath(lang === 'cn' ? '/cn/' : '/')}>
+            {localized(lang, '← Research atlas', '← 研究图谱')}
+          </a>
           <strong>{manifestTitle(lang, manifest)}</strong>
           <span>
             {currentIndex + 1} / {slides.length}
@@ -375,11 +378,6 @@ export function TalkRevealDeck({
               ? localized(lang, 'Exit full screen', '退出全屏')
               : localized(lang, 'Full screen', '全屏')}
           </button>
-          <button type="button" onClick={() => setPresenterMode((value) => !value)}>
-            {presenterMode
-              ? localized(lang, 'Audience mode', '观众模式')
-              : localized(lang, 'Presenter mode', '演讲者模式')}
-          </button>
           <button type="button" onClick={() => setCurrentIndex((value) => Math.max(0, value - 1))}>
             {localized(lang, 'Prev', '上一页')}
           </button>
@@ -388,6 +386,11 @@ export function TalkRevealDeck({
             onClick={() => setCurrentIndex((value) => Math.min(slides.length - 1, value + 1))}
           >
             {localized(lang, 'Next', '下一页')}
+          </button>
+          <button type="button" className="talk-reveal-notes-toggle" onClick={() => setPresenterMode((value) => !value)}>
+            {presenterMode
+              ? localized(lang, 'Hide notes', '隐藏讲稿')
+              : localized(lang, 'Speaker notes', '讲稿')}
           </button>
         </div>
       </div>

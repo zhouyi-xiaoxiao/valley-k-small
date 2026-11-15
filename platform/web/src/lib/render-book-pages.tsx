@@ -10,7 +10,6 @@ import {
   loadBookManifest,
   loadGlossary,
   loadReportMeta,
-  loadTranslationQC,
   localizedText,
   prefixPath,
 } from '@/lib/content';
@@ -162,7 +161,6 @@ export function renderBookPage(lang: Lang, prefix: string) {
   const backbone = loadBookBackbone();
   const claimCoverage = loadBookClaimCoverage();
   const glossary = loadGlossary();
-  const translationQc = loadTranslationQC();
 
   if (!manifest) {
     return (
@@ -181,13 +179,13 @@ export function renderBookPage(lang: Lang, prefix: string) {
   return (
     <AppShell lang={lang} prefix={prefix}>
       <section className="card section-enter book-hero">
-        <div className="kicker">{localizedText(lang, 'Book Mainline', '书籍主线')}</div>
+        <div className="kicker">{localizedText(lang, 'Book', '书')}</div>
         <h1>{localizedText(lang, 'Valley-K Small Research Book', 'Valley-K Small 研究电子书')}</h1>
         <p className="lead">
           {localizedText(
             lang,
-            'Read from Chapter 0 to Chapter 7 as one continuous theory-and-evidence narrative. Each chapter is linked to interactive figures and auditable claims.',
-            '按第0章到第7章连续阅读，将理论链、交互证据与可审计 claim 融为同一条主线。',
+            'The reports read as one argument, from notation (Chapter 0) to open questions (Chapter 7). Each chapter links to the reports, figures and claims it rests on.',
+            '把各份报告串成一条论证：从记号（第 0 章）到开放问题（第 7 章）。每章都连回它所依据的报告、图和论断。',
           )}
         </p>
         <p>
@@ -198,30 +196,37 @@ export function renderBookPage(lang: Lang, prefix: string) {
             {localizedText(lang, 'Open Chapter 0', '从第0章开始')}
           </Link>
         </p>
-        <div className="grid grid-3">
-          <article className="card">
-            <h3>{manifest.chapter_count}</h3>
-            <p>{localizedText(lang, 'Book chapters', '章节数')}</p>
-          </article>
-          <article className="card">
-            <h3>{Object.keys(manifest.report_chapter_map || {}).length}</h3>
-            <p>{localizedText(lang, 'Mapped reports', '映射报告数')}</p>
-          </article>
-          <article className="card">
-            <h3>{translationQc?.passed ? localizedText(lang, 'PASS', '通过') : localizedText(lang, 'CHECK', '待检查')}</h3>
-            <p>{localizedText(lang, 'Translation gate', '双语门禁')}</p>
-          </article>
+      </section>
+
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Table of Contents', '目录')}</h2>
+        <div className="book-toc-grid">
+          {chapterRows.map((chapter) => (
+            <article key={chapter.chapter_id} className="card book-chapter-card">
+              <p className="badge">{localizedText(lang, 'Chapter', '章节')} {chapter.order}</p>
+              <h3>
+                <Link href={prefixPath(prefix, `/book/${chapter.chapter_id}`)}>
+                  {lang === 'cn' ? chapter.title_cn : chapter.title_en}
+                </Link>
+              </h3>
+              <p>{lang === 'cn' ? chapter.summary_cn : chapter.summary_en}</p>
+              <p>
+                <span className="badge">{localizedText(lang, 'Evidence nodes', '证据节点')} {chapter.report_ids.length}</span>{' '}
+                <span className="badge">{localizedText(lang, 'Claims', 'Claim 数')} {chapter.claim_count}</span>
+              </p>
+            </article>
+          ))}
         </div>
       </section>
 
       {backbone ? (
         <section className="card section-enter" style={{ marginTop: '1rem' }}>
-          <h2>{localizedText(lang, 'Backbone System', '主干系统')}</h2>
+          <h2>{localizedText(lang, 'Four acts', '四幕')}</h2>
           <p className="lead">
             {localizedText(
               lang,
-              'This system extracts a canonical logic spine so we can iterate details without losing narrative continuity.',
-              '该系统会先抽取规范化逻辑主干，再在不破坏连续性的前提下迭代细节内容。',
+              'The eight chapters fall into four acts.',
+              '八章分为四幕。',
             )}
           </p>
           <div className="grid grid-2">
@@ -238,9 +243,29 @@ export function renderBookPage(lang: Lang, prefix: string) {
         </section>
       ) : null}
 
+      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h2>{localizedText(lang, 'Glossary', '术语表')}</h2>
+        <p>
+          {localizedText(
+            lang,
+            'Terms used across the chapters, in English and Chinese.',
+            '各章共用的术语，中英对照。',
+          )}
+        </p>
+        <div className="grid grid-2">
+          {glossaryPreview.map((term) => (
+            <article key={term.term_id} className="card">
+              <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
+              <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
+              {term.formula ? renderGlossaryFormula(term.formula, lang) : null}
+            </article>
+          ))}
+        </div>
+      </section>
+
       {claimCoverage ? (
         <section className="card section-enter" style={{ marginTop: '1rem' }}>
-          <h2>{localizedText(lang, 'Claim Coverage Policy', 'Claim 覆盖策略')}</h2>
+          <h2>{localizedText(lang, 'Claim coverage', '论断覆盖')}</h2>
           <p className="lead">{lang === 'cn' ? claimCoverage.policy_cn : claimCoverage.policy_en}</p>
           <p>
             <span className="badge">
@@ -291,47 +316,6 @@ export function renderBookPage(lang: Lang, prefix: string) {
           </details>
         </section>
       ) : null}
-
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h2>{localizedText(lang, 'Table of Contents', '目录')}</h2>
-        <div className="book-toc-grid">
-          {chapterRows.map((chapter) => (
-            <article key={chapter.chapter_id} className="card book-chapter-card">
-              <p className="badge">{localizedText(lang, 'Chapter', '章节')} {chapter.order}</p>
-              <h3>
-                <Link href={prefixPath(prefix, `/book/${chapter.chapter_id}`)}>
-                  {lang === 'cn' ? chapter.title_cn : chapter.title_en}
-                </Link>
-              </h3>
-              <p>{lang === 'cn' ? chapter.summary_cn : chapter.summary_en}</p>
-              <p>
-                <span className="badge">{localizedText(lang, 'Evidence nodes', '证据节点')} {chapter.report_ids.length}</span>{' '}
-                <span className="badge">{localizedText(lang, 'Claims', 'Claim 数')} {chapter.claim_count}</span>
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h2>{localizedText(lang, 'Glossary Lock Table', '术语锁表')}</h2>
-        <p>
-          {localizedText(
-            lang,
-            'Terms are double-written in EN/CN and reused across all chapters to keep notation stable.',
-            '术语采用中英双写并在全章节复用，以保证符号与叙事的一致性。',
-          )}
-        </p>
-        <div className="grid grid-2">
-          {glossaryPreview.map((term) => (
-            <article key={term.term_id} className="card">
-              <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
-              <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
-              {term.formula ? renderGlossaryFormula(term.formula, lang) : null}
-            </article>
-          ))}
-        </div>
-      </section>
     </AppShell>
   );
 }

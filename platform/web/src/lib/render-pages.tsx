@@ -3,7 +3,6 @@ import katex from 'katex';
 import { AppShell } from '@/components/AppShell';
 import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
-  groupReports,
   loadAgentManifest,
   loadBookBackbone,
   loadBookManifest,
@@ -20,6 +19,23 @@ import {
   withBasePath,
 } from '@/lib/content';
 import { KATEX_MACROS } from '@/lib/latex';
+import {
+  FAMILY_ORDER,
+  OWNER_SITE,
+  OWNER_SITE_ZH,
+  REPO_URL,
+  formatDay,
+  START_HERE,
+  displayTitle,
+  familyLabel,
+  familyNote,
+  isPlaceholderText,
+  reportFamily,
+  loadRegistryStatus,
+  scaffoldReports,
+  writtenReports,
+} from '@/lib/atlas';
+import { PdfLinks } from '@/components/PdfLinks';
 import type { AssetRecord, ContentMap, Lang, ReportMeta, ReportNetwork } from '@/types';
 
 type LatexRenderResult = {
@@ -597,192 +613,107 @@ function extractFormulaPolicyRows(map: ReturnType<typeof loadTheoryMap>): Formul
     .sort((left, right) => left.report_id.localeCompare(right.report_id));
 }
 
-export function renderHomePage(lang: Lang, prefix: string) {
-  const index = loadIndex();
-  const grouped = groupReports(index);
-  const groups = Object.keys(grouped).sort();
-  const network = loadReportNetwork();
-  const contentMap = loadContentMap();
-
-  return (
-    <AppShell lang={lang} prefix={prefix}>
-      <section className="card section-enter">
-        <div className="kicker">Research Network</div>
-        <h1>{localizedText(lang, 'Valley-K Small Interactive Atlas', 'Valley-K Small 交互研究总览')}</h1>
-        <p>
-          {lang === 'cn'
-            ? `面向 ${index.reports.length} 份报告的在线界面，提供广覆盖中英文内容、交互图形、数学原理说明和机器可读同步产物。`
-            : `A full online interface for ${index.reports.length} reports with broad CN/EN coverage, interactive figures, mathematical context, and machine-readable synchronization outputs.`}
-        </p>
-        <p>
-          <Link href={prefixPath(prefix, '/book')} className="badge">
-            {localizedText(lang, 'Start Book Mainline', '进入书籍主线')}
-          </Link>
-        </p>
-        <div className="grid grid-3">
-          <div className="card">
-            <h3>{index.reports.length}</h3>
-            <p>{localizedText(lang, 'Registered reports', '已注册报告')}</p>
-          </div>
-          <div className="card">
-            <h3>{groups.length}</h3>
-            <p>{localizedText(lang, 'Research groups', '研究分组')}</p>
-          </div>
-          <div className="card">
-            <h3>{formatTimestamp(lang, index.generated_at)}</h3>
-            <p>{localizedText(lang, 'Data generated', '数据生成时间')}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h2>{localizedText(lang, 'Topic Map', '主题地图')}</h2>
-        <div className="grid grid-3">
-          {groups.map((group) => (
-            <article key={group} className="card">
-              <h3>{group}</h3>
-              <ul>
-                {grouped[group].slice(0, 5).map((item) => (
-                  <li key={item.report_id}>
-                    <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>{item.report_id}</Link>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h2>{localizedText(lang, 'Research Storyline', '研究主线串联')}</h2>
-        <p className="lead">
-          {localizedText(
-            lang,
-            'Reports are connected as one chain: foundations, mechanism extensions, and cross-report synthesis.',
-            '报告不是孤立页面，而是同一条研究链：基础模型、机制扩展、跨报告综合。',
-          )}
-        </p>
-        <div className="grid grid-3">
-          {network.group_paths.map((pathRow) => (
-            <article key={pathRow.group} className="card">
-              <h3>{pathRow.group}</h3>
-              <ol>
-                {pathRow.report_ids.map((rid) => (
-                  <li key={`${pathRow.group}-${rid}`}>
-                    <Link href={prefixPath(prefix, `/reports/${rid}`)}>{lookupReportTitle(rid, lang, network)}</Link>
-                  </li>
-                ))}
-              </ol>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h2>{localizedText(lang, 'Narrative Arcs', '叙事弧线')}</h2>
-        <p className="lead">
-          {localizedText(
-            lang,
-            'Each arc links concrete claims to evidence, so readers can verify the story step by step.',
-            '每条弧线都把具体 claim 对应到证据，方便逐步核对。',
-          )}
-        </p>
-        <div className="grid grid-2">
-          {contentMap.arcs.slice(0, 4).map((arc) => (
-            <article key={arc.arc_id} className="card">
-              <h3>{lang === 'cn' ? arc.label_cn : arc.label_en}</h3>
-              <p>{lang === 'cn' ? arc.summary_cn : arc.summary_en}</p>
-              <p>
-                <span className="badge">
-                  {localizedText(lang, 'Checkpoints', '检查点')}: {arc.checkpoint_count}
-                </span>{' '}
-                <span className="badge">
-                  {localizedText(lang, 'Claims', 'Claim 数')}: {arc.claim_ids.length}
-                </span>
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-    </AppShell>
-  );
-}
-
 export function renderReportsPage(lang: Lang, prefix: string) {
   const index = loadIndex();
-  const network = loadReportNetwork();
   const bookManifest = loadBookManifest();
-  const enriched = index.reports.map((item) => {
-    const meta = loadReportMeta(item.report_id, lang);
-    const preview = extractReportPreview(meta, item.report_id, lang);
-    const mapping = bookManifest?.report_chapter_map?.[item.report_id];
-    return { item, preview, mapping };
-  });
+  const written = writtenReports(index);
+  const scaffolds = scaffoldReports(index);
+  const startIds = new Set(START_HERE.map((item) => item.reportId));
+  const entry = (reportId: string) => {
+    const meta = loadReportMeta(reportId, lang);
+    const metaEn = loadReportMeta(reportId, 'en');
+    const summary = (meta?.summary ?? '').replace(/\*\*/g, '');
+    const chapterId = bookManifest?.report_chapter_map?.[reportId]?.primary_chapter_id;
+    const chapter = chapterId ? bookManifest?.chapters.find((row) => row.chapter_id === chapterId) : undefined;
+    return {
+      title: displayTitle(lang, meta, metaEn, reportId),
+      summary: isPlaceholderText(summary) ? '' : compactText(summary, 300),
+      chapter,
+    };
+  };
 
   return (
     <AppShell lang={lang} prefix={prefix}>
-      <section className="card section-enter">
-        <div className="kicker">Catalog</div>
-        <h1>{localizedText(lang, 'All Reports', '全部报告')}</h1>
-        <p className="lead">
+      <header className="page-head">
+        <p className="kicker">{localizedText(lang, 'Reports', '报告')}</p>
+        <h1>{localizedText(lang, 'All reports', '全部报告')}</h1>
+        <p className="page-lede">
           {localizedText(
             lang,
-            'Browse by concise previews first. Enter a report only when the topic matches your current question.',
-            '先看每份报告的简短预览，再进入与你当前问题最相关的报告详情页。',
+            `${written.length} written reports on first-passage times, grouped by the setting they study. Each page gives the findings, interactive figures and mathematics; the PDF is the report itself. New here? Begin with the three marked “start here”.`,
+            `${written.length} 份已成文的首达时间报告，按所研究的模型分组。每页列出结论、交互图和数学推导，PDF 是报告全文。第一次来，可以先读标着「从这里开始」的三份。`,
           )}
         </p>
-        <details style={{ marginTop: '0.8rem' }}>
-          <summary>{localizedText(lang, 'Open cross-report storyline', '展开跨报告主线')}</summary>
-          <div className="grid grid-3" style={{ marginTop: '0.8rem' }}>
-            {network.group_paths.map((pathRow) => (
-              <article key={`path-${pathRow.group}`} className="card">
-                <h3>{pathRow.group}</h3>
-                <ol>
-                  {pathRow.report_ids.map((rid) => (
-                    <li key={`path-${pathRow.group}-${rid}`}>
-                      <Link href={prefixPath(prefix, `/reports/${rid}`)}>{lookupReportTitle(rid, lang, network)}</Link>
-                    </li>
-                  ))}
-                </ol>
-              </article>
-            ))}
-          </div>
-        </details>
-        <div className="grid grid-2">
-          {enriched.map(({ item, preview, mapping }) => (
-            <article key={item.report_id} className="card">
-              <p style={{ marginBottom: '0.35rem' }}>
-                <span className="badge">{item.group}</span>
-                {mapping?.primary_chapter_id ? (
-                  <>
-                    {' '}
-                    <span className="badge">
-                      {localizedText(lang, 'Book', '书籍')}:{' '}
-                      <Link href={prefixPath(prefix, `/book/${mapping.primary_chapter_id}`)}>{mapping.primary_chapter_id}</Link>
-                    </span>
-                  </>
-                ) : null}
-              </p>
-              <h3>
-                <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>{preview.title}</Link>
-              </h3>
-              <p className="muted">{item.report_id}</p>
-              <p>{preview.summary}</p>
-              <p>
-                {localizedText(lang, 'Languages', '语言')}: {item.languages.join(', ')}
-              </p>
-              <p>
-                {localizedText(lang, 'Updated', '更新')}: {formatTimestamp(lang, item.updated_at)}
-              </p>
-              <p style={{ marginBottom: 0 }}>
-                <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>
-                  {localizedText(lang, 'Read this report', '进入阅读')}
-                </Link>
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
+      </header>
+
+      {FAMILY_ORDER.map((family) => {
+        const rows = written.filter((row) => reportFamily(row.report_id, row.group) === family);
+        if (rows.length === 0) {
+          return null;
+        }
+        return (
+          <section key={family} className="family-section" aria-labelledby={`family-${family}`}>
+            <h2 id={`family-${family}`}>
+              {familyLabel(lang, family)} <span className="count">{rows.length}</span>
+            </h2>
+            <p className="family-note">{familyNote(lang, family)}</p>
+            <ul className="report-list">
+              {rows.map((row) => {
+                const info = entry(row.report_id);
+                return (
+                  <li key={row.report_id} className="report-row">
+                    <h3>
+                      <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>{info.title}</Link>
+                      {startIds.has(row.report_id) ? (
+                        <span className="tag">{localizedText(lang, 'start here', '从这里开始')}</span>
+                      ) : null}
+                    </h3>
+                    {info.summary ? <p>{info.summary}</p> : null}
+                    <p className="report-row-meta">
+                      <PdfLinks lang={lang} reportId={row.report_id} />
+                      {info.chapter ? (
+                        <span>
+                          {localizedText(lang, 'In the book: ', '书中：')}
+                          <Link href={prefixPath(prefix, `/book/${info.chapter.chapter_id}`)}>
+                            {lang === 'cn' ? info.chapter.title_cn : info.chapter.title_en}
+                          </Link>
+                        </span>
+                      ) : null}
+                      <span className="report-id">{row.report_id}</span>
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
+
+      {scaffolds.length > 0 ? (
+        <section className="family-section" aria-labelledby="family-wip">
+          <h2 id="family-wip">
+            {localizedText(lang, 'In progress', '进行中')} <span className="count">{scaffolds.length}</span>
+          </h2>
+          <p className="family-note">
+            {localizedText(
+              lang,
+              'Reports whose scope is set but which are not written up yet. Their pages show what exists so far, which may be only a plan.',
+              '范围已经定下、但尚未成文的报告。它们的页面只展示目前已有的内容，有些还只是计划。',
+            )}
+          </p>
+          <details className="wip-details">
+            <summary>{localizedText(lang, `Show the ${scaffolds.length} reports in progress`, `展开 ${scaffolds.length} 份进行中的报告`)}</summary>
+            <ul className="wip-list">
+              {scaffolds.map((row) => (
+                <li key={row.report_id}>
+                  <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>{entry(row.report_id).title}</Link>{' '}
+                  <span className="report-id">{row.report_id}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </section>
+      ) : null}
     </AppShell>
   );
 }
@@ -824,62 +755,230 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const filteredSections = pruneSectionCards(meta.section_cards);
   const sectionsPreview = filteredSections.slice(0, 6);
   const sectionsExtra = filteredSections.slice(6);
+  const family = reportFamily(reportId, loadIndex().reports.find((row) => row.report_id === reportId)?.group ?? '');
+  const isWip = loadRegistryStatus()[reportId] === 'wip';
+  const title = displayTitle(lang, meta, loadReportMeta(reportId, 'en'), reportId);
+  const rawSummary = (meta.summary || '').replace(/\*\*/g, '');
+  // Scaffold reports carry generated template text; show only the status note for them.
+  const summary = isWip || isPlaceholderText(rawSummary) ? '' : rawSummary;
+  const hasNarrative = !isWip && [meta.narrative.model_overview, meta.narrative.method_overview, meta.narrative.result_overview].some(
+    (text) => text && !isPlaceholderText(text),
+  );
   const navItems = [
-    { id: 'book-position', label: localizedText(lang, 'Book Position', '书籍定位') },
-    { id: 'reading-path', label: localizedText(lang, 'Reading Path', '阅读路径') },
-    { id: 'connected-reports', label: localizedText(lang, 'Connected Reports', '关联报告链') },
-    { id: 'narrative-arcs', label: localizedText(lang, 'Narrative Arc Position', '叙事弧线定位') },
-    { id: 'verifiable-claims', label: localizedText(lang, 'Verifiable Claims', '可核对 Claim') },
-    { id: 'interactive', label: localizedText(lang, 'Interactive Figures', '交互图形') },
-    { id: 'math-chain', label: localizedText(lang, 'Mathematical Logic', '数学逻辑') },
-    { id: 'math-principles', label: localizedText(lang, 'Formula Library', '公式库') },
-    { id: 'narrative-sections', label: localizedText(lang, 'Narrative Notes', '叙事笔记') },
-    { id: 'appendix-assets', label: localizedText(lang, 'Appendix & Assets', '附录与资源') },
-  ];
+    { id: 'findings', label: localizedText(lang, 'Findings', '结论'), show: topFindings.length > 0 },
+    { id: 'interactive', label: localizedText(lang, 'Interactive figures', '交互图'), show: true },
+    { id: 'figures', label: localizedText(lang, 'Figures', '图'), show: figures.length > 0 },
+    { id: 'math-chain', label: localizedText(lang, 'Mathematics', '数学'), show: meta.math_story.length > 0 },
+    { id: 'where-it-fits', label: localizedText(lang, 'Where it fits', '全局位置'), show: true },
+    { id: 'working-record', label: localizedText(lang, 'Working record', '工作记录'), show: true },
+  ].filter((item) => item.show);
 
   return (
     <AppShell lang={lang} prefix={prefix}>
-      <section className="card section-enter">
-        <div className="kicker">{meta.report_id}</div>
-        <h1>{meta.title}</h1>
-        <p className="lead">{meta.summary}</p>
-        <div className="quick-nav">
+      <nav className="crumbs" aria-label={localizedText(lang, 'Breadcrumb', '路径')}>
+        <Link href={prefixPath(prefix, '/reports')}>{localizedText(lang, '← All reports', '← 全部报告')}</Link>
+      </nav>
+      <header className="page-head report-head">
+        <p className="kicker">
+          {isWip ? localizedText(lang, 'In progress', '进行中') : familyLabel(lang, family)}
+        </p>
+        <h1>{title}</h1>
+        {isWip ? (
+          <p className="status-note">
+            {localizedText(
+              lang,
+              'This report is in progress: its scope is set but it is not written up yet. What follows is what exists so far.',
+              '这份报告仍在进行中：范围已经定下，但尚未成文。以下只是目前已有的内容。',
+            )}
+          </p>
+        ) : null}
+        {summary ? <p className="page-lede">{summary}</p> : null}
+        <p className="report-row-meta">
+          <PdfLinks lang={lang} reportId={reportId} />
+          {bookPlacement ? (
+            <span>
+              {localizedText(lang, 'In the book: ', '书中：')}
+              <Link href={prefixPath(prefix, `/book/${bookPlacement.chapterId}`)}>{bookPlacement.chapterTitle}</Link>
+            </span>
+          ) : null}
+          <span className="report-id">{reportId}</span>
+        </p>
+        <nav className="quick-nav" aria-label={localizedText(lang, 'On this page', '本页内容')}>
           {navItems.map((item) => (
-            <a key={item.id} className="badge" href={`#${item.id}`}>
+            <a key={item.id} href={`#${item.id}`}>
               {item.label}
             </a>
           ))}
-        </div>
+        </nav>
+      </header>
+
+      {hasNarrative ? (
+        <section className="report-overview" aria-label={localizedText(lang, 'Overview', '概览')}>
+          <div>
+            <h2>{localizedText(lang, 'Model', '模型')}</h2>
+            <p>{meta.narrative.model_overview}</p>
+          </div>
+          <div>
+            <h2>{localizedText(lang, 'Method', '方法')}</h2>
+            <p>{meta.narrative.method_overview}</p>
+          </div>
+          <div>
+            <h2>{localizedText(lang, 'Result', '结论')}</h2>
+            <p>{meta.narrative.result_overview}</p>
+          </div>
+        </section>
+      ) : null}
+
+      {topFindings.length > 0 ? (
+        <section id="findings" className="card section-enter" style={{ marginTop: '1rem' }}>
+          <h3>{localizedText(lang, 'Key findings', '关键结论')}</h3>
+          <ul>
+            {topFindings.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+          {extraFindings.length > 0 ? (
+            <details>
+              <summary>{localizedText(lang, 'Show remaining findings', '展开剩余结论')}</summary>
+              <ul>
+                {extraFindings.map((line) => (
+                  <li key={`extra-${line}`}>{line}</li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
+        </section>
+      ) : null}
+
+      <div id="interactive" style={{ marginTop: '1rem' }}>
+        <ReportPlotPanel reportId={reportId} datasets={meta.datasets} lang={lang} />
+      </div>
+
+      <section id="figures" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Figure Gallery', '图形预览')}</h3>
         <p>
-          <span className="badge">
-            {localizedText(lang, 'Updated', '更新')}: {formatTimestamp(lang, meta.updated_at)}
-          </span>
+          {localizedText(lang, 'Showing', '当前展示')} {Math.min(12, figures.length)} / {figures.length}
         </p>
         <div className="grid grid-3">
-          <article className="card">
-            <h3>{localizedText(lang, 'Model', '模型')}</h3>
-            <p>{meta.narrative.model_overview}</p>
-          </article>
-          <article className="card">
-            <h3>{localizedText(lang, 'Method', '方法')}</h3>
-            <p>{meta.narrative.method_overview}</p>
-          </article>
-          <article className="card">
-            <h3>{localizedText(lang, 'Result', '结论')}</h3>
-            <p>{meta.narrative.result_overview}</p>
-          </article>
+          {figures.slice(0, 12).map((fig) => (
+            <article key={fig.id} className="card">
+              <p>{fig.title}</p>
+              {isImageFigure(fig.web_path) ? (
+                <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={withBasePath(fig.web_path)}
+                    alt={fig.title}
+                    style={{ width: '100%', borderRadius: '10px', border: '1px solid #d8ccb3' }}
+                  />
+                </a>
+              ) : null}
+              <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
+                {localizedText(lang, 'Open Figure', '打开图件')}
+              </a>
+            </article>
+          ))}
+        </div>
+        {figures.length > 12 ? (
+          <details style={{ marginTop: '0.8rem' }}>
+            <summary>{localizedText(lang, 'Show remaining figures', '展开剩余图形')}</summary>
+            <div className="grid grid-3" style={{ marginTop: '0.8rem' }}>
+              {figures.slice(12).map((fig) => (
+                <article key={`extra-${fig.id}`} className="card">
+                  <p>{fig.title}</p>
+                  {isImageFigure(fig.web_path) ? (
+                    <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={withBasePath(fig.web_path)}
+                        alt={fig.title}
+                        style={{ width: '100%', borderRadius: '10px', border: '1px solid #d8ccb3' }}
+                      />
+                    </a>
+                  ) : null}
+                  <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
+                    {localizedText(lang, 'Open Figure', '打开图件')}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </details>
+        ) : null}
+      </section>
+
+      <section id="math-chain" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Mathematical Logic Chain', '数学逻辑链')}</h3>
+        <p className="muted">
+          {localizedText(
+            lang,
+            'From model assumptions to interpretation in a short, ordered chain.',
+            '从模型假设到解释结论，按步骤给出最短逻辑链。',
+          )}
+        </p>
+        <div className="grid grid-2">
+          {meta.math_story.map((item, idx) => {
+            const rendered = renderLatex(item.latex);
+            return (
+              <article key={`${item.stage}-${idx}`} className="card">
+                <h4>{item.stage}</h4>
+                <p>{item.description}</p>
+                <div
+                  className="math-block"
+                  dangerouslySetInnerHTML={{
+                    __html: rendered.html,
+                  }}
+                />
+                {rendered.error ? renderFormulaWarning(lang, item.context, rendered.error) : null}
+                <p style={{ marginBottom: 0 }}>
+                  <span className="badge">{item.context}</span>
+                </p>
+              </article>
+            );
+          })}
         </div>
       </section>
 
+      <section id="math-principles" className="card section-enter" style={{ marginTop: '1rem' }}>
+        <h3>{localizedText(lang, 'Mathematical Principles', '数学原理')}</h3>
+        <p>
+          {localizedText(lang, 'Showing', '当前展示')} {Math.min(6, meta.math_blocks.length)} / {meta.math_blocks.length}
+        </p>
+        <div className="grid grid-2">
+          {meta.math_blocks.slice(0, 6).map((block, idx) => renderMathBlockCard(block, `${block.source_path}-${idx}`))}
+        </div>
+        {meta.math_blocks.length > 6 ? (
+          <details style={{ marginTop: '0.8rem' }}>
+            <summary>{localizedText(lang, 'Show remaining formulas', '展开剩余公式')}</summary>
+            <div className="grid grid-2" style={{ marginTop: '0.8rem' }}>
+              {meta.math_blocks
+                .slice(6)
+                .map((block, idx) => renderMathBlockCard(block, `extra-${block.source_path}-${idx}`))}
+            </div>
+          </details>
+        ) : null}
+      </section>
+
+
+      <div id="where-it-fits" className="report-group-head">
+        <h2>{localizedText(lang, 'Where it fits', '在全局中的位置')}</h2>
+        <p>
+          {localizedText(
+            lang,
+            'How this report connects to the book and to the other reports.',
+            '这份报告与书的章节、与其他报告之间的联系。',
+          )}
+        </p>
+      </div>
+
       <section id="book-position" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Book Position', '书籍定位')}</h3>
+        <h3>{localizedText(lang, 'In the book', '书中位置')}</h3>
         {bookPlacement ? (
           <>
             <p className="lead">
               {localizedText(
                 lang,
-                'This report is part of the chapterized mainline. Use chapter links to keep continuity instead of reading reports in isolation.',
-                '该报告已纳入章节化主线。建议通过章节链接保持连续阅读，而不是把报告孤立阅读。',
+                'The book chapters that draw on this report.',
+                '引用这份报告的书中章节。',
               )}
             </p>
             <p>
@@ -911,49 +1010,6 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         ) : (
           <p>{localizedText(lang, 'No chapter mapping found yet.', '尚未生成章节映射。')}</p>
         )}
-      </section>
-
-      <section id="reading-path" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Reading Path', '阅读路径')}</h3>
-        <ol>
-          <li>
-            {localizedText(
-              lang,
-              'Scan key findings first to decide whether this report is relevant.',
-              '先看关键结论，确认这份报告是否与你当前问题匹配。',
-            )}
-          </li>
-          <li>
-            {localizedText(
-              lang,
-              'Use the interactive panel to test parameter and shape sensitivity.',
-              '进入交互图面板，快速验证参数与形状敏感性。',
-            )}
-          </li>
-          <li>
-            {localizedText(
-              lang,
-              'Then read the mathematical chain and formula library for derivation details.',
-              '再阅读数学逻辑链与公式库，把结论连到推导细节。',
-            )}
-          </li>
-        </ol>
-        <h3>{localizedText(lang, 'Key Findings', '关键结论')}</h3>
-        <ul>
-          {topFindings.map((line) => (
-            <li key={line}>{line}</li>
-          ))}
-        </ul>
-        {extraFindings.length > 0 ? (
-          <details>
-            <summary>{localizedText(lang, 'Show remaining findings', '展开剩余结论')}</summary>
-            <ul>
-              {extraFindings.map((line) => (
-                <li key={`extra-${line}`}>{line}</li>
-              ))}
-            </ul>
-          </details>
-        ) : null}
       </section>
 
       <section id="connected-reports" className="card section-enter" style={{ marginTop: '1rem' }}>
@@ -1031,7 +1087,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
       </section>
 
       <section id="narrative-arcs" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Narrative Arc Position', '叙事弧线定位')}</h3>
+        <h3>{localizedText(lang, 'Narrative arcs', '叙事弧线')}</h3>
         <p className="lead">
           {localizedText(
             lang,
@@ -1073,8 +1129,20 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         )}
       </section>
 
+
+      <div id="working-record" className="report-group-head">
+        <h2>{localizedText(lang, 'Working record', '工作记录')}</h2>
+        <p>
+          {localizedText(
+            lang,
+            'The claim ledger, source notes, commands and files the report is checked against.',
+            '这份报告据以核对的论断清单、来源笔记、命令与文件。',
+          )}
+        </p>
+      </div>
+
       <section id="verifiable-claims" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Verifiable Claims', '可核对 Claim')}</h3>
+        <h3>{localizedText(lang, 'Claims and their evidence', '论断与证据')}</h3>
         <p className="lead">
           {localizedText(
             lang,
@@ -1162,64 +1230,8 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         )}
       </section>
 
-      <div id="interactive" style={{ marginTop: '1rem' }}>
-        <ReportPlotPanel reportId={reportId} datasets={meta.datasets} lang={lang} />
-      </div>
-
-      <section id="math-chain" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Mathematical Logic Chain', '数学逻辑链')}</h3>
-        <p className="muted">
-          {localizedText(
-            lang,
-            'From model assumptions to interpretation in a short, ordered chain.',
-            '从模型假设到解释结论，按步骤给出最短逻辑链。',
-          )}
-        </p>
-        <div className="grid grid-2">
-          {meta.math_story.map((item, idx) => {
-            const rendered = renderLatex(item.latex);
-            return (
-              <article key={`${item.stage}-${idx}`} className="card">
-                <h4>{item.stage}</h4>
-                <p>{item.description}</p>
-                <div
-                  className="math-block"
-                  dangerouslySetInnerHTML={{
-                    __html: rendered.html,
-                  }}
-                />
-                {rendered.error ? renderFormulaWarning(lang, item.context, rendered.error) : null}
-                <p style={{ marginBottom: 0 }}>
-                  <span className="badge">{item.context}</span>
-                </p>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section id="math-principles" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Mathematical Principles', '数学原理')}</h3>
-        <p>
-          {localizedText(lang, 'Showing', '当前展示')} {Math.min(6, meta.math_blocks.length)} / {meta.math_blocks.length}
-        </p>
-        <div className="grid grid-2">
-          {meta.math_blocks.slice(0, 6).map((block, idx) => renderMathBlockCard(block, `${block.source_path}-${idx}`))}
-        </div>
-        {meta.math_blocks.length > 6 ? (
-          <details style={{ marginTop: '0.8rem' }}>
-            <summary>{localizedText(lang, 'Show remaining formulas', '展开剩余公式')}</summary>
-            <div className="grid grid-2" style={{ marginTop: '0.8rem' }}>
-              {meta.math_blocks
-                .slice(6)
-                .map((block, idx) => renderMathBlockCard(block, `extra-${block.source_path}-${idx}`))}
-            </div>
-          </details>
-        ) : null}
-      </section>
-
       <section id="narrative-sections" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Narrative Sections', '叙事章节')}</h3>
+        <h3>{localizedText(lang, 'Section notes', '章节笔记')}</h3>
         <p className="muted">
           {localizedText(
             lang,
@@ -1262,7 +1274,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         ) : null}
       </section>
 
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
+      <section id="commands" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Reproducibility Commands', '复现实验命令')}</h3>
         <details>
           <summary>{localizedText(lang, 'Open command list', '展开命令列表')}</summary>
@@ -1281,7 +1293,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
       </section>
 
       <section id="appendix-assets" className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Download Assets', '下载资源')}</h3>
+        <h3>{localizedText(lang, 'Files', '文件')}</h3>
         <p>
           {localizedText(lang, 'Showing', '当前展示')} {Math.min(20, groupedAssets.length)} / {groupedAssets.length}
           {duplicateAssetCount > 0 ? (
@@ -1323,58 +1335,6 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             </li>
           ))}
         </ul>
-      </section>
-
-      <section className="card section-enter" style={{ marginTop: '1rem' }}>
-        <h3>{localizedText(lang, 'Figure Gallery', '图形预览')}</h3>
-        <p>
-          {localizedText(lang, 'Showing', '当前展示')} {Math.min(12, figures.length)} / {figures.length}
-        </p>
-        <div className="grid grid-3">
-          {figures.slice(0, 12).map((fig) => (
-            <article key={fig.id} className="card">
-              <p>{fig.title}</p>
-              {isImageFigure(fig.web_path) ? (
-                <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={withBasePath(fig.web_path)}
-                    alt={fig.title}
-                    style={{ width: '100%', borderRadius: '10px', border: '1px solid #d8ccb3' }}
-                  />
-                </a>
-              ) : null}
-              <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
-                {localizedText(lang, 'Open Figure', '打开图件')}
-              </a>
-            </article>
-          ))}
-        </div>
-        {figures.length > 12 ? (
-          <details style={{ marginTop: '0.8rem' }}>
-            <summary>{localizedText(lang, 'Show remaining figures', '展开剩余图形')}</summary>
-            <div className="grid grid-3" style={{ marginTop: '0.8rem' }}>
-              {figures.slice(12).map((fig) => (
-                <article key={`extra-${fig.id}`} className="card">
-                  <p>{fig.title}</p>
-                  {isImageFigure(fig.web_path) ? (
-                    <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={withBasePath(fig.web_path)}
-                        alt={fig.title}
-                        style={{ width: '100%', borderRadius: '10px', border: '1px solid #d8ccb3' }}
-                      />
-                    </a>
-                  ) : null}
-                  <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
-                    {localizedText(lang, 'Open Figure', '打开图件')}
-                  </a>
-                </article>
-              ))}
-            </div>
-          </details>
-        ) : null}
       </section>
     </AppShell>
   );
@@ -2070,43 +2030,124 @@ export function renderRepoSyncPage(lang: Lang, prefix: string) {
 }
 
 export function renderAboutPage(lang: Lang, prefix: string) {
+  const index = loadIndex();
+  const written = writtenReports(index);
+  const scaffolds = scaffoldReports(index);
+  const generated = formatDay(lang, index.generated_at);
+  const commands = [
+    'python3 scripts/reportctl.py web-data --mode full',
+    'python3 scripts/reportctl.py book-data',
+    'python3 scripts/reportctl.py translation-qc',
+    'python3 scripts/reportctl.py agent-sync',
+    'python3 scripts/reportctl.py validate-web-data',
+    'cd platform/web && npm ci && npm run build',
+  ];
   return (
     <AppShell lang={lang} prefix={prefix}>
-      <section className="card section-enter">
-        <div className="kicker">Reproducibility</div>
-        <h1>{localizedText(lang, 'Build & Validation', '构建与校验')}</h1>
+      <header className="page-head">
+        <p className="kicker">{localizedText(lang, 'About', '关于')}</p>
+        <h1>{localizedText(lang, 'About this atlas', '关于本图谱')}</h1>
+        <p className="page-lede">
+          {localizedText(
+            lang,
+            'Valley-K Small is the public record of a PhD research line on first-passage times of random walks: when the time a walker needs to reach a target has two peaks rather than one, and why.',
+            'Valley-K Small 是一条博士研究线的公开记录，主题是随机游走的首达时间：游走者到达目标所需的时间，什么时候会出现两个峰而不是一个，以及为什么。',
+          )}
+        </p>
+      </header>
+
+      <section className="prose-section">
+        <h2>{localizedText(lang, 'What is here', '这里有什么')}</h2>
+        <ul>
+          <li>
+            <Link href={prefixPath(prefix, '/reports')}>
+              {localizedText(lang, `${written.length} written reports`, `${written.length} 份已成文的报告`)}
+            </Link>
+            {localizedText(
+              lang,
+              `, each with a PDF (most in English and Chinese) and a page of findings, figures and mathematics; ${scaffolds.length} more are in progress.`,
+              `，每份都有 PDF（多数有中英两版）和一页结论、图与数学；另有 ${scaffolds.length} 份在进行中。`,
+            )}
+          </li>
+          <li>
+            <Link href={prefixPath(prefix, '/book')}>{localizedText(lang, 'A book', '一本书')}</Link>
+            {localizedText(
+              lang,
+              ' that reads the reports as one argument, chapter by chapter, also available ',
+              '，把这些报告按章节串成一条论证；也可以',
+            )}
+            <Link href={prefixPath(prefix, '/book/continuous')}>{localizedText(lang, 'on a single page', '在一页里通读')}</Link>
+            {localizedText(lang, '.', '。')}
+          </li>
+          <li>
+            <Link href={prefixPath(prefix, '/theory')}>{localizedText(lang, 'Theory', '理论')}</Link>
+            {localizedText(lang, ': the notions and formulas the reports share.', '：各报告共用的概念与公式。')}
+          </li>
+          <li>
+            <Link href={`${prefixPath(prefix, '/')}#talks`}>{localizedText(lang, 'Two talks', '两场演讲')}</Link>
+            {localizedText(lang, ', as web slide decks in both languages.', '，网页幻灯片，中英双语。')}
+          </li>
+        </ul>
+
+        <h2>{localizedText(lang, 'How it is made', '怎么做的')}</h2>
         <p>
           {localizedText(
             lang,
-            'The web layer is generated from existing report assets through Python scripts and validated by JSON schema + CI checks.',
-            '网页层通过 Python 脚本从现有报告资产生成，并通过 JSON schema 与 CI 检查校验。',
+            'Each report is written in LaTeX next to the code and data that produce its figures. The pages here are generated from those sources by scripts in the repository, checked against JSON schemas, and rebuilt when the repository changes. Summaries and findings on the pages are extracted from the reports; the PDF is the report itself.',
+            '每份报告用 LaTeX 写成，和生成图的代码、数据放在一起。这里的页面由仓库里的脚本从这些源文件生成，经 JSON schema 校验，仓库一有变动就重新构建。页面上的摘要和结论摘自报告本身；PDF 才是报告全文。',
+          )}
+        </p>
+        <p>
+          {generated
+            ? localizedText(
+                lang,
+                `This is an active research repository, and reports are revised as the work continues. These pages were generated on ${generated}.`,
+                `这是一个仍在进行的研究仓库，报告会随研究推进而修订。本页面生成于 ${generated}。`,
+              )
+            : null}{' '}
+          {localizedText(lang, 'Sources: ', '源文件：')}
+          <a href={REPO_URL}>github.com/zhouyi-xiaoxiao/valley-k-small</a>
+          {localizedText(lang, '.', '。')}
+        </p>
+
+        <h2>{localizedText(lang, 'Author', '作者')}</h2>
+        <p>
+          {localizedText(
+            lang,
+            'Xiaoxiao Zhouyi, PhD researcher at the University of Bristol. Other work and contact: ',
+            '周易潇潇，布里斯托大学博士研究生。其他工作与联系方式：',
+          )}
+          <a href={lang === 'cn' ? OWNER_SITE_ZH : OWNER_SITE}>zhouyixiaoxiao.com</a>
+          {localizedText(lang, '.', '。')}
+        </p>
+      </section>
+
+      <section className="prose-section maintainer-section" id="maintainers">
+        <h2>{localizedText(lang, 'For maintainers', '维护者')}</h2>
+        <p>
+          {localizedText(
+            lang,
+            'Machine-readable exports and the repository inventory used by the tooling that maintains this atlas:',
+            '维护本图谱的工具所用的机器可读导出与仓库清单：',
           )}
         </p>
         <ul>
           <li>
-            <code>python3 scripts/reportctl.py web-data</code>
+            <Link href={prefixPath(prefix, '/agent-sync')}>Agent sync</Link>
+            {localizedText(lang, ' — JSONL and manifest exports', ' — JSONL 与 manifest 导出')}
           </li>
           <li>
-            <code>python3 scripts/reportctl.py book-data</code>
+            <Link href={prefixPath(prefix, '/repo-sync')}>{localizedText(lang, 'Repository sync', '仓库同步')}</Link>
+            {localizedText(lang, ' — files in the repository, by category', ' — 仓库文件分类清单')}
           </li>
-          <li>
-            <code>python3 scripts/reportctl.py translation-qc</code>
-          </li>
-          <li>
-            <code>python3 scripts/reportctl.py agent-sync</code>
-          </li>
-          <li>
-            <code>python3 scripts/reportctl.py content-iterate --rounds 3 --mode full</code>
-          </li>
-          <li>
-            <code>python3 scripts/validate_web_data.py</code>
-          </li>
-          <li>
-            <code>cd site && npm run build</code>
-          </li>
-          <li>
-            <code>python3 scripts/reportctl.py deliverables --mode full</code>
-          </li>
+        </ul>
+        <p>{localizedText(lang, 'The site is built by these commands, from the repository root:', '站点由以下命令构建（在仓库根目录运行）：')}</p>
+        <ul className="command-list">
+          {commands.map((cmd) => (
+            <li key={cmd}>
+              <code>{cmd}</code>
+            </li>
+          ))}
         </ul>
       </section>
     </AppShell>

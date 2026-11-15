@@ -4,8 +4,12 @@ import '@/app/globals.css';
 const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH || '').replace(/\/$/, '');
 
 export const metadata = {
-  title: 'valley-k-small web atlas',
-  description: 'Interactive bilingual research atlas for valley-k-small',
+  title: {
+    default: 'Valley-K Small · a research atlas of first-passage times',
+    template: '%s · Valley-K Small',
+  },
+  description:
+    'Bilingual reports, talks and a book on first-passage times of random walks on lattices with shortcuts, by Xiaoxiao Zhouyi.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

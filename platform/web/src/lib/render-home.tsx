@@ -62,8 +62,8 @@ export function renderAtlasHome(lang: Lang, prefix: string) {
           <p className="figure-caption">
             {localizedText(
               lang,
-              'Exact first-passage-time distribution f(t) on a lazy ring of N = 100 sites with one directed shortcut (K = 4, β = 0.01): an early hump, a valley and a late hump. The series ends at t = 4000. Drawn from the data behind Fig. 1 of ',
-              '一个 N = 100 的懒惰环加一条有向捷径（K = 4，β = 0.01）上的精确首达时间分布 f(t)：早峰、谷、晚峰。数据序列截至 t = 4000，取自报告《',
+              'Exact first-passage-time distribution f(t) on a lazy ring of N = 100 sites with one directed shortcut (K = 4, β = 0.01): an early hump, a valley and a late hump. The curve is drawn to t = 1200. Drawn from the data behind Fig. 1 of ',
+              '一个 N = 100 的懒惰环加一条有向捷径（K = 4，β = 0.01）上的精确首达时间分布 f(t)：早峰、谷、晚峰。曲线画到 t = 1200，取自报告《',
             )}
             <Link href={prefixPath(prefix, `/reports/${figureReport}`)}>{titleOf(figureReport)}</Link>
             {localizedText(lang, '.', '》的图 1。')}

@@ -140,6 +140,62 @@ CLAIM_STOPWORDS = {
 from report_copy import REPORT_DEFINITIONS, REPORT_TEXT_OVERRIDES  # noqa: E402
 
 
+# Methods are named by what they do, never after a person, and the pages do not
+# mention supervisors. Text extracted from manuscripts (section notes, formulas,
+# claims) still carries such names, so it is rewritten before publication. Slugs
+# and file paths are not touched (they are lower-case and not matched here).
+PERSON_NAME_REWRITES: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"Positioning Against Luca \(Bristol\) Literature"), "Relation to earlier lattice first-passage work"),
+    (re.compile(r"与\s*Luca\s*（Bristol）\s*文献的对应"), "与已有格点首达研究的对应"),
+    (re.compile(r"Luca Giuggioli['’]s line of work"), "earlier lattice first-passage work"),
+    (re.compile(r"\s*Giuggioli\s*学派"), "已有格点首达研究"),
+    (re.compile(r"\\text\{luca\}"), r"\\text{defect}"),
+    (re.compile(r"\bLuca[- ]win(?:ning)?\b"), "defect-reduction-faster"),
+    (re.compile(r"\bLuca\s+defect[- ]reduced\b"), "defect-reduced"),
+    (re.compile(r"\bLuca\s+mode\b"), "defect-reduction mode"),
+    (re.compile(r"\bLuca\s*(?=缺陷约化)"), ""),
+    (re.compile(r"\bLuca(?=\s*[\u4e00-\u9fff])\s*"), "缺陷约化"),
+    (re.compile(r"(?<=[\u4e00-\u9fff])\s*\bLuca\b"), "缺陷约化方法"),
+    (re.compile(r"\bLuca\b"), "defect-reduction method"),
+    (re.compile(r"[Ss]upervisor-facing\s+summary"), "Summary"),
+    (re.compile(r"[Ss]upervisor-facing\s+"), ""),
+]
+
+
+def scrub_person_names(text: str) -> str:
+    for pattern, replacement in PERSON_NAME_REWRITES:
+        text = pattern.sub(replacement, text)
+    return text
+
+
+def scrub_report_payload(payload: dict[str, Any]) -> None:
+    """Apply scrub_person_names to the reader-facing text fields of a report payload."""
+    for key in ("title", "summary", "teaser"):
+        if isinstance(payload.get(key), str):
+            payload[key] = scrub_person_names(payload[key])
+    if isinstance(payload.get("key_findings"), list):
+        payload["key_findings"] = [scrub_person_names(str(x)) for x in payload["key_findings"]]
+    narrative = payload.get("narrative")
+    if isinstance(narrative, dict):
+        for key, value in list(narrative.items()):
+            if isinstance(value, str):
+                narrative[key] = scrub_person_names(value)
+    for list_key, fields in (
+        ("section_cards", ("heading", "summary")),
+        ("math_blocks", ("latex", "context")),
+        ("math_story", ("stage", "description", "latex", "context")),
+    ):
+        rows = payload.get(list_key)
+        if not isinstance(rows, list):
+            continue
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            for field in fields:
+                if isinstance(row.get(field), str):
+                    row[field] = scrub_person_names(row[field])
+
+
 def normalize_space(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
@@ -3932,6 +3988,8 @@ def build_report_payload(
         teaser = normalize_space(str(override.get(lang_key, {}).get("teaser", "")))
         if teaser:
             payload["teaser"] = teaser
+    for payload in (base_meta, cn_meta):
+        scrub_report_payload(payload)
     merged_repro_commands = dedupe_preserve(
         [
             normalize_space(str(x))
@@ -4768,6 +4826,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
             if not curated_text:
                 cleaned_en = ensure_en_text(cleaned_en, rid, role=role_key, max_chars=460)
                 cleaned_cn = ensure_cn_text(cleaned_cn, rid, role=role_key, max_chars=320)
+            cleaned_en = scrub_person_names(cleaned_en)
+            cleaned_cn = scrub_person_names(cleaned_cn)
             if looks_like_operational_note(cleaned_en):
                 continue
             signature = normalize_finding_key(cleaned_en)

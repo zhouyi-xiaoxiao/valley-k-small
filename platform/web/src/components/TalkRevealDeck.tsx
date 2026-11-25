@@ -59,6 +59,11 @@ function imageSrc(lang: Lang, slide: TalkSlide) {
   return withBasePath(lang === 'cn' && slide.evidence.src_cn ? slide.evidence.src_cn : slide.evidence.src);
 }
 
+/** Site-relative links stay in the reader's language section (/en, /cn or root). */
+function linkHref(prefix: string, href: string) {
+  return withBasePath(href.startsWith('/') ? `${prefix}${href}` : href);
+}
+
 function readSlideIndex(hash: string, slideCount: number) {
   const match = hash.match(/slide-(\d+)/);
   if (!match) {
@@ -114,13 +119,13 @@ function PresenterPanel({
         <span className="talk-reveal-notes-label">
           {localized(lang, 'Other-language note', '另一语言提示')}
         </span>
-        <p>{secondary?.speaker_notes ?? secondary?.spoken_text ?? ''}</p>
+        <p>{secondary?.speaker_notes || secondary?.spoken_text || ''}</p>
       </div>
     </aside>
   );
 }
 
-function FigureSlide({ slide, lang }: { slide: TalkSlide; lang: Lang }) {
+function FigureSlide({ slide, lang, prefix }: { slide: TalkSlide; lang: Lang; prefix: string }) {
   if (slide.evidence?.kind !== 'image') {
     return (
       <div className="talk-reveal-unsupported">
@@ -141,7 +146,7 @@ function FigureSlide({ slide, lang }: { slide: TalkSlide; lang: Lang }) {
           {slide.links?.length ? (
             <div className="talk-claim-links">
               {slide.links.map((link) => (
-                <a key={link.href} href={withBasePath(link.href)}>
+                <a key={link.href} href={linkHref(prefix, link.href)}>
                   {localized(lang, link.label_en, link.label_cn)}
                 </a>
               ))}
@@ -203,10 +208,12 @@ function BasicIdeaSlide({
 function SlideViewport({
   slide,
   lang,
+  prefix,
   basicDemo,
 }: {
   slide: TalkSlide;
   lang: Lang;
+  prefix: string;
   basicDemo: BasicDemoPayload;
 }) {
   return (
@@ -220,7 +227,7 @@ function SlideViewport({
       ) : slide.animation?.kind === 'grid-hop-lab' ? (
         <TalkGridHopLab slide={slide} lang={lang} />
       ) : (
-        <FigureSlide slide={slide} lang={lang} />
+        <FigureSlide slide={slide} lang={lang} prefix={prefix} />
       )}
     </div>
   );
@@ -237,6 +244,7 @@ function ReadingSlide({
   index,
   total,
   lang,
+  prefix,
   basicDemo,
   note,
   live,
@@ -245,6 +253,7 @@ function ReadingSlide({
   index: number;
   total: number;
   lang: Lang;
+  prefix: string;
   basicDemo: BasicDemoPayload;
   note?: TalkSlideNote;
   live: boolean;
@@ -280,7 +289,7 @@ function ReadingSlide({
       {slide.links?.length ? (
         <div className="talk-claim-links">
           {slide.links.map((link) => (
-            <a key={link.href} href={withBasePath(link.href)}>
+            <a key={link.href} href={linkHref(prefix, link.href)}>
               {localized(lang, link.label_en, link.label_cn)}
             </a>
           ))}
@@ -311,7 +320,7 @@ function ReadingSlide({
 
 export function TalkRevealDeck({
   lang,
-  prefix: _prefix,
+  prefix,
   manifest,
   scriptEn,
   scriptCn,
@@ -511,7 +520,9 @@ export function TalkRevealDeck({
 
       <div className="talk-reveal-layout">
         <div className="talk-reveal-stage">
-          {currentSlide ? <SlideViewport slide={currentSlide} lang={lang} basicDemo={basicDemo} /> : null}
+          {currentSlide ? (
+            <SlideViewport slide={currentSlide} lang={lang} prefix={prefix} basicDemo={basicDemo} />
+          ) : null}
         </div>
 
         {presenterMode && currentSlide ? (
@@ -527,6 +538,7 @@ export function TalkRevealDeck({
             index={index}
             total={slides.length}
             lang={lang}
+            prefix={prefix}
             basicDemo={basicDemo}
             note={(lang === 'cn' ? chineseById : englishById).get(slide.id)}
             live={narrow}

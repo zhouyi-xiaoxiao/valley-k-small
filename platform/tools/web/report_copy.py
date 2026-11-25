@@ -602,11 +602,11 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_bimodality": {
         "en": {
-            "teaser": 'Three hand-built geometries on a 60 × 60 lattice (wrap-around drift, an edge corridor, a wall with one door) each give a fast and a slow route and two arrival peaks.',
+            "teaser": 'Three hand-built geometries on a 60 × 60 lattice (wrap-around drift, an edge corridor, a wall with one door and a sticky block) each give a fast and a slow route and two arrival peaks.',
             "title": "Grid2D Bimodality Baseline",
             "summary": (
                 "On a 60 × 60 lattice (lazy walk with drift; periodic in x, reflecting in y), three hand-built geometries — "
-                "a drift that wraps around, an edge corridor with a local bias, and a wall with one door — each give a fast "
+                "a drift that wraps around, an edge corridor with a local bias, and a wall with one door beside a small sticky block — each give a fast "
                 "and a slow route to one target and two arrival peaks, with the valley at most 7% of the smaller peak. "
                 "f(t) is computed exactly and by Abate–Whitt inversion (L¹ difference below 10⁻¹²) and checked by Monte Carlo."
             ),
@@ -624,7 +624,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "result_overview": (
                     "Case A (drift with wrap-around): peaks at t = 6 and 232. Case B (edge corridor with local bias): t = 33 "
-                    "and 473, needing a corridor at least 6 sites long. Case C (wall with one door, no local bias): t = 88 and "
+                    "and 473; of the corridor lengths 6 to 14 scanned, only 6 to 8 keep the valley below 7%. Case C (wall "
+                    "with one door and a small sticky block beside it, no local bias): t = 88 and "
                     "500. An interior corridor instead of an edge corridor reduces the early peak to a shoulder."
                 ),
             },
@@ -636,11 +637,11 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "teaser": '60 × 60 格点上的三种人为构造（绕一圈的漂移、边缘走廊、有一扇门的墙）都给出一快一慢两条路径和两个到达峰。',
+            "teaser": '60 × 60 格点上的三种人为构造（绕一圈的漂移、边缘走廊、有一扇门的墙加一小块黏滞区）都给出一快一慢两条路径和两个到达峰。',
             "title": "二维格点双峰基线",
             "summary": (
                 "在 60 × 60 的格点上（带漂移的懒惰游走；x 方向周期、y 方向反射），三种人为构造的几何——绕一圈的漂移、带局部偏置的"
-                "边缘走廊、有一扇门的墙——都给出通往同一目标的一快一慢两条路径和两个到达峰，谷不超过较小峰的 7%。"
+                "边缘走廊、门旁有一小块黏滞区的带门墙——都给出通往同一目标的一快一慢两条路径和两个到达峰，谷不超过较小峰的 7%。"
                 "f(t) 用精确递推和 Abate–Whitt 反演两种方法计算（L¹ 差小于 10⁻¹²），并用蒙特卡洛核对。"
             ),
             "narrative": {
@@ -653,8 +654,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "方法反演；蒙特卡洛 3 万条轨迹。在 9 步平滑后的 f 上找两个峰；谷比 = f(t_v)/min(h₁, h₂)，要求不超过 0.07。"
                 ),
                 "result_overview": (
-                    "情形 A（绕一圈的漂移）：峰在 t = 6 和 232。情形 B（带局部偏置的边缘走廊）：t = 33 和 473，走廊至少要 6 个格点长。"
-                    "情形 C（有一扇门的墙，无局部偏置）：t = 88 和 500。把边缘走廊换成内部走廊，早峰就退化成肩。"
+                    "情形 A（绕一圈的漂移）：峰在 t = 6 和 232。情形 B（带局部偏置的边缘走廊）：t = 33 和 473，在扫描的 6–14 格走廊长度中，只有 6 到 8 格能让谷低于 7%。"
+                    "情形 C（有一扇门的墙，门旁有一小块黏滞区，无局部偏置）：t = 88 和 500。把边缘走廊换成内部走廊，早峰就退化成肩。"
                 ),
             },
             "key_findings": [
@@ -860,17 +861,18 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "summary": (
                 "Two independent lazy walkers with opposite drifts on an 11 × 11 reflecting lattice, each with a directed "
                 "shortcut; their first-encounter distribution is computed exactly in the time domain. It has one peak for "
-                "shortcut strength β ≤ 0.25 and two (at t = 7 and 13) for β = 0.30 to 0.60, but at β = 0.40 only about 18% of pairs "
+                "shortcut strength β ≤ 0.25 and two (at t = 7 and 13, with a shallow dip: the valley is 80–90% of the "
+                "larger peak) for β = 0.30 to 0.60, but at β = 0.40 only about 18% of pairs "
                 "have met by t = 900. A separate check confirms a ring formula for the pair's generating function against "
-                "its mode sum (error ≤ 4.4 × 10⁻¹⁶)."
+                "its mode sum (absolute error ≤ 4.4 × 10⁻¹⁶)."
             ),
         },
         "cn": {
             "teaser": '11 × 11 反射格点上两个带捷径的懒惰游走者：精确计算的首次相遇时间在捷径强度 β = 0.30–0.60 时有两个峰，但 β = 0.40 时到 t = 900 只有约 18% 的游走者对已经相遇。',
             "summary": (
                 "11 × 11 反射格点上两个漂移方向相反、相互独立的懒惰游走者，各有一条有向捷径；在时域中精确计算二者的首次相遇时间分布。"
-                "捷径强度 β ≤ 0.25 时只有一个峰，β = 0.30 到 0.60 时有两个峰（在 t = 7 和 13），但 β = 0.40 时到 t = 900 只有约 18% 的游走者对已经相遇。"
-                "另有一项检验，用模式求和核对了环上二者联合生成函数的公式（误差不超过 4.4 × 10⁻¹⁶）。"
+                "捷径强度 β ≤ 0.25 时只有一个峰，β = 0.30 到 0.60 时有两个峰（在 t = 7 和 13，谷较浅，为较高峰的 80%–90%），但 β = 0.40 时到 t = 900 只有约 18% 的游走者对已经相遇。"
+                "另有一项检验，用按本征模展开的求和核对了环上二者联合生成函数的公式（绝对误差不超过 4.4 × 10⁻¹⁶）。"
             ),
         },
     },

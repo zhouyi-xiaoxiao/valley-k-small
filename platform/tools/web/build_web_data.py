@@ -137,7 +137,7 @@ CLAIM_STOPWORDS = {
 
 # Reader-facing titles, summaries, narratives and findings, written by hand
 # against each report's data: see report_copy.py (same directory).
-from report_copy import REPORT_DEFINITIONS, REPORT_TEXT_OVERRIDES  # noqa: E402
+from report_copy import REPORT_DEFINITIONS, REPORT_TEXT_OVERRIDES  # noqa: E402, I001
 
 
 # Methods are named by what they do, never after a person, and the pages do not

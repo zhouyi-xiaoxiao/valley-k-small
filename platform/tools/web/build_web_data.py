@@ -137,7 +137,7 @@ CLAIM_STOPWORDS = {
 
 # Reader-facing titles, summaries, narratives and findings, written by hand
 # against each report's data: see report_copy.py (same directory).
-from report_copy import REPORT_TEXT_OVERRIDES  # noqa: E402
+from report_copy import REPORT_DEFINITIONS, REPORT_TEXT_OVERRIDES  # noqa: E402
 
 
 def normalize_space(text: str) -> str:
@@ -3509,6 +3509,25 @@ def build_report_payload(
     readme_title, readme_summary, readme_findings = parse_readme(report_dir, report_id)
     tex_en = extract_tex_story(item, report_dir, report_id, "en")
     tex_cn = extract_tex_story(item, report_dir, report_id, "cn")
+    definitions = REPORT_DEFINITIONS.get(report_id, [])
+    if definitions:
+        main_tex = [str(x) for x in item.get("main_tex", [])]
+        for lang_key, story in (("en", tex_en), ("cn", tex_cn)):
+            source = next((name for name in main_tex if name.endswith(f"_{lang_key}.tex")), main_tex[0] if main_tex else "")
+            source_path = f"{report_rel}/{item.get('manuscript_dir') or 'manuscript'}/{source}" if source else report_rel
+            story["math_story"] = [
+                {
+                    "stage": row[f"stage_{lang_key}"],
+                    "description": row[f"description_{lang_key}"],
+                    "latex": row["latex"],
+                    "context": row[f"stage_{lang_key}"],
+                }
+                for row in definitions
+            ]
+            story["math_blocks"] = [
+                {"latex": row["latex"], "context": row[f"stage_{lang_key}"], "source_path": source_path, "lang": lang_key}
+                for row in definitions
+            ]
 
     top_assets = gather_files(report_dir, {".pdf", ".tex"}, max_assets)
     figure_assets = gather_files(report_dir / "figures" if (report_dir / "figures").exists() else report_dir, FIGURE_EXT, max_figures)

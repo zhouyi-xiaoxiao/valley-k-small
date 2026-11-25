@@ -1003,3 +1003,54 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
         },
     },
 }
+
+
+# Definitions shown in a report page's "Mathematics" section instead of the
+# formulas extracted from the manuscript (used when the extraction yields only
+# a generic placeholder). Each row: stage title, one-line explanation, LaTeX.
+REPORT_DEFINITIONS: dict[str, list[dict[str, str]]] = {
+    "ring_lazy_jump_ext": [
+        {
+            "stage_en": "First-passage time",
+            "stage_cn": "首达时间",
+            "description_en": "T is the first step at which the walker, started at site 1, stands on the target site 1 + N/2 (site 51 for N = 100); the target absorbs on the first visit.",
+            "description_cn": "T 是从格点 1 出发的游走者第一次站在目标格点 1 + N/2（N = 100 时为格点 51）上的步数；目标在第一次到达时即吸收。",
+            "latex": r"T=\min\{t\ge 1:\ X_t=n_{\mathrm{target}}\},\qquad X_0=1,\qquad n_{\mathrm{target}}=1+N/2",
+        },
+        {
+            "stage_en": "Step rule",
+            "stage_cn": "每一步的规则",
+            "description_en": "Away from the shortcut the walker stays put with probability 1 − q or jumps up to K/2 sites either way, each with probability q/K; q = 2/3, K = 2 or 4.",
+            "description_cn": "在捷径以外的格点，游走者以 1 − q 的概率停留，或以各 q/K 的概率向任一侧跳至多 K/2 个格点；q = 2/3，K = 2 或 4。",
+            "latex": r"P(n\to n)=1-q,\qquad P(n\to n\pm j)=\frac{q}{K}\quad (j=1,\dots,K/2)",
+        },
+        {
+            "stage_en": "Shortcut",
+            "stage_cn": "捷径",
+            "description_en": "The directed shortcut from site 6 to the site after the target takes a fraction β of the stay-put probability of site 6; nothing else changes.",
+            "description_cn": "从格点 6 指向目标下一个格点的有向捷径，取走格点 6 停留概率的 β 倍；其余转移不变。",
+            "latex": r"P(6\to n_{\mathrm{target}}+1)=p=\beta\,(1-q),\qquad P(6\to 6)=(1-q)-p",
+        },
+        {
+            "stage_en": "Distribution and survival",
+            "stage_cn": "分布与生存概率",
+            "description_en": "f(t) is the probability of first arriving at step t; S(t) is the probability of not having arrived by step t.",
+            "description_cn": "f(t) 是恰在第 t 步首次到达的概率；S(t) 是到第 t 步仍未到达的概率。",
+            "latex": r"f(t)=\Pr[T=t],\qquad S(t)=\Pr[T>t]=1-\sum_{s=1}^{t}f(s)",
+        },
+        {
+            "stage_en": "Peaks and valley",
+            "stage_cn": "峰与谷",
+            "description_en": "t₁ and t₂ are the two peaks (strict local maxima of f with f ≥ 10⁻⁷ and at least 1% of the highest peak) and t_v is the lowest point between them; a smaller valley ratio means a deeper valley.",
+            "description_cn": "t₁、t₂ 是两个峰（f ≥ 10⁻⁷、且不低于最高峰 1% 的严格局部极大值），t_v 是二者之间的最低点；谷比越小，谷越深。",
+            "latex": r"t_1<t_v<t_2,\qquad h_i=f(t_i),\qquad \text{valley ratio}=\frac{f(t_v)}{\max(h_1,h_2)}",
+        },
+        {
+            "stage_en": "Tail decay rate",
+            "stage_cn": "尾部衰减率",
+            "description_en": "λ_max is the largest eigenvalue of the transition matrix restricted to the non-target sites; γ is the rate at which late arrivals die out.",
+            "description_cn": "λ_max 是转移矩阵限制在非目标格点上的最大特征值；γ 是晚到概率衰减的速率。",
+            "latex": r"S(t)\propto e^{-\gamma t}\quad (t\to\infty),\qquad \gamma=-\ln\lambda_{\max}",
+        },
+    ],
+}

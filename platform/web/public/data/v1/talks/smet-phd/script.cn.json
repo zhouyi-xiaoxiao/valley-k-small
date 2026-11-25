@@ -6,82 +6,82 @@
       "slide_id": "opening",
       "start": "0:00",
       "end": "0:40",
-      "title": "Hidden Routes in First-Passage Time",
-      "spoken_text": "",
-      "speaker_notes": "开场直接说最近几个月的问题：同一个 target 能否通过不同路径族命中，而这些隐藏路径能否从首达时间分布的形状里读出来。",
-      "timing_prompt": "问题、路线图、三步结构。"
+      "title": "首达时间中的隐藏路径",
+      "spoken_text": "这条研究线只问一个问题：如果随机游走者能通过不止一类路径到达同一个目标，到达时间的完整分布能告诉我们这些路径的什么信息？我关心的形状是早峰、谷和晚峰。先从只有一个目标、一条单向捷径的环讲起，再到二维格点，最后看目标不止一个时会发生什么变化。",
+      "speaker_notes": "",
+      "timing_prompt": "路线：环 → 二维格点 → 多个目标。"
     },
     {
       "slide_id": "basic-idea",
       "start": "0:40",
       "end": "1:35",
-      "title": "What Is First-Passage Time?",
-      "spoken_text": "",
-      "speaker_notes": "给非本方向听众补定义。强调 first hit，一旦碰到 target 轨迹就停止，右边统计的是 many trials 的 first-hit histogram。",
-      "timing_prompt": "从零解释 first-passage。"
+      "title": "什么是首达时间？",
+      "spoken_text": "先说清楚测的是什么。随机游走每一步随机移动一格。首达时间是游走者第一次到达目标的那一步，到达后这条轨迹就结束。把游走重复很多次，就得到一张直方图，次数足够多时就是分布 f(t)。只看平均时间会把形状抹掉：一条主导路径通常给出一个峰，而延迟不同的两类路径可能留下两个峰。",
+      "speaker_notes": "",
+      "timing_prompt": "动画里轨迹一碰到目标就停止，直方图随之累积。"
     },
     {
       "slide_id": "why-double-peaks",
       "start": "1:35",
       "end": "2:20",
-      "title": "Why a Double Peak Matters",
-      "spoken_text": "",
-      "speaker_notes": "这里只讲直觉：单峰对应一个主导时间尺度，双峰对应两个仍然可见的路径族，中间 valley 是两边都不占优的窗口。",
-      "timing_prompt": "只讲 shape = mechanism clue。"
+      "title": "为什么双峰值得关注",
+      "spoken_text": "所以形状本身有意义。单峰通常意味着只有一个主导的到达时间尺度；双峰往往提示有两类延迟不同的路径，两峰之间的谷是两类路径都不占优的时段。形状是机制的线索，不是证明：每个例子都要再核实，后面几页做的就是这件事。",
+      "speaker_notes": "",
+      "timing_prompt": "本页曲线为示意图。"
     },
     {
       "slide_id": "ring-single-target",
       "start": "2:20",
       "end": "3:35",
-      "title": "Single Target on a Ring",
-      "spoken_text": "",
-      "speaker_notes": "左边是真实 ring shortcut 几何，右边是真实 one-peak vs two-peak figure。重点不是每个 shortcut 都双峰，而是两条路径族必须在时间上分开且权重都保留下来。",
-      "timing_prompt": "把最小机制讲清楚。"
+      "title": "同一个环、同一条捷径：一种尖锐单峰，一种分成两峰",
+      "spoken_text": "最简单的计算实例：一个 100 格的环，一个吸收目标，一条从第 6 格通到目标后一格的单向捷径。其余格点上，游走者留在原地、向左、向右的概率各为三分之一。两幅图只改了捷径起点那一格的规则。走捷径的概率为四分之一时，大多数游走者很快就走了捷径：t = 27 处一个尖峰，后面拖着长尾。走捷径的概率很小时，分布分成两峰：t = 51 的早峰几乎全由走了捷径的游走者组成，t ≈ 1,021 的晚峰里有四分之三的游走者从未走过捷径。所以有捷径并不自动产生双峰；两类路径在时间上分得开、而且各自占有分量时，才会出现双峰。",
+      "speaker_notes": "",
+      "timing_prompt": "两幅图都是精确计算；纵轴量级不同。"
     },
     {
       "slide_id": "recent-single-target",
       "start": "3:35",
       "end": "4:50",
-      "title": "Route Design Changes the Distribution",
-      "spoken_text": "",
-      "speaker_notes": "强调最近结果：不是有没有 shortcut，而是 shortcut destination 改了以后，late branch 的高度和时间位置都会变，而且不是单调变化。",
-      "timing_prompt": "突出 recent contribution。"
+      "title": "捷径落在哪里，决定第二峰是否出现",
+      "spoken_text": "接下来换一个环模型：每一步最远可以跳到两侧第三格，捷径从起点出发。这里把捷径的落点沿环移动。只有少数落点，即 36 到 39 和 62 到 64，会在第 100 步左右出现与第一峰分得开的第二峰。捷径落在目标紧旁边时，两个极大只差两到四步，太近，不能当作两类路径来解读。大多数落点根本没有第二峰。可见路径通向哪里很关键，而且影响不是单调的。",
+      "speaker_notes": "",
+      "timing_prompt": "与上一页不是同一个环模型。"
     },
     {
       "slide_id": "from-ring-to-2d",
       "start": "4:50",
       "end": "6:05",
-      "title": "Which Spatial Configurations Create a Double Peak?",
-      "spoken_text": "",
-      "speaker_notes": "左边 one-target partition，右边 two-target companion。这里讲的是 1D 的快慢路径逻辑怎么在 2D 里变成 geometry-controlled 的机制。",
-      "timing_prompt": "把 1D 到 2D 的桥搭起来。"
+      "title": "两种保留两个时间尺度的二维布局",
+      "spoken_text": "到了二维，布局决定两个时间尺度能否保留。这里有两种可以保留的布局：一种是通道壁偶尔放行、远端只有一个目标的通道；另一种是没有通道、起点附近一个目标、远处一个目标的开放格点。按报告的分类器，两条计算所得的分布都有两个清楚的峰。在通道里，竞争发生在沿通道直走和在通道外停留之间；有两个目标时，又多了目标之间的竞争。",
+      "speaker_notes": "",
+      "timing_prompt": "两条曲线都是精确计算；布局小图为示意。"
     },
     {
       "slide_id": "outside-vs-membrane",
       "start": "6:05",
       "end": "7:35",
-      "title": "Outside Excursion or Membrane Crossing?",
-      "spoken_text": "",
-      "speaker_notes": "这一页只保留一个核心点：peak2 和 valley 的差别，更强地体现在 outside budget，而不是 membrane probability 本身。",
-      "timing_prompt": "最深的一页，结论只讲一句。"
+      "title": "是在通道外停留，还是穿过通道壁？",
+      "spoken_text": "对单目标通道来说，晚峰主要来自在通道外停留的时间，还是来自穿过通道壁这件事本身？把谷里的到达和晚峰时间窗里的到达相比：晚到的轨迹在到达目标前，在通道外多停留得多，通道壁关闭或几乎关闭时约 1,300 步对 700 步；而两个时间窗里穿过通道壁的概率几乎相同。所以在这个设置里，穿壁有作用，但延迟主要来自在通道外停留的时间。",
+      "speaker_notes": "",
+      "timing_prompt": "数值取自通道报告原文，报告未给出误差。"
     },
     {
       "slide_id": "many-targets",
       "start": "7:35",
       "end": "8:50",
-      "title": "From One Target to Many Potential Targets",
-      "spoken_text": "",
-      "speaker_notes": "展望从 one target 到 two/many targets。双峰机制以后不只是在讲 route competition，也在讲 target competition。",
-      "timing_prompt": "自然收束到 open question。"
+      "title": "从两个目标到多个目标",
+      "spoken_text": "有两个目标时，一个峰可以对应某一个目标。在没有通道的布局里，早峰时间窗全部是到达近目标的轨迹，晚峰时间窗几乎全部是到达远目标的轨迹。目标更多时会出现新的问题：近处的目标会屏蔽远处的目标，几组目标会相互竞争，少数游走者可能很晚才到达远处的目标。待解的问题是：路径竞争和目标竞争同时存在时，究竟是什么机制让分布出现双峰。",
+      "speaker_notes": "",
+      "timing_prompt": "用开放问题收束物理部分。"
     },
     {
       "slide_id": "formula-foundations",
       "start": "8:50",
       "end": "10:00",
-      "title": "Minimal Mathematical Backbone",
-      "spoken_text": "",
-      "speaker_notes": "最后用最小数学骨架收尾：2D lattice 上的差分更新，first-hit time T，survival S(t)，以及 f(t)=S(t-1)-S(t)。不要推导，只讲骨架。",
-      "timing_prompt": "用公式收尾，稳住数学感。"
+      "title": "最小的数学骨架",
+      "spoken_text": "每一张图背后都是同一小组对象。概率按离散时间主方程在格点之间移动，包括留在原地的概率；到达目标的概率被移除，因为目标是吸收态。T 是游走者第一次处在目标上的步数。存活概率 S(t) 是到第 t 步这件事还没发生的概率，首达时间分布 f(t) 就是第 t 步 S 减少的部分。",
+      "speaker_notes": "",
+      "timing_prompt": "只作为数学锚点，不做推导。"
     }
   ]
 }

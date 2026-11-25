@@ -13,6 +13,7 @@ import {
   localizedText,
   prefixPath,
 } from '@/lib/content';
+import { displayEvidenceSnippet, isGeneratedAssetDataset, isLatexResidue, isPlaceholderText } from '@/lib/atlas';
 import { KATEX_MACROS } from '@/lib/latex';
 import type { BookChapter, Lang } from '@/types';
 
@@ -92,6 +93,43 @@ function chapterSummary(chapter: BookChapter, lang: Lang): string {
   return lang === 'cn' ? chapter.summary_cn : chapter.summary_en;
 }
 
+function displayChapterClaimText(lang: Lang, text: string, englishText = ''): string {
+  const own = text.trim();
+  if (!isPlaceholderText(own) && !isLatexResidue(own)) {
+    return own;
+  }
+  if (lang === 'cn' && englishText && !isPlaceholderText(englishText) && !isLatexResidue(englishText)) {
+    return englishText.trim();
+  }
+  return '';
+}
+
+function visibleChapterEvidence(
+  claim: BookChapter['claim_ledger'][number],
+  lang: Lang,
+) {
+  const reportTitle = loadReportMeta(claim.report_id, 'en')?.title ?? '';
+  let previousKey = '';
+  return claim.evidence
+    .map((ev) => ({
+      ...ev,
+      snippet: displayEvidenceSnippet(
+        lang,
+        lang === 'cn' ? ev.snippet_cn : ev.snippet_en,
+        ev.snippet_en,
+        reportTitle,
+      ),
+    }))
+    .filter((ev) => {
+      const key = `${ev.evidence_type}\u0000${ev.path}\u0000${ev.snippet}`;
+      if (key === previousKey) {
+        return false;
+      }
+      previousKey = key;
+      return true;
+    });
+}
+
 function shortLine(text: string, max = 260): string {
   const value = String(text || '').replace(/\s+/g, ' ').trim();
   if (value.length <= max) {
@@ -112,10 +150,10 @@ function chapterStoryline(chapter: BookChapter, lang: Lang, transitionHint?: str
   const finding = pickByStage('finding');
 
   const lines: string[] = [];
-  const modelText = model ? (lang === 'cn' ? model.text_cn : model.text_en) : '';
-  const methodText = method ? (lang === 'cn' ? method.text_cn : method.text_en) : '';
-  const resultText = result ? (lang === 'cn' ? result.text_cn : result.text_en) : '';
-  const findingText = finding ? (lang === 'cn' ? finding.text_cn : finding.text_en) : '';
+  const modelText = model ? displayChapterClaimText(lang, lang === 'cn' ? model.text_cn : model.text_en, model.text_en) : '';
+  const methodText = method ? displayChapterClaimText(lang, lang === 'cn' ? method.text_cn : method.text_en, method.text_en) : '';
+  const resultText = result ? displayChapterClaimText(lang, lang === 'cn' ? result.text_cn : result.text_en, result.text_en) : '';
+  const findingText = finding ? displayChapterClaimText(lang, lang === 'cn' ? finding.text_cn : finding.text_en, finding.text_en) : '';
 
   if (modelText) {
     lines.push(
@@ -363,6 +401,24 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
   const spine = backbone?.chapter_spine.find((row) => row.chapter_id === chapter.chapter_id);
   const chapterTerms = (glossary?.terms || []).filter((term) => term.related_chapter_ids.includes(chapterId)).slice(0, 10);
   const storyline = chapterStoryline(chapter, lang, lang === 'cn' ? spine?.transition_to_next_cn : spine?.transition_to_next_en);
+  const chapterPanels = chapter.interactive_panels.flatMap((panel) => {
+    const meta = loadReportMeta(panel.report_id, lang);
+    const configuredDataset = (meta?.datasets || []).find((dataset) => dataset.series_id === panel.dataset_series_id);
+    if (configuredDataset && isGeneratedAssetDataset(configuredDataset)) {
+      return [];
+    }
+    const availableDatasets = (meta?.datasets || []).filter((dataset) => !isGeneratedAssetDataset(dataset));
+    const datasets = availableDatasets.filter((dataset) => dataset.series_id === panel.dataset_series_id);
+    const selectedDatasets = datasets.length > 0 ? datasets : availableDatasets.slice(0, 1);
+    if (selectedDatasets.length === 0) {
+      return [];
+    }
+    const fallbackDatasetId = datasets.length === 0 ? selectedDatasets[0].series_id : null;
+    return [{ panel, selectedDatasets, fallbackDatasetId }];
+  });
+  const visibleClaims = chapter.claim_ledger.filter((claim) =>
+    Boolean(displayChapterClaimText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en)),
+  );
 
   return (
     <AppShell lang={lang} prefix={prefix}>
@@ -374,7 +430,7 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
           <p>
             <span className="badge">{localizedText(lang, 'Read time', '阅读时长')} {chapterMeta.estimated_read_minutes} min</span>{' '}
             <span className="badge">{localizedText(lang, 'Reports', '关联报告')} {chapterMeta.report_ids.length}</span>{' '}
-            <span className="badge">{localizedText(lang, 'Interactive panels', '交互图段')} {chapterMeta.interactive_count}</span>
+            <span className="badge">{localizedText(lang, 'Interactive panels', '交互图段')} {chapterPanels.length}</span>
           </p>
         ) : null}
         {renderChapterNav(lang, prefix, chapter)}
@@ -435,15 +491,11 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
         </div>
       </section>
 
+      {chapterPanels.length > 0 ? (
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Interactive Evidence Panel', '交互证据面板')}</h2>
         <div style={{ display: 'grid', gap: '1rem' }}>
-          {chapter.interactive_panels.map((panel) => {
-            const meta = loadReportMeta(panel.report_id, lang);
-            const datasets = (meta?.datasets || []).filter((ds) => ds.series_id === panel.dataset_series_id);
-            const selectedDatasets = datasets.length > 0 ? datasets : (meta?.datasets || []).slice(0, 1);
-            const fallbackDatasetId =
-              datasets.length === 0 && selectedDatasets.length > 0 ? selectedDatasets[0].series_id : null;
+          {chapterPanels.map(({ panel, selectedDatasets, fallbackDatasetId }) => {
             return (
               <article key={panel.panel_id} className="card">
                 <h3>{lang === 'cn' ? panel.title_cn : panel.title_en}</h3>
@@ -467,6 +519,7 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
           })}
         </div>
       </section>
+      ) : null}
 
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Evidence Trail', '证据链路')}</h2>
@@ -495,21 +548,21 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Claim Ledger', 'Claim 台账')}</h2>
         <div style={{ display: 'grid', gap: '0.8rem' }}>
-          {chapter.claim_ledger.map((claim) => (
+          {visibleClaims.map((claim) => (
             <article key={claim.claim_id} className="card">
               <p>
                 <span className="badge">{claim.stage}</span>{' '}
                 <span className="badge">{claim.claim_id}</span>{' '}
                 <span className="badge">{claim.report_id}</span>
               </p>
-              <p>{lang === 'cn' ? claim.text_cn : claim.text_en}</p>
+              <p>{displayChapterClaimText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en)}</p>
               <details>
                 <summary>{localizedText(lang, 'Open evidence links', '展开证据链接')}</summary>
                 <ul>
-                  {claim.evidence.map((ev) => (
-                    <li key={`${claim.claim_id}-${ev.path}`}>
+                  {visibleChapterEvidence(claim, lang).map((ev, index) => (
+                    <li key={`${claim.claim_id}-${ev.evidence_type}-${ev.path}-${index}`}>
                       <code>{ev.evidence_type}</code> <code>{ev.path}</code>
-                      <p>{lang === 'cn' ? ev.snippet_cn : ev.snippet_en}</p>
+                      {ev.snippet ? <p>{ev.snippet}</p> : null}
                     </li>
                   ))}
                 </ul>
@@ -579,17 +632,27 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
       {chapters.map((chapter, idx) => {
         const spineRow = backbone?.chapter_spine.find((row) => row.chapter_id === chapter.chapter_id);
         const storyline = chapterStoryline(chapter, lang, lang === 'cn' ? spineRow?.transition_to_next_cn : spineRow?.transition_to_next_en);
-        const chapterPanels = chapter.interactive_panels.map((panel) => {
+        const chapterPanels = chapter.interactive_panels.flatMap((panel) => {
           const panelMeta = loadReportMeta(panel.report_id, lang);
-          const panelDatasets = (panelMeta?.datasets || []).filter((ds) => ds.series_id === panel.dataset_series_id);
-          const selectedDatasets = panelDatasets.length > 0 ? panelDatasets : (panelMeta?.datasets || []).slice(0, 1);
-          const fallbackDatasetId =
-            panelDatasets.length === 0 && selectedDatasets.length > 0 ? selectedDatasets[0].series_id : null;
-          return { panel, selectedDatasets, fallbackDatasetId };
+          const configuredDataset = (panelMeta?.datasets || []).find((dataset) => dataset.series_id === panel.dataset_series_id);
+          if (configuredDataset && isGeneratedAssetDataset(configuredDataset)) {
+            return [];
+          }
+          const availableDatasets = (panelMeta?.datasets || []).filter((dataset) => !isGeneratedAssetDataset(dataset));
+          const panelDatasets = availableDatasets.filter((dataset) => dataset.series_id === panel.dataset_series_id);
+          const selectedDatasets = panelDatasets.length > 0 ? panelDatasets : availableDatasets.slice(0, 1);
+          if (selectedDatasets.length === 0) {
+            return [];
+          }
+          const fallbackDatasetId = panelDatasets.length === 0 ? selectedDatasets[0].series_id : null;
+          return [{ panel, selectedDatasets, fallbackDatasetId }];
         });
         const prevChapter = idx > 0 ? chapters[idx - 1] : null;
         const nextChapter = idx + 1 < chapters.length ? chapters[idx + 1] : null;
         const visibleIntro = chapterIntro(chapter, lang);
+        const visibleClaims = chapter.claim_ledger.filter((claim) =>
+          Boolean(displayChapterClaimText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en)),
+        );
         return (
           <section id={chapter.chapter_id} key={`continuous-${chapter.chapter_id}`} className="card section-enter" style={{ marginTop: '1rem' }}>
             <div className="kicker">{chapterKicker(chapter, lang)}</div>
@@ -640,11 +703,11 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
               </div>
             </details>
 
-            <LazyDisclosure
+            {chapterPanels.length > 0 ? (<LazyDisclosure
               className="chapter-disclosure"
               summary={
                 <>
-                  {localizedText(lang, 'Open interactive lab', '展开交互实验区')} ({chapter.interactive_panels.length})
+                  {localizedText(lang, 'Open interactive lab', '展开交互实验区')} ({chapterPanels.length})
                 </>
               }
               placeholder={
@@ -683,20 +746,20 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
               ) : (
                 <p className="muted">{localizedText(lang, 'No interactive panel available for this chapter.', '本章暂无可用交互图。')}</p>
               )}
-            </LazyDisclosure>
+            </LazyDisclosure>) : null}
 
             <details className="chapter-disclosure">
               <summary>
-                {localizedText(lang, 'Open claims and evidence', '展开 Claim 与证据')} ({chapter.claim_ledger.length})
+                {localizedText(lang, 'Open claims and evidence', '展开 Claim 与证据')} ({visibleClaims.length})
               </summary>
               <div className="grid grid-2">
-                {chapter.claim_ledger.map((claim) => (
+                {visibleClaims.map((claim) => (
                   <article key={`claim-${chapter.chapter_id}-${claim.claim_id}`} className="card">
                     <p>
                       <span className="badge">{claim.stage}</span>{' '}
                       <span className="badge">{claim.claim_id}</span>
                     </p>
-                    <p>{lang === 'cn' ? claim.text_cn : claim.text_en}</p>
+                    <p>{displayChapterClaimText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en)}</p>
                     <p className="muted">
                       {localizedText(lang, 'Evidence items', '证据项')} {claim.evidence.length}
                     </p>

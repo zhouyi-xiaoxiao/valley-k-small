@@ -3,7 +3,7 @@
 // Everything here is presentation; report text and data come from public/data/v1.
 import fs from 'fs';
 import path from 'path';
-import type { Lang, ReportMeta, WebIndex } from '@/types';
+import type { DatasetMeta, Lang, ReportMeta, WebIndex } from '@/types';
 
 export const REPO_URL = 'https://github.com/zhouyi-xiaoxiao/valley-k-small';
 export const OWNER_SITE = 'https://zhouyixiaoxiao.com/';
@@ -198,7 +198,7 @@ export function isPlaceholderText(text: string): boolean {
   const enReport = new RegExp(`(?:^|:\\s*)Research report(?:\\s+${reportId})?\\.?$`, 'i');
   return (
     t.length === 0 ||
-    /WIP scaffold|not yet started|summary placeholder|^该研究报告：|[a-z0-9]+_[a-z0-9_]+\s*研究报告/.test(t) ||
+    /WIP scaffold|not yet started|summary placeholder|^该研究报告：|[a-z0-9]+_[a-z0-9_]+\s*研究报告|^该证据片段以英文记录，请结合路径在源文档核对。$/.test(t) ||
     cnSection.test(t) ||
     cnFinding.test(t) ||
     cnReportTitle.test(t) ||
@@ -206,6 +206,83 @@ export function isPlaceholderText(text: string): boolean {
     enPlaceholder.test(t) ||
     enReport.test(t)
   );
+}
+
+// Extraction can leave a prose card with pieces of a LaTeX formula but no
+// operators or delimiters. Keep those cards out of the reader-facing page.
+// The checks deliberately target malformed signatures rather than ordinary
+// inline mathematics such as `f(t) = ...` in curated copy.
+export function isLatexResidue(text: string): boolean {
+  const t = text.replace(/\s+/g, ' ').trim();
+  if (!t) {
+    return false;
+  }
+  if (/\\[A-Za-z]+/.test(t)) {
+    return true;
+  }
+  // Chinese-source text with the characters stripped leaves only full-width
+  // punctuation behind.
+  const fullWidthMarks = (t.match(/[，。、；：（）]/g) || []).length;
+  const hanChars = (t.match(/[\u4e00-\u9fff]/g) || []).length;
+  if (fullWidthMarks >= 3 && hanChars === 0) {
+    return true;
+  }
+  return (
+    /\bq\s+i\b/i.test(t) ||
+    /\b(?:p|q|f|r|Q|P)\s+t(?:\+?\d|\s|=)/.test(t) ||
+    /\bt\s+valley\b/i.test(t) ||
+    /\bT\s+\[/.test(t) ||
+    /\beq:[A-Za-z]/.test(t) ||
+    /\bp\s+pass\b/.test(t) ||
+    /(?:e-1|->|·)/.test(t) && /\b(?:alpha|lambda|max|Delta|tau|P|Q|R|f|F)\b/i.test(t)
+  );
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/** Remove generated stage wrappers from evidence snippets before display. */
+export function cleanEvidenceSnippet(text: string, reportTitle = ''): string {
+  const value = text.trim();
+  if (!value) {
+    return '';
+  }
+  if (reportTitle) {
+    const exact = new RegExp(
+      `^(?:Model|Method|Result|Finding) formula context in ${escapeRegExp(reportTitle)}:\\s*`,
+      'i',
+    );
+    const stripped = value.replace(exact, '').trim();
+    if (stripped !== value) {
+      return stripped;
+    }
+  }
+  // Keep a fallback for older payloads whose title differs from current metadata.
+  return value.replace(/^(?:Model|Method|Result|Finding) formula context in .+?:\s*/i, '').trim();
+}
+
+/** Localise an evidence snippet while suppressing generated filler. */
+export function displayEvidenceSnippet(
+  lang: Lang,
+  text: string,
+  englishText = '',
+  reportTitle = '',
+): string {
+  const localized = cleanEvidenceSnippet(text, reportTitle);
+  if (lang === 'cn' && (isPlaceholderText(localized) || isLatexResidue(localized) || !localized)) {
+    const english = cleanEvidenceSnippet(englishText, reportTitle);
+    return isPlaceholderText(english) || isLatexResidue(english) ? '' : english;
+  }
+  return isPlaceholderText(localized) || isLatexResidue(localized) ? '' : localized;
+}
+
+// The web-data fallback uses this stable series id and derived asset provenance
+// when a report has no research dataset. It must never be presented as a plot.
+export function isGeneratedAssetDataset(dataset: DatasetMeta): boolean {
+  return dataset.series_id.trim().toLowerCase() === 'asset-size-profile'
+    && dataset.provenance.type.trim().toLowerCase() === 'derived'
+    && dataset.provenance.source.trim().toLowerCase().startsWith('assets:');
 }
 
 // Title to show: the Chinese title when the generator produced a real one,

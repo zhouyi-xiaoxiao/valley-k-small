@@ -27,9 +27,12 @@ import {
   formatDay,
   START_HERE,
   displayTitle,
+  displayEvidenceSnippet,
   familyLabel,
   familyNote,
   isPlaceholderText,
+  isLatexResidue,
+  isGeneratedAssetDataset,
   reportFamily,
   loadRegistryStatus,
   scaffoldReports,
@@ -218,10 +221,10 @@ function isPlaceholderCardSummary(heading: string, summary: string): boolean {
 }
 
 function displayReportText(lang: Lang, text: string, englishText = ''): string {
-  if (!isPlaceholderText(text)) {
+  if (!isPlaceholderText(text) && !isLatexResidue(text)) {
     return text;
   }
-  if (lang === 'cn' && englishText && !isPlaceholderText(englishText)) {
+  if (lang === 'cn' && englishText && !isPlaceholderText(englishText) && !isLatexResidue(englishText)) {
     return englishText;
   }
   return '';
@@ -249,6 +252,7 @@ function localizeSectionCards(
 
 function pruneSectionCards(cards: Array<{ heading: string; summary: string; source_path: string }>) {
   const byHeading = new Map<string, { heading: string; summary: string; source_path: string }>();
+  const seenSummaries = new Set<string>();
   const summaryQuality = (summary: string) => {
     const normalized = summary.replace(/\s+/g, ' ').trim().toLowerCase();
     let score = 0;
@@ -283,6 +287,13 @@ function pruneSectionCards(cards: Array<{ heading: string; summary: string; sour
     }
     if (!summaryIsPlaceholder && isPlaceholderCardSummary(heading, card.summary)) {
       continue;
+    }
+    const summaryKey = card.summary.replace(/\s+/g, ' ').trim().toLowerCase();
+    if (summaryKey && seenSummaries.has(summaryKey)) {
+      continue;
+    }
+    if (summaryKey) {
+      seenSummaries.add(summaryKey);
     }
     const headingKey = heading.replace(/\s+/g, ' ').trim().toLowerCase();
     if (!headingKey) {
@@ -711,8 +722,8 @@ export function renderReportsPage(lang: Lang, prefix: string) {
         <p className="page-lede">
           {localizedText(
             lang,
-            `${written.length} written reports on first-passage times, grouped by the setting they study. They are working research reports, not peer-reviewed papers. Each page gives the findings, interactive figures and mathematics; the PDF is the full report. New here? Begin with the three marked “start here”.`,
-            `${written.length} 份已成文的首达时间报告，按所研究的模型分组。它们是研究工作报告，不是经过同行评审的论文。每页列出结论、交互图和数学推导，PDF 是报告全文。第一次来，可以先读标着「从这里开始」的三份。`,
+            `${written.length} written reports on first-passage times, grouped by the setting they study. They are working research reports, not peer-reviewed papers. Each page gives the findings and mathematics, with interactive figures where a research dataset is available; the PDF is the full report. New here? Begin with the three marked “start here”.`,
+            `${written.length} 份已成文的首达时间报告，按所研究的模型分组。它们是研究工作报告，不是经过同行评审的论文。每页列出结论和数学推导，有研究数据集的页面还提供交互图，PDF 是报告全文。第一次来，可以先读标着「从这里开始」的三份。`,
           )}
         </p>
         <p className="page-note">
@@ -821,6 +832,17 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   }
 
   const metaEn = loadReportMeta(reportId, 'en');
+  const visibleDatasets = meta.datasets.filter((dataset) => !isGeneratedAssetDataset(dataset));
+  const isWip = loadRegistryStatus()[reportId] === 'wip';
+  const visibleMathStory = isWip
+    ? meta.math_story.filter(
+        (item) =>
+          !/fallback/i.test(item.context) &&
+          !/^distribution setup$|^分布定义$/i.test(item.stage) &&
+          !/^defines first-passage probability objects used by later diagnostics\.?$/i.test(item.description) &&
+          !/^定义后续诊断所依赖的首达时间概率对象。?$/.test(item.description),
+      )
+    : meta.math_story;
   const figures = loadFigures(reportId);
   const network = loadReportNetwork();
   const contentMap = loadContentMap();
@@ -837,6 +859,14 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
     return left.claim_id.localeCompare(right.claim_id);
   });
   const arcsForReport = reportArcs(contentMap, reportId);
+  const hasConnectedReports = Boolean(
+    networkNode &&
+      (networkNode.previous_in_group ||
+        networkNode.next_in_group ||
+        networkNode.same_group_links.length > 0 ||
+        networkNode.cross_group_links.length > 0),
+  );
+  const hasSpecificWhereItFits = !isWip || Boolean(bookPlacement || hasConnectedReports || arcsForReport.length > 0);
   const guide = reportGuide(contentMap, reportId);
   const groupedAssets = groupAssets(meta.assets);
   const duplicateAssetCount = Math.max(0, meta.assets.length - groupedAssets.length);
@@ -846,17 +876,16 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const topFindings = localizedFindings.slice(0, 5);
   const extraFindings = localizedFindings.slice(5);
   // Formula cards that only repeat the logic chain are not shown twice.
-  const storyLatex = new Set(meta.math_story.map((item) => item.latex.replace(/\s+/g, '')));
-  const extraMathBlocks = meta.math_blocks.filter((block) => !storyLatex.has(block.latex.replace(/\s+/g, '')));
+  const storyLatex = new Set(visibleMathStory.map((item) => item.latex.replace(/\s+/g, '')));
+  const extraMathBlocks = (isWip ? [] : meta.math_blocks).filter((block) => !storyLatex.has(block.latex.replace(/\s+/g, '')));
   const successorId = SUPERSEDED_BY[reportId];
   const successorTitle = successorId
     ? displayTitle(lang, loadReportMeta(successorId, lang), loadReportMeta(successorId, 'en'), successorId)
     : '';
-  const filteredSections = pruneSectionCards(localizeSectionCards(lang, meta.section_cards, metaEn?.section_cards));
+  const filteredSections = isWip ? [] : pruneSectionCards(localizeSectionCards(lang, meta.section_cards, metaEn?.section_cards));
   const sectionsPreview = filteredSections.slice(0, 6);
   const sectionsExtra = filteredSections.slice(6);
   const family = reportFamily(reportId, loadIndex().reports.find((row) => row.report_id === reportId)?.group ?? '');
-  const isWip = loadRegistryStatus()[reportId] === 'wip';
   const title = displayTitle(lang, meta, metaEn, reportId);
   const rawSummary = (meta.summary || '').replace(/\*\*/g, '');
   // Scaffold reports carry generated template text; show only the status note for them.
@@ -878,7 +907,20 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
       metaEn?.narrative.result_overview ?? '',
     ),
   };
+  const narrativeSeen = new Set<string>();
+  for (const field of ['model_overview', 'method_overview', 'result_overview'] as const) {
+    const key = narrative[field].replace(/\s+/g, ' ').trim().toLowerCase();
+    if (!key) {
+      continue;
+    }
+    if (narrativeSeen.has(key)) {
+      narrative[field] = '';
+    } else {
+      narrativeSeen.add(key);
+    }
+  }
   const hasNarrative = !isWip && Object.values(narrative).some(Boolean);
+  const seenClaimTexts = new Set<string>();
   const visibleClaims = claimsOrdered
     .map((claim) => ({
       ...claim,
@@ -887,11 +929,24 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
       evidence: claim.evidence
         .map((ev) => ({
           ...ev,
-          snippet: displayReportText(lang, lang === 'cn' ? ev.snippet_cn : ev.snippet_en, ev.snippet_en),
+          snippet: displayEvidenceSnippet(
+            lang,
+            lang === 'cn' ? ev.snippet_cn : ev.snippet_en,
+            ev.snippet_en,
+            metaEn?.title ?? meta.title,
+          ),
         }))
         .filter((ev) => Boolean(ev.snippet)),
     }))
-    .filter((claim) => Boolean(claim.text));
+    .filter((claim) => Boolean(claim.text))
+    .filter((claim) => {
+      const key = claim.text.replace(/\s+/g, ' ').trim().toLowerCase();
+      if (!key || seenClaimTexts.has(key)) {
+        return false;
+      }
+      seenClaimTexts.add(key);
+      return true;
+    });
   const guideObjective = guide
     ? displayReportText(lang, lang === 'cn' ? guide.objective_cn : guide.objective_en, guide.objective_en)
     : '';
@@ -903,10 +958,10 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const hasClaimsBlock = visibleClaims.length > 0 || Boolean(guideObjective && guideObjective !== narrative.result_overview);
   const navItems = [
     { id: 'findings', label: localizedText(lang, 'Findings', '结论'), show: topFindings.length > 0 },
-    { id: 'interactive', label: localizedText(lang, 'Interactive figures', '交互图'), show: true },
+    { id: 'interactive', label: localizedText(lang, 'Interactive figures', '交互图'), show: visibleDatasets.length > 0 },
     { id: 'figures', label: localizedText(lang, 'Figures', '图'), show: figures.length > 0 },
-    { id: 'math-chain', label: localizedText(lang, 'Mathematics', '数学'), show: meta.math_story.length > 0 },
-    { id: 'where-it-fits', label: localizedText(lang, 'Where it fits', '全局位置'), show: true },
+    { id: 'math-chain', label: localizedText(lang, 'Mathematics', '数学'), show: visibleMathStory.length > 0 },
+    { id: 'where-it-fits', label: localizedText(lang, 'Where it fits', '全局位置'), show: hasSpecificWhereItFits },
     { id: 'working-record', label: localizedText(lang, 'Working record', '工作记录'), show: true },
   ].filter((item) => item.show);
 
@@ -1013,9 +1068,11 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         </section>
       ) : null}
 
-      <div id="interactive" style={{ marginTop: '1rem' }}>
-        <ReportPlotPanel reportId={reportId} datasets={meta.datasets} lang={lang} />
-      </div>
+      {visibleDatasets.length > 0 ? (
+        <div id="interactive" style={{ marginTop: '1rem' }}>
+          <ReportPlotPanel reportId={reportId} datasets={visibleDatasets} lang={lang} />
+        </div>
+      ) : null}
 
       {figures.length > 0 ? (
         <section id="figures" className="card section-enter" style={{ marginTop: '1rem' }}>
@@ -1089,7 +1146,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         </section>
       ) : null}
 
-      <section id="math-chain" className="card section-enter" style={{ marginTop: '1rem' }}>
+      {visibleMathStory.length > 0 ? <section id="math-chain" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Mathematics', '数学')}</h3>
         <p className="muted">
           {localizedText(
@@ -1099,7 +1156,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
           )}
         </p>
         <div className="grid grid-2">
-          {meta.math_story.map((item, idx) => {
+          {visibleMathStory.map((item, idx) => {
             const rendered = renderLatex(item.latex);
             return (
               <article key={`${item.stage}-${idx}`} className="card">
@@ -1121,7 +1178,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             );
           })}
         </div>
-      </section>
+      </section> : null}
 
       {extraMathBlocks.length > 0 ? (
         <section id="math-principles" className="card section-enter" style={{ marginTop: '1rem' }}>
@@ -1142,7 +1199,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         </section>
       ) : null}
 
-      <div id="where-it-fits" className="report-group-head">
+      {hasSpecificWhereItFits ? <div id="where-it-fits" className="report-group-head">
         <h2>{localizedText(lang, 'Where it fits', '在全局中的位置')}</h2>
         <p>
           {localizedText(
@@ -1151,9 +1208,9 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             '这份报告与书的章节、与其他报告之间的联系。',
           )}
         </p>
-      </div>
+      </div> : null}
 
-      <section id="book-position" className="card section-enter" style={{ marginTop: '1rem' }}>
+      {!isWip || bookPlacement ? <section id="book-position" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'In the book', '书中位置')}</h3>
         {bookPlacement ? (
           <>
@@ -1199,17 +1256,17 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         ) : (
           <p>{localizedText(lang, 'No book chapter discusses this report.', '书中没有专门讨论这份报告的章节。')}</p>
         )}
-      </section>
+      </section> : null}
 
-      <section id="connected-reports" className="card section-enter" style={{ marginTop: '1rem' }}>
+      {!isWip || hasConnectedReports ? <section id="connected-reports" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Connected Reports', '关联报告链')}</h3>
-        <p className="lead">
+        {!isWip ? <p className="lead">
           {localizedText(
             lang,
             'This report sits inside a shared chain. Use links below to move upstream/downstream and across model families.',
             '该报告位于同一研究链中，可通过下方链接跳转到上游/下游和跨模型家族的关联报告。',
           )}
-        </p>
+        </p> : null}
         <div className="grid grid-3">
           <article className="card">
             <h4>{localizedText(lang, 'Track Continuity', '轨道连续关系')}</h4>
@@ -1273,9 +1330,9 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             )}
           </article>
         </div>
-      </section>
+      </section> : null}
 
-      <section id="narrative-arcs" className="card section-enter" style={{ marginTop: '1rem' }}>
+      {!isWip || arcsForReport.length > 0 ? <section id="narrative-arcs" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Reading paths', '阅读路线')}</h3>
         <p className="lead">
           {localizedText(
@@ -1310,7 +1367,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         ) : (
           <p>{localizedText(lang, 'This report is not on any reading path yet.', '这份报告还不在任何阅读路线中。')}</p>
         )}
-      </section>
+      </section> : null}
 
 
       <div id="working-record" className="report-group-head">

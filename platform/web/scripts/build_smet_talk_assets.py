@@ -431,7 +431,7 @@ def build_fig3(lang: str) -> str:
             i1, i2 = maxima[0], maxima[1]
             iv = [i for i in minima if i1 < i < i2][0]
             body += [dot(ax.px(ts[i1]), ax.py(ys[i1]), 9, TEAL, "#ffffff"),
-                     text(ax.px(ts[i1]), ax.py(ys[i1]) - 24, tr("peak1", lang), F_NOTE, 700, TEAL, "middle"),
+                     text(ax.px(ts[i1]) - 6, ax.py(ys[i1]) - 24, tr("peak1", lang), F_NOTE, 700, TEAL, "start"),
                      dot(ax.px(ts[iv]), ax.py(ys[iv]), 9, SOFT, "#ffffff"),
                      text(ax.px(ts[iv]), ax.py(ys[iv]) + 48, tr("valley", lang), F_NOTE, 700, SOFT, "middle"),
                      dot(ax.px(ts[i2]), ax.py(ys[i2]), 9, AMBER, "#ffffff"),

@@ -1064,6 +1064,30 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "34 of 240 two-target ring cases as double peaks, and 126 of the 432 two-dimensional basin cases that have "
                 "a local inward bias (210 of 576 if cases without local bias are counted)."
             ),
+            "narrative": {
+                "model_overview": (
+                    "Four settings from the earlier reports are compared: a ring with one shortcut and one target; a ring with two targets; "
+                    "a two-dimensional lattice with a near and a far target under a global bias; and a two-dimensional lattice in which a small "
+                    "basin around the near target pulls weakly inward and holds the walker longer."
+                ),
+                "method_overview": (
+                    "One visual rule is used throughout. Let h₁ and h₂ be the heights of the two filtered local maxima of the first-passage "
+                    "curve f(t), and h_v the lowest value between them. A curve counts as a visible double peak when h_v / min(h₁, h₂) ≤ 0.8; "
+                    "a stricter version uses 0.6. The case counts are the labels given by the peak classifier in each scan."
+                ),
+                "result_overview": (
+                    "A visible double peak appears when two arrival routes both carry visible probability, arrive on well-separated time scales "
+                    "and leave a low valley between them. On the shortcut ring the fast route is the shortcut and the slow route is the rest of "
+                    "the ring. With two targets, the targets supply the early and the late route, so a shortcut is not needed. The two-dimensional "
+                    "scans show the same competition, although curves on a small grid are jagged; the basin scan is a pilot, not a complete phase diagram."
+                ),
+            },
+            "key_findings": [
+                "Shortcut ring: double peaks occur in a middle window of the shortcut strength β. With no shortcut there is no early peak; with too much shortcut probability the late peak is suppressed. The ring size N sets how far apart the two time scales are.",
+                "Two-target ring: 34 of 240 scanned cases are labelled double peaks.",
+                "Two-dimensional scan with a near and a far target: 7 of 20 cases are labelled double peaks.",
+                "Two-dimensional basin pilot: 210 of 576 cases are labelled double peaks, 126 of them among the 432 cases with a local inward bias. The smoothest examples combine weak local attraction with moderate holding.",
+            ],
         },
         "cn": {
             "teaser": '环与格点各报告的综述：给出一个看得见的双峰判据，并列出各报告的峰分类器给出的情形数。',
@@ -1073,6 +1097,27 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "并列出分类器给出的证据：共用的峰分类器把 240 个双目标环情形中的 34 个判为双峰；二维盆地中带局部向内偏置的 432 个情形里有 126 个"
                 "（若计入无局部偏置的情形，为 576 个中的 210 个）。"
             ),
+            "narrative": {
+                "model_overview": (
+                    "对比此前各报告里的四种设定：带一条捷径、一个目标的环；有两个目标的环；在全局偏置下有近、远两个目标的二维格点；"
+                    "以及在近目标周围加一小块盆地的二维格点，盆地内有微弱的向内偏置，并让游走者多停留一会儿。"
+                ),
+                "method_overview": (
+                    "全文用同一条目视判据。设首达时间曲线 f(t) 滤波后的两个局部极大值高度为 h₁、h₂，两者之间的最低值为 h_v；"
+                    "当 h_v / min(h₁, h₂) ≤ 0.8 时算作看得见的双峰，更严的一档取 0.6。各情形数是每次扫描中峰分类器给出的标签。"
+                ),
+                "result_overview": (
+                    "当两条到达路径都带有可见的概率、到达的时间尺度分得开、中间又留下足够低的谷时，就出现看得见的双峰。"
+                    "在带捷径的环上，快的路径是捷径，慢的路径是环的其余部分；有两个目标时，早、晚两条路径由两个目标提供，所以不需要捷径。"
+                    "二维扫描呈现同样的竞争，只是小格点上的曲线有锯齿；盆地扫描是试探性的，不是完整的相图。"
+                ),
+            },
+            "key_findings": [
+                "带捷径的环：双峰出现在捷径强度 β 的中间区间。没有捷径就没有早峰；捷径概率过大则晚峰被压掉。环长 N 决定两个时间尺度能分开多远。",
+                "双目标环：240 个扫描情形中有 34 个被判为双峰。",
+                "二维近、远目标扫描：20 个情形中有 7 个被判为双峰。",
+                "二维盆地试探扫描：576 个情形中有 210 个被判为双峰，其中 126 个出自带局部向内偏置的 432 个情形。最平滑的例子是微弱的局部吸引加上适度的停留。",
+            ],
         },
     },
 }

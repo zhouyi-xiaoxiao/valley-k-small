@@ -647,7 +647,7 @@ def build_talk_data() -> None:
             ("The ring gives the cleanest positive mechanism", "环模型给出最清楚的正面机制"),
             (
                 "On a lazy ring with one target and one directed shortcut (reference case N = 100 sites, start 1, target 51, shortcut 6 → 52, shortcut strength β = 0.01), paths through the shortcut arrive early and paths round the ring arrive late. Too small or too large a β removes one of the two peaks.",
-                "在一个带一个目标和一条有向捷径的懒惰环上（参考情形：N = 100 个格点，起点 1，目标 51，捷径 6 → 52，捷径强度 β = 0.01），走捷径的路径早到，绕环的路径晚到。β 太小或太大，都会让两个峰中的一个消失。",
+                "环上有一个目标和一条有向捷径，游走者做懒惰随机游走（参考情形：N = 100 个格点，起点 1，目标 51，捷径 6 → 52，捷径强度 β = 0.01），走捷径的路径早到，绕环的路径晚到。β 太小或太大，都会让两个峰中的一个消失。",
             ),
             ("When does a shortcut split rather than smear the arrivals?", "捷径什么时候会把到达时间分成两群，而不是抹平？"),
             evidence=image(

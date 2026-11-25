@@ -259,7 +259,7 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
               <strong>{state.steps}</strong>
             </div>
             <div>
-              <span>{localized(lang, 'current run', '本次步数')}</span>
+              <span>{localized(lang, 'steps this run', '本次步数')}</span>
               <strong>{state.runSteps}</strong>
             </div>
             <div>

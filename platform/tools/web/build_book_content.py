@@ -55,23 +55,23 @@ CHAPTER_BRIDGES: dict[str, tuple[str, str]] = {
     ),
     "chapter-2-grid2d-family": (
         "Bridge from Chapter 1: with shared FPT diagnostics in place, we test which Grid2D geometric constraints preserve or break bimodality.",
-        "承接第1章：在统一 FPT 诊断语言下，本章检验 Grid2D 中哪些几何约束会保持或破坏双峰结构。",
+        "承接第1章：在统一 FPT 诊断语言下，本章检验二维格点中哪些几何约束会保持或破坏双峰结构。",
     ),
     "chapter-3-ring-baseline": (
         "Bridge from Chapter 2: Grid2D established boundary-sensitive diagnostics; this chapter keeps those diagnostics but shifts geometry to a ring so shortcut and lazy effects can be isolated.",
-        "承接第2章：我们保留 Grid2D 的边界敏感诊断，但将几何切换到环结构，以单独识别 shortcut 与 lazy 机制。",
+        "承接第2章：我们保留二维格点的边界敏感诊断，但将几何切换到环模型，以单独识别捷径与停留机制。",
     ),
     "chapter-4-shortcut-variants": (
         "Bridge from Chapter 3: after fixing a conservative ring baseline, we vary shortcut implementations to identify which phase transitions are mechanism-driven.",
-        "承接第3章：在 ring 基线固定后，本章改变 shortcut 实现方式，识别哪些相位转变由机制本身驱动。",
+        "承接第3章：在环模型基线固定后，本章改变捷径实现方式，识别哪些相位转变由机制本身驱动。",
     ),
     "chapter-5-cross-model-synthesis": (
         "Bridge from Chapter 4: once shortcut variants are disentangled, we align Grid2D and Ring diagnostics into one transferable cross-model map.",
-        "承接第4章：在 shortcut 变体被拆解后，本章把 Grid2D 与 Ring 的诊断对齐为可迁移的统一图谱。",
+        "承接第4章：在捷径变体被拆解后，本章把二维格点与环模型的诊断对齐为可迁移的统一图谱。",
     ),
     "chapter-6-repro-validation": (
         "Bridge from Chapter 5: after cross-model synthesis, we now test whether every key claim remains reproducible under command-level and schema-level checks.",
-        "承接第5章：完成跨模型综合后，本章转向命令级与 schema 级核验，确认关键 claim 仍可复现。",
+        "承接第5章：完成跨模型综合后，本章转向命令级与结构级核验，确认关键结论仍可复现。",
     ),
     "chapter-7-outlook": (
         "Bridge from Chapter 6: once reproducibility gates are satisfied, unresolved mechanisms can be promoted into auditable next-step hypotheses instead of speculative notes.",
@@ -523,7 +523,7 @@ def chapter_special_theory_items(chapter_id: str, report_ids: list[str]) -> list
                 "label_en": "Schema-gated reproducibility contract",
                 "label_cn": "Schema 门禁复现契约",
                 "description_en": "Each release requires schema pass for web/book/agent payloads before publication.",
-                "description_cn": "每次发布前必须通过 web/book/agent 数据 schema 校验。",
+                "description_cn": "每次发布前必须通过网站、书籍和智能体数据的结构校验。",
                 "latex": r"\forall a\in\mathcal{A}_{release},\ \operatorname{validate}(a)=\mathrm{PASS}",
                 "context": "reproducibility_gate",
             },
@@ -543,7 +543,7 @@ def chapter_special_theory_items(chapter_id: str, report_ids: list[str]) -> list
                 "label_en": "Cross-check closure",
                 "label_cn": "交叉校验闭环",
                 "description_en": "Release is allowed only when multi-agent cross-check high-priority findings are closed.",
-                "description_cn": "仅当多 agent 交叉校验高优先级问题清零后才允许发布。",
+                "description_cn": "仅当多个智能体交叉校验、高优先级问题清零后才允许发布。",
                 "latex": r"\sum_{i\in\mathcal{H}}\mathbf{1}[\mathrm{open}_i]=0",
                 "context": "release_gate",
             },
@@ -554,9 +554,9 @@ def chapter_special_theory_items(chapter_id: str, report_ids: list[str]) -> list
                 "report_id": seed,
                 "stage": "outlook",
                 "label_en": "Hypothesis H1: hazard bridge between lattice and ring",
-                "label_cn": "假设 H1：网格与环的 hazard 桥接",
+                "label_cn": "假设 H1：网格与环的风险率桥接",
                 "description_en": "Open question: can one hazard-based criterion classify valley transitions across both families without geometry-specific tuning?",
-                "description_cn": "开放问题：是否存在单一 hazard 判据，在不依赖几何特化调参的情况下统一解释两类模型的谷值转变？",
+                "description_cn": "开放问题：是否存在单一风险率判据，在不依赖几何特化调参的情况下统一解释两类模型的谷值转变？",
                 "latex": r"H_1:\ \exists\ \Phi,\ \Phi(\text{Grid2D})\approx\Phi(\text{Ring})\Rightarrow\text{same valley class}",
                 "context": "open_hypothesis",
             },
@@ -576,7 +576,7 @@ def chapter_special_theory_items(chapter_id: str, report_ids: list[str]) -> list
                 "label_en": "Claim graph continuation rule",
                 "label_cn": "Claim 图谱延续规则",
                 "description_en": "Incoming agents should extend existing claim graph nodes instead of resetting report-level context.",
-                "description_cn": "新进入 agent 应在现有 claim 图谱上增量扩展，而不是重置报告上下文。",
+                "description_cn": "新进入的智能体应在现有结论图谱上增量扩展，而不是重置报告上下文。",
                 "latex": r"G_{t+1}=G_t\cup \Delta G,\ \Delta G\ \text{must reference existing evidence nodes}",
                 "context": "agent_handoff",
             },
@@ -593,19 +593,19 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "report_id": report_seed,
                 "stage": "method",
                 "text_en": "Reproducibility is enforced as an executable contract: web data, glossary, book chapters, backbone, agent sync, and validators run in one closed pipeline.",
-                "text_cn": "复现被实现为可执行契约：web 数据、术语表、章节、主干、agent 同步与校验在同一闭环流水线内执行。",
+                "text_cn": "复现被实现为可执行约定：网站数据、术语表、章节、主干、智能体同步与校验在同一闭环流水线内执行。",
                 "evidence": [
                     {
                         "evidence_type": "source_document",
                         "path": "scripts/reportctl.py",
                         "snippet_en": "reportctl wires web-data/book-data/agent-sync/validate into unified commands.",
-                        "snippet_cn": "reportctl 把 web-data/book-data/agent-sync/validate 串成统一命令入口。",
+                        "snippet_cn": "报告工具把网站数据、书籍数据、智能体同步和校验串成统一命令入口。",
                     },
                     {
                         "evidence_type": "source_document",
                         "path": "platform/tools/web/build_three_deliverables.py",
                         "snippet_en": "deliverables pipeline includes publication and agent pack outputs.",
-                        "snippet_cn": "三交付流水线包含 publication 与 agent pack 同步构建。",
+                        "snippet_cn": "三条交付流水线包含出版物与智能体资料包的同步构建。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -615,19 +615,19 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "report_id": report_seed,
                 "stage": "result",
                 "text_en": "Schema gates now cover both report payloads and book backbone, preventing hidden contract drift across releases.",
-                "text_cn": "schema 门禁已覆盖报告数据与 book 主干，避免版本迭代中出现隐性接口漂移。",
+                "text_cn": "结构门禁已覆盖报告数据与书籍主干，避免版本迭代中出现隐性接口漂移。",
                 "evidence": [
                     {
                         "evidence_type": "source_document",
                         "path": "platform/tools/web/validate_web_data.py",
                         "snippet_en": "validator checks book manifest/chapters/backbone and cross-file consistency.",
-                        "snippet_cn": "校验器会检查 book manifest/chapters/backbone 以及跨文件一致性。",
+                        "snippet_cn": "校验器会检查书籍目录、章节、主干以及跨文件一致性。",
                     },
                     {
                         "evidence_type": "source_document",
                         "path": "platform/schemas/book_backbone_v1.schema.json",
                         "snippet_en": "book backbone has explicit schema contract for chapter spine and acts.",
-                        "snippet_cn": "book backbone 具备章节主干与幕结构的显式 schema 契约。",
+                        "snippet_cn": "书籍主干具备章节结构与幕结构的显式数据约定。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -659,19 +659,19 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "report_id": report_seed,
                 "stage": "finding",
                 "text_en": "Agent handoff is traceable because manifest, chapter jsonl, claim graph, and translation QC are generated together with provenance pointers.",
-                "text_cn": "agent 交接可追溯，因为 manifest、章节 jsonl、claim 图谱与翻译质检会连同溯源指针一起生成。",
+                "text_cn": "智能体交接可追溯，因为目录清单、章节数据、结论图谱与翻译质检会连同溯源指针一起生成。",
                 "evidence": [
                     {
                         "evidence_type": "source_document",
                         "path": "platform/tools/web/build_agent_sync.py",
                         "snippet_en": "agent sync exports manifest, reports/events jsonl, book files, claim graph, and guide.",
-                        "snippet_cn": "agent sync 会导出 manifest、reports/events jsonl、book 文件、claim graph 与 guide。",
+                        "snippet_cn": "同步流程会导出目录清单、报告事件数据、书籍文件、结论图谱与导引。",
                     },
                     {
                         "evidence_type": "dataset",
                         "path": "/data/v1/agent/manifest.json",
                         "snippet_en": "manifest enumerates machine-readable files for downstream agents.",
-                        "snippet_cn": "manifest 枚举了供下游 agent 消费的机器可读文件。",
+                        "snippet_cn": "目录清单枚举了供下游程序读取的机器可读文件。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -684,19 +684,19 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "report_id": report_seed,
                 "stage": "finding",
                 "text_en": "Open gap: we still need a single hazard-led criterion that transfers from Grid2D corridors to ring shortcut regimes without case-specific redefinition.",
-                "text_cn": "开放缺口：仍需一个统一的 hazard 判据，能够从 Grid2D 通道情形迁移到 ring shortcut 区间，而不需要逐案重定义。",
+                "text_cn": "开放缺口：仍需一个统一的风险率判据，能够从二维格点通道情形迁移到环模型捷径区间，而不需要逐案重定义。",
                 "evidence": [
                     {
                         "evidence_type": "source_document",
                         "path": "research/reports/grid2d_two_target_double_peak/manuscript/grid2d_two_target_double_peak_en.tex",
                         "snippet_en": "grid two-target evidence provides hazard-sensitive valley behavior under geometric constraints.",
-                        "snippet_cn": "grid 双目标证据给出了几何约束下对 hazard 敏感的谷值行为。",
+                        "snippet_cn": "二维格点双目标证据给出了几何约束下对风险率敏感的谷值行为。",
                     },
                     {
                         "evidence_type": "source_document",
                         "path": "research/reports/ring_two_target/manuscript/ring_two_target_en.tex",
                         "snippet_en": "ring two-target results expose shortcut-regime transitions with comparable diagnostics.",
-                        "snippet_cn": "ring 双目标结果展示了可对齐诊断下的 shortcut 区间转变。",
+                        "snippet_cn": "环模型双目标结果展示了可对齐诊断下的捷径区间转变。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -718,7 +718,7 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                         "evidence_type": "dataset",
                         "path": "/data/v1/reports/cross_luca_regime_map/series/manifest.json",
                         "snippet_en": "manifest keeps explicit regime-scan metadata for reproducible transfer checks.",
-                        "snippet_cn": "manifest 保留了可复现迁移校验所需的相区扫描元数据。",
+                        "snippet_cn": "目录清单保留了可复现迁移校验所需的相区扫描元数据。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -728,19 +728,19 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "report_id": report_seed,
                 "stage": "method",
                 "text_en": "Next iteration should prioritize experiments by uncertainty reduction per compute cost, while preserving claim-evidence traceability constraints.",
-                "text_cn": "下一轮应按“单位计算成本的不确定性下降”来排序实验，并保持 claim-证据可追溯约束。",
+                "text_cn": "下一轮应按“单位计算成本的不确定性下降”来排序实验，并保持结论与证据可追溯。",
                 "evidence": [
                     {
                         "evidence_type": "source_document",
                         "path": "platform/web/public/data/v1/book/backbone.json",
                         "snippet_en": "backbone captures chapter-level dependencies and transition constraints for planning.",
-                        "snippet_cn": "backbone 记录了章节依赖与过渡约束，可直接用于实验规划。",
+                        "snippet_cn": "书籍主干记录了章节依赖与过渡约束，可直接用于实验规划。",
                     },
                     {
                         "evidence_type": "dataset",
                         "path": "/data/v1/agent/claim_graph.jsonl",
                         "snippet_en": "claim graph enables tracking which open questions are already evidence-linked.",
-                        "snippet_cn": "claim 图谱可以跟踪哪些开放问题已经建立证据链接。",
+                        "snippet_cn": "结论图谱可以跟踪哪些开放问题已经建立证据链接。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -750,7 +750,7 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                 "report_id": report_seed,
                 "stage": "result",
                 "text_en": "A new agent can continue the research storyline without context reset because chapter manifests, claim graph, and iteration history are packaged together.",
-                "text_cn": "新 agent 可在不重置上下文的情况下继续研究主线，因为章节 manifest、claim 图谱与迭代历史已被打包同步。",
+                "text_cn": "新的智能体可在不重置上下文的情况下继续研究主线，因为章节目录、结论图谱与迭代历史已被打包同步。",
                 "evidence": [
                     {
                         "evidence_type": "source_document",
@@ -784,7 +784,7 @@ def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[
                         "evidence_type": "source_document",
                         "path": "research/reports/ring_valley_dst/manuscript/ring_valley_dst_en.tex",
                         "snippet_en": "shortcut-strength scans show regime turnover tied to parameter choices.",
-                        "snippet_cn": "shortcut 强度扫描显示了与参数选择相关的相区翻转。",
+                        "snippet_cn": "捷径强度扫描显示了与参数选择相关的相区翻转。",
                     },
                 ],
                 "linked_report_ids": list(report_ids),
@@ -1005,7 +1005,7 @@ def chapter_transition(chapter: dict[str, Any], chapter_by_id: dict[str, dict[st
                 ellipsis=False,
             )
         return clean_text(
-            "桥接说明：延续 Grid2D 的 hazard/survival 诊断，但将几何切换到环模型，以隔离 shortcut 与 lazy 参数并排除边界形状混杂。",
+            "桥接说明：延续二维格点的风险率与生存概率诊断，但将几何切换到环模型，以隔离捷径与停留参数并排除边界形状混杂。",
             ellipsis=False,
         )
     if chapter_id == "chapter-5-cross-model-synthesis" and str(next_id) == "chapter-6-repro-validation":
@@ -1014,7 +1014,7 @@ def chapter_transition(chapter: dict[str, Any], chapter_by_id: dict[str, dict[st
                 "Before any new claims are added, move from synthesis to reproducibility gates and verify command-, schema-, and artifact-level closure.",
                 ellipsis=False,
             )
-        return clean_text("在增加新结论前，先从综合解释转入复现门禁，逐项验证命令级、schema 级与产物级闭环。", ellipsis=False)
+        return clean_text("在增加新结论前，先从综合解释转入复现门禁，逐项验证命令级、结构级与产物级闭环。", ellipsis=False)
     if chapter_id == "chapter-6-repro-validation" and str(next_id) == "chapter-7-outlook":
         if lang == "en":
             return clean_text(
@@ -1053,7 +1053,7 @@ def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "title_en": "Act II: Family Mechanisms",
             "title_cn": "第二幕：模型家族机制",
             "objective_en": "Expand Grid2D and Ring families with derivation-backed interaction checkpoints.",
-            "objective_cn": "在 Grid2D 与 Ring 家族中用推导与交互检查点展开机制差异。",
+            "objective_cn": "在二维格点与环模型家族中用推导与交互检查点展开机制差异。",
             "chapter_ids": pick(2, 3, 4),
         },
         {
@@ -1061,7 +1061,7 @@ def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "title_en": "Act III: Cross-Model Synthesis",
             "title_cn": "第三幕：跨模型综合",
             "objective_en": "Merge claims into a shared explanatory frame and validate reproducibility pathways.",
-            "objective_cn": "把各章节 claim 汇入统一解释框架，并验证复现链路。",
+            "objective_cn": "把各章节结论汇入统一解释框架，并验证复现链路。",
             "chapter_ids": pick(5, 6),
         },
         {
@@ -1427,7 +1427,7 @@ def main() -> int:
             "Excluded report claims remain available in report pages and content_map for deep audit. "
             "Chapter-native synthesis claims are tracked separately."
         ),
-        "policy_cn": "Book 章节优先保留来自 content_map 的非冗余主线 claim；未纳入章节的报告 claim 仍保留在报告页与 content_map 供深度核查。章节自生成综合 claim 单独统计。",
+        "policy_cn": "书籍章节优先保留内容图谱中的非冗余主线结论；未纳入章节的报告结论仍保留在报告页与内容图谱供深度核查。章节自生成的综合结论单独统计。",
         "global_claim_count": len(global_claim_ids),
         "chapter_claim_count": len(chapter_claim_ids),
         "chapter_total_claim_count": len(chapter_all_claim_ids),

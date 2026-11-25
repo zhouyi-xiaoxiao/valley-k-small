@@ -25,6 +25,65 @@ type SeriesSemantic = {
   source?: 'declared' | 'inferred' | 'manual';
 };
 
+const COLUMN_LABELS: Record<string, [string, string]> = {
+  t: ['step t', '步数 t'],
+  f: ['f(t)', 'f(t)'],
+  f_K2: ['f(t), K = 2', 'f(t)，K = 2'],
+  f_K4: ['f(t), K = 4', 'f(t)，K = 4'],
+  h1: ['first peak height h₁', '第一个峰的高度 h₁'],
+  h2: ['second peak height h₂', '第二个峰的高度 h₂'],
+  h2_over_h1: ['h₂ / h₁', 'h₂ / h₁'],
+  hv_over_max: ['valley height / higher peak', '谷高 / 较高的峰'],
+};
+
+const DATASET_LABELS: Record<string, [string, string]> = {
+  scan_candidate_C_bias: ['Candidate C local-bias scan', '候选 C 局部偏置扫描'],
+};
+
+function readerColumnLabel(value: string, lang: Lang): string {
+  const parts = value.split(',').map((part) => part.trim()).filter(Boolean);
+  return parts
+    .map((part) => {
+      const suffix = part.match(/^(.*?)(\s+\[(?:metric|probability|binary|parameter)\])$/i);
+      const base = suffix ? suffix[1] : part;
+      const mapped = COLUMN_LABELS[base];
+      if (!mapped) {
+        return part;
+      }
+      return `${mapped[lang === 'cn' ? 1 : 0]}${suffix ? suffix[2] : ''}`;
+    })
+    .join(lang === 'cn' ? '，' : ', ');
+}
+
+function hasReaderColumnLabel(value: string): boolean {
+  return value
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .every((part) => {
+      const suffix = part.match(/^(.*?)(\s+\[(?:metric|probability|binary|parameter)\])$/i);
+      return Boolean(COLUMN_LABELS[suffix ? suffix[1] : part]);
+    });
+}
+
+function readerSeriesName(value: string, lang: Lang): string {
+  const label = readerColumnLabel(value, lang);
+  if (lang !== 'cn') {
+    return label;
+  }
+  return label
+    .replace(/\s*\(first peak\)/gi, '（第一个峰）')
+    .replace(/\s*\(second peak\)/gi, '（第二个峰）');
+}
+
+function readerDatasetTitle(dataset: DatasetMeta, lang: Lang): string {
+  const mapped = Object.entries(DATASET_LABELS).find(([key]) => key.toLowerCase() === dataset.series_id.toLowerCase())?.[1];
+  if (mapped) {
+    return mapped[lang === 'cn' ? 1 : 0];
+  }
+  return (lang === 'cn' && dataset.title_cn) || dataset.title || dataset.series_id;
+}
+
 function uniqueStrings(values: string[]): string[] {
   const seen = new Set<string>();
   const out: string[] = [];
@@ -114,8 +173,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     setYScale(selected?.y_scale ?? 'linear');
   }, [selected?.series_id, selected?.y_scale]);
 
-  const xAxisLabel = (lang === 'cn' && selected?.x_label_cn) || selected?.x_label || '';
-  const yAxisLabel = (lang === 'cn' && selected?.y_label_cn) || selected?.y_label || '';
+  const xAxisLabel = readerColumnLabel((lang === 'cn' && selected?.x_label_cn) || selected?.x_label || '', lang);
+  const yAxisLabel = readerColumnLabel((lang === 'cn' && selected?.y_label_cn) || selected?.y_label || '', lang);
 
   useEffect(() => {
     if (!selected?.series_path) {
@@ -460,7 +519,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       >
         {datasets.map((item) => (
           <option key={item.series_id} value={item.series_id}>
-            {(lang === 'cn' && item.title_cn) || item.title}
+            {readerDatasetTitle(item, lang)}
           </option>
         ))}
       </select>
@@ -496,7 +555,9 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
                 <div key={series.name} style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
                   <label>
                     <input type="checkbox" checked={checked} onChange={(event) => toggleSeries(series.name, event.target.checked)} />{' '}
-                    {series.name}
+                    <span>
+                      {hasReaderColumnLabel(series.name) ? readerSeriesName(series.name, lang) : <code>{readerSeriesName(series.name, lang)}</code>}
+                    </span>
                   </label>
                   <select
                     value={override}
@@ -582,7 +643,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       </details>
 
       <p>
-        <span className="badge">{xAxisLabel}</span> <span className="badge">{effectiveYLabel}</span>
+        <span className="badge">{hasReaderColumnLabel(selected?.x_label ?? '') ? xAxisLabel : <code>{xAxisLabel}</code>}</span>{' '}
+        <span className="badge">{hasReaderColumnLabel(selected?.y_label ?? '') ? effectiveYLabel : <code>{effectiveYLabel}</code>}</span>
       </p>
       {semanticAudit.missing.length > 0 || semanticAudit.conflicts.length > 0 ? (
         <p style={{ marginBottom: '0.2rem' }}>
@@ -649,7 +711,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
             data={transformed.map((series) => ({
               type: 'scatter',
               mode: markers ? 'lines+markers' : 'lines',
-              name: series.name,
+              name: readerSeriesName(series.name, lang),
               x: series.x,
               y: series.y,
               marker: { size: 4 },
@@ -661,8 +723,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
               paper_bgcolor: 'rgba(0,0,0,0)',
               plot_bgcolor: '#fffdf8',
               font: { family: 'IBM Plex Serif, Georgia, serif', color: '#1a1f1d' },
-              xaxis: { title: xAxisLabel, gridcolor: '#e6dbc7', type: selected?.x_scale ?? 'linear' },
-              yaxis: { title: effectiveYLabel, gridcolor: '#e6dbc7', type: yScale },
+              xaxis: { title: xAxisLabel, gridcolor: '#e6dbc7', type: selected?.x_scale ?? 'linear', tickformat: '~g' },
+              yaxis: { title: effectiveYLabel, gridcolor: '#e6dbc7', type: yScale, tickformat: '~g' },
               legend: { orientation: 'h' },
             }}
             style={{ width: '100%', height: 'clamp(260px, 45vh, 420px)' }}
@@ -693,7 +755,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         <p className="plot-caption">{(lang === 'cn' && selected.caption_cn) || selected.caption}</p>
       ) : null}
       <p style={{ marginBottom: 0 }}>
-        {lang === 'cn' ? '来源' : 'Provenance'}: <code>{selected?.provenance.source}</code>
+        {lang === 'cn' ? '数据文件' : 'Source file'}: <code>{selected?.provenance.source}</code>
       </p>
     </section>
   );

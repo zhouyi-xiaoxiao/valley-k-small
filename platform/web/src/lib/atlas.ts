@@ -145,7 +145,7 @@ export type TalkInfo = {
 
 export const TALKS: TalkInfo[] = [
   {
-    id: 'smet-phd',
+    id: 'semt-phd',
     title: ['Hidden Routes in First-Passage Time', '首达时间中的隐藏路径'],
     line: [
       'One target on a ring, one directed shortcut: a fast branch, a valley and a delayed branch. With a live random-walk animation.',
@@ -185,7 +185,7 @@ export function formatDay(lang: Lang, iso: string): string {
 export function isPlaceholderText(text: string): boolean {
   const t = text.trim();
   const reportId = '[a-z0-9]+(?:_[a-z0-9]+)+';
-  const cnSource = '(?:该研究报告|Grid2D 体系|Ring 体系|跨模型综合)';
+  const cnSource = '(?:该研究报告|二维格点体系|环模型体系|Grid2D 体系|Ring 体系|跨模型综合)';
   const cnSection = new RegExp(
     `${cnSource}：(?:本报告围绕|本节(?:说明状态空间、参数约束与边界条件设定|给出解析/数值流程、反演方法与验证协议|总结峰谷结构、通道机制与跨报告对比结论|整理关键证据、图表说明与复现路径))。`,
   );
@@ -283,6 +283,55 @@ export function isGeneratedAssetDataset(dataset: DatasetMeta): boolean {
   return dataset.series_id.trim().toLowerCase() === 'asset-size-profile'
     && dataset.provenance.type.trim().toLowerCase() === 'derived'
     && dataset.provenance.source.trim().toLowerCase().startsWith('assets:');
+}
+
+const GENERATED_MATH_STAGES = new Set([
+  'derivation link',
+  'distribution setup',
+  'model constraint',
+  'spectral / inversion step',
+  '推导连接',
+  '分布定义',
+  '模型约束',
+  '谱分解 / 反演步骤',
+]);
+
+const GENERATED_MATH_DESCRIPTIONS = new Set([
+  'adds a relation that links neighboring steps in the derivation chain.',
+  'defines first-passage probability objects used by later diagnostics.',
+  'states the structural constraints and parameter ranges of the model.',
+  'provides analytic inversion machinery for computing trajectories.',
+  '补充连接推导相邻步骤的关系式。',
+  '定义后续诊断所依赖的首达时间概率对象。',
+  '给出模型结构约束与参数范围。',
+  '提供用于计算轨迹分布的解析反演机制。',
+]);
+
+export function isGeneratedMathStoryStage(value: string): boolean {
+  return GENERATED_MATH_STAGES.has(value.replace(/\s+/g, ' ').trim().toLowerCase());
+}
+
+export function isGeneratedMathStoryDescription(value: string): boolean {
+  return GENERATED_MATH_DESCRIPTIONS.has(value.replace(/\s+/g, ' ').trim().toLowerCase());
+}
+
+export function isGenericMathStoryContext(value: string): boolean {
+  const normalized = value.replace(/\s+/g, ' ').trim().toLowerCase();
+  return normalized === 'overview' || normalized === '概览' || normalized === 'fallback' || normalized === '兜底';
+}
+
+export function isReaderDataset(dataset: DatasetMeta): boolean {
+  if (isGeneratedAssetDataset(dataset) || /schema/i.test(dataset.series_id)) {
+    return false;
+  }
+  // Only charts with a written caption are offered to readers. Automatic picks
+  // from raw tables carry internal column names and no explanation.
+  if (!dataset.caption || !dataset.caption.trim()) {
+    return false;
+  }
+  const points = typeof dataset.point_count === 'number' ? dataset.point_count : 3;
+  const numericX = typeof dataset.numeric_x_count === 'number' ? dataset.numeric_x_count : 3;
+  return points >= 3 && numericX >= 3;
 }
 
 // Title to show: the Chinese title when the generator produced a real one,

@@ -57,20 +57,20 @@ def chapter_transition(chapter: dict[str, Any], chapter_by_id: dict[str, dict[st
             return clean_text(
                 "Bridge note: keep the same hazard/survival diagnostics from Grid2D, then switch geometry to ring so shortcut and lazy parameters can be isolated without boundary-shape confounders."
             )
-        return clean_text("桥接说明：延续 Grid2D 的 hazard/survival 诊断，但将几何切换到环模型，以隔离 shortcut 与 lazy 参数并排除边界形状混杂。")
+        return clean_text("桥接说明：延续二维格点的风险率与生存概率诊断，但将几何切换到环模型，以隔离捷径与停留参数并排除边界形状混杂。")
     if chapter_id == "chapter-5-cross-model-synthesis" and str(next_id) == "chapter-6-repro-validation":
         if lang == "en":
             return clean_text(
                 "Before any new claims are added, move from synthesis to reproducibility gates and verify command-, schema-, and artifact-level closure."
             )
-        return clean_text("在增加新结论前，先从综合解释转入复现门禁，逐项验证命令级、schema 级与产物级闭环。")
+        return clean_text("在增加新结论前，先从综合解释转入复现门禁，逐项验证命令级、结构级与产物级闭环。")
     if chapter_id == "chapter-6-repro-validation" and str(next_id) == "chapter-7-outlook":
         if lang == "en":
             return clean_text("Only unresolved items that pass reproducibility constraints should enter the outlook as auditable hypotheses.")
         return clean_text("只有通过复现约束后仍未解决的问题，才应进入展望并作为可审计假设。")
     if lang == "en":
         return clean_text(f"Carry notation and verified claims from {this_title} into {next_title}, then extend mechanism and evidence without resetting assumptions.")
-    return clean_text(f"从《{this_title}》延续符号与已核对 claim 进入《{next_title}》，在不重置假设的前提下扩展机制与证据。")
+    return clean_text(f"从《{this_title}》延续符号与已核对结论进入《{next_title}》，在不重置假设的前提下扩展机制与证据。")
 
 
 def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -93,7 +93,7 @@ def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "title_en": "Act II: Family Mechanisms",
             "title_cn": "第二幕：模型家族机制",
             "objective_en": "Expand Grid2D and Ring families with derivation-backed interaction checkpoints.",
-            "objective_cn": "在 Grid2D 与 Ring 家族中用推导与交互检查点展开机制差异。",
+            "objective_cn": "在二维格点与环模型家族中用推导与交互检查点展开机制差异。",
             "chapter_ids": pick(2, 3, 4),
         },
         {
@@ -101,7 +101,7 @@ def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "title_en": "Act III: Cross-Model Synthesis",
             "title_cn": "第三幕：跨模型综合",
             "objective_en": "Merge claims into a shared explanatory frame and validate reproducibility pathways.",
-            "objective_cn": "把各章节 claim 汇入统一解释框架，并验证复现链路。",
+            "objective_cn": "把各章节结论汇入统一解释框架，并验证复现链路。",
             "chapter_ids": pick(5, 6),
         },
         {

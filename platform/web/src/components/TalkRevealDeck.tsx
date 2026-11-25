@@ -409,8 +409,9 @@ export function TalkRevealDeck({
   const progressPercent = ((currentIndex + 1) / slides.length) * 100;
   const fullscreenLike = immersiveMode || isFullscreen;
   const occasion = localized(lang, manifest.occasion_en ?? '', manifest.occasion_cn ?? manifest.occasion_en ?? '');
+  const talkRouteId = manifest.talk_id === 'smet-phd' ? 'semt-phd' : manifest.talk_id;
   const languageHref = withBasePath(
-    `${lang === 'cn' ? '' : '/cn'}/talk/${manifest.talk_id}/#slide-${currentIndex + 1}`,
+    `${lang === 'cn' ? '' : '/cn'}/talk/${talkRouteId}/#slide-${currentIndex + 1}`,
   );
 
   useEffect(() => {

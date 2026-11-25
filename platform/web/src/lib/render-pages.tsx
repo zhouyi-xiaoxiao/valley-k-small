@@ -32,14 +32,17 @@ import {
   familyNote,
   isPlaceholderText,
   isLatexResidue,
-  isGeneratedAssetDataset,
+  isGeneratedMathStoryDescription,
+  isGeneratedMathStoryStage,
+  isGenericMathStoryContext,
+  isReaderDataset,
   reportFamily,
   loadRegistryStatus,
   scaffoldReports,
   writtenReports,
 } from '@/lib/atlas';
 import { PdfLinks } from '@/components/PdfLinks';
-import type { AssetRecord, ContentMap, Lang, ReportMeta, ReportNetwork } from '@/types';
+import type { AssetRecord, ContentMap, FigureRecord, Lang, ReportMeta, ReportNetwork } from '@/types';
 
 type LatexRenderResult = {
   html: string;
@@ -95,10 +98,17 @@ function renderMathBlockCard(
   key: string,
 ) {
   const rendered = renderLatex(block.latex);
+  const blockLang = block.lang === 'cn' ? 'cn' : 'en';
+  const showContext = Boolean(
+    block.context &&
+      !/fallback/i.test(block.context) &&
+      !isGenericMathStoryContext(block.context) &&
+      !(blockLang === 'en' && /[\u3400-\u9fff]/.test(block.context)),
+  );
 
   return (
     <article key={key} className="card">
-      {block.context && !/fallback/i.test(block.context) ? (
+      {showContext ? (
         <p>
           <span className="badge">{block.context}</span>
         </p>
@@ -412,6 +422,38 @@ const CLAIM_STAGE_ORDER: Record<'model' | 'method' | 'result' | 'finding', numbe
 
 function isImageFigure(webPath: string): boolean {
   return /\.(png|jpg|jpeg|webp|svg)$/i.test(webPath);
+}
+
+function visibleFigureRecords(records: FigureRecord[]): FigureRecord[] {
+  // Identical second copies are removed when the data is built; here only
+  // files that are not figures are left out.
+  return records.filter((record) => {
+    const path = record.source_path || record.web_path;
+    const fileName = path.split('/').pop() || record.title;
+    return /\.(pdf|png|jpg|jpeg|webp|svg)$/i.test(fileName) && !/(?:^|[_-])(description|readme)(?:[_-]|\.)/i.test(fileName);
+  });
+}
+
+// File name shown for a figure without a caption. When several figures of a
+// report share a file name, the parent folder is kept so they can be told apart.
+function figureFileLabels(records: FigureRecord[]): Map<FigureRecord, string> {
+  const baseName = (record: FigureRecord) => (record.source_path || record.web_path).split('/').pop() || record.title;
+  const counts = new Map<string, number>();
+  for (const record of records) {
+    const key = baseName(record).toLowerCase();
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  const labels = new Map<FigureRecord, string>();
+  for (const record of records) {
+    const name = baseName(record);
+    if ((counts.get(name.toLowerCase()) ?? 0) > 1) {
+      const parts = (record.source_path || record.web_path).split('/');
+      labels.set(record, parts.slice(-2).join('/'));
+    } else {
+      labels.set(record, name);
+    }
+  }
+  return labels;
 }
 
 function formatTimestamp(lang: Lang, iso: string): string {
@@ -832,7 +874,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   }
 
   const metaEn = loadReportMeta(reportId, 'en');
-  const visibleDatasets = meta.datasets.filter((dataset) => !isGeneratedAssetDataset(dataset));
+  const visibleDatasets = meta.datasets.filter(isReaderDataset);
   const isWip = loadRegistryStatus()[reportId] === 'wip';
   const visibleMathStory = isWip
     ? meta.math_story.filter(
@@ -843,7 +885,9 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
           !/^定义后续诊断所依赖的首达时间概率对象。?$/.test(item.description),
       )
     : meta.math_story;
-  const figures = loadFigures(reportId);
+  const figures = visibleFigureRecords(loadFigures(reportId));
+  const figureFileLabel = figureFileLabels(figures);
+  const hasFigureCaptions = figures.some((figure) => figure.title_is_caption);
   const network = loadReportNetwork();
   const contentMap = loadContentMap();
   const bookManifest = loadBookManifest();
@@ -1076,7 +1120,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
       {figures.length > 0 ? (
         <section id="figures" className="card section-enter" style={{ marginTop: '1rem' }}>
-          <h3>{localizedText(lang, 'Figures', '图')}</h3>
+          <h3>{hasFigureCaptions ? localizedText(lang, 'Figures', '图') : localizedText(lang, 'Figure files', '图文件')}</h3>
           {figures.some((fig) => isImageFigure(fig.web_path)) ? (
             <div className="grid grid-3">
               {figures
@@ -1086,7 +1130,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                   const figTitle = (lang === 'cn' && fig.title_cn) || fig.title;
                   return (
                     <article key={fig.id} className="card">
-                      <p>{figTitle}</p>
+                      <p>{fig.title_is_caption ? figTitle : <code>{figureFileLabel.get(fig) ?? figTitle}</code>}</p>
                       <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -1116,7 +1160,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                   .map((fig) => (
                     <li key={fig.id}>
                       <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
-                        {(lang === 'cn' && fig.title_cn) || fig.title}
+                        {fig.title_is_caption ? (lang === 'cn' && fig.title_cn) || fig.title : <code>{figureFileLabel.get(fig) ?? fig.title}</code>}
                       </a>
                     </li>
                   ))}
@@ -1134,7 +1178,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                       .map((fig) => (
                         <li key={`extra-${fig.id}`}>
                           <a href={withBasePath(fig.web_path)} target="_blank" rel="noreferrer">
-                            {(lang === 'cn' && fig.title_cn) || fig.title}
+                            {fig.title_is_caption ? (lang === 'cn' && fig.title_cn) || fig.title : <code>{figureFileLabel.get(fig) ?? fig.title}</code>}
                           </a>
                         </li>
                       ))}
@@ -1148,20 +1192,18 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
       {visibleMathStory.length > 0 ? <section id="math-chain" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Mathematics', '数学')}</h3>
-        <p className="muted">
-          {localizedText(
-            lang,
-            'From model assumptions to interpretation in a short, ordered chain.',
-            '从模型假设到解释结论，按步骤给出最短逻辑链。',
-          )}
-        </p>
         <div className="grid grid-2">
           {visibleMathStory.map((item, idx) => {
             const rendered = renderLatex(item.latex);
+            const generatedStage = isGeneratedMathStoryStage(item.stage);
+            const generatedDescription = isGeneratedMathStoryDescription(item.description);
+            const showContext = item.context && !/fallback/i.test(item.context)
+              && !isGenericMathStoryContext(item.context)
+              && !(lang === 'en' && /[\u3400-\u9fff]/.test(item.context));
             return (
               <article key={`${item.stage}-${idx}`} className="card">
-                <h4>{item.stage}</h4>
-                <p>{item.description}</p>
+                {!generatedStage ? <h4>{item.stage}</h4> : null}
+                {!generatedDescription ? <p>{item.description}</p> : null}
                 <div
                   className="math-block"
                   dangerouslySetInnerHTML={{
@@ -1169,10 +1211,16 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                   }}
                 />
                 {rendered.error ? renderFormulaWarning(lang, item.context, rendered.error) : null}
-                {item.context && !/fallback/i.test(item.context) && item.context !== item.stage ? (
+                {showContext && item.context !== item.stage ? (
                   <p style={{ marginBottom: 0 }}>
                     <span className="badge">{item.context}</span>
                   </p>
+                ) : null}
+                {item.source_path ? (
+                  <details>
+                    <summary>{lang === 'cn' ? '公式来源' : 'Formula source'}</summary>
+                    <p style={{ marginBottom: 0 }}><code>{item.source_path}</code></p>
+                  </details>
                 ) : null}
               </article>
             );
@@ -1201,13 +1249,6 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
       {hasSpecificWhereItFits ? <div id="where-it-fits" className="report-group-head">
         <h2>{localizedText(lang, 'Where it fits', '在全局中的位置')}</h2>
-        <p>
-          {localizedText(
-            lang,
-            'How this report connects to the book and to the other reports.',
-            '这份报告与书的章节、与其他报告之间的联系。',
-          )}
-        </p>
       </div> : null}
 
       {!isWip || bookPlacement ? <section id="book-position" className="card section-enter" style={{ marginTop: '1rem' }}>
@@ -1260,13 +1301,6 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
       {!isWip || hasConnectedReports ? <section id="connected-reports" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Connected Reports', '关联报告链')}</h3>
-        {!isWip ? <p className="lead">
-          {localizedText(
-            lang,
-            'This report sits inside a shared chain. Use links below to move upstream/downstream and across model families.',
-            '该报告位于同一研究链中，可通过下方链接跳转到上游/下游和跨模型家族的关联报告。',
-          )}
-        </p> : null}
         <div className="grid grid-3">
           <article className="card">
             <h4>{localizedText(lang, 'Track Continuity', '轨道连续关系')}</h4>
@@ -1334,13 +1368,6 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
       {!isWip || arcsForReport.length > 0 ? <section id="narrative-arcs" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Reading paths', '阅读路线')}</h3>
-        <p className="lead">
-          {localizedText(
-            lang,
-            'Reading paths through the reports that include this one.',
-            '包含这份报告的阅读路线。',
-          )}
-        </p>
         {arcsForReport.length > 0 ? (
           <div className="grid grid-2">
             {arcsForReport.map((arc) => (

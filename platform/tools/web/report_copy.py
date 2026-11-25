@@ -1172,3 +1172,32 @@ REPORT_DEFINITIONS: dict[str, list[dict[str, str]]] = {
         },
     ],
 }
+
+
+# The revision report has one formula whose meaning is stated explicitly in
+# the manuscript.  Keep this small override separate from the report
+# definitions so generic extraction labels do not reach the reader-facing
+# page.
+REPORT_MATH_TEXT_OVERRIDES: dict[str, dict[str, list[dict[str, str]]]] = {
+    "ring_lazy_jump_ext_rev2": {
+        "en": [
+            {
+                "stage": "Adaptive time-window half-width",
+                "description": (
+                    "Δ is the half-width of the windows centred on the first peak t₁, the valley tᵥ, and the second peak t₂; "
+                    "it is set to max{1, ⌊0.05(t₂ − t₁)⌋}."
+                ),
+                "latex": r"\Delta=\max\{1,\lfloor 0.05(t_2-t_1)\rfloor\}",
+                "context": "Parameters and Window Definition",
+            }
+        ],
+        "cn": [
+            {
+                "stage": "自适应时间窗半宽",
+                "description": "Δ 是以第一峰 t₁、谷底 tᵥ 和第二峰 t₂ 为中心的时间窗半宽，取 max{1, ⌊0.05(t₂ − t₁)⌋}。",
+                "latex": r"\Delta=\max\{1,\lfloor 0.05(t_2-t_1)\rfloor\}",
+                "context": "参数与窗口定义",
+            }
+        ],
+    }
+}

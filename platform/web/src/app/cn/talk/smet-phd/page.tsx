@@ -1,4 +1,4 @@
-import { renderTalkPage } from '@/lib/render-talk-pages';
+import { renderTalkRedirect } from '@/lib/render-talk-pages';
 
 export const metadata = {
   title: '首达时间中的隐藏路径',
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function CnSmetTalkPage() {
-  return renderTalkPage('cn', '/cn', 'smet-phd');
+  return renderTalkRedirect('cn', '/cn');
 }

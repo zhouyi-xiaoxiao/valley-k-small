@@ -8,7 +8,7 @@ Build a polished interactive web talk for `valley-k-small` at:
 - `/cn/talk/multitimescale-encounter/`
 
 The talk should feel like a real research presentation, not a report browser. It
-must keep the existing `/talk/smet-phd/` route working.
+must keep the existing `/talk/smet-phd/` redirect working while using `/talk/semt-phd/` as the canonical route.
 
 ## Core Message
 
@@ -73,7 +73,7 @@ Preview locally and inspect:
 - `/talk/multitimescale-encounter/`
 - `/cn/talk/multitimescale-encounter/`
 - `/`
-- `/talk/smet-phd/`
+- `/talk/semt-phd/` (canonical; `/talk/smet-phd/` redirects here)
 
 Completion requires no broken images, no base-path errors, readable desktop and
 mobile layouts, and no regression of the old talk route.

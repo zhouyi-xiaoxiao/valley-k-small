@@ -1,4 +1,4 @@
-import { renderTalkPage } from '@/lib/render-talk-pages';
+import { renderTalkRedirect } from '@/lib/render-talk-pages';
 
 export const metadata = {
   title: 'Hidden routes in first-passage time',
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function EnSmetTalkPage() {
-  return renderTalkPage('en', '/en', 'smet-phd');
+  return renderTalkRedirect('en', '/en');
 }

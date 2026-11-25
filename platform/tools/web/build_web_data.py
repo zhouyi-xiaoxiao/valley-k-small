@@ -137,7 +137,7 @@ CLAIM_STOPWORDS = {
 
 # Reader-facing titles, summaries, narratives and findings, written by hand
 # against each report's data: see report_copy.py (same directory).
-from report_copy import REPORT_DEFINITIONS, REPORT_TEXT_OVERRIDES  # noqa: E402, I001
+from report_copy import REPORT_DEFINITIONS, REPORT_MATH_TEXT_OVERRIDES, REPORT_TEXT_OVERRIDES  # noqa: E402, I001
 
 
 # Methods are named by what they do, never after a person, and the pages do not
@@ -757,6 +757,11 @@ def cn_topic_from_report_id(report_id: str) -> str:
 def normalize_cn_mixed_phrases(text: str) -> str:
     value = str(text or "")
     replacements: list[tuple[str, str]] = [
+        (r"\bbeta/shortcut\s+扫描\b", "β（捷径强度）扫描"),
+        (r"\bGrid2D\b|\bgrid2d\b", "二维格点"),
+        (r"\bRing\b|\bring\b", "环模型"),
+        (r"\bShortcut\b|\bshortcut\b", "捷径"),
+        (r"\bvalley\s+ratio\b", "谷比"),
         (
             r"\bNo\s+Luca\s+winning\s+region\s+under\s+fixed[-\s]*T\s+full[-\s]*FPT\s+fairness\b\.?",
             "在固定时间上限、计算完整首达分布的公平比较下，不存在缺陷约化方法更快的区域",
@@ -769,6 +774,12 @@ def normalize_cn_mixed_phrases(text: str) -> str:
     ]
     for pattern, repl in replacements:
         value = re.sub(pattern, repl, value, flags=re.IGNORECASE)
+    value = re.sub(r"(环模型|二维格点|跨模型|其他)\s+研究推进链", r"\1研究推进链", value)
+    value = re.sub(r"(环模型|二维格点|跨模型|其他)\s+报告", r"\1报告", value)
+    value = re.sub(r"二维格点\s+与\s+环模型", "二维格点与环模型", value)
+    value = re.sub(r"捷径\s+强度", "捷径强度", value)
+    value = re.sub(r"([\u3400-\u9fff])\s+([\u3400-\u9fff])", r"\1\2", value)
+    value = re.sub(r"([\u3400-\u9fff])\s+([\u3400-\u9fff])", r"\1\2", value)
     value = re.sub(r"\s+([，。；：！？])", r"\1", value)
     value = re.sub(r"([，。；：！？]){2,}", lambda m: m.group(0)[0], value)
     return normalize_space(value)
@@ -2186,6 +2197,35 @@ def gather_files(report_dir: Path, extensions: set[str], max_items: int) -> list
     return files[:max_items]
 
 
+def dedupe_figure_paths(paths: list[Path]) -> list[Path]:
+    """Drop description files and byte-identical second copies of a figure.
+
+    Two files with the same name in different folders are different figures
+    unless their contents match; of identical copies the one outside a
+    ``standalone`` folder is kept.
+    """
+    selected: dict[tuple[str, str], Path] = {}
+    order: list[tuple[str, str]] = []
+    for path in paths:
+        if re.search(r"(?:^|[_-])(description|readme)(?:[_-]|\.)", path.name.casefold()):
+            continue
+        try:
+            digest = hashlib.sha1(path.read_bytes()).hexdigest()
+        except OSError:
+            digest = str(path)
+        key = (path.name.casefold(), digest)
+        current = selected.get(key)
+        if current is None:
+            selected[key] = path
+            order.append(key)
+            continue
+        current_standalone = "standalone" in {part.casefold() for part in current.parts}
+        candidate_standalone = "standalone" in {part.casefold() for part in path.parts}
+        if current_standalone and not candidate_standalone:
+            selected[key] = path
+    return [selected[key] for key in order]
+
+
 def manuscript_pdf_paths(item: dict[str, Any], report_dir: Path) -> list[Path]:
     """The written report PDFs (manuscript/<id>_en.pdf, <id>_cn.pdf, <id>.pdf).
 
@@ -2646,6 +2686,7 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         y_fields = [x_field]
 
     x_values: list[float] = []
+    numeric_x_count = 0
     series: list[dict[str, Any]] = []
     y_map: dict[str, list[float | None]] = {name: [] for name in y_fields}
 
@@ -2655,6 +2696,7 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
             x_value = float(raw_x)
             if not math.isfinite(x_value):
                 raise ValueError
+            numeric_x_count += 1
         except ValueError:
             x_value = float(len(x_values))
         x_values.append(x_value)
@@ -2692,6 +2734,8 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     return {
         "x_label": x_field,
         "y_label": ", ".join(y_fields),
+        "point_count": len(x_values),
+        "numeric_x_count": numeric_x_count,
         "series": series,
         "series_semantics": semantics,
         "default_series": default_series,
@@ -2838,10 +2882,13 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         y_fields = [x_field]
 
     x_values: list[float] = []
+    numeric_x_count = 0
     series_map: dict[str, list[float]] = {name: [] for name in y_fields}
     for idx, row in enumerate(records):
         raw_x = row.get(x_field, idx)
         maybe_x = to_finite_float(raw_x)
+        if maybe_x is not None:
+            numeric_x_count += 1
         x_val = maybe_x if maybe_x is not None else float(idx)
         x_values.append(x_val)
 
@@ -2872,6 +2919,8 @@ def parse_json_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
     return {
         "x_label": x_field,
         "y_label": ", ".join(y_fields),
+        "point_count": len(x_values),
+        "numeric_x_count": numeric_x_count,
         "series": series,
         "series_semantics": semantics,
         "default_series": default_series,
@@ -2964,9 +3013,12 @@ def parse_tex_tabular_dataset(path: Path, max_points: int) -> dict[str, Any] | N
             headers = [f"col_{idx + 1}" for idx in range(width)]
 
         x_values: list[float] = []
+        numeric_x_count = 0
         series_values: dict[int, list[float]] = {idx: [] for idx in y_cols}
         for row_idx, row in enumerate(numeric_matrix):
             x_val = row[x_col] if row[x_col] is not None else float(row_idx)
+            if row[x_col] is not None:
+                numeric_x_count += 1
             x_values.append(float(x_val))
             for col_idx in y_cols:
                 y_val = row[col_idx] if row[col_idx] is not None else 0.0
@@ -2997,6 +3049,8 @@ def parse_tex_tabular_dataset(path: Path, max_points: int) -> dict[str, Any] | N
         payload = {
             "x_label": headers[x_col],
             "y_label": ", ".join(headers[idx] for idx in y_cols),
+            "point_count": len(x_values),
+            "numeric_x_count": numeric_x_count,
             "series": series,
             "series_semantics": semantics,
             "default_series": default_series,
@@ -3033,6 +3087,8 @@ def fallback_asset_dataset(report_id: str, assets: list[dict[str, Any]]) -> dict
         ],
         "series_semantics": [semantic],
         "default_series": ["size_by_rank"],
+        "point_count": len(x_vals),
+        "numeric_x_count": len(x_vals),
         "provenance": {"type": "derived", "source": f"assets:{','.join(labels[:5])}"},
     }
 
@@ -3164,6 +3220,35 @@ def interactive_dataset_priority(dataset: dict[str, Any]) -> int:
 # or kept as gaps ("mask": the y value is shown only where the condition holds).
 _TWO_PEAKS = {"paper_bimodal": "True"}
 CURATED_DATASETS: dict[str, list[dict[str, Any]]] = {
+    "ring_lazy_jump_ext_rev2": [
+        {
+            "series_id": "ft-n100-beta001",
+            "title": "First-passage probability f(t), K = 2 and K = 4 (N = 100, β = 0.01)",
+            "title_cn": "首达概率 f(t)，K = 2 与 K = 4（N = 100，β = 0.01）",
+            "caption": (
+                "f(t) is the probability that the walker first reaches the target at step t, for jump range K = 2 and "
+                "K = 4 at N = 100, q = 2/3 and shortcut strength β = 0.01. Each curve has an early peak, a valley and a "
+                "later, higher peak (K = 2: steps 53, 247 and 1124; K = 4: steps 32, 84 and 495). The report sorts Monte "
+                "Carlo trajectories by route inside time windows centred on these three times. The time axis is logarithmic."
+            ),
+            "caption_cn": (
+                "f(t) 是游走者恰在第 t 步首次到达目标的概率，这里是 N = 100、q = 2/3、捷径强度 β = 0.01 时跳跃范围 K = 2 与 "
+                "K = 4 的两条曲线。每条曲线都有一个早峰、一个谷和一个更高的晚峰（K = 2：第 53、247、1124 步；K = 4：第 32、84、"
+                "495 步）。报告以这三个时间为中心取时间窗，把蒙特卡洛轨迹按路径分类。时间轴为对数坐标。"
+            ),
+            "x_label": "step t",
+            "x_label_cn": "步数 t",
+            "y_label": "f(t)",
+            "y_label_cn": "f(t)",
+            "x_scale": "log",
+            "y_scale": "linear",
+            "unit": "probability",
+            "series": [
+                {"file": "artifacts/data/ft_beta0.01.csv", "x": "t", "y": "f_K2", "name": "K = 2"},
+                {"file": "artifacts/data/ft_beta0.01.csv", "x": "t", "y": "f_K4", "name": "K = 4"},
+            ],
+        },
+    ],
     "ring_lazy_jump_ext": [
         {
             "series_id": "peak-times-vs-beta-n100",
@@ -3329,11 +3414,29 @@ def build_curated_dataset(report_dir: Path, spec: dict[str, Any]) -> dict[str, A
     if not series:
         return None
     return {
+        "point_count": max((len(item.get("x", [])) for item in series), default=0),
+        "numeric_x_count": max((sum(1 for value in item.get("x", []) if isinstance(value, (int, float)) and math.isfinite(float(value))) for item in series), default=0),
         "series": series,
         "series_semantics": semantics,
         "default_series": [row["name"] for row in series],
         "provenance": {"type": "csv", "source": "; ".join(sources)},
     }
+
+
+def dataset_is_reader_curve(dataset: dict[str, Any], series_id: str = "") -> bool:
+    """Keep only plotted curves with enough numeric x positions for a reader."""
+    candidate_id = normalize_space(series_id or str(dataset.get("series_id", ""))).lower()
+    if "schema" in candidate_id:
+        return False
+    source = normalize_space(str(dataset.get("provenance", {}).get("source", ""))).lower()
+    if re.search(r"\.summary\.(?:csv|json)(?:$|[;])", source):
+        return False
+    try:
+        point_count = int(dataset.get("point_count", 0))
+        numeric_x_count = int(dataset.get("numeric_x_count", 0))
+    except (TypeError, ValueError):
+        return False
+    return point_count >= 3 and numeric_x_count >= 3
 
 
 def build_datasets(
@@ -3375,6 +3478,8 @@ def build_datasets(
         built = build_curated_dataset(report_dir, spec)
         if not built:
             continue
+        if not dataset_is_reader_curve(built):
+            continue
         series_id = str(spec["series_id"])
         axis_fields = {
             key: str(spec[key])
@@ -3400,6 +3505,8 @@ def build_datasets(
                 "y_label": str(spec["y_label"]),
                 "series_path": series_rel,
                 "default_series": built["default_series"],
+                "point_count": built["point_count"],
+                "numeric_x_count": built["numeric_x_count"],
                 "series_semantics": built["series_semantics"],
                 "provenance": built["provenance"],
                 **axis_fields,
@@ -3422,6 +3529,8 @@ def build_datasets(
         stem = re.sub(r"[^a-zA-Z0-9_-]+", "-", candidate.stem.lower()).strip("-")
         stem = stem or f"dataset-{len(datasets_meta) + 1}"
         for variant_index, variant in enumerate(variants):
+            if not dataset_is_reader_curve(variant, stem):
+                continue
             suffix = str(variant.get("variant_suffix", "")).strip().lower().replace(" ", "-")
             raw_series_id = stem if not suffix else f"{stem}-{suffix}"
             series_id = raw_series_id
@@ -3448,9 +3557,9 @@ def build_datasets(
             series_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
 
             title_suffix = str(variant.get("variant_title_suffix", "")).strip()
-            title = candidate.stem if not title_suffix else f"{candidate.stem} [{title_suffix}]"
+            title = candidate.name if not title_suffix else f"{candidate.name} [{title_suffix}]"
             if len(variants) == 1 and variant_index == 0:
-                title = candidate.stem
+                title = candidate.name
             title_key = normalize_space(title).lower()
             if title_key in seen_titles:
                 title = f"{title} · {series_id}"
@@ -3464,6 +3573,8 @@ def build_datasets(
                     "y_label": variant["y_label"],
                     "series_path": series_rel,
                     "default_series": variant.get("default_series", []),
+                    "point_count": variant.get("point_count", 0),
+                    "numeric_x_count": variant.get("numeric_x_count", 0),
                     "series_semantics": variant.get("series_semantics", []),
                     "provenance": variant["provenance"],
                 }
@@ -3482,6 +3593,8 @@ def build_datasets(
             variants = split_dataset_by_semantics(parsed_tex)
             stem = re.sub(r"[^a-zA-Z0-9_-]+", "-", tex_path.stem.lower()).strip("-") or "tex-tabular"
             for variant_index, variant in enumerate(variants):
+                if not dataset_is_reader_curve(variant, stem):
+                    continue
                 suffix = str(variant.get("variant_suffix", "")).strip().lower().replace(" ", "-")
                 raw_series_id = stem if not suffix else f"{stem}-{suffix}"
                 series_id = raw_series_id
@@ -3518,6 +3631,8 @@ def build_datasets(
                         "y_label": variant["y_label"],
                         "series_path": series_rel,
                         "default_series": variant.get("default_series", []),
+                        "point_count": variant.get("point_count", 0),
+                        "numeric_x_count": variant.get("numeric_x_count", 0),
                         "series_semantics": variant.get("series_semantics", []),
                         "provenance": variant["provenance"],
                     }
@@ -3537,6 +3652,8 @@ def build_datasets(
                 "y_label": fallback["y_label"],
                 "series_path": series_rel,
                 "default_series": fallback.get("default_series", []),
+                "point_count": fallback.get("point_count", 0),
+                "numeric_x_count": fallback.get("numeric_x_count", 0),
                 "series_semantics": fallback.get("series_semantics", []),
                 "provenance": fallback["provenance"],
             }
@@ -3595,9 +3712,39 @@ def build_report_payload(
                 {"latex": row["latex"], "context": row[f"stage_{lang_key}"], "source_path": source_path, "lang": lang_key}
                 for row in definitions
             ]
+    math_override = REPORT_MATH_TEXT_OVERRIDES.get(report_id, {})
+    if math_override:
+        main_tex = [str(x) for x in item.get("main_tex", [])]
+        for lang_key, story in (("en", tex_en), ("cn", tex_cn)):
+            rows = math_override.get(lang_key)
+            if not rows:
+                continue
+            source = next((name for name in main_tex if name.endswith(f"_{lang_key}.tex")), main_tex[0] if main_tex else "")
+            source_path = f"{report_rel}/{item.get('manuscript_dir') or 'manuscript'}/{source}" if source else report_rel
+            story["math_story"] = [
+                {
+                    "stage": row["stage"],
+                    "description": row["description"],
+                    "latex": row["latex"],
+                    "context": row["context"],
+                    "source_path": source_path,
+                }
+                for row in rows
+            ]
+            story["math_blocks"] = [
+                {"latex": row["latex"], "context": row["context"], "source_path": source_path, "lang": lang_key}
+                for row in rows
+            ]
 
     top_assets = gather_files(report_dir, {".pdf", ".tex"}, max_assets)
-    figure_assets = gather_files(report_dir / "figures" if (report_dir / "figures").exists() else report_dir, FIGURE_EXT, max_figures)
+    figure_assets = dedupe_figure_paths(
+        gather_files(
+            report_dir / "figures" if (report_dir / "figures").exists() else report_dir,
+            FIGURE_EXT,
+            max_figures * 2,
+        )
+    )[:max_figures]
+    figure_asset_set = {path.resolve() for path in figure_assets}
 
     assets: list[dict[str, Any]] = []
     figure_records: list[dict[str, Any]] = []
@@ -3633,11 +3780,12 @@ def build_report_payload(
         }
         assets.append(record)
 
-        if src.suffix.lower() in FIGURE_EXT and src not in manuscript_pdfs:
+        if src.resolve() in figure_asset_set and src not in manuscript_pdfs:
             readable = readable_figure_titles(src)
             figure_record = {
                 "id": f"fig-{idx + 1}",
-                "title": readable[0] if readable else src.stem.replace("_", " "),
+                "title": readable[0] if readable else src.name,
+                "title_is_caption": bool(readable),
                 "web_path": web_path,
                 "source_path": source_path,
             }
@@ -4150,9 +4298,9 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         },
         "beta-scan": {
             "label_en": "Beta / shortcut scan",
-            "label_cn": "beta/shortcut 扫描",
+            "label_cn": "β（捷径强度）扫描",
             "description_en": "How shortcut strength changes bimodality and phase behavior.",
-            "description_cn": "shortcut 强度变化对双峰与相图的影响。",
+            "description_cn": "捷径强度变化对双峰与相图的影响。",
         },
         "spectral": {
             "label_en": "Spectral decomposition",
@@ -5198,10 +5346,10 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
         arcs.append(
             {
                 "arc_id": f"group-{group}",
-                "label_en": f"{group} progression",
-                "label_cn": f"{group} 研究推进链",
-                "summary_en": f"{group} track links {len(report_ids)} reports into one continuous argument.",
-                "summary_cn": f"{group} 轨道把 {len(report_ids)} 份报告串成连续论证。",
+                "label_en": f"{ {'ring': 'Ring', 'grid2d': 'Two-dimensional lattice', 'cross': 'Cross-model', 'misc': 'Miscellaneous'}.get(group, group)} progression",
+                "label_cn": f"{ {'ring': '环模型', 'grid2d': '二维格点', 'cross': '跨模型', 'misc': '其他'}.get(group, group)}研究推进链",
+                "summary_en": f"{ {'ring': 'Ring reports', 'grid2d': 'Two-dimensional lattice reports', 'cross': 'Cross-model reports', 'misc': 'Miscellaneous reports'}.get(group, group)} ({len(report_ids)})",
+                "summary_cn": f"{ {'ring': '环模型报告', 'grid2d': '二维格点报告', 'cross': '跨模型报告', 'misc': '其他报告'}.get(group, group)}（{len(report_ids)}）",
                 "report_ids": report_ids,
                 "claim_ids": dedupe_preserve(claim_ids, max_items=200),
                 "checkpoint_count": len(checkpoints),

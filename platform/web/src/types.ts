@@ -26,6 +26,8 @@ export type AssetRecord = {
 export type DatasetMeta = {
   series_id: string;
   title: string;
+  point_count?: number;
+  numeric_x_count?: number;
   title_cn?: string;
   x_label: string;
   y_label: string;
@@ -80,6 +82,7 @@ export type ReportMeta = {
     description: string;
     latex: string;
     context: string;
+    source_path?: string;
   }>;
   reproducibility_commands: string[];
   source_documents: string[];
@@ -118,6 +121,7 @@ export type SeriesPayload = {
 export type FigureRecord = {
   id: string;
   title: string;
+  title_is_caption?: boolean;
   title_cn?: string;
   web_path: string;
   source_path: string;

@@ -2480,6 +2480,16 @@ button:hover {
     grid-template-columns: 1fr;
   }
 
+  .talk-reading-live .talk-formula-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .talk-reading-live .talk-formula-math {
+    min-height: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
   .talk-reading-live .talk-basic-histogram {
     min-height: 160px;
   }

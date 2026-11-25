@@ -16,7 +16,7 @@ const EQUATIONS = [
   {
     label_en: 'Master equation',
     label_cn: '主方程',
-    latex: String.raw`P_i(t+1)=\sum_{j\in\mathcal{N}(i)\cup\{i\}} w_{j\to i}\,P_j(t),\qquad P_{\mathrm{target}}(t)=0`,
+    latex: String.raw`\begin{aligned}P_i(t+1)&=\textstyle\sum_{j\in\mathcal{N}(i)\cup\{i\}} w_{j\to i}\,P_j(t)\quad(i\neq\mathrm{target})\\ P_{\mathrm{target}}(t)&=0\end{aligned}`,
     copy_en:
       'Probability moves one step at a time over the sites (ring sites or lattice cells): w_{j→i} is the probability of a step from j to i, 𝒩(i) the sites that can step to i, and staying put is included. Mass that reaches the target is removed: the target is absorbing.',
     copy_cn:
@@ -25,7 +25,7 @@ const EQUATIONS = [
   {
     label_en: 'First-hit time',
     label_cn: '首达时间',
-    latex: String.raw`T=\inf\{t\ge 1:\,X_t=\mathrm{target}\},\qquad X_0=\mathrm{start}\neq\mathrm{target}`,
+    latex: String.raw`\begin{aligned}T&=\inf\{t\ge 1:\,X_t=\mathrm{target}\}\\ X_0&=\mathrm{start}\neq\mathrm{target}\end{aligned}`,
     copy_en: 'X_t is the walker’s site after t steps. The walk stops the first time it reaches the target; T is that step.',
     copy_cn: 'X_t 是第 t 步后游走者所在的格点。游走在第一次到达目标时停止，T 就是这一步的步数。',
   },

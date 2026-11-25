@@ -1562,7 +1562,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
               <ul>
                 {card.report_ids.slice(0, 8).map((reportId) => (
                   <li key={reportId}>
-                    <Link href={prefixPath(prefix, `/reports/${reportId}`)}>{reportId}</Link>
+                    <Link href={prefixPath(prefix, `/reports/${reportId}`)}>{lookupReportTitle(reportId, lang, network)}</Link>
                   </li>
                 ))}
               </ul>
@@ -1572,7 +1572,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                   <ul>
                     {card.report_ids.slice(8).map((reportId) => (
                       <li key={`extra-${reportId}`}>
-                        <Link href={prefixPath(prefix, `/reports/${reportId}`)}>{reportId}</Link>
+                        <Link href={prefixPath(prefix, `/reports/${reportId}`)}>{lookupReportTitle(reportId, lang, network)}</Link>
                       </li>
                     ))}
                   </ul>

@@ -172,79 +172,84 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "ring_lazy_jump_ext_rev2": {
         "en": {
             "teaser": 'Revision at N = 100, β = 0.01: f(t) drawn with the route classes of each peak, and checks against the peak thresholds, the choice of time windows (class shares move by under 0.6 points) and Monte Carlo error.',
-            "title": "Lazy Ring Shortcut: Robustness Checks",
+            "title": "Lazy Ring Shortcut: Sensitivity Checks",
             "summary": (
                 "Revision of the β-scan study at N = 100 and β = 0.01. It plots f(t) together with the route classes of "
-                "the arrivals in each peak, and checks how the conclusions depend on the peak-detection thresholds, on the "
-                "time windows (shifting or resizing them by 1 to 5 steps changes every class share by less than 0.6 "
+                "the arrivals in each peak (whether the walker used the shortcut, and whether it stepped over the target), and "
+                "checks how the conclusions depend on the peak-detection thresholds, on the time windows (shifting or "
+                "resizing them by 1, 2 or 5 steps changes every class share by less than 0.6 "
                 "percentage points) and on Monte Carlo sampling error (95% intervals)."
             ),
             "narrative": {
                 "model_overview": (
-                    "The lazy ring of the first version: N = 100, K = 2 or 4, q = 2/3 (stay-put probability 1/3), start at "
+                    "The lazy ring of the β-scan report: N = 100, K = 2 or 4, q = 2/3 (stay-put probability 1/3), start at "
                     "site 1, target site 51, directed shortcut 6 → 52 with strength β = 0.01."
                 ),
                 "method_overview": (
                     "Exact f(t) and Monte Carlo route classes (200 000 walkers) in three time windows around the first peak, "
                     "the valley and the second peak (half-width 5% of t₂ − t₁). Three checks: a grid of peak-detection "
-                    "thresholds, shifting or resizing the windows by 1 to 5 steps, and 95% confidence intervals for the "
+                    "thresholds, shifting or resizing the windows by 1, 2 or 5 steps, and 95% confidence intervals for the "
                     "class shares."
                 ),
                 "result_overview": (
                     "Peak and valley times: K = 2, 53, 247 and 1124 steps; K = 4, 32, 84 and 495 steps. Moving or resizing "
-                    "the windows changes any class share by less than 0.6 percentage points; on the threshold grid the "
-                    "two-peak test passes about 33% of combinations for K = 2 and 60% for K = 4, the valley-depth threshold "
-                    "mattering most."
+                    "the windows changes any class share by less than 0.6 percentage points. On the threshold grid, whose "
+                    "valley limit (10%, 20% or 30% of the highest peak) is stricter than the 60% used to choose β = 0.01, "
+                    "the two-peak test passes 33% of cases for K = 2 and 60% for K = 4; only the valley limit changes the "
+                    "outcome, and at β = 0.01 K = 2 (valley 34% of the peak) fails every setting."
                 ),
             },
             "key_findings": [
                 "Peak, valley and second-peak times at N = 100, β = 0.01: K = 2, 53, 247 and 1124 steps; K = 4, 32, 84 and 495 steps.",
-                "Shifting or resizing the three time windows by 1 to 5 steps changes every route-class share by less than 0.6 percentage points (at most 0.45 for K = 2 and 0.58 for K = 4).",
-                "Over 81 threshold settings and five β values between 0.001 and 0.03, the two-peak test passes about 33% of the time for K = 2 and 60% for K = 4; the valley-depth threshold is the most sensitive.",
+                "Shifting or resizing the three time windows by 1, 2 or 5 steps changes every route-class share by less than 0.6 percentage points (at most 0.45 for K = 2 and 0.58 for K = 4).",
+                "Over 81 threshold settings and five β values from 0.001 to 0.03, the two-peak test (which here also requires the valley to be at most 10%, 20% or 30% of the highest peak) passes 33% of cases for K = 2 and 60% for K = 4. Only the valley limit changes the outcome: at β = 0.01 the K = 2 valley is 34% of the peak, so K = 2 fails every setting, while K = 4 passes two of the three valley limits.",
                 "The 95% confidence intervals of the Monte Carlo class shares are narrow (mean width about 0.01 for K = 2 and 0.03 for K = 4) and smaller than the differences between classes.",
             ],
         },
         "cn": {
             "teaser": '修订版（N = 100，β = 0.01）：把 f(t) 与各峰的路径类别画在一起，并检验判峰阈值、时间窗选择（类别占比变化不到 0.6 个百分点）和蒙特卡洛误差的影响。',
-            "title": "懒惰环捷径：稳健性检验",
+            "title": "懒惰环捷径：敏感性检验",
             "summary": (
-                "β 扫描研究的修订版，固定 N = 100、β = 0.01。它把 f(t) 与各峰中到达轨迹的路径类别画在一起，并检验结论对"
-                "判峰阈值、时间窗（平移或改变宽度 1 到 5 步时，各类别占比的变化都小于 0.6 个百分点）和蒙特卡洛抽样误差"
+                "β 扫描研究的修订版，固定 N = 100、β = 0.01。报告把 f(t) 与各峰中到达轨迹的路径类别（是否走过捷径、是否跨过目标）"
+                "画在同一张图上，并检验结论对判峰阈值、时间窗（平移或改变宽度 1、2 或 5 步时，各类别占比的变化都小于 0.6 个百分点）和蒙特卡洛抽样误差"
                 "（95% 置信区间）的敏感程度。"
             ),
             "narrative": {
                 "model_overview": (
-                    "与第一版相同的懒惰环：N = 100，K = 2 或 4，q = 2/3（停留概率 1/3），从格点 1 出发，目标为格点 51，"
+                    "与 β 扫描报告相同的懒惰环：N = 100，K = 2 或 4，q = 2/3（停留概率 1/3），从格点 1 出发，目标为格点 51，"
                     "有向捷径 6 → 52，强度 β = 0.01。"
                 ),
                 "method_overview": (
                     "精确计算 f(t)，并用蒙特卡洛（20 万条轨迹）统计第一个峰、谷和第二个峰附近三个时间窗内的路径类别"
-                    "（半宽为 t₂ − t₁ 的 5%）。三项检验：判峰阈值网格、把时间窗平移或改变宽度 1 到 5 步、类别占比的 95% 置信区间。"
+                    "（半宽为 t₂ − t₁ 的 5%）。三项检验：判峰阈值网格、把时间窗平移或改变宽度 1、2 或 5 步、类别占比的 95% 置信区间。"
                 ),
                 "result_overview": (
                     "峰、谷与第二峰的时间：K = 2 为 53、247、1124 步；K = 4 为 32、84、495 步。平移或改变时间窗宽度时，"
-                    "任一类别占比的变化都小于 0.6 个百分点；在阈值网格上，双峰判定对 K = 2 约有 33% 的组合通过，对 K = 4 约 60%，"
-                    "影响最大的是谷深阈值。"
+                    "任一类别占比的变化都小于 0.6 个百分点。阈值网格的谷深上限（最高峰的 10%、20% 或 30%）比选取 β = 0.01 时用的 60% 更严；"
+                    "在这一网格上，K = 2 有 33% 的情形判为双峰，K = 4 有 60%。改变结果的只有谷深上限：β = 0.01 时 K = 2 的谷是峰高的 34%，"
+                    "在所有设置下都不通过。"
                 ),
             },
             "key_findings": [
                 "N = 100、β = 0.01 时峰、谷与第二峰的时间：K = 2 为 53、247、1124 步；K = 4 为 32、84、495 步。",
-                "把三个时间窗平移或改变宽度 1 到 5 步，各路径类别占比的变化都小于 0.6 个百分点（K = 2 最多 0.45，K = 4 最多 0.58）。",
-                "在 81 组阈值设置和 0.001 到 0.03 之间的 5 个 β 值上，双峰判定对 K = 2 约有 33% 通过，对 K = 4 约 60%；最敏感的是谷深阈值。",
+                "把三个时间窗平移或改变宽度 1、2 或 5 步，各路径类别占比的变化都小于 0.6 个百分点（K = 2 最多 0.45，K = 4 最多 0.58）。",
+                "在 81 组阈值设置和 0.001 到 0.03 之间的 5 个 β 值上（这里还要求谷不高于最高峰的 10%、20% 或 30%），K = 2 有 33% 判为双峰，K = 4 有 60%。改变结果的只有谷深上限：β = 0.01 时 K = 2 的谷是峰高的 34%，在所有设置下都不通过；K = 4 在三个谷深上限中通过两个。",
                 "蒙特卡洛类别占比的 95% 置信区间较窄（平均宽度 K = 2 约 0.01，K = 4 约 0.03），小于类别之间的差异。",
             ],
         },
     },
     "ring_lazy_flux": {
         "en": {
-            "teaser": 'Nearest-neighbour lazy ring with a shortcut drawn from the stay-put probability: a closed-form generating function checked by a flux recursion; the smallest ring with two well-separated peaks has N = 10.',
+            "teaser": 'Nearest-neighbour lazy ring with a shortcut drawn from the stay-put probability: a closed-form generating function checked by a flux recursion; with the shortcut from the start to the target, the smallest ring with two well-separated peaks has N = 10.',
             "title": "Lazy Ring Flux Baseline",
             "summary": (
                 "A lazy nearest-neighbour ring (stay, left and right each with probability 1/3) with one directed shortcut "
-                "whose probability is taken from the stay-put probability at its source. The generating function is "
-                "derived in closed form, inverted numerically (Abate–Whitt) and checked against a step-by-step flux "
-                "recursion. The smallest ring with two well-separated peaks has N = 10; giving the shortcut source four "
-                "equal options instead removes the second peak for every N from 10 to 200 tested."
+                "whose probability is taken from the stay-put probability at its source. The closed-form generating "
+                "function is inverted numerically (Abate–Whitt) and checked against a step-by-step flux recursion. With "
+                "the shortcut running from the start straight to the target (β = 0.02), the smallest ring with two "
+                "well-separated peaks has N = 10. In a second geometry (shortcut from site 6 to the site after the target "
+                "⌊N/2⌋), giving the shortcut source four equal options leaves a single peak for every N from 10 to 200, "
+                "whereas the stay-put rule gives two peaks at N = 100 (β = 0.02)."
             ),
             "narrative": {
                 "model_overview": (
@@ -260,9 +265,10 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "separated means t₂/t₁ ≥ 10."
                 ),
                 "result_overview": (
-                    "With the shortcut taken from the stay-put probability, the smallest example with two well-separated "
-                    "peaks is N = 10 (peaks at t = 1 and t = 10). With four equal options at the source, no ring with "
-                    "N = 10 to 200 has two peaks in the scanned geometry."
+                    "With the shortcut taken from the stay-put probability and running from the start straight to the "
+                    "target (β = 0.02), the smallest example with two well-separated peaks is N = 10 (peaks at t = 1 and "
+                    "t = 10). With four equal options at the source, no ring with N = 10 to 200 has two peaks in the second "
+                    "geometry (shortcut from site 6 to the site after the target)."
                 ),
             },
             "key_findings": [
@@ -273,12 +279,13 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "teaser": '捷径概率取自停留概率的最近邻懒惰环：生成函数闭式与通量递推相互核对；出现两个分得很开的峰的最小环是 N = 10。',
+            "teaser": '捷径概率取自停留概率的最近邻懒惰环：生成函数闭式与通量递推相互核对；捷径从起点指向目标时，两个峰分得很开的最小环是 N = 10。',
             "title": "懒惰环通量基线",
             "summary": (
-                "最近邻懒惰环（停留、左移、右移的概率各为 1/3）加一条有向捷径，其概率取自捷径起点的停留概率。"
-                "报告推导出生成函数的闭式，用 Abate–Whitt 方法做数值反演，并与逐步计算的通量递推核对。"
-                "出现两个分得很开的峰的最小环是 N = 10；若改为让捷径起点的四个去向概率相等，则在所测试的 N = 10 到 200 中第二个峰都不出现。"
+                "最近邻懒惰环（停留、左移、右移的概率各为 1/3）加一条有向捷径，其概率取自捷径出发格点的停留概率。"
+                "报告用 Abate–Whitt 方法对生成函数的闭式做数值反演，并与逐步计算的通量递推核对。"
+                "捷径从起点直接指向目标时（β = 0.02），两个峰分得很开的最小环是 N = 10。换一种构型（捷径从格点 6 指向目标 ⌊N/2⌋ "
+                "的下一个格点），若让捷径出发格点的四个去向等概率，N = 10 到 200 都只有一个峰；而按停留概率取捷径时，N = 100 有两个峰（β = 0.02）。"
             ),
             "narrative": {
                 "model_overview": (
@@ -292,15 +299,15 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "t₂/t₁ ≥ 10 称为分得很开。"
                 ),
                 "result_overview": (
-                    "捷径概率取自停留概率时，出现两个分得很开的峰的最小例子是 N = 10（峰在 t = 1 和 t = 10）。"
-                    "起点四个去向等概率时，在所扫描的几何构型中，N = 10 到 200 的环都没有两个峰。"
+                    "捷径概率取自停留概率、且从起点直接指向目标时（β = 0.02），两个峰分得很开的最小例子是 N = 10（峰在 t = 1 和 t = 10）。"
+                    "在第二种构型（捷径从格点 6 指向目标的下一个格点）中，捷径出发格点的四个去向等概率时，N = 10 到 200 的环都没有两个峰。"
                 ),
             },
             "key_findings": [
                 "最小例子：N = 10，从格点 1 出发，目标为格点 5，捷径 1 → 5，p = 0.02/3；f(t) 恰好有两个峰，在 t = 1 和 t = 10。",
                 "生成函数的闭式与独立的逐步通量递推相互核对。",
                 "对 N = 3 到 60、所有目标位置扫描（捷径从起点指向目标，β = 0.02）：分得很开的两个峰从 N = 10 开始出现；N ≥ 37 时只在目标距起点 5 到 12 个格点时出现。",
-                "捷径起点四个去向等概率时，N = 10 到 200 的环都没有两个峰（从格点 1 出发，目标在 N/2，捷径从格点 6 指向目标的下一个格点）。",
+                "捷径出发格点的四个去向等概率时，N = 10 到 200 的环都没有两个峰（从格点 1 出发，目标在 N/2，捷径从格点 6 指向目标的下一个格点）。",
             ],
         },
     },
@@ -322,7 +329,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "method_overview": (
                     "Generating-function inversion by Abate–Whitt (up to t = 2000), checked against the master equation; "
-                    "Monte Carlo (2 million walkers in total) for the route classes. Two peaks means two local maxima above "
+                    "Monte Carlo (2 million walkers, for N = 100 and K = 6) for the route classes. Two peaks means two local maxima above "
                     "10⁻⁷, the smaller at least 1% of the larger; for K = 2, pairs of consecutive steps are summed first to "
                     "remove the odd/even oscillation of a non-lazy walk."
                 ),
@@ -336,7 +343,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "K = 2: no two-peak case for even N from 10 to 160, nor in an extra check over other shortcut positions with N from 6 to 80.",
                 "Ranges of N with two peaks: 48–52 for K = 4, 68–104 for K = 6, and N = 14 and 88–160 for K = 8.",
                 "N = 100, K = 6: first peak at t = 14, valley at t = 74, second peak at t = 101.",
-                "Route classes (Monte Carlo): about 96% of the early, direct arrivals used the shortcut once, against about 47% of the late, indirect arrivals that used it at least once.",
+                "Route classes (Monte Carlo, N = 100, K = 6, 2 million walkers): of walkers arriving before step 70, about 96% used the shortcut exactly once; of those arriving after step 105, about 47% used it at least once.",
             ],
         },
         "cn": {
@@ -354,7 +361,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "K + 1 个去向的概率各为 1/(K + 1)。"
                 ),
                 "method_overview": (
-                    "用 Abate–Whitt 方法反演生成函数（算到 t = 2000），并用主方程核对；路径类别用蒙特卡洛统计（共 200 万条轨迹）。"
+                    "用 Abate–Whitt 方法反演生成函数（算到 t = 2000），并用主方程核对；路径类别用蒙特卡洛统计（N = 100、K = 6，200 万条轨迹）。"
                     "两个峰指两个高于 10⁻⁷ 的局部极大值，较小者不低于较大者的 1%；K = 2 时先把相邻两步合并，以消除非懒惰游走的奇偶振荡。"
                 ),
                 "result_overview": (
@@ -366,7 +373,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "K = 2：N 取 10 到 160 的偶数时没有双峰；改变捷径位置、N 取 6 到 80 的补充检查中也没有。",
                 "出现两个峰的 N 范围：K = 4 为 48–52，K = 6 为 68–104，K = 8 为 N = 14 和 88–160。",
                 "N = 100、K = 6：第一个峰在 t = 14，谷在 t = 74，第二个峰在 t = 101。",
-                "路径分类（蒙特卡洛）：早到的直达轨迹约 96% 走过一次捷径，晚到的间接轨迹中约 47% 至少走过一次。",
+                "路径分类（蒙特卡洛，N = 100，K = 6，200 万条轨迹）：第 70 步以前到达的轨迹约 96% 恰好走过一次捷径；第 105 步以后到达的约 47% 至少走过一次。",
             ],
         },
     },
@@ -383,8 +390,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "narrative": {
                 "model_overview": (
                     "Non-lazy ring, N = 100, K = 6 (steps ±1, ±2, ±3), start at site 1, target at site 50. One directed "
-                    "shortcut with probability 1/7 at its source: site 6 in case A, the start site in case B; every landing "
-                    "site from 1 to 100 is tried."
+                    "shortcut with probability 1/7 at its source: site 6 in case A, the start site in case B; every site other "
+                    "than the source is tried as the landing site."
                 ),
                 "method_overview": (
                     "Abate–Whitt inversion cross-checked with a deterministic flux recursion (largest difference about "
@@ -394,15 +401,17 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "result_overview": (
                     "Case A: two peaks for landing sites 43 to 57 (14 sites after the separation filter). Case B: 18 landing "
-                    "sites, 7 of them with a late second peak after the filter (sites 36–39 and 62–64). In case A the ratio "
-                    "of the peak heights tracks shortcut use closely (Pearson r = −0.97)."
+                    "sites, 7 of them with a late second peak after the filter (sites 36–39 and 62–64). In case A, leaving "
+                    "out the landing site on the target itself, the second-to-first peak-height ratio falls as the share of "
+                    "second-peak arrivals that used the shortcut rises (Pearson r = −0.97 over 14 sites; −0.17 with the "
+                    "target site included)."
                 ),
             },
             "key_findings": [
                 "Case A (shortcut from site 6): landing sites 43 to 57 give two peaks; 14 remain when the peaks must be at least 12 steps apart.",
                 "Case B (shortcut from the start site): 18 landing sites give two peaks; 7 have a late second peak after the separation filter (sites 36–39 and 62–64).",
-                "In case A the ratio of the two peak heights correlates with shortcut use across landing sites (Pearson r = −0.97).",
-                "In case B a smaller second peak goes with less shortcut use, the opposite of the hypothesis the report set out to test.",
+                "In case A, leaving out the landing site on the target itself, the ratio of the second to the first peak height falls as the share of second-peak arrivals that used the shortcut rises (Pearson r = −0.97 over 14 landing sites; −0.17 with the target site included).",
+                "In both cases a lower second peak goes with a smaller share of second-peak arrivals that used the shortcut (Pearson r = 0.815 in case B and 0.806 in case A, leaving out the target landing site).",
             ],
         },
         "cn": {
@@ -415,8 +424,9 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ),
             "narrative": {
                 "model_overview": (
-                    "非懒惰环，N = 100，K = 6（步长 ±1、±2、±3），从格点 1 出发，目标在格点 50。一条有向捷径，在起点处的概率为 "
-                    "1/7：情形 A 从格点 6 出发，情形 B 从起点出发；落点逐一取遍 1 到 100。"
+                    "非懒惰环，N = 100，K = 6（步长 ±1、±2、±3），从格点 1 出发，目标在格点 50。一条有向捷径；在捷径出发的"
+                    "格点上，环上 6 个邻居和捷径共 7 个去向，各占 1/7。情形 A 从格点 6 出发，情形 B 从起点出发；除出发格点外，"
+                    "其余格点逐一作为落点。"
                 ),
                 "method_overview": (
                     "Abate–Whitt 反演与确定性通量递推相互核对（最大差约 10⁻¹³）；蒙特卡洛（50 万条轨迹）给出捷径使用比例及其 "
@@ -424,26 +434,28 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "result_overview": (
                     "情形 A：落点 43 到 57 有两个峰（加间隔筛选后剩 14 个）。情形 B：18 个落点有两个峰，筛选后其中 7 个第二峰较晚"
-                    "（落点 36–39 和 62–64）。情形 A 中两峰高度之比与捷径使用比例高度相关（Pearson r = −0.97）。"
+                    "（落点 36–39 和 62–64）。情形 A 中，除去落点正好是目标的那一个，第二峰与第一峰的高度之比随第二峰到达者中"
+                    "走过捷径的比例升高而下降（14 个落点上 Pearson r = −0.97；计入目标落点时为 −0.17）。"
                 ),
             },
             "key_findings": [
                 "情形 A（捷径从格点 6 出发）：落点 43 到 57 有两个峰；要求两峰相隔至少 12 步时剩 14 个。",
                 "情形 B（捷径从起点出发）：18 个落点有两个峰；间隔筛选后其中 7 个第二峰较晚（落点 36–39 和 62–64）。",
-                "情形 A 中，不同落点下两峰高度之比与捷径使用比例相关（Pearson r = −0.97）。",
-                "情形 B 中，第二峰越小，捷径用得越少，与报告原本要检验的假设相反。",
+                "情形 A 中，除去落点正好是目标的那一个，第二峰与第一峰的高度之比随第二峰到达者中走过捷径的比例升高而下降（14 个落点上 Pearson r = −0.97；计入目标落点时为 −0.17）。",
+                "两种情形中，第二峰越低，第二峰到达者中走过捷径的比例越小（除去目标落点，情形 B 的 Pearson r = 0.815，情形 A 为 0.806）。",
             ],
         },
     },
     "ring_deriv_k2": {
         "en": {
-            "teaser": 'Exact propagators and first-passage generating function for a lazy nearest-neighbour ring with one directed link, checked against direct matrix inversion to within 3.11 × 10⁻¹⁵.',
+            "teaser": 'Exact propagators and first-passage generating function for a lazy nearest-neighbour ring with one directed link; for the stay-put construction, checked against direct matrix inversion to within 3.11 × 10⁻¹⁵.',
             "title": "Ring Derivation Backbone (K = 2)",
             "summary": (
                 "Exact derivation for a lazy nearest-neighbour ring with one directed shortcut: the propagator without the "
                 "shortcut in Chebyshev form, the propagator with it (by a rank-one Sherman–Morrison update and by a "
                 "determinant formula) for two ways of adding the shortcut, and the first-passage generating function. "
-                "Checked against direct matrix inversion: largest error 3.11 × 10⁻¹⁵ over 200 random cases."
+                "For the stay-put construction, checked against direct matrix inversion: largest error 3.11 × 10⁻¹⁵ over "
+                "200 random cases."
             ),
             "narrative": {
                 "model_overview": (
@@ -459,22 +471,22 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "result_overview": (
                     "Closed forms for both constructions, an explicit Chebyshev form of the first-passage generating "
                     "function when the link takes probability from staying put, and a comparison with Watts–Strogatz "
-                    "rewiring; 200 random cases with N ≤ 40 agree with matrix inversion to within 3.11 × 10⁻¹⁵."
+                    "rewiring; for the stay-put construction, 200 random cases with N ≤ 40 agree with matrix inversion to within 3.11 × 10⁻¹⁵."
                 ),
             },
             "key_findings": [
                 "The propagator of the ring without the link has a closed Chebyshev form.",
                 "Adding one directed link is a rank-one change: the Sherman–Morrison update and the determinant formula give the same propagator.",
                 "The first-passage generating function is a ratio of two propagators, with an explicit closed form when the link takes probability from staying put.",
-                "200 random test cases with N ≤ 40 agree with direct matrix inversion to within 3.11 × 10⁻¹⁵.",
+                "For the stay-put construction, 200 random test cases with N ≤ 40 agree with direct matrix inversion to within 3.11 × 10⁻¹⁵.",
             ],
         },
         "cn": {
-            "teaser": '带一条有向连边的最近邻懒惰环：传播子与首达生成函数的精确推导，与直接矩阵求逆的结果相差不超过 3.11 × 10⁻¹⁵。',
+            "teaser": '带一条有向连边的最近邻懒惰环：传播子与首达生成函数的精确推导；按停留概率取捷径的构造与直接矩阵求逆相差不超过 3.11 × 10⁻¹⁵。',
             "title": "环模型推导主干（K = 2）",
             "summary": (
                 "对带一条有向捷径的最近邻懒惰环做精确推导：无捷径时的传播子（切比雪夫形式），两种加捷径方式下的传播子"
-                "（分别用 Sherman–Morrison 秩一修正和行列式公式求得），以及首达生成函数。与直接矩阵求逆核对：200 个随机情形的最大误差为 3.11 × 10⁻¹⁵。"
+                "（分别用 Sherman–Morrison 秩一修正和行列式公式求得），以及首达生成函数。对按停留概率取捷径的构造，与直接矩阵求逆核对：200 个随机情形的最大误差为 3.11 × 10⁻¹⁵。"
             ),
             "narrative": {
                 "model_overview": (
@@ -487,14 +499,14 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "result_overview": (
                     "两种构造都有闭式结果；连边概率取自停留概率时，首达生成函数有显式的切比雪夫形式；并与 Watts–Strogatz 改接作比较。"
-                    "N ≤ 40 的 200 个随机情形与矩阵求逆的结果相差不超过 3.11 × 10⁻¹⁵。"
+                    "对按停留概率取捷径的构造，N ≤ 40 的 200 个随机情形与矩阵求逆的结果相差不超过 3.11 × 10⁻¹⁵。"
                 ),
             },
             "key_findings": [
                 "无连边时，环的传播子有切比雪夫形式的闭式。",
                 "加一条有向连边是秩一改变：Sherman–Morrison 修正与行列式公式给出相同的传播子。",
                 "首达生成函数是两个传播子之比；连边概率取自停留概率时有显式闭式。",
-                "N ≤ 40 的 200 个随机测试情形与直接矩阵求逆的结果相差不超过 3.11 × 10⁻¹⁵。",
+                "对按停留概率取捷径的构造，N ≤ 40 的 200 个随机测试情形与直接矩阵求逆的结果相差不超过 3.11 × 10⁻¹⁵。",
             ],
         },
     },
@@ -505,8 +517,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "summary": (
                 "A lazy ring with two absorbing targets and an optional drift, computed exactly step by step. Drift alone "
                 "can produce two arrival peaks. With a directed shortcut that takes a fraction β of the stay-put "
-                "probability at its source, two peaks appear for N ≥ 45 (K = 2) or N ≥ 50 (K = 4) in the scanned range and "
-                "never at β = 0; three peaks were found in one hand-built case without a shortcut."
+                "probability at its source, two peaks appear for N ≥ 45 (K = 2) or N ≥ 50 (K = 4) in the scan (N = 30–80, "
+                "β = 0–0.08, no drift, shortcut from site 5 straight onto the second target) and never at β = 0; three peaks were found in one hand-built case without a shortcut."
             ),
             "narrative": {
                 "model_overview": (
@@ -527,10 +539,10 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
             },
             "key_findings": [
-                "Example with a shortcut (N = 60, targets at sites 30 and 31, shortcut 5 → 31, β = 0.02): peaks at t = 36 and 387 for K = 2, and at t = 15 and 169 for K = 4.",
-                "In the scan with targets at site ⌊N/2⌋ and the next site there is no two-peak case at β = 0; two peaks appear for N ≥ 45 (K = 2) and N ≥ 50 (K = 4).",
+                "Example with a shortcut (N = 60, targets at sites 30 and 31, shortcut 5 → 31 landing on the second target, β = 0.02): peaks at t = 36 and 387 for K = 2, and at t = 15 and 169 for K = 4.",
+                "In the scan (N = 30–80, β = 0–0.08, no drift, targets at ⌊N/2⌋ and the next site, shortcut from site 5 straight onto the second target), β = 0 never gives two peaks; they first appear at N = 45 (K = 2) and N = 50 (K = 4), and from N = 55 every β > 0 gives them.",
                 "Three peaks appear in a single hand-built case without a shortcut (K = 4, N = 30, q = 0.9, drift 0.8), at t = 1, 17 and 43.",
-                "A small scan of 240 cases gives 34 double peaks, 26 shoulders, 10 local bumps and 170 single peaks.",
+                "A separate scan of 240 cases (K = 2, rings of 31 and 51 sites, drift −0.6 to 0.6, β = 0 or 0.03, varied start and target sites), labelled by the shared shape classifier, gives 34 double peaks (14 of them without a shortcut), 26 shoulders, 10 local bumps and 170 single peaks.",
             ],
         },
         "cn": {
@@ -538,13 +550,14 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "title": "双目标懒惰环的机制",
             "summary": (
                 "带两个吸收目标、可加漂移的懒惰环，逐步精确计算。仅靠漂移就可能出现两个到达峰。加一条有向捷径"
-                "（其概率取自起点停留概率的 β 倍）后，在所扫描范围内 K = 2 从 N ≥ 45、K = 4 从 N ≥ 50 起出现两个峰，"
+                "（其概率取自捷径出发格点停留概率的 β 倍）后，在扫描中（N = 30–80，β = 0–0.08，无漂移，捷径从格点 5 直接落到第二个目标上）"
+                "K = 2 从 N ≥ 45、K = 4 从 N ≥ 50 起出现两个峰，"
                 "β = 0 时从不出现；三个峰只在一个人为构造、没有捷径的情形中出现。"
             ),
             "narrative": {
                 "model_overview": (
                     "懒惰环，从格点 0 出发，有两个吸收目标；K = 2 或 4。每一步以概率 q 移动，向前的权重为 (1 + g)/2，"
-                    "向后为 (1 − g)/2（漂移 g 在 −1 与 1 之间），否则停留。可选的捷径：在捷径起点，把 β(1 − q) 的概率从停留移给捷径。"
+                    "向后为 (1 − g)/2（漂移 g 在 −1 与 1 之间），否则停留。可选的捷径：在捷径出发的格点上，把 β(1 − q) 的概率从停留移给捷径。"
                 ),
                 "method_overview": (
                     "对吸收链做精确的时域递推，按目标分解 f(t) = f₁(t) + f₂(t)；对 N 和 β 扫描。峰指高于 10⁻¹² 的严格局部极大值，"
@@ -557,30 +570,33 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
             },
             "key_findings": [
-                "带捷径的例子（N = 60，目标在格点 30 和 31，捷径 5 → 31，β = 0.02）：K = 2 的峰在 t = 36 和 387，K = 4 的峰在 t = 15 和 169。",
-                "目标位于格点 ⌊N/2⌋ 及其下一个格点的扫描中，β = 0 时没有双峰；K = 2 从 N ≥ 45、K = 4 从 N ≥ 50 起出现两个峰。",
+                "带捷径的例子（N = 60，目标在格点 30 和 31，捷径 5 → 31 直接落在第二个目标上，β = 0.02）：K = 2 的峰在 t = 36 和 387，K = 4 的峰在 t = 15 和 169。",
+                "扫描中（N = 30–80，β = 0–0.08，无漂移，目标在 ⌊N/2⌋ 及下一个格点，捷径从格点 5 直接落到第二个目标上），β = 0 时从不出现两个峰；K = 2 从 N = 45、K = 4 从 N = 50 起开始出现，N ≥ 55 时每个 β > 0 都有。",
                 "三个峰只出现在一个人为构造、没有捷径的情形中（K = 4，N = 30，q = 0.9，漂移 0.8），在 t = 1、17、43。",
-                "240 个情形的小规模扫描中：34 个双峰，26 个肩，10 个局部隆起，170 个单峰。",
+                "另一组 240 个情形的扫描（K = 2，环长 31 和 51，漂移 −0.6 到 0.6，β = 0 或 0.03，起点与目标位置各异），按共用的形状分类器判定：34 个双峰（其中 14 个没有捷径）、26 个肩、10 个局部隆起、170 个单峰。",
             ],
         },
     },
     "ring_two_walker_encounter_shortcut": {
         "en": {
-            "teaser": 'Two lazy walkers on a ring of 101 sites, one with a shortcut: the exact first-encounter time has a clear second peak from shortcut strength β ≈ 0.15, and earlier on larger rings.',
+            "teaser": 'Two lazy walkers on a ring of 101 sites, one with a shortcut: from shortcut strength β ≈ 0.15 the shortcut adds an early encounter peak and the exact distribution passes the report\'s clear two-peak test; on larger rings this happens at smaller β.',
             "summary": (
                 "Two independent lazy walkers with opposite drifts on a ring of 101 sites, one of them with a directed "
-                "shortcut; their first-encounter distribution is computed exactly. A second encounter peak at least 20% as "
-                "high as the first appears from shortcut strength β ≈ 0.15, and earlier on larger rings (β ≈ 0.04 at "
+                "shortcut; their first-encounter distribution is computed exactly. Without the shortcut it already has two "
+                "peaks (t ≈ 192 and 322), the smaller just under 20% of the larger. From shortcut strength β ≈ 0.15 the "
+                "shortcut adds an early peak near t = 108 and the distribution passes the report's clear two-peak test "
+                "(smaller peak at least 20% of the larger); on a larger ring this happens at smaller β (β ≈ 0.04 at "
                 "N = 141). The appendix generating-function formula is checked against its mode sum (relative error "
                 "≤ 1.4 × 10⁻¹⁶)."
             ),
         },
         "cn": {
-            "teaser": '101 个格点的环上两个懒惰游走者，其中一个有捷径：精确计算的首次相遇时间从捷径强度 β 约 0.15 起出现明显的第二个峰，环越大出现得越早。',
+            "teaser": '101 个格点的环上两个懒惰游走者，其中一个有捷径：捷径强度 β 约 0.15 起，捷径带来一个早的相遇峰，精确分布满足报告的清晰双峰判据；环越大，所需的 β 越小。',
             "summary": (
-                "环上（101 个格点）两个漂移方向相反、相互独立的懒惰游走者，其中一个有一条有向捷径；精确计算二者的首次相遇时间分布。"
-                "捷径强度 β 约为 0.15 起，出现高度不低于第一个峰 20% 的第二个相遇峰；环越大出现得越早（N = 141 时 β 约为 0.04）。"
-                "附录中的生成函数公式与其模式求和相互核对（相对误差不超过 1.4 × 10⁻¹⁶）。"
+                "在 101 个格点的环上，两个相互独立、漂移方向相反的懒惰游走者中，有一个带有向捷径；精确计算二者的首次相遇时间分布。"
+                "没有捷径时分布已有两个峰（t 约为 192 和 322），但较小峰略低于较大峰的 20%。捷径强度 β 约 0.15 起，捷径在 t ≈ 108 "
+                "附近带来一个早峰，分布满足报告的清晰双峰判据（较小峰不低于较大峰的 20%）；环越大，所需的 β 越小（N = 141 时 β 约为 0.04）。"
+                "附录中的生成函数公式与按本征模展开的求和结果一致（相对误差不超过 1.4 × 10⁻¹⁶）。"
             ),
         },
     },
@@ -716,9 +732,10 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "title": "Grid2D Corridor-Endpoint Case (Negative Result)",
             "summary": (
                 "Negative result for reflecting-wall geometries in which the start and the target sit at the two ends of "
-                "a walled corridor (lattices of 60 × 60 and 30 × 30 sites, lazy walk): f(t) has a single peak and a long "
-                "tail, and the apparent late bump sits at the start of the late time window, an artefact of that window. "
-                "A second peak appears only after adding a sticky belt with a circulating bias around the outside."
+                "a walled corridor (a 60 × 60 lattice and an 18 × 30 rectangle, lazy walk): f(t) has a single peak and a "
+                "long tail, and the apparent late bump sits at the start of the late time window, an artefact of that "
+                "window. In the manuscript's scan a clear late second peak (t ≈ 1990, valley ratio 0.014) appears only "
+                "when a strongly sticky outer belt also carries a clockwise bias."
             ),
             "narrative": {
                 "model_overview": (
@@ -732,23 +749,25 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "result_overview": (
                     "Both base cases show a single peak and a long tail. Variants with no drift, stronger drift, a weaker "
-                    "corridor bias or an outer sticky belt still have one peak; only the sticky belt combined with a "
-                    "circulating bias gives a second peak."
+                    "corridor bias or an outer sticky belt still have one peak. With the belt also given a clockwise bias, "
+                    "the stronger sticky belt gives a clear second peak at t ≈ 1990; with the weaker belt the late maximum "
+                    "is at t = 2996, at the end of the 3000-step window."
                 ),
             },
             "key_findings": [
                 "The corridor-endpoint geometries (cases Z and S) have a single peak and a long tail.",
                 "The late bump in the base cases sits at the start of the late time window (t = 1500 for case Z): it is an artefact of the window, not a second peak.",
                 "Changing the drift, weakening the corridor bias or adding an outer sticky belt alone does not create a second peak.",
-                "A second peak appears only when the outer sticky belt also carries a circulating bias.",
+                "A clear second peak (t ≈ 1990, valley ratio 0.014) appears only when a strongly sticky outer belt also carries a clockwise bias; with a weaker belt the late maximum sits at the end of the 3000-step window.",
             ],
         },
         "cn": {
             "teaser": '否定结果：起点和目标在有墙走廊的两端时，f(t) 只有一个峰加长尾；看似晚到的隆起是时间窗造成的假象。',
             "title": "二维格点走廊两端起止的情形（否定结果）",
             "summary": (
-                "否定结果：在反射墙几何中，起点和目标分处一条有墙走廊的两端（60 × 60 与 30 × 30 格点，懒惰游走）时，f(t) "
-                "只有一个峰加长尾；看似晚到的隆起位于晚时窗的起点，是时间窗造成的假象。只有在外围加上带环向偏置的黏滞带后，才出现第二个峰。"
+                "否定结果：在反射墙几何中，起点和目标分处一条有墙走廊的两端（60 × 60 格点和 18 × 30 的矩形，懒惰游走）时，f(t) "
+                "只有一个峰加长尾；看似晚到的隆起位于晚时窗的起点，是时间窗造成的假象。在原文的扫描中，只有外围黏滞带足够黏、"
+                "并带顺时针偏置时，才出现清晰的晚到第二峰（t ≈ 1990，谷比 0.014）。"
             ),
             "narrative": {
                 "model_overview": (
@@ -759,15 +778,16 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "以精确递推为基准，辅以 Abate–Whitt 反演和蒙特卡洛；找峰时要求最小间隔，只找到一个峰时退而比较早、晚两个时间窗。"
                 ),
                 "result_overview": (
-                    "两个基本情形都是单峰加长尾。去掉漂移、加强漂移、减弱走廊偏置或只加外围黏滞带的变体仍然只有一个峰；"
-                    "只有黏滞带再加上环向偏置时才出现第二个峰。"
+                    "两个基本情形都是单峰加长尾。去掉漂移、加强漂移、减弱走廊偏置或只加外围黏滞带的变体仍然只有一个峰。"
+                    "黏滞带再加上顺时针偏置时，黏滞较强的一组在 t ≈ 1990 出现清晰的第二峰；黏滞较弱的一组，晚时最大值落在 t = 2996，"
+                    "即 3000 步时间窗的末端。"
                 ),
             },
             "key_findings": [
                 "走廊两端起止的几何（情形 Z 和 S）只有一个峰加长尾。",
                 "基本情形中的晚时隆起位于晚时窗的起点（情形 Z 为 t = 1500），是时间窗造成的假象，不是第二个峰。",
                 "仅改变漂移、减弱走廊偏置或只加外围黏滞带，都不会产生第二个峰。",
-                "只有外围黏滞带同时带有环向偏置时，才出现第二个峰。",
+                "只有外围黏滞带足够黏、同时带顺时针偏置时，才出现清晰的第二峰（t ≈ 1990，谷比 0.014）；黏滞较弱时，晚时最大值落在 3000 步时间窗的末端。",
             ],
         },
     },
@@ -801,7 +821,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "key_findings": [
                 "Each peak belongs to one target: the near target gives the early peak and the far target the late one.",
                 "Case C1: peaks at t = 35 and 284; 36% of walkers end at the near target and 49% at the far one within the computed time.",
-                "Clear double peaks occur for slow-corridor widths 1 to 4, each only for particular lengths of the unbiased stretch; the widest corridor (5 cells) gives weak double peaks only.",
+                "Clear double peaks occur for slow-corridor half-widths w₂ = 1 to 4 (3 to 9 cells across), each only for particular lengths of the unbiased stretch; the widest corridor (w₂ = 5, 11 cells across) gives at most a weak double peak.",
                 "In an independent set of 11 sparse test cases, 2 have two peaks.",
             ],
         },
@@ -829,7 +849,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "key_findings": [
                 "每个峰对应一个目标：近目标给出早峰，远目标给出晚峰。",
                 "情形 C1：峰在 t = 35 和 284；在计算时间内，36% 的游走者到达近目标，49% 到达远目标。",
-                "慢走廊宽 1 到 4 格时可以出现清晰双峰，但各自只在特定的无偏置段长度下出现；最宽的走廊（5 格）只给出弱双峰。",
+                "慢走廊半宽 w₂ = 1 到 4（横跨 3 到 9 格）时可以出现清晰双峰，但各自只在特定的无偏置段长度下出现；最宽的走廊（w₂ = 5，横跨 11 格）至多给出弱双峰。",
                 "在另外 11 个稀疏测试情形中，有 2 个出现两个峰。",
             ],
         },
@@ -878,14 +898,15 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "result_overview": (
                     "Study I: for the start at x = 10, clear double peaks at W = 5 and 6, weak at W = 7, none from W = 8; "
                     "other start positions differ, so there is no single critical width. Study II: clear double peaks only "
-                    "at b_x = −0.08 with W = 8–16; corridors 3 to 7 cells wide enlarge that region."
+                    "at b_x = −0.08 with W = 8–16 (corridor 3 cells wide); corridors 5 and 7 cells wide extend the clear "
+                    "range to W = 8–26 and 10–28."
                 ),
             },
             "key_findings": [
                 "Two targets: with the start at x = 10, clear double peaks at W = 5 and 6, a weak one at W = 7 and none from W = 8.",
                 "The width at which the double peak disappears depends on the start position: there is no single critical width.",
                 "One target with a walled corridor: clear double peaks only at global bias b_x = −0.08 for W = 8 to 16, weak ones from W = 18.",
-                "A corridor one cell wide gives at most a weak double peak; corridors 3, 5 or 7 cells wide enlarge the clear region.",
+                "A corridor one cell wide gives at most a weak double peak; widening it from 3 to 5 or 7 cells extends the clear range from W = 8–16 to W = 8–26 and 10–28.",
             ],
         },
         "cn": {
@@ -906,32 +927,33 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "result_overview": (
                     "研究一：起点在 x = 10 时，W = 5、6 为清晰双峰，W = 7 为弱双峰，W ≥ 8 无双峰；其他起点不同，因此没有统一的临界宽度。"
-                    "研究二：清晰双峰只在 b_x = −0.08、W = 8–16 时出现；3 到 7 格宽的走廊会扩大这一区域。"
+                    "研究二：清晰双峰只在 b_x = −0.08、W = 8–16 时出现（走廊宽 3 格）；走廊宽 5 格和 7 格时，清晰区间扩大到 W = 8–26 和 10–28。"
                 ),
             },
             "key_findings": [
                 "双目标：起点在 x = 10 时，W = 5、6 为清晰双峰，W = 7 为弱双峰，W ≥ 8 无双峰。",
                 "双峰消失的宽度取决于起点位置，不存在统一的临界宽度。",
                 "单目标加带墙走廊：清晰双峰只在整体偏置 b_x = −0.08、W = 8 到 16 时出现，W ≥ 18 为弱双峰。",
-                "一格宽的走廊最多给出弱双峰；3、5 或 7 格宽的走廊会扩大清晰双峰的区域。",
+                "一格宽的走廊最多给出弱双峰；走廊从 3 格加宽到 5 格或 7 格，清晰区间从 W = 8–16 扩大到 W = 8–26 和 10–28。",
             ],
         },
     },
     "grid2d_membrane_near_target": {
         "en": {
-            "teaser": "A semi-permeable membrane on a corridor's walls: with equal permeability κ on both walls, two clear peaks persist for κ ≤ 0.0035 and are gone for κ ≥ 0.03; compared with a two-target setting.",
+            "teaser": "A semi-permeable membrane on a corridor's walls: with equal permeability κ on both walls, two clear peaks persist for κ ≤ 0.0035, only weak ones remain up to κ = 0.02, and none from κ = 0.03 (W = 16); compared with a two-target setting.",
             "summary": (
                 "Tests how a semi-permeable membrane on the walls of a corridor (the same permeability κ on both walls, or "
                 "different values on the two walls) changes the first-passage time to a single target, and compares this "
                 "with a two-target setting without a corridor in which one target sits near the start. With equal "
-                "permeability on both walls (W = 16), two clear peaks persist for κ ≤ 0.0035 and are gone for κ ≥ 0.03."
+                "permeability on both walls (W = 16), two clear peaks persist for κ ≤ 0.0035, only weak ones remain for "
+                "0.0037 ≤ κ ≤ 0.02, and there is a single peak from κ = 0.03."
             ),
         },
         "cn": {
-            "teaser": '走廊墙上的半透膜：两侧渗透率 κ 相同时，κ ≤ 0.0035 仍有两个清晰的峰，κ ≥ 0.03 时消失；并与一个双目标情形比较。',
+            "teaser": '走廊墙上的半透膜：两侧渗透率 κ 相同时，κ ≤ 0.0035 仍有两个清晰的峰，到 κ = 0.02 只剩弱双峰，κ ≥ 0.03 时只有一个峰（W = 16）；并与一个双目标情形比较。',
             "summary": (
                 "检验走廊墙上的半透膜（两侧墙渗透率 κ 相同，或两侧取不同值）如何改变到达单个目标的首达时间，并与一个没有走廊、"
-                "其中一个目标靠近起点的双目标情形比较。两侧渗透率相同（W = 16）时，κ ≤ 0.0035 仍有两个清晰的峰，κ ≥ 0.03 时消失。"
+                "其中一个目标靠近起点的双目标情形比较。两侧渗透率相同（W = 16）时，κ ≤ 0.0035 仍有两个清晰的峰，0.0037 ≤ κ ≤ 0.02 只剩弱双峰，κ ≥ 0.03 时只有一个峰。"
             ),
         },
     },
@@ -1026,21 +1048,23 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "final_multitimescale_fpt_encounter": {
         "en": {
-            "teaser": 'One test for a visible double peak applied across the ring and lattice reports, with the parameter windows and case counts where it holds.',
+            "teaser": 'Synthesis of the ring and lattice reports: one visual test for a double peak, and the case counts that each report\'s own peak classifier gives.',
             "title": "Synthesis: When a Double Peak Counts",
             "summary": (
-                "Brings the first-passage results of the ring and lattice reports under one test for a visible double peak "
-                "(each route carries enough probability, the two time scales are well separated and the valley between "
-                "them is resolved) and tabulates where it holds, for example 34 of 240 two-target ring cases and 210 of "
-                "576 cases of a two-dimensional local-bias basin."
+                "Brings the first-passage results of the ring and lattice reports together under one visual test for a "
+                "double peak (each route carries enough probability, the two time scales are well separated and the valley "
+                "is low relative to the smaller peak) and lists the classifier evidence: the shared peak classifier labels "
+                "34 of 240 two-target ring cases as double peaks, and 126 of the 432 two-dimensional basin cases that have "
+                "a local inward bias (210 of 576 if cases without local bias are counted)."
             ),
         },
         "cn": {
-            "teaser": '把同一个可见双峰判据用于环与格点各报告，并列出满足判据的参数区间和情形数。',
+            "teaser": '环与格点各报告的综述：给出一个看得见的双峰判据，并列出各报告的峰分类器给出的情形数。',
             "title": "综述：双峰什么时候才算数",
             "summary": (
-                "用同一个可见双峰判据（每条路径都有足够的概率、两个时间尺度分得开、二者之间的谷能分辨）汇总环与格点各报告的首达结果，"
-                "并列出满足判据的情形，例如 240 个双目标环情形中的 34 个，以及二维局部偏置盆地 576 个情形中的 210 个。"
+                "用同一个可见双峰判据（每条路径都有足够的概率、两个时间尺度分得开、谷相对较小的峰足够低）汇总环与格点各报告的首达结果，"
+                "并列出分类器给出的证据：共用的峰分类器把 240 个双目标环情形中的 34 个判为双峰；二维盆地中带局部向内偏置的 432 个情形里有 126 个"
+                "（若计入无局部偏置的情形，为 576 个中的 210 个）。"
             ),
         },
     },

@@ -96,8 +96,8 @@ export function familyLabel(lang: Lang, family: Family): string {
 export function familyNote(lang: Lang, family: Family): string {
   const notes: Record<Family, [string, string]> = {
     ring: [
-      'A walker on a ring of N sites steps to one of its K nearest neighbours (K/2 on each side); in the lazy versions it may also stay put. One directed shortcut links two sites. This is the cleanest setting in which the arrival time splits into an early and a late peak.',
-      '游走者在 N 个格点组成的环上，每步跳到最近的 K 个邻居之一（每侧 K/2 个）；懒惰版本中也可以原地不动。一条有向捷径连接两个格点。这是到达时间分裂为一早一晚两个峰的最干净的情形。',
+      'A walker on a ring of N sites steps to one of its K nearest neighbours (K/2 on each side); in the lazy versions it may also stay put. Most reports add one directed shortcut between two sites and ask when the time of first arrival at a target site has an early and a late peak; later reports add a second target, a drift or a second walker.',
+      '游走者在 N 个格点的环上，每步跳到最近的 K 个邻居之一（每侧 K/2 个）；懒惰版本中也可以原地不动。多数报告加一条连接两个格点的有向捷径，研究首次到达目标格点的时间何时出现一早一晚两个峰；后面的报告还加入第二个目标、漂移或第二个游走者。',
     ],
     grid2d: [
       'Square and rectangular lattices, reflecting walls, corridors, membranes and two competing targets: when does a second peak survive?',

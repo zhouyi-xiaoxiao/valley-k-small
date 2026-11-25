@@ -336,6 +336,9 @@ export type BookManifest = {
     {
       primary_chapter_id: string;
       chapter_ids: string[];
+      // false when no chapter lists the report and the mapping is only the
+      // reproducibility fallback.
+      listed?: boolean;
     }
   >;
   quality_checks: Array<{

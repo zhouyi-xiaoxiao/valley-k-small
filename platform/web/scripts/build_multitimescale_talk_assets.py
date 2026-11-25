@@ -455,7 +455,7 @@ def slide5(lang: str) -> str:
         bar_pair(60, 430, 270, [705, 1288], 1300, [t["s5_valley"], t["s5_peak2"]], ["705", "1,288"]),
         bar_pair(450, 430, 270, [0.18, 0.20], 1.0, [t["s5_valley"], t["s5_peak2"]], ["18%", "20%"]),
         text(450, 160, "100%", 18, SOFT, 500),
-        f'<path d="M 440 160 H 740" stroke="#e3e7e0" stroke-width="2" stroke-dasharray="6 6"/>',
+        '<path d="M 440 160 H 740" stroke="#e3e7e0" stroke-width="2" stroke-dasharray="6 6"/>',
         text(20, 536, t["s5_note"], 20, SOFT),
     ]
     return svg_doc("".join(body))

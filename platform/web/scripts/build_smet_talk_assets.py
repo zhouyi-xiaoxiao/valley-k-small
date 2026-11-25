@@ -451,7 +451,10 @@ def build_fig4(lang: str, eq: list[float], eq_used: list[float], sl: list[float]
     early_mass = sum(sl[:tv]) / sum(sl)
     early_via = sum(sl_used[:tv]) / sum(sl[:tv])
     never_at_t2 = 1.0 - sl_used[t2 - 1] / sl[t2 - 1]
-    pct = (lambda x: f"{100 * x:.0f}%")
+
+    def pct(x: float) -> str:
+        return f"{100 * x:.0f}%"
+
     if lang == "en":
         head_top = "Shortcut taken often: probability 1/4 at site 6"
         head_bot = "Shortcut taken rarely: probability 0.0067 at site 6"

@@ -52,7 +52,7 @@ const CASES: MechanismCase[] = [
     headlineCn: '两类路径族都保留下来时，会形成两个看得见的时间尺度。',
     mechanismEn:
       'Paths through the shortcut arrive early; paths round the ring arrive late. The split holds only in a middle range of shortcut use.',
-    mechanismCn: '走捷径的路径早到，绕环的路径晚到。只有捷径使用概率适中时，两群才分得开。',
+    mechanismCn: '走捷径的路径早到，绕环的路径晚到。只有捷径强度适中时，两群才分得开。',
     verdictEn: 'Mechanism supported: shortcut route vs ring route',
     verdictCn: '机制成立：走捷径 vs 绕环',
     reportHref: '/reports/ring_lazy_jump_ext_rev2/',
@@ -133,7 +133,15 @@ function pathFor(values: number[], width: number, height: number, maxY: number) 
     .join(' ');
 }
 
-export function TalkMechanismLab({ lang, slide }: { lang: Lang; slide: TalkSlide }) {
+export function TalkMechanismLab({
+  lang,
+  slide,
+  prefix = '',
+}: {
+  lang: Lang;
+  slide: TalkSlide;
+  prefix?: string;
+}) {
   const [selectedId, setSelectedId] = useState<MechanismCase['id']>('ring');
   const selected = useMemo(
     () => CASES.find((item) => item.id === selectedId) ?? CASES[0],
@@ -178,7 +186,7 @@ export function TalkMechanismLab({ lang, slide }: { lang: Lang; slide: TalkSlide
             <strong>{localized(lang, selected.verdictEn, selected.verdictCn)}</strong>
           </div>
 
-          <a className="talk-mechanism-link" href={withBasePath(selected.reportHref)}>
+          <a className="talk-mechanism-link" href={withBasePath(`${prefix}${selected.reportHref}`)}>
             {localized(lang, selected.reportLabelEn, selected.reportLabelCn)}
           </a>
         </section>

@@ -223,7 +223,7 @@ function SlideViewport({
       ) : slide.animation?.kind === 'formula-foundations' ? (
         <TalkFormulaSlide slide={slide} lang={lang} />
       ) : slide.animation?.kind === 'mechanism-lab' ? (
-        <TalkMechanismLab slide={slide} lang={lang} />
+        <TalkMechanismLab slide={slide} lang={lang} prefix={prefix} />
       ) : slide.animation?.kind === 'grid-hop-lab' ? (
         <TalkGridHopLab slide={slide} lang={lang} />
       ) : (
@@ -302,7 +302,7 @@ function ReadingSlide({
           ) : kind === 'formula-foundations' ? (
             <TalkFormulaSlide slide={slide} lang={lang} />
           ) : kind === 'mechanism-lab' ? (
-            <TalkMechanismLab slide={slide} lang={lang} />
+            <TalkMechanismLab slide={slide} lang={lang} prefix={prefix} />
           ) : kind === 'grid-hop-lab' ? (
             <TalkGridHopLab slide={slide} lang={lang} />
           ) : null}

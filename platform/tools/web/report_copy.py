@@ -22,6 +22,7 @@ from typing import Any
 REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "ring_lazy_jump": {
         "en": {
+            "teaser": 'Lazy ring with one directed shortcut: at N = 100, two arrival peaks for 0.0005 ≤ β ≤ 0.05 (K = 2) and 0.001 ≤ β ≤ 0.15 (K = 4); Monte Carlo route classes show which paths make each peak.',
             "title": "Lazy Ring Jump-Over Mechanism (K = 2 vs K = 4)",
             "summary": (
                 "A lazy walk on a ring of N sites (it stays put with probability 1/3, otherwise steps to one of its K "
@@ -58,6 +59,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '带一条有向捷径的懒惰环：N = 100 时，K = 2 在 0.0005 ≤ β ≤ 0.05、K = 4 在 0.001 ≤ β ≤ 0.15 范围内出现两个到达峰；蒙特卡洛路径分类说明每个峰由哪些路径构成。',
             "title": "懒惰环上的越过目标机制（K = 2 与 K = 4）",
             "summary": (
                 "N 个格点的环上的懒惰游走（以 1/3 的概率原地不动，否则跳到最近的 K 个邻居之一），加一条有向捷径，"
@@ -90,6 +92,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_jump_ext": {
         "en": {
+            "teaser": 'First version of the shortcut-strength scan (N = 100): two peaks for 0.0005 ≤ β ≤ 0.05 (K = 2) and 0.001 ≤ β ≤ 0.15 (K = 4), one at β = 0 and 0.2; both peak times fall as β grows.',
             "title": "Lazy Ring Shortcut: β Scan (First Version)",
             "summary": (
                 "On a lazy ring of N = 100 sites with one directed shortcut, this first version of the study scans the "
@@ -130,6 +133,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '捷径强度扫描的第一版（N = 100）：K = 2 在 0.0005 ≤ β ≤ 0.05、K = 4 在 0.001 ≤ β ≤ 0.15 范围内有两个峰，β = 0 与 0.2 时只有一个；两个峰的时间都随 β 增大而提前。',
             "title": "懒惰环捷径：β 扫描（第一版）",
             "summary": (
                 "在 N = 100 个格点、带一条有向捷径的懒惰环上，这份第一版研究扫描了 K = 2 与 K = 4 两种近邻数下的捷径强度 β。"
@@ -167,6 +171,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_jump_ext_rev2": {
         "en": {
+            "teaser": 'Revision at N = 100, β = 0.01: f(t) drawn with the route classes of each peak, and checks against the peak thresholds, the choice of time windows (class shares move by under 0.6 points) and Monte Carlo error.',
             "title": "Lazy Ring Shortcut: Robustness Checks",
             "summary": (
                 "Revision of the β-scan study at N = 100 and β = 0.01. It plots f(t) together with the route classes of "
@@ -200,6 +205,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '修订版（N = 100，β = 0.01）：把 f(t) 与各峰的路径类别画在一起，并检验判峰阈值、时间窗选择（类别占比变化不到 0.6 个百分点）和蒙特卡洛误差的影响。',
             "title": "懒惰环捷径：稳健性检验",
             "summary": (
                 "β 扫描研究的修订版，固定 N = 100、β = 0.01。它把 f(t) 与各峰中到达轨迹的路径类别画在一起，并检验结论对"
@@ -231,6 +237,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_flux": {
         "en": {
+            "teaser": 'Nearest-neighbour lazy ring with a shortcut drawn from the stay-put probability: a closed-form generating function checked by a flux recursion; the smallest ring with two well-separated peaks has N = 10.',
             "title": "Lazy Ring Flux Baseline",
             "summary": (
                 "A lazy nearest-neighbour ring (stay, left and right each with probability 1/3) with one directed shortcut "
@@ -266,6 +273,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '捷径概率取自停留概率的最近邻懒惰环：生成函数闭式与通量递推相互核对；出现两个分得很开的峰的最小环是 N = 10。',
             "title": "懒惰环通量基线",
             "summary": (
                 "最近邻懒惰环（停留、左移、右移的概率各为 1/3）加一条有向捷径，其概率取自捷径起点的停留概率。"
@@ -298,6 +306,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_valley": {
         "en": {
+            "teaser": 'Non-lazy ring with a one-way shortcut past the target: over even N = 10–160, no two peaks for K = 2; two peaks for N = 48–52 (K = 4), 68–104 (K = 6), and 14 and 88–160 (K = 8).',
             "title": "Ring Valley Regime Map",
             "summary": (
                 "A non-lazy ring with K neighbours, start at site 1, target at site N/2 and a one-way shortcut from site 6 "
@@ -331,6 +340,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '单向捷径越过目标的非懒惰环：N 取 10 到 160 的偶数时，K = 2 没有双峰；K = 4 在 N = 48–52、K = 6 在 68–104、K = 8 在 14 和 88–160 时有两个峰。',
             "title": "环上的谷与双峰区间图",
             "summary": (
                 "非懒惰环，每步跳到最近的 K 个邻居之一；从格点 1 出发，目标在格点 N/2，一条单向捷径从格点 6 指向格点 "
@@ -362,6 +372,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_valley_dst": {
         "en": {
+            "teaser": "Ring with N = 100 and K = 6 in which only the shortcut's landing site changes: landing sites 43–57 give two peaks when the shortcut leaves site 6, and 18 landing sites do when it leaves the start.",
             "title": "Destination-Scan Valley Control (N = 100, K = 6)",
             "summary": (
                 "A non-lazy ring with N = 100, K = 6 and the target at site 50, in which only the landing site of the "
@@ -395,6 +406,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": 'N = 100、K = 6 的环上只改变捷径落点：捷径从格点 6 出发时，落点 43 到 57 出现两个峰；从起点出发时有 18 个落点出现两个峰。',
             "title": "捷径落点扫描与谷的调控（N = 100，K = 6）",
             "summary": (
                 "N = 100、K = 6、目标在格点 50 的非懒惰环，只改变捷径的落点。捷径从格点 6 出发时，落点在 43 到 57 之间"
@@ -425,6 +437,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_deriv_k2": {
         "en": {
+            "teaser": 'Exact propagators and first-passage generating function for a lazy nearest-neighbour ring with one directed link, checked against direct matrix inversion to within 3.11 × 10⁻¹⁵.',
             "title": "Ring Derivation Backbone (K = 2)",
             "summary": (
                 "Exact derivation for a lazy nearest-neighbour ring with one directed shortcut: the propagator without the "
@@ -457,6 +470,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '带一条有向连边的最近邻懒惰环：传播子与首达生成函数的精确推导，与直接矩阵求逆的结果相差不超过 3.11 × 10⁻¹⁵。',
             "title": "环模型推导主干（K = 2）",
             "summary": (
                 "对带一条有向捷径的最近邻懒惰环做精确推导：无捷径时的传播子（切比雪夫形式），两种加捷径方式下的传播子"
@@ -486,6 +500,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_two_target": {
         "en": {
+            "teaser": 'Lazy ring with two targets, computed exactly: drift alone can give two peaks; with a shortcut, two peaks from N ≥ 45 (K = 2) or N ≥ 50 (K = 4); three peaks in one hand-built case.',
             "title": "Two-Target Lazy Ring Mechanics",
             "summary": (
                 "A lazy ring with two absorbing targets and an optional drift, computed exactly step by step. Drift alone "
@@ -519,6 +534,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '双目标懒惰环的精确计算：仅靠漂移就可能出现两个峰；加捷径后 K = 2 从 N ≥ 45、K = 4 从 N ≥ 50 起出现两个峰；三个峰只出现在一个人为构造的情形中。',
             "title": "双目标懒惰环的机制",
             "summary": (
                 "带两个吸收目标、可加漂移的懒惰环，逐步精确计算。仅靠漂移就可能出现两个到达峰。加一条有向捷径"
@@ -550,6 +566,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_two_walker_encounter_shortcut": {
         "en": {
+            "teaser": 'Two lazy walkers on a ring of 101 sites, one with a shortcut: the exact first-encounter time has a clear second peak from shortcut strength β ≈ 0.15, and earlier on larger rings.',
             "summary": (
                 "Two independent lazy walkers with opposite drifts on a ring of 101 sites, one of them with a directed "
                 "shortcut; their first-encounter distribution is computed exactly. A second encounter peak at least 20% as "
@@ -559,6 +576,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ),
         },
         "cn": {
+            "teaser": '101 个格点的环上两个懒惰游走者，其中一个有捷径：精确计算的首次相遇时间从捷径强度 β 约 0.15 起出现明显的第二个峰，环越大出现得越早。',
             "summary": (
                 "环上（101 个格点）两个漂移方向相反、相互独立的懒惰游走者，其中一个有一条有向捷径；精确计算二者的首次相遇时间分布。"
                 "捷径强度 β 约为 0.15 起，出现高度不低于第一个峰 20% 的第二个相遇峰；环越大出现得越早（N = 141 时 β 约为 0.04）。"
@@ -568,6 +586,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_bimodality": {
         "en": {
+            "teaser": 'Three hand-built geometries on a 60 × 60 lattice (wrap-around drift, an edge corridor, a wall with one door) each give a fast and a slow route and two arrival peaks.',
             "title": "Grid2D Bimodality Baseline",
             "summary": (
                 "On a 60 × 60 lattice (lazy walk with drift; periodic in x, reflecting in y), three hand-built geometries — "
@@ -601,6 +620,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '60 × 60 格点上的三种人为构造（绕一圈的漂移、边缘走廊、有一扇门的墙）都给出一快一慢两条路径和两个到达峰。',
             "title": "二维格点双峰基线",
             "summary": (
                 "在 60 × 60 的格点上（带漂移的懒惰游走；x 方向周期、y 方向反射），三种人为构造的几何——绕一圈的漂移、带局部偏置的"
@@ -631,6 +651,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_reflecting_bimodality": {
         "en": {
+            "teaser": 'With all walls reflecting (60 × 60 lattice), eight representative geometries keep two arrival peaks, each with the valley at most 7% of the smaller peak.',
             "title": "Grid2D Reflecting-Boundary Bimodality",
             "summary": (
                 "With all four walls reflecting (60 × 60 lattice, lazy walk), eight representative geometries — detours, a "
@@ -661,6 +682,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '四壁全反射时（60 × 60 格点），八种代表性几何都保持两个到达峰，谷都不超过较小峰的 7%。',
             "title": "二维格点全反射边界下的双峰",
             "summary": (
                 "四壁全部反射时（60 × 60 格点，懒惰游走），八种代表性几何——绕行通道、半透孔道、带偏置的输运轨道、门阵列、"
@@ -690,6 +712,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_blackboard_bimodality": {
         "en": {
+            "teaser": 'Negative result: with the start and the target at the two ends of a walled corridor, f(t) has one peak and a long tail; the apparent late bump is an artefact of the time window.',
             "title": "Grid2D Corridor-Endpoint Case (Negative Result)",
             "summary": (
                 "Negative result for reflecting-wall geometries in which the start and the target sit at the two ends of "
@@ -721,6 +744,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '否定结果：起点和目标在有墙走廊的两端时，f(t) 只有一个峰加长尾；看似晚到的隆起是时间窗造成的假象。',
             "title": "二维格点走廊两端起止的情形（否定结果）",
             "summary": (
                 "否定结果：在反射墙几何中，起点和目标分处一条有墙走廊的两端（60 × 60 与 30 × 30 格点，懒惰游走）时，f(t) "
@@ -749,6 +773,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_two_target_double_peak": {
         "en": {
+            "teaser": 'Two targets on a 31 × 31 reflecting lattice, one reached by a fast corridor and one by a slow corridor: all four hand-built cases have two peaks, one per target.',
             "title": "Grid2D Two-Target Double-Peak",
             "summary": (
                 "Two absorbing targets on a 31 × 31 reflecting lattice, a near one reached by a fast biased corridor and a "
@@ -781,6 +806,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '31 × 31 反射格点上的两个目标，一个经快走廊到达，一个经慢走廊到达：四个人为构造的情形都有两个峰，每个目标对应一个。',
             "title": "二维格点双目标双峰",
             "summary": (
                 "31 × 31 反射格点上的两个吸收目标：近目标经一条快速的偏置走廊到达，远目标经一条慢走廊到达。到达时间分布 "
@@ -810,6 +836,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_two_walker_encounter_shortcut": {
         "en": {
+            "teaser": 'Two lazy walkers with shortcuts on an 11 × 11 reflecting lattice: the exact first-encounter time has two peaks for shortcut strength β = 0.30–0.60, though at β = 0.40 only about 18% of pairs have met by t = 900.',
             "summary": (
                 "Two independent lazy walkers with opposite drifts on an 11 × 11 reflecting lattice, each with a directed "
                 "shortcut; their first-encounter distribution is computed exactly in the time domain. It has one peak for "
@@ -819,6 +846,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ),
         },
         "cn": {
+            "teaser": '11 × 11 反射格点上两个带捷径的懒惰游走者：精确计算的首次相遇时间在捷径强度 β = 0.30–0.60 时有两个峰，但 β = 0.40 时到 t = 900 只有约 18% 的游走者对已经相遇。',
             "summary": (
                 "11 × 11 反射格点上两个漂移方向相反、相互独立的懒惰游走者，各有一条有向捷径；在时域中精确计算二者的首次相遇时间分布。"
                 "捷径强度 β ≤ 0.25 时只有一个峰，β = 0.30 到 0.60 时有两个峰（在 t = 7 和 13），但 β = 0.40 时到 t = 900 只有约 18% 的游走者对已经相遇。"
@@ -828,6 +856,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_rect_bimodality": {
         "en": {
+            "teaser": 'Rectangular reflecting lattices: clear double peaks survive only in narrow strips, with no single critical width; with one target and a corridor, only for one global bias and widths 8 to 16.',
             "title": "Grid2D Rectangle Bimodality",
             "summary": (
                 "Rectangular lattices 60 sites long and W sites wide, with reflecting walls. With a target at each end and "
@@ -860,6 +889,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '矩形反射格点：清晰双峰只在窄条中保持，没有统一的临界宽度；单目标加走廊时，只在一个整体偏置值、宽度 8 到 16 时出现。',
             "title": "二维矩形格点双峰",
             "summary": (
                 "长 60、宽 W 个格点的矩形格点，四壁反射。两端各有一个目标、各有一条通往目标的偏置流时，清晰双峰只在窄条中保持"
@@ -889,6 +919,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_membrane_near_target": {
         "en": {
+            "teaser": "A semi-permeable membrane on a corridor's walls: with equal permeability κ on both walls, two clear peaks persist for κ ≤ 0.0035 and are gone for κ ≥ 0.03; compared with a two-target setting.",
             "summary": (
                 "Tests how a semi-permeable membrane on the walls of a corridor (the same permeability κ on both walls, or "
                 "different values on the two walls) changes the first-passage time to a single target, and compares this "
@@ -897,6 +928,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ),
         },
         "cn": {
+            "teaser": '走廊墙上的半透膜：两侧渗透率 κ 相同时，κ ≤ 0.0035 仍有两个清晰的峰，κ ≥ 0.03 时消失；并与一个双目标情形比较。',
             "summary": (
                 "检验走廊墙上的半透膜（两侧墙渗透率 κ 相同，或两侧取不同值）如何改变到达单个目标的首达时间，并与一个没有走廊、"
                 "其中一个目标靠近起点的双目标情形比较。两侧渗透率相同（W = 16）时，κ ≤ 0.0035 仍有两个清晰的峰，κ ≥ 0.03 时消失。"
@@ -905,6 +937,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_one_target_valley_peak_budget": {
         "en": {
+            "teaser": 'Short report: in a walk with a membrane-walled corridor, late arrivals are late because they spend long stretches outside the corridor, not because they leave it earlier.',
             "title": "Grid2D One Target: Where the Late Arrivals Spend Their Time",
             "summary": (
                 "Short report on a single-target walk with a corridor whose walls are a membrane of permeability κ. It "
@@ -914,6 +947,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ),
         },
         "cn": {
+            "teaser": '短报告：在走廊墙为膜的游走中，晚到的游走者之所以晚，是因为在走廊外停留得久，而不是更早离开走廊。',
             "title": "二维单目标：晚到的游走者把时间花在哪里",
             "summary": (
                 "一篇短报告，研究走廊墙为渗透率 κ 的膜时的单目标游走。它比较在第一个峰、谷和第二个峰到达的游走者：晚到的游走者"
@@ -927,6 +961,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "cross_luca_regime_map": {
         "en": {
+            "teaser": 'Benchmark on 160 lattice workloads: sparse exact time-stepping beat defect-reduced Abate–Whitt inversion in every case (median run-time ratio about 1 to 2000).',
             "title": "Cross-Model Solver Benchmark",
             "summary": (
                 "Benchmarks two ways of computing the full first-passage-time distribution up to a fixed time horizon on 160 "
@@ -960,6 +995,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
+            "teaser": '160 个格点算例的基准测试：稀疏精确逐步推进在每个算例上都快于缺陷约化的 Abate–Whitt 反演（运行时间比的中位数约为 1 比 2000）。',
             "title": "跨模型求解器基准测试",
             "summary": (
                 "在 160 个二维格点算例上，比较两种计算到固定时间上限为止的完整首达时间分布的方法：稀疏矩阵的精确逐步推进，以及"
@@ -990,6 +1026,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "final_multitimescale_fpt_encounter": {
         "en": {
+            "teaser": 'One test for a visible double peak applied across the ring and lattice reports, with the parameter windows and case counts where it holds.',
             "title": "Synthesis: When a Double Peak Counts",
             "summary": (
                 "Brings the first-passage results of the ring and lattice reports under one test for a visible double peak "
@@ -999,6 +1036,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ),
         },
         "cn": {
+            "teaser": '把同一个可见双峰判据用于环与格点各报告，并列出满足判据的参数区间和情形数。',
             "title": "综述：双峰什么时候才算数",
             "summary": (
                 "用同一个可见双峰判据（每条路径都有足够的概率、两个时间尺度分得开、二者之间的谷能分辨）汇总环与格点各报告的首达结果，"

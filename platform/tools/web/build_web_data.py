@@ -3927,6 +3927,11 @@ def build_report_payload(
         "source_documents": tex_cn["source_documents"] if tex_cn["source_documents"] else tex_en["source_documents"],
     }
     base_meta, cn_meta = align_locale_payloads(base_meta, cn_meta)
+    # Short blurb for the reports index (the summary stays the page lede).
+    for lang_key, payload in (("en", base_meta), ("cn", cn_meta)):
+        teaser = normalize_space(str(override.get(lang_key, {}).get("teaser", "")))
+        if teaser:
+            payload["teaser"] = teaser
     merged_repro_commands = dedupe_preserve(
         [
             normalize_space(str(x))

@@ -651,7 +651,7 @@ export function renderReportsPage(lang: Lang, prefix: string) {
     const successorId = SUPERSEDED_BY[reportId];
     return {
       title: displayTitle(lang, meta, metaEn, reportId),
-      summary: isPlaceholderText(summary) ? '' : compactText(summary, 520),
+      summary: meta?.teaser ? meta.teaser : isPlaceholderText(summary) ? '' : compactText(summary, 520),
       chapter,
       successor: successorId
         ? { id: successorId, title: displayTitle(lang, loadReportMeta(successorId, lang), loadReportMeta(successorId, 'en'), successorId) }

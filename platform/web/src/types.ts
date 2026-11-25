@@ -55,6 +55,8 @@ export type ReportMeta = {
   report_id: string;
   lang: string;
   title: string;
+  // Short blurb for the reports index; the summary is the page lede.
+  teaser?: string;
   summary: string;
   key_findings: string[];
   narrative: {

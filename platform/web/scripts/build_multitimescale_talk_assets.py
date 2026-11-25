@@ -696,8 +696,8 @@ def build_talk_data() -> None:
             ("Negative result", "负结果"),
             ("The encounter model is the guardrail", "相遇模型是一道护栏"),
             (
-                "In an exact (no Monte Carlo) model of two lazy walkers on a finite 1D reflecting lattice with no shortcut (synchronous steps, meeting means sharing a site, N = 15–31), no scanned case gave a robust double peak in F2, the first-encounter distribution with odd and even steps paired. Apparent second bumps were parity artifacts, long tails or weak shoulders. With a shortcut, the ring and 2D encounter reports do find double-peaked curves.",
-                "在一个精确计算（不用蒙特卡洛）的模型里：两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，走到同一格点即算相遇，N = 15–31。所有扫描情形中，F2（把奇、偶步两两合并后的首次相遇分布）都没有出现稳健的双峰；看似的第二个凸起是奇偶伪迹、长尾或弱肩。加上捷径后，环上和二维的相遇报告确实找到了双峰曲线。",
+                "In an exact (no Monte Carlo) model of two lazy walkers on a finite 1D reflecting lattice with no shortcut (synchronous steps, meeting means sharing a site, N = 15, 21, 31), no scanned case gave a robust double peak in F2, the first-encounter distribution with odd and even steps paired. Apparent second bumps were parity artifacts, long tails or weak shoulders. With a shortcut, the ring and 2D encounter reports do find double-peaked curves.",
+                "在一个精确计算（不用蒙特卡洛）的模型里：两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，走到同一格点即算相遇，N = 15、21、31。所有扫描情形中，F2（把奇、偶步两两合并后的首次相遇分布）都没有出现稳健的双峰；看似的第二个凸起是奇偶伪迹、长尾或弱肩。加上捷径后，环上和二维的相遇报告确实找到了双峰曲线。",
             ),
             ("Which apparent late features should be rejected?", "哪些看似晚峰的特征应该被否定？"),
             evidence=image(
@@ -792,8 +792,8 @@ def build_talk_data() -> None:
             "Compare time outside the corridor with membrane crossing.",
         ),
         (
-            "The exact encounter model matters because its answer is no. For two lazy walkers on a finite one-dimensional reflecting lattice without a shortcut, moving synchronously and meeting only by sharing a site, with N from 15 to 31, none of the scanned cases gives a robust double peak in F2, the distribution with odd and even steps paired. The unusual shapes are parity artifacts, same-target long tails or weak target-shift shoulders. This is limited to that model; with a shortcut, the ring and 2D encounter reports do find double peaks.",
-            "State the negative result with its scope: no shortcut, 1D reflecting, synchronous, co-location, N = 15–31.",
+            "The exact encounter model matters because its answer is no. For two lazy walkers on a finite one-dimensional reflecting lattice without a shortcut, moving synchronously and meeting only by sharing a site, with N = 15, 21 or 31, none of the scanned cases gives a robust double peak in F2, the distribution with odd and even steps paired. The unusual shapes are parity artifacts, same-target long tails or weak target-shift shoulders. This is limited to that model; with a shortcut, the ring and 2D encounter reports do find double peaks.",
+            "State the negative result with its scope: no shortcut, 1D reflecting, synchronous, co-location, N = 15, 21, 31.",
             "State the negative result and its scope.",
         ),
         (
@@ -839,8 +839,8 @@ def build_talk_data() -> None:
             "比较通道外停留时间与穿膜概率。",
         ),
         (
-            "精确相遇模型之所以重要，是因为它给出的答案是否定的。两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，只有走到同一格点才算相遇，N 取 15 到 31。所有扫描情形里，F2（把奇、偶步两两合并后的分布）都没有稳健的双峰。那些反常的形状是奇偶伪迹、同一目标的长尾，或目标移位形成的弱肩。这个结论只适用于这个模型；加上捷径后，环上和二维的相遇报告确实找到了双峰。",
-            "讲负结果时同时讲清范围：无捷径、一维反射边界、同步更新、同格相遇、N = 15–31。",
+            "精确相遇模型之所以重要，是因为它给出的答案是否定的。两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，只有走到同一格点才算相遇，N 取 15、21 或 31。所有扫描情形里，F2（把奇、偶步两两合并后的分布）都没有稳健的双峰。那些反常的形状是奇偶伪迹、同一目标的长尾，或目标移位形成的弱肩。这个结论只适用于这个模型；加上捷径后，环上和二维的相遇报告确实找到了双峰。",
+            "讲负结果时同时讲清范围：无捷径、一维反射边界、同步更新、同格相遇、N = 15、21、31。",
             "讲负结果及其适用范围。",
         ),
         (

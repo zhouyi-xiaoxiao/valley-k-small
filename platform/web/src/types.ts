@@ -26,8 +26,15 @@ export type AssetRecord = {
 export type DatasetMeta = {
   series_id: string;
   title: string;
+  title_cn?: string;
   x_label: string;
   y_label: string;
+  x_label_cn?: string;
+  y_label_cn?: string;
+  x_scale?: 'linear' | 'log';
+  y_scale?: 'linear' | 'log';
+  caption?: string;
+  caption_cn?: string;
   series_path: string;
   default_series?: string[];
   series_semantics?: Array<{
@@ -48,6 +55,8 @@ export type ReportMeta = {
   report_id: string;
   lang: string;
   title: string;
+  // Short blurb for the reports index; the summary is the page lede.
+  teaser?: string;
   summary: string;
   key_findings: string[];
   narrative: {
@@ -109,6 +118,7 @@ export type SeriesPayload = {
 export type FigureRecord = {
   id: string;
   title: string;
+  title_cn?: string;
   web_path: string;
   source_path: string;
 };
@@ -328,6 +338,9 @@ export type BookManifest = {
     {
       primary_chapter_id: string;
       chapter_ids: string[];
+      // false when no chapter lists the report and the mapping is only the
+      // reproducibility fallback.
+      listed?: boolean;
     }
   >;
   quality_checks: Array<{

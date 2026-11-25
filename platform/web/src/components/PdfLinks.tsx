@@ -14,6 +14,9 @@ export function PdfLinks({ lang, reportId }: { lang: Lang; reportId: string }) {
           {link.lang === 'en' ? localizedText(lang, 'PDF (English)', 'PDF（英文）') : localizedText(lang, 'PDF (中文)', 'PDF（中文）')}
         </a>
       ))}
+      {links.length === 1 && links[0].lang === 'en' ? (
+        <span className="pdf-note">{localizedText(lang, 'English only', '仅有英文版')}</span>
+      ) : null}
     </>
   );
 }

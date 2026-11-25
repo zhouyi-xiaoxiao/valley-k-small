@@ -43,9 +43,9 @@ export function loadRegistryStatus(): Record<string, ReportStatus> {
 
 export type ManuscriptLink = { lang: 'en' | 'cn'; href: string };
 
-// The written report for each language, as published with the site. A PDF that
-// is not published with the site gets no link (readers are not sent to the
-// repository).
+// The written report for each language: only the copy published with the site
+// (the web-data build always copies manuscript/<id>_{en,cn}.pdf). Readers are
+// never sent to the repository itself.
 export function manuscriptLinks(reportId: string, meta: ReportMeta | null, withBase: (url: string) => string): ManuscriptLink[] {
   const links: ManuscriptLink[] = [];
   const candidates: Array<{ lang: 'en' | 'cn'; names: string[] }> = [
@@ -56,7 +56,7 @@ export function manuscriptLinks(reportId: string, meta: ReportMeta | null, withB
     let href: string | null = null;
     for (const name of names) {
       const hosted = meta?.assets.find(
-        (asset) => asset.kind === 'pdf' && asset.web_path.endsWith(`/manuscript/${name}`),
+        (asset) => asset.kind === 'pdf' && asset.web_path.endsWith(`/${reportId}/manuscript/${name}`),
       );
       if (hosted) {
         href = withBase(hosted.web_path);
@@ -96,8 +96,8 @@ export function familyLabel(lang: Lang, family: Family): string {
 export function familyNote(lang: Lang, family: Family): string {
   const notes: Record<Family, [string, string]> = {
     ring: [
-      'A walker on a ring of N sites, one target, one directed shortcut. The cleanest setting in which the arrival time splits.',
-      '环上 N 个格点、一个目标、一条有向捷径：到达时间一分为二的最干净的情形。',
+      'A walker on a ring of N sites steps to one of its K nearest neighbours (K/2 on each side); in the lazy versions it may also stay put. Most reports add one directed shortcut between two sites and ask when the time of first arrival at a target site has an early and a late peak; later reports add a second target, a drift or a second walker.',
+      '游走者在 N 个格点的环上，每步跳到最近的 K 个邻居之一（每侧 K/2 个）；懒惰版本中也可以原地不动。多数报告加一条连接两个格点的有向捷径，研究首次到达目标格点的时间何时出现一早一晚两个峰；后面的报告还加入第二个目标、漂移或第二个游走者。',
     ],
     grid2d: [
       'Square and rectangular lattices, reflecting walls, corridors, membranes and two competing targets: when does a second peak survive?',
@@ -110,6 +110,12 @@ export function familyNote(lang: Lang, family: Family): string {
   };
   return lang === 'cn' ? notes[family][1] : notes[family][0];
 }
+
+// Reports replaced by a later revision (from the reports' own README
+// "Successor" lines): the page says so at the top and links the successor.
+export const SUPERSEDED_BY: Record<string, string> = {
+  ring_lazy_jump_ext: 'ring_lazy_jump_ext_rev2',
+};
 
 // Three reports to open first, in reading order.
 export const START_HERE: Array<{ reportId: string; en: string; cn: string }> = [

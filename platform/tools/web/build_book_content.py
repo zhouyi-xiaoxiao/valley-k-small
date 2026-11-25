@@ -1311,9 +1311,31 @@ def main() -> int:
     chapter_rows.sort(key=lambda row: int(row["order"]))
 
     report_map = report_to_chapters()
+    listed_report_ids = set(report_map)
     for rid in report_ids:
         if rid not in report_map:
             report_map[rid] = ["chapter-6-repro-validation"]
+
+    # The chapter a report page points to: its own family chapter when the
+    # report is listed there, otherwise the first chapter that is not the
+    # reading guide, the reproducibility appendix or the outlook.
+    family_home_chapters = {
+        "grid2d_": ("chapter-2-grid2d-family",),
+        "ring_": ("chapter-3-ring-baseline", "chapter-4-shortcut-variants"),
+        "cross_": ("chapter-5-cross-model-synthesis",),
+    }
+    support_chapters = {"chapter-0-reading-guide", "chapter-6-repro-validation", "chapter-7-outlook"}
+
+    def home_chapter(rid: str, chapter_ids: list[str]) -> str:
+        for prefix, homes in family_home_chapters.items():
+            if rid.startswith(prefix):
+                for chapter_id in chapter_ids:
+                    if chapter_id in homes:
+                        return chapter_id
+        for chapter_id in chapter_ids:
+            if chapter_id not in support_chapters:
+                return chapter_id
+        return chapter_ids[0]
 
     manifest_chapters = [
         {
@@ -1427,8 +1449,9 @@ def main() -> int:
         },
         "report_chapter_map": {
             rid: {
-                "primary_chapter_id": chapter_ids[0],
+                "primary_chapter_id": home_chapter(rid, chapter_ids),
                 "chapter_ids": chapter_ids,
+                "listed": rid in listed_report_ids,
             }
             for rid, chapter_ids in sorted(report_map.items())
         },

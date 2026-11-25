@@ -33,6 +33,10 @@
       "type": "string",
       "minLength": 1
     },
+    "teaser": {
+      "type": "string",
+      "minLength": 1
+    },
     "summary": {
       "type": "string",
       "minLength": 1
@@ -131,6 +135,13 @@
             "type": "string",
             "minLength": 1
           },
+          "title_cn": { "type": "string", "minLength": 1 },
+          "x_label_cn": { "type": "string", "minLength": 1 },
+          "y_label_cn": { "type": "string", "minLength": 1 },
+          "x_scale": { "type": "string", "enum": ["linear", "log"] },
+          "y_scale": { "type": "string", "enum": ["linear", "log"] },
+          "caption": { "type": "string", "minLength": 1 },
+          "caption_cn": { "type": "string", "minLength": 1 },
           "x_label": {
             "type": "string",
             "minLength": 1

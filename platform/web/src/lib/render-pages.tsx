@@ -1647,7 +1647,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                   <tr key={`stage-${row.report_id}`}>
                     <td>
                       <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
-                        {lang === 'cn' ? row.title_cn : row.title_en}
+                        {lookupReportTitle(row.report_id, lang, network)}
                       </Link>
                     </td>
                     <td>{row.coverage.model}</td>
@@ -1697,7 +1697,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                     <tr key={`formula-policy-${row.report_id}`}>
                       <td>
                         <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
-                          {lang === 'cn' ? report?.title_cn ?? row.report_id : report?.title_en ?? row.report_id}
+                          {report ? lookupReportTitle(row.report_id, lang, network) : row.report_id}
                         </Link>
                       </td>
                       <td>{row.group}</td>

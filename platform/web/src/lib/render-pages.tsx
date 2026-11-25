@@ -831,7 +831,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         {successorId ? (
           <p className="superseded-banner" role="note">
             <strong>{localizedText(lang, 'Superseded.', '已被取代。')}</strong>{' '}
-            {localizedText(lang, 'This is the first version of this study. Current results: ', '这是该研究的第一版。当前结果见：')}
+            {localizedText(lang, 'This is the first version of this study; the revised version is ', '这是该研究的第一版；修订版见：')}
             <Link href={prefixPath(prefix, `/reports/${successorId}`)}>{successorTitle} →</Link>
           </p>
         ) : null}

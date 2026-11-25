@@ -115,13 +115,13 @@ export function familyNote(lang: Lang, family: Family): string {
 export const START_HERE: Array<{ reportId: string; en: string; cn: string }> = [
   {
     reportId: 'ring_lazy_jump',
-    en: 'The mechanism. A lazy ring with one directed shortcut, two neighbour kernels (K = 2 and K = 4), and which routes make the fast and the delayed arrivals.',
-    cn: '机制本身。带一条有向捷径的懒惰环，两种近邻核（K = 2 与 K = 4），以及快、慢两类到达分别来自哪些路径。',
+    en: 'The mechanism. A lazy walk (at each step it may stay put) on a ring with one directed shortcut, under two step rules (K\u00a0=\u00a02: one site either way; K\u00a0=\u00a04: one or two sites either way), and which routes make the fast and the delayed arrivals.',
+    cn: '机制本身。环上带一条有向捷径的懒惰随机游走（每一步都可能原地不动），两种步长规则（K\u00a0=\u00a02：每步向左或向右走 1 格；K\u00a0=\u00a04：走 1 格或 2 格），以及快、慢两类到达分别来自哪些路径。',
   },
   {
     reportId: 'ring_lazy_jump_ext',
-    en: 'How the strength β of the shortcut moves both peaks, at N = 100, with scans over ring size and a Monte Carlo check of the trajectory classes.',
-    cn: '捷径强度 β 如何移动两个峰：N = 100 时的扫描，环长 N 的扫描，以及用蒙特卡洛核对轨迹分类。',
+    en: 'How the strength β of the shortcut moves both peaks, at N\u00a0=\u00a0100, with scans over ring size and a Monte Carlo check of the trajectory classes.',
+    cn: '捷径强度 β 如何移动两个峰：N\u00a0=\u00a0100 时的扫描，环长 N 的扫描，以及用蒙特卡洛核对轨迹分类。',
   },
   {
     reportId: 'grid2d_bimodality',
@@ -146,8 +146,8 @@ export const TALKS: TalkInfo[] = [
       '环上一个目标、一条有向捷径：快分支、谷、慢分支。附实时随机游走动画。',
     ],
     when: [
-      'Ten-minute talk for PhD students of SEMT, University of Bristol · Ideas Exchange Day, 15 April 2026 · nine slides',
-      '面向布里斯托大学 SEMT 学院博士生的十分钟演讲 · 思想交流日，2026 年 4 月 15 日 · 九页',
+      'Ten-minute talk by Xiaoxiao Zhouyi to PhD students at the Ideas Exchange Week of the School of Engineering Mathematics and Technology (SEMT), University of Bristol, 15\u00a0April 2026 · nine slides',
+      '周易潇潇在布里斯托大学工程数学与技术学院（SEMT）Ideas Exchange Week 上面向博士生的十分钟演讲，2026 年 4 月 15 日 · 九张幻灯片',
     ],
   },
   {
@@ -157,7 +157,10 @@ export const TALKS: TalkInfo[] = [
       'When a double peak counts as evidence: the ring mechanism, a live two-dimensional walk, and exact encounter checks.',
       '双峰什么时候才算证据：环上的机制、实时二维格点游走，以及精确的相遇核对。',
     ],
-    when: ['Talk page, May 2026 · ten minutes', '演讲页，2026 年 5 月 · 十分钟'],
+    when: [
+      'Web slide deck for a ten-minute talk, prepared in May 2026 · nine slides',
+      '为十分钟演讲准备的网页幻灯片，2026 年 5 月制作 · 九张幻灯片',
+    ],
   },
 ];
 

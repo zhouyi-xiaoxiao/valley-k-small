@@ -153,8 +153,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
         "cn": {"title": "二维格点单目标：峰与谷窗口中的时间预算"},
     },
     "final_multitimescale_fpt_encounter": {
-        "en": {"title": "Multi-Timescale First Passage and Encounter: Summary of Accepted Results"},
-        "cn": {"title": "多时间尺度首达与相遇：已确认结果汇总"},
+        "en": {"title": "Multi-Timescale First Passage and Encounter: Summary of Results"},
+        "cn": {"title": "多时间尺度首达与相遇：结果汇总"},
     },
     "ring_lazy_flux": {
         "en": {
@@ -539,8 +539,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "a valley and a late hump under both step rules: peaks at steps 53 and 1124 for K = 2, and at steps 32 and 495 for K = 4. "
                 "Monte Carlo trajectories show who arrives in each time window. The early window consists entirely of walkers that used the "
                 "shortcut, the late window mostly of walkers that never did; for K = 4, about a quarter of the late window are walkers that "
-                "stepped over the target without landing on it. Shifting or widening the windows changes these shares by less than 0.006, "
-                "and the 95% Monte Carlo intervals are narrower than the differences between windows."
+                "stepped over the target without landing on it. Shifting or resizing the windows by up to 5 steps changes these shares by less than 0.006, "
+                "and each share's 95% Monte Carlo interval lies within ±0.04 of it."
             ),
             "narrative": {
                 "model_overview": (
@@ -561,9 +561,9 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             },
             "key_findings": [
                 "The early-peak window of f(t) consists entirely of walkers that used the shortcut, for both K = 2 and K = 4.",
-                "In the late-peak window, walkers that never used the shortcut are the majority: about 60% for K = 2 and 93% for K = 4.",
+                "In the late-peak window, walkers that never used the shortcut are the majority: about 85% for K = 2 and 93% for K = 4.",
                 "For K = 4, about a quarter of the late-peak window are walkers that stepped over the target without landing on it, a delay route that K = 2 does not have.",
-                "Shifting or widening the windows changes the class shares by less than 0.006; over a sweep of detection thresholds, K = 4 is classed as bimodal in about 60% of settings and K = 2 in about 33%.",
+                "Over a sweep of detection thresholds and five β values from 0.001 to 0.03, K = 4 is classed as bimodal in 60% of settings and K = 2 in 33%; moving the windows changes the shares by under 0.006.",
             ],
         },
         "cn": {
@@ -572,7 +572,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "环长 N = 100、捷径强度 β = 0.01 时，环上懒惰随机游走的首达时间分布 f(t) 在两种步长规则下都有早峰、谷和晚峰："
                 "K = 2 时两个峰在第 53 步和第 1124 步，K = 4 时在第 32 步和第 495 步。蒙特卡洛轨迹给出每个时间窗口里到达的是哪类游走者："
                 "早峰窗口里全部是走过捷径的游走者，晚峰窗口里多数从未走过捷径；K = 4 时，晚峰窗口里约四分之一的游走者曾跨过目标而没有落在目标上。"
-                "平移或加宽窗口，各类占比的变化小于 0.006；蒙特卡洛 95% 置信区间也比窗口之间的差异窄。"
+                "窗口平移或改变宽度不超过 5 步时，各类占比的变化小于 0.006；每个占比的蒙特卡洛 95% 置信区间都在其 ±0.04 以内。"
             ),
             "narrative": {
                 "model_overview": (
@@ -590,9 +590,9 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             },
             "key_findings": [
                 "在 K = 2 和 K = 4 两种情形下，f(t) 早峰窗口里的游走者全部走过捷径。",
-                "晚峰窗口里，从未走过捷径的游走者占多数：K = 2 时约 60%，K = 4 时约 93%。",
+                "晚峰窗口里，从未走过捷径的游走者占多数：K = 2 时约 85%，K = 4 时约 93%。",
                 "K = 4 时，晚峰窗口里约四分之一的游走者曾跨过目标而没有落在目标上，这是 K = 2 没有的一条延迟路径。",
-                "平移或加宽窗口，各类占比的变化小于 0.006；在检测阈值扫描中，K = 4 约有 60% 的设置被判为双峰，K = 2 约为 33%。",
+                "对检测阈值和 0.001 到 0.03 之间的五个 β 值做扫描，K = 4 有 60% 的设置被判为双峰，K = 2 为 33%；移动窗口时各类占比的变化小于 0.006。",
             ],
         },
     },

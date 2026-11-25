@@ -144,7 +144,7 @@
         "ring_valley_dst"
       ],
       "title": "Where the shortcut lands decides whether a second peak appears",
-      "sentence": "On a second ring model, only landing sites 36–39 and 62–64 give a well-separated second peak. Next to the target the two maxima are only 2–4 steps apart, and for most landing sites there is no second peak at all.",
+      "sentence": "On a second ring model, only landing sites 36–39 and 62–64 give a well-separated second peak. When the shortcut lands within 7 sites of the target (43–57), the two maxima are only 2–4 steps apart, and for most landing sites there is no second peak at all.",
       "question_en": "What does scanning the shortcut's landing site add beyond the single example?",
       "question_cn": "扫描捷径的落点，比单个例子多告诉了我们什么？",
       "evidence": {
@@ -163,8 +163,8 @@
       "kicker_cn": "单目标结果：落点扫描",
       "title_en": "Where the shortcut lands decides whether a second peak appears",
       "title_cn": "捷径落在哪里，决定第二峰是否出现",
-      "sentence_en": "On a second ring model, only landing sites 36–39 and 62–64 give a well-separated second peak. Next to the target the two maxima are only 2–4 steps apart, and for most landing sites there is no second peak at all.",
-      "sentence_cn": "在另一个环模型上，只有落点在 36–39 和 62–64 时才出现分得开的第二峰；落点紧挨目标时，两个极大只差 2–4 步；大多数落点根本没有第二峰。",
+      "sentence_en": "On a second ring model, only landing sites 36–39 and 62–64 give a well-separated second peak. When the shortcut lands within 7 sites of the target (43–57), the two maxima are only 2–4 steps apart, and for most landing sites there is no second peak at all.",
+      "sentence_cn": "在另一个环模型上，只有落点在 36–39 和 62–64 时才出现分得开的第二峰；落点在目标两侧 7 格以内（43–57）时，两个极大只差 2–4 步；大多数落点根本没有第二峰。",
       "links": [
         {
           "label_en": "Landing-site scan report",
@@ -182,7 +182,7 @@
         "grid2d_membrane_near_target"
       ],
       "title": "Two 2D layouts that keep two timescales visible",
-      "sentence": "On a rectangular lattice, a corridor with leaky walls (one target) and an open lattice with a near and a far target (no corridor) both give a clear double peak.",
+      "sentence": "On a rectangular lattice with a weak uniform drift, a corridor with leaky walls (one target) and an open lattice with a near and a far target (no corridor) both give a clear double peak, and in both the double peak depends on the drift.",
       "question_en": "What kinds of 2D layout actually keep a double peak visible?",
       "question_cn": "什么样的二维布局才能让双峰保持可见？",
       "evidence": {
@@ -191,8 +191,8 @@
         "src_cn": "/talk-assets/smet-phd/fig6-2d-layouts.cn.svg?v=20261125a",
         "alt_en": "Computed first-passage distributions for two 2D layouts: one target in a corridor with leaky walls (peaks at t = 394 and 1,696) and two targets without a corridor (peaks at t = 11 and 739).",
         "alt_cn": "两种二维布局计算所得的首达时间分布：通道壁可渗漏的单目标布局（峰在 t = 394 和 1,696），以及没有通道的双目标布局（峰在 t = 11 和 739）。",
-        "caption_en": "Reflecting rectangular lattice, 60 sites long and 16 wide, start at x = 7, far target at x = 58; f(t) computed exactly from the transition probabilities up to t = 5,000. Top: a corridor whose walls let an attempted crossing through with probability κ = 0.002. Bottom: no corridor; a second target 2 sites along and 3 across from the start. Peak and valley times come from the report's classifier, which rates both curves 'clear double peak'. Insets are schematic.",
-        "caption_cn": "反射边界的矩形格点，长 60、宽 16，起点在 x = 7，远目标在 x = 58；f(t) 由转移概率精确算到 t = 5,000。上图：通道壁上每次穿越尝试以概率 κ = 0.002 被放行。下图：没有通道；第二个目标距起点沿长边 2 格、沿短边 3 格。峰和谷的时刻取自报告的分类器，它把两条曲线都判为「清楚的双峰」。小图为示意。",
+        "caption_en": "Reflecting rectangular lattice, 60 sites long and 16 wide; each step the walker moves to a neighbour with total probability 0.8 (otherwise it stays), with a uniform drift b_x along the long side. Start at x = 7, far target at x = 58; f(t) computed exactly from the transition probabilities up to t = 5,000. Top: drift b_x = −0.08 (away from the target) and a corridor 5 sites wide on the midline that pushes the walker towards the target; its walls (x = 5–54, open at both ends) let an attempted crossing through with probability κ = 0.002. Bottom: no corridor, drift b_x = +0.07 (towards the far target); a second target 2 sites along and 3 across from the start. The drift matters: in this report's two-target scan, b_x = 0 gives a single peak, and in the corridor scan of the rectangular-lattice report (same start and target) a clear double peak appears only at b_x = −0.08. Peak and valley times come from the report's classifier, which rates both curves 'clear double peak'. Insets are schematic.",
+        "caption_cn": "反射边界的矩形格点，长 60、宽 16；游走者每一步以总概率 0.8 移向相邻格点（否则留在原地），并带一个沿长边方向的均匀漂移 b_x。起点在 x = 7，远目标在 x = 58；f(t) 由转移概率精确算到 t = 5,000。上图：漂移 b_x = −0.08（背离目标），中线上有一条宽 5 格、把游走者推向目标的通道；通道壁位于 x = 5–54、两端开口，每次穿越尝试以概率 κ = 0.002 被放行。下图：没有通道，漂移 b_x = +0.07（朝向远目标）；第二个目标距起点沿长边 2 格、沿短边 3 格。漂移是关键：本报告的双目标扫描中，b_x = 0 时只有单峰；矩形格点报告的通道扫描（起点和目标相同）中，只有 b_x = −0.08 时才出现清楚的双峰。峰和谷的时刻取自报告的分类器，它把两条曲线都判为「清楚的双峰」。小图为示意。",
         "full_bleed": false,
         "hide_caption": false,
         "show_overlay": true
@@ -201,8 +201,8 @@
       "kicker_cn": "二维：从一个目标到两个目标",
       "title_en": "Two 2D layouts that keep two timescales visible",
       "title_cn": "两种保留两个时间尺度的二维布局",
-      "sentence_en": "On a rectangular lattice, a corridor with leaky walls (one target) and an open lattice with a near and a far target (no corridor) both give a clear double peak.",
-      "sentence_cn": "在矩形格点上，带可渗漏通道壁的单目标布局，和没有通道、一近一远两个目标的布局，都给出清楚的双峰。",
+      "sentence_en": "On a rectangular lattice with a weak uniform drift, a corridor with leaky walls (one target) and an open lattice with a near and a far target (no corridor) both give a clear double peak, and in both the double peak depends on the drift.",
+      "sentence_cn": "在带弱均匀漂移的矩形格点上，带可渗漏通道壁的单目标布局，和没有通道、一近一远两个目标的布局，都给出清楚的双峰，而且两种情形的双峰都依赖这个漂移。",
       "links": [
         {
           "label_en": "2D report: membranes and two targets",
@@ -220,7 +220,7 @@
         "grid2d_one_target_valley_peak_budget"
       ],
       "title": "Time outside the corridor, or crossing its wall?",
-      "sentence": "Compared with the valley, late hits spend far more steps outside the corridor before reaching the target (about 1,300 against 700 when κ ≤ 0.004), while the chance of having crossed a wall is almost the same in both windows.",
+      "sentence": "Compared with the valley, late hits spend far more steps outside the corridor before reaching the target (about 1,300 against 700 at κ = 0 and κ = 0.004), while the chance of having crossed a wall is almost the same in both windows.",
       "question_en": "Is the late peak mainly time spent outside the corridor, or mainly the wall crossing itself?",
       "question_cn": "晚峰主要来自在通道外停留的时间，还是主要来自穿过通道壁这件事本身？",
       "evidence": {
@@ -239,8 +239,8 @@
       "kicker_cn": "单目标通道：晚到的轨迹慢在哪里",
       "title_en": "Time outside the corridor, or crossing its wall?",
       "title_cn": "是在通道外停留，还是穿过通道壁？",
-      "sentence_en": "Compared with the valley, late hits spend far more steps outside the corridor before reaching the target (about 1,300 against 700 when κ ≤ 0.004), while the chance of having crossed a wall is almost the same in both windows.",
-      "sentence_cn": "与谷相比，晚峰时间窗里的轨迹在到达目标前，在通道外停留的步数多得多（κ ≤ 0.004 时约 1,300 步对 700 步）；而两个时间窗里穿过通道壁的概率几乎相同。",
+      "sentence_en": "Compared with the valley, late hits spend far more steps outside the corridor before reaching the target (about 1,300 against 700 at κ = 0 and κ = 0.004), while the chance of having crossed a wall is almost the same in both windows.",
+      "sentence_cn": "与谷相比，晚峰时间窗里的轨迹在到达目标前，在通道外停留的步数多得多（κ = 0 和 κ = 0.004 时约 1,300 步对 700 步）；而两个时间窗里穿过通道壁的概率几乎相同。",
       "links": [
         {
           "label_en": "Valley/peak budget report",
@@ -267,8 +267,8 @@
         "src_cn": "/talk-assets/smet-phd/fig8-two-targets.cn.svg?v=20261125a",
         "alt_en": "Two-target lattice: f(t) split into near-target and far-target hits, and the share of near and far hits in the peak 1, valley and peak 2 windows (100% near; 73% near, 27% far; 99.8% far).",
         "alt_cn": "双目标格点：按到达近目标和远目标拆分的 f(t)，以及峰 1、谷、峰 2 三个时间窗里近、远目标所占比例（近 100%；近 73%、远 27%；远 99.8%）。",
-        "caption_en": "The two-target case of the previous slide (no corridor; near target 2 sites along and 3 across from the start). f(t) is the sum of the near-target and far-target parts; over all times 33% of hits are at the near target and 67% at the far one. Windows as in the report: t = 1–37, 281–333 and 713–765.",
-        "caption_cn": "即上一页的双目标布局（没有通道；近目标距起点沿长边 2 格、沿短边 3 格）。f(t) 是到达近目标和远目标两部分之和；全部时间合计，33% 的到达在近目标，67% 在远目标。时间窗与报告一致：t = 1–37、281–333、713–765。",
+        "caption_en": "The two-target case of the previous slide (no corridor, drift b_x = +0.07 towards the far target; near target 2 sites along and 3 across from the start). f(t) is the sum of the near-target and far-target parts; over all times 33% of hits are at the near target and 67% at the far one. Windows as in the report: t = 1–37, 281–333 and 713–765.",
+        "caption_cn": "即上一页的双目标布局（没有通道，漂移 b_x = +0.07 朝向远目标；近目标距起点沿长边 2 格、沿短边 3 格）。f(t) 是到达近目标和远目标两部分之和；全部时间合计，33% 的到达在近目标，67% 在远目标。时间窗与报告一致：t = 1–37、281–333、713–765。",
         "full_bleed": false,
         "hide_caption": false,
         "show_overlay": true

@@ -43,7 +43,7 @@
       "start": "3:35",
       "end": "4:50",
       "title": "Where the shortcut lands decides whether a second peak appears",
-      "spoken_text": "Next, a second ring model, in which each step can go up to three sites either way and the shortcut leaves from the start. Here I move the shortcut's landing site around the ring. Only a few landing sites, 36 to 39 and 62 to 64, give a second peak that is well separated from the first, around step 100. When the shortcut lands right next to the target, the two maxima are only two to four steps apart, which is too close to read as two kinds of route. For most landing sites there is no second peak at all. So where the route goes matters, and not monotonically.",
+      "spoken_text": "Next, a second ring model, in which each step can go up to three sites either way and the shortcut leaves from the start. Here I move the shortcut's landing site around the ring. Only a few landing sites, 36 to 39 and 62 to 64, give a second peak that is well separated from the first, around step 100. When the shortcut lands within seven sites of the target, the two maxima are only two to four steps apart, which is too close to read as two kinds of route. For most landing sites there is no second peak at all. So where the route goes matters, and not monotonically.",
       "speaker_notes": "",
       "timing_prompt": "This is a different ring model from the previous slide."
     },
@@ -52,7 +52,7 @@
       "start": "4:50",
       "end": "6:05",
       "title": "Two 2D layouts that keep two timescales visible",
-      "spoken_text": "In two dimensions, the layout decides whether two timescales survive. Two layouts that do: a corridor whose walls occasionally let the walker through, with one target at the far end; and an open lattice with one target near the start and one far away. Both computed distributions have two clear peaks by the report's classifier. In the corridor, the competition is between going straight along the corridor and spending time outside it; with two targets, target competition is added.",
+      "spoken_text": "In two dimensions, the layout, together with a weak drift along the lattice, decides whether two timescales survive. Two layouts that do: a corridor whose walls occasionally let the walker through, with one target at the far end; and an open lattice with one target near the start and one far away. Both computed distributions have two clear peaks by the report's classifier, and in both cases the double peak depends on the drift. In the corridor, the competition is between going straight along the corridor and spending time outside it; with two targets, target competition is added.",
       "speaker_notes": "",
       "timing_prompt": "Both curves are exact computations; the small layout drawings are schematic."
     },
@@ -79,7 +79,7 @@
       "start": "8:50",
       "end": "10:00",
       "title": "Minimal mathematical backbone",
-      "spoken_text": "Behind every figure is the same small set of objects. Probability moves over the sites by a discrete-time master equation, including the chance of staying put, and mass that reaches the target is removed because the target is absorbing. T is the first step at which the walker is on the target. The survival probability S(t) is the chance that this has not happened by step t, and the first-passage distribution f(t) is what S loses at step t.",
+      "spoken_text": "Behind every figure is the same small set of objects. Probability moves over the sites by a discrete-time master equation, including, where the model allows it, the chance of staying put, and mass that reaches the target is removed because the target is absorbing. T is the first step at which the walker is on the target. The survival probability S(t) is the chance that this has not happened by step t, and the first-passage distribution f(t) is what S loses at step t.",
       "speaker_notes": "",
       "timing_prompt": "A compact anchor, not a derivation."
     }

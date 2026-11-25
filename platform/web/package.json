@@ -6,6 +6,7 @@
     "dev": "next dev",
     "prebuild": "python3 scripts/build_multitimescale_talk_assets.py",
     "build": "next build",
+    "postbuild": "node scripts/set_cn_document_lang.mjs",
     "start": "next start",
     "lint": "next lint",
     "preview": "npx serve out"

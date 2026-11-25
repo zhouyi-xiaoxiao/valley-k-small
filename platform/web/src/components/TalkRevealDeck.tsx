@@ -343,6 +343,12 @@ export function TalkRevealDeck({
     [scriptCn.blocks],
   );
 
+  // Talk pages do not use AppShell (whose LocaleToggle keeps the document
+  // language in step), so set it here too after client-side navigation.
+  useEffect(() => {
+    document.documentElement.lang = lang === 'cn' ? 'zh-CN' : 'en';
+  }, [lang]);
+
   useEffect(() => {
     const query = window.matchMedia('(max-width: 700px)');
     const sync = () => setNarrow(query.matches);

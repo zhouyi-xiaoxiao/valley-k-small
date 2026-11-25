@@ -269,6 +269,11 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   }, [rawVisibleSeries, semanticsByName]);
 
   useEffect(() => {
+    // Wait until the data and the visible series are in place: before that
+    // logEligible is false and a dataset's default log axis would be dropped.
+    if (status !== 'ready' || rawVisibleSeries.length === 0) {
+      return;
+    }
     if (!logEligible && yScale === 'log') {
       setYScale('linear');
       setAutoScaleNotice(
@@ -277,7 +282,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           : 'Visible series do not satisfy log requirements; switched back to linear scale.',
       );
     }
-  }, [lang, logEligible, yScale]);
+  }, [lang, logEligible, yScale, status, rawVisibleSeries.length]);
 
   const transformed = useMemo(() => {
     if (!payload) {

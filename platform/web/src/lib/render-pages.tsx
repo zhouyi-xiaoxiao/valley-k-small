@@ -1201,7 +1201,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             ))}
           </div>
         ) : (
-          <p>{localizedText(lang, 'No narrative arc placement found.', '未找到叙事弧线定位信息。')}</p>
+          <p>{localizedText(lang, 'This report is not on any reading path yet.', '这份报告还不在任何阅读路线中。')}</p>
         )}
       </section>
 

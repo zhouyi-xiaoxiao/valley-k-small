@@ -112,7 +112,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "f(t) = Pr[T = t] is computed exactly by stepping the probability distribution forward until less "
                     "than 10⁻¹⁴ is left; the sweep of peak heights and tail rates uses Abate–Whitt numerical inversion of "
                     "the generating function. Peak rule: a peak is a strict local maximum of f(t) with f ≥ 10⁻⁷ and at "
-                    "least 1% of the highest peak; f(t) counts as bimodal when two such peaks remain. Monte Carlo "
+                    "least 1% of the highest peak; f(t) counts as bimodal when at least two such peaks remain. Monte Carlo "
                     "(200 000 trajectories per case) sorts arrivals by route: shortcut used or not, target jumped over or not."
                 ),
                 "result_overview": (
@@ -150,7 +150,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "method_overview": (
                     "f(t) = Pr[T = t] 通过逐步推进概率分布精确计算，直到剩余概率小于 10⁻¹⁴；峰高与尾部衰减率的扫描用 "
                     "Abate–Whitt 方法对生成函数做数值反演。判峰规则：峰指 f ≥ 10⁻⁷、且不低于最高峰 1% 的严格局部极大值；"
-                    "剩下两个这样的峰即算双峰。蒙特卡洛模拟（每种情形 20 万条轨迹）按路径给到达分类：是否走过捷径、是否越过目标。"
+                    "至少剩下两个这样的峰即算双峰。蒙特卡洛模拟（每种情形 20 万条轨迹）按路径给到达分类：是否走过捷径、是否越过目标。"
                 ),
                 "result_overview": (
                     "N = 100 时，在所扫描的网格上，K = 2 在 0.0005 ≤ β ≤ 0.05、K = 4 在 0.001 ≤ β ≤ 0.15 范围内有两个峰；"

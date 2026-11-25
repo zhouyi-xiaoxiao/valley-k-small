@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write bilingual TeX reports and README for Luca regime map study."""
+"""Write bilingual TeX reports and README for the defect-reduction regime map study."""
 
 from __future__ import annotations
 
@@ -41,10 +41,10 @@ def _recommendation_matrix_en() -> str:
         "\\toprule",
         "Task Type & Recommended Method \\\\",
         "\\midrule",
-        "Full FPT under fixed finite horizon & Sparse exact recursion as default baseline; Luca only when defect support is very small and validated on anchors. \\\\",
+        "Full FPT under fixed finite horizon & Sparse exact recursion as default baseline; defect-reduced route only when defect support is very small and validated on anchors. \\\\",
         "MFPT/splitting only & Linear systems (do not use as full-FPT winner metric). \\\\",
-        "Transform-domain analysis with sparse defects & Luca defect-reduced AW, but keep estimation/full calibration checks. \\\\",
-        "High-defect corridor-like regimes & Prefer sparse recursion; Luca often loses after setup/evaluation overhead is counted. \\\\",
+        "Transform-domain analysis with sparse defects & Defect-reduced AW, but keep estimation/full calibration checks. \\\\",
+        "High-defect corridor-like regimes & Prefer sparse recursion; the defect-reduced route often loses after setup/evaluation overhead is counted. \\\\",
         "\\bottomrule",
         "\\end{tabular}",
     ]
@@ -57,10 +57,10 @@ def _recommendation_matrix_cn() -> str:
         "\\toprule",
         "任务类型 & 推荐方法 \\\\",
         "\\midrule",
-        "固定有限时窗下的完整 FPT 曲线 & 默认采用 sparse exact recursion；仅在缺陷极稀疏且锚点校验通过时考虑 Luca。 \\\\",
+        "固定有限时窗下的完整 FPT 曲线 & 默认采用 sparse exact recursion；仅在缺陷极稀疏且锚点校验通过时考虑缺陷约化路线。 \\\\",
         "只关心 MFPT/splitting & 线性方程法（不参与 full-FPT 胜负判定）。 \\\\",
-        "需要变换域并且缺陷稀疏 & 可用 Luca defect-reduced AW，但需保留 estimate/full 校验。 \\\\",
-        "高缺陷走廊类配置 & 优先 sparse recursion；计入 setup/eval 后 Luca 常不占优。 \\\\",
+        "需要变换域并且缺陷稀疏 & 可用缺陷约化 AW，但需保留 estimate/full 校验。 \\\\",
+        "高缺陷走廊类配置 & 优先 sparse recursion；计入 setup/eval 后缺陷约化路线常不占优。 \\\\",
         "\\bottomrule",
         "\\end{tabular}",
     ]
@@ -76,22 +76,22 @@ def _build_tex_en(summary: Dict[str, Any]) -> str:
             "\\documentclass[11pt]{article}",
             "\\usepackage[margin=1in]{geometry}",
             "\\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref,float}",
-            "\\title{Luca Defect Regime Map (Cross-Report, Fixed Full-FPT Fairness)}",
+            "\\title{Defect-Reduction Regime Map (Cross-Report, Fixed Full-FPT Fairness)}",
             "\\author{Automated benchmark in valley-k-small}",
             "\\date{\\today}",
             "\\begin{document}",
             "\\maketitle",
             "\\section{Scope and Fairness}",
-            "Main winner metric compares only full-FPT competitors: sparse exact recursion vs Luca defect-reduced route.",
+            "Main winner metric compares only full-FPT competitors: sparse exact recursion vs defect-reduced route.",
             "Linear systems are recorded as MFPT reference only.",
-            "All claims use fixed-horizon fairness and ratio metric $R=\\text{sparse}/\\text{luca}$.",
+            "All claims use fixed-horizon fairness and ratio metric $R=\\text{sparse}/\\text{defect}$.",
             "Cross-family claims do not mix absolute seconds.",
             "\\section{Methods}",
             "Timing protocol: warm-up 1 run, then 3 measured runs with median.",
-            "Luca mode rule: full when defect pairs $\\le 120$, otherwise sampled-$z$ extrapolated estimate.",
+            "Defect-reduction mode rule: full when defect pairs $\\le 120$, otherwise sampled-$z$ extrapolated estimate.",
             "Estimator form: $t_{\\mathrm{est}}=t_{\\mathrm{setup}}+(t_{\\mathrm{eval}}/n_z)\\,m+t_{\\mathrm{fft}}$.",
             "\\section{Main Findings}",
-            f"Pooled median $R$: {S['median_R']} (mean {S['mean_R']}); Luca-win probability $P(R>1)$: {S['p_luca']}.",
+            f"Pooled median $R$: {S['median_R']} (mean {S['mean_R']}); probability that the defect-reduced route is faster $P(R>1)$: {S['p_luca']}.",
             f"Global regime decision: {S['no_win_statement']}",
             f"Estimation anchors: n={S['est_n']}, median relative error={S['est_med']} ({est_label} against 25\\% threshold).",
             "\\section{Figures}",
@@ -142,22 +142,22 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
             "\\documentclass[11pt]{ctexart}",
             "\\usepackage[margin=1in]{geometry}",
             "\\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref,float}",
-            "\\title{Luca 缺陷技术速度分区图（跨报告、固定 full-FPT 公平口径）}",
+            "\\title{缺陷约化方法速度分区图（跨报告、固定 full-FPT 公平口径）}",
             "\\author{valley-k-small 自动化基准}",
             "\\date{\\today}",
             "\\begin{document}",
             "\\maketitle",
             "\\section{研究范围与公平口径}",
-            "主胜负指标仅比较完整 FPT 竞争者：sparse exact recursion 与 Luca defect-reduced 路线。",
+            "主胜负指标仅比较完整 FPT 竞争者：sparse exact recursion 与缺陷约化路线。",
             "线性方程法仅作为 MFPT 参考，不参与完整 FPT 胜负判定。",
-            "统一使用固定时窗口径与比例指标 $R=\\text{sparse}/\\text{luca}$，跨 family 结论不混合绝对秒数。",
+            "统一使用固定时窗口径与比例指标 $R=\\text{sparse}/\\text{defect}$，跨 family 结论不混合绝对秒数。",
             "\\section{方法与计时协议}",
             "计时采用 warm-up 1 次 + 实测 3 次取中位数。",
-            "Luca 模式规则：defect pairs $\\le 120$ 用 full；否则用 sampled-$z$ 外推估计。",
+            "缺陷约化模式规则：defect pairs $\\le 120$ 用 full；否则用 sampled-$z$ 外推估计。",
             "估计式：$t_{\\mathrm{est}}=t_{\\mathrm{setup}}+(t_{\\mathrm{eval}}/n_z)\\,m+t_{\\mathrm{fft}}$。",
             "\\section{主结果}",
-            f"汇总中位数 $R={S['median_R']}$（均值 {S['mean_R']}），Luca 胜率 $P(R>1)={S['p_luca']}$。",
-            f"全局判定：{S['no_win_statement']}",
+            f"汇总中位数 $R={S['median_R']}$（均值 {S['mean_R']}），缺陷约化方法更快的概率 $P(R>1)={S['p_luca']}$。",
+            "全局判定：固定-T full-FPT 公平口径下，不存在缺陷约化方法更快的区域。",
             f"估计校验：n={S['est_n']}，中位相对误差={S['est_med']}（25\\% 阈值判定：{est_label}）。",
             "\\section{图件}",
             "\\begin{figure}[H]\\centering",
@@ -201,20 +201,20 @@ def _build_tex_cn(summary: Dict[str, Any]) -> str:
 def _build_readme(summary: Dict[str, Any]) -> str:
     S = _section_pooled(summary)
     lines: List[str] = []
-    lines.append("# Luca Regime Map")
+    lines.append("# Defect-Reduction Regime Map")
     lines.append("")
     lines.append("Standalone cross-report benchmark for fixed-horizon full-FPT fairness.")
     lines.append("")
     lines.append("## Key policy")
-    lines.append("- Main full-FPT winner metric: `Sparse exact` vs `Luca defect-reduced`.")
+    lines.append("- Main full-FPT winner metric: `Sparse exact` vs `defect-reduced`.")
     lines.append("- `Linear MFPT` is reference only.")
     lines.append("- `Full AW` and `Dense recursion` are appendix sanity anchors only.")
-    lines.append("- Cross-family claims use ratio metric `R=sparse/luca`; do not mix absolute seconds.")
+    lines.append("- Cross-family claims use ratio metric `R=sparse/defect`; do not mix absolute seconds.")
     lines.append("")
     lines.append("## Current snapshot")
     lines.append(f"- Median `R`: `{S['median_R']}`")
-    lines.append(f"- Luca-win probability `P(R>1)`: `{S['p_luca']}`")
-    lines.append(f"- Regime statement: {S['no_win_statement']}")
+    lines.append(f"- Probability that the defect-reduced route is faster `P(R>1)`: `{S['p_luca']}`")
+    lines.append("- Regime statement: No region where the defect-reduced route is faster under fixed-T full-FPT fairness.")
     lines.append("")
     lines.append("## Outputs")
     lines.append("- Data: `data/manifest.csv`, `data/runtime_raw.csv`, `data/runtime_summary.json`")

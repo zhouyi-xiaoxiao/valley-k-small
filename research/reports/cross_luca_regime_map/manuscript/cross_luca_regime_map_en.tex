@@ -3,24 +3,24 @@
 \usepackage{amsmath,amssymb,booktabs,graphicx,float,xurl,array}
 \usepackage[hypertexnames=false]{hyperref}
 \setlength{\emergencystretch}{6em}
-\title{Luca Defect Regime Map (Cross-Report, Fixed Full-FPT Fairness)}
+\title{Defect-Reduction Regime Map (Cross-Report, Fixed Full-FPT Fairness)}
 \author{Automated benchmark in valley-k-small}
-\date{\today}
+\date{March 9, 2026}
 \begin{document}
 \sloppy
 \maketitle
 \section{Scope and Fairness}
-Main winner metric compares only full-FPT competitors: sparse exact recursion vs Luca defect-reduced route.
+Main winner metric compares only full-FPT competitors: sparse exact recursion vs defect-reduced route.
 Linear systems are recorded as MFPT reference only.
-All claims use fixed-horizon fairness and ratio metric $R=\text{sparse}/\text{luca}$.
+All claims use fixed-horizon fairness and ratio metric $R=\text{sparse}/\text{defect}$.
 Cross-family claims do not mix absolute seconds.
 \section{Methods}
 Timing protocol: warm-up 1 run, then 3 measured runs with median.
-Luca mode rule: full when defect pairs $\le 120$, otherwise sampled-$z$ extrapolated estimate.
+Defect-reduction mode rule: full when defect pairs $\le 120$, otherwise sampled-$z$ extrapolated estimate.
 Estimator form: $t_{\mathrm{est}}=t_{\mathrm{setup}}+(t_{\mathrm{eval}}/n_z)\,m+t_{\mathrm{fft}}$.
 \section{Main Findings}
-Pooled median $R$: 0.0005 (mean 0.0198); Luca-win probability $P(R>1)$: 0.000.
-Global regime decision: No Luca winning region under fixed-T full-FPT fairness.
+Pooled median $R$: 0.0005 (mean 0.0198); probability that the defect-reduced route is faster $P(R>1)$: 0.000.
+Global regime decision: No region where the defect-reduced route is faster under fixed-T full-FPT fairness.
 Estimation anchors: n=8, median relative error=0.126 (PASS against 25\% threshold).
 \section{Figures}
 \begin{figure}[H]\centering
@@ -68,10 +68,10 @@ Estimation anchors: n=8, median relative error=0.126 (PASS against 25\% threshol
 \toprule
 Task Type & Recommended Method \\
 \midrule
-Full FPT under fixed finite horizon & Sparse exact recursion as default baseline; Luca only when defect support is very small and validated on anchors. \\
+Full FPT under fixed finite horizon & Sparse exact recursion as default baseline; defect-reduced route only when defect support is very small and validated on anchors. \\
 MFPT/splitting only & Linear systems (do not use as full-FPT winner metric). \\
-Transform-domain analysis with sparse defects & Luca defect-reduced AW, but keep estimation/full calibration checks. \\
-High-defect corridor-like regimes & Prefer sparse recursion; Luca often loses after setup/evaluation overhead is counted. \\
+Transform-domain analysis with sparse defects & Defect-reduced AW, but keep estimation/full calibration checks. \\
+High-defect corridor-like regimes & Prefer sparse recursion; the defect-reduced route often loses after setup/evaluation overhead is counted. \\
 \bottomrule
 \end{tabular}
 \end{table}

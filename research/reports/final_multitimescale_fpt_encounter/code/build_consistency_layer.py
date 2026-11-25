@@ -130,7 +130,7 @@ def build_two_target_condition_tables() -> None:
         [
             "1D two-target ring scan",
             f"{len(ring_dp)} double_peak cases in {len(ring_rows)} cases; {len(ring_shortcut_dp)} use beta>0",
-            "separate from Luca one-target shortcut-ring configuration above",
+            "separate from the reference shortcut-ring configuration above",
             "positive claims require classifier label double_peak and target-channel decomposition",
         ],
         [
@@ -183,7 +183,7 @@ def build_luca_shortcut_condition_table() -> None:
 \toprule
 Setting & Observed range & Reference case & Mechanism/criterion \\
 \midrule
-Luca email configuration &
+Reference shortcut-ring configuration &
 \(N=100\), \(n_0=1\), target \(=51\), shortcut \(6\to52\) &
 \(q=2/3\), \(\rho=1\), lazy\_selfloop, default \(\beta=0.01\) &
 One absorbing target; shortcut lands just beyond the target. \\
@@ -244,9 +244,9 @@ def build_registry() -> list[dict[str, str]]:
             "data_path": "research/reports/ring_lazy_jump_ext_rev2/artifacts/data/ft_beta0.01.csv",
             "table_path": "research/reports/final_multitimescale_fpt_encounter/manuscript/inputs/luca_shortcut_conditions_table.tex",
             "script_path": "research/reports/ring_lazy_jump_ext_rev2/code/plot_fig2_overlap_binbars.py",
-            "validation_status": "aligned to Luca Outlook configuration and existing beta-scan artifacts",
+            "validation_status": "aligned to the reference configuration and existing beta-scan artifacts",
             "mechanism_basis": "budget decomposition",
-            "scientific_claim": "In the Luca shortcut-ring configuration, bimodality is a fast shortcut channel plus a slow non-shortcut/jump-over budget split.",
+            "scientific_claim": "In the reference shortcut-ring configuration, bimodality is a fast shortcut channel plus a slow non-shortcut/jump-over budget split.",
         },
         {
             "module": "ring_two_target",

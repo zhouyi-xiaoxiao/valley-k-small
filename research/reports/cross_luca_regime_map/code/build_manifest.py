@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the fixed benchmark manifest for Luca regime mapping."""
+"""Build the fixed benchmark manifest for defect-reduction regime mapping."""
 
 from __future__ import annotations
 
@@ -503,7 +503,7 @@ def write_manifest(rows: Iterable[Dict[str, object]], out_path: Path) -> None:
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="Build fixed manifest for Luca regime map study.")
+    p = argparse.ArgumentParser(description="Build fixed manifest for defect-reduction regime map study.")
     p.add_argument(
         "--output",
         type=str,

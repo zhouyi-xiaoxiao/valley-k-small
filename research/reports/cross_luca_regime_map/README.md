@@ -1,17 +1,17 @@
-# Luca Regime Map
+# Defect-Reduction Regime Map
 
-Standalone cross-report benchmark for fixed-horizon full-FPT fairness. This is the **canonical Luca-vs-recursion comparison** for the project; future scope expansions (additional metrics, lattices, fairness regimes) extend this report rather than spawning new ones.
+Standalone cross-report benchmark for fixed-horizon full-FPT fairness. This is the **canonical defect-reduction-vs-recursion comparison** for the project; future scope expansions (additional metrics, lattices, fairness regimes) extend this report rather than spawning new ones.
 
 ## Key policy
-- Main full-FPT winner metric: `Sparse exact` vs `Luca defect-reduced`.
+- Main full-FPT winner metric: `Sparse exact` vs `defect-reduced`.
 - `Linear MFPT` is reference only.
 - `Full AW` and `Dense recursion` are appendix sanity anchors only.
-- Cross-family claims use ratio metric `R=sparse/luca`; do not mix absolute seconds.
+- Cross-family claims use ratio metric `R=sparse/defect`; do not mix absolute seconds.
 
 ## Current snapshot
 - Median `R`: `0.0005`
-- Luca-win probability `P(R>1)`: `0.000`
-- Regime statement: No Luca winning region under fixed-T full-FPT fairness.
+- Probability that the defect-reduced route is faster `P(R>1)`: `0.000`
+- Regime statement: No region where the defect-reduced route is faster under fixed-T full-FPT fairness.
 
 ## Outputs
 - Data: `data/manifest.csv`, `data/runtime_raw.csv`, `data/runtime_summary.json`

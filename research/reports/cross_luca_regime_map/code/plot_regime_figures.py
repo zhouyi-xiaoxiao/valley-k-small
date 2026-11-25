@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plot figures and tables for Luca regime map study."""
+"""Plot figures and tables for the defect-reduction regime map study."""
 
 from __future__ import annotations
 
@@ -85,7 +85,7 @@ def _winner_heatmap(rows: List[Dict[str, Any]], *, family: str, out_path: Path) 
             if not cell:
                 continue
             p = float(np.mean([float(r["speedup_sparse_over_luca"]) > 1.0 for r in cell]))
-            # 0=sparse wins/majority, 1=luca wins/majority
+            # 0=sparse wins/majority, 1=defect-reduced faster (majority)
             Z[i, j] = 1 if p > 0.5 else 0
             Txt[i][j] = f"n={len(cell)}\np={p:.2f}"
 
@@ -101,7 +101,7 @@ def _winner_heatmap(rows: List[Dict[str, Any]], *, family: str, out_path: Path) 
     ax.set_yticklabels(y_labels)
     ax.set_xlabel("T (fixed full-FPT horizon)")
     ax.set_ylabel("defect_pairs bin")
-    ax.set_title(f"Winner Heatmap ({family}): sparse vs Luca")
+    ax.set_title(f"Winner Heatmap ({family}): sparse vs defect-reduced")
 
     for i in range(len(y_labels)):
         for j in range(len(t_vals)):
@@ -110,7 +110,7 @@ def _winner_heatmap(rows: List[Dict[str, Any]], *, family: str, out_path: Path) 
 
     legend_handles = [
         plt.Line2D([0], [0], marker="s", color="w", markerfacecolor="#8fb8de", markersize=10, label="Sparse wins/majority"),
-        plt.Line2D([0], [0], marker="s", color="w", markerfacecolor="#e8a5a0", markersize=10, label="Luca wins/majority"),
+        plt.Line2D([0], [0], marker="s", color="w", markerfacecolor="#e8a5a0", markersize=10, label="Defect-reduced faster (majority)"),
         plt.Line2D([0], [0], marker="s", color="w", markerfacecolor="#f0f0f0", markersize=10, label="No samples"),
     ]
     ax.legend(handles=legend_handles, loc="upper right", frameon=True, fontsize=8)
@@ -146,7 +146,7 @@ def _speedup_scatter(rows: List[Dict[str, Any]], out_path: Path) -> None:
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_xlabel("defect_pairs")
-    ax.set_ylabel("R = sparse_seconds / luca_seconds")
+    ax.set_ylabel("R = sparse_seconds / defect_seconds")
     ax.set_title("Speedup Scatter Across All Workloads")
     ax.grid(alpha=0.25, which="both")
     ax.legend(frameon=False, fontsize=8, ncol=2)
@@ -170,7 +170,7 @@ def _speedup_box_by_t(rows: List[Dict[str, Any]], out_path: Path) -> None:
     ax.axhline(1.0, color="#333333", lw=1.2, ls="--")
     ax.set_yscale("log")
     ax.set_xlabel("T")
-    ax.set_ylabel("R = sparse_seconds / luca_seconds")
+    ax.set_ylabel("R = sparse_seconds / defect_seconds")
     ax.set_title("Speedup Distribution by T")
     ax.grid(axis="y", alpha=0.25, which="both")
     fig.tight_layout()
@@ -297,7 +297,7 @@ def _write_table_anchor_baselines(summary: Dict[str, Any], out_path: Path) -> No
     lines = [
         "\\begin{tabular}{lcccccc}",
         "\\toprule",
-        "Anchor & Defects & Sparse(s) & Dense(s) & Full AW(s) & Luca(s) & Linear(s) \\\\",
+        "Anchor & Defects & Sparse(s) & Dense(s) & Full AW(s) & Defect-red.(s) & Linear(s) \\\\",
         "\\midrule",
     ]
     for r in rows:

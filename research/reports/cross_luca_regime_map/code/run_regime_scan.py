@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cross-report Luca regime benchmark under fixed full-FPT fairness."""
+"""Run the cross-report defect-reduction benchmark under fixed full-FPT fairness."""
 
 from __future__ import annotations
 
@@ -943,9 +943,9 @@ def _summary_payload(
             "n_luca_faster": int(np.sum(R > 1.0)) if len(R) else 0,
             "has_luca_win_region": pooled_luca_win,
             "no_win_statement": (
-                "No Luca winning region under fixed-T full-FPT fairness."
+                "No region where the defect-reduced route is faster under fixed-T full-FPT fairness."
                 if not pooled_luca_win
-                else "Luca has winning regions under fixed-T full-FPT fairness."
+                else "The defect-reduced route has winning regions under fixed-T full-FPT fairness."
             ),
         },
         "aggregates": {
@@ -966,7 +966,7 @@ def _write_summary(payload: Dict[str, Any], out_path: Path) -> None:
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="Run Luca regime scan on manifest workloads.")
+    p = argparse.ArgumentParser(description="Run the defect-reduction regime scan on manifest workloads.")
     p.add_argument(
         "--manifest",
         type=str,

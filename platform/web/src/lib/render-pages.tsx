@@ -23,7 +23,6 @@ import {
   FAMILY_ORDER,
   OWNER_SITE,
   OWNER_SITE_ZH,
-  REPO_URL,
   formatDay,
   START_HERE,
   displayTitle,
@@ -2034,14 +2033,6 @@ export function renderAboutPage(lang: Lang, prefix: string) {
   const written = writtenReports(index);
   const scaffolds = scaffoldReports(index);
   const generated = formatDay(lang, index.generated_at);
-  const commands = [
-    'python3 scripts/reportctl.py web-data --mode full',
-    'python3 scripts/reportctl.py book-data',
-    'python3 scripts/reportctl.py translation-qc',
-    'python3 scripts/reportctl.py agent-sync',
-    'python3 scripts/reportctl.py validate-web-data',
-    'cd platform/web && npm ci && npm run build',
-  ];
   return (
     <AppShell lang={lang} prefix={prefix}>
       <header className="page-head">
@@ -2104,10 +2095,7 @@ export function renderAboutPage(lang: Lang, prefix: string) {
                 `This is an active research repository, and reports are revised as the work continues. These pages were generated on ${generated}.`,
                 `这是一个仍在进行的研究仓库，报告会随研究推进而修订。本页面生成于 ${generated}。`,
               )
-            : null}{' '}
-          {localizedText(lang, 'Sources: ', '源文件：')}
-          <a href={REPO_URL}>github.com/zhouyi-xiaoxiao/valley-k-small</a>
-          {localizedText(lang, '.', '。')}
+            : null}
         </p>
 
         <h2>{localizedText(lang, 'Author', '作者')}</h2>
@@ -2120,35 +2108,6 @@ export function renderAboutPage(lang: Lang, prefix: string) {
           <a href={lang === 'cn' ? OWNER_SITE_ZH : OWNER_SITE}>zhouyixiaoxiao.com</a>
           {localizedText(lang, '.', '。')}
         </p>
-      </section>
-
-      <section className="prose-section maintainer-section" id="maintainers">
-        <h2>{localizedText(lang, 'For maintainers', '维护者')}</h2>
-        <p>
-          {localizedText(
-            lang,
-            'Machine-readable exports and the repository inventory used by the tooling that maintains this atlas:',
-            '维护本图谱的工具所用的机器可读导出与仓库清单：',
-          )}
-        </p>
-        <ul>
-          <li>
-            <Link href={prefixPath(prefix, '/agent-sync')}>Agent sync</Link>
-            {localizedText(lang, ' — JSONL and manifest exports', ' — JSONL 与 manifest 导出')}
-          </li>
-          <li>
-            <Link href={prefixPath(prefix, '/repo-sync')}>{localizedText(lang, 'Repository sync', '仓库同步')}</Link>
-            {localizedText(lang, ' — files in the repository, by category', ' — 仓库文件分类清单')}
-          </li>
-        </ul>
-        <p>{localizedText(lang, 'The site is built by these commands, from the repository root:', '站点由以下命令构建（在仓库根目录运行）：')}</p>
-        <ul className="command-list">
-          {commands.map((cmd) => (
-            <li key={cmd}>
-              <code>{cmd}</code>
-            </li>
-          ))}
-        </ul>
       </section>
     </AppShell>
   );

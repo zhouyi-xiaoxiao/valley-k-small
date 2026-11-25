@@ -43,6 +43,10 @@ function slideSentence(lang: Lang, slide: TalkSlide) {
   return localized(lang, slide.sentence_en ?? slide.sentence, slide.sentence_cn ?? slide.sentence);
 }
 
+function slideKicker(lang: Lang, slide: TalkSlide) {
+  return localized(lang, slide.kicker_en ?? '', slide.kicker_cn ?? '');
+}
+
 function initialState(seed = 246813579): WalkState {
   return {
     position: SOURCE,
@@ -177,11 +181,12 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
   const polyline = trail.map((point) => `${point.x},${point.y}`).join(' ');
 
   const reset = () => setState((value) => initialState(value.seed + 97));
+  const kicker = slideKicker(lang, slide);
 
   return (
     <div className="talk-grid-hop-lab">
       <header className="talk-grid-hop-head">
-        <span className="talk-reveal-kicker">{slide.start} - {slide.end}</span>
+        {kicker ? <span className="talk-reveal-kicker">{kicker}</span> : null}
         <h1>{slideTitle(lang, slide)}</h1>
         <p>{slideSentence(lang, slide)}</p>
       </header>
@@ -254,7 +259,7 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
               <strong>{state.steps}</strong>
             </div>
             <div>
-              <span>{localized(lang, 'current run', '当前 run')}</span>
+              <span>{localized(lang, 'current run', '本次步数')}</span>
               <strong>{state.runSteps}</strong>
             </div>
             <div>
@@ -262,7 +267,7 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
               <strong>{state.hits}</strong>
             </div>
             <div>
-              <span>{localized(lang, 'last FPT', '上次 FPT')}</span>
+              <span>{localized(lang, 'last first-passage time', '上次首达时间')}</span>
               <strong>{state.lastHit ?? '--'}</strong>
             </div>
           </div>
@@ -323,8 +328,8 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
           <p className="talk-grid-hop-reading">
             {localized(
               lang,
-              'The curve later called f(t) is just many copies of this local jump process, stopped when a target is hit.',
-              '之后叫作 f(t) 的曲线，本质上就是许多条这样的局部跳动过程，在命中目标时停止并计数。',
+              'f(t) is the probability that this walk first hits a target at step t. Repeating the walk many times estimates it; the curves in the reports are computed directly from the transition probabilities.',
+              'f(t) 是这样一次游走在第 t 步首次到达目标的概率。重复走很多次可以估计它；报告里的曲线则是直接由转移概率算出来的。',
             )}
           </p>
         </aside>

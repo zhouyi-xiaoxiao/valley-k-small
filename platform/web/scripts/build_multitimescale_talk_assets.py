@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "public" / "data" / "v1" / "talks" / "multitimescale-encounter"
 ASSET_DIR = ROOT / "public" / "talk-assets" / "multitimescale-encounter"
 ASSET_URL = "/talk-assets/multitimescale-encounter"
-ASSET_VERSION = "20261125a"
+ASSET_VERSION = "20261125b"
 
 W = 800
 H = 560
@@ -201,7 +201,7 @@ T = {
         "s5_note": "κ = 0.004 · values from the one-target budget report",
         # slide 6 (deck slide 7)
         "s6_rows": [
-            ("Parity artifact", ["raw f(t) alternates odd/even;", "pairing them (F2): one peak"]),
+            ("Parity artifact", ["raw f(t) alternates odd/even;", "pair sums F2: one peak"]),
             ("Same-target long tail", ["one peak, then slow decay;", "meeting site does not change"]),
             ("Target-shift shoulder", ["a shoulder, no second maximum;", "meeting site shifts slightly"]),
         ],
@@ -251,7 +251,7 @@ T = {
         "s5_peak2": "第二峰",
         "s5_note": "κ = 0.004 · 数值取自单目标时间预算报告",
         "s6_rows": [
-            ("奇偶伪迹", ["原始 f(t) 奇偶步交替；", "两两合并（F2）后只有一个峰"]),
+            ("奇偶伪迹", ["原始 f(t) 奇偶步交替；", "两两相加得 F2：只有一个峰"]),
             ("同一目标的长尾", ["单峰之后缓慢衰减；", "相遇位置不变"]),
             ("目标移位形成的肩", ["只有肩，没有第二个极大值；", "相遇位置略有移动"]),
         ],
@@ -317,14 +317,20 @@ def slide2(lang: str) -> str:
             body.append(polyline(to_screen(tot, cx - 95, cy + 55, 190, 100, top), INK, 4))
             body.append(f'<path d="M {cx - 95} {cy + 55} H {cx + 100}" stroke="{SOFT}" stroke-width="2"/>')
         else:
+            # raw f(t) alternates between odd and even steps (0.8 and 0.2 of the
+            # local pair sum); the red envelope is F2 = f(2n-1) + f(2n), the sum
+            # of each odd/even pair, drawn on the same scale.
             env = sample(lambda s: gamma_pdf(s, 4, 6.0), 100.0, 40)
-            top = max(v for _, v in env)
-            comb = [(s, v * (1.6 if k % 2 == 0 else 0.4)) for k, (s, v) in enumerate(env)]
-            body.append(polyline(to_screen(comb, cx - 95, cy + 55, 190, 100, top * 1.6), INK, 2.5))
-            body.append(polyline(to_screen(env, cx - 95, cy + 55, 190, 100, top * 1.6), RED, 6))
+            top = max(v for _, v in env) * 1.12
+            comb = [(s, v * (0.8 if k % 2 == 0 else 0.2)) for k, (s, v) in enumerate(env)]
+            body.append(polyline(to_screen(comb, cx - 95, cy + 55, 190, 100, top), INK, 2.5))
+            body.append(polyline(to_screen(env, cx - 95, cy + 55, 190, 100, top), RED, 6))
+            body.append(text(cx - 10, cy - 34, "F2", 18, RED, 700))
+            body.append(text(cx + 30, cy + 2, "f(t)", 18, INK, 600))
             body.append(f'<path d="M {cx - 95} {cy + 55} H {cx + 100}" stroke="{SOFT}" stroke-width="2"/>')
         body.append(text(280, y + 56, title, 30, INK, 700))
         body.append(lines(280, y + 96, sub, 24))
+    body.append(schematic_tag(764, 54, lang, 18))
     return svg_doc("".join(body))
 
 
@@ -366,10 +372,10 @@ def slide3(lang: str) -> str:
         text(start[0] - 20, start[1] + 44, t["start"], 22, INK, 600, "middle"),
         text(target[0] - 6, target[1] - 26, t["target"], 22, RED, 600, "middle"),
         text(mx + 6, my - 22, t["shortcut"], 22, TEAL, 700, "middle"),
-        f'<path d="M 44 500 H 92" stroke="{TEAL}" stroke-width="8" stroke-linecap="round"/>',
-        text(102, 508, t["s3_early"], 22, SOFT),
-        f'<path d="M 214 500 H 262" stroke="{AMBER}" stroke-width="7" stroke-dasharray="12 8" stroke-linecap="round"/>',
-        text(272, 508, t["s3_late"], 22, SOFT),
+        f'<path d="M 44 470 H 92" stroke="{TEAL}" stroke-width="8" stroke-linecap="round"/>',
+        text(102, 478, t["s3_early"], 22, SOFT),
+        f'<path d="M 44 508 H 92" stroke="{AMBER}" stroke-width="7" stroke-dasharray="12 8" stroke-linecap="round"/>',
+        text(102, 516, t["s3_late"], 22, SOFT),
         text(434, 70, t["s3_right"], 28, INK, 700),
         schematic_tag(760, 68, lang),
         double_peak_plot(450, 470, 290, 300, lang, t["s3_early"], t["s3_late"], t["valley"]),
@@ -472,11 +478,15 @@ def slide6(lang: str) -> str:
         body.append(f'<path d="M {x0} {base} H {x0 + w + 8}" stroke="{SOFT}" stroke-width="3"/>')
         body.append(text(x0 + w + 14, base + 8, t["t"], 22, SOFT, 600))
         if i == 0:
+            # raw f(t): odd and even steps alternate (0.8 and 0.2 of the pair
+            # sum); red: F2 = f(2n-1) + f(2n), the sum of each pair, same scale.
             env = sample(lambda s: gamma_pdf(s, 5, 6.0), 100.0, 44)
-            top = max(v for _, v in env) * 1.6
-            comb = [(s, v * (1.6 if k % 2 == 0 else 0.4)) for k, (s, v) in enumerate(env)]
+            top = max(v for _, v in env) * 1.12
+            comb = [(s, v * (0.8 if k % 2 == 0 else 0.2)) for k, (s, v) in enumerate(env)]
             body.append(polyline(to_screen(comb, x0, base, w, h, top), INK, 2.5))
             body.append(polyline(to_screen(env, x0, base, w, h, top), RED, 6))
+            body.append(text(x0 + 0.24 * w + 24, base - h + 6, "F2", 18, RED, 700))
+            body.append(text(x0 + 0.24 * w + 50, base - 0.55 * h, "f(t)", 18, INK, 600))
         elif i == 1:
             pts = sample(tail, 160.0)
             body.append(polyline(to_screen(pts, x0, base, w, h), TEAL, 6))
@@ -486,8 +496,7 @@ def slide6(lang: str) -> str:
             maxima, _ = extrema(vals)
             assert len(maxima) == 1, maxima  # shoulder only: no second maximum
             body.append(polyline(to_screen(pts, x0, base, w, h), AMBER, 6))
-        if i == 0:
-            body.append(schematic_tag(764, y + 34, lang, 18))
+        body.append(schematic_tag(764, y + 34, lang, 18))
         body.append(text(390, y + 56, title, 28, INK, 700))
         body.append(lines(390, y + 94, sub, 22))
     return svg_doc("".join(body))
@@ -557,8 +566,11 @@ def image(name: str, alt_en: str, alt_cn: str) -> dict:
 #   artifacts/encounter_search/results/final_report.md (two lazy walkers,
 #   finite 1D reflecting lattice, synchronous update, co-location only,
 #   no shortcut, exact absorbing chain, N = 15, 21, 31; robust F2 double
-#   peaks found: 0). Shortcut encounter reports (ring and 2D) do report
-#   double-peaked encounter curves.
+#   peaks found: 0). Other encounter models report double peaks: the
+#   drifted ring with a shortcut (ring_two_walker_encounter_shortcut,
+#   is_bimodal from beta = 0.15) and the 2D lattice with shortcuts
+#   (grid2d_two_walker_encounter_shortcut, beta = 0.30-0.60, valley ratio
+#   0.80-0.90, i.e. weak).
 
 
 def slide(
@@ -617,7 +629,7 @@ def build_talk_data() -> None:
         slide(
             2, "evidence-grammar", "0:50", "1:55",
             ("Evidence rules", "证据规则"),
-            ("A peak is a claim that needs a ledger", "一个峰是一项需要证据账本的论断"),
+            ("A peak is a claim that needs a ledger", "每个峰都是一项论断，要拿出证据"),
             (
                 "Three checks: a mechanism, a decomposition of f(t) into its sources, and an artifact filter. Shape alone is not enough.",
                 "三项检查：提出机制；把 f(t) 按来源分解；排除伪迹。只看形状不够。",
@@ -625,8 +637,8 @@ def build_talk_data() -> None:
             ("Can we say what generated the curve?", "能说清这条曲线是怎么来的吗？"),
             evidence=image(
                 "slide2-evidence-grammar",
-                "Three checks: mechanism, decomposition of f(t) into a fast and a slow part, and an artifact filter that rules out parity combs, long tails and weak shoulders.",
-                "三项检查：机制；把 f(t) 分解为快、慢两部分；排除奇偶锯齿、长尾和弱肩等伪迹。",
+                "Schematic: three checks, namely a mechanism, a decomposition of f(t) into a fast and a slow part, and an artifact filter that rules out parity combs (raw f(t) alternating between odd and even steps; the red line is the pair sum F2), long tails and weak shoulders.",
+                "示意图：三项检查，即机制；把 f(t) 分解为快、慢两部分；排除奇偶锯齿（原始 f(t) 在奇、偶步之间交替，红线是两两相加得到的 F2）、长尾和弱肩等伪迹。",
             ),
         ),
         slide(
@@ -671,7 +683,7 @@ def build_talk_data() -> None:
                 "示意图：左为单目标，沿通道直达或先到通道外绕行；右为双目标，近目标较早到达，远目标较晚。",
             ),
             links=[
-                link("2D lattice: membrane near the target", "二维格点：目标附近的半透膜", "/reports/grid2d_membrane_near_target/"),
+                link("2D lattice: corridor membranes and two targets", "二维格点：通道半透膜与双目标", "/reports/grid2d_membrane_near_target/"),
                 link("2D lattice: two targets", "二维格点：双目标", "/reports/grid2d_two_target_double_peak/"),
             ],
         ),
@@ -696,20 +708,24 @@ def build_talk_data() -> None:
             ("Negative result", "负结果"),
             ("The encounter model is the guardrail", "相遇模型是一道护栏"),
             (
-                "In an exact (no Monte Carlo) model of two lazy walkers on a finite 1D reflecting lattice with no shortcut (synchronous steps, meeting means sharing a site, N = 15, 21, 31), no scanned case gave a robust double peak in F2, the first-encounter distribution with odd and even steps paired. Apparent second bumps were parity artifacts, long tails or weak shoulders. With a shortcut, the ring and 2D encounter reports do find double-peaked curves.",
-                "在一个精确计算（不用蒙特卡洛）的模型里：两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，走到同一格点即算相遇，N = 15、21、31。所有扫描情形中，F2（把奇、偶步两两合并后的首次相遇分布）都没有出现稳健的双峰；看似的第二个凸起是奇偶伪迹、长尾或弱肩。加上捷径后，环上和二维的相遇报告确实找到了双峰曲线。",
+                "In an exact (no Monte Carlo) model of two lazy walkers on a finite 1D reflecting lattice with no shortcut (synchronous steps, meeting means sharing a site, N = 15, 21, 31), no scanned case gave a robust double peak in F2, the first-encounter distribution with odd and even steps paired. Apparent second bumps were parity artifacts, long tails or weak shoulders. Other encounter models do report double peaks: two walkers drifting in opposite directions on a ring with a shortcut (a clear double peak from shortcut strength β ≈ 0.15), and on a 2D lattice with shortcuts (a weak one: the valley is 80–90% of the peak). The negative result is specific to the model above.",
+                "在一个精确计算（不用蒙特卡洛）的模型里：两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，走到同一格点即算相遇，N = 15、21、31。所有扫描情形中，F2（把奇、偶步两两合并后的首次相遇分布）都没有出现稳健的双峰；看上去像第二峰的凸起，其实是奇偶伪迹、长尾或弱肩。其他相遇模型确实报告了双峰：环上两个漂移方向相反的游走者，加一条捷径（捷径强度 β 约 0.15 起出现清晰的双峰）；以及带捷径的二维格点（双峰很弱：谷是峰高的 80%–90%）。这个负结果只针对上面这个模型。",
             ),
             ("Which apparent late features should be rejected?", "哪些看似晚峰的特征应该被否定？"),
             evidence=image(
                 "slide6-encounter-guardrail",
-                "Schematic of three rejected shapes: a parity comb that becomes one peak after pairing odd and even steps; a single peak with a long tail; a shoulder with no second maximum.",
-                "三种被否定形状的示意图：奇偶交替的锯齿，合并奇偶步后只剩一个峰；单峰加长尾；只有肩、没有第二个极大值。",
+                "Schematic of three rejected shapes: a parity comb (raw f(t) alternating between odd and even steps) whose pair sums F2 = f(2n−1) + f(2n), the red line, have one peak; a single peak with a long tail; a shoulder with no second maximum.",
+                "示意图，三种被否定的形状：奇偶锯齿（原始 f(t) 在奇、偶步之间交替），两两相加得到的 F2 = f(2n−1) + f(2n)（红线）只有一个峰；单峰加长尾；只有肩、没有第二个极大值。",
             ),
-            links=[link("Exact encounter report", "精确相遇报告", "/reports/final_multitimescale_fpt_encounter/")],
+            links=[
+                link("Exact encounter report", "精确相遇报告", "/reports/final_multitimescale_fpt_encounter/"),
+                link("Ring encounter with a shortcut", "环上相遇（带捷径）", "/reports/ring_two_walker_encounter_shortcut/"),
+                link("2D encounter with shortcuts", "二维格点相遇（带捷径）", "/reports/grid2d_two_walker_encounter_shortcut/"),
+            ],
         ),
         slide(
             8, "mechanism-lab", "7:30", "8:50",
-            ("Schematic explorer", "示意交互"),
+            ("Schematic explorer", "交互示意"),
             ("Try the evidence rules", "试一试这套证据规则"),
             (
                 "Switch among the ring, 2D lattice and encounter cases to see which evidence each one needs before a second peak counts.",
@@ -752,8 +768,8 @@ def build_talk_data() -> None:
         "subtitle_cn": "首达时间分布里的双峰什么时候算证据：环上捷径、二维格点与精确相遇核对",
         "audience_en": "Research audience across disciplines",
         "audience_cn": "面向不同方向的研究者",
-        "occasion_en": "Interactive 10-minute talk · Xiaoxiao Zhouyi · slides revised May 2026",
-        "occasion_cn": "十分钟交互式报告 · 周易潇潇 · 幻灯 2026 年 5 月修订",
+        "occasion_en": "Interactive 10-minute talk · Xiaoxiao Zhouyi · web slides prepared in May 2026",
+        "occasion_cn": "十分钟交互式报告 · 周易潇潇 · 网页幻灯 2026 年 5 月制作",
         "duration_minutes": 10,
         "theme_en": "Mechanism evidence, not shape-chasing",
         "theme_cn": "讲机制证据，不追逐形状",
@@ -792,12 +808,12 @@ def build_talk_data() -> None:
             "Compare time outside the corridor with membrane crossing.",
         ),
         (
-            "The exact encounter model matters because its answer is no. For two lazy walkers on a finite one-dimensional reflecting lattice without a shortcut, moving synchronously and meeting only by sharing a site, with N = 15, 21 or 31, none of the scanned cases gives a robust double peak in F2, the distribution with odd and even steps paired. The unusual shapes are parity artifacts, same-target long tails or weak target-shift shoulders. This is limited to that model; with a shortcut, the ring and 2D encounter reports do find double peaks.",
+            "The exact encounter model matters because its answer is no. For two lazy walkers on a finite one-dimensional reflecting lattice without a shortcut, moving synchronously and meeting only by sharing a site, with N = 15, 21 or 31, none of the scanned cases gives a robust double peak in F2, the distribution with odd and even steps paired. The unusual shapes are parity artifacts, same-target long tails or weak target-shift shoulders. This is limited to that model; other encounter models, a drifted ring with a shortcut and a 2D lattice with shortcuts, do give double peaks, clear on the ring and weak in 2D.",
             "State the negative result with its scope: no shortcut, 1D reflecting, synchronous, co-location, N = 15, 21, 31.",
             "State the negative result and its scope.",
         ),
         (
-            "This panel is a schematic summary, not computed data. The ring case is a supported mechanism. The 2D case needs a decomposition before the second peak counts. The encounter case is the guardrail: once odd and even steps are paired, the apparent second bump is gone.",
+            "This panel is a schematic summary, not computed data. The ring case is a supported mechanism. The 2D case needs a decomposition before the second peak counts. The encounter case is the guardrail: after pairing odd and even steps (F2), what remains is one peak with a long tail or a weak shoulder, never a robust second peak.",
             "Switch between the three cases once while speaking.",
             "Demonstrate the case selector.",
         ),
@@ -839,12 +855,12 @@ def build_talk_data() -> None:
             "比较通道外停留时间与穿膜概率。",
         ),
         (
-            "精确相遇模型之所以重要，是因为它给出的答案是否定的。两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，只有走到同一格点才算相遇，N 取 15、21 或 31。所有扫描情形里，F2（把奇、偶步两两合并后的分布）都没有稳健的双峰。那些反常的形状是奇偶伪迹、同一目标的长尾，或目标移位形成的弱肩。这个结论只适用于这个模型；加上捷径后，环上和二维的相遇报告确实找到了双峰。",
+            "精确相遇模型之所以重要，是因为它给出的答案是否定的。两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，只有走到同一格点才算相遇，N 取 15、21 或 31。所有扫描情形里，F2（把奇、偶步两两合并后的分布）都没有稳健的双峰。那些反常的形状是奇偶伪迹、同一目标的长尾，或目标移位形成的弱肩。这个结论只适用于这个模型；其他相遇模型，比如带漂移和捷径的环、带捷径的二维格点，确实给出双峰：环上清晰，二维较弱。",
             "讲负结果时同时讲清范围：无捷径、一维反射边界、同步更新、同格相遇、N = 15、21、31。",
             "讲负结果及其适用范围。",
         ),
         (
-            "这个面板是示意性的总结，不是计算数据。环的情形是成立的机制；二维情形要先做分解，第二峰才算数；相遇情形是护栏：奇偶步合并以后，看似的第二个凸起就消失了。",
+            "这个面板是示意性的总结，不是计算数据。环的情形是成立的机制；二维情形要先做分解，第二峰才算数；相遇情形是护栏：把奇偶步两两合并（F2）以后，剩下的是一个峰加长尾或弱肩，没有稳健的第二峰。",
             "边讲边把三种情形各切换一次。",
             "演示情形切换。",
         ),

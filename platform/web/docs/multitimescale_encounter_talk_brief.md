@@ -25,8 +25,10 @@ The talk should move from positive examples to guardrails:
    without a shortcut (synchronous update, co-location encounters, N = 15, 21,
    31), no scanned case produced a robust F2 double peak. Its unusual shapes are
    better explained as parity artifacts, same-target long tails, or weak
-   target-shift shoulders. Always state this scope: with a shortcut, the ring
-   and 2D encounter reports do find double-peaked encounter curves.
+   target-shift shoulders. Always state this scope: other encounter models do
+   report double peaks, clear for two oppositely drifting walkers on a ring
+   with a shortcut (from shortcut strength about 0.15) and weak on the 2D
+   lattice with shortcuts (valley 80-90% of the peak).
 
 The ending should make the project feel upgraded from "finding double peaks" to
 "building an evidence grammar for when a double peak means mechanism."

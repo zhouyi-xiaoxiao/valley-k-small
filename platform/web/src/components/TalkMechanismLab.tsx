@@ -71,13 +71,13 @@ const CASES: MechanismCase[] = [
     headlineEn: 'Geometry decides whether route and target competition stay visible.',
     headlineCn: '几何决定路径竞争和目标竞争是否还能看得见。',
     mechanismEn:
-      'Time spent outside the corridor, membrane crossing and target placement each move probability between the early and late windows; a decomposition has to show which one does.',
-    mechanismCn: '通道外停留时间、穿过半透膜和目标位置，都会把概率在早、晚两个时间窗之间挪动；必须靠分解说明是哪一个。',
+      'Time spent outside the corridor, membrane crossing and target placement are candidate causes; a decomposition has to show which one moves probability into the late window (in the one-target lattice it is time outside the corridor, not membrane crossing).',
+    mechanismCn: '通道外停留时间、穿过半透膜和目标位置都是可能的原因；必须靠分解说明是哪一个把概率挪到晚时间窗（在单目标格点上，是在通道外停留的时间，而不是穿过半透膜）。',
     verdictEn: 'Supported after decomposition',
     verdictCn: '分解后成立',
     reportHref: '/reports/grid2d_membrane_near_target/',
-    reportLabelEn: '2D lattice: membrane near the target',
-    reportLabelCn: '二维格点：目标附近的半透膜',
+    reportLabelEn: '2D lattice: corridor membranes and two targets',
+    reportLabelCn: '二维格点：通道半透膜与双目标',
     xLabelEn: 'first-passage time t',
     xLabelCn: '首达时间 t',
     yLabel: 'f(t)',
@@ -91,17 +91,17 @@ const CASES: MechanismCase[] = [
     headlineEn: 'Not every late bump is a real second peak.',
     headlineCn: '不是每个晚到的凸起都是真正的第二峰。',
     mechanismEn:
-      'Two lazy walkers on a finite 1D reflecting lattice without a shortcut, moving synchronously and meeting only on the same site: raw f(t) alternates between odd and even steps, and once the pairs are merged (F2) one peak and a long tail remain.',
+      'Two lazy walkers on a finite 1D reflecting lattice without a shortcut, moving synchronously and meeting only on the same site: raw f(t) can alternate between odd and even steps; after pairing (F2), what remains is one peak with a long tail or a weak shoulder, never a robust second peak.',
     mechanismCn:
-      '两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，只有走到同一格点才算相遇：原始 f(t) 在奇、偶步之间交替；把奇偶步两两合并（F2）后，只剩一个峰和一条长尾。',
+      '两个懒惰游走者在有限长、反射边界、无捷径的一维格点上同步行走，只有走到同一格点才算相遇：原始 f(t) 可能在奇、偶步之间交替；把奇偶步两两合并（F2）后，剩下的是一个峰加长尾或弱肩，没有稳健的第二峰。',
     verdictEn: 'Guardrail: no robust F2 double peak in the scanned no-shortcut 1D cases',
     verdictCn: '护栏：扫描过的无捷径一维情形中，F2 没有稳健双峰',
     reportHref: '/reports/final_multitimescale_fpt_encounter/',
     reportLabelEn: 'Exact encounter report',
     reportLabelCn: '精确相遇报告',
-    xLabelEn: 'first-encounter time, odd/even steps paired',
-    xLabelCn: '首次相遇时间（奇偶步合并）',
-    yLabel: 'F2',
+    xLabelEn: 'first-encounter time t',
+    xLabelCn: '首次相遇时间 t',
+    yLabel: 'f(t), F2',
     values: sampleCurve(160, (t) => hump(t, 4, 6) + 0.18 * hump(t, 1.6, 40)),
     color: '#b91c1c',
   },
@@ -148,12 +148,13 @@ export function TalkMechanismLab({
     [selectedId],
   );
   const isEncounter = selected.id === 'encounter';
-  // For the encounter case the dashed line is the raw curve, which alternates
-  // between odd and even steps around the paired (F2) envelope.
+  // For the encounter case the dashed line is the raw curve f(t), which
+  // alternates between odd and even steps; the solid line is F2, the sum of
+  // each odd/even pair (F2[n] = f(2n - 1) + f(2n)), on the same scale.
   const raw = isEncounter
-    ? selected.values.map((value, index) => (index % 2 === 0 ? value * 1.6 : value * 0.4))
+    ? selected.values.map((value, index) => (index % 2 === 0 ? value * 0.8 : value * 0.2))
     : null;
-  const maxY = Math.max(...(raw ?? selected.values)) * 1.08;
+  const maxY = Math.max(...selected.values) * 1.08;
   const plotW = 600;
   const plotH = 260;
   const kicker = slideKicker(lang, slide);
@@ -236,14 +237,19 @@ export function TalkMechanismLab({
               strokeLinejoin="round"
             />
             <g transform="translate(396 92)">
-              <rect width="290" height={raw ? 88 : 56} rx="12" fill="#ffffff" stroke="#d6d6ca" />
+              <rect width="290" height={raw ? 116 : 56} rx="12" fill="#ffffff" stroke="#d6d6ca" />
               <text x="18" y="36" className="talk-mechanism-small-title">
                 {localized(lang, selected.labelEn, selected.labelCn)}
               </text>
               {raw ? (
-                <text x="18" y="68" className="talk-mechanism-small">
-                  {localized(lang, 'dashed: raw f(t), odd/even steps', '虚线：原始 f(t)，奇偶步交替')}
-                </text>
+                <>
+                  <text x="18" y="68" className="talk-mechanism-small">
+                    {localized(lang, 'dashed: raw f(t), odd/even steps', '虚线：原始 f(t)，奇偶步交替')}
+                  </text>
+                  <text x="18" y="96" className="talk-mechanism-small">
+                    {localized(lang, 'solid: F2 = f(2n−1) + f(2n)', '实线：F2 = f(2n−1) + f(2n)')}
+                  </text>
+                </>
               ) : null}
             </g>
           </svg>

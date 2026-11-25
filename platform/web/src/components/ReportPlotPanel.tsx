@@ -289,16 +289,22 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       return [];
     }
 
-    const movingAverage = (values: number[], windowSize: number): number[] => {
+    const isNumber = (value: number | null): value is number => typeof value === 'number' && Number.isFinite(value);
+    // Gaps (null: e.g. no second peak at that β) stay gaps and are not
+    // averaged in as zeros.
+    const movingAverage = (values: Array<number | null>, windowSize: number): Array<number | null> => {
       if (windowSize <= 1) {
         return values;
       }
       const half = Math.floor(windowSize / 2);
-      return values.map((_, index) => {
+      return values.map((value, index) => {
+        if (!isNumber(value)) {
+          return value;
+        }
         const start = Math.max(0, index - half);
         const end = Math.min(values.length, index + half + 1);
-        const slice = values.slice(start, end);
-        const sum = slice.reduce((acc, value) => acc + value, 0);
+        const slice = values.slice(start, end).filter(isNumber);
+        const sum = slice.reduce((acc, item) => acc + item, 0);
         return sum / Math.max(1, slice.length);
       });
     };
@@ -308,10 +314,10 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       .map((series) => {
         const semantic = semanticsByName.get(series.name);
         const canTransform = semantic ? semantic.series_type === 'metric' || semantic.series_type === 'probability' : false;
-        const smooth = canTransform ? movingAverage(series.y, smoothWindow) : series.y;
-        const maxAbs = Math.max(...smooth.map((item) => Math.abs(item)), 1e-12);
-        const normalized = canTransform && normalize ? smooth.map((item) => (Number.isFinite(item) ? item / maxAbs : item)) : smooth;
-        const y = yScale === 'log' ? normalized.map((item) => (item > 0 ? item : null)) : normalized;
+        const smooth: Array<number | null> = canTransform ? movingAverage(series.y, smoothWindow) : series.y;
+        const maxAbs = Math.max(...smooth.filter(isNumber).map((item) => Math.abs(item)), 1e-12);
+        const normalized = canTransform && normalize ? smooth.map((item) => (isNumber(item) ? item / maxAbs : item)) : smooth;
+        const y = yScale === 'log' ? normalized.map((item) => (isNumber(item) && item > 0 ? item : null)) : normalized;
         return {
           ...series,
           y,

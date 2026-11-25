@@ -535,53 +535,64 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
         "en": {
             "title": "Lazy Ring Shortcut: Which Routes Make Each Peak",
             "summary": (
-                "This revision reorganizes the lazy-shortcut extension into a publication-ready evidence flow: co-located Fig.1 overlays "
-                "f(t) with window-level class bars, while threshold, window-shift/width, and MC-uncertainty analyses test robustness. "
-                "The update strengthens readability and reproducibility without changing the core mechanism claims."
+                "At ring size N = 100 and shortcut strength β = 0.01, the first-passage distribution f(t) of the lazy ring has an early hump, "
+                "a valley and a late hump under both step rules: peaks at steps 53 and 1124 for K = 2, and at steps 32 and 495 for K = 4. "
+                "Monte Carlo trajectories show who arrives in each time window. The early window consists entirely of walkers that used the "
+                "shortcut, the late window mostly of walkers that never did; for K = 4, about a quarter of the late window are walkers that "
+                "stepped over the target without landing on it. Shifting or widening the windows changes these shares by less than 0.006, "
+                "and the 95% Monte Carlo intervals are narrower than the differences between windows."
             ),
             "narrative": {
                 "model_overview": (
-                    "The chapter keeps the same lazy ring shortcut setup used in the extension baseline and focuses on clearer evidence alignment "
-                    "between K=2 and K=4 under the selected beta regime."
+                    "Lazy walk on a ring of N = 100 sites: each step it stays put with probability 1/3, else moves one site either way "
+                    "when K = 2, or up to two when K = 4. The target is opposite the start; a directed shortcut from five sites past the start "
+                    "to beside the target is taken with probability β/3 per step, β = 0.01."
                 ),
                 "method_overview": (
-                    "The pipeline exports standardized Fig.1 inputs, validates schema, renders stacked-bar co-located panels, and runs three "
-                    "sensitivity tracks: threshold sweep, window perturbation, and MC confidence intervals."
+                    "f(t) comes from numerically inverting the exact generating function, up to step 4000. Three windows sit on the "
+                    "detected peaks and valley; Monte Carlo trajectories, labelled by shortcut use and by stepping over the target, give "
+                    "each class's share per window. Thresholds, windows and sampling error are then checked."
                 ),
                 "result_overview": (
-                    "Across the three sensitivity tracks, the qualitative mechanism interpretation remains stable, and uncertainty bars do not "
-                    "contradict the phase-level conclusions used in the main narrative."
+                    "The early peak is made by walkers that took the shortcut and the late peak mainly by walkers that went the long way "
+                    "round. For K = 4, stepping over the target adds a second delay route, and K = 4 passes the bimodality thresholds "
+                    "more often than K = 2."
                 ),
             },
             "key_findings": [
-                "Co-located Fig.1 directly aligns peak/valley timing with class proportions, improving interpretability over split-panel layouts.",
-                "Schema-validated JSON/CSV inputs make figure reconstruction auditable and reproducible.",
-                "Threshold and window perturbation scans preserve the main mechanism ranking rather than flipping conclusions.",
-                "MC uncertainty intervals are compatible with the reported phase statements for K=2 and K=4.",
+                "The early-peak window of f(t) consists entirely of walkers that used the shortcut, for both K = 2 and K = 4.",
+                "In the late-peak window, walkers that never used the shortcut are the majority: about 60% for K = 2 and 93% for K = 4.",
+                "For K = 4, about a quarter of the late-peak window are walkers that stepped over the target without landing on it, a delay route that K = 2 does not have.",
+                "Shifting or widening the windows changes the class shares by less than 0.006; over a sweep of detection thresholds, K = 4 is classed as bimodal in about 60% of settings and K = 2 in about 33%.",
             ],
         },
         "cn": {
             "title": "环上懒惰随机游走：每个峰由哪些路径构成",
             "summary": (
-                "该修订版把 lazy-shortcut 扩展重构为出版物级证据链：图1将 f(t) 与窗口分类柱状同轴展示，并加入阈值扫描、窗口位移/宽度扰动、"
-                "MC 不确定性三类敏感性分析。在不改变核心机制结论的前提下，显著提升了可读性与可复现性。"
+                "环长 N = 100、捷径强度 β = 0.01 时，环上懒惰随机游走的首达时间分布 f(t) 在两种步长规则下都有早峰、谷和晚峰："
+                "K = 2 时两个峰在第 53 步和第 1124 步，K = 4 时在第 32 步和第 495 步。蒙特卡洛轨迹给出每个时间窗口里到达的是哪类游走者："
+                "早峰窗口里全部是走过捷径的游走者，晚峰窗口里多数从未走过捷径；K = 4 时，晚峰窗口里约四分之一的游走者曾跨过目标而没有落在目标上。"
+                "平移或加宽窗口，各类占比的变化小于 0.006；蒙特卡洛 95% 置信区间也比窗口之间的差异窄。"
             ),
             "narrative": {
                 "model_overview": (
-                    "模型保持与扩展基线一致的 lazy ring + shortcut 设定，重点是在选定 beta 区间下更清晰地对齐 K=2 与 K=4 的证据表达。"
+                    "N = 100 个格点的环上的懒惰随机游走：每一步以 1/3 的概率原地不动，否则 K = 2 时向左或向右走 1 格，K = 4 时走 1 格或 2 格。"
+                    "目标在起点正对面。一条有向捷径从起点往前第 5 个格点通到目标旁边的格点，游走者在捷径起点每步以 β/3 的概率走捷径，β = 0.01。"
                 ),
                 "method_overview": (
-                    "流程包括标准化导出图1输入、schema 校验、同轴栈叠面板绘制，以及阈值、窗口扰动、MC 置信区间三条敏感性分析链。"
+                    "f(t) 由精确生成函数数值反演得到，算到第 4000 步。以检测到的两个峰和谷为中心取三个窗口；"
+                    "蒙特卡洛轨迹按是否走过捷径、是否跨过目标分类，给出每个窗口里各类的占比，再做阈值、窗口和抽样误差三项检验。"
                 ),
                 "result_overview": (
-                    "三类敏感性分析下，机制解释在定性层面保持稳定，且不确定性区间未推翻主线中的相区判断。"
+                    "早峰来自走了捷径的游走者，晚峰主要来自绕远路的游走者。K = 4 时，跨过目标构成第二条延迟路径；"
+                    "在双峰判据的阈值扫描中，K = 4 比 K = 2 更常被判为双峰。"
                 ),
             },
             "key_findings": [
-                "同轴图1将峰谷时序与路径类别比例直接对齐，优于分面板展示。",
-                "经 schema 校验的 JSON/CSV 输入使图形可重建、可审计。",
-                "阈值与窗口扰动测试未改变核心机制排序，结论具有稳健性。",
-                "MC 置信区间与 K=2/K=4 的主结论一致，不构成反证。",
+                "在 K = 2 和 K = 4 两种情形下，f(t) 早峰窗口里的游走者全部走过捷径。",
+                "晚峰窗口里，从未走过捷径的游走者占多数：K = 2 时约 60%，K = 4 时约 93%。",
+                "K = 4 时，晚峰窗口里约四分之一的游走者曾跨过目标而没有落在目标上，这是 K = 2 没有的一条延迟路径。",
+                "平移或加宽窗口，各类占比的变化小于 0.006；在检测阈值扫描中，K = 4 约有 60% 的设置被判为双峰，K = 2 约为 33%。",
             ],
         },
     },

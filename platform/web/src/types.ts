@@ -527,6 +527,8 @@ export type TalkFigureReference = {
   full_bleed?: boolean;
   hide_caption?: boolean;
   show_overlay?: boolean;
+  /** Chinese-language variant of the image; falls back to `src`. */
+  src_cn?: string;
 };
 
 export type TalkAnimationSpec = {
@@ -581,6 +583,9 @@ export type TalkSlide = {
   sentence_cn?: string;
   question_en: string;
   question_cn: string;
+  /** Short content label shown above the slide title (never a timing). */
+  kicker_en?: string;
+  kicker_cn?: string;
   animation?: TalkAnimationSpec;
   evidence?: TalkEvidenceSpec;
   links?: TalkEvidenceLink[];
@@ -596,6 +601,9 @@ export type TalkDeckManifest = {
   subtitle_cn: string;
   audience_en: string;
   audience_cn: string;
+  /** What the talk is: occasion, place, date, speaker. Shown on every slide. */
+  occasion_en?: string;
+  occasion_cn?: string;
   duration_minutes: number;
   theme_en: string;
   theme_cn: string;

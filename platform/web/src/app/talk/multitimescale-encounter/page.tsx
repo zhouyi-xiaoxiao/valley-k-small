@@ -3,7 +3,7 @@ import { renderTalkPage } from '@/lib/render-talk-pages';
 export const metadata = {
   title: 'Hidden Routes, Real Peaks',
   description:
-    'An interactive valley-k-small talk on first-passage double peaks, route mechanisms, and exact encounter guardrails.',
+    'An interactive 10-minute talk (slides revised May 2026) on when a double peak in a first-passage-time distribution counts as evidence: ring shortcuts, 2D lattices and exact two-walker encounter checks.',
 };
 
 export default function MultitimescaleEncounterTalkPage() {

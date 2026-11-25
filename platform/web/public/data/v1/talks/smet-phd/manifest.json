@@ -1,35 +1,52 @@
 {
   "talk_id": "smet-phd",
-  "title_en": "Hidden Routes in First-Passage Time",
+  "title_en": "Hidden routes in first-passage time",
   "title_cn": "首达时间中的隐藏路径",
-  "subtitle_en": "A recent research line on how random-walk hitting-time distributions encode fast and slow pathways.",
-  "subtitle_cn": "最近几个月推进的一条研究线：随机游走首达时间分布如何编码快慢路径。",
-  "audience_en": "Broad SMET PhD audience",
-  "audience_cn": "面向不同方向的 SMET PhD 听众",
+  "subtitle_en": "How the full distribution of first-passage times on a ring and on 2D lattices records fast and slow routes to a target.",
+  "subtitle_cn": "环上和二维格点上，首达时间的完整分布如何记录到达目标的快路径与慢路径。",
+  "audience_en": "SEMT PhD researchers across disciplines",
+  "audience_cn": "SEMT 各方向的博士生",
   "duration_minutes": 10,
-  "theme_en": "Mechanism first, evidence second, outlook and mathematics last.",
-  "theme_cn": "先讲机制，再给证据，最后落到开放问题与数学骨架。",
+  "theme_en": "Definition first, then computed examples on a ring and on 2D lattices, then the open question and the mathematics.",
+  "theme_cn": "先给定义，再看环和二维格点上的计算实例，最后是开放问题和数学骨架。",
   "slides": [
     {
       "id": "opening",
       "order": 1,
       "start": "0:00",
       "end": "0:40",
-      "reporting": ["ring_lazy_jump", "ring_lazy_flux"],
-      "title": "Hidden Routes in First-Passage Time",
-      "sentence": "A one-target ring can still split into a fast branch, a valley, and a delayed branch once a directed shortcut is present.",
-      "question_en": "What scientific question links the recent ring and 2D work?",
-      "question_cn": "最近的 ring 和 2D 工作，到底被哪个科学问题串起来？",
+      "reporting": [
+        "ring_lazy_flux"
+      ],
+      "title": "Hidden routes in first-passage time",
+      "sentence": "On a ring with one target, a single directed shortcut can split the first-passage-time distribution into an early peak, a valley and a delayed peak.",
+      "question_en": "What question ties the ring and the 2D work together?",
+      "question_cn": "环上的工作和二维格点上的工作，由哪个问题串起来？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide1-hero.svg?v=20260415g",
-        "alt_en": "Realistic 1D ring hero slide with shortcut and bimodal first-passage curve",
-        "alt_cn": "带有 shortcut 与双峰首达曲线的 1D ring 开场图",
-        "caption_en": "",
-        "caption_cn": "",
-        "full_bleed": true,
-        "hide_caption": true
-      }
+        "src": "/talk-assets/smet-phd/fig1-ring-hero.en.svg?v=20261125a",
+        "src_cn": "/talk-assets/smet-phd/fig1-ring-hero.cn.svg?v=20261125a",
+        "alt_en": "Left: schematic ring with a start, a target and a shortcut from u to v. Right: computed first-passage distribution with peaks at t = 51 and t = 1,021 and a valley at t = 290.",
+        "alt_cn": "左：带起点、目标和一条从 u 到 v 的捷径的环（示意图）。右：计算所得的首达时间分布，峰在 t = 51 和 t = 1,021，谷在 t = 290。",
+        "caption_en": "f(t) = P(T = t) is the probability that the walker first reaches the target at step t. Left: schematic, not to scale. Right: computed exactly by stepping the master equation forward. Ring of N = 100 sites; start at site 1, absorbing target at site 50, one directed shortcut from site 6 to site 51. Everywhere except site 6 the walker stays, steps left or steps right with probability 1/3 each. At site 6 the shortcut is taken with probability 0.0067 per step. Peaks at t = 51 and 1,021, valley at t = 290; time axis logarithmic.",
+        "caption_cn": "f(t) = P(T = t) 是游走者在第 t 步第一次到达目标的概率。左图为示意图，未按比例；右图由主方程逐步推进精确算出。环上共 N = 100 个格点；起点为第 1 格，吸收目标为第 50 格，一条单向捷径从第 6 格通到第 51 格。除第 6 格外，游走者每一步留在原地、向左、向右的概率各为 1/3。在第 6 格，每一步走捷径的概率为 0.0067。峰在 t = 51 和 1,021，谷在 t = 290；时间轴为对数刻度。",
+        "full_bleed": false,
+        "hide_caption": false,
+        "show_overlay": true
+      },
+      "kicker_en": "Research talk",
+      "kicker_cn": "研究报告",
+      "title_en": "Hidden routes in first-passage time",
+      "title_cn": "首达时间中的隐藏路径",
+      "sentence_en": "On a ring with one target, a single directed shortcut can split the first-passage-time distribution into an early peak, a valley and a delayed peak.",
+      "sentence_cn": "在只有一个目标的环上，一条单向捷径就能把首达时间分布分成早峰、谷和晚峰。",
+      "links": [
+        {
+          "label_en": "Ring report (lazy ring, shortcut)",
+          "label_cn": "环上捷径报告",
+          "href": "/reports/ring_lazy_flux/"
+        }
+      ]
     },
     {
       "id": "basic-idea",
@@ -37,139 +54,238 @@
       "start": "0:40",
       "end": "1:35",
       "reporting": [],
-      "title": "What Is First-Passage Time?",
+      "title": "What is first-passage time?",
       "sentence": "It is the first time a walker reaches a target.",
       "question_en": "What quantity are we actually measuring?",
-      "question_cn": "我们到底在测什么量？",
+      "question_cn": "我们到底在测量什么量？",
       "animation": {
         "kind": "basic-walk"
-      }
+      },
+      "kicker_en": "Definition",
+      "kicker_cn": "定义",
+      "title_en": "What is first-passage time?",
+      "title_cn": "什么是首达时间？",
+      "sentence_en": "It is the first time a walker reaches a target.",
+      "sentence_cn": "它是随机游走者第一次到达目标的时刻。"
     },
     {
       "id": "why-double-peaks",
       "order": 3,
       "start": "1:35",
       "end": "2:20",
-      "reporting": ["ring_lazy_flux", "ring_lazy_jump_ext_rev2"],
-      "title": "Why a Double Peak Matters",
-      "sentence": "A single peak means one dominant timescale; a double peak means two route families remain visible.",
+      "reporting": [],
+      "title": "Why a double peak matters",
+      "sentence": "A single peak usually means one dominant arrival timescale. A double peak often signals two groups of paths with different delays; the mechanism still has to be checked.",
       "question_en": "Why look at the whole distribution instead of one average time?",
       "question_cn": "为什么要看整条分布，而不是只看一个平均时间？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide3-single-vs-double.svg?v=20260415g",
-        "alt_en": "Single peak versus double peak schematic explanation",
-        "alt_cn": "单峰与双峰的示意解释图",
-        "caption_en": "",
-        "caption_cn": "",
-        "full_bleed": true,
-        "hide_caption": true
-      }
+        "src": "/talk-assets/smet-phd/fig3-single-vs-double.en.svg?v=20261125a",
+        "src_cn": "/talk-assets/smet-phd/fig3-single-vs-double.cn.svg?v=20261125a",
+        "alt_en": "Schematic: a single-peaked curve and a double-peaked curve with peak 1, valley and peak 2 marked.",
+        "alt_cn": "示意图：一条单峰曲线和一条标出峰 1、谷、峰 2 的双峰曲线。",
+        "caption_en": "Schematic, not computed: illustrative shapes only. Both curves start at zero (start and target differ) and decay at long times.",
+        "caption_cn": "示意图，非计算结果，仅示意形状。两条曲线都从零开始（起点与目标不同），并在长时间后衰减。",
+        "full_bleed": false,
+        "hide_caption": false,
+        "show_overlay": true
+      },
+      "kicker_en": "Why the shape matters",
+      "kicker_cn": "为什么要看形状",
+      "title_en": "Why a double peak matters",
+      "title_cn": "为什么双峰值得关注",
+      "sentence_en": "A single peak usually means one dominant arrival timescale. A double peak often signals two groups of paths with different delays; the mechanism still has to be checked.",
+      "sentence_cn": "单峰通常意味着只有一个主导的到达时间尺度；双峰往往提示存在两类延迟不同的路径，但具体机制仍需核实。"
     },
     {
       "id": "ring-single-target",
       "order": 4,
       "start": "2:20",
       "end": "3:35",
-      "reporting": ["ring_lazy_jump", "ring_lazy_jump_ext", "ring_lazy_jump_ext_rev2"],
-      "title": "Single Target on a Ring",
-      "sentence": "The same shortcut ring can stay broad or split into two visible timescales.",
-      "question_en": "How does a minimal single-target shortcut model produce one peak in one regime and two peaks in another?",
-      "question_cn": "最小单目标 shortcut ring 是怎样在一个 regime 下保持单峰、在另一个 regime 下分裂成双峰的？",
+      "reporting": [
+        "ring_lazy_flux"
+      ],
+      "title": "One ring, one shortcut: one sharp case and one split case",
+      "sentence": "Same ring, same shortcut, two rules at the shortcut site. Taken often, the shortcut gives one sharp peak and a long tail; taken rarely, the distribution splits into an early peak carried by shortcut users and a late peak mostly made of walkers that never used it.",
+      "question_en": "How does one minimal shortcut model give one peak under one rule and two peaks under another?",
+      "question_cn": "同一个最简单的捷径模型，为什么换一条规则就从单峰变成双峰？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide4-ring-cases.svg?v=20260415g",
-        "alt_en": "Realistic ring shortcut geometry paired with a real one-peak versus two-peak ring figure",
-        "alt_cn": "真实 ring shortcut 几何与真实单峰/双峰 ring 图的组合页",
-        "caption_en": "",
-        "caption_cn": "",
-        "full_bleed": true,
-        "hide_caption": true
-      }
+        "src": "/talk-assets/smet-phd/fig4-ring-two-rules.en.svg?v=20261125a",
+        "src_cn": "/talk-assets/smet-phd/fig4-ring-two-rules.cn.svg?v=20261125a",
+        "alt_en": "Computed f(t) for two rules at site 6: with shortcut probability 1/4, one sharp peak at t = 27 and a long tail; with shortcut probability 0.0067, peaks at t = 51 and t = 1,021 and a valley at t = 290.",
+        "alt_cn": "第 6 格两种规则下计算所得的 f(t)：走捷径概率为 1/4 时，t = 27 处一个尖峰加长尾；走捷径概率为 0.0067 时，峰在 t = 51 和 t = 1,021，谷在 t = 290。",
+        "caption_en": "Ring of N = 100 sites; start at site 1, absorbing target at site 50, one directed shortcut from site 6 to site 51. Everywhere except site 6 the walker stays, steps left or steps right with probability 1/3 each. At site 6: top, stay, left, right and shortcut 1/4 each; bottom, the shortcut takes probability 0.0067 from staying. Computed exactly by stepping the master equation forward, tracking whether each walker has used the shortcut. A peak is a strict local maximum above 10⁻⁷ that is at least 1% of the highest (the report's criterion). Time axes logarithmic; the two y-axes differ.",
+        "caption_cn": "环上共 N = 100 个格点；起点为第 1 格，吸收目标为第 50 格，一条单向捷径从第 6 格通到第 51 格。除第 6 格外，游走者每一步留在原地、向左、向右的概率各为 1/3。第 6 格：上图留在原地、向左、向右、走捷径各 1/4；下图走捷径的概率 0.0067 取自留在原地的概率。由主方程逐步推进精确算出，并记录每个游走者是否走过捷径。峰的判据与报告相同：严格局部极大、高于 10⁻⁷、且不低于最高峰的 1%。时间轴为对数刻度，上下两图纵轴量级不同。",
+        "full_bleed": false,
+        "hide_caption": false,
+        "show_overlay": true
+      },
+      "kicker_en": "Computed example: one ring",
+      "kicker_cn": "计算实例：单目标环",
+      "title_en": "One ring, one shortcut: one sharp case and one split case",
+      "title_cn": "同一个环、同一条捷径：一种尖锐单峰，一种分成两峰",
+      "sentence_en": "Same ring, same shortcut, two rules at the shortcut site. Taken often, the shortcut gives one sharp peak and a long tail; taken rarely, the distribution splits into an early peak carried by shortcut users and a late peak mostly made of walkers that never used it.",
+      "sentence_cn": "同一个环、同一条捷径，只改捷径起点处的规则。捷径常被走时，分布是一个尖峰加长尾；很少被走时，分布分成两峰：早峰来自走了捷径的游走者，晚峰主要来自从未走过捷径的游走者。",
+      "links": [
+        {
+          "label_en": "Ring report (lazy ring, shortcut)",
+          "label_cn": "环上捷径报告",
+          "href": "/reports/ring_lazy_flux/"
+        }
+      ]
     },
     {
       "id": "recent-single-target",
       "order": 5,
       "start": "3:35",
       "end": "4:50",
-      "reporting": ["ring_lazy_jump_ext_rev2", "ring_valley", "ring_valley_dst"],
-      "title": "Route Design Changes the Distribution",
-      "sentence": "Retuning the shortcut destination changes both late-branch strength and late-branch timing.",
-      "question_en": "What did the recent single-target scans add beyond the minimal example?",
-      "question_cn": "最近这几个月的单目标扫描，新增了什么信息？",
+      "reporting": [
+        "ring_valley_dst"
+      ],
+      "title": "Where the shortcut lands decides whether a second peak appears",
+      "sentence": "On a second ring model, only landing sites 36–39 and 62–64 give a well-separated second peak. When the shortcut lands within 7 sites of the target (43–57), the two maxima are only 2–4 steps apart, and for most landing sites there is no second peak at all.",
+      "question_en": "What does scanning the shortcut's landing site add beyond the single example?",
+      "question_cn": "扫描捷径的落点，比单个例子多告诉了我们什么？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide5-route-config.svg?v=20260415g",
-        "alt_en": "Real destination scans for late-branch weight and peak timings",
-        "alt_cn": "真实终点扫描图：晚分支权重与峰位时间",
-        "caption_en": "",
-        "caption_cn": "",
-        "full_bleed": true,
-        "hide_caption": true
-      }
+        "src": "/talk-assets/smet-phd/fig5-destination-scan.en.svg?v=20261125a",
+        "src_cn": "/talk-assets/smet-phd/fig5-destination-scan.cn.svg?v=20261125a",
+        "alt_en": "Destination scan: second-peak height and the two peak times against the shortcut's landing site; well-separated second peaks only for landing sites 36–39 and 62–64.",
+        "alt_cn": "落点扫描：第二峰高度和两峰时间随捷径落点的变化；只有落点 36–39 和 62–64 出现分得开的第二峰。",
+        "caption_en": "A different model from the previous slide: ring of N = 100 sites where each step goes to one of the 6 nearest sites (±1, ±2, ±3) with equal probability; start = site 1 = source of the shortcut; target at site 50 (absorbing); at site 1 the shortcut is one extra, equally likely option. f(t) from numerical inversion of the generating function (Abate–Whitt). Second peak as in the report: a strict local maximum above 10⁻⁷ that is at least 1% of the highest. A(t₂) is the height of f at the second peak. Landing sites 2–4 and 98–100 are already neighbours of site 1 and are not scanned.",
+        "caption_cn": "与上一页不是同一个模型：环上共 N = 100 个格点，每一步等概率跳到最近的 6 个格点之一（±1、±2、±3）；起点为第 1 格，也是捷径的出发点；目标为第 50 格（吸收）；在第 1 格，捷径是多出来的一个等概率选项。f(t) 由生成函数的数值反演（Abate–Whitt 方法）得到。第二峰判据与报告相同：严格局部极大、高于 10⁻⁷、且不低于最高峰的 1%。A(t₂) 是第二峰处 f 的高度。落点 2–4 和 98–100 本来就是第 1 格的邻居，不在扫描之列。",
+        "full_bleed": false,
+        "hide_caption": false,
+        "show_overlay": true
+      },
+      "kicker_en": "Single-target result: landing-site scan",
+      "kicker_cn": "单目标结果：落点扫描",
+      "title_en": "Where the shortcut lands decides whether a second peak appears",
+      "title_cn": "捷径落在哪里，决定第二峰是否出现",
+      "sentence_en": "On a second ring model, only landing sites 36–39 and 62–64 give a well-separated second peak. When the shortcut lands within 7 sites of the target (43–57), the two maxima are only 2–4 steps apart, and for most landing sites there is no second peak at all.",
+      "sentence_cn": "在另一个环模型上，只有落点在 36–39 和 62–64 时才出现分得开的第二峰；落点在目标两侧 7 格以内（43–57）时，两个极大只差 2–4 步；大多数落点根本没有第二峰。",
+      "links": [
+        {
+          "label_en": "Landing-site scan report",
+          "label_cn": "捷径落点扫描报告",
+          "href": "/reports/ring_valley_dst/"
+        }
+      ]
     },
     {
       "id": "from-ring-to-2d",
       "order": 6,
       "start": "4:50",
       "end": "6:05",
-      "reporting": ["grid2d_bimodality", "grid2d_two_target_double_peak"],
-      "title": "Which 2D Configurations Keep a Double Peak Visible?",
-      "sentence": "In two dimensions, geometry decides whether one route family dominates or whether two visible timescales survive.",
-      "question_en": "What kinds of 2D spatial configuration can actually keep a double peak visible?",
-      "question_cn": "什么样的二维空间 configuration 才能真正让双峰保持可见？",
+      "reporting": [
+        "grid2d_membrane_near_target"
+      ],
+      "title": "Two 2D layouts that keep two timescales visible",
+      "sentence": "On a rectangular lattice with a weak uniform drift, a corridor with leaky walls (one target) and an open lattice with a near and a far target (no corridor) both give a clear double peak, and in both the double peak depends on the drift.",
+      "question_en": "What kinds of 2D layout actually keep a double peak visible?",
+      "question_cn": "什么样的二维布局才能让双峰保持可见？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide6-2d-targets.svg?v=20260415g",
-        "alt_en": "One-target partition schematic paired with a two-target companion geometry",
-        "alt_cn": "单目标 partition 示意图与双目标 companion geometry 的组合页",
-        "caption_en": "",
-        "caption_cn": "",
-        "full_bleed": true,
-        "hide_caption": true
-      }
+        "src": "/talk-assets/smet-phd/fig6-2d-layouts.en.svg?v=20261125a",
+        "src_cn": "/talk-assets/smet-phd/fig6-2d-layouts.cn.svg?v=20261125a",
+        "alt_en": "Computed first-passage distributions for two 2D layouts: one target in a corridor with leaky walls (peaks at t = 394 and 1,696) and two targets without a corridor (peaks at t = 11 and 739).",
+        "alt_cn": "两种二维布局计算所得的首达时间分布：通道壁可渗漏的单目标布局（峰在 t = 394 和 1,696），以及没有通道的双目标布局（峰在 t = 11 和 739）。",
+        "caption_en": "Reflecting rectangular lattice, 60 sites long and 16 wide; each step the walker moves to a neighbour with total probability 0.8 (otherwise it stays), with a uniform drift b_x along the long side. Start at x = 7, far target at x = 58; f(t) computed exactly from the transition probabilities up to t = 5,000. Top: drift b_x = −0.08 (away from the target) and a corridor 5 sites wide on the midline that pushes the walker towards the target; its walls (x = 5–54, open at both ends) let an attempted crossing through with probability κ = 0.002. Bottom: no corridor, drift b_x = +0.07 (towards the far target); a second target 2 sites along and 3 across from the start. The drift matters: in this report's two-target scan, b_x = 0 gives a single peak, and in the corridor scan of the rectangular-lattice report (same start and target) a clear double peak appears only at b_x = −0.08. Peak and valley times come from the report's classifier, which rates both curves 'clear double peak'. Insets are schematic.",
+        "caption_cn": "反射边界的矩形格点，长 60、宽 16；游走者每一步以总概率 0.8 移向相邻格点（否则留在原地），并带一个沿长边方向的均匀漂移 b_x。起点在 x = 7，远目标在 x = 58；f(t) 由转移概率精确算到 t = 5,000。上图：漂移 b_x = −0.08（背离目标），中线上有一条宽 5 格、把游走者推向目标的通道；通道壁位于 x = 5–54、两端开口，每次穿越尝试以概率 κ = 0.002 被放行。下图：没有通道，漂移 b_x = +0.07（朝向远目标）；第二个目标距起点沿长边 2 格、沿短边 3 格。漂移是关键：本报告的双目标扫描中，b_x = 0 时只有单峰；矩形格点报告的通道扫描（起点和目标相同）中，只有 b_x = −0.08 时才出现清楚的双峰。峰和谷的时刻取自报告的分类器，它把两条曲线都判为「清楚的双峰」。小图为示意。",
+        "full_bleed": false,
+        "hide_caption": false,
+        "show_overlay": true
+      },
+      "kicker_en": "From one target to two, in 2D",
+      "kicker_cn": "二维：从一个目标到两个目标",
+      "title_en": "Two 2D layouts that keep two timescales visible",
+      "title_cn": "两种保留两个时间尺度的二维布局",
+      "sentence_en": "On a rectangular lattice with a weak uniform drift, a corridor with leaky walls (one target) and an open lattice with a near and a far target (no corridor) both give a clear double peak, and in both the double peak depends on the drift.",
+      "sentence_cn": "在带弱均匀漂移的矩形格点上，带可渗漏通道壁的单目标布局，和没有通道、一近一远两个目标的布局，都给出清楚的双峰，而且两种情形的双峰都依赖这个漂移。",
+      "links": [
+        {
+          "label_en": "2D report: membranes and two targets",
+          "label_cn": "二维报告：半透壁与双目标",
+          "href": "/reports/grid2d_membrane_near_target/"
+        }
+      ]
     },
     {
       "id": "outside-vs-membrane",
       "order": 7,
       "start": "6:05",
       "end": "7:35",
-      "reporting": ["grid2d_membrane_near_target", "grid2d_two_target_double_peak"],
-      "title": "Outside Excursion or Membrane Crossing?",
-      "sentence": "Peak2 separates from the valley more strongly through outside-time budget than through membrane probability alone.",
-      "question_en": "Is the late mechanism mainly outside motion, or mainly the membrane event itself?",
-      "question_cn": "晚峰机制主要是 outside motion，还是主要是 membrane crossing 本身？",
+      "reporting": [
+        "grid2d_one_target_valley_peak_budget"
+      ],
+      "title": "Time outside the corridor, or crossing its wall?",
+      "sentence": "Compared with the valley, late hits spend far more steps outside the corridor before reaching the target (about 1,300 against 700 at κ = 0 and κ = 0.004), while the chance of having crossed a wall is almost the same in both windows.",
+      "question_en": "Is the late peak mainly time spent outside the corridor, or mainly the wall crossing itself?",
+      "question_cn": "晚峰主要来自在通道外停留的时间，还是主要来自穿过通道壁这件事本身？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide7-membrane-plateau.svg?v=20260415g",
-        "alt_en": "Symmetric corridor geometry with outside-budget and membrane-budget evidence",
-        "alt_cn": "对称 corridor 几何，以及 outside-budget 与 membrane-budget 的证据页",
-        "caption_en": "",
-        "caption_cn": "",
-        "full_bleed": true,
-        "hide_caption": true
-      }
+        "src": "/talk-assets/smet-phd/fig7-outside-vs-wall.en.svg?v=20261125a",
+        "src_cn": "/talk-assets/smet-phd/fig7-outside-vs-wall.cn.svg?v=20261125a",
+        "alt_en": "Bar charts for a one-target corridor: expected steps outside the corridor before the hit (valley 718, 705, 815; late window 1,311, 1,288, 1,080 for κ = 0, 0.004, 0.0152) and probability of crossing a wall before the hit (0 and 0; 18.3% and 19.7%; 49.3% and 53.2%).",
+        "alt_cn": "单目标通道的柱图：到达前在通道外停留的平均步数（κ = 0、0.004、0.0152 时，谷分别为 718、705、815，晚峰时间窗分别为 1,311、1,288、1,080），以及到达前穿过通道壁的概率（0 与 0；18.3% 与 19.7%；49.3% 与 53.2%）。",
+        "caption_en": "Symmetric one-target corridor of report grid2d_one_target_valley_peak_budget (a different corridor set-up from the previous slide). Valley and late window: hits whose times fall around the minimum and around the second maximum of f(t). κ: probability that an attempted step across a corridor wall is accepted (κ = 0: walls fully reflecting, so no crossing). Values as published in the report, which gives no uncertainty; at κ = 0.004 the report rates the late maximum as a weak double peak. The report also finds that after a first crossing, late-window paths still need more steps to reach the target (336 against 213 at κ = 0.004).",
+        "caption_cn": "数据来自报告 grid2d_one_target_valley_peak_budget 的对称单目标通道（与上一页不是同一个通道设置）。谷与晚峰时间窗：到达时刻落在 f(t) 极小附近和第二个极大附近的轨迹。κ：每次试图跨过通道壁的一步被放行的概率（κ = 0 时通道壁完全反射，不会穿越）。数值取自报告原文，报告未给出误差；κ = 0.004 时，报告把晚峰判为弱双峰。报告还发现，第一次穿壁之后，晚峰时间窗的轨迹仍需更多步才到达目标（κ = 0.004 时 336 步对 213 步）。",
+        "full_bleed": false,
+        "hide_caption": false,
+        "show_overlay": true
+      },
+      "kicker_en": "One-target corridor: what delays the late hits?",
+      "kicker_cn": "单目标通道：晚到的轨迹慢在哪里",
+      "title_en": "Time outside the corridor, or crossing its wall?",
+      "title_cn": "是在通道外停留，还是穿过通道壁？",
+      "sentence_en": "Compared with the valley, late hits spend far more steps outside the corridor before reaching the target (about 1,300 against 700 at κ = 0 and κ = 0.004), while the chance of having crossed a wall is almost the same in both windows.",
+      "sentence_cn": "与谷相比，晚峰时间窗里的轨迹在到达目标前，在通道外停留的步数多得多（κ = 0 和 κ = 0.004 时约 1,300 步对 700 步）；而两个时间窗里穿过通道壁的概率几乎相同。",
+      "links": [
+        {
+          "label_en": "Valley/peak budget report",
+          "label_cn": "谷与峰的步数账本报告",
+          "href": "/reports/grid2d_one_target_valley_peak_budget/"
+        }
+      ]
     },
     {
       "id": "many-targets",
       "order": 8,
       "start": "7:35",
       "end": "8:50",
-      "reporting": ["grid2d_two_target_double_peak", "grid2d_two_walker_encounter_shortcut", "ring_two_target", "ring_two_walker_encounter_shortcut"],
-      "title": "From One Target to Many Potential Targets",
-      "sentence": "The next step is to separate route competition from target competition, and then understand how they combine.",
-      "question_en": "Where does this research line go next once there is more than one possible target?",
-      "question_cn": "一旦系统里不止一个目标，这条研究线最自然会走向哪里？",
+      "reporting": [
+        "grid2d_membrane_near_target"
+      ],
+      "title": "From two targets to many",
+      "sentence": "With two targets the peaks can belong to different targets: in the open-lattice case, the early window is all near-target hits and the late window 99.8% far-target hits. With many targets the open questions are screening, crowding and rare late winners.",
+      "question_en": "Where does this line of work go once there is more than one possible target?",
+      "question_cn": "一旦不止一个可能的目标，这条研究线接下来往哪里走？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/slide8-target-mechanisms.svg?v=20260415g",
-        "alt_en": "Two-target mechanism page and many-target outlook page",
-        "alt_cn": "双目标机制页与多目标展望页",
-        "caption_en": "",
-        "caption_cn": "",
-        "full_bleed": true,
-        "hide_caption": true
-      }
+        "src": "/talk-assets/smet-phd/fig8-two-targets.en.svg?v=20261125a",
+        "src_cn": "/talk-assets/smet-phd/fig8-two-targets.cn.svg?v=20261125a",
+        "alt_en": "Two-target lattice: f(t) split into near-target and far-target hits, and the share of near and far hits in the peak 1, valley and peak 2 windows (100% near; 73% near, 27% far; 99.8% far).",
+        "alt_cn": "双目标格点：按到达近目标和远目标拆分的 f(t)，以及峰 1、谷、峰 2 三个时间窗里近、远目标所占比例（近 100%；近 73%、远 27%；远 99.8%）。",
+        "caption_en": "The two-target case of the previous slide (no corridor, drift b_x = +0.07 towards the far target; near target 2 sites along and 3 across from the start). f(t) is the sum of the near-target and far-target parts; over all times 33% of hits are at the near target and 67% at the far one. Windows as in the report: t = 1–37, 281–333 and 713–765.",
+        "caption_cn": "即上一页的双目标布局（没有通道，漂移 b_x = +0.07 朝向远目标；近目标距起点沿长边 2 格、沿短边 3 格）。f(t) 是到达近目标和远目标两部分之和；全部时间合计，33% 的到达在近目标，67% 在远目标。时间窗与报告一致：t = 1–37、281–333、713–765。",
+        "full_bleed": false,
+        "hide_caption": false,
+        "show_overlay": true
+      },
+      "kicker_en": "Next step",
+      "kicker_cn": "下一步",
+      "title_en": "From two targets to many",
+      "title_cn": "从两个目标到多个目标",
+      "sentence_en": "With two targets the peaks can belong to different targets: in the open-lattice case, the early window is all near-target hits and the late window 99.8% far-target hits. With many targets the open questions are screening, crowding and rare late winners.",
+      "sentence_cn": "有两个目标时，两个峰可以分属不同的目标：在没有通道的布局里，早峰时间窗全部是到达近目标的轨迹，晚峰时间窗 99.8% 是到达远目标的轨迹。目标更多时，待解的问题是屏蔽、拥挤，以及少数很晚才到达远处目标的游走者。",
+      "links": [
+        {
+          "label_en": "2D report: membranes and two targets",
+          "label_cn": "二维报告：半透壁与双目标",
+          "href": "/reports/grid2d_membrane_near_target/"
+        }
+      ]
     },
     {
       "id": "formula-foundations",
@@ -177,13 +293,21 @@
       "start": "8:50",
       "end": "10:00",
       "reporting": [],
-      "title": "Minimal Mathematical Backbone",
-      "sentence": "The basic 2D random-walk evolution, the first-hit time T, and the first-passage distribution f(t) are the mathematical core behind all of these figures.",
+      "title": "Minimal mathematical backbone",
+      "sentence": "The same three objects underlie every figure: a master equation on the sites (ring or 2D lattice), the first-hit time T and its distribution f(t).",
       "question_en": "What are the smallest equations you can keep in mind while listening to the story?",
-      "question_cn": "如果只记最小的一组公式，应该记什么？",
+      "question_cn": "如果只记最少的几个公式，应该记哪几个？",
       "animation": {
         "kind": "formula-foundations"
-      }
+      },
+      "kicker_en": "Mathematical backbone",
+      "kicker_cn": "数学骨架",
+      "title_en": "Minimal mathematical backbone",
+      "title_cn": "最小的数学骨架",
+      "sentence_en": "The same three objects underlie every figure: a master equation on the sites (ring or 2D lattice), the first-hit time T and its distribution f(t).",
+      "sentence_cn": "每一张图背后都是同样三样东西：格点（环或二维格点）上的主方程、首达时间 T，以及它的分布 f(t)。"
     }
-  ]
+  ],
+  "occasion_en": "10-minute talk · SEMT Ideas Exchange Day, University of Bristol · 15 April 2026 · Speaker: Xiaoxiao Zhouyi · For SEMT PhD researchers across disciplines",
+  "occasion_cn": "10 分钟报告 · 布里斯托大学 SEMT Ideas Exchange Day · 2026 年 4 月 15 日 · 报告人：周易潇潇 · 听众：SEMT 各方向的博士生"
 }

@@ -6,82 +6,82 @@
       "slide_id": "opening",
       "start": "0:00",
       "end": "0:40",
-      "title": "Hidden Routes in First-Passage Time",
-      "spoken_text": "In recent months, I have been developing a research line around one question: if a random walker can reach the same target through more than one effective route, what can the first-passage distribution tell us about those hidden routes? The shape I care about is not just one peak, but an early peak, a valley, and then a delayed branch. Today I will start from a realistic one-dimensional ring with a directed shortcut, move to two-dimensional spatial geometries, and then finish with the next step, which is competition between targets as well as competition between routes.",
+      "title": "Hidden routes in first-passage time",
+      "spoken_text": "This line of work asks one question: if a random walker can reach the same target by more than one kind of route, what can the full distribution of arrival times tell us about those routes? The shape I care about is an early peak, a valley and a delayed peak. I start from a ring with one target and one directed shortcut, move to two-dimensional lattices, and finish with what changes when there is more than one target.",
       "speaker_notes": "",
-      "timing_prompt": "Open with the one-question roadmap: 1D ring, 2D geometry, then many-target outlook."
+      "timing_prompt": "Roadmap: ring, then 2D lattices, then several targets."
     },
     {
       "slide_id": "basic-idea",
       "start": "0:40",
       "end": "1:35",
-      "title": "What Is First-Passage Time?",
-      "spoken_text": "Let me define the quantity first. A random walk is just a stochastic process that moves step by step. The first-passage time asks when the walker reaches the target for the first time. We repeat that many times and collect those first-hit times into a distribution. This matters because one average value hides too much structure. If the system really has one dominant arrival route, we usually see one dominant timescale. But if two route families survive with different delays, then the full distribution can keep both of them visible.",
+      "title": "What is first-passage time?",
+      "spoken_text": "First the quantity. A random walk moves one step at a time at random. The first-passage time is the step at which the walker reaches the target for the first time; the walk stops there. Repeating the walk many times gives a histogram, and in the limit the distribution f(t). An average time would hide its shape: one dominant route usually gives one peak, while two kinds of route with different delays can leave two peaks.",
       "speaker_notes": "",
-      "timing_prompt": "Use the animation to teach first hit from zero background. Point out that the path stops once the target is reached."
+      "timing_prompt": "The animation shows the walk stopping at the target and the histogram building up."
     },
     {
       "slide_id": "why-double-peaks",
       "start": "1:35",
       "end": "2:20",
-      "title": "Why a Double Peak Matters",
-      "spoken_text": "This is why the shape itself matters. A single peak usually means one dominant arrival scale. A double peak suggests that two route families remain statistically visible. The valley between them is also meaningful, because it is the interval where neither family is dominating. So the distribution is not just output. It is compressed mechanism information. That intuition motivates the rest of the talk.",
+      "title": "Why a double peak matters",
+      "spoken_text": "This is why the shape matters. A single peak usually means one dominant arrival timescale. A double peak often signals two groups of paths with different delays, and the valley between them is the time range where neither group dominates. The shape is a clue to the mechanism, not a proof: each case still has to be checked, which is what the next slides do.",
       "speaker_notes": "",
-      "timing_prompt": "Keep this page intuitive and light. The audience only needs to accept that shape can encode hidden route structure."
+      "timing_prompt": "The curves here are schematic."
     },
     {
       "slide_id": "ring-single-target",
       "start": "2:20",
       "end": "3:35",
-      "title": "Single Target on a Ring",
-      "spoken_text": "I begin with the simplest realistic single-target model: a periodic ring, one absorbing target, and one directed shortcut. The left schematic shows the actual geometry, with the shortcut as a straight edge from one ring site to another. The right panel is a real comparison from the ring study. One regime stays broad and effectively single-peaked. Another regime keeps a visible early branch and a visible delayed branch. So the lesson is not that every shortcut produces bimodality. The lesson is that bimodality appears only when two route families remain both separated in time and non-negligible in weight.",
+      "title": "One ring, one shortcut: one sharp case and one split case",
+      "spoken_text": "The simplest computed example: a ring of 100 sites, one absorbing target, and one directed shortcut from site 6 to the site just beyond the target. Everywhere else the walker stays, steps left or steps right with probability one third each. Only the rule at the shortcut site changes between the two panels. If the shortcut is taken with probability one quarter, most walkers use it quickly: one sharp peak at step 27 and a long tail. If it is taken rarely, the distribution splits: an early peak at step 51 made almost entirely of walkers that used the shortcut, and a late peak near step 1,021 where three quarters of the walkers never used it. So a shortcut does not automatically give two peaks; two peaks appear when the two kinds of route are separated in time and both carry weight.",
       "speaker_notes": "",
-      "timing_prompt": "Use the ring to make fast branch versus delayed branch feel concrete. This is the cleanest minimal mechanism page."
+      "timing_prompt": "Both panels are exact computations; the y-axes differ."
     },
     {
       "slide_id": "recent-single-target",
       "start": "3:35",
       "end": "4:50",
-      "title": "Route Design Changes the Distribution",
-      "spoken_text": "The next step in the recent work was to ask what controls the delayed branch. The answer is more specific than simply saying that a shortcut exists. As the shortcut destination is retuned, the late branch changes both in strength and in timing. In some destination ranges it becomes clearer; in others it weakens again. So the effect is not monotone. This is the real single-target result I want to stress: route design is part of the physics. The distribution responds to concrete changes in branch timing and branch weight, not just to a vague topological modification.",
+      "title": "Where the shortcut lands decides whether a second peak appears",
+      "spoken_text": "Next, a second ring model, in which each step can go up to three sites either way and the shortcut leaves from the start. Here I move the shortcut's landing site around the ring. Only a few landing sites, 36 to 39 and 62 to 64, give a second peak that is well separated from the first, around step 100. When the shortcut lands within seven sites of the target, the two maxima are only two to four steps apart, which is too close to read as two kinds of route. For most landing sites there is no second peak at all. So where the route goes matters, and not monotonically.",
       "speaker_notes": "",
-      "timing_prompt": "Point to both plots: one changes height, the other changes peak location. Emphasize non-monotone dependence on destination."
+      "timing_prompt": "This is a different ring model from the previous slide."
     },
     {
       "slide_id": "from-ring-to-2d",
       "start": "4:50",
       "end": "6:05",
-      "title": "Which Spatial Configurations Create a Double Peak?",
-      "spoken_text": "Once the ring mechanism is clear, the next question is what kinds of spatial configuration can keep a double peak visible in two dimensions. On the left is the one-target partition picture: corridor, outside region, and target. On the right is a two-target companion drawn in the same grammar. The point is that the 1D story survives in 2D, but geometry now decides whether the two timescales persist. In the one-target case, the competition is between direct corridor transport and delayed outside-return motion. In the two-target case, route competition is still there, but target competition appears on top of it.",
+      "title": "Two 2D layouts that keep two timescales visible",
+      "spoken_text": "In two dimensions, the layout, together with a weak drift along the lattice, decides whether two timescales survive. Two layouts that do: a corridor whose walls occasionally let the walker through, with one target at the far end; and an open lattice with one target near the start and one far away. Both computed distributions have two clear peaks by the report's classifier, and in both cases the double peak depends on the drift. In the corridor, the competition is between going straight along the corridor and spending time outside it; with two targets, target competition is added.",
       "speaker_notes": "",
-      "timing_prompt": "Sell the continuity: same mechanism language, richer geometry. Use the matching visual grammar to make the jump feel natural."
+      "timing_prompt": "Both curves are exact computations; the small layout drawings are schematic."
     },
     {
       "slide_id": "outside-vs-membrane",
       "start": "6:05",
       "end": "7:35",
-      "title": "Outside Excursion or Membrane Crossing?",
-      "spoken_text": "This leads to the key one-target mechanism question in 2D. Is the delayed branch mainly an outside-excursion effect, or mainly a membrane-crossing effect? The left panel shows the symmetric corridor geometry. On the right, the upper chart tracks outside-budget separation between the valley and peak two, while the lower chart tracks membrane-related separation. The important message is that peak two separates from the valley more strongly through outside-time budget than through membrane probability alone. So membrane passage matters, but it is not the whole explanation by itself.",
+      "title": "Time outside the corridor, or crossing its wall?",
+      "spoken_text": "For a one-target corridor, is the late peak mainly about time spent outside the corridor, or about crossing the wall itself? Comparing hits in the valley with hits in the late window: late hits spend far more steps outside the corridor before reaching the target, about 1,300 against 700 when the walls are closed or nearly closed, while the probability of having crossed a wall is almost the same in both windows. So, in this set-up, wall crossing matters, but the delay comes mainly from the time spent outside.",
       "speaker_notes": "",
-      "timing_prompt": "Slow down here. This is the deepest mechanism page. Give one clear takeaway: outside budget separates valley and peak2 more strongly."
+      "timing_prompt": "Values are as published in the corridor report, which gives no uncertainty."
     },
     {
       "slide_id": "many-targets",
       "start": "7:35",
       "end": "8:50",
-      "title": "From One Target to Many Potential Targets",
-      "spoken_text": "The next natural step is to move beyond one target. With two targets, a peak may already encode not just a route family, but a route-target pair. The representative split on the left shows exactly that kind of target preference across windows. Once there are many possible targets, more mechanisms can appear: nearby targets can screen far ones, target classes can compete, and rare late winners may survive at long times. So the open question is no longer just whether the distribution is bimodal. It is what physical mechanism is making it bimodal once route competition and target competition are both present.",
+      "title": "From two targets to many",
+      "spoken_text": "With two targets a peak can belong to a particular target. In the open-lattice case, the early window is entirely near-target hits and the late window almost entirely far-target hits. With many possible targets, new questions appear: nearby targets can screen far ones, groups of targets can compete, and a few walkers may reach a distant target very late. The open question is which mechanism makes the distribution bimodal when route competition and target competition act together.",
       "speaker_notes": "",
-      "timing_prompt": "End the physics story with momentum. Keep the future direction focused on target competition rather than listing too many side paths."
+      "timing_prompt": "Ends the physics with the open question."
     },
     {
       "slide_id": "formula-foundations",
       "start": "8:50",
       "end": "10:00",
-      "title": "Minimal Mathematical Backbone",
-      "spoken_text": "Let me end with the smallest mathematical backbone behind all of these figures. In two dimensions, the probability mass evolves by a discrete-time master equation on the lattice. The target enters as an absorbing condition through the first-hit time T. From T we define the survival probability S of not yet hitting, and then the first-passage distribution f of first hitting at step t. So although I have shown the story visually, the whole mechanism language is still anchored in a very standard stochastic process: a lattice walk, an absorbing target, and the first-hit distribution generated by that evolution.",
+      "title": "Minimal mathematical backbone",
+      "spoken_text": "Behind every figure is the same small set of objects. Probability moves over the sites by a discrete-time master equation, including, where the model allows it, the chance of staying put, and mass that reaches the target is removed because the target is absorbing. T is the first step at which the walker is on the target. The survival probability S(t) is the chance that this has not happened by step t, and the first-passage distribution f(t) is what S loses at step t.",
       "speaker_notes": "",
-      "timing_prompt": "Use this as a compact mathematical anchor, not as a derivation page. One minute is enough."
+      "timing_prompt": "A compact anchor, not a derivation."
     }
   ]
 }

@@ -20,13 +20,28 @@ The talk should move from positive examples to guardrails:
 1. Ring shortcut models show how a fast branch and delayed branch can coexist.
 2. Grid2D models show how geometry, targets, outside budget, and membrane
    crossing split the mechanism.
-3. The latest `final_multitimescale_fpt_encounter` work is the scientific
-   guardrail: the current reflecting synchronous co-location encounter model did
-   not produce a robust F2 double peak. Its unusual shapes are better explained
-   as parity artifacts, same-target long tails, or weak target-shift shoulders.
+3. The exact encounter pilot in `final_multitimescale_fpt_encounter` is the
+   scientific guardrail: for two lazy walkers on a finite 1D reflecting lattice
+   without a shortcut (synchronous update, co-location encounters, N = 15, 21,
+   31), no scanned case produced a robust F2 double peak. Its unusual shapes are
+   better explained as parity artifacts, same-target long tails, or weak
+   target-shift shoulders. Always state this scope: with a shortcut, the ring
+   and 2D encounter reports do find double-peaked encounter curves.
 
 The ending should make the project feel upgraded from "finding double peaks" to
 "building an evidence grammar for when a double peak means mechanism."
+
+## Reader-Facing Rules
+
+- Every schematic curve is labelled "schematic" / 「示意图」, starts at
+  f(0) = 0, shows complete peaks and a tail that decays; peak and valley
+  markers sit on the curve's actual extrema (the generator asserts this).
+- Kickers are content labels (`kicker_en` / `kicker_cn`), never rehearsal
+  timings; timings stay in the speaker notes.
+- Chinese text is written as native Chinese, with no untranslated English
+  terms; the generator writes a `.cn.svg` twin of every figure (`src_cn`).
+- No "latest" / "newest" wording; the deck states when it was made through
+  `occasion_en` / `occasion_cn`.
 
 ## Implementation Notes
 

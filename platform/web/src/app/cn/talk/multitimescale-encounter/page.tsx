@@ -3,7 +3,7 @@ import { renderTalkPage } from '@/lib/render-talk-pages';
 export const metadata = {
   title: '隐藏路径与真实双峰',
   description:
-    '一个关于 first-passage 双峰、路径机制与 exact encounter 护栏的 valley-k-small 交互式演讲。',
+    '十分钟交互式报告（幻灯 2026 年 5 月修订）：首达时间分布里的双峰什么时候算证据——环上捷径、二维格点，以及两个游走者相遇时间的精确核对。',
 };
 
 export default function CnMultitimescaleEncounterTalkPage() {

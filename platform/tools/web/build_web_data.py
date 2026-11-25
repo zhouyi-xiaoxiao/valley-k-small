@@ -1963,6 +1963,13 @@ def should_skip_repo_sync_path(path: Path) -> bool:
         return True
     if ".venv" in parts or "venv" in parts:
         return True
+    # Unpublished manuscript extras (correspondence, audit packets) and files
+    # named after a person are not mirrored; the one report slug that contains
+    # such a name stays (renaming it is the owner's decision).
+    if "extras" in parts:
+        return True
+    if any("luca" in part.lower() and not part.startswith("cross_luca_regime_map") for part in path.parts):
+        return True
     return False
 
 
@@ -1999,7 +2006,7 @@ def preview_text_for_repo_sync(path: Path) -> str:
         raw = path.read_text(encoding="utf-8", errors="ignore")
     except OSError:
         return ""
-    plain = normalize_space(raw[:6000])
+    plain = scrub_person_names(normalize_space(raw[:6000]))
     if not plain:
         return ""
     return canonical_summary(plain, max_chars=220)
@@ -3347,6 +3354,7 @@ def build_datasets(
         and "tables" not in p.parts
         and "_smoketest" not in p.parts
         and "extras" not in p.parts
+        and "luca" not in p.name.lower()
     ]
     data_candidates.sort(key=lambda p: p.as_posix())
 

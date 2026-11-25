@@ -43,8 +43,9 @@ export function loadRegistryStatus(): Record<string, ReportStatus> {
 
 export type ManuscriptLink = { lang: 'en' | 'cn'; href: string };
 
-// The written report for each language: the copy published with the site when
-// there is one, otherwise the PDF in the repository.
+// The written report for each language, as published with the site. A PDF that
+// is not published with the site gets no link (readers are not sent to the
+// repository).
 export function manuscriptLinks(reportId: string, meta: ReportMeta | null, withBase: (url: string) => string): ManuscriptLink[] {
   const links: ManuscriptLink[] = [];
   const candidates: Array<{ lang: 'en' | 'cn'; names: string[] }> = [
@@ -59,11 +60,6 @@ export function manuscriptLinks(reportId: string, meta: ReportMeta | null, withB
       );
       if (hosted) {
         href = withBase(hosted.web_path);
-        break;
-      }
-      const rel = path.join('research', 'reports', reportId, 'manuscript', name);
-      if (fs.existsSync(path.join(REPO_ROOT, rel))) {
-        href = `${REPO_URL}/blob/main/${rel.split(path.sep).join('/')}`;
         break;
       }
     }

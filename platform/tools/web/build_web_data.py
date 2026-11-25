@@ -3940,7 +3940,18 @@ def build_report_payload(
     tex_en = extract_tex_story(item, report_dir, report_id, "en")
     tex_cn = extract_tex_story(item, report_dir, report_id, "cn")
 
-    top_assets = gather_files(report_dir, {".pdf", ".tex"}, max_assets)
+    # The report's own manuscripts come first, so the asset cap never drops the
+    # PDFs the site links to (alphabetically, artifacts/ sorts before manuscript/).
+    manuscript_dir = report_dir / "manuscript"
+    main_docs = (
+        sorted(p for p in manuscript_dir.iterdir() if p.is_file() and p.suffix.lower() in {".pdf", ".tex"})
+        if manuscript_dir.is_dir()
+        else []
+    )
+    top_assets = (
+        main_docs
+        + [p for p in gather_files(report_dir, {".pdf", ".tex"}, max_assets + len(main_docs)) if p not in main_docs]
+    )[:max_assets]
     figure_assets = gather_files(report_dir / "figures" if (report_dir / "figures").exists() else report_dir, FIGURE_EXT, max_figures)
 
     assets: list[dict[str, Any]] = []

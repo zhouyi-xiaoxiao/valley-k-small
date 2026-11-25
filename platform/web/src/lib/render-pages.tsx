@@ -268,7 +268,11 @@ function pruneSectionCards(cards: Array<{ heading: string; summary: string; sour
 function lookupReportTitle(reportId: string, lang: Lang, network: ReportNetwork): string {
   const node = network.reports.find((row) => row.report_id === reportId);
   if (node) {
-    return lang === 'cn' ? node.title_cn : node.title_en;
+    // Reports with no write-up yet carry a generated Chinese placeholder title; show the English one.
+    if (lang === 'cn' && !isPlaceholderText(node.title_cn)) {
+      return node.title_cn;
+    }
+    return node.title_en;
   }
   const meta = loadReportMeta(reportId, lang);
   return meta?.title || reportId;

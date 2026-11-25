@@ -110,7 +110,7 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
             viewBox={`0 0 ${payload.grid_width * 72} ${payload.grid_height * 72}`}
             className="talk-basic-svg"
             role="img"
-            aria-label="Random walk reaching a target"
+            aria-label={localize(lang, 'Random walk reaching a target', '随机游走到达目标')}
           >
             {Array.from({ length: payload.grid_width }).map((_, x) =>
               Array.from({ length: payload.grid_height }).map((__, y) => (
@@ -150,22 +150,22 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
               className="talk-basic-walker"
             />
             <text x={payload.source.x * 72 + 20} y={payload.source.y * 72 + 14} className="talk-basic-label">
-              start
+              {localize(lang, 'start', '起点')}
             </text>
             <text x={payload.target.x * 72 - 4} y={payload.target.y * 72 + 14} className="talk-basic-label">
-              target
+              {localize(lang, 'target', '目标')}
             </text>
           </svg>
         </div>
 
         <div className="talk-basic-panel">
           <div className="talk-basic-copy">
-            <h3>{localize(lang, 'Repeated trials build the distribution', '重复试验会长出分布')}</h3>
+            <h3>{localize(lang, 'Repeated trials build the distribution', '重复多次，就得到分布')}</h3>
             <p className="muted">
               {localize(
                 lang,
                 'Every time the walker first lands on the target, we record that hitting time once.',
-                '每次 walker 第一次碰到 target，我们只记录这一次命中时间。',
+                '游走者每次第一次到达目标，我们就记下这一次的到达时刻。',
               )}
             </p>
           </div>
@@ -180,11 +180,18 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
               </div>
             ))}
           </div>
+          <p className="muted">
+            {localize(
+              lang,
+              'Bars: how many trials first reached the target at each step (step number below).',
+              '柱高：在该步第一次到达目标的试验次数（下方数字为步数）。',
+            )}
+          </p>
           <p className="talk-basic-callout">
             {localize(
               lang,
               'First-passage time means the first hit, not the average time spent near the target.',
-              'First-passage time 只看第一次命中，不是看在目标附近平均停留多久。',
+              '首达时间只看第一次到达，而不是在目标附近平均停留多久。',
             )}
           </p>
         </div>

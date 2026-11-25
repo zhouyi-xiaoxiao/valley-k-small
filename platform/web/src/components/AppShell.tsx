@@ -40,7 +40,7 @@ export function AppShell({
           </a>
           <span>
             {generated
-              ? localizedText(lang, `Pages generated from the reports on ${generated}`, `页面于 ${generated} 由报告生成`)
+              ? localizedText(lang, `Pages generated from the reports on ${generated}`, `页面根据报告生成于 ${generated}`)
               : null}
             {' · '}
             <Link href={prefixPath(prefix, '/about')}>{localizedText(lang, 'About this atlas', '关于本图谱')}</Link>

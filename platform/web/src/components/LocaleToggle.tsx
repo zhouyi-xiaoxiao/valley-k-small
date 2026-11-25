@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 function toEn(pathname: string): string {
   if (pathname === '/cn') {
@@ -39,6 +40,12 @@ export function LocaleToggle({ lang }: { lang: 'en' | 'cn' }) {
   const pathname = usePathname() || '/';
   const enPath = toEn(pathname);
   const cnPath = toCn(pathname);
+
+  // The root layout sets the document language on first load; keep it right
+  // after client-side navigation between the English and Chinese pages.
+  useEffect(() => {
+    document.documentElement.lang = lang === 'cn' ? 'zh-CN' : 'en';
+  }, [lang]);
 
   return (
     <div className="locale-toggle" aria-label="language-switcher">

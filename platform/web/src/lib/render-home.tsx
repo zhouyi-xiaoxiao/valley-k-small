@@ -32,15 +32,15 @@ export function renderAtlasHome(lang: Lang, prefix: string) {
           <p className="home-lede">
             {localizedText(
               lang,
-              'A walker wanders on a lattice until it first reaches a target. The time that takes, the first-passage time, usually has a single most likely value. Add one directed shortcut and the distribution can split: an early hump from walkers that found the shortcut, a late one from walkers that went the long way round, and a valley between.',
-              '游走者在格点上随机行走，直到第一次碰到目标。这段时间叫首达时间，它的分布通常只有一个最可能的值。可只要加上一条有向捷径，分布就可能一分为二：找到捷径的游走者形成早到的峰，绕远路的形成晚到的峰，中间隔着一道谷。',
+              'A walker wanders on a lattice until it first reaches a target. The time that takes, the first-passage time, usually has a single most likely value. Add one directed shortcut, for instance, and the distribution can split: an early hump from walkers that found the shortcut, a late one from walkers that went the long way round, and a valley between.',
+              '游走者在格点上随机行走，直到第一次碰到目标。这段时间叫首达时间，它的分布通常只有一个最可能的值。比如加上一条有向捷径，分布就可能一分为二：找到捷径的游走者形成早到的峰，绕远路的形成晚到的峰，中间隔着一道谷。',
             )}
           </p>
           <p>
             {localizedText(
               lang,
-              `These ${written.length} reports work out, by exact computation checked against simulation, when that split appears, when it is a real second peak and when it is an artefact: first on rings, then on two-dimensional lattices, with two competing targets, and for pairs of walkers that react when they meet.`,
-              `这 ${written.length} 份报告用精确计算（并以模拟核对）回答：这种分裂什么时候出现，什么时候是真正的第二个峰，什么时候只是假象。先是环，然后是二维格点、两个相互竞争的目标，以及相遇即反应的两个游走者。`,
+              `Most of these ${written.length} reports work out, by exact numerical computation, often checked against Monte Carlo simulation, when that split appears, when it is a real second peak and when it is an artefact: first on rings, then on two-dimensional lattices, with two competing targets, and for pairs of walkers that react when they meet. Two are of another kind: a derivation of the ring formulas and a comparison of solver speed.`,
+              `这 ${written.length} 份报告大多用精确的数值计算（不少还用蒙特卡洛模拟核对）回答：这种分裂什么时候出现，什么时候是真正的第二个峰，什么时候只是假象。先是环，然后是二维格点、两个相互竞争的目标，以及相遇即反应的两个游走者。另有两份性质不同：一份推导环模型的公式，一份比较求解器的速度。`,
             )}
           </p>
           <p className="home-byline">
@@ -56,14 +56,14 @@ export function renderAtlasHome(lang: Lang, prefix: string) {
             labels={{
               early: localizedText(lang, 'early: mostly via the shortcut', '早到：多数走了捷径'),
               late: localizedText(lang, 'late: mostly the long way round', '晚到：多数绕了远路'),
-              axis: localizedText(lang, 'time t, log scale', '时间 t，对数刻度'),
+              axis: localizedText(lang, 'time t in steps, log scale', '时间 t（步），对数刻度'),
             }}
           />
           <p className="figure-caption">
             {localizedText(
               lang,
-              'Exact first-passage-time distribution f(t) on a lazy ring of N = 100 sites with one directed shortcut (K = 4, β = 0.01): an early hump, a valley and a late hump. The curve is drawn to t = 1200. Drawn from the data behind Fig. 1 of ',
-              '一个 N = 100 的懒惰环加一条有向捷径（K = 4，β = 0.01）上的精确首达时间分布 f(t)：早峰、谷、晚峰。曲线画到 t = 1200，取自报告《',
+              'f(t) is the probability that the walker first reaches the target at step t, computed by numerically inverting the exact generating function. The walk is lazy, on a ring of N\u00a0=\u00a0100 sites: at each step it stays put with probability 1/3, otherwise it moves one or two sites either way (K\u00a0=\u00a04). The target is opposite the start; one directed shortcut runs from five sites along from the start to the site next to the target, and a walker at its source takes it with probability β/3 per step (β\u00a0=\u00a00.01). Peaks at t\u00a0=\u00a032 and t\u00a0=\u00a0495, valley at t\u00a0=\u00a084; the curve is drawn to t\u00a0=\u00a04000, by which time 96% of walkers have arrived. On a log time axis, area under the curve is not probability: the early hump holds under 1% of arrivals. Data behind Fig.\u00a01 of ',
+              'f(t) 是游走者恰好在第 t 步首次到达目标的概率，由精确生成函数数值反演得到。模型是 N\u00a0=\u00a0100 个格点的环上的懒惰随机游走：每一步以 1/3 的概率原地不动，否则向左或向右走 1 格或 2 格（K\u00a0=\u00a04）。目标在起点正对面；一条有向捷径从起点往前第 5 个格点通到目标旁边的格点，游走者位于捷径起点时，每步以 β/3 的概率走捷径（β\u00a0=\u00a00.01）。两个峰在 t\u00a0=\u00a032 和 t\u00a0=\u00a0495，谷在 t\u00a0=\u00a084；曲线画到 t\u00a0=\u00a04000，此时已有 96% 的游走者到达。横轴是对数刻度，曲线下的面积不等于概率：早峰只占全部到达的不到 1%。数据取自报告《',
             )}
             <Link href={prefixPath(prefix, `/reports/${figureReport}`)}>{titleOf(figureReport)}</Link>
             {localizedText(lang, '.', '》的图 1。')}
@@ -74,9 +74,11 @@ export function renderAtlasHome(lang: Lang, prefix: string) {
       <p className="home-paper">
         {localizedText(
           lang,
-          'The line of work led to a single-author paper, “Geometry-controlled folds of first-passage-time bimodality under localized absorption”, submitted to Physical Review E in July 2026.',
-          '这条研究线产出了一篇单作者论文《Geometry-controlled folds of first-passage-time bimodality under localized absorption》，2026 年 7 月投稿《物理评论 E》（Physical Review E）。',
+          'The line of work led to a single-author paper, “Geometry-controlled folds of first-passage-time bimodality under localized absorption”, submitted to Physical Review E in July 2026. It studies a related setting: under localized absorption, how the geometry decides whether a delayed second peak exists and where it disappears. Code and data to reproduce it: ',
+          '这条研究线产出了一篇单作者论文《Geometry-controlled folds of first-passage-time bimodality under localized absorption》，2026 年 7 月投稿《物理评论 E》（Physical Review E）。论文研究的是相关但不同的设定：在局部吸收下，几何结构如何决定延迟到达的第二个峰是否存在、在哪里消失。复现代码与数据：',
         )}
+        <a href="https://github.com/zhouyi-xiaoxiao/delayed-first-passage-peak">delayed-first-passage-peak</a>
+        {localizedText(lang, ' (v1.0.1).', '（v1.0.1）。')}
       </p>
 
       <section className="home-section" aria-labelledby="start-here">

@@ -2445,19 +2445,20 @@ button:hover {
   height: auto;
 }
 
-.arrival-fast {
-  fill: rgba(15, 118, 110, 0.22);
-}
-
-.arrival-slow {
-  fill: rgba(217, 119, 6, 0.2);
-}
-
 .arrival-line {
   fill: none;
   stroke: var(--ink);
-  stroke-width: 2;
+  stroke-width: 2.5;
   stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.arrival-line-fast {
+  stroke: var(--brand);
+}
+
+.arrival-line-slow {
+  stroke: var(--accent);
 }
 
 .arrival-axis {
@@ -2469,6 +2470,10 @@ button:hover {
   font-family: var(--font-display);
   font-size: 15px;
   fill: var(--ink-soft);
+}
+
+.arrival-ylabel {
+  font-style: italic;
 }
 
 .arrival-dot-fast {

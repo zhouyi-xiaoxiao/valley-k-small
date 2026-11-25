@@ -136,6 +136,26 @@ CLAIM_STOPWORDS = {
 }
 
 REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
+    # Title-only entries: reader-facing titles for reports whose generated titles
+    # are internal names or have no Chinese version.
+    "ring_two_walker_encounter_shortcut": {
+        "cn": {"title": "环上两个游走者的相遇（带捷径）"},
+    },
+    "grid2d_two_walker_encounter_shortcut": {
+        "cn": {"title": "二维格点上两个游走者的相遇（带捷径）"},
+    },
+    "grid2d_membrane_near_target": {
+        "en": {"title": "Grid2D Corridor Membranes and a Target Near the Start"},
+        "cn": {"title": "二维格点：走廊半透膜与靠近起点的目标"},
+    },
+    "grid2d_one_target_valley_peak_budget": {
+        "en": {"title": "Grid2D One Target: Time Budgets in the Peak and Valley Windows"},
+        "cn": {"title": "二维格点单目标：峰与谷窗口中的时间预算"},
+    },
+    "final_multitimescale_fpt_encounter": {
+        "en": {"title": "Multi-Timescale First Passage and Encounter: Summary of Results"},
+        "cn": {"title": "多时间尺度首达与相遇：结果汇总"},
+    },
     "ring_lazy_flux": {
         "en": {
             "title": "Lazy Ring Flux Baseline",
@@ -167,7 +187,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Lazy Ring Flux 基线机制",
+            "title": "环上懒惰随机游走：通量递推基线",
             "summary": (
                 "该报告研究 lazy ring（k=1, K=2）在单向 shortcut 且从自环分配概率时的首达分布。通过 Chebyshev 生成函数推导、"
                 "AW/FFT 反演与 flux 递推交叉校验，报告给出可复现的小 p 双峰区间，并说明 equal4 与较大 shortcut 强度会抑制第二峰。"
@@ -220,7 +240,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Ring Valley 相区研究",
+            "title": "环模型中谷与双峰的参数相区",
             "summary": (
                 "该 valley 研究在非 lazy 的 K 邻接环上考察单向 shortcut（6->N/2+1）并采用 Fig.3 峰谷判据。"
                 "通过 AW 精确反演与 MC 校验，报告给出偶数 N 与 K 的双峰区间图：K=2 在奇偶振荡修正后仍不出现稳定双峰，"
@@ -275,7 +295,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Grid2D 双峰基线",
+            "title": "二维格点：双峰基线",
             "summary": (
                 "该基础 Grid2D 报告建立了偏置/惰性随机游走下首达双峰形成的统一框架。报告把模型约束、缺陷修正传播子、AW 反演与参数扫描串成可审计链路，"
                 "用于区分真实双通道机制与绘图伪峰。"
@@ -328,7 +348,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Grid2D 矩形域双峰",
+            "title": "二维格点：矩形区域中的双峰",
             "summary": (
                 "该报告把 Grid2D 双峰分析从方形域扩展到矩形域，系统考察长宽比、反射边界与端点几何如何重塑首达通道。"
                 "报告强调可复现的双目标构型，并识别在各向异性几何下双峰何时仍保持结构稳定。"
@@ -380,7 +400,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Grid2D 全反射边界双峰",
+            "title": "二维格点：全反射边界下的双峰",
             "summary": (
                 "该反射边界 Grid2D 报告检验：在移除周期绕行、四壁全反射后，双峰是否仍能保持。"
                 "通过绕行、孔道与输运轨道等代表案例，报告证明在严格边界约束下，多通道时序结构仍可出现。"
@@ -433,7 +453,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Grid2D 双目标双峰",
+            "title": "二维格点：双目标下的双峰",
             "summary": (
                 "该报告研究二维双吸收目标情形下总首达分布何时出现可见双峰。"
                 "在反射边界与走廊偏置设计下，报告给出目标耦合参数的相图，并解析“近目标直达”与“远目标延迟”竞争如何形成多时间尺度结构。"
@@ -459,7 +479,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_jump_ext": {
         "en": {
-            "title": "Lazy Ring Shortcut Beta Scan",
+            "title": "Lazy Ring Shortcut: Scan of the Shortcut Strength",
             "summary": (
                 "This extension quantifies how shortcut strength beta reshapes first-passage bimodality on lazy rings (K=2,4) at fixed N=100, "
                 "then checks transfer by N sweeps and Monte Carlo class decomposition. Across beta in [0,0.2], both peaks move earlier and "
@@ -487,7 +507,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Lazy Ring Shortcut beta 扫描",
+            "title": "环上懒惰随机游走：捷径强度扫描",
             "summary": (
                 "该扩展报告量化了 lazy ring（K=2,4）中 shortcut 强度 beta 对首达双峰结构的影响：先在 N=100 固定条件下做 beta 扫描，"
                 "再用 N 扫描与 Monte Carlo 轨迹分类验证迁移稳定性。结果显示 beta 增大时双峰整体前移、尾部衰减加快，且 K=4 的双峰窗口更宽更深。"
@@ -513,55 +533,66 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_lazy_jump_ext_rev2": {
         "en": {
-            "title": "Lazy Ring Shortcut Figure-1 Revision",
+            "title": "Lazy Ring Shortcut: Which Routes Make Each Peak",
             "summary": (
-                "This revision reorganizes the lazy-shortcut extension into a publication-ready evidence flow: co-located Fig.1 overlays "
-                "f(t) with window-level class bars, while threshold, window-shift/width, and MC-uncertainty analyses test robustness. "
-                "The update strengthens readability and reproducibility without changing the core mechanism claims."
+                "At ring size N = 100 and shortcut strength β = 0.01, the first-passage distribution f(t) of the lazy ring has an early hump, "
+                "a valley and a late hump under both step rules: peaks at steps 53 and 1124 for K = 2, and at steps 32 and 495 for K = 4. "
+                "Monte Carlo trajectories show who arrives in each time window. The early window consists entirely of walkers that used the "
+                "shortcut, the late window mostly of walkers that never did; for K = 4, about a quarter of the late window are walkers that "
+                "stepped over the target without landing on it. Shifting or resizing the windows by up to 5 steps changes these shares by less than 0.006, "
+                "and each share's 95% Monte Carlo interval lies within ±0.04 of it."
             ),
             "narrative": {
                 "model_overview": (
-                    "The chapter keeps the same lazy ring shortcut setup used in the extension baseline and focuses on clearer evidence alignment "
-                    "between K=2 and K=4 under the selected beta regime."
+                    "Lazy walk on a ring of N = 100 sites: each step it stays put with probability 1/3, else moves one site either way "
+                    "when K = 2, or up to two when K = 4. The target is opposite the start; a directed shortcut from five sites past the start "
+                    "to beside the target is taken with probability β/3 per step, β = 0.01."
                 ),
                 "method_overview": (
-                    "The pipeline exports standardized Fig.1 inputs, validates schema, renders stacked-bar co-located panels, and runs three "
-                    "sensitivity tracks: threshold sweep, window perturbation, and MC confidence intervals."
+                    "f(t) comes from numerically inverting the exact generating function, up to step 4000. Three windows sit on the "
+                    "detected peaks and valley; Monte Carlo trajectories, labelled by shortcut use and by stepping over the target, give "
+                    "each class's share per window. Thresholds, windows and sampling error are then checked."
                 ),
                 "result_overview": (
-                    "Across the three sensitivity tracks, the qualitative mechanism interpretation remains stable, and uncertainty bars do not "
-                    "contradict the phase-level conclusions used in the main narrative."
+                    "The early peak is made by walkers that took the shortcut and the late peak mainly by walkers that went the long way "
+                    "round. For K = 4, stepping over the target adds a second delay route, and K = 4 passes the bimodality thresholds "
+                    "more often than K = 2."
                 ),
             },
             "key_findings": [
-                "Co-located Fig.1 directly aligns peak/valley timing with class proportions, improving interpretability over split-panel layouts.",
-                "Schema-validated JSON/CSV inputs make figure reconstruction auditable and reproducible.",
-                "Threshold and window perturbation scans preserve the main mechanism ranking rather than flipping conclusions.",
-                "MC uncertainty intervals are compatible with the reported phase statements for K=2 and K=4.",
+                "The early-peak window of f(t) consists entirely of walkers that used the shortcut, for both K = 2 and K = 4.",
+                "In the late-peak window, walkers that never used the shortcut are the majority: about 85% for K = 2 and 93% for K = 4.",
+                "For K = 4, about a quarter of the late-peak window are walkers that stepped over the target without landing on it, a delay route that K = 2 does not have.",
+                "Over a sweep of detection thresholds and five β values from 0.001 to 0.03, K = 4 is classed as bimodal in 60% of settings and K = 2 in 33%; moving the windows changes the shares by under 0.006.",
             ],
         },
         "cn": {
-            "title": "Lazy Ring Shortcut 图1修订",
+            "title": "环上懒惰随机游走：每个峰由哪些路径构成",
             "summary": (
-                "该修订版把 lazy-shortcut 扩展重构为出版物级证据链：图1将 f(t) 与窗口分类柱状同轴展示，并加入阈值扫描、窗口位移/宽度扰动、"
-                "MC 不确定性三类敏感性分析。在不改变核心机制结论的前提下，显著提升了可读性与可复现性。"
+                "环长 N = 100、捷径强度 β = 0.01 时，环上懒惰随机游走的首达时间分布 f(t) 在两种步长规则下都有早峰、谷和晚峰："
+                "K = 2 时两个峰在第 53 步和第 1124 步，K = 4 时在第 32 步和第 495 步。蒙特卡洛轨迹给出每个时间窗口里到达的是哪类游走者："
+                "早峰窗口里全部是走过捷径的游走者，晚峰窗口里多数从未走过捷径；K = 4 时，晚峰窗口里约四分之一的游走者曾跨过目标而没有落在目标上。"
+                "窗口平移或改变宽度不超过 5 步时，各类占比的变化小于 0.006；每个占比的蒙特卡洛 95% 置信区间都在其 ±0.04 以内。"
             ),
             "narrative": {
                 "model_overview": (
-                    "模型保持与扩展基线一致的 lazy ring + shortcut 设定，重点是在选定 beta 区间下更清晰地对齐 K=2 与 K=4 的证据表达。"
+                    "N = 100 个格点的环上的懒惰随机游走：每一步以 1/3 的概率原地不动，否则 K = 2 时向左或向右走 1 格，K = 4 时走 1 格或 2 格。"
+                    "目标在起点正对面。一条有向捷径从起点往前第 5 个格点通到目标旁边的格点，游走者在捷径起点每步以 β/3 的概率走捷径，β = 0.01。"
                 ),
                 "method_overview": (
-                    "流程包括标准化导出图1输入、schema 校验、同轴栈叠面板绘制，以及阈值、窗口扰动、MC 置信区间三条敏感性分析链。"
+                    "f(t) 由精确生成函数数值反演得到，算到第 4000 步。以检测到的两个峰和谷为中心取三个窗口；"
+                    "蒙特卡洛轨迹按是否走过捷径、是否跨过目标分类，给出每个窗口里各类的占比，再做阈值、窗口和抽样误差三项检验。"
                 ),
                 "result_overview": (
-                    "三类敏感性分析下，机制解释在定性层面保持稳定，且不确定性区间未推翻主线中的相区判断。"
+                    "早峰来自走了捷径的游走者，晚峰主要来自绕远路的游走者。K = 4 时，跨过目标构成第二条延迟路径；"
+                    "在双峰判据的阈值扫描中，K = 4 比 K = 2 更常被判为双峰。"
                 ),
             },
             "key_findings": [
-                "同轴图1将峰谷时序与路径类别比例直接对齐，优于分面板展示。",
-                "经 schema 校验的 JSON/CSV 输入使图形可重建、可审计。",
-                "阈值与窗口扰动测试未改变核心机制排序，结论具有稳健性。",
-                "MC 置信区间与 K=2/K=4 的主结论一致，不构成反证。",
+                "在 K = 2 和 K = 4 两种情形下，f(t) 早峰窗口里的游走者全部走过捷径。",
+                "晚峰窗口里，从未走过捷径的游走者占多数：K = 2 时约 85%，K = 4 时约 93%。",
+                "K = 4 时，晚峰窗口里约四分之一的游走者曾跨过目标而没有落在目标上，这是 K = 2 没有的一条延迟路径。",
+                "对检测阈值和 0.001 到 0.03 之间的五个 β 值做扫描，K = 4 有 60% 的设置被判为双峰，K = 2 为 33%；移动窗口时各类占比的变化小于 0.006。",
             ],
         },
     },
@@ -595,7 +626,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "双目标 Lazy Ring 机制",
+            "title": "环上懒惰随机游走：两个目标的竞争",
             "summary": (
                 "该报告建立了双目标 lazy ring 的精确分析框架，并比较无 shortcut 与 selfloop-shortcut 两类机制。"
                 "通过对 N、K、beta 的系统扫描与峰谷判据，报告说明了目标几何与 shortcut 路由如何共同决定首达分布在单峰、双峰、三峰之间的转变。"
@@ -649,7 +680,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Lazy Ring Jump-Over 机制（K2 对 K4）",
+            "title": "环上懒惰随机游走：跳过目标的机制（K2 与 K4）",
             "summary": (
                 "该报告建立了 lazy ring + 单向 shortcut 的 jump-over 基线机制，在精确首达诊断下比较 K=2 与 K=4。"
                 "报告解释了双峰为何只在特定 shortcut 强度区间出现，并通过路径分解把峰结构与快/慢通道对应起来。"
@@ -675,7 +706,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "ring_deriv_k2": {
         "en": {
-            "title": "Ring Derivation Backbone (K=2)",
+            "title": "Ring Derivations: Exact First-Passage Generating Functions",
             "summary": (
                 "This derivation report provides the analytical backbone for ring models with one directed long-range link, including defect-free "
                 "propagators, defect corrections, and first-passage generating functions. It serves as the shared mathematical base used by later "
@@ -703,7 +734,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Ring 推导主干（K=2）",
+            "title": "环模型推导：首达时间的精确生成函数",
             "summary": (
                 "该推导报告给出了“环 + 单向长程连边”模型的解析主干：包括无缺陷传播子、缺陷修正与首达生成函数。"
                 "它是后续 shortcut 与 valley 报告共用的数学基座。"
@@ -729,7 +760,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_blackboard_bimodality": {
         "en": {
-            "title": "Grid2D Blackboard Endpoint Case",
+            "title": "Grid2D Endpoint Case: Start and Target at the Ends of a Wall",
             "summary": (
                 "This blackboard-style Grid2D case studies reflecting boundaries with start and target anchored at wall endpoints. "
                 "The Z/S endpoint configurations are used to test whether a visually delayed hump is a true second peak or a window-edge artifact, "
@@ -755,7 +786,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "Grid2D 黑板端点构型",
+            "title": "二维格点：起点与目标位于墙端点的情形",
             "summary": (
                 "该黑板图风格 Grid2D 报告研究了反射边界下“墙端点起止”构型。通过 Z/S 端点案例，报告检验晚时隆起究竟是稳定第二峰还是窗口边缘伪峰，"
                 "并将判断与通道分解和路径几何对应。"
@@ -781,7 +812,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "cross_luca_regime_map": {
         "en": {
-            "title": "Cross-Model Luca Regime Map",
+            "title": "Cross-Model Solver Comparison: Sparse Exact Recursion vs Defect Reduction",
             "summary": (
                 "This cross-report study benchmarks full-FPT solvers under fixed-horizon fairness, comparing sparse exact recursion "
                 "against Luca defect-reduced routes while keeping linear-system MFPT only as reference. The core output is a reproducible "
@@ -809,7 +840,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "跨模型 Luca 相区图",
+            "title": "跨模型求解器对比：稀疏精确递推与缺陷约化",
             "summary": (
                 "该跨报告研究在固定时域公平口径下比较 full-FPT 求解器：以 sparse 精确递推为基线，"
                 "对照 Luca 缺陷约化路径，并把线性系统 MFPT 仅作为参考。核心产出是可复现的速度比 R=t_sparse/t_luca 及其相区分类。"
@@ -863,7 +894,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ],
         },
         "cn": {
-            "title": "目的地扫描与谷值调控（N=100, K=6）",
+            "title": "捷径终点扫描与谷值调控（N=100, K=6）",
             "summary": (
                 "该报告固定 N=100、K=6，仅扫描 shortcut 终点 dst 来调控首达分布第二峰。"
                 "通过确定性 flux/master 方程扫描与 Monte Carlo 轨迹分类联合诊断，报告识别出第二峰增强与谷值加深最显著的 dst 区间。"
@@ -3940,7 +3971,18 @@ def build_report_payload(
     tex_en = extract_tex_story(item, report_dir, report_id, "en")
     tex_cn = extract_tex_story(item, report_dir, report_id, "cn")
 
-    top_assets = gather_files(report_dir, {".pdf", ".tex"}, max_assets)
+    # The report's own manuscripts come first, so the asset cap never drops the
+    # PDFs the site links to (alphabetically, artifacts/ sorts before manuscript/).
+    manuscript_dir = report_dir / "manuscript"
+    main_docs = (
+        sorted(p for p in manuscript_dir.iterdir() if p.is_file() and p.suffix.lower() in {".pdf", ".tex"})
+        if manuscript_dir.is_dir()
+        else []
+    )
+    top_assets = (
+        main_docs
+        + [p for p in gather_files(report_dir, {".pdf", ".tex"}, max_assets + len(main_docs)) if p not in main_docs]
+    )[:max_assets]
     figure_assets = gather_files(report_dir / "figures" if (report_dir / "figures").exists() else report_dir, FIGURE_EXT, max_figures)
 
     assets: list[dict[str, Any]] = []

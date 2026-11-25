@@ -1636,7 +1636,9 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
             </thead>
             <tbody>
               {stageCoverageRows.map((row) => {
-                const chapter = bookManifest?.report_chapter_map?.[row.report_id]?.primary_chapter_id ?? null;
+                const mapping = bookManifest?.report_chapter_map?.[row.report_id];
+                // Same rule as the report pages: a report the book does not discuss gets no chapter link.
+                const chapter = mapping && mapping.listed !== false ? mapping.primary_chapter_id : null;
                 return (
                   <tr key={`stage-${row.report_id}`}>
                     <td>

@@ -1002,6 +1002,7 @@ button:hover {
   align-items: flex-end;
   gap: 0.7rem;
   height: 230px;
+  min-height: 230px;
   margin-top: 1.2rem;
 }
 
@@ -1012,6 +1013,14 @@ button:hover {
   align-items: center;
   gap: 0.45rem;
   height: 100%;
+}
+
+.talk-basic-bar-column {
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-end;
 }
 
 .talk-basic-bar {
@@ -3261,9 +3270,23 @@ span.katex {
 
 /* Wide formulas scroll sideways; the shadow at the edge shows there is more. */
 .math-block {
+  min-width: 0;
+  max-width: 100%;
   background:
     linear-gradient(to right, #fffdf8 30%, rgba(255, 253, 248, 0)) left center / 24px 100% no-repeat local,
     linear-gradient(to left, #fffdf8 30%, rgba(255, 253, 248, 0)) right center / 24px 100% no-repeat local,
     radial-gradient(farthest-side at 0 50%, rgba(26, 31, 29, 0.18), rgba(26, 31, 29, 0)) left center / 10px 100% no-repeat scroll,
     radial-gradient(farthest-side at 100% 50%, rgba(26, 31, 29, 0.18), rgba(26, 31, 29, 0)) right center / 10px 100% no-repeat scroll;
+}
+
+.math-block .katex-display {
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
+  overflow: visible;
+}
+
+.math-block .katex {
+  max-width: none;
+  overflow: visible;
 }

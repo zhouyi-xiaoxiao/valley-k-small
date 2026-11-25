@@ -125,9 +125,9 @@ export const START_HERE: Array<{ reportId: string; en: string; cn: string }> = [
     cn: '机制本身。环上带一条有向捷径的懒惰随机游走（每一步都可能原地不动），两种步长规则（K\u00a0=\u00a02：每步向左或向右走 1 格；K\u00a0=\u00a04：走 1 格或 2 格），以及快、慢两类到达分别来自哪些路径。',
   },
   {
-    reportId: 'ring_lazy_jump_ext',
-    en: 'How the strength β of the shortcut moves both peaks, at N\u00a0=\u00a0100, with scans over ring size and a Monte Carlo check of the trajectory classes.',
-    cn: '捷径强度 β 如何移动两个峰：N\u00a0=\u00a0100 时的扫描，环长 N 的扫描，以及用蒙特卡洛核对轨迹分类。',
+    reportId: 'ring_lazy_jump_ext_rev2',
+    en: 'Which routes make each peak, at N\u00a0=\u00a0100 and shortcut strength β\u00a0=\u00a00.01: Monte Carlo trajectories sorted by route, with checks that the shares do not depend on the choice of time windows or peak thresholds.',
+    cn: '每个峰由哪些路径构成：N\u00a0=\u00a0100、捷径强度 β\u00a0=\u00a00.01 时，把蒙特卡洛轨迹按路径分类，并检查各类占比不随时间窗和峰判据的选取而变。',
   },
   {
     reportId: 'grid2d_bimodality',

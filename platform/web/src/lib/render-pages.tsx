@@ -718,6 +718,13 @@ export function renderReportsPage(lang: Lang, prefix: string) {
         <p className="page-note">
           {localizedText(
             lang,
+            'In the ring reports, β is the strength of the shortcut: at the site where the shortcut starts, a fraction β of the stay-put probability 1 − q goes to the shortcut instead.',
+            '在环模型的报告里，β 是捷径强度：在捷径出发的格点，原地不动的概率 1 − q 中有 β 这一份改走捷径。',
+          )}
+        </p>
+        <p className="page-note">
+          {localizedText(
+            lang,
             'Abbreviations: FPT, first-passage time (the step at which the walker first reaches a target); MFPT, mean first-passage time; MC, Monte Carlo simulation.',
             '缩写：FPT 指首达时间（游走者第一次到达目标的那一步）；MFPT 指平均首达时间；MC 指蒙特卡洛模拟。',
           )}
@@ -923,6 +930,15 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
         {!isWip ? (
           <p className="report-status">
             {localizedText(lang, 'Working research report · not peer-reviewed', '研究工作报告 · 未经同行评审')}
+          </p>
+        ) : null}
+        {reportId === 'ring_lazy_jump_ext' ? (
+          <p className="page-note report-parameter-note">
+            {localizedText(
+              lang,
+              'β is the strength of the shortcut: at the site where the shortcut starts, a fraction β of the stay-put probability 1 − q goes to the shortcut, so the walker takes it there with probability β(1 − q).',
+              'β 是捷径强度：在捷径出发的格点，原地不动的概率 1 − q 中有 β 这一份改走捷径，所以游走者在该格点走捷径的概率是 β(1 − q)。',
+            )}
           </p>
         ) : null}
         {isWip ? (

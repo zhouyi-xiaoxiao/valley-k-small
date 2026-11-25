@@ -172,10 +172,12 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
           <div className="talk-basic-histogram">
             {bins.map((bin) => (
               <div key={bin} className="talk-basic-bar-group">
-                <div
-                  className="talk-basic-bar"
-                  style={{ height: `${((counts[bin] ?? 0) / maxCount) * 100}%` }}
-                />
+                <div className="talk-basic-bar-column">
+                  <div
+                    className="talk-basic-bar"
+                    style={{ height: `${((counts[bin] ?? 0) / maxCount) * 100}%` }}
+                  />
+                </div>
                 <span>{bin}</span>
               </div>
             ))}

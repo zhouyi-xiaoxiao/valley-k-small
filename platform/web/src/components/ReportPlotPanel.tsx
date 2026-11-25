@@ -102,6 +102,13 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     [datasets, selectedId],
   );
 
+  const hasIntendedGaps = Boolean(
+    (selected?.caption || selected?.caption_cn) &&
+      /points? (are drawn )?only where|只在[^。]*画点/i.test(
+        `${selected?.caption ?? ''} ${selected?.caption_cn ?? ''}`,
+      ),
+  );
+
   useEffect(() => {
     setAutoScaleNotice(null);
     setYScale(selected?.y_scale ?? 'linear');
@@ -347,6 +354,12 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
     });
   }, [transformed, yScale]);
 
+  useEffect(() => {
+    if (status === 'ready' && droppedForLog > 0 && !hasIntendedGaps) {
+      console.warn(`[ReportPlotPanel] omitted non-positive points in log mode for ${reportId}/${selected?.series_id}`);
+    }
+  }, [droppedForLog, hasIntendedGaps, reportId, selected?.series_id, status]);
+
   const transformSuppressed = useMemo(
     () => transformed.filter((series) => !series.canTransform).map((series) => series.name),
     [transformed],
@@ -451,6 +464,13 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           </option>
         ))}
       </select>
+      {reportId === 'ring_lazy_jump_ext' ? (
+        <p className="plot-caption dataset-parameter-note">
+          {lang === 'cn'
+            ? 'β* = 0.01 是报告做环长扫描时选定的捷径强度。'
+            : 'β* = 0.01 is the shortcut strength the report selects for its ring-size scan.'}
+        </p>
+      ) : null}
 
       {payload ? (
         <details style={{ marginTop: '0.75rem' }}>
@@ -600,18 +620,23 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           {manualOverrideSeries.join(', ')}
         </p>
       ) : null}
-      {droppedForLog > 0 ? (
+      {hasIntendedGaps && droppedForLog > 0 ? (
         <p style={{ marginBottom: '0.2rem' }}>
-          {lang === 'cn' ? '提示：log 模式已隐藏非正值点，共 ' : 'Note: log mode hides non-positive points, dropped '}
+          {lang === 'cn' ? '空白处表示 f(t) 只有一个峰。' : 'Blank where f(t) has a single peak.'}
+        </p>
+      ) : null}
+      {!hasIntendedGaps && droppedForLog > 0 ? (
+        <p style={{ marginBottom: '0.2rem' }}>
+          {lang === 'cn' ? '提示：log 模式已隐藏非正值点，共 ' : 'Note: log mode hides non-positive points, omitted '}
           <strong>{droppedForLog}</strong>
           {lang === 'cn' ? ' 个。' : '.'}
         </p>
       ) : null}
-      {perSeriesDrop.length > 0 ? (
+      {!hasIntendedGaps && perSeriesDrop.length > 0 ? (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '0.4rem' }}>
           {perSeriesDrop.map((item) => (
             <span key={item.name} className="badge">
-              {item.name}: {Math.round(item.ratio * 100)}% {lang === 'cn' ? '隐藏' : 'dropped'}
+              {item.name}: {Math.round(item.ratio * 100)}% {lang === 'cn' ? '隐藏' : 'omitted'}
             </span>
           ))}
         </div>

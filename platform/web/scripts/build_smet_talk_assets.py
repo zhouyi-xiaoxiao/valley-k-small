@@ -550,7 +550,7 @@ def build_fig5(lang: str, rows: list[dict[str, str]]) -> str:
             body.append(line(x, ax2.py(int(r["t1"])), x, ax2.py(int(r["t2"])), color, 2))
             body.append(dot(x, ax2.py(int(r["t1"])), 7, "#ffffff", color))
             body.append(dot(x, ax2.py(int(r["t2"])), 7, color))
-    body.append(text(ax2.px(50), ax2.py(14), n_close, 24, 600, GREY, "middle"))
+    body.append(text(ax2.px(59.5), ax2.py(4) + 8, n_close, 24, 600, GREY, "start"))
     body.append(text(ax2.px(50), ax2.py(170) , n_apart, 24, 600, TEAL, "middle"))
     for i, (lab, color) in enumerate(legend_bot):
         body.append(text(ax2.x1 - 4, 506 + 32 * i - 12, lab, 24, 500, color, "end"))

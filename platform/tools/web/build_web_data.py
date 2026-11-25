@@ -2116,6 +2116,8 @@ def gather_files(report_dir: Path, extensions: set[str], max_items: int) -> list
         and "__pycache__" not in p.parts
         and ".venv" not in p.parts
         and "_smoketest" not in p.parts
+        and "extras" not in p.parts
+        and "luca" not in p.name.lower()
     ]
     files.sort(key=lambda p: p.as_posix())
     return files[:max_items]
@@ -3288,6 +3290,7 @@ def build_datasets(
         and "figures" not in p.parts
         and "tables" not in p.parts
         and "_smoketest" not in p.parts
+        and "extras" not in p.parts
     ]
     data_candidates.sort(key=lambda p: p.as_posix())
 

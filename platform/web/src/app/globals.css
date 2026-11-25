@@ -2991,3 +2991,79 @@ span.katex {
     flex-basis: 100%;
   }
 }
+
+/* Reports pages: status lines, superseded notice, figure list, working record */
+.report-status {
+  margin: 0.2rem 0 0.4rem;
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+}
+
+.superseded-banner {
+  margin: 0.4rem 0 0.6rem;
+  padding: 0.55rem 0.8rem;
+  border-left: 4px solid var(--accent);
+  background: #fdf3e3;
+  border-radius: 6px;
+  max-width: 76ch;
+}
+
+.superseded-note {
+  margin: 0.2rem 0 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.page-note {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  max-width: 76ch;
+}
+
+.pdf-note {
+  color: var(--ink-soft);
+}
+
+.plot-caption {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  max-width: 80ch;
+}
+
+.figure-list {
+  margin: 0.4rem 0 0.6rem;
+  padding-left: 1.2rem;
+}
+
+.figure-list li {
+  margin: 0.3rem 0;
+  overflow-wrap: anywhere;
+}
+
+.chapter-nav {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+}
+
+.chapter-nav li {
+  margin: 0.25rem 0;
+}
+
+.working-record > summary {
+  cursor: pointer;
+  color: var(--brand-strong);
+  font-family: var(--font-display);
+  margin: 0.4rem 0 0.2rem;
+}
+
+/* Wide formulas scroll sideways; the shadow at the edge shows there is more. */
+.math-block {
+  background:
+    linear-gradient(to right, #fffdf8 30%, rgba(255, 253, 248, 0)) left center / 24px 100% no-repeat local,
+    linear-gradient(to left, #fffdf8 30%, rgba(255, 253, 248, 0)) right center / 24px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(26, 31, 29, 0.18), rgba(26, 31, 29, 0)) left center / 10px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(26, 31, 29, 0.18), rgba(26, 31, 29, 0)) right center / 10px 100% no-repeat scroll;
+}

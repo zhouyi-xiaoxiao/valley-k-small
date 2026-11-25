@@ -96,8 +96,8 @@ export function familyLabel(lang: Lang, family: Family): string {
 export function familyNote(lang: Lang, family: Family): string {
   const notes: Record<Family, [string, string]> = {
     ring: [
-      'A walker on a ring of N sites, one target, one directed shortcut. The cleanest setting in which the arrival time splits.',
-      '环上 N 个格点、一个目标、一条有向捷径：到达时间一分为二的最干净的情形。',
+      'A walker on a ring of N sites steps to one of its K nearest neighbours (K/2 on each side); in the lazy versions it may also stay put. One directed shortcut links two sites. This is the cleanest setting in which the arrival time splits into an early and a late peak.',
+      '游走者在 N 个格点组成的环上，每步跳到最近的 K 个邻居之一（每侧 K/2 个）；懒惰版本中也可以原地不动。一条有向捷径连接两个格点。这是到达时间分裂为一早一晚两个峰的最干净的情形。',
     ],
     grid2d: [
       'Square and rectangular lattices, reflecting walls, corridors, membranes and two competing targets: when does a second peak survive?',
@@ -110,6 +110,12 @@ export function familyNote(lang: Lang, family: Family): string {
   };
   return lang === 'cn' ? notes[family][1] : notes[family][0];
 }
+
+// Reports replaced by a later revision (from the reports' own README
+// "Successor" lines): the page says so at the top and links the successor.
+export const SUPERSEDED_BY: Record<string, string> = {
+  ring_lazy_jump_ext: 'ring_lazy_jump_ext_rev2',
+};
 
 // Three reports to open first, in reading order.
 export const START_HERE: Array<{ reportId: string; en: string; cn: string }> = [

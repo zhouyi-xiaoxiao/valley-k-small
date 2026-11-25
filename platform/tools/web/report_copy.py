@@ -921,6 +921,10 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             ),
         },
     },
+    "grid2d_two_target_bias_radius": {
+        "en": {"title": "Grid2D Two-Target: Bias vs Near-Target Distance"},
+        "cn": {"title": "二维双目标：偏置强度与近目标距离"},
+    },
     "cross_luca_regime_map": {
         "en": {
             "title": "Cross-Model Solver Benchmark",

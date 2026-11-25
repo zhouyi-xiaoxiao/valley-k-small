@@ -43,6 +43,22 @@ function manifestTitle(lang: Lang, manifest: TalkDeckManifest) {
   return localized(lang, manifest.title_en, manifest.title_cn);
 }
 
+function slideKicker(lang: Lang, slide: TalkSlide) {
+  return localized(lang, slide.kicker_en ?? '', slide.kicker_cn ?? slide.kicker_en ?? '');
+}
+
+function Kicker({ lang, slide }: { lang: Lang; slide: TalkSlide }) {
+  const kicker = slideKicker(lang, slide);
+  return kicker ? <span className="talk-reveal-kicker">{kicker}</span> : null;
+}
+
+function imageSrc(lang: Lang, slide: TalkSlide) {
+  if (slide.evidence?.kind !== 'image') {
+    return '';
+  }
+  return withBasePath(lang === 'cn' && slide.evidence.src_cn ? slide.evidence.src_cn : slide.evidence.src);
+}
+
 function readSlideIndex(hash: string, slideCount: number) {
   const match = hash.match(/slide-(\d+)/);
   if (!match) {
@@ -115,12 +131,11 @@ function FigureSlide({ slide, lang }: { slide: TalkSlide; lang: Lang }) {
   }
 
   if (slide.evidence.show_overlay) {
+    const src = imageSrc(lang, slide);
     return (
       <div className="talk-claim-slide">
         <div className="talk-claim-copy">
-          <span className="talk-reveal-kicker">
-            {slide.start} - {slide.end}
-          </span>
+          <Kicker lang={lang} slide={slide} />
           <h1>{slideTitle(lang, slide)}</h1>
           <p>{slideSentence(lang, slide)}</p>
           {slide.links?.length ? (
@@ -134,10 +149,15 @@ function FigureSlide({ slide, lang }: { slide: TalkSlide; lang: Lang }) {
           ) : null}
         </div>
         <figure className="talk-claim-visual">
-          <img
-            src={withBasePath(slide.evidence.src)}
-            alt={imageAlt(lang, slide)}
-          />
+          <a
+            className="talk-claim-zoom"
+            href={src}
+            target="_blank"
+            rel="noopener"
+            title={localized(lang, 'Open the figure full size', '打开原尺寸图')}
+          >
+            <img src={src} alt={imageAlt(lang, slide)} />
+          </a>
           {slide.evidence.hide_caption ? null : (
             <figcaption>{localized(lang, slide.evidence.caption_en, slide.evidence.caption_cn)}</figcaption>
           )}
@@ -150,7 +170,7 @@ function FigureSlide({ slide, lang }: { slide: TalkSlide; lang: Lang }) {
     <div className="talk-reveal-slide-shell">
       <img
         className="talk-reveal-fullslide-image"
-        src={withBasePath(slide.evidence.src)}
+        src={imageSrc(lang, slide)}
         alt={imageAlt(lang, slide)}
       />
     </div>
@@ -169,9 +189,7 @@ function BasicIdeaSlide({
   return (
     <div className="talk-reveal-basic-shell">
       <div className="talk-reveal-basic-head">
-        <span className="talk-reveal-kicker">
-          {slide.start} - {slide.end}
-        </span>
+        <Kicker lang={lang} slide={slide} />
         <h1>{slideTitle(lang, slide)}</h1>
         <p>{slideSentence(lang, slide)}</p>
       </div>
@@ -208,6 +226,89 @@ function SlideViewport({
   );
 }
 
+/**
+ * Phone reading view: every slide in order, title and sentence as text,
+ * the figure at full width (tap to open it full size) and the script folded
+ * underneath. Shown instead of the 16:9 stage below 700 px (see globals.css).
+ * Interactive slides mount only when the reading view is the one on screen.
+ */
+function ReadingSlide({
+  slide,
+  index,
+  total,
+  lang,
+  basicDemo,
+  note,
+  live,
+}: {
+  slide: TalkSlide;
+  index: number;
+  total: number;
+  lang: Lang;
+  basicDemo: BasicDemoPayload;
+  note?: TalkSlideNote;
+  live: boolean;
+}) {
+  const kind = slide.animation?.kind;
+  const ownHead = kind === 'formula-foundations' || kind === 'mechanism-lab' || kind === 'grid-hop-lab';
+  const src = imageSrc(lang, slide);
+  return (
+    <section id={`slide-${index + 1}`} className="talk-reading-slide">
+      <span className="talk-reading-count">
+        {index + 1} / {total}
+      </span>
+      {ownHead ? null : (
+        <div className="talk-reading-head">
+          <Kicker lang={lang} slide={slide} />
+          <h2>{slideTitle(lang, slide)}</h2>
+          <p>{slideSentence(lang, slide)}</p>
+        </div>
+      )}
+      {slide.evidence?.kind === 'image' ? (
+        <figure className="talk-reading-figure">
+          <a href={src} target="_blank" rel="noopener">
+            <img src={src} alt={imageAlt(lang, slide)} loading="lazy" />
+          </a>
+          <span className="talk-reading-zoom-hint">
+            {localized(lang, 'Tap the figure to open it full size.', '点按图片可查看原尺寸。')}
+          </span>
+          {slide.evidence.hide_caption ? null : (
+            <figcaption>{localized(lang, slide.evidence.caption_en, slide.evidence.caption_cn)}</figcaption>
+          )}
+        </figure>
+      ) : null}
+      {slide.links?.length ? (
+        <div className="talk-claim-links">
+          {slide.links.map((link) => (
+            <a key={link.href} href={withBasePath(link.href)}>
+              {localized(lang, link.label_en, link.label_cn)}
+            </a>
+          ))}
+        </div>
+      ) : null}
+      {kind ? (
+        <div className="talk-reading-live">
+          {!live ? null : kind === 'basic-walk' ? (
+            <TalkBasicIdeaDemo lang={lang} payload={basicDemo} />
+          ) : kind === 'formula-foundations' ? (
+            <TalkFormulaSlide slide={slide} lang={lang} />
+          ) : kind === 'mechanism-lab' ? (
+            <TalkMechanismLab slide={slide} lang={lang} />
+          ) : kind === 'grid-hop-lab' ? (
+            <TalkGridHopLab slide={slide} lang={lang} />
+          ) : null}
+        </div>
+      ) : null}
+      {note?.spoken_text ? (
+        <details className="talk-reading-script">
+          <summary>{localized(lang, 'What the speaker says', '讲稿')}</summary>
+          <p>{note.spoken_text}</p>
+        </details>
+      ) : null}
+    </section>
+  );
+}
+
 export function TalkRevealDeck({
   lang,
   prefix: _prefix,
@@ -223,6 +324,7 @@ export function TalkRevealDeck({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [immersiveMode, setImmersiveMode] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(true);
+  const [narrow, setNarrow] = useState(false);
   const englishById = useMemo(
     () => new Map(scriptEn.blocks.map((block) => [block.slide_id, block])),
     [scriptEn.blocks],
@@ -231,6 +333,14 @@ export function TalkRevealDeck({
     () => new Map(scriptCn.blocks.map((block) => [block.slide_id, block])),
     [scriptCn.blocks],
   );
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 700px)');
+    const sync = () => setNarrow(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
 
   useEffect(() => {
     const syncFromHash = () => setCurrentIndex(readSlideIndex(window.location.hash, slides.length));
@@ -283,6 +393,7 @@ export function TalkRevealDeck({
   const chinese = currentSlide ? chineseById.get(currentSlide.id) : undefined;
   const progressPercent = ((currentIndex + 1) / slides.length) * 100;
   const fullscreenLike = immersiveMode || isFullscreen;
+  const occasion = localized(lang, manifest.occasion_en ?? '', manifest.occasion_cn ?? manifest.occasion_en ?? '');
   const languageHref = withBasePath(
     `${lang === 'cn' ? '' : '/cn'}/talk/${manifest.talk_id}/#slide-${currentIndex + 1}`,
   );
@@ -350,6 +461,7 @@ export function TalkRevealDeck({
   return (
     <div
       ref={rootRef}
+      lang={lang === 'cn' ? 'zh-CN' : 'en-GB'}
       className={`talk-reveal-page${fullscreenLike ? ' is-fullscreen' : ''}${presenterMode ? ' is-presenter' : ''}${fullscreenLike && !controlsVisible ? ' is-toolbar-hidden' : ''}`}
     >
       <div
@@ -395,6 +507,8 @@ export function TalkRevealDeck({
         </div>
       </div>
 
+      {occasion ? <p className="talk-reveal-occasion">{occasion}</p> : null}
+
       <div className="talk-reveal-layout">
         <div className="talk-reveal-stage">
           {currentSlide ? <SlideViewport slide={currentSlide} lang={lang} basicDemo={basicDemo} /> : null}
@@ -403,6 +517,21 @@ export function TalkRevealDeck({
         {presenterMode && currentSlide ? (
           <PresenterPanel lang={lang} slide={currentSlide} english={english} chinese={chinese} />
         ) : null}
+      </div>
+
+      <div className="talk-reading">
+        {slides.map((slide, index) => (
+          <ReadingSlide
+            key={slide.id}
+            slide={slide}
+            index={index}
+            total={slides.length}
+            lang={lang}
+            basicDemo={basicDemo}
+            note={(lang === 'cn' ? chineseById : englishById).get(slide.id)}
+            live={narrow}
+          />
+        ))}
       </div>
     </div>
   );

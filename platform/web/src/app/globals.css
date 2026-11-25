@@ -2317,6 +2317,191 @@ button:hover {
   }
 }
 
+/* Talk: what the talk is (occasion line) and the phone reading view   */
+
+.talk-reveal-occasion {
+  width: min(1600px, calc(100vw - 24px));
+  margin: 0 auto 8px;
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: #4f5b63;
+}
+
+.talk-reveal-page.is-fullscreen .talk-reveal-occasion {
+  display: none;
+}
+
+@media (min-width: 1101px) {
+  .talk-reveal-page:not(.is-fullscreen) .talk-reveal-layout {
+    height: calc(100vh - 100px);
+  }
+
+  .talk-reveal-page:not(.is-fullscreen) .talk-reveal-stage {
+    max-width: min(100%, calc((100vh - 100px) * 16 / 9));
+    height: min(calc(100vh - 100px), calc((100vw - 24px) * 9 / 16));
+  }
+}
+
+.talk-claim-zoom {
+  display: block;
+  min-height: 0;
+  height: 100%;
+  cursor: zoom-in;
+}
+
+.talk-reading {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .talk-reveal-page {
+    padding: 8px;
+  }
+
+  .talk-reveal-toolbar {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+  }
+
+  .talk-reveal-progress,
+  .talk-reveal-toolbar-actions button,
+  .talk-reveal-toolbar-brand span {
+    display: none;
+  }
+
+  .talk-reveal-toolbar-actions {
+    align-self: start;
+  }
+
+  .talk-reveal-toolbar-brand strong {
+    font-size: 0.95rem;
+  }
+
+  .talk-reveal-lang-link {
+    padding: 0.35rem 0.75rem;
+  }
+
+  .talk-reveal-occasion {
+    width: 100%;
+    padding: 0 4px;
+    font-size: 0.82rem;
+  }
+
+  .talk-reveal-layout {
+    display: none;
+  }
+
+  .talk-reading {
+    display: grid;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .talk-reading-slide {
+    min-width: 0;
+    padding: 16px 14px;
+    border-radius: 18px;
+    background: #fbf8f1;
+    border: 1px solid rgba(216, 204, 179, 0.9);
+    scroll-margin-top: 8px;
+  }
+
+  .talk-reading-count {
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    color: #66717a;
+  }
+
+  .talk-reading-head h2 {
+    margin: 0;
+    font-size: 1.45rem;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .talk-reading-head p {
+    margin: 8px 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #43505a;
+  }
+
+  .talk-reading-figure {
+    margin: 12px 0 0;
+  }
+
+  .talk-reading-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  .talk-reading-zoom-hint {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: #66717a;
+  }
+
+  .talk-reading-figure figcaption {
+    margin-top: 6px;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: #56606a;
+  }
+
+  .talk-reading .talk-claim-links {
+    margin-top: 12px;
+  }
+
+  .talk-reading-live:not(:empty) {
+    margin-top: 12px;
+  }
+
+  .talk-reading-live .talk-formula-shell,
+  .talk-reading-live .talk-mechanism-lab,
+  .talk-reading-live .talk-grid-hop-lab {
+    height: auto;
+    padding: 0;
+    background: none;
+    overflow: visible;
+  }
+
+  .talk-reading-live .talk-basic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .talk-reading-live .talk-basic-histogram {
+    min-height: 160px;
+  }
+
+  .talk-reading-script {
+    margin-top: 12px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #35413b;
+  }
+
+  .talk-reading-script summary {
+    cursor: pointer;
+    font-family: var(--font-display);
+    color: #164e47;
+  }
+
+  .talk-reading-script p {
+    margin: 8px 0 0;
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Reader-facing shell, home, reports index and report head            */
 /* ------------------------------------------------------------------ */

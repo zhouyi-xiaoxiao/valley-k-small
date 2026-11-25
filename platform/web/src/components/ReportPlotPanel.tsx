@@ -88,7 +88,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [selectedId, setSelectedId] = useState<string>(datasets[0]?.series_id ?? '');
   const [payload, setPayload] = useState<SeriesPayload | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
-  const [yScale, setYScale] = useState<'linear' | 'log'>('linear');
+  const [yScale, setYScale] = useState<'linear' | 'log'>(datasets[0]?.y_scale ?? 'linear');
   const [normalize, setNormalize] = useState<boolean>(false);
   const [smoothWindow, setSmoothWindow] = useState<number>(1);
   const [markers, setMarkers] = useState<boolean>(true);
@@ -104,7 +104,11 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
 
   useEffect(() => {
     setAutoScaleNotice(null);
-  }, [selected?.series_id]);
+    setYScale(selected?.y_scale ?? 'linear');
+  }, [selected?.series_id, selected?.y_scale]);
+
+  const xAxisLabel = (lang === 'cn' && selected?.x_label_cn) || selected?.x_label || '';
+  const yAxisLabel = (lang === 'cn' && selected?.y_label_cn) || selected?.y_label || '';
 
   useEffect(() => {
     if (!selected?.series_path) {
@@ -301,7 +305,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         const canTransform = semantic ? semantic.series_type === 'metric' || semantic.series_type === 'probability' : false;
         const smooth = canTransform ? movingAverage(series.y, smoothWindow) : series.y;
         const maxAbs = Math.max(...smooth.map((item) => Math.abs(item)), 1e-12);
-        const normalized = canTransform && normalize ? smooth.map((item) => item / maxAbs) : smooth;
+        const normalized = canTransform && normalize ? smooth.map((item) => (Number.isFinite(item) ? item / maxAbs : item)) : smooth;
         const y = yScale === 'log' ? normalized.map((item) => (item > 0 ? item : null)) : normalized;
         return {
           ...series,
@@ -379,10 +383,10 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       parts.push('log');
     }
     if (parts.length === 0) {
-      return selected?.y_label;
+      return yAxisLabel;
     }
-    return `${selected?.y_label} (${parts.join(', ')})`;
-  }, [lang, logEligible, normalize, selected?.y_label, smoothWindow, transformAppliedSeries, transformed.length, yScale]);
+    return `${yAxisLabel} (${parts.join(', ')})`;
+  }, [lang, logEligible, normalize, yAxisLabel, smoothWindow, transformAppliedSeries, transformed.length, yScale]);
 
   const applySeriesPreset = (mode: 'metric' | 'all') => {
     if (!payload) {
@@ -432,7 +436,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       >
         {datasets.map((item) => (
           <option key={item.series_id} value={item.series_id}>
-            {item.title} — {item.series_id}
+            {(lang === 'cn' && item.title_cn) || item.title}
           </option>
         ))}
       </select>
@@ -547,7 +551,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       </details>
 
       <p>
-        <span className="badge">{selected?.x_label}</span> <span className="badge">{effectiveYLabel}</span>
+        <span className="badge">{xAxisLabel}</span> <span className="badge">{effectiveYLabel}</span>
       </p>
       {semanticAudit.missing.length > 0 || semanticAudit.conflicts.length > 0 ? (
         <p style={{ marginBottom: '0.2rem' }}>
@@ -621,7 +625,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
               paper_bgcolor: 'rgba(0,0,0,0)',
               plot_bgcolor: '#fffdf8',
               font: { family: 'IBM Plex Serif, Georgia, serif', color: '#1a1f1d' },
-              xaxis: { title: selected?.x_label, gridcolor: '#e6dbc7' },
+              xaxis: { title: xAxisLabel, gridcolor: '#e6dbc7', type: selected?.x_scale ?? 'linear' },
               yaxis: { title: effectiveYLabel, gridcolor: '#e6dbc7', type: yScale },
               legend: { orientation: 'h' },
             }}
@@ -648,6 +652,9 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
           <summary>{lang === 'cn' ? '错误详情' : 'Error details'}</summary>
           <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{errorMessage}</pre>
         </details>
+      ) : null}
+      {selected?.caption ? (
+        <p className="plot-caption">{(lang === 'cn' && selected.caption_cn) || selected.caption}</p>
       ) : null}
       <p style={{ marginBottom: 0 }}>
         {lang === 'cn' ? '来源' : 'Provenance'}: <code>{selected?.provenance.source}</code>

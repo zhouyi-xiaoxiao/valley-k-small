@@ -2865,9 +2865,99 @@ def gather_files(report_dir: Path, extensions: set[str], max_items: int) -> list
         and "build" not in p.parts
         and "__pycache__" not in p.parts
         and ".venv" not in p.parts
+        and "_smoketest" not in p.parts
     ]
     files.sort(key=lambda p: p.as_posix())
     return files[:max_items]
+
+
+def manuscript_pdf_paths(item: dict[str, Any], report_dir: Path) -> list[Path]:
+    """The written report PDFs (manuscript/<id>_en.pdf, <id>_cn.pdf, <id>.pdf).
+
+    They are always published with the site so that report pages never have to
+    link to the repository for the PDF.
+    """
+    report_id = str(item["id"])
+    manuscript_dir = report_dir / str(item.get("manuscript_dir") or "manuscript")
+    out: list[Path] = []
+    for name in (f"{report_id}_en.pdf", f"{report_id}.pdf", f"{report_id}_cn.pdf"):
+        candidate = manuscript_dir / name
+        if candidate.is_file():
+            out.append(candidate)
+    return out
+
+
+CASE_FILE_RE = re.compile(r"^N(\d+)_K(\d+)_beta([0-9.]+?)(_jumpover_control)?\.([a-z_]+)$")
+SCAN_BETA_RE = re.compile(r"^scan_beta_N(\d+)_([a-z_]+)$")
+SCAN_N_RE = re.compile(r"^scan_N_beta([0-9.]+)_([a-z_]+)$")
+FIGURE_KIND_LABELS: dict[str, tuple[str, str]] = {
+    "f_t": ("First-passage probability f(t)", "首达概率 f(t)"),
+    "compare_f_t": (
+        "f(t) with jump-over allowed vs jump-over absorbed",
+        "允许越过目标与越过即吸收两种情形的 f(t) 对比",
+    ),
+    "classes": ("Path classes within each time window", "各时间窗内的路径类别"),
+    "counts": ("Shortcut uses C and jump-overs J within each time window", "各时间窗内的捷径使用次数 C 与越过次数 J"),
+    "cond_by_t": ("Path-class fractions given arrival at time t", "在时刻 t 到达的轨迹中各路径类别的占比"),
+    "bimodality": ("Two-peak indicator", "双峰判定"),
+    "peak_times": ("Peak and valley times", "峰与谷的时间"),
+}
+
+
+def decode_beta_token(token: str) -> str:
+    """beta002 -> 0.02, beta015 -> 0.15, beta0.01 -> 0.01 (file-name convention)."""
+    if "." in token:
+        return token
+    if len(token) > 1 and token.startswith("0"):
+        return f"0.{token[1:]}"
+    return token
+
+
+def full_case_stem(src: Path) -> str:
+    """Undo Path.with_suffix truncation: cases/N100_K2_beta0.01/N100_K2_beta0.f_t.pdf
+    was written from the prefix N100_K2_beta0.01, so the file name lost '.01'."""
+    stem = src.name[: -len(src.suffix)] if src.suffix else src.name
+    parent = src.parent.name
+    head, dot, tail = stem.partition(".")
+    if dot and parent != head and parent.startswith(head) and re.fullmatch(r"N\d+_K\d+_beta[0-9.]+", parent):
+        return f"{parent}.{tail}"
+    return stem
+
+
+def readable_figure_titles(src: Path) -> tuple[str, str] | None:
+    stem = full_case_stem(src)
+    m = CASE_FILE_RE.match(stem)
+    if m:
+        n_value, k_value, beta_token, control, kind = m.groups()
+        label_en, label_cn = FIGURE_KIND_LABELS.get(kind, (kind.replace("_", " "), kind.replace("_", " ")))
+        beta = decode_beta_token(beta_token)
+        params = f"N = {n_value}, K = {k_value}, β = {beta}"
+        if control and kind != "compare_f_t":
+            label_en += " (jump-over control)"
+            label_cn += "（越过对照）"
+        return f"{label_en} — {params}", f"{label_cn} — {params}"
+    m = SCAN_BETA_RE.match(stem)
+    if m:
+        n_value, kind = m.groups()
+        label_en, label_cn = FIGURE_KIND_LABELS.get(kind, (kind.replace("_", " "), kind.replace("_", " ")))
+        return f"{label_en} vs shortcut strength β — N = {n_value}", f"{label_cn}随捷径强度 β 的变化 — N = {n_value}"
+    m = SCAN_N_RE.match(stem)
+    if m:
+        beta_token, kind = m.groups()
+        label_en, label_cn = FIGURE_KIND_LABELS.get(kind, (kind.replace("_", " "), kind.replace("_", " ")))
+        beta = decode_beta_token(beta_token)
+        return f"{label_en} vs ring size N — β = {beta}", f"{label_cn}随环长 N 的变化 — β = {beta}"
+    return None
+
+
+def figure_display_rank(source_path: str) -> int:
+    """Summary figures first, per-case figures next, raw run outputs last."""
+    parts = Path(source_path).parts
+    if "outputs" in parts:
+        return 2
+    if "cases" in parts:
+        return 1
+    return 0
 
 
 def disambiguate_asset_labels(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -3224,13 +3314,25 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         x_field = varying_numeric[0]
     else:
         x_field = numeric_fields[0]
-    y_fields = [name for name in numeric_fields if name != x_field][:3]
+    # Plot what varies: constant columns (fixed model parameters such as q, rho,
+    # n0) only draw flat lines, and bookkeeping columns say nothing about f(t).
+    def y_rank(name: str) -> int:
+        if re.search(r"^(t\d|tv$|t_|h\d|hv|f$|f_)|peak|valley|gamma|ratio|prob|surv|hazard|mfpt|mean", name, re.IGNORECASE):
+            return 0
+        if re.search(r"(^n0$|target|sc_src|sc_dst|^t_len$|_len$|index|idx|seed|^id$|survival_end)", name, re.IGNORECASE):
+            return 2
+        return 1
+
+    varying_y = [name for name in numeric_fields if name != x_field and unique_counts.get(name, 0) > 1]
+    y_fields = sorted(varying_y, key=y_rank)[:3]
+    if not y_fields:
+        y_fields = [name for name in numeric_fields if name != x_field][:3]
     if not y_fields:
         y_fields = [x_field]
 
     x_values: list[float] = []
     series: list[dict[str, Any]] = []
-    y_map: dict[str, list[float]] = {name: [] for name in y_fields}
+    y_map: dict[str, list[float | None]] = {name: [] for name in y_fields}
 
     for row in rows:
         raw_x = row.get(x_field, "")
@@ -3243,12 +3345,14 @@ def parse_csv_dataset(path: Path, max_points: int) -> dict[str, Any] | None:
         x_values.append(x_value)
         for y_name in y_fields:
             raw_y = row.get(y_name, "")
+            y_value: float | None
             try:
                 y_value = float(raw_y)
                 if not math.isfinite(y_value):
                     raise ValueError
             except ValueError:
-                y_value = 0.0
+                # Missing value (e.g. no second peak): leave a gap, not a zero.
+                y_value = None
             y_map[y_name].append(y_value)
 
     semantics: list[dict[str, Any]] = []
@@ -3740,6 +3844,183 @@ def interactive_dataset_priority(dataset: dict[str, Any]) -> int:
     return score
 
 
+# Hand-chosen interactive charts for reports whose automatic pick is not
+# informative. Each series reads one CSV column; rows can be filtered ("match")
+# or kept as gaps ("mask": the y value is shown only where the condition holds).
+_TWO_PEAKS = {"paper_bimodal": "True"}
+CURATED_DATASETS: dict[str, list[dict[str, Any]]] = {
+    "ring_lazy_jump_ext": [
+        {
+            "series_id": "peak-times-vs-beta-n100",
+            "title": "Peak times t₁, t₂ vs β (N = 100)",
+            "title_cn": "峰时间 t₁、t₂ 随 β 的变化（N = 100）",
+            "caption": (
+                "t₁ and t₂ are the times of the first and second peak of the first-passage probability f(t), "
+                "the probability that the walker first reaches the target at step t. Points are drawn only where f(t) "
+                "has two peaks under the report's rule (a peak is a strict local maximum with f ≥ 10⁻⁷ and at least 1% "
+                "of the highest peak); elsewhere f(t) has a single peak. N = 100, q = 2/3, start at site 1, target "
+                "site 51, shortcut 6 → 52. Both axes are logarithmic."
+            ),
+            "caption_cn": (
+                "t₁、t₂ 是首达概率 f(t)（游走者恰在第 t 步首次到达目标的概率）第一个峰和第二个峰的时间。只在 f(t) "
+                "按报告的判据有两个峰时画点（峰指 f ≥ 10⁻⁷、且不低于最高峰 1% 的严格局部极大值）；其余 β 下 f(t) "
+                "只有一个峰。N = 100，q = 2/3，从格点 1 出发，目标为格点 51，捷径 6 → 52。两个坐标轴都是对数坐标。"
+            ),
+            "x_label": "shortcut strength β",
+            "x_label_cn": "捷径强度 β",
+            "y_label": "peak time (steps)",
+            "y_label_cn": "峰时间（步）",
+            "x_scale": "log",
+            "y_scale": "log",
+            "unit": "step",
+            "series": [
+                {"file": "artifacts/data/scan_beta_N100_K2.csv", "x": "beta", "y": "t1", "name": "t₁ (first peak), K = 2", "mask": _TWO_PEAKS, "x_max": 0.2},
+                {"file": "artifacts/data/scan_beta_N100_K2.csv", "x": "beta", "y": "t2", "name": "t₂ (second peak), K = 2", "mask": _TWO_PEAKS, "x_max": 0.2},
+                {"file": "artifacts/data/scan_beta_N100_K4.csv", "x": "beta", "y": "t1", "name": "t₁ (first peak), K = 4", "mask": _TWO_PEAKS, "x_max": 0.2},
+                {"file": "artifacts/data/scan_beta_N100_K4.csv", "x": "beta", "y": "t2", "name": "t₂ (second peak), K = 4", "mask": _TWO_PEAKS, "x_max": 0.2},
+            ],
+        },
+        {
+            "series_id": "tail-rate-vs-beta-n100",
+            "title": "Tail decay rate γ vs β (N = 100)",
+            "title_cn": "尾部衰减率 γ 随 β 的变化（N = 100）",
+            "caption": (
+                "γ = −ln λ_max, where λ_max is the largest eigenvalue of the transition matrix restricted to the "
+                "non-target sites, so the probability of not having arrived decays as e^(−γt) at late times. "
+                "β = 0, 0.01, …, 0.2; N = 100, q = 2/3."
+            ),
+            "caption_cn": (
+                "γ = −ln λ_max，λ_max 是转移矩阵限制在非目标格点上的最大特征值；晚时尚未到达的概率按 e^(−γt) 衰减。"
+                "β = 0, 0.01, …, 0.2；N = 100，q = 2/3。"
+            ),
+            "x_label": "shortcut strength β",
+            "x_label_cn": "捷径强度 β",
+            "y_label": "tail decay rate γ (per step)",
+            "y_label_cn": "尾部衰减率 γ（每步）",
+            "unit": "per step",
+            "series": [
+                {"file": "artifacts/outputs/beta_sweep_N100/beta_sweep_metrics_N100.csv", "x": "beta", "y": "tail_gamma", "name": "γ, K = 2", "match": {"K": "2"}},
+                {"file": "artifacts/outputs/beta_sweep_N100/beta_sweep_metrics_N100.csv", "x": "beta", "y": "tail_gamma", "name": "γ, K = 4", "match": {"K": "4"}},
+            ],
+        },
+        {
+            "series_id": "peak-times-vs-n-beta001",
+            "title": "Peak times vs ring size N (β* = 0.01)",
+            "title_cn": "峰时间随环长 N 的变化（β* = 0.01）",
+            "caption": (
+                "β* = 0.01 is the shortcut strength the report fixes for its ring-size scan. Even N from 50 to 300; "
+                "points only where f(t) has two peaks, which happens from N = 60 for K = 2 and from N = 74 for K = 4. "
+                "Target at site 1 + N/2, shortcut from site 6 to the site after the target. The y axis is logarithmic."
+            ),
+            "caption_cn": (
+                "β* = 0.01 是报告做环长扫描时固定的捷径强度。N 取 50 到 300 的偶数；只在 f(t) 有两个峰时画点："
+                "K = 2 从 N = 60 起、K = 4 从 N = 74 起出现两个峰。目标在格点 1 + N/2，捷径从格点 6 指向目标的下一个格点。纵轴为对数坐标。"
+            ),
+            "x_label": "ring size N",
+            "x_label_cn": "环长 N",
+            "y_label": "peak time (steps)",
+            "y_label_cn": "峰时间（步）",
+            "y_scale": "log",
+            "unit": "step",
+            "series": [
+                {"file": "artifacts/outputs/N_sweep_beta_selected/N_sweep_metrics_beta0.01.csv", "x": "N", "y": "t1", "name": "t₁ (first peak), K = 2", "match": {"K": "2"}, "mask": _TWO_PEAKS},
+                {"file": "artifacts/outputs/N_sweep_beta_selected/N_sweep_metrics_beta0.01.csv", "x": "N", "y": "t2", "name": "t₂ (second peak), K = 2", "match": {"K": "2"}, "mask": _TWO_PEAKS},
+                {"file": "artifacts/outputs/N_sweep_beta_selected/N_sweep_metrics_beta0.01.csv", "x": "N", "y": "t1", "name": "t₁ (first peak), K = 4", "match": {"K": "4"}, "mask": _TWO_PEAKS},
+                {"file": "artifacts/outputs/N_sweep_beta_selected/N_sweep_metrics_beta0.01.csv", "x": "N", "y": "t2", "name": "t₂ (second peak), K = 4", "match": {"K": "4"}, "mask": _TWO_PEAKS},
+            ],
+        },
+        {
+            "series_id": "peak-times-vs-n-beta002",
+            "title": "Peak times vs ring size N (β = 0.02, supplementary)",
+            "title_cn": "峰时间随环长 N 的变化（β = 0.02，补充计算）",
+            "caption": (
+                "Supplementary scan at β = 0.02 (not the report's selected β* = 0.01). Even N from 10 to 200; points "
+                "only where f(t) has two peaks, which happens from N = 58 for K = 2 and from N = 72 for K = 4. "
+                "The y axis is logarithmic."
+            ),
+            "caption_cn": (
+                "β = 0.02 的补充扫描（不是报告选定的 β* = 0.01）。N 取 10 到 200 的偶数；只在 f(t) 有两个峰时画点："
+                "K = 2 从 N = 58 起、K = 4 从 N = 72 起出现两个峰。纵轴为对数坐标。"
+            ),
+            "x_label": "ring size N",
+            "x_label_cn": "环长 N",
+            "y_label": "peak time (steps)",
+            "y_label_cn": "峰时间（步）",
+            "y_scale": "log",
+            "unit": "step",
+            "series": [
+                {"file": "artifacts/data/scan_N_K2_beta002.csv", "x": "N", "y": "t1", "name": "t₁ (first peak), K = 2", "mask": _TWO_PEAKS},
+                {"file": "artifacts/data/scan_N_K2_beta002.csv", "x": "N", "y": "t2", "name": "t₂ (second peak), K = 2", "mask": _TWO_PEAKS},
+                {"file": "artifacts/data/scan_N_K4_beta002.csv", "x": "N", "y": "t1", "name": "t₁ (first peak), K = 4", "mask": _TWO_PEAKS},
+                {"file": "artifacts/data/scan_N_K4_beta002.csv", "x": "N", "y": "t2", "name": "t₂ (second peak), K = 4", "mask": _TWO_PEAKS},
+            ],
+        },
+    ],
+}
+
+
+def parse_csv_number(raw: Any) -> float | None:
+    try:
+        value = float(str(raw).strip())
+    except ValueError:
+        return None
+    return value if math.isfinite(value) else None
+
+
+def build_curated_dataset(report_dir: Path, spec: dict[str, Any]) -> dict[str, Any] | None:
+    series: list[dict[str, Any]] = []
+    semantics: list[dict[str, Any]] = []
+    sources: list[str] = []
+    unit = str(spec.get("unit", "value"))
+    for item in spec.get("series", []):
+        path = report_dir / str(item["file"])
+        if not path.is_file():
+            return None
+        source = rel_repo_path(path)
+        if source not in sources:
+            sources.append(source)
+        match = {str(k): str(v) for k, v in dict(item.get("match", {})).items()}
+        mask = {str(k): str(v) for k, v in dict(item.get("mask", {})).items()}
+        x_max = item.get("x_max")
+        xs: list[float] = []
+        ys: list[float | None] = []
+        with path.open("r", encoding="utf-8", newline="") as handle:
+            for row in csv.DictReader(handle):
+                if any(str(row.get(k, "")).strip() != v for k, v in match.items()):
+                    continue
+                x_value = parse_csv_number(row.get(str(item["x"]), ""))
+                if x_value is None or (x_max is not None and x_value > float(x_max)):
+                    continue
+                y_value = parse_csv_number(row.get(str(item["y"]), ""))
+                if any(str(row.get(k, "")).strip() != v for k, v in mask.items()):
+                    y_value = None
+                xs.append(x_value)
+                ys.append(y_value)
+        finite = [v for v in ys if v is not None]
+        if not finite:
+            return None
+        name = str(item["name"])
+        series.append({"name": name, "x": xs, "y": ys, "series_type": "metric", "unit": unit})
+        semantics.append(
+            {
+                "name": name,
+                "series_type": "metric",
+                "unit": unit,
+                "min": float(min(finite)),
+                "max": float(max(finite)),
+                "positive_ratio": float(round(sum(1 for v in finite if v > 0) / len(finite), 6)),
+            }
+        )
+    if not series:
+        return None
+    return {
+        "series": series,
+        "series_semantics": semantics,
+        "default_series": [row["name"] for row in series],
+        "provenance": {"type": "csv", "source": "; ".join(sources)},
+    }
+
+
 def build_datasets(
     report_id: str,
     report_dir: Path,
@@ -3756,6 +4037,7 @@ def build_datasets(
         and "build" not in p.parts
         and "figures" not in p.parts
         and "tables" not in p.parts
+        and "_smoketest" not in p.parts
     ]
     data_candidates.sort(key=lambda p: p.as_posix())
 
@@ -3770,6 +4052,44 @@ def build_datasets(
             stale.unlink()
         except OSError:
             pass
+
+    curated_meta: list[dict[str, Any]] = []
+    for spec in CURATED_DATASETS.get(report_id, []):
+        built = build_curated_dataset(report_dir, spec)
+        if not built:
+            continue
+        series_id = str(spec["series_id"])
+        axis_fields = {
+            key: str(spec[key])
+            for key in ("title_cn", "x_label_cn", "y_label_cn", "x_scale", "y_scale", "caption", "caption_cn")
+            if spec.get(key)
+        }
+        payload = {
+            "report_id": report_id,
+            "series_id": series_id,
+            "x_label": str(spec["x_label"]),
+            "y_label": str(spec["y_label"]),
+            **built,
+        }
+        series_rel = f"/data/v1/reports/{report_id}/series/{series_id}.json"
+        (series_dir / f"{series_id}.json").write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8"
+        )
+        curated_meta.append(
+            {
+                "series_id": series_id,
+                "title": str(spec["title"]),
+                "x_label": str(spec["x_label"]),
+                "y_label": str(spec["y_label"]),
+                "series_path": series_rel,
+                "default_series": built["default_series"],
+                "series_semantics": built["series_semantics"],
+                "provenance": built["provenance"],
+                **axis_fields,
+            }
+        )
+    if curated_meta:
+        return curated_meta
 
     for candidate in data_candidates:
         parsed: dict[str, Any] | None = None
@@ -3947,8 +4267,10 @@ def build_report_payload(
     figure_records: list[dict[str, Any]] = []
     seen_asset_fingerprints: set[tuple[str, str]] = set()
 
-    selected = top_assets + [p for p in figure_assets if p not in top_assets]
-    for idx, src in enumerate(selected[: max_assets + max_figures]):
+    manuscript_pdfs = manuscript_pdf_paths(item, report_dir)
+    selected = manuscript_pdfs + [p for p in top_assets if p not in manuscript_pdfs]
+    selected += [p for p in figure_assets if p not in selected]
+    for idx, src in enumerate(selected[: len(manuscript_pdfs) + max_assets + max_figures]):
         kind = asset_kind(src)
         digest = sha256_file(src)
         fingerprint = (digest, kind)
@@ -3963,9 +4285,11 @@ def build_report_payload(
             artifacts_dir,
             no_copy_assets=no_copy_assets,
         )
+        full_stem = full_case_stem(src)
+        stem_now = src.name[: -len(src.suffix)] if src.suffix else src.name
         record = {
             "kind": kind,
-            "label": src.name,
+            "label": f"{src.parent.name}/{src.name}" if full_stem != stem_now else src.name,
             "web_path": web_path,
             "source_path": source_path,
             "size": int(src.stat().st_size),
@@ -3973,18 +4297,21 @@ def build_report_payload(
         }
         assets.append(record)
 
-        if src.suffix.lower() in FIGURE_EXT:
-            figure_records.append(
-                {
-                    "id": f"fig-{idx + 1}",
-                    "title": src.stem.replace("_", " "),
-                    "web_path": web_path,
-                    "source_path": source_path,
-                }
-            )
+        if src.suffix.lower() in FIGURE_EXT and src not in manuscript_pdfs:
+            readable = readable_figure_titles(src)
+            figure_record = {
+                "id": f"fig-{idx + 1}",
+                "title": readable[0] if readable else src.stem.replace("_", " "),
+                "web_path": web_path,
+                "source_path": source_path,
+            }
+            if readable:
+                figure_record["title_cn"] = readable[1]
+            figure_records.append(figure_record)
 
     assets = disambiguate_asset_labels(assets)
     figure_records = disambiguate_figure_titles(figure_records)
+    figure_records.sort(key=lambda row: figure_display_rank(str(row.get("source_path", ""))))
 
     datasets = build_datasets(
         report_id,
@@ -4252,82 +4579,28 @@ def build_report_payload(
         if upgraded:
             cn_narrative["result_overview"] = upgraded
 
+    # Curated reader-facing text: written by hand against the report's data, so it
+    # is used verbatim (the extraction clean-up below would strip "(K = 2)" etc.).
     override = REPORT_TEXT_OVERRIDES.get(report_id, {})
-    override_en = override.get("en", {})
-    if override_en:
-        override_title_en = normalize_space(str(override_en.get("title", "")))
-        if override_title_en:
-            title_en = ensure_en_text(override_title_en, report_id, role="title", max_chars=220)
-        override_summary_en = normalize_space(str(override_en.get("summary", "")))
-        if override_summary_en:
-            summary_en = ensure_en_text(override_summary_en, report_id, role="summary", max_chars=1000)
-        override_findings_en = [normalize_space(str(x)) for x in list(override_en.get("key_findings", []))]
-        if override_findings_en:
-            findings_en = dedupe_preserve(
-                [ensure_en_text(x, report_id, role="finding", max_chars=220) for x in override_findings_en],
-                max_items=8,
-            )
-        override_narrative_en = dict(override_en.get("narrative", {}))
-        if override_narrative_en:
-            en_narrative["model_overview"] = ensure_en_text(
-                str(override_narrative_en.get("model_overview", en_narrative["model_overview"])),
-                report_id,
-                role="model",
-                max_chars=320,
-            )
-            en_narrative["method_overview"] = ensure_en_text(
-                str(override_narrative_en.get("method_overview", en_narrative["method_overview"])),
-                report_id,
-                role="method",
-                max_chars=320,
-            )
-            en_narrative["result_overview"] = ensure_en_text(
-                str(override_narrative_en.get("result_overview", en_narrative["result_overview"])),
-                report_id,
-                role="result",
-                max_chars=320,
-            )
-
-    override_cn = override.get("cn", {})
-    if override_cn:
-        override_title_cn = normalize_space(str(override_cn.get("title", "")))
-        if override_title_cn:
-            title_cn = ensure_cn_text(
-                override_title_cn,
-                report_id,
-                role="title",
-                max_chars=220,
-                hint=override_title_cn,
-            )
-        override_summary_cn = normalize_space(str(override_cn.get("summary", "")))
-        if override_summary_cn:
-            summary_cn = ensure_cn_text(override_summary_cn, report_id, role="summary", max_chars=1000)
-        override_findings_cn = [normalize_space(str(x)) for x in list(override_cn.get("key_findings", []))]
-        if override_findings_cn:
-            findings_cn = dedupe_preserve(
-                [ensure_cn_text(x, report_id, role="finding", max_chars=220) for x in override_findings_cn],
-                max_items=8,
-            )
-        override_narrative_cn = dict(override_cn.get("narrative", {}))
-        if override_narrative_cn:
-            cn_narrative["model_overview"] = ensure_cn_text(
-                str(override_narrative_cn.get("model_overview", cn_narrative["model_overview"])),
-                report_id,
-                role="model",
-                max_chars=320,
-            )
-            cn_narrative["method_overview"] = ensure_cn_text(
-                str(override_narrative_cn.get("method_overview", cn_narrative["method_overview"])),
-                report_id,
-                role="method",
-                max_chars=320,
-            )
-            cn_narrative["result_overview"] = ensure_cn_text(
-                str(override_narrative_cn.get("result_overview", cn_narrative["result_overview"])),
-                report_id,
-                role="result",
-                max_chars=320,
-            )
+    for lang_key, target_narrative in (("en", en_narrative), ("cn", cn_narrative)):
+        override_lang = override.get(lang_key, {})
+        if not override_lang:
+            continue
+        override_title = normalize_space(str(override_lang.get("title", "")))
+        override_summary = normalize_space(str(override_lang.get("summary", "")))
+        override_findings = [normalize_space(str(x)) for x in list(override_lang.get("key_findings", [])) if normalize_space(str(x))]
+        if lang_key == "en":
+            title_en = override_title or title_en
+            summary_en = override_summary or summary_en
+            findings_en = dedupe_preserve(override_findings, max_items=8) if override_findings else findings_en
+        else:
+            title_cn = override_title or title_cn
+            summary_cn = override_summary or summary_cn
+            findings_cn = dedupe_preserve(override_findings, max_items=8) if override_findings else findings_cn
+        for field in ("model_overview", "method_overview", "result_overview"):
+            value = normalize_space(str(dict(override_lang.get("narrative", {})).get(field, "")))
+            if value:
+                target_narrative[field] = value
 
     base_meta = {
         "report_id": report_id,
@@ -5203,14 +5476,20 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
 
         staged_claims: list[tuple[str, str, str]] = []
         seen_claim_signatures: set[str] = set()
+        curated_text = rid in REPORT_TEXT_OVERRIDES
         for stage, text_en, text_cn in staged_candidates:
-            cleaned_en = sanitize_claim_text_for_map(text_en, lang="en", max_chars=460, report_id=rid)
-            cleaned_cn = sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320, report_id=rid)
+            if curated_text:
+                cleaned_en = normalize_space(text_en)
+                cleaned_cn = normalize_space(text_cn)
+            else:
+                cleaned_en = sanitize_claim_text_for_map(text_en, lang="en", max_chars=460, report_id=rid)
+                cleaned_cn = sanitize_claim_text_for_map(text_cn, lang="cn", max_chars=320, report_id=rid)
             if not cleaned_en:
                 continue
             role_key = stage if stage in {"model", "method", "result", "finding"} else "claim"
-            cleaned_en = ensure_en_text(cleaned_en, rid, role=role_key, max_chars=460)
-            cleaned_cn = ensure_cn_text(cleaned_cn, rid, role=role_key, max_chars=320)
+            if not curated_text:
+                cleaned_en = ensure_en_text(cleaned_en, rid, role=role_key, max_chars=460)
+                cleaned_cn = ensure_cn_text(cleaned_cn, rid, role=role_key, max_chars=320)
             if looks_like_operational_note(cleaned_en):
                 continue
             signature = normalize_finding_key(cleaned_en)

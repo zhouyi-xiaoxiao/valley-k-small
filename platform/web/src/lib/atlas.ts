@@ -43,8 +43,9 @@ export function loadRegistryStatus(): Record<string, ReportStatus> {
 
 export type ManuscriptLink = { lang: 'en' | 'cn'; href: string };
 
-// The written report for each language: the copy published with the site when
-// there is one, otherwise the PDF in the repository.
+// The written report for each language: only the copy published with the site
+// (the web-data build always copies manuscript/<id>_{en,cn}.pdf). Readers are
+// never sent to the repository itself.
 export function manuscriptLinks(reportId: string, meta: ReportMeta | null, withBase: (url: string) => string): ManuscriptLink[] {
   const links: ManuscriptLink[] = [];
   const candidates: Array<{ lang: 'en' | 'cn'; names: string[] }> = [
@@ -55,15 +56,10 @@ export function manuscriptLinks(reportId: string, meta: ReportMeta | null, withB
     let href: string | null = null;
     for (const name of names) {
       const hosted = meta?.assets.find(
-        (asset) => asset.kind === 'pdf' && asset.web_path.endsWith(`/manuscript/${name}`),
+        (asset) => asset.kind === 'pdf' && asset.web_path.endsWith(`/${reportId}/manuscript/${name}`),
       );
       if (hosted) {
         href = withBase(hosted.web_path);
-        break;
-      }
-      const rel = path.join('research', 'reports', reportId, 'manuscript', name);
-      if (fs.existsSync(path.join(REPO_ROOT, rel))) {
-        href = `${REPO_URL}/blob/main/${rel.split(path.sep).join('/')}`;
         break;
       }
     }

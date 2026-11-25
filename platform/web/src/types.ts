@@ -26,8 +26,15 @@ export type AssetRecord = {
 export type DatasetMeta = {
   series_id: string;
   title: string;
+  title_cn?: string;
   x_label: string;
   y_label: string;
+  x_label_cn?: string;
+  y_label_cn?: string;
+  x_scale?: 'linear' | 'log';
+  y_scale?: 'linear' | 'log';
+  caption?: string;
+  caption_cn?: string;
   series_path: string;
   default_series?: string[];
   series_semantics?: Array<{
@@ -109,6 +116,7 @@ export type SeriesPayload = {
 export type FigureRecord = {
   id: string;
   title: string;
+  title_cn?: string;
   web_path: string;
   source_path: string;
 };

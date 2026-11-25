@@ -184,9 +184,27 @@ export function formatDay(lang: Lang, iso: string): string {
 // Placeholder text produced for reports that have no write-up yet.
 export function isPlaceholderText(text: string): boolean {
   const t = text.trim();
+  const reportId = '[a-z0-9]+(?:_[a-z0-9]+)+';
+  const cnSource = '(?:该研究报告|Grid2D 体系|Ring 体系|跨模型综合)';
+  const cnSection = new RegExp(
+    `${cnSource}：(?:本报告围绕|本节(?:说明状态空间、参数约束与边界条件设定|给出解析/数值流程、反演方法与验证协议|总结峰谷结构、通道机制与跨报告对比结论|整理关键证据、图表说明与复现路径))。`,
+  );
+  const cnFinding = new RegExp(
+    `${cnSource}(?:（${reportId}）)?：关键结论见本页公式链、交互图与原始资产。`,
+  );
+  const cnReportTitle = new RegExp(`${cnSource}：${reportId}\\s*研究报告`);
+  const cnMechanismDataset = new RegExp(`${cnSource}：${reportId}\\s*研究报告 的机制数据集：asset-size-profile`);
+  const enPlaceholder = new RegExp(`(?:Model|Method|Result) summary placeholder for ${reportId}\\.`, 'i');
+  const enReport = new RegExp(`(?:^|:\\s*)Research report(?:\\s+${reportId})?\\.?$`, 'i');
   return (
     t.length === 0 ||
-    /WIP scaffold|not yet started|summary placeholder|^该研究报告：|[a-z0-9]+_[a-z0-9_]+\s*研究报告/.test(t)
+    /WIP scaffold|not yet started|summary placeholder|^该研究报告：|[a-z0-9]+_[a-z0-9_]+\s*研究报告/.test(t) ||
+    cnSection.test(t) ||
+    cnFinding.test(t) ||
+    cnReportTitle.test(t) ||
+    cnMechanismDataset.test(t) ||
+    enPlaceholder.test(t) ||
+    enReport.test(t)
   );
 }
 

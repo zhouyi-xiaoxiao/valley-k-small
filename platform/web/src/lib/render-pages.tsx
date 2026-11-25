@@ -217,6 +217,36 @@ function isPlaceholderCardSummary(heading: string, summary: string): boolean {
   return false;
 }
 
+function displayReportText(lang: Lang, text: string, englishText = ''): string {
+  if (!isPlaceholderText(text)) {
+    return text;
+  }
+  if (lang === 'cn' && englishText && !isPlaceholderText(englishText)) {
+    return englishText;
+  }
+  return '';
+}
+
+function localizeSectionCards(
+  lang: Lang,
+  cards: ReportMeta['section_cards'],
+  cardsEn: ReportMeta['section_cards'] | undefined,
+): ReportMeta['section_cards'] {
+  return cards.map((card, index) => {
+    const indexedCard = cardsEn?.[index];
+    const englishCard = indexedCard?.source_path === card.source_path
+      ? indexedCard
+      : cardsEn?.find((candidate) => candidate.source_path === card.source_path);
+    return {
+      ...card,
+      heading: displayReportText(lang, card.heading, englishCard?.heading),
+      summary:
+        displayReportText(lang, card.summary, englishCard?.summary) ||
+        (isPlaceholderText(card.summary) ? card.summary : ''),
+    };
+  });
+}
+
 function pruneSectionCards(cards: Array<{ heading: string; summary: string; source_path: string }>) {
   const byHeading = new Map<string, { heading: string; summary: string; source_path: string }>();
   const summaryQuality = (summary: string) => {
@@ -246,20 +276,26 @@ function pruneSectionCards(cards: Array<{ heading: string; summary: string; sour
   };
 
   for (const card of cards) {
-    if (isPlaceholderCardSummary(card.heading, card.summary)) {
+    const heading = isPlaceholderText(card.heading) ? '' : card.heading;
+    const summaryIsPlaceholder = isPlaceholderText(card.summary);
+    if (summaryIsPlaceholder && !card.summary.trim()) {
       continue;
     }
-    const headingKey = card.heading.replace(/\s+/g, ' ').trim().toLowerCase();
+    if (!summaryIsPlaceholder && isPlaceholderCardSummary(heading, card.summary)) {
+      continue;
+    }
+    const headingKey = heading.replace(/\s+/g, ' ').trim().toLowerCase();
     if (!headingKey) {
       continue;
     }
+    const candidate = summaryIsPlaceholder ? { ...card, heading, summary: '' } : { ...card, heading };
     const current = byHeading.get(headingKey);
     if (!current) {
-      byHeading.set(headingKey, card);
+      byHeading.set(headingKey, candidate);
       continue;
     }
-    if (summaryQuality(card.summary) > summaryQuality(current.summary)) {
-      byHeading.set(headingKey, card);
+    if (summaryQuality(candidate.summary) > summaryQuality(current.summary)) {
+      byHeading.set(headingKey, candidate);
     }
   }
   return [...byHeading.values()];
@@ -647,14 +683,19 @@ export function renderReportsPage(lang: Lang, prefix: string) {
   const entry = (reportId: string) => {
     const meta = loadReportMeta(reportId, lang);
     const metaEn = loadReportMeta(reportId, 'en');
-    const summary = (meta?.summary ?? '').replace(/\*\*/g, '');
+    const summary = displayReportText(
+      lang,
+      (meta?.summary ?? '').replace(/\*\*/g, ''),
+      (metaEn?.summary ?? '').replace(/\*\*/g, ''),
+    );
+    const teaser = displayReportText(lang, meta?.teaser ?? '', metaEn?.teaser ?? '');
     const mapping = bookManifest?.report_chapter_map?.[reportId];
     const chapterId = mapping && mapping.listed !== false ? mapping.primary_chapter_id : undefined;
     const chapter = chapterId ? bookManifest?.chapters.find((row) => row.chapter_id === chapterId) : undefined;
     const successorId = SUPERSEDED_BY[reportId];
     return {
       title: displayTitle(lang, meta, metaEn, reportId),
-      summary: meta?.teaser ? meta.teaser : isPlaceholderText(summary) ? '' : compactText(summary, 520),
+      summary: teaser || compactText(summary, 520),
       chapter,
       successor: successorId
         ? { id: successorId, title: displayTitle(lang, loadReportMeta(successorId, lang), loadReportMeta(successorId, 'en'), successorId) }
@@ -772,6 +813,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
     );
   }
 
+  const metaEn = loadReportMeta(reportId, 'en');
   const figures = loadFigures(reportId);
   const network = loadReportNetwork();
   const contentMap = loadContentMap();
@@ -791,8 +833,11 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const guide = reportGuide(contentMap, reportId);
   const groupedAssets = groupAssets(meta.assets);
   const duplicateAssetCount = Math.max(0, meta.assets.length - groupedAssets.length);
-  const topFindings = meta.key_findings.slice(0, 5);
-  const extraFindings = meta.key_findings.slice(5);
+  const localizedFindings = meta.key_findings
+    .map((finding, index) => displayReportText(lang, finding, metaEn?.key_findings[index] ?? ''))
+    .filter(Boolean);
+  const topFindings = localizedFindings.slice(0, 5);
+  const extraFindings = localizedFindings.slice(5);
   // Formula cards that only repeat the logic chain are not shown twice.
   const storyLatex = new Set(meta.math_story.map((item) => item.latex.replace(/\s+/g, '')));
   const extraMathBlocks = meta.math_blocks.filter((block) => !storyLatex.has(block.latex.replace(/\s+/g, '')));
@@ -800,18 +845,55 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const successorTitle = successorId
     ? displayTitle(lang, loadReportMeta(successorId, lang), loadReportMeta(successorId, 'en'), successorId)
     : '';
-  const filteredSections = pruneSectionCards(meta.section_cards);
+  const filteredSections = pruneSectionCards(localizeSectionCards(lang, meta.section_cards, metaEn?.section_cards));
   const sectionsPreview = filteredSections.slice(0, 6);
   const sectionsExtra = filteredSections.slice(6);
   const family = reportFamily(reportId, loadIndex().reports.find((row) => row.report_id === reportId)?.group ?? '');
   const isWip = loadRegistryStatus()[reportId] === 'wip';
-  const title = displayTitle(lang, meta, loadReportMeta(reportId, 'en'), reportId);
+  const title = displayTitle(lang, meta, metaEn, reportId);
   const rawSummary = (meta.summary || '').replace(/\*\*/g, '');
   // Scaffold reports carry generated template text; show only the status note for them.
-  const summary = isWip || isPlaceholderText(rawSummary) ? '' : rawSummary;
-  const hasNarrative = !isWip && [meta.narrative.model_overview, meta.narrative.method_overview, meta.narrative.result_overview].some(
-    (text) => text && !isPlaceholderText(text),
-  );
+  const summary = isWip ? '' : displayReportText(lang, rawSummary, (metaEn?.summary || '').replace(/\*\*/g, ''));
+  const narrative = {
+    model_overview: displayReportText(
+      lang,
+      lang === 'cn' ? meta.narrative.model_overview : metaEn?.narrative.model_overview ?? '',
+      metaEn?.narrative.model_overview ?? '',
+    ),
+    method_overview: displayReportText(
+      lang,
+      lang === 'cn' ? meta.narrative.method_overview : metaEn?.narrative.method_overview ?? '',
+      metaEn?.narrative.method_overview ?? '',
+    ),
+    result_overview: displayReportText(
+      lang,
+      lang === 'cn' ? meta.narrative.result_overview : metaEn?.narrative.result_overview ?? '',
+      metaEn?.narrative.result_overview ?? '',
+    ),
+  };
+  const hasNarrative = !isWip && Object.values(narrative).some(Boolean);
+  const visibleClaims = claimsOrdered
+    .map((claim) => ({
+      ...claim,
+      text: displayReportText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en),
+      originalEvidenceCount: claim.evidence.length,
+      evidence: claim.evidence
+        .map((ev) => ({
+          ...ev,
+          snippet: displayReportText(lang, lang === 'cn' ? ev.snippet_cn : ev.snippet_en, ev.snippet_en),
+        }))
+        .filter((ev) => Boolean(ev.snippet)),
+    }))
+    .filter((claim) => Boolean(claim.text));
+  const guideObjective = guide
+    ? displayReportText(lang, lang === 'cn' ? guide.objective_cn : guide.objective_en, guide.objective_en)
+    : '';
+  const guideVerificationSteps = guide
+    ? lang === 'cn'
+      ? guide.verification_steps_cn
+      : guide.verification_steps_en
+    : [];
+  const hasClaimsBlock = visibleClaims.length > 0 || Boolean(guideObjective && guideObjective !== narrative.result_overview);
   const navItems = [
     { id: 'findings', label: localizedText(lang, 'Findings', '结论'), show: topFindings.length > 0 },
     { id: 'interactive', label: localizedText(lang, 'Interactive figures', '交互图'), show: true },
@@ -873,18 +955,24 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
       {hasNarrative ? (
         <section className="report-overview" aria-label={localizedText(lang, 'Overview', '概览')}>
-          <div>
-            <h2>{localizedText(lang, 'Model', '模型')}</h2>
-            <p>{meta.narrative.model_overview}</p>
-          </div>
-          <div>
-            <h2>{localizedText(lang, 'Method', '方法')}</h2>
-            <p>{meta.narrative.method_overview}</p>
-          </div>
-          <div>
-            <h2>{localizedText(lang, 'Result', '结论')}</h2>
-            <p>{meta.narrative.result_overview}</p>
-          </div>
+          {narrative.model_overview ? (
+            <div>
+              <h2>{localizedText(lang, 'Model', '模型')}</h2>
+              <p>{narrative.model_overview}</p>
+            </div>
+          ) : null}
+          {narrative.method_overview ? (
+            <div>
+              <h2>{localizedText(lang, 'Method', '方法')}</h2>
+              <p>{narrative.method_overview}</p>
+            </div>
+          ) : null}
+          {narrative.result_overview ? (
+            <div>
+              <h2>{localizedText(lang, 'Result', '结论')}</h2>
+              <p>{narrative.result_overview}</p>
+            </div>
+          ) : null}
         </section>
       ) : null}
 
@@ -1227,6 +1315,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
           {localizedText(lang, 'Show the working record (claims, notes, commands, files)', '展开工作记录（论断、笔记、命令、文件）')}
         </summary>
 
+      {hasClaimsBlock ? (
       <section id="verifiable-claims" className="card section-enter" style={{ marginTop: '1rem' }}>
         <h3>{localizedText(lang, 'Claims and their evidence', '论断与证据')}</h3>
         <p className="lead">
@@ -1236,24 +1325,26 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             '下列每条论断都附有证据路径，便于逐条核对。',
           )}
         </p>
-        {guide && (lang === 'cn' ? guide.objective_cn : guide.objective_en) !== meta.narrative.result_overview ? (
+        {guide && guideObjective && guideObjective !== narrative.result_overview ? (
           <div className="card" style={{ marginBottom: '0.8rem' }}>
             <h4>{localizedText(lang, 'Report Objective', '报告目标')}</h4>
-            <p>{lang === 'cn' ? guide.objective_cn : guide.objective_en}</p>
-            <details>
-              <summary>{localizedText(lang, 'Verification Steps', '核对步骤')}</summary>
-              <ol>
-                {(lang === 'cn' ? guide.verification_steps_cn : guide.verification_steps_en).map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-            </details>
+            <p>{guideObjective}</p>
+            {guideVerificationSteps.length > 0 ? (
+              <details>
+                <summary>{localizedText(lang, 'Verification Steps', '核对步骤')}</summary>
+                <ol>
+                  {guideVerificationSteps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              </details>
+            ) : null}
           </div>
         ) : null}
-        {claimsOrdered.length > 0 ? (
+        {visibleClaims.length > 0 ? (
           <div style={{ display: 'grid', gap: '0.9rem' }}>
             {(['model', 'method', 'result', 'finding'] as const).map((stage) => {
-              const stageClaims = claimsOrdered.filter((claim) => claim.stage === stage);
+              const stageClaims = visibleClaims.filter((claim) => claim.stage === stage);
               if (stageClaims.length === 0) {
                 return null;
               }
@@ -1275,18 +1366,20 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                   <div className="grid grid-2">
                     {stageClaims.map((claim) => (
                       <article key={claim.claim_id} className="card">
-                        <p>{lang === 'cn' ? claim.text_cn : claim.text_en}</p>
-                        <details>
-                          <summary>{localizedText(lang, 'Evidence trail', '证据链')}</summary>
-                          <ul>
-                            {claim.evidence.map((ev) => (
-                              <li key={`${claim.claim_id}-${ev.evidence_type}-${ev.path}`}>
-                                <code>{ev.evidence_type}</code> <code>{ev.path}</code>
-                                <p style={{ margin: '0.35rem 0 0' }}>{lang === 'cn' ? ev.snippet_cn : ev.snippet_en}</p>
-                              </li>
-                            ))}
-                          </ul>
-                        </details>
+                        <p>{claim.text}</p>
+                        {claim.evidence.length > 0 || claim.originalEvidenceCount === 0 ? (
+                          <details>
+                            <summary>{localizedText(lang, 'Evidence trail', '证据链')}</summary>
+                            <ul>
+                              {claim.evidence.map((ev) => (
+                                <li key={`${claim.claim_id}-${ev.evidence_type}-${ev.path}`}>
+                                  <code>{ev.evidence_type}</code> <code>{ev.path}</code>
+                                  <p style={{ margin: '0.35rem 0 0' }}>{ev.snippet}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </details>
+                        ) : null}
                         {claim.linked_report_ids.length > 0 ? (
                           <p style={{ marginTop: '0.45rem' }}>
                             <span className="badge">{localizedText(lang, 'Linked reports', '关联报告')}</span>{' '}
@@ -1308,10 +1401,9 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
               );
             })}
           </div>
-        ) : (
-          <p>{localizedText(lang, 'No claim map found for this report.', '该报告尚未生成 claim 映射。')}</p>
-        )}
+        ) : null}
       </section>
+      ) : null}
 
       {filteredSections.length > 0 ? (
       <section id="narrative-sections" className="card section-enter" style={{ marginTop: '1rem' }}>
@@ -1320,7 +1412,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
           {sectionsPreview.map((card) => (
             <article key={`${card.heading}-${card.source_path}`} className="card">
               <h4>{card.heading}</h4>
-              <p>{card.summary}</p>
+              {card.summary ? <p>{card.summary}</p> : null}
               <details>
                 <summary>{localizedText(lang, 'Source', '来源')}</summary>
                 <p style={{ marginBottom: 0 }}>
@@ -1337,7 +1429,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
               {sectionsExtra.map((card) => (
                 <article key={`extra-${card.heading}-${card.source_path}`} className="card">
                   <h4>{card.heading}</h4>
-                  <p>{card.summary}</p>
+                  {card.summary ? <p>{card.summary}</p> : null}
                   <details>
                     <summary>{localizedText(lang, 'Source', '来源')}</summary>
                     <p style={{ marginBottom: 0 }}>

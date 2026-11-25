@@ -1,14 +1,56 @@
+import fs from 'fs';
+import path from 'path';
 import { loadSeriesPayload } from '@/lib/content';
 
-// The exact f(t) behind Fig. 1 of ring_lazy_jump_ext_rev2, drawn on a log time
-// axis so that the early and the late arrivals are both visible. Pure SVG,
-// rendered at build time; nothing here depends on scripts running.
+// The computed f(t) behind Fig. 1 of ring_lazy_jump_ext_rev2 (K = 4, beta = 0.01),
+// drawn on a log time axis so that the early and the late arrivals are both
+// visible. The height is f(t) itself; the two arrival groups are told apart by
+// the colour of the curve, not by shaded areas (on a log axis the area under
+// f(t) is not probability). Pure SVG, rendered at build time.
 
 const W = 560;
-const H = 250;
-const PAD = { left: 18, right: 14, top: 16, bottom: 34 };
+const H = 260;
+const PAD = { left: 44, right: 14, top: 18, bottom: 34 };
+
+const REPORT_ID = 'ring_lazy_jump_ext_rev2';
+const CSV_REL = path.join('research', 'reports', REPORT_ID, 'artifacts', 'data', 'ft_beta0.01.csv');
+const COLUMN = 'f_K4';
 
 type Point = { t: number; y: number };
+
+// Full series from the report's data file (t = 1 … 4000); falls back to the
+// web payload, which is capped at fewer points.
+function loadSeries(): { xs: number[]; ys: number[] } | null {
+  const file = path.join(process.cwd(), '..', '..', CSV_REL);
+  if (fs.existsSync(file)) {
+    const lines = fs.readFileSync(file, 'utf-8').trim().split(/\r?\n/);
+    const header = lines[0].split(',');
+    const ti = header.indexOf('t');
+    const yi = header.indexOf(COLUMN);
+    if (ti >= 0 && yi >= 0) {
+      const xs: number[] = [];
+      const ys: number[] = [];
+      for (const line of lines.slice(1)) {
+        const cells = line.split(',');
+        const t = Number(cells[ti]);
+        const y = Number(cells[yi]);
+        if (Number.isFinite(t) && Number.isFinite(y)) {
+          xs.push(t);
+          ys.push(y);
+        }
+      }
+      if (xs.length >= 10) {
+        return { xs, ys };
+      }
+    }
+  }
+  const payload = loadSeriesPayload(REPORT_ID, 'ft_beta0-01');
+  const series = payload?.series.find((row) => row.name === COLUMN);
+  if (!series || series.y.length < 10) {
+    return null;
+  }
+  return { xs: series.x.map((value) => Number(value)), ys: series.y };
+}
 
 function sample(xs: number[], ys: number[], count: number): Point[] {
   const tMin = Math.max(1, xs[0]);
@@ -39,13 +81,11 @@ function localMaxima(points: Point[]): number[] {
 }
 
 export function ArrivalCurve({ labels }: { labels: { early: string; late: string; axis: string } }) {
-  const payload = loadSeriesPayload('ring_lazy_jump_ext_rev2', 'ft_beta0-01');
-  const series = payload?.series.find((row) => row.name === 'f_K4');
-  if (!series || series.y.length < 10) {
+  const data = loadSeries();
+  if (!data) {
     return null;
   }
-  const xs = series.x.map((value) => Number(value));
-  const points = sample(xs, series.y, 260);
+  const points = sample(data.xs, data.ys, 300);
   const yMax = Math.max(...points.map((p) => p.y)) * 1.1;
   const tMin = points[0].t;
   const tMax = points[points.length - 1].t;
@@ -68,23 +108,25 @@ export function ArrivalCurve({ labels }: { labels: { early: string; late: string
     }
   }
 
-  const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${sx(p.t).toFixed(1)},${sy(p.y).toFixed(1)}`).join(' ');
-  const area = (from: number, to: number) => {
-    const part = points.slice(from, to + 1);
-    const top = part.map((p, i) => `${i === 0 ? 'M' : 'L'}${sx(p.t).toFixed(1)},${sy(p.y).toFixed(1)}`).join(' ');
-    return `${top} L${sx(part[part.length - 1].t).toFixed(1)},${sy(0).toFixed(1)} L${sx(part[0].t).toFixed(1)},${sy(0).toFixed(1)} Z`;
-  };
+  const path2 = (part: Point[]) =>
+    part.map((p, i) => `${i === 0 ? 'M' : 'L'}${sx(p.t).toFixed(1)},${sy(p.y).toFixed(1)}`).join(' ');
   const ticks = [1, 10, 100, 1000].filter((t) => t >= tMin && t <= tMax);
   const early = maxima.length === 2 ? points[maxima[0]] : null;
   const late = maxima.length === 2 ? points[maxima[1]] : null;
 
   return (
     <figure className="arrival-figure">
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${labels.early}; ${labels.late}`}>
-        <path d={area(0, split)} className="arrival-fast" />
-        <path d={area(split, points.length - 1)} className="arrival-slow" />
-        <path d={line} className="arrival-line" />
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`f(t), ${labels.axis}: ${labels.early}; ${labels.late}`}>
         <line x1={PAD.left} x2={W - PAD.right} y1={sy(0)} y2={sy(0)} className="arrival-axis" />
+        <line x1={PAD.left} x2={PAD.left} y1={sy(0)} y2={PAD.top} className="arrival-axis" />
+        <text x={PAD.left - 8} y={PAD.top + 10} textAnchor="end" className="arrival-tick arrival-ylabel">
+          f(t)
+        </text>
+        <text x={PAD.left - 8} y={sy(0) + 5} textAnchor="end" className="arrival-tick">
+          0
+        </text>
+        <path d={path2(points.slice(0, split + 1))} className="arrival-line arrival-line-fast" />
+        <path d={path2(points.slice(split))} className="arrival-line arrival-line-slow" />
         {ticks.map((t) => (
           <g key={t}>
             <line x1={sx(t)} x2={sx(t)} y1={sy(0)} y2={sy(0) + 5} className="arrival-axis" />

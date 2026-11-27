@@ -271,10 +271,14 @@ export function isGeneratedMechanismDatasetSnippet(text: string): boolean {
 }
 
 // The data builder's signature of a dataset: "[probability]: l -> mass
-// [probability]", sometimes after the file name ("scan.json [probability]: …").
+// [probability]", sometimes after the file name ("scan.json [probability]: …")
+// and with several columns ("N -> T_len, t1 [metric]").
 // It names columns, not content.
 export function isGeneratedDatasetSignature(text: string): boolean {
-  return /^(?:\S+\s+)?\[[^\]]+\]\s*:\s*\S+\s*->\s*\S+\s*\[[^\]]+\]\s*\.?$/.test(text.trim());
+  // name, optional [unit], colon, one column, arrow, a list of columns, optional [unit].
+  return /^(?:\S+\s*)?(?:\[[^\]]+\]\s*)?:\s*[^\s,]+\s*->\s*[^\s,]+(?:\s*,\s*[^\s,]+)*\s*(?:\[[^\]]+\])?\s*\.?$/.test(
+    text.trim(),
+  );
 }
 
 function evidenceEchoKey(text: string): string {
@@ -385,14 +389,19 @@ export function displayEvidenceSnippet(
   text: string,
   englishText = '',
   reportTitle = '',
+  evidenceType = '',
 ): string {
+  // The note of a dataset row is "name or chart title: x -> columns": it names
+  // columns and says nothing the file name does not.
+  const isColumnSignature = (value: string) =>
+    isGeneratedDatasetSignature(value) || (evidenceType === 'dataset' && value.includes('->'));
   let localized = cleanEvidenceSnippet(text, reportTitle);
   if (lang === 'en' && /[\u3400-\u9fff]/.test(localized)) {
     // A section of a Chinese-only manuscript: drop its Chinese heading, keep an English summary if there is one.
     const match = localized.match(/^[^:]*[\u3400-\u9fff][^:]*:\s+([\s\S]+)$/);
     localized = match && !/[\u3400-\u9fff]/.test(match[1]) ? match[1].trim() : '';
   }
-  if (isGeneratedMechanismDatasetSnippet(localized) || isGeneratedDatasetSignature(localized)) {
+  if (isGeneratedMechanismDatasetSnippet(localized) || isColumnSignature(localized)) {
     return '';
   }
   if (lang === 'cn' && (isPlaceholderText(localized) || isLatexResidue(localized) || !localized)) {
@@ -400,7 +409,7 @@ export function displayEvidenceSnippet(
     return isPlaceholderText(english) ||
       isLatexResidue(english) ||
       isGeneratedMechanismDatasetSnippet(english) ||
-      isGeneratedDatasetSignature(english)
+      isColumnSignature(english)
       ? ''
       : english;
   }
@@ -502,10 +511,20 @@ function escapeHtml(value: string): string {
 }
 
 /** KaTeX HTML for a formula; on a parse error, the source in a code element. */
+// A display formula taken from a manuscript sentence keeps the sentence's comma
+// or full stop ("..., " / "... ."); shown on its own it has none.
+function withoutSentencePunctuation(latex: string): string {
+  const trimmed = latex.trimEnd();
+  if (/\\(?:right|[bB]ig+r?|middle)\s*\.$/.test(trimmed) || /\.\.$/.test(trimmed)) {
+    return latex;
+  }
+  return trimmed.replace(/(?:\s|\\[,;:! ])*(?<!\\)[,.;]$/, '');
+}
+
 export function renderLatex(latex: string, displayMode = true): LatexRenderResult {
   try {
     return {
-      html: katex.renderToString(latex, {
+      html: katex.renderToString(displayMode ? withoutSentencePunctuation(latex) : latex, {
         throwOnError: true,
         displayMode,
         strict: 'error',
@@ -598,11 +617,37 @@ export function renderGlossaryFormula(latex: string): ReactNode {
  * between dollar signs ($g_y>0$) typeset with KaTeX, the rest through
  * readerText. A formula KaTeX cannot parse is shown in its plain form.
  */
+// A symbol written with an underscore in running text ("g_x", "p_stay") is
+// typeset as a subscript. Only single-letter bases with a one-character or a
+// listed word subscript are taken, so identifiers, paths and file names
+// ("t_1.csv") are left alone.
+const PROSE_SUBSCRIPT =
+  /(?<![A-Za-z0-9_$\\.\/?#&-])([A-Za-zα-ωΑ-Ω])_(stay|site|open|left|right|up|down|max|min|[A-Za-z0-9])(?![A-Za-z0-9_]|\.[A-Za-z0-9])/g;
+const PROSE_SPLIT = /(`[^`]+`|\*\*[^*]+\*\*|\$[^$\n]+\$)/g;
+
+function typesetProseSubscripts(text: string): string {
+  // An unpaired dollar sign would be paired with the ones added here.
+  if ((text.match(/\$/g) || []).length % 2 === 1) {
+    return text;
+  }
+  return text
+    .split(PROSE_SPLIT)
+    .map((part) => {
+      if (!part || part.startsWith('`') || part.startsWith('$') || part.startsWith('**')) {
+        return part;
+      }
+      return part.replace(PROSE_SUBSCRIPT, (_match, base: string, sub: string) =>
+        sub.length > 1 ? `$${base}_{\\mathrm{${sub}}}$` : `$${base}_{${sub}}$`,
+      );
+    })
+    .join('');
+}
+
 export function renderProse(text: string): ReactNode {
   if (!text) {
     return text;
   }
-  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\$[^$\n]+\$)/g).filter(Boolean);
+  const parts = typesetProseSubscripts(text).split(PROSE_SPLIT).filter(Boolean);
   return createElement(
     Fragment,
     null,
@@ -628,6 +673,36 @@ export function renderProse(text: string): ReactNode {
       return createElement(Fragment, { key: `text-${index}` }, readerText(part));
     }),
   );
+}
+
+// A "formula" that only assigns numbers to symbols ("N=31, q_1=0.7, q_2=0.2",
+// "(g_x,g_y,\delta)=(-0.25,0.40,0.70)") is a parameter setting, not a relation.
+// It is stated in the text of the report it belongs to and is not shown as a
+// formula card.
+const PARAM_NUM = String.raw`[-−+]?\d+(?:\.\d+)?(?:\s*(?:\\times|×|\\cdot)\s*10\^\{?[-−]?\d+\}?)?`;
+const PARAM_RHS = `(?:${PARAM_NUM}|\\(\\s*${PARAM_NUM}(?:\\s*,\\s*${PARAM_NUM})*\\s*\\))`;
+const PARAM_SUB = String.raw`(?:_(?:\{(?:[^{}]|\{[^{}]*\})*\}|[A-Za-z0-9]))?`;
+const PARAM_SYM =
+  String.raw`(?:\\[A-Za-z]+|[A-Za-zα-ωΑ-Ω])` + PARAM_SUB + String.raw`(?:\^(?:\{[^{}]*\}|[A-Za-z0-9*⋆]))?`;
+const PARAM_LHS = `(?:${PARAM_SYM}|\\(\\s*${PARAM_SYM}(?:\\s*,\\s*${PARAM_SYM})*\\s*\\))`;
+const PARAM_CLAUSE = `${PARAM_LHS}\\s*=\\s*${PARAM_RHS}`;
+const PARAM_SET = new RegExp(`^${PARAM_CLAUSE}(?:(?:\\s*[,;])+\\s*${PARAM_CLAUSE})*$`);
+
+export function isParameterSetLatex(latex: string): boolean {
+  const normalized = (latex || '')
+    .replace(/\\\\/g, ',')
+    .replace(/\\(?:qquad|quad|displaystyle|left|right|bigl|bigr|big|Big)(?![A-Za-z])/g, ' ')
+    .replace(/\\[,;:! ]/g, ' ')
+    .replace(/&/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[.,;]+$/, '')
+    .trim();
+  if (!normalized || !PARAM_SET.test(normalized)) {
+    return false;
+  }
+  // One assignment on its own ("S_0=1", "p_0=1") may be an initial condition.
+  return (normalized.match(/=/g) || []).length >= 2 || normalized.startsWith('(');
 }
 
 // ---------------------------------------------------------------------------

@@ -842,6 +842,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             lang === 'cn' ? ev.snippet_cn : ev.snippet_en,
             ev.snippet_en,
             metaEn?.title ?? meta.title,
+            ev.evidence_type,
           ),
         }))
         .map((ev) => {
@@ -850,7 +851,9 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             ...ev,
             kind: evidenceKindLabel(lang, ev.evidence_type),
             file: ev.path,
-            snippet: isClaimTextEcho(ev.snippet, claimText) ? '' : ev.snippet,
+            // On a Chinese page the snippet may be the English claim sentence again.
+            snippet:
+              isClaimTextEcho(ev.snippet, claimText) || isClaimTextEcho(ev.snippet, claim.text_en) ? '' : ev.snippet,
           };
         }),
     }))
@@ -1569,13 +1572,14 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
             {lang === 'cn' ? (
               <>
                 先读<Link href={prefixPath(prefix, '/book')}>书</Link>
-                的第0章和第1章：那里统一了符号，并给出基本的量，即首达时间（FPT，游走者第一次到达目标的那一步），以及它的概率质量函数（PMF）和累积分布函数（CDF）。
+                的第0章和第1章：那里统一了符号，并给出基本的量，即首达时间 T（FPT，游走者第一次到达目标的那一步），它的概率质量函数 f(t) = P(T = t)（PMF），以及累积分布函数（CDF）。
               </>
             ) : (
               <>
                 Start with chapters 0 and 1 of <Link href={prefixPath(prefix, '/book')}>the Book</Link>: they set the
-                notation and the basic quantities, the first-passage time (FPT, the step at which the walker first reaches
-                the target) and its probability mass function (PMF) and cumulative distribution function (CDF).
+                notation and the basic quantities: the first-passage time T (FPT, the step at which the walker first reaches
+                the target), its probability mass function f(t) = P(T = t) (PMF) and its cumulative distribution function
+                (CDF).
               </>
             )}
           </li>
@@ -2068,8 +2072,8 @@ export function renderAboutPage(lang: Lang, prefix: string) {
         <p>
           {localizedText(
             lang,
-            'Each report is written in LaTeX next to the code and data that produce its figures. The pages here are generated from those sources by scripts in the repository, checked against JSON schemas, and rebuilt when the repository changes. Summaries and findings on the pages are extracted from the reports; the PDF is the report itself.',
-            '每份报告用 LaTeX 写成，和生成图的代码、数据放在一起。这里的页面由仓库里的脚本从这些源文件生成，经 JSON schema 校验，仓库一有变动就重新构建。页面上的摘要和结论摘自报告本身；PDF 才是报告全文。',
+            'Each report is written in LaTeX next to the code and data that produce its figures. The pages here are generated from those sources and rebuilt when the repository changes. Summaries and findings on the pages are extracted from the reports; the PDF is the report itself.',
+            '每份报告用 LaTeX 写成，和生成图的代码、数据放在一起。这里的页面由这些源文件生成，仓库一有变动就重新构建。页面上的摘要和结论摘自报告本身；PDF 才是报告全文。',
           )}
         </p>
         <p>

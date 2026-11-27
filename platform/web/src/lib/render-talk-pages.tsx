@@ -37,6 +37,26 @@ export function renderTalkPage(lang: Lang, prefix: string, talkId: string) {
   );
 }
 
+/** /talk/ has no page of its own: the list of talks is a section of the home page. */
+export function renderTalkIndexRedirect(lang: Lang, prefix: string) {
+  const home = withBasePath(`${prefix}/`);
+  const destination = `${home}#talks`;
+  return (
+    <main className="talk-deck-fallback">
+      <meta httpEquiv="refresh" content={`0; url=${destination}`} />
+      <link rel="canonical" href={home} />
+      <section className="talk-fallback-card">
+        <h1>{localizedText(lang, 'Talks', '演讲')}</h1>
+        <p>
+          <a href={destination}>
+            {localizedText(lang, 'See the list of talks.', '查看演讲列表。')}
+          </a>
+        </p>
+      </section>
+    </main>
+  );
+}
+
 export function renderTalkRedirect(lang: Lang, prefix: string) {
   const destination = withBasePath(`${prefix}/talk/semt-phd/`);
   return (

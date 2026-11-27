@@ -52,8 +52,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
             },
             "key_findings": [
-                "First peak = shortcut route: at N = 100 and β = 0.02, every walker arriving in the first peak used the shortcut, for both K = 2 and K = 4.",
-                "Second peak = mostly the slow way round: 26% (K = 2) and 13% (K = 4) of second-peak arrivals used the shortcut (N = 100, β = 0.02).",
+                "The first peak is the shortcut route: at N = 100 and β = 0.02, every walker arriving in the first peak used the shortcut, for both K = 2 and K = 4.",
+                "The second peak comes mostly from the slow way round: 26% (K = 2) and 13% (K = 4) of second-peak arrivals used the shortcut (N = 100, β = 0.02).",
                 "A jump-over (a ±2 step across the target without landing on it) exists only for K = 4; walkers that jumped over without using the shortcut make up 23% of the K = 4 second-peak window.",
                 "Two peaks exist only at intermediate shortcut strength: at N = 100 there are none at β = 0, nor from β = 0.07 (K = 2) or β = 0.2 (K = 4) upwards.",
             ],
@@ -185,7 +185,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "model_overview": (
                     "Lazy walk on a ring of N = 100 sites: each step it stays put with probability 1/3, else moves one site either way "
                     "when K = 2, or up to two when K = 4. The walker starts at site 1 and the target is site 51, opposite the start; a "
-                    "directed shortcut from site 6 to site 52, beside the target, is taken with probability β/3 per step, β = 0.01."
+                    "walker at site 6 takes the directed shortcut to site 52, beside the target, with probability β/3 per step, β = 0.01."
                 ),
                 "method_overview": (
                     "f(t) comes from numerically inverting the exact generating function, up to step 4000. Three windows sit on the "
@@ -202,7 +202,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             },
             "key_findings": [
                 "The early-peak window of f(t) consists entirely of walkers that used the shortcut, for both K = 2 and K = 4.",
-                "In the late-peak window, walkers that never used the shortcut are the majority: about 85% for K = 2 and 93% for K = 4.",
+                "In the late-peak window (β = 0.01), walkers that never used the shortcut are the majority: about 85% for K = 2 and 93% for K = 4.",
                 "For K = 4, about a quarter of the late-peak window are walkers that stepped over the target without landing on it, a delay route that K = 2 does not have.",
                 "Over 81 threshold settings and five β values from 0.001 to 0.03, the two-peak test (which here also requires the valley to be at most 10%, 20% or 30% of the highest peak) passes 33% of cases for K = 2 and 60% for K = 4. Only the valley limit changes the outcome: at β = 0.01, K = 2 fails every setting, while K = 4 passes two of the three valley limits.",
             ],
@@ -227,13 +227,13 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "result_overview": (
                     "早峰来自走了捷径的游走者，晚峰主要来自绕远路的游走者。K = 4 时，跨过目标构成第二条延迟路径。"
-                    "阈值网格的谷深上限（最高峰的 10%、20% 或 30%）比选取 β = 0.01 时用的 60% 更严；在这一网格上，β = 0.01 时 K = 2 "
+                    "阈值网格的谷深上限（最高峰的 10%、20% 或 30%）比选取 β = 0.01 时用的 60% 更严；在这一网格上，β = 0.01 时 K = 2"
                     "（谷是峰高的 34%）在所有设置下都不判为双峰，K = 4 在三个谷深上限中通过两个。"
                 ),
             },
             "key_findings": [
                 "在 K = 2 和 K = 4 两种情形下，f(t) 早峰窗口里的游走者全部走过捷径。",
-                "晚峰窗口里，从未走过捷径的游走者占多数：K = 2 时约 85%，K = 4 时约 93%。",
+                "晚峰窗口里（β = 0.01），从未走过捷径的游走者占多数：K = 2 时约 85%，K = 4 时约 93%。",
                 "K = 4 时，晚峰窗口里约四分之一的游走者曾跨过目标而没有落在目标上，这是 K = 2 没有的一条延迟路径。",
                 "在 81 组阈值设置和 0.001 到 0.03 之间的 5 个 β 值上（这里还要求谷不高于最高峰的 10%、20% 或 30%），K = 2 有 33% 判为双峰，K = 4 有 60%。改变结果的只有谷深上限：β = 0.01 时 K = 2 在所有设置下都不通过，K = 4 在三个谷深上限中通过两个。",
             ],
@@ -426,7 +426,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             "narrative": {
                 "model_overview": (
                     "非懒惰环，N = 100，K = 6（步长 ±1、±2、±3），从格点 1 出发，目标在格点 50。一条有向捷径；在捷径出发的"
-                    "格点上，环上 6 个邻居和捷径共 7 个去向，各占 1/7。情形 A 从格点 6 出发，情形 B 从起点出发；除出发格点外，"
+                    "格点上，环上 6 个邻居和捷径共 7 个去向，各占 1/7。情形 A 的捷径从格点 6 出发，情形 B 的捷径从游走者的起点出发；除捷径出发的格点外，"
                     "其余格点逐一作为落点。"
                 ),
                 "method_overview": (
@@ -622,7 +622,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "Exact recursion f(t) = rᵀQᵗ⁻¹p₀ as the baseline; generating function built from the defect-free "
                     "propagator plus a correction for each local defect, inverted by Abate–Whitt; Monte Carlo with 30 000 "
                     "walkers. Two peaks are found on f smoothed over 9 steps; valley ratio = f(tᵥ)/min(h₁, h₂), required to "
-                    "be at most 0.07."
+                    "be at most 0.07, where h₁ and h₂ are the two peak heights and tᵥ is the step of the lowest point "
+                    "between the peaks."
                 ),
                 "result_overview": (
                     "Case A (drift with wrap-around): peaks at t = 6 and 232. Case B (edge corridor with local bias): t = 33 "
@@ -653,7 +654,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "method_overview": (
                     "以精确递推 f(t) = rᵀQᵗ⁻¹p₀ 为基准；生成函数由无缺陷传播子加上每个局部缺陷的修正构成，用 Abate–Whitt "
-                    "方法反演；蒙特卡洛 3 万条轨迹。在 9 步平滑后的 f 上找两个峰；谷比 = f(tᵥ)/min(h₁, h₂)，要求不超过 0.07。"
+                    "方法反演；蒙特卡洛 3 万条轨迹。在 9 步平滑后的 f 上找两个峰；谷比 = f(tᵥ)/min(h₁, h₂)，要求不超过 0.07，其中 h₁、h₂ 是两个峰的高度，tᵥ 是两峰之间最低点所在的那一步。"
                 ),
                 "result_overview": (
                     "情形 A（绕一圈的漂移）：峰在 t = 6 和 232。情形 B（带局部偏置的边缘走廊）：t = 33 和 473，在扫描的 6–14 格走廊长度中，只有 6 到 8 格能让谷低于 7%。"
@@ -686,7 +687,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "method_overview": (
                     "Exact recursion as the baseline, Abate–Whitt inversion (L¹ difference at most 3.1 × 10⁻¹⁴) and Monte "
-                    "Carlo with 30 000 to 60 000 walkers. Valley ratio = f(tᵥ)/min(h₁, h₂) on f smoothed over 9 steps."
+                    "Carlo with 30 000 to 60 000 walkers. Valley ratio = f(tᵥ)/min(h₁, h₂) on f smoothed over 9 steps, with "
+                    "h₁ and h₂ the two peak heights and tᵥ the step of the lowest point between the peaks."
                 ),
                 "result_overview": (
                     "All eight representative cases keep two peaks under fully reflecting walls, with valley ratios from "
@@ -715,7 +717,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "method_overview": (
                     "以精确递推为基准，Abate–Whitt 反演（L¹ 差不超过 3.1 × 10⁻¹⁴），蒙特卡洛 3 万到 6 万条轨迹。谷比 = "
-                    "f(tᵥ)/min(h₁, h₂)，在 9 步平滑后的 f 上计算。"
+                    "f(tᵥ)/min(h₁, h₂)，在 9 步平滑后的 f 上计算；h₁、h₂ 是两个峰的高度，tᵥ 是两峰之间最低点所在的那一步。"
                 ),
                 "result_overview": (
                     "八个代表情形在全反射边界下都保持两个峰，谷比在 0.009 到 0.066 之间。走快路径的概率随几何不同在 2% 到 50% 之间。"

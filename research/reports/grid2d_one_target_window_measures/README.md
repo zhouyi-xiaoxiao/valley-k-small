@@ -8,7 +8,7 @@ Part of the `grid2d_one_target_*` sub-series. See `grid2d_one_target_base` for s
 
 ## Intended scope (working title; refine when work begins)
 
-Window-measure analysis for the single-target 2D-grid FPT distribution — integrated mass, percentile, and tail metrics over fixed time windows, used to characterise FPT shape without committing to a parametric form.
+Window-measure analysis for the single-target first-passage-time distribution on a two-dimensional lattice — integrated mass, percentile, and tail metrics over fixed time windows, used to characterise FPT shape without committing to a parametric form.
 
 ## Layout
 

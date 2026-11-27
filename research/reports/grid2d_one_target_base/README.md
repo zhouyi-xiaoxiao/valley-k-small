@@ -11,13 +11,13 @@ The sibling reports (`exit_timing`, `valley_peak_budget`, `window_measures`, plu
 - `grid2d_one_target_exit_timing` — exit-timing distribution
 - `grid2d_one_target_valley_peak_budget` — valley/peak mass budget
 - `grid2d_one_target_window_measures` — fixed-window measures (mass, percentile, tail)
-- `grid2d_one_two_target_gating` — gating effect of adding a second target (uses base + extends)
+- `grid2d_one_two_target_gating` — gating effect of adding a second target (builds on this shared setup)
 
 ## Intended scope
 
-- **Problem setup**: single absorbing target on a finite 2D-grid; choose between reflecting / periodic boundary; start position protocol; T grid convention.
-- **Notation**: target placement $\mathbf{x}^\star$, start $\mathbf{x}_0$, FPT $\tau$, lattice constants, time discretisation.
-- **Estimator conventions**: which AW / recursion / MC variants are used, and when each is the reference.
+- **Problem setup**: single absorbing target on a finite two-dimensional lattice; reflecting or periodic boundary; how the start position is chosen; time-grid convention.
+- **Notation**: target placement $\mathbf{x}^\star$, start $\mathbf{x}_0$, first-passage time $\tau$, lattice constants, time discretisation.
+- **Estimator conventions**: which Abate–Whitt inversion, exact-recursion and Monte Carlo variants are used, and when each is the reference.
 - **Reproducibility conventions**: shared seed scheme, result-file layout, figure-style policy.
 
 ## TODO before this report is real

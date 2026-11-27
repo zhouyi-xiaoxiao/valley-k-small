@@ -1559,8 +1559,8 @@ REPORT_MATH_BRIDGE_TEMPLATES: dict[str, list[dict[str, str]]] = {
             ),
         },
         {
-            "context_en": "FPT-survival-hazard consistency",
-            "context_cn": "FPT-生存-风险率一致性",
+            "context_en": "How f(t), S(t) and h(t) are related",
+            "context_cn": "f(t)、S(t) 与 h(t) 的关系",
             "latex": r"f(t)=\Pr[T=t],\quad S(t)=1-\sum_{u=1}^{t}f(u),\quad h(t)=\frac{f(t)}{S(t-1)}",
         },
         {
@@ -1569,8 +1569,8 @@ REPORT_MATH_BRIDGE_TEMPLATES: dict[str, list[dict[str, str]]] = {
             "latex": r"\tilde{A}(m)=A(2m-1)+A(2m),\quad m=1,\dots,\left\lfloor\frac{T_{\max}}{2}\right\rfloor",
         },
         {
-            "context_en": "Fig.3 two-peak admissibility criterion",
-            "context_cn": "Fig.3 双峰可接受判据",
+            "context_en": "Two-peak criterion",
+            "context_cn": "双峰判据",
             "latex": (
                 r"A(t_1-1)<A(t_1)>A(t_1+1),\ A(t_2-1)<A(t_2)>A(t_2+1),\ "
                 r"A(t_2)\ge 0.01\max_{t}A(t)"

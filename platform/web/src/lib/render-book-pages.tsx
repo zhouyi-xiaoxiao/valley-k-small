@@ -27,6 +27,7 @@ import {
   isGeneratedMathStoryStage,
   isGenericMathStoryContext,
   isLatexResidue,
+  isParameterSetLatex,
   isPlaceholderText,
   isSiteGlossaryTerm,
   mergeEvidenceRows,
@@ -168,12 +169,14 @@ function visibleChapterEvidence(claim: ChapterClaim, lang: Lang) {
         lang === 'cn' ? ev.snippet_cn : ev.snippet_en,
         ev.snippet_en,
         reportTitle,
+        ev.evidence_type,
       );
       return {
         path: ev.path,
         kind: evidenceKindLabel(lang, ev.evidence_type),
         file: evidenceSourceLabel(lang, ev.path),
-        snippet: isClaimTextEcho(snippet, claimText) ? '' : snippet,
+        // On a Chinese page the snippet may be the English claim sentence again.
+        snippet: isClaimTextEcho(snippet, claimText) || isClaimTextEcho(snippet, claim.text_en) ? '' : snippet,
       };
     })
     .filter((ev) => {
@@ -212,7 +215,8 @@ function isBuilderTheoryItem(item: TheoryItem): boolean {
 // a section heading in the page's language, or a description. An uncaptioned
 // line is usually a parameter setting or an assignment
 // ("(g_x, g_y, δ) = (−0.25, 0.40, 0.70)", "Δ = δ p_stay") that says nothing
-// outside its report. Report pages show all formulas.
+// outside its report. A line that only assigns numbers to symbols is left out
+// of the book even when it has a heading. Report pages show all formulas.
 function isBookReaderFormula(lang: Lang, item: TheoryItem): boolean {
   return Boolean(formulaCaption(lang, item) || formulaDescription(lang, item));
 }
@@ -222,7 +226,13 @@ function readerTheoryItems(chapter: BookChapter, lang: Lang): TheoryItem[] {
   const seen = new Set<string>();
   return chapter.theory_chain.filter((item) => {
     const key = formulaKey(item.latex);
-    if (isBuilderTheoryItem(item) || !key || seen.has(key) || !isBookReaderFormula(lang, item)) {
+    if (
+      isBuilderTheoryItem(item) ||
+      !key ||
+      seen.has(key) ||
+      isParameterSetLatex(item.latex) ||
+      !isBookReaderFormula(lang, item)
+    ) {
       return false;
     }
     seen.add(key);
@@ -458,6 +468,7 @@ export function renderBookPage(lang: Lang, prefix: string) {
   }
 
   const chapterRows = [...manifest.chapters].sort((a, b) => a.order - b.order);
+  const lastChapterUnwritten = chapterRows.length > 0 && chapterRows[chapterRows.length - 1].written === false;
   const chapterTitleById = new Map<string, string>(
     chapterRows.map((row): [string, string] => [row.chapter_id, lang === 'cn' ? row.title_cn : row.title_en]),
   );
@@ -482,11 +493,17 @@ export function renderBookPage(lang: Lang, prefix: string) {
         <div className="kicker">{localizedText(lang, 'Book', '书')}</div>
         <h1>{localizedText(lang, 'Valley-K Small research book', 'Valley-K Small 研究电子书')}</h1>
         <p className="lead">
-          {localizedText(
-            lang,
-            'The reports read as one argument, from notation (Chapter 0) to open questions (Chapter 7). Each chapter links to the reports, figures and claims it rests on.',
-            '把各份报告串成一条论证：从记号（第0章）到开放问题（第7章）。每章都连回它所依据的报告、图和结论。',
-          )}
+          {lastChapterUnwritten
+            ? localizedText(
+                lang,
+                'The reports read as one argument, from notation (Chapter 0) to robustness checks (Chapter 6); Chapter 7, on open questions, is not yet written. Each chapter links to the reports, figures and claims it rests on.',
+                '把各份报告串成一条论证：从记号（第0章）到稳健性检查（第6章）；第7章“开放问题”还没写。每章都连回它所依据的报告、图和结论。',
+              )
+            : localizedText(
+                lang,
+                'The reports read as one argument, from notation (Chapter 0) to open questions (Chapter 7). Each chapter links to the reports, figures and claims it rests on.',
+                '把各份报告串成一条论证：从记号（第0章）到开放问题（第7章）。每章都连回它所依据的报告、图和结论。',
+              )}
         </p>
         <p>
           <Link href={prefixPath(prefix, '/book/continuous')} className="badge">

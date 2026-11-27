@@ -6,6 +6,11 @@ export function generateStaticParams() {
   return (manifest?.chapters || []).map((item) => ({ chapter: item.chapter_id }));
 }
 
+export function generateMetadata({ params }: { params: { chapter: string } }) {
+  const chapter = (loadBookManifest()?.chapters || []).find((item) => item.chapter_id === params.chapter);
+  return { title: chapter?.title_cn || '书' };
+}
+
 export default function CnBookChapterPage({ params }: { params: { chapter: string } }) {
   return renderBookChapterPage('cn', '/cn', params.chapter);
 }

@@ -41,7 +41,7 @@ CHAPTER_BLUEPRINT: list[dict[str, Any]] = [
             "Whether f(t) has two peaks is decided by a criterion stated in each report, not by eye; the lattice reports and the ring reports use different criteria.",
         ],
         "intro_cn": [
-            "读 f(t) 时还要看另外两个量：生存函数 S(t)，即到第 t 步为止还没到达目标的概率；风险率 h(t) = f(t)/S(t − 1)，即此前一直没到达、恰在第 t 步到达的概率。",
+            "读 f(t) 时还要看另外两个量：生存函数 S(t)，即到第 t 步为止还没到达目标的概率；风险率 h(t) = f(t)/S(t − 1)，即在此前一直没有到达的条件下，恰在第 t 步到达的概率。",
             "f(t) 是否有两个峰不凭肉眼判断，而按各报告写明的判据来定；二维格点报告和环模型报告用的判据不同。",
         ],
         "report_ids": ["grid2d_bimodality", "grid2d_two_target_double_peak", "ring_lazy_flux", "ring_two_target"],

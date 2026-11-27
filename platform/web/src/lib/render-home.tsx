@@ -179,8 +179,8 @@ export function renderAtlasHome(lang: Lang, prefix: string) {
               <span>
                 {readerText(localizedText(
                   lang,
-                  `${chapterCount} chapters, from notation to open questions, each tied to the reports behind it`,
-                  `${chapterCount} 章，从记号到开放问题，每章都连回背后的报告`,
+                  `${chapterCount} chapters, starting from notation, each tied to the reports behind it`,
+                  `${chapterCount} 章，从记号讲起，每章都连回背后的报告`,
                 ))}
               </span>
             </li>

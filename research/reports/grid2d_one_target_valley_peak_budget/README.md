@@ -11,7 +11,7 @@ for shared problem setup, notation, and conventions; this report focuses on
 
 ## Scope
 
-Valley/peak "budget" analysis for the single-target 2D-grid FPT distribution
+Valley/peak "budget" analysis for the single-target first-passage-time distribution on a two-dimensional lattice
 under a permeable membrane. The report compares the three windows
 `peak1`, `valley`, `peak2` along two complementary axes:
 

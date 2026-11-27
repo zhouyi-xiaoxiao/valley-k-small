@@ -294,6 +294,15 @@ ol {
   flex-wrap: wrap;
 }
 
+/* Phone: previous and next on one row, the link to the contents under them. */
+@media (max-width: 560px) {
+  .book-chapter-nav > :nth-child(2) {
+    order: 3;
+    flex-basis: 100%;
+    text-align: center;
+  }
+}
+
 .chapter-disclosure {
   margin-top: 0.8rem;
   border-top: 1px dashed var(--line);
@@ -3311,8 +3320,9 @@ span.katex {
   white-space: nowrap;
 }
 
-/* Glossary formulas: one relation per line; a relation is never broken
-   inside and scrolls sideways when it is wider than the card. */
+/* Glossary formulas: one relation per line. On wide screens a relation is
+   not broken inside and scrolls sideways when it is wider than the card; on
+   phones it may wrap between terms. */
 .glossary-formula {
   overflow-x: visible;
 }
@@ -3326,6 +3336,14 @@ span.katex {
 
 .glossary-formula-line + .glossary-formula-line {
   margin-top: 0.3rem;
+}
+
+/* On a phone a chain of equalities wider than the card wraps after a relation
+   sign instead of running off the right edge. */
+@media (max-width: 760px) {
+  .glossary-formula-line {
+    white-space: normal;
+  }
 }
 
 /* Formula cards: caption from the source section, long formulas on a full row. */

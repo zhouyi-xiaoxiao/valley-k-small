@@ -81,7 +81,7 @@ function renderLatex(latex: string, displayMode = true): LatexRenderResult {
   }
 }
 
-function renderGlossaryFormula(latex: string, lang: Lang, context: string) {
+function renderGlossaryFormula(latex: string) {
   const rendered = renderLatex(latex, false);
   return (
     <>
@@ -91,7 +91,6 @@ function renderGlossaryFormula(latex: string, lang: Lang, context: string) {
           __html: rendered.html,
         }}
       />
-      {rendered.error ? renderFormulaWarning(lang, context, rendered.error) : null}
     </>
   );
 }
@@ -122,7 +121,6 @@ function renderMathBlockCard(
           __html: rendered.html,
         }}
       />
-      {rendered.error ? renderFormulaWarning(block.lang === 'cn' ? 'cn' : 'en', block.source_path, rendered.error) : null}
       <details>
         <summary>{block.lang === 'cn' ? '公式来源' : 'Formula source'}</summary>
         <p style={{ marginBottom: 0 }}>
@@ -130,18 +128,6 @@ function renderMathBlockCard(
         </p>
       </details>
     </article>
-  );
-}
-
-function renderFormulaWarning(lang: Lang, context: string, error: string) {
-  return (
-    <details style={{ marginBottom: '0.5rem' }}>
-      <summary>{localizedText(lang, 'Formula render warning (KaTeX)', '公式渲染警告（KaTeX）')}</summary>
-      <p style={{ margin: '0.45rem 0 0.3rem' }}>
-        {localizedText(lang, 'Fallback to raw LaTeX text. Context:', '已回退为原始 LaTeX 文本。上下文：')} <code>{context}</code>
-      </p>
-      <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{error}</pre>
-    </details>
   );
 }
 
@@ -1015,7 +1001,9 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const successorTitle = successorId
     ? displayTitle(lang, loadReportMeta(successorId, lang), loadReportMeta(successorId, 'en'), successorId)
     : '';
-  const filteredSections = isWip ? [] : pruneSectionCards(localizeSectionCards(lang, meta.section_cards, metaEn?.section_cards));
+  const filteredSections = (isWip ? [] : pruneSectionCards(localizeSectionCards(lang, meta.section_cards, metaEn?.section_cards)))
+    // Reports written only in Chinese carry Chinese section headings; an English page does not list them.
+    .filter((card) => lang !== 'en' || !/[\u3400-\u9fff]/.test(card.heading));
   const sectionsPreview = filteredSections.slice(0, 6);
   const sectionsExtra = filteredSections.slice(6);
   const family = reportFamily(reportId, loadIndex().reports.find((row) => row.report_id === reportId)?.group ?? '');
@@ -1313,7 +1301,6 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                     __html: rendered.html,
                   }}
                 />
-                {rendered.error ? renderFormulaWarning(lang, item.context, rendered.error) : null}
                 {showContext && item.context !== item.stage ? (
                   <p style={{ marginBottom: 0 }}>
                     <span className="badge">{item.context}</span>
@@ -1906,7 +1893,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                 <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
                 <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
                 {term.formula ? (
-                  renderGlossaryFormula(term.formula, lang, `glossary:${term.term_id}`)
+                  renderGlossaryFormula(term.formula)
                 ) : null}
                 <p>
                   <span className="badge">{term.category}</span>{' '}
@@ -2041,7 +2028,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                   {claims.map((claim) => (
                     <li key={claim.claim_id}>
                       <span className="badge">{stageLabel(lang, claim.stage)}</span>{' '}
-                      <Link href={prefixPath(prefix, `/reports/${claim.report_id}`)}>{claim.report_id}</Link>{' '}
+                      <Link href={prefixPath(prefix, `/reports/${claim.report_id}`)}>{lookupReportTitle(claim.report_id, lang, network)}</Link>{' '}
                       <span className="muted">({localizedText(lang, 'evidence', '证据')} {claim.evidence.length})</span>
                       <div>{compactText(claim.text, 150)}</div>
                     </li>

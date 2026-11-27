@@ -196,6 +196,11 @@ export function isPlaceholderText(text: string): boolean {
   const cnMechanismDataset = new RegExp(`${cnSource}：${reportId}\\s*研究报告 的机制数据集：asset-size-profile`);
   const enPlaceholder = new RegExp(`(?:Model|Method|Result) summary placeholder for ${reportId}\\.`, 'i');
   const enReport = new RegExp(`(?:^|:\\s*)Research report(?:\\s+${reportId})?\\.?$`, 'i');
+  // Sentences the data builder writes for a section it has no summary for.
+  const enSectionFallback =
+    /: this section (?:maps figure-level regime transitions to parameter bands|lists threshold bands, uncertainty margins|states actionable recommendations with explicit evidence limits|connects .+ assumptions to measurable observables)/;
+  const cnSectionFallback =
+    /：本节(?:把图中的相区转折与参数带对应起来|列出阈值区间、误差边界和跨案例差异|给出可执行建议及其证据边界条件|连接\s*.+?的模型假设、可测输出与证据命令入口)/;
   return (
     t.length === 0 ||
     /WIP scaffold|not yet started|summary placeholder|^该研究报告：|[a-z0-9]+_[a-z0-9_]+\s*研究报告|^该证据片段以英文记录，请结合路径在源文档核对。$/.test(t) ||
@@ -204,7 +209,9 @@ export function isPlaceholderText(text: string): boolean {
     cnReportTitle.test(t) ||
     cnMechanismDataset.test(t) ||
     enPlaceholder.test(t) ||
-    enReport.test(t)
+    enReport.test(t) ||
+    enSectionFallback.test(t) ||
+    cnSectionFallback.test(t)
   );
 }
 
@@ -286,11 +293,23 @@ export function cleanEvidenceSnippet(text: string, reportTitle = ''): string {
     );
     const stripped = value.replace(exact, '').trim();
     if (stripped !== value) {
-      return stripped;
+      return stripSnippetMarkup(stripped);
     }
   }
   // Keep a fallback for older payloads whose title differs from current metadata.
-  return value.replace(/^(?:Model|Method|Result|Finding) formula context in .+?:\s*/i, '').trim();
+  return stripSnippetMarkup(value.replace(/^(?:Model|Method|Result|Finding) formula context in .+?:\s*/i, '').trim());
+}
+
+// A snippet taken from a README carries the generic section name and task-list
+// boxes; neither is content.
+function stripSnippetMarkup(value: string): string {
+  const stripped = value
+    .replace(/^Source-backed (?:model|method|result|finding) claim in .+?:\s*/i, '')
+    .replace(/^.+?的(?:模型|方法|结果|发现|结论)结论来源摘要：\s*/, '')
+    .replace(/^(?:Overview|概览)\s*[:：]\s*/i, '')
+    .replace(/^\[[ xX]\]\s*/, '')
+    .trim();
+  return /^(?:Overview|概览)$/i.test(stripped) ? '' : stripped;
 }
 
 /** Localise an evidence snippet while suppressing generated filler. */
@@ -300,7 +319,12 @@ export function displayEvidenceSnippet(
   englishText = '',
   reportTitle = '',
 ): string {
-  const localized = cleanEvidenceSnippet(text, reportTitle);
+  let localized = cleanEvidenceSnippet(text, reportTitle);
+  if (lang === 'en' && /[\u3400-\u9fff]/.test(localized)) {
+    // A section of a Chinese-only manuscript: drop its Chinese heading, keep an English summary if there is one.
+    const match = localized.match(/^[^:]*[\u3400-\u9fff][^:]*:\s+([\s\S]+)$/);
+    localized = match && !/[\u3400-\u9fff]/.test(match[1]) ? match[1].trim() : '';
+  }
   if (isGeneratedMechanismDatasetSnippet(localized)) {
     return '';
   }

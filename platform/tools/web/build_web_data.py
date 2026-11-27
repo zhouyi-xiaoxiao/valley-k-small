@@ -474,6 +474,8 @@ def summary_quality_cleanup(text: str) -> str:
     value = repair_common_math_noise(str(text or ""))
     if not value:
         return ""
+    # README task-list boxes are markup, not text.
+    value = re.sub(r"(?:^|(?<=:\s)|(?<=：))\[[ xX]\]\s+", "", value)
     value = value.replace("rightarrow", "to")
     value = value.replace("leftarrow", "from")
     value = re.sub(r"\b([A-Za-z])\s*=\s*([0-9]+)\s*rightarrow\s*([0-9]+)\b", r"\1 from \2 to \3", value)

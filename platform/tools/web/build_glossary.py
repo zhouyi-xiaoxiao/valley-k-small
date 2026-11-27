@@ -68,18 +68,18 @@ MANUAL_LOCKED_TERMS: list[dict[str, Any]] = [
         "definition_cn": "区分真实双峰与噪声肩部的可操作判据。",
         "aliases_en": ["double-peak criterion"],
         "aliases_cn": ["双峰诊断"],
-        "formula": "peak-valley-peak consistency",
+        "formula": "",
     },
     {
         "term_id": "selfloop-mode",
         "category": "shortcut-variant",
-        "term_en": "Selfloop Shortcut Mode",
+        "term_en": "Shortcut taken from the stay probability",
         "term_cn": "停留概率抽取机制",
         "definition_en": "Shortcut probability mass is taken from self-loop probability without renormalizing other moves.",
         "definition_cn": "捷径概率质量从停留概率中分配，不重标其余移动概率。",
-        "aliases_en": ["selfloop allocation"],
+        "aliases_en": ["stay-probability allocation"],
         "aliases_cn": ["停留抽取机制"],
-        "formula": "p_stay -> p_stay-β",
+        "formula": r"p_{\mathrm{stay}} \to p_{\mathrm{stay}} - \beta",
     },
     {
         "term_id": "renormalize-mode",
@@ -123,7 +123,7 @@ MANUAL_LOCKED_TERMS: list[dict[str, Any]] = [
         "definition_cn": "将陈述映射到证据路径与跨报告链接的结构化台账。",
         "aliases_en": ["claim-evidence map"],
         "aliases_cn": ["结论与证据映射"],
-        "formula": "结论 → 证据 → 关联报告",
+        "formula": "",
     },
 ]
 

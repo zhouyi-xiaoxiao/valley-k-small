@@ -56,23 +56,7 @@ function renderLatex(latex: string, displayMode = true): { html: string; error: 
   }
 }
 
-function renderMathFallbackNotice(lang: Lang, reason: string) {
-  return (
-    <details className="math-error-note">
-      <summary>{localizedText(lang, 'Formula fallback details', '公式回退详情')}</summary>
-      <p className="muted" style={{ marginTop: '0.4rem' }}>
-        {localizedText(
-          lang,
-          'KaTeX parsing failed, so this formula is rendered as escaped plain text for audit continuity.',
-          'KaTeX 解析失败，当前公式已回退为转义纯文本以保证可核查连续性。',
-        )}
-      </p>
-      <code>{reason}</code>
-    </details>
-  );
-}
-
-function renderGlossaryFormula(latex: string, lang: Lang) {
+function renderGlossaryFormula(latex: string) {
   const rendered = renderLatex(latex, false);
   return (
     <>
@@ -82,7 +66,6 @@ function renderGlossaryFormula(latex: string, lang: Lang) {
           __html: rendered.html,
         }}
       />
-      {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
     </>
   );
 }
@@ -173,7 +156,6 @@ function renderTheoryChainCard(
       {!generatedStage ? <h3>{lang === 'cn' ? item.label_cn : item.label_en}</h3> : null}
       {!generatedDescription ? <p>{description}</p> : null}
       <div className="math-block" dangerouslySetInnerHTML={{ __html: rendered.html }} />
-      {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
     </article>
   );
 }
@@ -343,7 +325,7 @@ export function renderBookPage(lang: Lang, prefix: string) {
             <article key={term.term_id} className="card">
               <h3>{lang === 'cn' ? term.term_cn : term.term_en}</h3>
               <p>{lang === 'cn' ? term.definition_cn : term.definition_en}</p>
-              {term.formula ? renderGlossaryFormula(term.formula, lang) : null}
+              {term.formula ? renderGlossaryFormula(term.formula) : null}
             </article>
           ))}
         </div>

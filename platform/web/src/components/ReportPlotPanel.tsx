@@ -1,8 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { DatasetMeta, Lang, SeriesPayload } from '@/types';
+import { plainText, readerText } from '@/lib/typeset';
 import { withBasePath } from '@/lib/url';
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
@@ -127,6 +128,112 @@ function inferSeriesType(name: string, values: number[]): SeriesType {
   return 'unknown';
 }
 
+// Tick labels on logarithmic axes. Plotly's own log ticks label every 1–9
+// multiple and run into each other on narrow screens, so the ticks are chosen
+// here from the axis length in pixels: decades always, 2 and 5 only when the
+// labels do not touch.
+const TICK_FONT_PX = 12;
+const TICK_CHAR_PX = 7.4; // average width of one tick-label character at 12 px
+const TICK_GAP_PX = 10;
+const PLOT_MARGIN = { l: 44, r: 20, t: 18, b: 42 };
+const SUPERSCRIPT_DIGITS: Record<string, string> = {
+  '-': '⁻',
+  '0': '⁰',
+  '1': '¹',
+  '2': '²',
+  '3': '³',
+  '4': '⁴',
+  '5': '⁵',
+  '6': '⁶',
+  '7': '⁷',
+  '8': '⁸',
+  '9': '⁹',
+};
+
+function logTickExponent(value: number): number {
+  return Math.floor(Math.log10(value) + 1e-9);
+}
+
+// One notation per axis: fixed decimals when every tick lies within
+// 0.0001…999999, otherwise powers of ten for all of them.
+function formatLogTick(value: number, powers: boolean): string {
+  const exponent = logTickExponent(value);
+  const mantissa = Math.round(value / 10 ** exponent);
+  if (!powers) {
+    // Fixed notation keeps the leading zero: 0.005, not .005.
+    return exponent < 0 ? value.toFixed(-exponent) : String(Math.round(value));
+  }
+  const power = `10${String(exponent)
+    .split('')
+    .map((char) => SUPERSCRIPT_DIGITS[char] ?? char)
+    .join('')}`;
+  return mantissa === 1 ? power : `${mantissa}×${power}`;
+}
+
+function logAxisTicks(
+  values: number[],
+  axisPx: number,
+  horizontal: boolean,
+): { tickvals: number[]; ticktext: string[] } | null {
+  const positive = values.filter((value) => Number.isFinite(value) && value > 0);
+  if (positive.length < 2 || axisPx <= 0) {
+    return null;
+  }
+  const lo = Math.log10(Math.min(...positive));
+  const hi = Math.log10(Math.max(...positive));
+  if (hi - lo < 1e-9) {
+    return null;
+  }
+  // Plotly pads the data range a little, so a decade is slightly shorter on screen.
+  const pxPerDecade = (axisPx * 0.9) / (hi - lo);
+  const usesPowers = (ticks: number[]) => ticks.some((value) => logTickExponent(value) < -4 || logTickExponent(value) > 5);
+  const fits = (ticks: number[]) => {
+    const powers = usesPowers(ticks);
+    const labelSize = (value: number) => (horizontal ? formatLogTick(value, powers).length * TICK_CHAR_PX : TICK_FONT_PX);
+    return ticks.every((value, index) => {
+      if (index === 0) {
+        return true;
+      }
+      const previous = ticks[index - 1];
+      const distance = (Math.log10(value) - Math.log10(previous)) * pxPerDecade;
+      return distance >= (labelSize(previous) + labelSize(value)) / 2 + (horizontal ? TICK_GAP_PX : 6);
+    });
+  };
+  const build = (mantissas: number[], decadeStep: number) => {
+    const out: number[] = [];
+    const firstExponent = Math.floor(lo + 1e-9);
+    for (let exponent = firstExponent; exponent <= Math.ceil(hi - 1e-9); exponent += 1) {
+      if ((exponent - firstExponent) % decadeStep !== 0) {
+        continue;
+      }
+      for (const mantissa of mantissas) {
+        const value = Number((mantissa * 10 ** exponent).toPrecision(12));
+        const position = Math.log10(value);
+        if (position >= lo - 1e-9 && position <= hi + 1e-9) {
+          out.push(value);
+        }
+      }
+    }
+    return out;
+  };
+  const candidates: number[][] = [build([1, 2, 5], 1), build([1, 5], 1), build([1], 1)];
+  if (hi - lo < 1) {
+    // Less than one decade: there may be no decade inside, so try every multiple.
+    candidates.unshift(build([1, 2, 3, 4, 5, 6, 7, 8, 9], 1), build([1, 2, 3, 4, 5, 7], 1), build([1, 2, 3, 5], 1));
+    candidates.push(build([1, 3], 1));
+  }
+  // Only when even every decade would collide: every second, third, … decade.
+  for (let step = 2; step <= 6; step += 1) {
+    candidates.push(build([1], step));
+  }
+  const chosen = candidates.find((ticks) => ticks.length >= 2 && fits(ticks));
+  if (!chosen) {
+    return null;
+  }
+  const powers = usesPowers(chosen);
+  return { tickvals: chosen, ticktext: chosen.map((value) => formatLogTick(value, powers)) };
+}
+
 function unitForSeriesType(seriesType: SeriesType): string {
   if (seriesType === 'probability') {
     return 'probability';
@@ -155,6 +262,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   const [autoScaleNotice, setAutoScaleNotice] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [semanticOverrides, setSemanticOverrides] = useState<Record<string, SeriesType>>({});
+  const plotBoxRef = useRef<HTMLDivElement | null>(null);
+  const [plotBox, setPlotBox] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
 
   const selected = useMemo(
     () => datasets.find((item) => item.series_id === selectedId) ?? datasets[0],
@@ -394,6 +503,39 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       });
   }, [normalize, payload, semanticsByName, smoothWindow, visibleSet, yScale]);
 
+  // Size of the drawn plot, for choosing log-axis tick labels that fit.
+  const plotReady = Boolean(payload && status === 'ready' && transformed.length > 0);
+  useEffect(() => {
+    const box = plotBoxRef.current;
+    if (!box || typeof ResizeObserver === 'undefined') {
+      return;
+    }
+    const measure = () => setPlotBox({ width: box.clientWidth, height: box.clientHeight });
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(box);
+    return () => observer.disconnect();
+  }, [plotReady]);
+
+  const xLogTicks = useMemo(() => {
+    if ((selected?.x_scale ?? 'linear') !== 'log') {
+      return null;
+    }
+    // Some datasets store x as numeric strings; Plotly reads those as numbers too.
+    const xs = transformed.flatMap((series) => series.x.map((value) => (typeof value === 'number' ? value : Number(value))));
+    return logAxisTicks(xs, plotBox.width - PLOT_MARGIN.l - PLOT_MARGIN.r, true);
+  }, [plotBox.width, selected?.x_scale, transformed]);
+
+  const yLogTicks = useMemo(() => {
+    if (yScale !== 'log') {
+      return null;
+    }
+    const ys = transformed.flatMap((series) =>
+      series.y.filter((value): value is number => typeof value === 'number' && Number.isFinite(value)),
+    );
+    return logAxisTicks(ys, plotBox.height - PLOT_MARGIN.t - PLOT_MARGIN.b, false);
+  }, [plotBox.height, transformed, yScale]);
+
   const droppedForLog = useMemo(() => {
     if (yScale !== 'log') {
       return 0;
@@ -463,12 +605,20 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       );
     }
     if (yScale === 'log' && logEligible) {
-      parts.push('log');
+      parts.push(lang === 'cn' ? '对数坐标' : 'log scale');
     }
     if (parts.length === 0) {
       return yAxisLabel;
     }
-    return `${yAxisLabel} (${parts.join(', ')})`;
+    const joined = parts.join(lang === 'cn' ? '，' : ', ');
+    // Merge into a trailing unit in brackets: 'peak time (steps, log scale)'.
+    const unit = yAxisLabel.match(/^(.*\s\()([^()]*)\)$/) ?? yAxisLabel.match(/^(.*（)([^（）]*)）$/);
+    if (unit) {
+      return lang === 'cn' && yAxisLabel.endsWith('）')
+        ? `${unit[1]}${unit[2]}，${joined}）`
+        : `${unit[1]}${unit[2]}, ${joined})`;
+    }
+    return lang === 'cn' ? `${yAxisLabel}（${joined}）` : `${yAxisLabel} (${joined})`;
   }, [lang, logEligible, normalize, yAxisLabel, smoothWindow, transformAppliedSeries, transformed.length, yScale]);
 
   const applySeriesPreset = (mode: 'metric' | 'all') => {
@@ -504,12 +654,13 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
   };
 
   if (datasets.length === 0) {
-    return <p>{lang === 'cn' ? `${reportId} 暂无可交互数据集。` : `No interactive datasets are available for ${reportId}.`}</p>;
+    return <p>{lang === 'cn' ? '这份报告没有交互图。' : 'This report has no interactive figure.'}</p>;
   }
 
   return (
     <section className="card section-enter">
-      <h3>{lang === 'cn' ? '交互数据面板' : 'Interactive Dataset'}</h3>
+      {/* Same term as the report page's section link. */}
+      <h3>{lang === 'cn' ? '交互图' : datasets.length === 1 ? 'Interactive figure' : 'Interactive figures'}</h3>
       <label htmlFor="dataset-select">{lang === 'cn' ? '数据集' : 'Dataset'}</label>
       <select
         id="dataset-select"
@@ -519,21 +670,23 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       >
         {datasets.map((item) => (
           <option key={item.series_id} value={item.series_id}>
-            {readerDatasetTitle(item, lang)}
+            {plainText(readerDatasetTitle(item, lang))}
           </option>
         ))}
       </select>
       {reportId === 'ring_lazy_jump_ext' ? (
         <p className="plot-caption dataset-parameter-note">
-          {lang === 'cn'
-            ? 'β* = 0.01 是报告做环长扫描时选定的捷径强度。'
-            : 'β* = 0.01 is the shortcut strength the report selects for its ring-size scan.'}
+          {readerText(
+            lang === 'cn'
+              ? 'β* = 0.01 是报告做环长扫描时选定的捷径强度。'
+              : 'β* = 0.01 is the shortcut strength the report selects for its ring-size scan.',
+          )}
         </p>
       ) : null}
 
       {payload ? (
         <details style={{ marginTop: '0.75rem' }}>
-          <summary>{lang === 'cn' ? '可见序列与语义' : 'Visible series and semantics'}</summary>
+          <summary>{lang === 'cn' ? '显示的序列' : 'Series shown'}</summary>
           <div style={{ display: 'flex', gap: '0.5rem', margin: '0.5rem 0 0.7rem', flexWrap: 'wrap' }}>
             <button type="button" onClick={() => applySeriesPreset('metric')}>
               {lang === 'cn' ? '仅指标/概率' : 'Metric/probability only'}
@@ -573,20 +726,20 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
                         return cloned;
                       });
                     }}
-                    aria-label={lang === 'cn' ? `${series.name} 语义覆盖` : `${series.name} semantic override`}
+                    aria-label={lang === 'cn' ? `${series.name} 的类型` : `Type of ${series.name}`}
                   >
-                    <option value="">{lang === 'cn' ? 'auto' : 'auto'}</option>
-                    <option value="metric">{lang === 'cn' ? 'metric 指标' : 'metric'}</option>
-                    <option value="probability">{lang === 'cn' ? 'probability 概率' : 'probability'}</option>
-                    <option value="binary">{lang === 'cn' ? 'binary 二值' : 'binary'}</option>
-                    <option value="parameter">{lang === 'cn' ? 'parameter 参数' : 'parameter'}</option>
+                    <option value="">{lang === 'cn' ? '自动' : 'auto'}</option>
+                    <option value="metric">{lang === 'cn' ? '指标' : 'metric'}</option>
+                    <option value="probability">{lang === 'cn' ? '概率' : 'probability'}</option>
+                    <option value="binary">{lang === 'cn' ? '二值' : 'binary'}</option>
+                    <option value="parameter">{lang === 'cn' ? '参数' : 'parameter'}</option>
                   </select>
                   <span className="badge">
                     {(semantic?.series_type ?? 'unknown')}/{semantic?.unit ?? 'unknown'}
                   </span>
                   <span className="badge">{transformable ? (lang === 'cn' ? '可变换' : 'transformable') : lang === 'cn' ? '原始' : 'raw'}</span>
                   {semantic?.source === 'manual' ? (
-                    <span className="badge">{lang === 'cn' ? '手动覆盖' : 'manual override'}</span>
+                    <span className="badge">{lang === 'cn' ? '手动设定' : 'set by hand'}</span>
                   ) : null}
                 </div>
               );
@@ -643,8 +796,8 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       </details>
 
       <p>
-        <span className="badge">{hasReaderColumnLabel(selected?.x_label ?? '') ? xAxisLabel : <code>{xAxisLabel}</code>}</span>{' '}
-        <span className="badge">{hasReaderColumnLabel(selected?.y_label ?? '') ? effectiveYLabel : <code>{effectiveYLabel}</code>}</span>
+        <span className="badge">{hasReaderColumnLabel(selected?.x_label ?? '') ? readerText(xAxisLabel) : <code>{xAxisLabel}</code>}</span>{' '}
+        <span className="badge">{hasReaderColumnLabel(selected?.y_label ?? '') ? readerText(effectiveYLabel) : <code>{effectiveYLabel}</code>}</span>
       </p>
       {semanticAudit.missing.length > 0 || semanticAudit.conflicts.length > 0 ? (
         <p style={{ marginBottom: '0.2rem' }}>
@@ -678,7 +831,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
       ) : null}
       {manualOverrideSeries.length > 0 ? (
         <p style={{ marginBottom: '0.2rem' }}>
-          {lang === 'cn' ? '审计提示：以下序列使用手动语义覆盖: ' : 'Audit note: manual semantic override applied to: '}
+          {lang === 'cn' ? '以下序列的类型是手动设定的：' : 'Series whose type was set by hand: '}
           {manualOverrideSeries.join(', ')}
         </p>
       ) : null}
@@ -707,6 +860,7 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
 
       {payload && status === 'ready' ? (
         transformed.length > 0 ? (
+          <div ref={plotBoxRef}>
           <Plot
             data={transformed.map((series) => ({
               type: 'scatter',
@@ -719,18 +873,35 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
             }))}
             layout={{
               autosize: true,
-              margin: { l: 44, r: 20, t: 18, b: 42 },
+              margin: PLOT_MARGIN,
               paper_bgcolor: 'rgba(0,0,0,0)',
               plot_bgcolor: '#fffdf8',
               font: { family: 'IBM Plex Serif, Georgia, serif', color: '#1a1f1d' },
-              xaxis: { title: xAxisLabel, gridcolor: '#e6dbc7', type: selected?.x_scale ?? 'linear', tickformat: '~g' },
-              yaxis: { title: effectiveYLabel, gridcolor: '#e6dbc7', type: yScale, tickformat: '~g' },
+              xaxis: {
+                title: xAxisLabel,
+                gridcolor: '#e6dbc7',
+                type: selected?.x_scale ?? 'linear',
+                tickformat: '~g',
+                tickfont: { size: TICK_FONT_PX },
+                automargin: true,
+                ...(xLogTicks ? { tickmode: 'array' as const, tickvals: xLogTicks.tickvals, ticktext: xLogTicks.ticktext } : {}),
+              },
+              yaxis: {
+                title: effectiveYLabel,
+                gridcolor: '#e6dbc7',
+                type: yScale,
+                tickformat: '~g',
+                tickfont: { size: TICK_FONT_PX },
+                automargin: true,
+                ...(yLogTicks ? { tickmode: 'array' as const, tickvals: yLogTicks.tickvals, ticktext: yLogTicks.ticktext } : {}),
+              },
               legend: { orientation: 'h' },
             }}
             style={{ width: '100%', height: 'clamp(260px, 45vh, 420px)' }}
             config={{ responsive: true, displaylogo: false, displayModeBar: false }}
             useResizeHandler
           />
+          </div>
         ) : (
           <p>{lang === 'cn' ? '当前没有可见序列，请在上方勾选至少一个。' : 'No visible series. Please enable at least one above.'}</p>
         )
@@ -752,10 +923,18 @@ export function ReportPlotPanel({ reportId, datasets, lang }: Props) {
         </details>
       ) : null}
       {selected?.caption ? (
-        <p className="plot-caption">{(lang === 'cn' && selected.caption_cn) || selected.caption}</p>
+        <p className="plot-caption">{readerText((lang === 'cn' && selected.caption_cn) || selected.caption)}</p>
       ) : null}
       <p style={{ marginBottom: 0 }}>
-        {lang === 'cn' ? '数据文件' : 'Source file'}: <code>{selected?.provenance.source}</code>
+        {lang === 'cn' ? '数据文件：' : 'Source file: '}
+        {/* The path inside the report folder; the folder name is the report id. */}
+        <code>
+          {(selected?.provenance.source ?? '')
+            .split(/\s*;\s*/)
+            .map((path) => path.replace(/^(?:research\/)?reports\/[^/]+\//, ''))
+            .filter(Boolean)
+            .join('; ')}
+        </code>
       </p>
     </section>
   );

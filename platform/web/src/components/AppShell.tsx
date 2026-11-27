@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { LocaleToggle } from '@/components/LocaleToggle';
-import { OWNER_SITE, OWNER_SITE_ZH, formatDay } from '@/lib/atlas';
+import { OWNER_SITE, OWNER_SITE_ZH, formatDay, readerText } from '@/lib/atlas';
 import { loadIndex, localizedText, prefixPath } from '@/lib/content';
 import type { Lang } from '@/types';
 
@@ -40,7 +40,7 @@ export function AppShell({
           </a>
           <span>
             {generated
-              ? localizedText(lang, `Pages generated from the reports on ${generated}`, `页面根据报告生成于 ${generated}`)
+              ? readerText(localizedText(lang, `Pages generated from the reports on ${generated}`, `页面根据报告生成于 ${generated}`))
               : null}
             {' · '}
             <Link href={prefixPath(prefix, '/about')}>{localizedText(lang, 'About this atlas', '关于本图谱')}</Link>

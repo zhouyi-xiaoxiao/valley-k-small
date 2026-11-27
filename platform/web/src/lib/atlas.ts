@@ -3,6 +3,10 @@
 // Everything here is presentation; report text and data come from public/data/v1.
 import fs from 'fs';
 import path from 'path';
+import katex from 'katex';
+import { Fragment, createElement, type ReactNode } from 'react';
+import { KATEX_MACROS } from '@/lib/latex';
+import { plainText, readerText, withoutInlineMath } from '@/lib/typeset';
 import type { DatasetMeta, Lang, ReportMeta, WebIndex } from '@/types';
 
 export const REPO_URL = 'https://github.com/zhouyi-xiaoxiao/valley-k-small';
@@ -126,8 +130,8 @@ export const START_HERE: Array<{ reportId: string; en: string; cn: string }> = [
   },
   {
     reportId: 'ring_lazy_jump_ext_rev2',
-    en: 'Which routes make each peak, at N\u00a0=\u00a0100 and shortcut strength β\u00a0=\u00a00.01: Monte Carlo trajectories sorted by route, with checks that the shares do not depend on the choice of time windows or peak thresholds.',
-    cn: '每个峰由哪些路径构成：N\u00a0=\u00a0100、捷径强度 β\u00a0=\u00a00.01 时，把蒙特卡洛轨迹按路径分类，并检查各类占比不随时间窗和峰判据的选取而变。',
+    en: 'At N\u00a0=\u00a0100 and shortcut strength β\u00a0=\u00a00.01: Monte Carlo trajectories sorted by route, with checks that the shares do not depend on the choice of time windows or peak thresholds.',
+    cn: 'N\u00a0=\u00a0100、捷径强度 β\u00a0=\u00a00.01 时，把蒙特卡洛轨迹按路径分类，并检查各类占比不随时间窗和峰判据的选取而变。',
   },
   {
     reportId: 'grid2d_bimodality',
@@ -183,7 +187,12 @@ export function formatDay(lang: Lang, iso: string): string {
 
 // Placeholder text produced for reports that have no write-up yet.
 export function isPlaceholderText(text: string): boolean {
-  const t = text.trim();
+  if (/\$[^$\n]+\$/.test(text) && withoutInlineMath(text).trim() === '') {
+    // A formula on its own is content, not a placeholder.
+    return false;
+  }
+  // Only the prose is checked: a formula's own backslashes and underscores say nothing.
+  const t = withoutInlineMath(text).trim();
   const reportId = '[a-z0-9]+(?:_[a-z0-9]+)+';
   const cnSource = '(?:该研究报告|二维格点体系|环模型体系|Grid2D 体系|Ring 体系|跨模型综合)';
   const cnSection = new RegExp(
@@ -203,7 +212,7 @@ export function isPlaceholderText(text: string): boolean {
     /：本节(?:把图中的相区转折与参数带对应起来|列出阈值区间、误差边界和跨案例差异|给出可执行建议及其证据边界条件|连接\s*.+?的模型假设、可测输出与证据命令入口)/;
   return (
     t.length === 0 ||
-    /WIP scaffold|not yet started|summary placeholder|^该研究报告：|[a-z0-9]+_[a-z0-9_]+\s*研究报告|^该证据片段以英文记录，请结合路径在源文档核对。$/.test(t) ||
+    /WIP scaffold|not yet started|summary placeholder|^该研究报告：|[a-z0-9]+_[a-z0-9_]+\s*研究报告|^该证据片段以英文记录，请结合路径在源文档核对。$|^该结论只有英文原文。$|^该结论来自 [a-z0-9_]+ 的可核对证据链/.test(t) ||
     cnSection.test(t) ||
     cnFinding.test(t) ||
     cnReportTitle.test(t) ||
@@ -220,7 +229,9 @@ export function isPlaceholderText(text: string): boolean {
 // The checks deliberately target malformed signatures rather than ordinary
 // inline mathematics such as `f(t) = ...` in curated copy.
 export function isLatexResidue(text: string): boolean {
-  const t = text.replace(/\s+/g, ' ').trim();
+  // Formulas kept between dollar signs are typeset on the page; only the prose
+  // around them can carry residue.
+  const t = withoutInlineMath(text).replace(/\s+/g, ' ').trim();
   if (!t) {
     return false;
   }
@@ -242,6 +253,11 @@ export function isLatexResidue(text: string): boolean {
     /\bT\s+\[/.test(t) ||
     /\beq:[A-Za-z]/.test(t) ||
     /\bp\s+pass\b/.test(t) ||
+    // A fraction or a subscript that lost its LaTeX: "(q)/(4)(1+g x)", "p left =".
+    /\(\s*[^()\s]+\s*\)\s*\/\s*\(\s*[^()\s]+\s*\)/.test(t) ||
+    /\b[A-Za-z]\s+(?:left|right|up|down|stay|x|y)\s*=/.test(t) ||
+    // A cross-reference whose labels were dropped: "（图 、 ）", "(Fig. , )".
+    /[（(]\s*(?:图|表|Figs?\.?|Tables?)\s*[、,，]?\s*[、,，]?\s*[）)]/.test(t) ||
     /(?:e-1|->|·)/.test(t) && /\b(?:alpha|lambda|max|Delta|tau|P|Q|R|f|F)\b/i.test(t)
   );
 }
@@ -252,6 +268,57 @@ export function isGeneratedAssetDatasetPath(pathname: string): boolean {
 
 export function isGeneratedMechanismDatasetSnippet(text: string): boolean {
   return /^(?:Mechanism dataset for .+|.+的机制数据集)[:：]\s*[A-Za-z0-9_.-]+\.?$/i.test(text.trim());
+}
+
+// The data builder's signature of a dataset: "[probability]: l -> mass
+// [probability]", sometimes after the file name ("scan.json [probability]: …").
+// It names columns, not content.
+export function isGeneratedDatasetSignature(text: string): boolean {
+  return /^(?:\S+\s+)?\[[^\]]+\]\s*:\s*\S+\s*->\s*\S+\s*\[[^\]]+\]\s*\.?$/.test(text.trim());
+}
+
+function evidenceEchoKey(text: string): string {
+  return text.replace(/\s+/g, ' ').trim().replace(/\s*(?:…|\.\.\.)$/, '').trim().toLowerCase();
+}
+
+// A snippet that is the claim's own text, or the beginning of it cut off,
+// repeats what the card already says.
+export function isClaimTextEcho(snippet: string, claimText: string): boolean {
+  const echo = evidenceEchoKey(snippet);
+  const claim = evidenceEchoKey(claimText);
+  return Boolean(echo) && Boolean(claim) && claim.startsWith(echo);
+}
+
+// Rows of one claim that point to the same file and print no snippet become
+// one row whose label lists the kinds: "Source, section, formula" /
+// "来源、章节、公式". Rows with a snippet stay as they are.
+export function mergeEvidenceRows<T extends { kind: string; file: string; snippet: string }>(
+  lang: Lang,
+  rows: T[],
+): T[] {
+  const merged: Array<T & { kinds: string[] }> = [];
+  const byFile = new Map<string, T & { kinds: string[] }>();
+  for (const row of rows) {
+    const existing = !row.snippet ? byFile.get(row.file) : undefined;
+    if (existing) {
+      if (!existing.kinds.includes(row.kind)) {
+        existing.kinds.push(row.kind);
+      }
+      continue;
+    }
+    const entry = { ...row, kinds: [row.kind] };
+    merged.push(entry);
+    if (!row.snippet) {
+      byFile.set(row.file, entry);
+    }
+  }
+  return merged.map(({ kinds, ...row }) => ({
+    ...(row as unknown as T),
+    kind:
+      lang === 'cn'
+        ? kinds.join('、')
+        : kinds.map((kind, idx) => (idx === 0 ? kind : kind.toLowerCase())).join(', '),
+  }));
 }
 
 export function evidenceKindLabel(lang: Lang, kind: string): string {
@@ -325,12 +392,17 @@ export function displayEvidenceSnippet(
     const match = localized.match(/^[^:]*[\u3400-\u9fff][^:]*:\s+([\s\S]+)$/);
     localized = match && !/[\u3400-\u9fff]/.test(match[1]) ? match[1].trim() : '';
   }
-  if (isGeneratedMechanismDatasetSnippet(localized)) {
+  if (isGeneratedMechanismDatasetSnippet(localized) || isGeneratedDatasetSignature(localized)) {
     return '';
   }
   if (lang === 'cn' && (isPlaceholderText(localized) || isLatexResidue(localized) || !localized)) {
     const english = cleanEvidenceSnippet(englishText, reportTitle);
-    return isPlaceholderText(english) || isLatexResidue(english) || isGeneratedMechanismDatasetSnippet(english) ? '' : english;
+    return isPlaceholderText(english) ||
+      isLatexResidue(english) ||
+      isGeneratedMechanismDatasetSnippet(english) ||
+      isGeneratedDatasetSignature(english)
+      ? ''
+      : english;
   }
   return isPlaceholderText(localized) || isLatexResidue(localized) ? '' : localized;
 }
@@ -410,4 +482,286 @@ export function writtenReports(index: WebIndex) {
 export function scaffoldReports(index: WebIndex) {
   const status = loadRegistryStatus();
   return index.reports.filter((row) => status[row.report_id] === 'wip');
+}
+
+// ---------------------------------------------------------------------------
+// Typesetting of reader-facing text (defined in typeset.ts, which the client
+// chart panel can import) and inline mathematics.
+
+export { keepTogether, plainText, readerText, typesetApostrophes, withoutInlineMath } from '@/lib/typeset';
+
+export type LatexRenderResult = { html: string; error: string | null };
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+/** KaTeX HTML for a formula; on a parse error, the source in a code element. */
+export function renderLatex(latex: string, displayMode = true): LatexRenderResult {
+  try {
+    return {
+      html: katex.renderToString(latex, {
+        throwOnError: true,
+        displayMode,
+        strict: 'error',
+        macros: KATEX_MACROS,
+      }),
+      error: null,
+    };
+  } catch (error: unknown) {
+    const reason = error instanceof Error ? error.message : 'Unknown KaTeX parse error';
+    return {
+      html: `<code>${escapeHtml(latex)}</code>`,
+      error: reason,
+    };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Glossary formulas (theory page "Notation and terms", the book's glossary).
+
+/** A glossary term about this website (category "workflow"), not about the mathematics. */
+export function isSiteGlossaryTerm(term: { category?: string }): boolean {
+  return (term.category ?? '').trim().toLowerCase() === 'workflow';
+}
+
+const RELATION = /=|<|>|≤|≥|≈|≠|∈|\\(?:le|ge|leq|geq|approx|ne|neq|in|sim|equiv|propto)(?![A-Za-z])/;
+
+/**
+ * The relations of a glossary formula, one per entry. A formula that is only a
+ * symbol ("f(t)") states nothing and gives no entries. Relations written side
+ * by side with ",\quad", "\quad" or "\qquad" outside any braces are split.
+ */
+export function glossaryFormulaLines(latex: string): string[] {
+  const value = latex.trim();
+  if (!value || !RELATION.test(value)) {
+    return [];
+  }
+  const lines: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    const ch = value[i];
+    if (ch === '{') {
+      depth += 1;
+    } else if (ch === '}') {
+      depth = Math.max(0, depth - 1);
+    } else if (ch === '\\' && depth === 0) {
+      const match = /^\\q?quad(?![A-Za-z])/.exec(value.slice(i));
+      if (match) {
+        lines.push(value.slice(start, i));
+        i += match[0].length - 1;
+        start = i + 1;
+      } else {
+        i += 1;
+      }
+    }
+  }
+  lines.push(value.slice(start));
+  return lines
+    .map((line) => line.trim().replace(/^,\s*/, '').replace(/\s*,$/, '').trim())
+    .filter(Boolean);
+}
+
+/**
+ * A glossary formula: one relation per line, a relation never broken inside
+ * (it scrolls sideways when wider than the card). Nothing for a bare symbol.
+ */
+export function renderGlossaryFormula(latex: string): ReactNode {
+  const lines = glossaryFormulaLines(latex);
+  if (lines.length === 0) {
+    return null;
+  }
+  return createElement(
+    'div',
+    { className: 'math-inline glossary-formula' },
+    ...lines.map((line, index) =>
+      createElement('div', {
+        key: `gl-${index}`,
+        className: 'glossary-formula-line',
+        // Operator names such as FFT are upright, not a product of italic letters.
+        dangerouslySetInnerHTML: {
+          __html: renderLatex(line.replace(/(^|[^\\A-Za-z{])FFT\b/g, '$1\\mathrm{FFT}'), false).html,
+        },
+      }),
+    ),
+  );
+}
+
+/**
+ * Running text as shown to readers: `code`, **bold** and inline mathematics
+ * between dollar signs ($g_y>0$) typeset with KaTeX, the rest through
+ * readerText. A formula KaTeX cannot parse is shown in its plain form.
+ */
+export function renderProse(text: string): ReactNode {
+  if (!text) {
+    return text;
+  }
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\$[^$\n]+\$)/g).filter(Boolean);
+  return createElement(
+    Fragment,
+    null,
+    ...parts.map((part, index) => {
+      if (part.length > 2 && part.startsWith('`') && part.endsWith('`')) {
+        return createElement('code', { key: `code-${index}` }, part.slice(1, -1));
+      }
+      if (part.length > 4 && part.startsWith('**') && part.endsWith('**')) {
+        return createElement('strong', { key: `bold-${index}` }, readerText(part.slice(2, -2)));
+      }
+      if (part.length > 2 && part.startsWith('$') && part.endsWith('$')) {
+        const rendered = renderLatex(part.slice(1, -1), false);
+        if (rendered.error) {
+          return createElement(Fragment, { key: `math-${index}` }, readerText(plainText(part)));
+        }
+        // Inline maths in running text: no box and no rule beside it.
+        return createElement('span', {
+          key: `math-${index}`,
+          className: 'math-run',
+          dangerouslySetInnerHTML: { __html: rendered.html },
+        });
+      }
+      return createElement(Fragment, { key: `text-${index}` }, readerText(part));
+    }),
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Sentences.
+
+const SENTENCE_BREAK =
+  /(?<=[。！？])|(?<=(?<!\b(?:Fig|Figs|Eq|Eqs|Ref|Refs|Sec|vs|cf|al|approx|No|e\.g|i\.e))[.!?])\s+(?=[A-Z0-9(“"‘㐀-鿿])/;
+
+export function splitSentences(text: string): string[] {
+  return text
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(SENTENCE_BREAK)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+/** How many leading sentences fit in maxChars (at least one). */
+export function sentencesWithin(text: string, maxChars: number): number {
+  const sentences = splitSentences(text);
+  let used = 0;
+  let count = 0;
+  for (const sentence of sentences) {
+    if (count > 0 && used + sentence.length + 1 > maxChars) {
+      break;
+    }
+    used += sentence.length + 1;
+    count += 1;
+  }
+  return Math.max(1, count);
+}
+
+/** The first `count` sentences, never a part of one; nothing is appended. */
+export function leadingSentences(text: string, count: number): string {
+  const sentences = splitSentences(text);
+  const cjk = /[㐀-鿿]/.test(text);
+  return sentences.slice(0, Math.max(1, count)).join(cjk ? '' : ' ');
+}
+
+/** A generated sentence with English words and Chinese words mixed ("computation on 1D 环模型 with directed 捷径.。"). */
+export function isMixedLanguageText(text: string): boolean {
+  const t = withoutInlineMath(text).replace(/\s+/g, ' ').trim();
+  if (!/[㐀-鿿]/.test(t)) {
+    return false;
+  }
+  return /[.!?][。！？]/.test(t) || /\b[A-Za-z]{2,} [A-Za-z]{2,} [A-Za-z]{2,}\b/.test(t);
+}
+
+// ---------------------------------------------------------------------------
+// Names for internal codes.
+
+// The same names as familyLabel, which the home page, the reports index and
+// every report page use.
+const GROUP_NAMES: Record<string, [string, string]> = {
+  ring: ['On a ring', '环'],
+  grid2d: ['On a two-dimensional lattice', '二维格点'],
+  cross: ['Across models', '跨模型'],
+  misc: ['Other', '其他'],
+};
+
+/** Reader name of a report group code (ring, grid2d, cross, misc). */
+export function groupName(lang: Lang, code: string): string {
+  const names = GROUP_NAMES[code.trim().toLowerCase()];
+  if (!names) {
+    return code;
+  }
+  return lang === 'cn' ? names[1] : names[0];
+}
+
+const NOTION_NAMES: Record<string, [string, string]> = {
+  'aw-inversion': ['Abate–Whitt inversion', 'Abate–Whitt 反演'],
+  'beta-scan': ['β (shortcut strength) scan', 'β（捷径强度）扫描'],
+};
+
+/** Reader name of a shared notion; the same words on every page and in both languages. */
+export function notionLabel(lang: Lang, notionId: string, labelEn: string, labelCn: string): string {
+  const names = NOTION_NAMES[notionId];
+  if (names) {
+    return lang === 'cn' ? names[1] : names[0];
+  }
+  return lang === 'cn' ? labelCn || labelEn : labelEn;
+}
+
+const ARC_NAMES: Record<string, [string, string]> = {
+  'group-ring': ['Reports on a ring', '环模型报告'],
+  'group-grid2d': ['Reports on a two-dimensional lattice', '二维格点报告'],
+  'group-cross': ['Reports across models', '跨模型报告'],
+  'group-misc': ['Other reports', '其他报告'],
+  'global-synthesis': ['All reports, from mechanisms to summary', '全部报告：从机制到汇总'],
+};
+
+/**
+ * Label and summary of a reading path. The group paths and the global path
+ * carry generated labels and summaries ("Ring reports (9)", "Global storyline
+ * that connects …"); they get a plain name and no summary.
+ */
+export function arcDisplay(
+  lang: Lang,
+  arc: { arc_id: string; label_en: string; label_cn: string; summary_en: string; summary_cn: string },
+): { label: string; summary: string } {
+  const names = ARC_NAMES[arc.arc_id];
+  if (names) {
+    return { label: lang === 'cn' ? names[1] : names[0], summary: '' };
+  }
+  return {
+    label: lang === 'cn' ? arc.label_cn || arc.label_en : arc.label_en,
+    summary: lang === 'cn' ? arc.summary_cn : arc.summary_en,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Formulas.
+
+/** Key under which two formulas count as the same: spacing and trailing zeros ignored (0.70 = 0.7). */
+export function formulaKey(latex: string): string {
+  return latex
+    .replace(/\\(?:qquad|quad|[,;:! ])/g, '')
+    .replace(/\s+/g, '')
+    .replace(/(\d)\.(\d*?)0+(?!\d)/g, '$1.$2')
+    .replace(/(\d)\.(?!\d)/g, '$1')
+    .replace(/[.,;]+$/, '');
+}
+
+/** LaTeX length from which a formula card spans the full row on desktop. */
+const WIDE_FORMULA_CHARS = 70;
+/** LaTeX length from which a formula is set a step smaller on a phone. */
+const LONG_FORMULA_CHARS = 45;
+
+/** Class of a formula card: long formulas span the full row on desktop. */
+export function formulaCardClass(latex: string): string {
+  return latex.trim().length >= WIDE_FORMULA_CHARS ? 'card math-card-wide' : 'card';
+}
+
+/** Class of a displayed formula: long formulas are set a step smaller on a phone. */
+export function formulaBlockClass(latex: string): string {
+  return latex.trim().length >= LONG_FORMULA_CHARS ? 'math-block math-block-long' : 'math-block';
 }

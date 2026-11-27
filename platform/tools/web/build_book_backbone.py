@@ -45,32 +45,16 @@ def chapter_core_question(chapter: dict[str, Any], lang: str) -> str:
 
 
 def chapter_transition(chapter: dict[str, Any], chapter_by_id: dict[str, dict[str, Any]], lang: str) -> str:
-    chapter_id = str(chapter.get("chapter_id", ""))
+    # A pointer to the next chapter only. What a chapter takes from the
+    # previous one is said once, in the chapter's own guide.
     next_id = chapter.get("next_chapter_id")
     if not next_id:
-        return "No downstream chapter; consolidate assumptions, claims, and open questions." if lang == "en" else "无后续章节：请收束假设、结论与开放问题。"
+        return "This is the last chapter." if lang == "en" else "这是最后一章。"
     next_chapter = chapter_by_id.get(str(next_id), {})
-    this_title = str(chapter.get(f"title_{lang}", chapter.get("chapter_id", "")))
     next_title = str(next_chapter.get(f"title_{lang}", next_id))
-    if chapter_id == "chapter-2-grid2d-family" and str(next_id) == "chapter-3-ring-baseline":
-        if lang == "en":
-            return clean_text(
-                "Bridge note: keep the same hazard/survival diagnostics from Grid2D, then switch geometry to ring so shortcut and lazy parameters can be isolated without boundary-shape confounders."
-            )
-        return clean_text("桥接说明：延续二维格点的风险率与生存概率诊断，但将几何切换到环模型，以隔离捷径与停留参数并排除边界形状混杂。")
-    if chapter_id == "chapter-5-cross-model-synthesis" and str(next_id) == "chapter-6-repro-validation":
-        if lang == "en":
-            return clean_text(
-                "Before any new claims are added, move from synthesis to reproducibility gates and verify command-, schema-, and artifact-level closure."
-            )
-        return clean_text("在增加新结论前，先从综合解释转入复现门禁，逐项验证命令级、结构级与产物级闭环。")
-    if chapter_id == "chapter-6-repro-validation" and str(next_id) == "chapter-7-outlook":
-        if lang == "en":
-            return clean_text("Only unresolved items that pass reproducibility constraints should enter the outlook as auditable hypotheses.")
-        return clean_text("只有通过复现约束后仍未解决的问题，才应进入展望并作为可审计假设。")
     if lang == "en":
-        return clean_text(f"Carry notation and verified claims from {this_title} into {next_title}, then extend mechanism and evidence without resetting assumptions.")
-    return clean_text(f"从《{this_title}》延续符号与已核对结论进入《{next_title}》，在不重置假设的前提下扩展机制与证据。")
+        return f"Next: {next_title}."
+    return f"下一章：《{next_title}》。"
 
 
 def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -82,34 +66,34 @@ def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [
         {
             "act_id": "act-foundations",
-            "title_en": "Act I: Foundations",
-            "title_cn": "第一幕：基础定义",
-            "objective_en": "Unify notation, FPT objects, and baseline assumptions before model-specific branches.",
-            "objective_cn": "在进入模型分支前先统一符号、FPT 对象与基线假设。",
+            "title_en": "Part I: Foundations",
+            "title_cn": "第一部分：基础定义",
+            "objective_en": "The notation, the first-passage quantities and the baseline assumptions shared by all models.",
+            "objective_cn": "各模型共用的记号、首达时间的几个基本量和基线假设。",
             "chapter_ids": pick(0, 1),
         },
         {
             "act_id": "act-families",
-            "title_en": "Act II: Family Mechanisms",
-            "title_cn": "第二幕：模型家族机制",
-            "objective_en": "Expand Grid2D and Ring families with derivation-backed interaction checkpoints.",
-            "objective_cn": "在二维格点与环模型家族中用推导与交互检查点展开机制差异。",
+            "title_en": "Part II: The lattice and the ring",
+            "title_cn": "第二部分：二维格点与环",
+            "objective_en": "The two-dimensional lattice and the ring, one at a time, with their formulas and charts.",
+            "objective_cn": "逐一讨论二维格点和环模型，给出各自的公式和图。",
             "chapter_ids": pick(2, 3, 4),
         },
         {
             "act_id": "act-synthesis",
-            "title_en": "Act III: Cross-Model Synthesis",
-            "title_cn": "第三幕：跨模型综合",
-            "objective_en": "Merge claims into a shared explanatory frame and validate reproducibility pathways.",
-            "objective_cn": "把各章节结论汇入统一解释框架，并验证复现链路。",
+            "title_en": "Part III: Cross-model synthesis",
+            "title_cn": "第三部分：跨模型综合",
+            "objective_en": "Lattice and ring results read together, and how far they hold when the setting changes.",
+            "objective_cn": "把二维格点和环的结果放在一起读，并看条件改变时它们是否仍然成立。",
             "chapter_ids": pick(5, 6),
         },
         {
             "act_id": "act-outlook",
-            "title_en": "Act IV: Outlook",
-            "title_cn": "第四幕：展望",
-            "objective_en": "Stabilize conclusions, isolate unresolved gaps, and define next-step research questions.",
-            "objective_cn": "收束结论、标注未解缺口，并给出下一步研究问题。",
+            "title_en": "Part IV: Outlook",
+            "title_cn": "第四部分：展望",
+            "objective_en": "The open questions, not yet written.",
+            "objective_cn": "开放问题，尚未写成。",
             "chapter_ids": pick(7),
         },
     ]

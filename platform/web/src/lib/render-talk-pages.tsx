@@ -18,7 +18,7 @@ export function renderTalkPage(lang: Lang, prefix: string, talkId: string) {
     return (
       <main className="talk-deck-fallback">
         <section className="talk-fallback-card">
-          <h1>{localizedText(lang, 'Talk data missing', '未找到 talk 数据')}</h1>
+          <h1>{localizedText(lang, 'Talk data missing', '未找到演讲数据')}</h1>
           <p>{talkId}</p>
         </section>
       </main>

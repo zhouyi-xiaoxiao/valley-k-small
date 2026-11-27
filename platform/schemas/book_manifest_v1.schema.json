@@ -104,6 +104,10 @@
             "type": "integer",
             "minimum": 1
           },
+          "written": {
+            "type": "boolean",
+            "description": "false for a chapter that is not written yet; its page prints no read time"
+          },
           "previous_chapter_id": {
             "type": ["string", "null"]
           },

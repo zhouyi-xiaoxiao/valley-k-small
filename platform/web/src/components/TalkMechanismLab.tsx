@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { withBasePath } from '@/lib/url';
 import type { Lang, TalkSlide } from '@/types';
+import { keepTogether } from '@/lib/typeset';
 
 // Schematic only: the curves below are drawn from simple analytic shapes to
 // illustrate each case. They are labelled "schematic" on screen and are not
@@ -111,6 +112,11 @@ function localized(lang: Lang, en: string, cn: string) {
   return lang === 'cn' ? cn : en;
 }
 
+// Displayed text: short equations and labels stay on one line.
+function shown(lang: Lang, en: string, cn: string) {
+  return keepTogether(localized(lang, en, cn));
+}
+
 function slideTitle(lang: Lang, slide: TalkSlide) {
   return localized(lang, slide.title_en ?? slide.title, slide.title_cn ?? slide.title);
 }
@@ -162,9 +168,9 @@ export function TalkMechanismLab({
   return (
     <div className="talk-mechanism-lab">
       <header className="talk-mechanism-head">
-        {kicker ? <span className="talk-reveal-kicker">{kicker}</span> : null}
-        <h1>{slideTitle(lang, slide)}</h1>
-        <p>{slideSentence(lang, slide)}</p>
+        {kicker ? <span className="talk-reveal-kicker">{keepTogether(kicker)}</span> : null}
+        <h1>{keepTogether(slideTitle(lang, slide))}</h1>
+        <p>{keepTogether(slideSentence(lang, slide))}</p>
       </header>
 
       <div className="talk-mechanism-body">
@@ -177,18 +183,18 @@ export function TalkMechanismLab({
                 className={item.id === selected.id ? 'is-active' : ''}
                 onClick={() => setSelectedId(item.id)}
               >
-                {localized(lang, item.labelEn, item.labelCn)}
+                {shown(lang, item.labelEn, item.labelCn)}
               </button>
             ))}
           </div>
 
           <div className="talk-mechanism-verdict">
-            <span>{localized(lang, 'Reading', '结论')}</span>
-            <strong>{localized(lang, selected.verdictEn, selected.verdictCn)}</strong>
+            <span>{shown(lang, 'Reading', '结论')}</span>
+            <strong>{shown(lang, selected.verdictEn, selected.verdictCn)}</strong>
           </div>
 
           <a className="talk-mechanism-link" href={withBasePath(`${prefix}${selected.reportHref}`)}>
-            {localized(lang, selected.reportLabelEn, selected.reportLabelCn)}
+            {shown(lang, selected.reportLabelEn, selected.reportLabelCn)}
           </a>
         </section>
 
@@ -256,12 +262,12 @@ export function TalkMechanismLab({
         </section>
 
         <section className="talk-mechanism-reading">
-          <h2>{localized(lang, selected.headlineEn, selected.headlineCn)}</h2>
-          <p>{localized(lang, selected.mechanismEn, selected.mechanismCn)}</p>
+          <h2>{shown(lang, selected.headlineEn, selected.headlineCn)}</h2>
+          <p>{shown(lang, selected.mechanismEn, selected.mechanismCn)}</p>
           <ul>
-            <li>{localized(lang, 'Separate route probability from target probability.', '把来自路径的概率和来自目标的概率分开。')}</li>
-            <li>{localized(lang, 'Compare the raw shape with the decomposition.', '把原始形状和分解结果对照。')}</li>
-            <li>{localized(lang, 'Use the encounter model as a negative control.', '把相遇模型当作阴性对照。')}</li>
+            <li>{shown(lang, 'Separate route probability from target probability.', '把来自路径的概率和来自目标的概率分开。')}</li>
+            <li>{shown(lang, 'Compare the raw shape with the decomposition.', '把原始形状和分解结果对照。')}</li>
+            <li>{shown(lang, 'Use the encounter model as a negative control.', '把相遇模型当作阴性对照。')}</li>
           </ul>
         </section>
       </div>

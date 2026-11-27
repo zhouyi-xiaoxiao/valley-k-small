@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { Lang, TalkSlide } from '@/types';
+import { keepTogether } from '@/lib/typeset';
 
 type Point = { x: number; y: number };
 type WalkMode = 'unbiased' | 'east' | 'target';
@@ -33,6 +34,11 @@ const MODES: Array<{ id: WalkMode; en: string; cn: string }> = [
 
 function localized(lang: Lang, en: string, cn: string) {
   return lang === 'cn' ? cn : en;
+}
+
+// Displayed text: short equations and labels stay on one line.
+function shown(lang: Lang, en: string, cn: string) {
+  return keepTogether(localized(lang, en, cn));
 }
 
 function slideTitle(lang: Lang, slide: TalkSlide) {
@@ -186,9 +192,9 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
   return (
     <div className="talk-grid-hop-lab">
       <header className="talk-grid-hop-head">
-        {kicker ? <span className="talk-reveal-kicker">{kicker}</span> : null}
-        <h1>{slideTitle(lang, slide)}</h1>
-        <p>{slideSentence(lang, slide)}</p>
+        {kicker ? <span className="talk-reveal-kicker">{keepTogether(kicker)}</span> : null}
+        <h1>{keepTogether(slideTitle(lang, slide))}</h1>
+        <p>{keepTogether(slideSentence(lang, slide))}</p>
       </header>
 
       <div className="talk-grid-hop-body">
@@ -255,19 +261,19 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
         <aside className="talk-grid-hop-panel">
           <div className="talk-grid-hop-stats" aria-live="polite">
             <div>
-              <span>{localized(lang, 'step', '步数')}</span>
+              <span>{shown(lang, 'step', '步数')}</span>
               <strong>{state.steps}</strong>
             </div>
             <div>
-              <span>{localized(lang, 'steps this run', '本次步数')}</span>
+              <span>{shown(lang, 'steps this run', '本次步数')}</span>
               <strong>{state.runSteps}</strong>
             </div>
             <div>
-              <span>{localized(lang, 'hits', '命中')}</span>
+              <span>{shown(lang, 'hits', '命中')}</span>
               <strong>{state.hits}</strong>
             </div>
             <div>
-              <span>{localized(lang, 'last first-passage time', '上次首达时间')}</span>
+              <span>{shown(lang, 'last first-passage time', '上次首达时间')}</span>
               <strong>{state.lastHit ?? '--'}</strong>
             </div>
           </div>
@@ -278,12 +284,12 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
                 {running ? localized(lang, 'Pause', '暂停') : localized(lang, 'Play', '播放')}
               </button>
               <button type="button" onClick={reset}>
-                {localized(lang, 'Reset', '重置')}
+                {shown(lang, 'Reset', '重置')}
               </button>
             </div>
 
             <label className="talk-grid-hop-slider">
-              <span>{localized(lang, 'speed', '速度')}</span>
+              <span>{shown(lang, 'speed', '速度')}</span>
               <input
                 type="range"
                 min="0"
@@ -302,7 +308,7 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
                   className={item.id === mode ? 'is-active' : ''}
                   onClick={() => setMode(item.id)}
                 >
-                  {localized(lang, item.en, item.cn)}
+                  {shown(lang, item.en, item.cn)}
                 </button>
               ))}
             </div>
@@ -313,20 +319,20 @@ export function TalkGridHopLab({ lang, slide }: { lang: Lang; slide: TalkSlide }
                 className={targetMode === 'one' ? 'is-active' : ''}
                 onClick={() => setTargetMode('one')}
               >
-                {localized(lang, '1 target', '1 个目标')}
+                {shown(lang, '1 target', '1 个目标')}
               </button>
               <button
                 type="button"
                 className={targetMode === 'two' ? 'is-active' : ''}
                 onClick={() => setTargetMode('two')}
               >
-                {localized(lang, '2 targets', '2 个目标')}
+                {shown(lang, '2 targets', '2 个目标')}
               </button>
             </div>
           </div>
 
           <p className="talk-grid-hop-reading">
-            {localized(
+            {shown(
               lang,
               'f(t) is the probability that this walk first hits a target at step t. Repeating the walk many times estimates it; the curves in the reports are computed directly from the transition probabilities.',
               'f(t) 是这样一次游走在第 t 步首次到达目标的概率。重复走很多次可以估计它；报告里的曲线则是直接由转移概率算出来的。',

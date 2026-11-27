@@ -48,42 +48,39 @@ CHAPTER_KEYWORD_HINTS: dict[str, list[str]] = {
     "chapter-7-outlook": ["outlook", "future", "open", "hypothesis", "uncertainty", "next"],
 }
 
+# One plain sentence per chapter: what it takes from the previous chapter.
 CHAPTER_BRIDGES: dict[str, tuple[str, str]] = {
     "chapter-1-core-fpt": (
-        "Bridge from Chapter 0: now that notation and audit protocol are fixed, we formalize f(t), S(t), and h(t) as the common diagnostic language.",
-        "承接第0章：在符号和核验协议固定后，本章把 f(t)、S(t)、h(t) 正式建立为统一诊断语言。",
+        "With the notation fixed in Chapter 0, this chapter introduces f(t), S(t) and h(t).",
+        "第0章定好了记号，本章在此基础上介绍 f(t)、S(t) 和 h(t)。",
     ),
     "chapter-2-grid2d-family": (
-        "Bridge from Chapter 1: with shared FPT diagnostics in place, we test which Grid2D geometric constraints preserve or break bimodality.",
-        "承接第1章：在统一 FPT 诊断语言下，本章检验二维格点中哪些几何约束会保持或破坏双峰结构。",
+        "Using the quantities and the two-peak rule of Chapter 1, this chapter asks which geometric constraints on a two-dimensional lattice keep two peaks and which remove them.",
+        "沿用第1章的几个量和双峰判据，本章考察二维格点上哪些几何约束会保留双峰，哪些会让双峰消失。",
     ),
     "chapter-3-ring-baseline": (
-        "Bridge from Chapter 2: Grid2D established boundary-sensitive diagnostics; this chapter keeps those diagnostics but shifts geometry to a ring so shortcut and lazy effects can be isolated.",
-        "承接第2章：我们保留二维格点的边界敏感诊断，但将几何切换到环模型，以单独识别捷径与停留机制。",
+        "This chapter moves from the lattice to a ring, so that the effect of the shortcut and the effect of staying put can be separated.",
+        "本章把几何从二维格点换成环，以便把捷径的作用和原地停留的作用分开来看。",
     ),
     "chapter-4-shortcut-variants": (
-        "Bridge from Chapter 3: after fixing a conservative ring baseline, we vary shortcut implementations to identify which phase transitions are mechanism-driven.",
-        "承接第3章：在环模型基线固定后，本章改变捷径实现方式，识别哪些相位转变由机制本身驱动。",
+        "Starting from the ring baseline of Chapter 3, this chapter adds a shortcut and varies how strong it is and where it lands.",
+        "本章以第3章的环模型基线为起点，加入捷径，并改变它的强度和落点。",
     ),
     "chapter-5-cross-model-synthesis": (
-        "Bridge from Chapter 4: once shortcut variants are disentangled, we align Grid2D and Ring diagnostics into one transferable cross-model map.",
-        "承接第4章：在捷径变体被拆解后，本章把二维格点与环模型的诊断对齐为可迁移的统一图谱。",
+        "After the ring shortcut results of Chapter 4, this chapter sets lattice and ring results side by side.",
+        "第4章讲的是环上的捷径；本章把二维格点和环的结果并排来看。",
     ),
     "chapter-6-repro-validation": (
-        "Bridge from Chapter 5: after cross-model synthesis, we now test whether every key claim remains reproducible under command-level and schema-level checks.",
-        "承接第5章：完成跨模型综合后，本章转向命令级与结构级核验，确认关键结论仍可复现。",
-    ),
-    "chapter-7-outlook": (
-        "Bridge from Chapter 6: once reproducibility gates are satisfied, unresolved mechanisms can be promoted into auditable next-step hypotheses instead of speculative notes.",
-        "承接第6章：在复现门禁通过后，未解机制可被提升为可审计的下一步假设，而非松散猜测。",
+        "After the comparison across models in Chapter 5, the book goes back to single reports.",
+        "第5章做完了跨模型的对照，这里回到单份报告。",
     ),
 }
 
-THEORY_CN_PLACEHOLDERS = {
-    "补充连接推导相邻步骤的关系式。",
-    "该步骤对应的公式见原始推导链。",
-    "请在源文件中核对该公式上下文。",
-}
+# The data builder's generic formula descriptions. A formula without a
+# description of its own gets these; the book page recognises them and prints
+# no description (isGeneratedMathStoryDescription in atlas.ts).
+GENERIC_FORMULA_DESCRIPTION_EN = "Adds a relation that links neighboring steps in the derivation chain."
+GENERIC_FORMULA_DESCRIPTION_CN = "补充连接推导相邻步骤的关系式。"
 
 PANEL_NEGATIVE_HINTS = (
     "asset",
@@ -280,104 +277,67 @@ def pick_concept_cards(theory_map: dict[str, Any], report_ids: list[str], keywor
     ]
 
 
+def formula_key(latex: str) -> str:
+    # The same formula written with different spacing counts once.
+    return re.sub(r"\s+|\\[,;:!]|\\ |~", "", str(latex or ""))
+
+
 def pick_theory_chain(report_ids: list[str], metas_en: dict[str, dict[str, Any]], metas_cn: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
-    def improve_cn_description(
-        *,
-        report_id: str,
-        stage: str,
-        cn_candidate: str,
-        en_candidate: str,
-        context: str,
-        meta_cn: dict[str, Any],
-    ) -> str:
-        raw_cn = clean_text(cn_candidate, max_chars=150)
-        lowered_cn = normalize_text_key(raw_cn)
-        if raw_cn and contains_cjk(raw_cn) and lowered_cn not in {normalize_text_key(x) for x in THEORY_CN_PLACEHOLDERS}:
-            if "补充连接推导相邻步骤" not in raw_cn:
-                return raw_cn
+    """Up to two formulas per report, in chapter order.
 
-        narrative = dict(meta_cn.get("narrative", {}))
-        stage_norm = normalize_text_key(stage)
-        if "model" in stage_norm:
-            seed = str(narrative.get("model_overview", "")) or f"{report_id} 的该步骤用于明确模型约束与符号含义。"
-        elif "method" in stage_norm or "derivation" in stage_norm:
-            seed = str(narrative.get("method_overview", "")) or f"{report_id} 的该步骤用于连接推导与反演流程。"
-        else:
-            seed = str(narrative.get("result_overview", "")) or f"{report_id} 的该步骤用于解释峰谷结构与相区变化。"
-        if contains_cjk(seed):
-            return clean_text(seed, max_chars=150)
-        fallback = f"该步骤对应 {report_id} 的 {context or '理论链'}，请结合公式与证据路径核对其机制含义。"
-        return clean_text(fallback, max_chars=150)
-
+    A formula already shown for an earlier report of the chapter is skipped,
+    so it appears once, under the first report that has it. Formulas whose
+    context is "Fallback" are the data builder's stand-in for a report with no
+    extracted formula (the generic f, S, h definitions), not the report's own,
+    and are left out. The labels carry the formula's source section heading
+    in each language; the page prints a label only when it is in the page's
+    language and is a real heading.
+    """
     chain: list[dict[str, Any]] = []
+    seen: set[str] = set()
     for report_id in report_ids:
         meta_en = metas_en.get(report_id, {})
         meta_cn = metas_cn.get(report_id, {})
         story_en = list(meta_en.get("math_story", []))
-        story_cn = list(meta_cn.get("math_story", []))
-        if story_en:
-            for idx, item_en in enumerate(story_en[:2]):
-                item_cn = story_cn[idx] if idx < len(story_cn) else {}
-                chain.append(
-                    {
-                        "report_id": report_id,
-                        "stage": str(item_en.get("stage", "Step")),
-                        "label_en": clean_text(f"{safe_title(meta_en, report_id)} · {item_en.get('stage', 'Step')}", max_chars=140),
-                        "label_cn": clean_text(f"{safe_title(meta_cn, report_id)} · {item_cn.get('stage', item_en.get('stage', '步骤'))}", max_chars=80),
-                        "description_en": clean_text(str(item_en.get("description", "")), max_chars=260),
-                        "description_cn": improve_cn_description(
-                            report_id=report_id,
-                            stage=str(item_en.get("stage", "")),
-                            cn_candidate=str(item_cn.get("description", item_en.get("description", ""))),
-                            en_candidate=str(item_en.get("description", "")),
-                            context=str(item_en.get("context", "")),
-                            meta_cn=meta_cn,
-                        ),
-                        "latex": str(item_en.get("latex", "")).strip() or "f(t)",
-                        "context": str(item_en.get("context", "math_story")).strip() or "math_story",
-                    }
-                )
-        else:
-            math_blocks = list(meta_en.get("math_blocks", []))
-            if not math_blocks:
+        source = "math_story" if story_en else "math_blocks"
+        items_en = story_en or list(meta_en.get("math_blocks", []))
+        items_cn = list(meta_cn.get(source, []))
+        picked = 0
+        for idx, item_en in enumerate(items_en):
+            if picked >= 2:
+                break
+            latex = str(item_en.get("latex", "")).strip()
+            context_en = str(item_en.get("context", "")).strip()
+            key = formula_key(latex)
+            if not key or context_en.lower() == "fallback" or key in seen:
                 continue
-            item_en = math_blocks[0]
-            item_cn = (meta_cn.get("math_blocks", []) or [{}])[0]
+            item_cn = items_cn[idx] if idx < len(items_cn) else {}
+            if formula_key(str(item_cn.get("latex", ""))) != key:
+                item_cn = next((row for row in items_cn if formula_key(str(row.get("latex", ""))) == key), {})
+            seen.add(key)
+            picked += 1
+            stage_en = str(item_en.get("stage", "")).strip() or "Formula"
+            context_cn = str(item_cn.get("context", "")).strip() or context_en
+            description_en = clean_text(str(item_en.get("description", "")), max_chars=600, ellipsis=False)
+            description_cn_raw = str(item_cn.get("description", ""))
+            description_cn = (
+                clean_text(description_cn_raw, max_chars=360, ellipsis=False)
+                if contains_cjk(description_cn_raw)
+                else GENERIC_FORMULA_DESCRIPTION_CN
+            )
             chain.append(
                 {
                     "report_id": report_id,
-                    "stage": "Fallback Formula",
-                    "label_en": clean_text(f"{safe_title(meta_en, report_id)} · Formula", max_chars=140),
-                    "label_cn": clean_text(f"{safe_title(meta_cn, report_id)} · 公式", max_chars=80),
-                    "description_en": clean_text(str(item_en.get("context", "Primary formula for this report.")), max_chars=260),
-                    "description_cn": improve_cn_description(
-                        report_id=report_id,
-                        stage="fallback",
-                        cn_candidate=str(item_cn.get("context", "该报告的核心公式。")),
-                        en_candidate=str(item_en.get("context", "")),
-                        context="math_blocks",
-                        meta_cn=meta_cn,
-                    ),
-                    "latex": str(item_en.get("latex", "")).strip() or "f(t)",
-                    "context": str(item_en.get("context", "math_blocks")).strip() or "math_blocks",
+                    "stage": stage_en,
+                    "label_en": context_en or stage_en,
+                    "label_cn": context_cn or str(item_cn.get("stage", "")).strip() or "公式",
+                    "description_en": description_en or GENERIC_FORMULA_DESCRIPTION_EN,
+                    "description_cn": description_cn,
+                    "latex": latex,
+                    "context": context_en or source,
                 }
             )
-
-    return chain[:18]
-
-
-def enrich_theory_chain(chapter_id: str, report_ids: list[str], base_chain: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    special = chapter_special_theory_items(chapter_id, report_ids)
-    merged = special + base_chain
-    seen: set[str] = set()
-    output: list[dict[str, Any]] = []
-    for row in merged:
-        key = normalize_text_key(f"{row.get('report_id')}::{row.get('latex')}::{row.get('description_en')}")
-        if key in seen:
-            continue
-        seen.add(key)
-        output.append(row)
-    return output[:14]
+    return chain[:14]
 
 
 def chapter_intro_with_bridge(chapter: dict[str, Any], chapter_id: str) -> tuple[list[str], list[str]]:
@@ -391,9 +351,9 @@ def chapter_intro_with_bridge(chapter: dict[str, Any], chapter_id: str) -> tuple
         bridge_en, bridge_cn = bridge
 
     if bridge_en and all(normalize_text_key(bridge_en) != normalize_text_key(row) for row in intro_en):
-        intro_en.append(bridge_en)
+        intro_en.insert(0, bridge_en)
     if bridge_cn and all(normalize_text_key(bridge_cn) != normalize_text_key(row) for row in intro_cn):
-        intro_cn.append(bridge_cn)
+        intro_cn.insert(0, bridge_cn)
     return intro_en, intro_cn
 
 
@@ -421,20 +381,17 @@ def pick_interactive_panels(report_ids: list[str], metas_en: dict[str, dict[str,
             score += 1
         return score
 
-    def panel_hint(ds: dict[str, Any], *, lang: str) -> str:
-        y_label = normalize_text_key(str(ds.get("y_label", "")))
-        series_id = normalize_text_key(str(ds.get("series_id", "")))
-        if "probability" in y_label or "pmf" in series_id or "fpt" in series_id:
-            if lang == "cn":
-                return "优先比较主峰与次峰的相对高度，并调节平滑窗口检验谷值是否稳定。"
-            return "Compare first/second peak prominence first, then adjust smoothing to test valley stability."
-        if "phase" in y_label or "binary" in y_label:
-            if lang == "cn":
-                return "切换不同系列查看相图边界变化，并核对阈值附近是否存在相区翻转。"
-            return "Toggle series to inspect phase boundaries and check whether transitions flip near threshold bands."
+    def panel_hint(ds_en: dict[str, Any], ds_cn: dict[str, Any], *, lang: str) -> str:
+        # What the chart shows: its written caption, otherwise its two axes.
+        ds = ds_cn if lang == "cn" else ds_en
+        caption = str(ds.get("caption_cn" if lang == "cn" else "caption", "") or ds_en.get("caption", "")).strip()
+        if caption:
+            return clean_text(caption, max_chars=420 if lang == "en" else 260)
+        x_label = str(ds.get("x_label_cn" if lang == "cn" else "x_label", "") or ds_en.get("x_label", "x")).strip() or "x"
+        y_label = str(ds.get("y_label_cn" if lang == "cn" else "y_label", "") or ds_en.get("y_label", "y")).strip() or "y"
         if lang == "cn":
-            return "切换曲线并微调平滑窗口，观察参数变化如何重排快通道与延迟通道贡献。"
-        return "Toggle series and tune smoothing to see how parameter shifts reweight fast versus delayed pathways."
+            return f"{y_label} 随 {x_label} 的变化。"
+        return f"{y_label} against {x_label}."
 
     panels: list[dict[str, Any]] = []
     for report_id in report_ids:
@@ -457,14 +414,14 @@ def pick_interactive_panels(report_ids: list[str], metas_en: dict[str, dict[str,
             {
                 "panel_id": f"{report_id}:{ds_en.get('series_id', 'dataset')}",
                 "report_id": report_id,
-                "title_en": clean_text(f"{safe_title(meta_en, report_id)} · {ds_en.get('title', 'Interactive Dataset')}", max_chars=150),
-                "title_cn": clean_text(f"{safe_title(meta_cn, report_id)} · {ds_cn.get('title', '交互数据集')}", max_chars=90),
+                "title_en": clean_text(f"{safe_title(meta_en, report_id)} · {ds_en.get('title', 'Chart')}", max_chars=150),
+                "title_cn": clean_text(f"{safe_title(meta_cn, report_id)} · {ds_cn.get('title', '图')}", max_chars=90),
                 "dataset_series_id": str(ds_en.get("series_id", "")),
                 "dataset_path": str(ds_en.get("series_path", "")),
                 "x_label": str(ds_en.get("x_label", "x")),
                 "y_label": str(ds_en.get("y_label", "y")),
-                "parameter_hint_en": panel_hint(ds_en, lang="en"),
-                "parameter_hint_cn": panel_hint(ds_en, lang="cn"),
+                "parameter_hint_en": panel_hint(ds_en, ds_cn, lang="en"),
+                "parameter_hint_cn": panel_hint(ds_en, ds_cn, lang="cn"),
             }
         )
     return panels[:10]
@@ -513,308 +470,6 @@ def prioritize_new_concepts(concept_cards: list[dict[str, Any]], used_concept_id
     return output
 
 
-def chapter_special_theory_items(chapter_id: str, report_ids: list[str]) -> list[dict[str, Any]]:
-    seed = report_ids[0] if report_ids else chapter_id
-    if chapter_id == "chapter-6-repro-validation":
-        return [
-            {
-                "report_id": seed,
-                "stage": "validation",
-                "label_en": "Schema-gated reproducibility contract",
-                "label_cn": "Schema 门禁复现契约",
-                "description_en": "Each release requires schema pass for web/book/agent payloads before publication.",
-                "description_cn": "每次发布前必须通过网站、书籍和智能体数据的结构校验。",
-                "latex": r"\forall a\in\mathcal{A}_{release},\ \operatorname{validate}(a)=\mathrm{PASS}",
-                "context": "reproducibility_gate",
-            },
-            {
-                "report_id": seed,
-                "stage": "validation",
-                "label_en": "Artifact hash stability",
-                "label_cn": "产物哈希稳定性",
-                "description_en": "Traceability is enforced by deterministic build outputs with file hash and size checks.",
-                "description_cn": "通过文件 hash 与 size 一致性检查保证产物可追溯。",
-                "latex": r"\operatorname{trace}(f)=\{\mathrm{sha256}(f),|f|\}",
-                "context": "artifact_traceability",
-            },
-            {
-                "report_id": seed,
-                "stage": "validation",
-                "label_en": "Cross-check closure",
-                "label_cn": "交叉校验闭环",
-                "description_en": "Release is allowed only when multi-agent cross-check high-priority findings are closed.",
-                "description_cn": "仅当多个智能体交叉校验、高优先级问题清零后才允许发布。",
-                "latex": r"\sum_{i\in\mathcal{H}}\mathbf{1}[\mathrm{open}_i]=0",
-                "context": "release_gate",
-            },
-        ]
-    if chapter_id == "chapter-7-outlook":
-        return [
-            {
-                "report_id": seed,
-                "stage": "outlook",
-                "label_en": "Hypothesis H1: hazard bridge between lattice and ring",
-                "label_cn": "假设 H1：网格与环的风险率桥接",
-                "description_en": "Open question: can one hazard-based criterion classify valley transitions across both families without geometry-specific tuning?",
-                "description_cn": "开放问题：是否存在单一风险率判据，在不依赖几何特化调参的情况下统一解释两类模型的谷值转变？",
-                "latex": r"H_1:\ \exists\ \Phi,\ \Phi(\text{Grid2D})\approx\Phi(\text{Ring})\Rightarrow\text{same valley class}",
-                "context": "open_hypothesis",
-            },
-            {
-                "report_id": seed,
-                "stage": "outlook",
-                "label_en": "Information-prioritized experiment queue",
-                "label_cn": "信息增益优先实验队列",
-                "description_en": "Next experiments should maximize uncertainty reduction per compute budget under reproducibility constraints.",
-                "description_cn": "下一步实验应在复现约束下，最大化单位计算预算的认知不确定性下降。",
-                "latex": r"\arg\max_{e\in\mathcal{E}} \frac{\Delta I(e)}{C(e)}",
-                "context": "experiment_planning",
-            },
-            {
-                "report_id": seed,
-                "stage": "outlook",
-                "label_en": "Claim graph continuation rule",
-                "label_cn": "Claim 图谱延续规则",
-                "description_en": "Incoming agents should extend existing claim graph nodes instead of resetting report-level context.",
-                "description_cn": "新进入的智能体应在现有结论图谱上增量扩展，而不是重置报告上下文。",
-                "latex": r"G_{t+1}=G_t\cup \Delta G,\ \Delta G\ \text{must reference existing evidence nodes}",
-                "context": "agent_handoff",
-            },
-        ]
-    return []
-
-
-def chapter_special_claims(chapter_id: str, report_ids: list[str]) -> list[dict[str, Any]]:
-    report_seed = report_ids[0] if report_ids else chapter_id
-    if chapter_id == "chapter-6-repro-validation":
-        return [
-            {
-                "claim_id": "chapter-6-repro-validation-cmd-closure",
-                "report_id": report_seed,
-                "stage": "method",
-                "text_en": "Reproducibility is enforced as an executable contract: web data, glossary, book chapters, backbone, agent sync, and validators run in one closed pipeline.",
-                "text_cn": "复现被实现为可执行约定：网站数据、术语表、章节、主干、智能体同步与校验在同一闭环流水线内执行。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "scripts/reportctl.py",
-                        "snippet_en": "reportctl wires web-data/book-data/agent-sync/validate into unified commands.",
-                        "snippet_cn": "报告工具把网站数据、书籍数据、智能体同步和校验串成统一命令入口。",
-                    },
-                    {
-                        "evidence_type": "source_document",
-                        "path": "platform/tools/web/build_three_deliverables.py",
-                        "snippet_en": "deliverables pipeline includes publication and agent pack outputs.",
-                        "snippet_cn": "三条交付流水线包含出版物与智能体资料包的同步构建。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-6-repro-validation-schema-gate",
-                "report_id": report_seed,
-                "stage": "result",
-                "text_en": "Schema gates now cover both report payloads and book backbone, preventing hidden contract drift across releases.",
-                "text_cn": "结构门禁已覆盖报告数据与书籍主干，避免版本迭代中出现隐性接口漂移。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "platform/tools/web/validate_web_data.py",
-                        "snippet_en": "validator checks book manifest/chapters/backbone and cross-file consistency.",
-                        "snippet_cn": "校验器会检查书籍目录、章节、主干以及跨文件一致性。",
-                    },
-                    {
-                        "evidence_type": "source_document",
-                        "path": "platform/schemas/book_backbone_v1.schema.json",
-                        "snippet_en": "book backbone has explicit schema contract for chapter spine and acts.",
-                        "snippet_cn": "书籍主干具备章节结构与幕结构的显式数据约定。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-6-repro-validation-ci-publish",
-                "report_id": report_seed,
-                "stage": "result",
-                "text_en": "Deployment and audit checks are automated in CI so publishing is gated by machine-verifiable quality checks instead of manual inspection.",
-                "text_cn": "部署与审计检查已进入 CI，发布由机器可验证门禁控制，而非人工主观检查。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": ".github/workflows/site-pages.yml",
-                        "snippet_en": "Pages workflow builds and publishes static site artifacts.",
-                        "snippet_cn": "Pages 工作流负责静态站点构建与发布。",
-                    },
-                    {
-                        "evidence_type": "source_document",
-                        "path": ".github/workflows/repo-audit.yml",
-                        "snippet_en": "repository audit workflow preserves baseline research integrity checks.",
-                        "snippet_cn": "仓库审计工作流保留基础科研完整性检查。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-6-repro-validation-agent-handoff",
-                "report_id": report_seed,
-                "stage": "finding",
-                "text_en": "Agent handoff is traceable because manifest, chapter jsonl, claim graph, and translation QC are generated together with provenance pointers.",
-                "text_cn": "智能体交接可追溯，因为目录清单、章节数据、结论图谱与翻译质检会连同溯源指针一起生成。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "platform/tools/web/build_agent_sync.py",
-                        "snippet_en": "agent sync exports manifest, reports/events jsonl, book files, claim graph, and guide.",
-                        "snippet_cn": "同步流程会导出目录清单、报告事件数据、书籍文件、结论图谱与导引。",
-                    },
-                    {
-                        "evidence_type": "dataset",
-                        "path": "/data/v1/agent/manifest.json",
-                        "snippet_en": "manifest enumerates machine-readable files for downstream agents.",
-                        "snippet_cn": "目录清单枚举了供下游程序读取的机器可读文件。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-        ]
-    if chapter_id == "chapter-7-outlook":
-        return [
-            {
-                "claim_id": "chapter-7-outlook-gap-hazard-bridge",
-                "report_id": report_seed,
-                "stage": "finding",
-                "text_en": "Open gap: we still need a single hazard-led criterion that transfers from Grid2D corridors to ring shortcut regimes without case-specific redefinition.",
-                "text_cn": "开放缺口：仍需一个统一的风险率判据，能够从二维格点通道情形迁移到环模型捷径区间，而不需要逐案重定义。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "research/reports/grid2d_two_target_double_peak/manuscript/grid2d_two_target_double_peak_en.tex",
-                        "snippet_en": "grid two-target evidence provides hazard-sensitive valley behavior under geometric constraints.",
-                        "snippet_cn": "二维格点双目标证据给出了几何约束下对风险率敏感的谷值行为。",
-                    },
-                    {
-                        "evidence_type": "source_document",
-                        "path": "research/reports/ring_two_target/manuscript/ring_two_target_en.tex",
-                        "snippet_en": "ring two-target results expose shortcut-regime transitions with comparable diagnostics.",
-                        "snippet_cn": "环模型双目标结果展示了可对齐诊断下的捷径区间转变。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-7-outlook-gap-regime-transfer",
-                "report_id": report_seed,
-                "stage": "finding",
-                "text_en": "Cross-model regime maps are now available, but transfer confidence remains conditional on matched sampling protocols and fairness constraints.",
-                "text_cn": "跨模型相图已具备，但迁移置信度仍依赖采样协议与公平约束是否严格对齐。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "research/reports/cross_luca_regime_map/manuscript/cross_luca_regime_map_en.tex",
-                        "snippet_en": "cross-model map quantifies regime outcomes under fixed-T full-FPT fairness settings.",
-                        "snippet_cn": "跨模型图谱在固定 T 与完整 FPT 公平设定下量化了相区结果。",
-                    },
-                    {
-                        "evidence_type": "dataset",
-                        "path": "/data/v1/reports/cross_luca_regime_map/series/manifest.json",
-                        "snippet_en": "manifest keeps explicit regime-scan metadata for reproducible transfer checks.",
-                        "snippet_cn": "目录清单保留了可复现迁移校验所需的相区扫描元数据。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-7-outlook-next-experiment-plan",
-                "report_id": report_seed,
-                "stage": "method",
-                "text_en": "Next iteration should prioritize experiments by uncertainty reduction per compute cost, while preserving claim-evidence traceability constraints.",
-                "text_cn": "下一轮应按“单位计算成本的不确定性下降”来排序实验，并保持结论与证据可追溯。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "platform/web/public/data/v1/book/backbone.json",
-                        "snippet_en": "backbone captures chapter-level dependencies and transition constraints for planning.",
-                        "snippet_cn": "书籍主干记录了章节依赖与过渡约束，可直接用于实验规划。",
-                    },
-                    {
-                        "evidence_type": "dataset",
-                        "path": "/data/v1/agent/claim_graph.jsonl",
-                        "snippet_en": "claim graph enables tracking which open questions are already evidence-linked.",
-                        "snippet_cn": "结论图谱可以跟踪哪些开放问题已经建立证据链接。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-7-outlook-agent-continuation",
-                "report_id": report_seed,
-                "stage": "result",
-                "text_en": "A new agent can continue the research storyline without context reset because chapter manifests, claim graph, and iteration history are packaged together.",
-                "text_cn": "新的智能体可在不重置上下文的情况下继续研究主线，因为章节目录、结论图谱与迭代历史已被打包同步。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": ".local/checks/openclaw_review_history.jsonl",
-                        "snippet_en": "review history tracks iterative quality decisions across rounds.",
-                        "snippet_cn": "评审历史记录了多轮质量决策轨迹。",
-                    },
-                    {
-                        "evidence_type": "source_document",
-                        "path": ".local/checks/content_iteration/run_history.jsonl",
-                        "snippet_en": "content iteration history records build and validation progression.",
-                        "snippet_cn": "内容迭代历史记录了构建与校验推进过程。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-7-outlook-gap-parameter-geometry",
-                "report_id": report_seed,
-                "stage": "finding",
-                "text_en": "The strongest unresolved coupling is between geometry asymmetry and parameter-scan thresholds; future work must isolate these effects with controlled factorial sweeps.",
-                "text_cn": "当前最核心的未解耦合在于“几何非对称”与“参数扫描阈值”的相互作用；后续应通过受控因子扫描将二者分离。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "research/reports/grid2d_rect_bimodality/manuscript/grid2d_rect_bimodality_en.tex",
-                        "snippet_en": "rectangular geometry changes first-passage structure and valley shape under fixed model assumptions.",
-                        "snippet_cn": "在固定模型假设下，矩形几何会改变首达结构与谷值形态。",
-                    },
-                    {
-                        "evidence_type": "source_document",
-                        "path": "research/reports/ring_valley_dst/manuscript/ring_valley_dst_en.tex",
-                        "snippet_en": "shortcut-strength scans show regime turnover tied to parameter choices.",
-                        "snippet_cn": "捷径强度扫描显示了与参数选择相关的相区翻转。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-            {
-                "claim_id": "chapter-7-outlook-gap-proof-depth",
-                "report_id": report_seed,
-                "stage": "method",
-                "text_en": "Proof-depth exceptions should be converted into explicit closure tasks by prioritizing reports with thinner derivation chains before adding new model variants.",
-                "text_cn": "在扩展新模型变体之前，应先把推导深度不足的条目转化为明确收敛任务并优先补齐。",
-                "evidence": [
-                    {
-                        "evidence_type": "source_document",
-                        "path": "platform/web/public/data/v1/theory_map.json",
-                        "snippet_en": "theory consistency checks expose formula-depth policy status and exception rows.",
-                        "snippet_cn": "theory 一致性检查会给出公式深度策略状态及例外条目。",
-                    },
-                    {
-                        "evidence_type": "source_document",
-                        "path": ".local/checks/openclaw_book_math.json",
-                        "snippet_en": "math review flags remaining caveats on derivation depth and auditability quality.",
-                        "snippet_cn": "数学评审标注了推导深度与可审计性方面仍待改进的项。",
-                    },
-                ],
-                "linked_report_ids": list(report_ids),
-            },
-        ]
-    return []
-
-
 def materialize_claim(claim: dict[str, Any], default_report_ids: list[str]) -> tuple[dict[str, Any] | None, str]:
     evidence = [
         {
@@ -835,7 +490,8 @@ def materialize_claim(claim: dict[str, Any], default_report_ids: list[str]) -> t
     text_en = clean_claim_text(str(claim.get("text_en", "")), lang="en")
     text_cn_raw = str(claim.get("text_cn", ""))
     if not contains_cjk(text_cn_raw):
-        text_cn_raw = f"该结论来自 {str(claim.get('report_id', ''))} 的可核对证据链，请在证据路径中继续核验。"
+        # Recognised by isPlaceholderText; the Chinese page then shows the English text.
+        text_cn_raw = "该结论只有英文原文。"
     text_cn = clean_claim_text(text_cn_raw, lang="cn", max_chars=260)
     row = {
         "claim_id": str(claim.get("claim_id", "")).strip(),
@@ -867,16 +523,6 @@ def build_claim_ledger(
     output: list[dict[str, Any]] = []
     output_ids: set[str] = set()
     output_text: set[str] = set()
-
-    # Chapter-specific claims ensure late chapters add genuinely new narrative content.
-    for claim in chapter_special_claims(chapter_id, report_ids):
-        row, key = materialize_claim(claim, report_ids)
-        if not row or not row["claim_id"] or row["claim_id"] in output_ids:
-            continue
-        output.append(row)
-        output_ids.add(row["claim_id"])
-        if key:
-            output_text.add(key)
 
     scored: list[tuple[int, int, int, str, dict[str, Any], str]] = []
     for claim in content_map.get("claims", []):
@@ -987,50 +633,16 @@ def chapter_core_question(chapter: dict[str, Any], lang: str) -> str:
 
 
 def chapter_transition(chapter: dict[str, Any], chapter_by_id: dict[str, dict[str, Any]], lang: str) -> str:
-    chapter_id = str(chapter.get("chapter_id", ""))
+    # A pointer to the next chapter only. What a chapter takes from the
+    # previous one is said once, in CHAPTER_BRIDGES.
     next_id = chapter.get("next_chapter_id")
     if not next_id:
-        return (
-            "No downstream chapter; consolidate assumptions, claims, and open questions."
-            if lang == "en"
-            else "无后续章节：请收束假设、结论与开放问题。"
-        )
+        return "This is the last chapter." if lang == "en" else "这是最后一章。"
     next_chapter = chapter_by_id.get(str(next_id), {})
-    this_title = str(chapter.get(f"title_{lang}", chapter.get("chapter_id", "")))
     next_title = str(next_chapter.get(f"title_{lang}", next_id))
-    if chapter_id == "chapter-2-grid2d-family" and str(next_id) == "chapter-3-ring-baseline":
-        if lang == "en":
-            return clean_text(
-                "Bridge note: keep the same hazard/survival diagnostics from Grid2D, then switch geometry to ring so shortcut and lazy parameters can be isolated without boundary-shape confounders.",
-                ellipsis=False,
-            )
-        return clean_text(
-            "桥接说明：延续二维格点的风险率与生存概率诊断，但将几何切换到环模型，以隔离捷径与停留参数并排除边界形状混杂。",
-            ellipsis=False,
-        )
-    if chapter_id == "chapter-5-cross-model-synthesis" and str(next_id) == "chapter-6-repro-validation":
-        if lang == "en":
-            return clean_text(
-                "Before any new claims are added, move from synthesis to reproducibility gates and verify command-, schema-, and artifact-level closure.",
-                ellipsis=False,
-            )
-        return clean_text("在增加新结论前，先从综合解释转入复现门禁，逐项验证命令级、结构级与产物级闭环。", ellipsis=False)
-    if chapter_id == "chapter-6-repro-validation" and str(next_id) == "chapter-7-outlook":
-        if lang == "en":
-            return clean_text(
-                "Only unresolved items that pass reproducibility constraints should enter the outlook as auditable hypotheses.",
-                ellipsis=False,
-            )
-        return clean_text("只有通过复现约束后仍未解决的问题，才应进入展望并作为可审计假设。", ellipsis=False)
     if lang == "en":
-        return clean_text(
-            f"Carry notation and verified claims from {this_title} into {next_title}, then extend mechanism and evidence without resetting assumptions.",
-            ellipsis=False,
-        )
-    return clean_text(
-        f"从《{this_title}》延续符号与已核对 claim 进入《{next_title}》，在不重置假设的前提下扩展机制与证据。",
-        ellipsis=False,
-    )
+        return f"Next: {next_title}."
+    return f"下一章：《{next_title}》。"
 
 
 def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -1042,34 +654,34 @@ def build_acts(chapters: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [
         {
             "act_id": "act-foundations",
-            "title_en": "Act I: Foundations",
-            "title_cn": "第一幕：基础定义",
-            "objective_en": "Unify notation, FPT objects, and baseline assumptions before model-specific branches.",
-            "objective_cn": "在进入模型分支前先统一符号、FPT 对象与基线假设。",
+            "title_en": "Part I: Foundations",
+            "title_cn": "第一部分：基础定义",
+            "objective_en": "The notation, the first-passage quantities and the baseline assumptions shared by all models.",
+            "objective_cn": "各模型共用的记号、首达时间的几个基本量和基线假设。",
             "chapter_ids": pick(0, 1),
         },
         {
             "act_id": "act-families",
-            "title_en": "Act II: Family Mechanisms",
-            "title_cn": "第二幕：模型家族机制",
-            "objective_en": "Expand Grid2D and Ring families with derivation-backed interaction checkpoints.",
-            "objective_cn": "在二维格点与环模型家族中用推导与交互检查点展开机制差异。",
+            "title_en": "Part II: The lattice and the ring",
+            "title_cn": "第二部分：二维格点与环",
+            "objective_en": "The two-dimensional lattice and the ring, one at a time, with their formulas and charts.",
+            "objective_cn": "逐一讨论二维格点和环模型，给出各自的公式和图。",
             "chapter_ids": pick(2, 3, 4),
         },
         {
             "act_id": "act-synthesis",
-            "title_en": "Act III: Cross-Model Synthesis",
-            "title_cn": "第三幕：跨模型综合",
-            "objective_en": "Merge claims into a shared explanatory frame and validate reproducibility pathways.",
-            "objective_cn": "把各章节结论汇入统一解释框架，并验证复现链路。",
+            "title_en": "Part III: Cross-model synthesis",
+            "title_cn": "第三部分：跨模型综合",
+            "objective_en": "Lattice and ring results read together, and how far they hold when the setting changes.",
+            "objective_cn": "把二维格点和环的结果放在一起读，并看条件改变时它们是否仍然成立。",
             "chapter_ids": pick(5, 6),
         },
         {
             "act_id": "act-outlook",
-            "title_en": "Act IV: Outlook",
-            "title_cn": "第四幕：展望",
-            "objective_en": "Stabilize conclusions, isolate unresolved gaps, and define next-step research questions.",
-            "objective_cn": "收束结论、标注未解缺口，并给出下一步研究问题。",
+            "title_en": "Part IV: Outlook",
+            "title_cn": "第四部分：展望",
+            "objective_en": "The open questions, not yet written.",
+            "objective_cn": "开放问题，尚未写成。",
             "chapter_ids": pick(7),
         },
     ]
@@ -1219,7 +831,7 @@ def main() -> int:
             [str(x) for x in chapter.get("concept_keywords", [])],
         )
         concept_cards = prioritize_new_concepts(concept_cards_raw, used_concept_ids, limit=6)
-        theory_chain = enrich_theory_chain(chapter_id, chapter_report_ids, pick_theory_chain(chapter_report_ids, metas_en, metas_cn))
+        theory_chain = pick_theory_chain(chapter_report_ids, metas_en, metas_cn)
         interactive_panels = pick_interactive_panels(chapter_report_ids, metas_en, metas_cn)
         linked_reports = build_linked_reports(chapter_report_ids, metas_en, metas_cn, groups, guide_by_report)
         claim_ledger = build_claim_ledger(chapter_id, chapter_report_ids, content_map, used_claim_ids, used_claim_text_keys)
@@ -1337,6 +949,7 @@ def main() -> int:
                 return chapter_id
         return chapter_ids[0]
 
+    blueprint_by_id = {str(ch["chapter_id"]): ch for ch in CHAPTER_BLUEPRINT}
     manifest_chapters = [
         {
             "chapter_id": row["chapter_id"],
@@ -1351,6 +964,7 @@ def main() -> int:
             "interactive_count": len(row["interactive_panels"]),
             "claim_count": len(row["claim_ledger"]),
             "estimated_read_minutes": max(6, len(row["intro_en"]) * 2 + len(row["claim_ledger"]) // 2),
+            "written": bool(blueprint_by_id.get(str(row["chapter_id"]), {}).get("written", True)),
             "previous_chapter_id": row["previous_chapter_id"],
             "next_chapter_id": row["next_chapter_id"],
         }
@@ -1423,11 +1037,10 @@ def main() -> int:
         "version": "v1",
         "generated_at": utc_now_iso(),
         "policy_en": (
-            "Book chapters prioritize non-redundant continuity claims from report-level content_map records. "
-            "Excluded report claims remain available in report pages and content_map for deep audit. "
-            "Chapter-native synthesis claims are tracked separately."
+            "Each chapter uses a selection of the reports' claims, without repeats. "
+            "Claims that no chapter uses are still on their report pages."
         ),
-        "policy_cn": "书籍章节优先保留内容图谱中的非冗余主线结论；未纳入章节的报告结论仍保留在报告页与内容图谱供深度核查。章节自生成的综合结论单独统计。",
+        "policy_cn": "每章从报告的结论中选用若干条，不重复；没有选入任何一章的结论仍在各自的报告页上。",
         "global_claim_count": len(global_claim_ids),
         "chapter_claim_count": len(chapter_claim_ids),
         "chapter_total_claim_count": len(chapter_all_claim_ids),

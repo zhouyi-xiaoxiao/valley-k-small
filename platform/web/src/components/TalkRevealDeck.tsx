@@ -3,11 +3,13 @@
 // Custom React deck — NOT reveal.js. Do not import reveal.js APIs.
 // Slide navigation is internal React state, driven by URL hash (#slide-N).
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { TalkBasicIdeaDemo } from '@/components/TalkBasicIdeaDemo';
 import { TalkFormulaSlide } from '@/components/TalkFormulaSlide';
 import { TalkGridHopLab } from '@/components/TalkGridHopLab';
 import { TalkMechanismLab } from '@/components/TalkMechanismLab';
+import { keepTogether } from '@/lib/typeset';
 import { withBasePath } from '@/lib/url';
 import type {
   BasicDemoPayload,
@@ -27,29 +29,59 @@ type TalkRevealDeckProps = {
   basicDemo: BasicDemoPayload;
 };
 
-function localized(lang: Lang, en: string, cn: string) {
+// The text in the page's language, as a plain string (titles, alt text).
+function pick(lang: Lang, en: string, cn: string): string {
   return lang === 'cn' ? cn : en;
 }
 
+// The same, for display: short equations, dates and labels stay on one line
+// (the shared keepTogether, which joins them with ordinary spaces).
+function localized(lang: Lang, en: string, cn: string): ReactNode {
+  return keepTogether(pick(lang, en, cn));
+}
+
+/**
+ * Words that a Chinese heading must not split across lines. The heading still
+ * wraps, but only between these words or between other characters.
+ */
+const CN_HEADING_WORDS =
+  /(首达时间|时间尺度|数学骨架|第二峰|通道外|通道壁|同一个|同一条|为什么|什么|隐藏|路径|尖锐|单峰|两峰|双峰|捷径|二维|布局|目标|停留|穿过|保留|两种|一种|两个|多个|是否|还是|关注|值得|分成|出现|决定|哪里|落在)/;
+const NOWRAP = { whiteSpace: 'nowrap' } as const;
+
+function headingText(lang: Lang, value: string): ReactNode {
+  if (lang !== 'cn') {
+    return keepTogether(value);
+  }
+  return value.split(CN_HEADING_WORDS).map((part, index) =>
+    index % 2 === 1 ? (
+      <span key={index} style={NOWRAP}>
+        {part}
+      </span>
+    ) : (
+      <Fragment key={index}>{keepTogether(part)}</Fragment>
+    ),
+  );
+}
+
 function slideTitle(lang: Lang, slide: TalkSlide) {
-  return localized(lang, slide.title_en ?? slide.title, slide.title_cn ?? slide.title);
+  return pick(lang, slide.title_en ?? slide.title, slide.title_cn ?? slide.title);
 }
 
 function slideSentence(lang: Lang, slide: TalkSlide) {
-  return localized(lang, slide.sentence_en ?? slide.sentence, slide.sentence_cn ?? slide.sentence);
+  return pick(lang, slide.sentence_en ?? slide.sentence, slide.sentence_cn ?? slide.sentence);
 }
 
 function manifestTitle(lang: Lang, manifest: TalkDeckManifest) {
-  return localized(lang, manifest.title_en, manifest.title_cn);
+  return pick(lang, manifest.title_en, manifest.title_cn);
 }
 
 function slideKicker(lang: Lang, slide: TalkSlide) {
-  return localized(lang, slide.kicker_en ?? '', slide.kicker_cn ?? slide.kicker_en ?? '');
+  return pick(lang, slide.kicker_en ?? '', slide.kicker_cn ?? slide.kicker_en ?? '');
 }
 
 function Kicker({ lang, slide }: { lang: Lang; slide: TalkSlide }) {
   const kicker = slideKicker(lang, slide);
-  return kicker ? <span className="talk-reveal-kicker">{kicker}</span> : null;
+  return kicker ? <span className="talk-reveal-kicker">{keepTogether(kicker)}</span> : null;
 }
 
 function imageSrc(lang: Lang, slide: TalkSlide) {
@@ -103,7 +135,7 @@ function PresenterPanel({
         <strong>
           {slide.start} - {slide.end}
         </strong>
-        <p>{active?.timing_prompt ?? english?.timing_prompt ?? ''}</p>
+        <p>{keepTogether(active?.timing_prompt ?? english?.timing_prompt ?? '')}</p>
       </div>
       <div className="talk-reveal-notes-block">
         <span className="talk-reveal-notes-label">{localized(lang, 'Audience question', '听众问题')}</span>
@@ -113,13 +145,13 @@ function PresenterPanel({
         <span className="talk-reveal-notes-label">
           {localized(lang, 'Speaker script', '演讲稿')}
         </span>
-        <p>{active?.spoken_text ?? ''}</p>
+        <p>{keepTogether(active?.spoken_text ?? '')}</p>
       </div>
       <div className="talk-reveal-notes-block">
         <span className="talk-reveal-notes-label">
           {localized(lang, 'Other-language note', '另一语言提示')}
         </span>
-        <p>{secondary?.speaker_notes || secondary?.spoken_text || ''}</p>
+        <p>{keepTogether(secondary?.speaker_notes || secondary?.spoken_text || '')}</p>
       </div>
     </aside>
   );
@@ -141,8 +173,8 @@ function FigureSlide({ slide, lang, prefix }: { slide: TalkSlide; lang: Lang; pr
       <div className="talk-claim-slide">
         <div className="talk-claim-copy">
           <Kicker lang={lang} slide={slide} />
-          <h1>{slideTitle(lang, slide)}</h1>
-          <p>{slideSentence(lang, slide)}</p>
+          <h1>{headingText(lang, slideTitle(lang, slide))}</h1>
+          <p>{keepTogether(slideSentence(lang, slide))}</p>
           {slide.links?.length ? (
             <div className="talk-claim-links">
               {slide.links.map((link) => (
@@ -159,7 +191,7 @@ function FigureSlide({ slide, lang, prefix }: { slide: TalkSlide; lang: Lang; pr
             href={src}
             target="_blank"
             rel="noopener"
-            title={localized(lang, 'Open the figure full size', '打开原尺寸图')}
+            title={pick(lang, 'Open the figure full size', '打开原尺寸图')}
           >
             <img src={src} alt={imageAlt(lang, slide)} />
           </a>
@@ -195,8 +227,8 @@ function BasicIdeaSlide({
     <div className="talk-reveal-basic-shell">
       <div className="talk-reveal-basic-head">
         <Kicker lang={lang} slide={slide} />
-        <h1>{slideTitle(lang, slide)}</h1>
-        <p>{slideSentence(lang, slide)}</p>
+        <h1>{headingText(lang, slideTitle(lang, slide))}</h1>
+        <p>{keepTogether(slideSentence(lang, slide))}</p>
       </div>
       <div className="talk-reveal-basic-card">
         <TalkBasicIdeaDemo lang={lang} payload={basicDemo} />
@@ -269,8 +301,8 @@ function ReadingSlide({
       {ownHead ? null : (
         <div className="talk-reading-head">
           <Kicker lang={lang} slide={slide} />
-          <h2>{slideTitle(lang, slide)}</h2>
-          <p>{slideSentence(lang, slide)}</p>
+          <h2>{headingText(lang, slideTitle(lang, slide))}</h2>
+          <p>{keepTogether(slideSentence(lang, slide))}</p>
         </div>
       )}
       {slide.evidence?.kind === 'image' ? (
@@ -311,7 +343,7 @@ function ReadingSlide({
       {note?.spoken_text ? (
         <details className="talk-reading-script">
           <summary>{localized(lang, 'What the speaker says', '讲稿')}</summary>
-          <p>{note.spoken_text}</p>
+          <p>{keepTogether(note.spoken_text)}</p>
         </details>
       ) : null}
     </section>
@@ -408,7 +440,7 @@ export function TalkRevealDeck({
   const chinese = currentSlide ? chineseById.get(currentSlide.id) : undefined;
   const progressPercent = ((currentIndex + 1) / slides.length) * 100;
   const fullscreenLike = immersiveMode || isFullscreen;
-  const occasion = localized(lang, manifest.occasion_en ?? '', manifest.occasion_cn ?? manifest.occasion_en ?? '');
+  const occasion = pick(lang, manifest.occasion_en ?? '', manifest.occasion_cn ?? manifest.occasion_en ?? '');
   const talkRouteId = manifest.talk_id === 'smet-phd' ? 'semt-phd' : manifest.talk_id;
   const languageHref = withBasePath(
     `${lang === 'cn' ? '' : '/cn'}/talk/${talkRouteId}/#slide-${currentIndex + 1}`,
@@ -489,7 +521,7 @@ export function TalkRevealDeck({
           <a className="talk-reveal-home" href={withBasePath(lang === 'cn' ? '/cn/' : '/')}>
             {localized(lang, '← Research atlas', '← 研究图谱')}
           </a>
-          <strong>{manifestTitle(lang, manifest)}</strong>
+          <strong>{headingText(lang, manifestTitle(lang, manifest))}</strong>
           <span>
             {currentIndex + 1} / {slides.length}
           </span>
@@ -523,7 +555,7 @@ export function TalkRevealDeck({
         </div>
       </div>
 
-      {occasion ? <p className="talk-reveal-occasion">{occasion}</p> : null}
+      {occasion ? <p className="talk-reveal-occasion">{keepTogether(occasion)}</p> : null}
 
       <div className="talk-reveal-layout">
         <div className="talk-reveal-stage">

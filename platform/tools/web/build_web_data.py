@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import functools
 import hashlib
 import json
 import math
@@ -200,6 +201,39 @@ def normalize_space(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+_MATH_SPAN_RE = re.compile(r"(?<![\\$])\$[^$\n]{1,240}\$(?!\$)")
+_MATH_TOKEN_RE = re.compile("\ue002(\\d+)\ue003")
+
+
+def math_safe(fn):
+    """Run a text clean-up step with every `$...$` span replaced by one opaque token.
+
+    Inline mathematics that has no Unicode form is kept as `$...$` (see
+    `protect_inline_math`). The clean-up heuristics below were written for
+    flattened text and would cut such a span apart (drop its parentheses,
+    rewrite `^-1`, count its `_` as noise); behind a token they see one word.
+    """
+
+    @functools.wraps(fn)
+    def wrapper(text, *args, **kwargs):
+        value = str(text or "")
+        if "$" not in value:
+            return fn(text, *args, **kwargs)
+        spans: list[str] = []
+
+        def hide(match: re.Match[str]) -> str:
+            spans.append(match.group(0))
+            return f"\ue002{len(spans) - 1}\ue003"
+
+        result = fn(_MATH_SPAN_RE.sub(hide, value), *args, **kwargs)
+        if isinstance(result, str) and spans:
+            return _MATH_TOKEN_RE.sub(lambda m: spans[int(m.group(1))], result)
+        return result
+
+    return wrapper
+
+
+@math_safe
 def repair_common_math_noise(text: str) -> str:
     value = str(text or "")
     if not value:
@@ -402,8 +436,167 @@ def polish_extracted_text(text: str) -> str:
     return repair_common_math_noise(value)
 
 
+_SUBSCRIPT_CHARS = dict(
+    zip(
+        "0123456789+-=()aehijklmnoprstuvxβγρφχ",
+        "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₕᵢⱼₖₗₘₙₒₚᵣₛₜᵤᵥₓᵦᵧᵨᵩᵪ",
+    )
+)
+_SUPERSCRIPT_CHARS = dict(
+    zip(
+        "0123456789+-=()abcdefghijklmnoprstuvwxyzT",
+        "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻᵀ",
+    )
+)
+_INLINE_MATH_COMMANDS = {
+    "in": "∈",
+    "leq": "≤",
+    "le": "≤",
+    "geq": "≥",
+    "ge": "≥",
+    "neq": "≠",
+    "approx": "≈",
+    "times": "×",
+    "cdot": "·",
+    "pm": "±",
+    "infty": "∞",
+    "to": "→",
+    "rightarrow": "→",
+    "alpha": "α",
+    "beta": "β",
+    "gamma": "γ",
+    "delta": "δ",
+    "Delta": "Δ",
+    "epsilon": "ε",
+    "varepsilon": "ε",
+    "kappa": "κ",
+    "lambda": "λ",
+    "mu": "μ",
+    "rho": "ρ",
+    "sigma": "σ",
+    "tau": "τ",
+    "phi": "φ",
+    "varphi": "φ",
+    "chi": "χ",
+    "omega": "ω",
+    "Omega": "Ω",
+    "eta": "η",
+    "pi": "π",
+    "ell": "ℓ",
+    "uparrow": "↑",
+    "downarrow": "↓",
+    "propto": "∝",
+    "ll": "≪",
+    "gg": "≫",
+    "mid": "|",
+    "top": "T",
+    "max": "max",
+    "min": "min",
+    "log": "log",
+    "Pr": "Pr",
+}
+_INLINE_MATH_RE = re.compile(r"\\\((.{1,240}?)\\\)|(?<![\\$])\$([^$]{1,240})\$(?!\$)", re.DOTALL)
+_PROTECTED_MATH_RE = re.compile("\ue000(\\d+)\ue001")
+
+
+def _script_argument(expr: str, start: int) -> tuple[str, int] | None:
+    """Read the argument of `_` or `^` at `start`: `{...}` without nesting, or one character."""
+    if start >= len(expr):
+        return None
+    if expr[start] == "{":
+        close = expr.find("}", start + 1)
+        if close < 0 or "{" in expr[start + 1 : close]:
+            return None
+        return expr[start + 1 : close], close + 1
+    return expr[start], start + 1
+
+
+def inline_math_to_unicode(expr: str) -> str | None:
+    """Turn simple inline mathematics into text with Unicode sub- and superscripts.
+
+    `F_2` -> `F₂`, `q_i` -> `qᵢ`, `t_{v}` -> `tᵥ`, `Q^{t-1}` -> `Qᵗ⁻¹`. Returns None when the
+    expression holds a command or a script that has no Unicode form (for example `f_G`).
+    """
+    value = re.sub(r"\\[,;:! ]|\\quad|\\qquad|~", " ", expr)
+    value = re.sub(r"\\(?:left|right)\b", "", value)
+    value = value.replace(r"\{", "\ue010").replace(r"\}", "\ue011")
+
+    def command(match: re.Match[str]) -> str:
+        name = match.group(1)
+        symbol = _INLINE_MATH_COMMANDS.get(name)
+        if symbol is None:
+            return match.group(0)
+        # Braces keep a multi-letter operator (`t_\max`) as one script argument.
+        return "{" + symbol + "}" if len(symbol) > 1 else symbol
+
+    value = re.sub(r"\\([A-Za-z]+)", command, value)
+    value = re.sub(r"\{\{([^{}]*)\}\}", r"{\1}", value)
+    if "\\" in value:
+        return None
+    out: list[str] = []
+    idx = 0
+    while idx < len(value):
+        char = value[idx]
+        if char in "\ue010\ue011":
+            out.append("{" if char == "\ue010" else "}")
+            idx += 1
+            continue
+        if char in "_^":
+            parsed = _script_argument(value, idx + 1)
+            if parsed is None:
+                return None
+            argument, idx = parsed
+            table = _SUBSCRIPT_CHARS if char == "_" else _SUPERSCRIPT_CHARS
+            argument = argument.replace(" ", "").replace("−", "-")
+            # A comma separates indices (`\eta_{u,v}`) and a star marks a
+            # special value (`t^*`); both read correctly at full size.
+            if not argument or any(ch not in table and ch not in ",*" for ch in argument):
+                return None
+            out.append("".join(table.get(ch, ch) for ch in argument))
+            continue
+        if char in "{}":
+            idx += 1
+            continue
+        out.append(char)
+        idx += 1
+    return normalize_space("".join(out))
+
+
+def protect_inline_math(text: str) -> tuple[str, list[str]]:
+    """Convert inline mathematics that carries a sub- or superscript before the
+    text is flattened, so `\\(F_2\\)` reads `F₂` rather than `(F 2)`.
+
+    Expressions with no Unicode form are kept as `$...$` (the site's inline-math markup)
+    behind a placeholder that the flattening steps leave alone.
+    """
+    kept: list[str] = []
+
+    def replace(match: re.Match[str]) -> str:
+        expr = match.group(1) if match.group(1) is not None else match.group(2)
+        if "_" not in expr and "^" not in expr:
+            return match.group(0)
+        converted = inline_math_to_unicode(expr)
+        if converted is not None:
+            return f" {converted} "
+        kept.append("$" + normalize_space(expr) + "$")
+        return f" \ue000{len(kept) - 1}\ue001 "
+
+    return _INLINE_MATH_RE.sub(replace, text), kept
+
+
+def restore_inline_math(text: str, kept: list[str]) -> str:
+    if not kept:
+        return text
+    return _PROTECTED_MATH_RE.sub(lambda m: kept[int(m.group(1))], text)
+
+
 def latex_to_plain(text: str) -> str:
-    value = strip_tex_comments(text)
+    value, kept_math = protect_inline_math(strip_tex_comments(text))
+    return restore_inline_math(_latex_to_plain_flat(value), kept_math)
+
+
+def _latex_to_plain_flat(text: str) -> str:
+    value = text
     for source, target in LATEX_SYMBOL_REPLACEMENTS.items():
         value = value.replace(source, target)
     value = value.replace("\\,", " ")
@@ -436,6 +629,7 @@ def latex_to_plain(text: str) -> str:
     return polish_extracted_text(value)
 
 
+@math_safe
 def summarize_plain(text: str, *, max_chars: int = 320) -> str:
     plain = normalize_space(text)
     if len(plain) <= max_chars:
@@ -453,6 +647,7 @@ def summarize_plain(text: str, *, max_chars: int = 320) -> str:
     return fallback
 
 
+@math_safe
 def canonical_summary(text: str, *, max_chars: int = 1200) -> str:
     """
     Canonical summary text for meta payloads.
@@ -470,6 +665,7 @@ def canonical_summary(text: str, *, max_chars: int = 1200) -> str:
     return clipped[:max_chars].rstrip(" ,;。；")
 
 
+@math_safe
 def summary_quality_cleanup(text: str) -> str:
     value = repair_common_math_noise(str(text or ""))
     if not value:
@@ -498,6 +694,7 @@ def summary_quality_cleanup(text: str) -> str:
     return repair_common_math_noise(value)
 
 
+@math_safe
 def strip_mathish_fragments(text: str) -> str:
     value = repair_common_math_noise(str(text or ""))
     value = re.sub(r"\[[^\]]{0,240}[=<>/\\^_][^\]]{0,240}\]", " ", value)
@@ -520,6 +717,7 @@ def strip_mathish_fragments(text: str) -> str:
     return repair_common_math_noise(value)
 
 
+@math_safe
 def looks_like_math_fragment(sentence: str) -> bool:
     value = repair_common_math_noise(normalize_space(sentence))
     if not value:
@@ -544,6 +742,7 @@ def looks_like_math_fragment(sentence: str) -> bool:
     return False
 
 
+@math_safe
 def has_malformed_readability_tokens(text: str) -> bool:
     value = normalize_space(str(text or ""))
     if not value:
@@ -579,6 +778,7 @@ def has_malformed_readability_tokens(text: str) -> bool:
     return any(re.search(pattern, value, flags=re.IGNORECASE) for pattern in patterns)
 
 
+@math_safe
 def readable_summary(text: str, *, max_chars: int = 480, max_sentences: int = 3) -> str:
     plain = summary_quality_cleanup(strip_mathish_fragments(normalize_space(text)))
     if not plain:
@@ -605,6 +805,7 @@ def readable_summary(text: str, *, max_chars: int = 480, max_sentences: int = 3)
     return canonical_summary(joined, max_chars=max_chars)
 
 
+@math_safe
 def summary_penalty(text: str) -> int:
     value = summary_quality_cleanup(str(text or ""))
     if not value:
@@ -696,6 +897,7 @@ def improve_summary_if_needed(summary: str, fallback_candidates: list[str], *, m
     return cleaned
 
 
+@math_safe
 def sanitize_claim_text_for_map(text: str, *, lang: str, max_chars: int, report_id: str = "") -> str:
     value = summary_quality_cleanup(strip_mathish_fragments(repair_common_math_noise(normalize_space(text))))
     value = value.replace("`", "")
@@ -1745,7 +1947,9 @@ def is_trivial_formula_signature(latex: str) -> bool:
 
 
 def tokenize_claim_text(text: str) -> set[str]:
-    tokens = re.findall(r"[a-zA-Z0-9_]+|[\u4e00-\u9fff]{1,4}", normalize_space(text).lower())
+    # LaTeX command names inside kept `$...$` mathematics are not words.
+    plain = re.sub(r"\\[A-Za-z]+", " ", normalize_space(text))
+    tokens = re.findall(r"[a-zA-Z0-9_]+|[\u4e00-\u9fff]{1,4}", plain.lower())
     out: set[str] = set()
     for tok in tokens:
         if len(tok) < 2:
@@ -3229,12 +3433,12 @@ CURATED_DATASETS: dict[str, list[dict[str, Any]]] = {
             "title_cn": "首达概率 f(t)，K = 2 与 K = 4（N = 100，β = 0.01）",
             "caption": (
                 "f(t) is the probability that the walker first reaches the target at step t, for jump range K = 2 and "
-                "K = 4 at N = 100, q = 2/3 and shortcut strength β = 0.01. Each curve has an early peak, a valley and a "
+                "K = 4 at N = 100, move probability q = 2/3 and shortcut strength β = 0.01. Each curve has an early peak, a valley and a "
                 "later, higher peak (K = 2: steps 53, 247 and 1124; K = 4: steps 32, 84 and 495). The report sorts Monte "
                 "Carlo trajectories by route inside time windows centred on these three times. The time axis is logarithmic."
             ),
             "caption_cn": (
-                "f(t) 是游走者恰在第 t 步首次到达目标的概率，这里是 N = 100、q = 2/3、捷径强度 β = 0.01 时跳跃范围 K = 2 与 "
+                "f(t) 是游走者恰在第 t 步首次到达目标的概率，这里是 N = 100、移动概率 q = 2/3、捷径强度 β = 0.01 时跳跃范围 K = 2 与 "
                 "K = 4 的两条曲线。每条曲线都有一个早峰、一个谷和一个更高的晚峰（K = 2：第 53、247、1124 步；K = 4：第 32、84、"
                 "495 步）。报告以这三个时间为中心取时间窗，把蒙特卡洛轨迹按路径分类。时间轴为对数坐标。"
             ),
@@ -3260,13 +3464,13 @@ CURATED_DATASETS: dict[str, list[dict[str, Any]]] = {
                 "t₁ and t₂ are the times of the first and second peak of the first-passage probability f(t), "
                 "the probability that the walker first reaches the target at step t. Points are drawn only where f(t) "
                 "has two peaks under the report's rule (a peak is a strict local maximum with f ≥ 10⁻⁷ and at least 1% "
-                "of the highest peak); elsewhere f(t) has a single peak. N = 100, q = 2/3, start at site 1, target "
+                "of the highest peak); elsewhere f(t) has a single peak. N = 100, move probability q = 2/3, start at site 1, target "
                 "site 51, shortcut 6 → 52. Both axes are logarithmic."
             ),
             "caption_cn": (
                 "t₁、t₂ 是首达概率 f(t)（游走者恰在第 t 步首次到达目标的概率）第一个峰和第二个峰的时间。只在 f(t) "
                 "按报告的判据有两个峰时画点（峰指 f ≥ 10⁻⁷、且不低于最高峰 1% 的严格局部极大值）；其余 β 下 f(t) "
-                "只有一个峰。N = 100，q = 2/3，从格点 1 出发，目标为格点 51，捷径 6 → 52。两个坐标轴都是对数坐标。"
+                "只有一个峰。N = 100，移动概率 q = 2/3，从格点 1 出发，目标为格点 51，捷径 6 → 52。两个坐标轴都是对数坐标。"
             ),
             "x_label": "shortcut strength β",
             "x_label_cn": "捷径强度 β",
@@ -3289,11 +3493,11 @@ CURATED_DATASETS: dict[str, list[dict[str, Any]]] = {
             "caption": (
                 "γ = −ln λ_max, where λ_max is the largest eigenvalue of the transition matrix restricted to the "
                 "non-target sites, so the probability of not having arrived decays as e^(−γt) at late times. "
-                "β = 0, 0.01, …, 0.2; N = 100, q = 2/3."
+                "β = 0, 0.01, …, 0.2; N = 100, move probability q = 2/3."
             ),
             "caption_cn": (
                 "γ = −ln λ_max，λ_max 是转移矩阵限制在非目标格点上的最大特征值；晚时尚未到达的概率按 e^(−γt) 衰减。"
-                "β = 0, 0.01, …, 0.2；N = 100，q = 2/3。"
+                "β = 0, 0.01, …, 0.2；N = 100，移动概率 q = 2/3。"
             ),
             "x_label": "shortcut strength β",
             "x_label_cn": "捷径强度 β",
@@ -4283,38 +4487,38 @@ def build_theory_map(output_dir: Path, reports: list[dict[str, Any]], generated_
         "fpt-pmf": {
             "label_en": "First-passage distribution",
             "label_cn": "首达时间分布",
-            "description_en": "Core PMF/CDF/survival quantities used across the major report families.",
-            "description_cn": "在主要报告族中反复出现的 PMF/CDF/生存函数核心量。",
+            "description_en": "The probability mass function (PMF), the cumulative distribution function (CDF) and the survival function of the first-passage time, used across the main groups of reports.",
+            "description_cn": "首达时间的概率质量函数（PMF）、累积分布函数（CDF）和生存函数，在几组主要报告中反复用到。",
         },
         "survival": {
             "label_en": "Survival and hazard",
             "label_cn": "生存函数与风险率",
-            "description_en": "Links between f(t), S(t), and hazard-style diagnostics.",
-            "description_cn": "用于连接 f(t)、S(t) 与风险率诊断的定义。",
+            "description_en": "How f(t), the survival function S(t) and the hazard rate h(t) are related.",
+            "description_cn": "f(t)、生存函数 S(t) 和风险率 h(t) 之间的关系。",
         },
         "hazard": {
             "label_en": "Hazard interpretation",
             "label_cn": "风险率解释",
-            "description_en": "Peak/valley interpretation using hazard dynamics.",
-            "description_cn": "通过风险率动态解释峰谷结构。",
+            "description_en": "Reading the peaks and valleys of f(t) from the hazard rate h(t).",
+            "description_cn": "从风险率 h(t) 读出 f(t) 的峰和谷。",
         },
         "beta-scan": {
-            "label_en": "Beta / shortcut scan",
+            "label_en": "β (shortcut strength) scan",
             "label_cn": "β（捷径强度）扫描",
-            "description_en": "How shortcut strength changes bimodality and phase behavior.",
-            "description_cn": "捷径强度变化对双峰与相图的影响。",
+            "description_en": "How the shortcut strength β decides whether f(t) has one peak or two.",
+            "description_cn": "捷径强度 β 如何决定 f(t) 只有一个峰还是有两个峰。",
         },
         "spectral": {
             "label_en": "Spectral decomposition",
             "label_cn": "谱分解",
-            "description_en": "Eigenvalue / resolvent based derivations.",
-            "description_cn": "基于特征值与 resolvent 的推导框架。",
+            "description_en": "Derivations based on eigenvalues and the resolvent.",
+            "description_cn": "基于特征值与预解式的推导。",
         },
         "aw-inversion": {
-            "label_en": "AW inversion",
-            "label_cn": "AW 反演",
-            "description_en": "Discrete Cauchy / FFT inversion from generating functions.",
-            "description_cn": "从生成函数做离散 Cauchy / FFT 反演。",
+            "label_en": "Abate–Whitt inversion",
+            "label_cn": "Abate–Whitt 反演",
+            "description_en": "Recovering f(t) from its generating function with a discrete Cauchy integral, computed by the fast Fourier transform (FFT).",
+            "description_cn": "由生成函数求出 f(t)：用离散的柯西积分，借助快速傅里叶变换（FFT）计算。",
         },
     }
 
@@ -5005,9 +5209,9 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
             ),
             "method": (
                 normalize_space(str(narrative_en.get("method_overview", "")))
-                or f"{report_title_en} combines derivation, inversion, and numerical verification to keep each claim auditable.",
+                or f"{report_title_en} combines derivation, inversion and numerical checks.",
                 normalize_space(str(narrative_cn.get("method_overview", "")))
-                or f"{report_title_cn} 采用推导、反演与数值核验结合的方法，保证每条结论可追溯。",
+                or f"{report_title_cn} 采用推导、反演与数值核验相结合的方法。",
             ),
             "result": (
                 normalize_space(str(narrative_en.get("result_overview", "")))
@@ -5370,8 +5574,8 @@ def build_content_map(output_dir: Path, reports: list[dict[str, Any]], generated
                 "arc_id": "global-synthesis",
                 "label_en": str(global_story.get("label_en", "Global synthesis")),
                 "label_cn": str(global_story.get("label_cn", "全局综合")),
-                "summary_en": "Global storyline that connects all report families from mechanism to synthesis.",
-                "summary_cn": "连接全部报告家族的全局叙事主线，从机制到综合结论。",
+                "summary_en": "All reports, from the mechanisms to the summary of results.",
+                "summary_cn": "全部报告：从机制到结果汇总。",
                 "report_ids": global_reports,
                 "claim_ids": dedupe_preserve(global_claim_ids, max_items=300),
                 "checkpoint_count": len(global_reports),

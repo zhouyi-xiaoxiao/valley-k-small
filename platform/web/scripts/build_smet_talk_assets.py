@@ -579,7 +579,10 @@ def lattice_schematic(lang: str, x: float, y: float, two_targets: bool) -> list[
 
 def build_fig6(lang: str, sym: list[float], sym_peaks: tuple[int, int, int], two: list[float],
                two_peaks: tuple[int, int, int], sym_mass: float, p_near: float) -> str:
-    H = 860
+    # Each panel: heading, two subtitle lines, then the plot. The plot box
+    # starts 202 px below the panel top so that the "f(t)" axis title (18 px
+    # above the box) stays clear of the second subtitle line on a phone.
+    H = 920
     body: list[str] = []
     if lang == "en":
         head_top = "One target, corridor with leaky walls"
@@ -595,13 +598,13 @@ def build_fig6(lang: str, sym: list[float], sym_peaks: tuple[int, int, int], two
         sub_bot = [f"谷在 t = {two_peaks[1]}", f"近目标占 {p_near:.0%} 的到达，远目标占 {1 - p_near:.0%}"]
     for k, (head, sub, f, (t1, tv, t2), y0, two_t) in enumerate((
         (head_top, sub_top, sym, sym_peaks, 0, False),
-        (head_bot, sub_bot, two, two_peaks, 430, True),
+        (head_bot, sub_bot, two, two_peaks, 460, True),
     )):
         body.append(text(34, y0 + 54, head, F_HEAD, 700))
         body += lattice_schematic(lang, 700, y0 + 18, two_t)
         body.append(text(940, y0 + 112, "schematic" if lang == "en" else "示意", 22, 600, "#7c5d24", "end", True))
         ymax = max(f) * 1.3
-        ax = Axes(150, y0 + 172, 960, y0 + 336, 1, 5000, 0, ymax, xlog=True)
+        ax = Axes(150, y0 + 202, 960, y0 + 366, 1, 5000, 0, ymax, xlog=True)
         ytick = 1e-3 if ymax < 0.003 else 5e-3
         body += ax.frame([(1, "1"), (10, "10"), (100, "100"), (1000, "1,000")], [(0, "0"), (ytick, sci(ytick))],
                          tr("time_log", lang), tr("ft_short", lang), ylabel_x=40)

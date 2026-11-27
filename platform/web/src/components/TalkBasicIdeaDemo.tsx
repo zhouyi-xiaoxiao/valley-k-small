@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { BasicDemoPayload, Lang } from '@/types';
+import { keepTogether } from '@/lib/typeset';
 
 type TalkBasicIdeaDemoProps = {
   lang: Lang;
@@ -10,6 +11,11 @@ type TalkBasicIdeaDemoProps = {
 
 function localize(lang: Lang, en: string, cn: string) {
   return lang === 'cn' ? cn : en;
+}
+
+// Displayed text: short equations and labels stay on one line.
+function shown(lang: Lang, en: string, cn: string) {
+  return keepTogether(localize(lang, en, cn));
 }
 
 function normalizeWalk(
@@ -149,10 +155,22 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
               r="11"
               className="talk-basic-walker"
             />
-            <text x={payload.source.x * 72 + 20} y={payload.source.y * 72 + 14} className="talk-basic-label">
+            {/* Labels end left of the cell's centre line: paths run along the
+                centre lines (stroke 6), so a label that crossed x + 36 sat on the path. */}
+            <text
+              x={payload.source.x * 72 + 26}
+              y={payload.source.y * 72 + 14}
+              textAnchor="end"
+              className="talk-basic-label"
+            >
               {localize(lang, 'start', '起点')}
             </text>
-            <text x={payload.target.x * 72 - 4} y={payload.target.y * 72 + 14} className="talk-basic-label">
+            <text
+              x={payload.target.x * 72 + 26}
+              y={payload.target.y * 72 + 14}
+              textAnchor="end"
+              className="talk-basic-label"
+            >
               {localize(lang, 'target', '目标')}
             </text>
           </svg>
@@ -160,9 +178,9 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
 
         <div className="talk-basic-panel">
           <div className="talk-basic-copy">
-            <h3>{localize(lang, 'Repeated trials build the distribution', '重复多次，就得到分布')}</h3>
+            <h3>{shown(lang, 'Repeated trials build the distribution', '重复多次，就得到分布')}</h3>
             <p className="muted">
-              {localize(
+              {shown(
                 lang,
                 'Every time the walker first lands on the target, we record that hitting time once.',
                 '游走者每次第一次到达目标，我们就记下这一次的到达时刻。',
@@ -183,14 +201,14 @@ export function TalkBasicIdeaDemo({ lang, payload }: TalkBasicIdeaDemoProps) {
             ))}
           </div>
           <p className="muted">
-            {localize(
+            {shown(
               lang,
               'Bars: how many trials first reached the target at each step (step number below).',
               '柱高：在该步第一次到达目标的试验次数（下方数字为步数）。',
             )}
           </p>
           <p className="talk-basic-callout">
-            {localize(
+            {shown(
               lang,
               'First-passage time means the first hit, not the average time spent near the target.',
               '首达时间只看第一次到达，而不是在目标附近平均停留多久。',

@@ -187,12 +187,12 @@
       "question_cn": "什么样的二维布局才能让双峰保持可见？",
       "evidence": {
         "kind": "image",
-        "src": "/talk-assets/smet-phd/fig6-2d-layouts.en.svg?v=20261125a",
-        "src_cn": "/talk-assets/smet-phd/fig6-2d-layouts.cn.svg?v=20261125a",
+        "src": "/talk-assets/smet-phd/fig6-2d-layouts.en.svg?v=20261127a",
+        "src_cn": "/talk-assets/smet-phd/fig6-2d-layouts.cn.svg?v=20261127a",
         "alt_en": "Computed first-passage distributions for two 2D layouts: one target in a corridor with leaky walls (peaks at t = 394 and 1,696) and two targets without a corridor (peaks at t = 11 and 739).",
         "alt_cn": "两种二维布局计算所得的首达时间分布：通道壁可渗漏的单目标布局（峰在 t = 394 和 1,696），以及没有通道的双目标布局（峰在 t = 11 和 739）。",
-        "caption_en": "Reflecting rectangular lattice, 60 sites long and 16 wide; each step the walker moves to a neighbour with total probability 0.8 (otherwise it stays), with a uniform drift b_x along the long side. Start at x = 7, far target at x = 58; f(t) computed exactly from the transition probabilities up to t = 5,000. Top: drift b_x = −0.08 (away from the target) and a corridor 5 sites wide on the midline that pushes the walker towards the target; its walls (x = 5–54, open at both ends) let an attempted crossing through with probability κ = 0.002. Bottom: no corridor, drift b_x = +0.07 (towards the far target); a second target 2 sites along and 3 across from the start. The drift matters: in this report's two-target scan, b_x = 0 gives a single peak, and in the corridor scan of the rectangular-lattice report (same start and target) a clear double peak appears only at b_x = −0.08. Peak and valley times come from the report's classifier, which rates both curves 'clear double peak'. Insets are schematic.",
-        "caption_cn": "反射边界的矩形格点，长 60、宽 16；游走者每一步以总概率 0.8 移向相邻格点（否则留在原地），并带一个沿长边方向的均匀漂移 b_x。起点在 x = 7，远目标在 x = 58；f(t) 由转移概率精确算到 t = 5,000。上图：漂移 b_x = −0.08（背离目标），中线上有一条宽 5 格、把游走者推向目标的通道；通道壁位于 x = 5–54、两端开口，每次穿越尝试以概率 κ = 0.002 被放行。下图：没有通道，漂移 b_x = +0.07（朝向远目标）；第二个目标距起点沿长边 2 格、沿短边 3 格。漂移是关键：本报告的双目标扫描中，b_x = 0 时只有单峰；矩形格点报告的通道扫描（起点和目标相同）中，只有 b_x = −0.08 时才出现清楚的双峰。峰和谷的时刻取自报告的分类器，它把两条曲线都判为「清楚的双峰」。小图为示意。",
+        "caption_en": "Reflecting rectangular lattice, 60 sites long and 16 wide; each step the walker moves to a neighbour with total probability 0.8 (otherwise it stays), with a uniform drift bₓ along the long side. Start at x = 7, far target at x = 58; f(t) computed exactly from the transition probabilities up to t = 5,000. Top: drift bₓ = −0.08 (away from the target) and a corridor 5 sites wide on the midline that pushes the walker towards the target; its walls (x = 5–54, open at both ends) let an attempted crossing through with probability κ = 0.002. Bottom: no corridor, drift bₓ = +0.07 (towards the far target); a second target 2 sites along and 3 across from the start. The drift matters: in this report's two-target scan, bₓ = 0 gives a single peak, and in the corridor scan of the rectangular-lattice report (same start and target) a clear double peak appears only at bₓ = −0.08. Peak and valley times come from the report's classifier, which rates both curves 'clear double peak'. Insets are schematic.",
+        "caption_cn": "反射边界的矩形格点，长 60、宽 16；游走者每一步以总概率 0.8 移向相邻格点（否则留在原地），并带一个沿长边方向的均匀漂移 bₓ。起点在 x = 7，远目标在 x = 58；f(t) 由转移概率精确算到 t = 5,000。上图：漂移 bₓ = −0.08（背离目标），中线上有一条宽 5 格、把游走者推向目标的通道；通道壁位于 x = 5–54、两端开口，每次穿越尝试以概率 κ = 0.002 被放行。下图：没有通道，漂移 bₓ = +0.07（朝向远目标）；第二个目标距起点沿长边 2 格、沿短边 3 格。漂移是关键：本报告的双目标扫描中，bₓ = 0 时只有单峰；矩形格点报告的通道扫描（起点和目标相同）中，只有 bₓ = −0.08 时才出现清楚的双峰。峰和谷的时刻取自报告的分类器，它把两条曲线都判为「清楚的双峰」。小图为示意。",
         "full_bleed": false,
         "hide_caption": false,
         "show_overlay": true
@@ -205,8 +205,8 @@
       "sentence_cn": "在带弱均匀漂移的矩形格点上，带可渗漏通道壁的单目标布局，和没有通道、一近一远两个目标的布局，都给出清楚的双峰，而且两种情形的双峰都依赖这个漂移。",
       "links": [
         {
-          "label_en": "2D report: membranes and two targets",
-          "label_cn": "二维报告：半透壁与双目标",
+          "label_en": "2D report: corridor with leaky walls, and two targets",
+          "label_cn": "二维报告：可渗漏的通道壁与双目标",
           "href": "/reports/grid2d_membrane_near_target/"
         }
       ]
@@ -267,8 +267,8 @@
         "src_cn": "/talk-assets/smet-phd/fig8-two-targets.cn.svg?v=20261125a",
         "alt_en": "Two-target lattice: f(t) split into near-target and far-target hits, and the share of near and far hits in the peak 1, valley and peak 2 windows (100% near; 73% near, 27% far; 99.8% far).",
         "alt_cn": "双目标格点：按到达近目标和远目标拆分的 f(t)，以及峰 1、谷、峰 2 三个时间窗里近、远目标所占比例（近 100%；近 73%、远 27%；远 99.8%）。",
-        "caption_en": "The two-target case of the previous slide (no corridor, drift b_x = +0.07 towards the far target; near target 2 sites along and 3 across from the start). f(t) is the sum of the near-target and far-target parts; over all times 33% of hits are at the near target and 67% at the far one. Windows as in the report: t = 1–37, 281–333 and 713–765.",
-        "caption_cn": "即上一页的双目标布局（没有通道，漂移 b_x = +0.07 朝向远目标；近目标距起点沿长边 2 格、沿短边 3 格）。f(t) 是到达近目标和远目标两部分之和；全部时间合计，33% 的到达在近目标，67% 在远目标。时间窗与报告一致：t = 1–37、281–333、713–765。",
+        "caption_en": "The two-target case of the previous slide (no corridor, drift bₓ = +0.07 towards the far target; near target 2 sites along and 3 across from the start). f(t) is the sum of the near-target and far-target parts; over all times 33% of hits are at the near target and 67% at the far one. Windows as in the report: t = 1–37, 281–333 and 713–765.",
+        "caption_cn": "即上一页的双目标布局（没有通道，漂移 bₓ = +0.07 朝向远目标；近目标距起点沿长边 2 格、沿短边 3 格）。f(t) 是到达近目标和远目标两部分之和；全部时间合计，33% 的到达在近目标，67% 在远目标。时间窗与报告一致：t = 1–37、281–333、713–765。",
         "full_bleed": false,
         "hide_caption": false,
         "show_overlay": true
@@ -281,8 +281,8 @@
       "sentence_cn": "有两个目标时，两个峰可以分属不同的目标：在没有通道的布局里，早峰时间窗全部是到达近目标的轨迹，晚峰时间窗 99.8% 是到达远目标的轨迹。目标更多时，待解的问题是屏蔽、拥挤，以及少数很晚才到达远处目标的游走者。",
       "links": [
         {
-          "label_en": "2D report: membranes and two targets",
-          "label_cn": "二维报告：半透壁与双目标",
+          "label_en": "2D report: corridor with leaky walls, and two targets",
+          "label_cn": "二维报告：可渗漏的通道壁与双目标",
           "href": "/reports/grid2d_membrane_near_target/"
         }
       ]
@@ -308,6 +308,6 @@
       "sentence_cn": "每一张图背后都是同样三样东西：格点（环或二维格点）上的主方程、首达时间 T，以及它的分布 f(t)。"
     }
   ],
-  "occasion_en": "10-minute talk · SEMT Ideas Exchange Week, University of Bristol · 15 April 2026 · Speaker: Xiaoxiao Zhouyi · For SEMT PhD researchers across disciplines",
-  "occasion_cn": "10 分钟报告 · 布里斯托大学 SEMT Ideas Exchange Week · 2026 年 4 月 15 日 · 报告人：周易潇潇 · 听众：SEMT 各方向的博士生"
+  "occasion_en": "10-minute talk · Ideas Exchange Week, School of Engineering Mathematics and Technology (SEMT), University of Bristol · 15 April 2026 · Speaker: Xiaoxiao Zhouyi · For SEMT PhD researchers across disciplines",
+  "occasion_cn": "10 分钟报告 · 布里斯托大学工程数学与技术学院（SEMT）Ideas Exchange Week · 2026 年 4 月 15 日 · 报告人：周易潇潇 · 听众：SEMT 各方向的博士生"
 }

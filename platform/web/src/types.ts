@@ -330,6 +330,8 @@ export type BookManifest = {
     interactive_count: number;
     claim_count: number;
     estimated_read_minutes: number;
+    // false for a chapter not written yet (no read time is printed).
+    written?: boolean;
     previous_chapter_id: string | null;
     next_chapter_id: string | null;
   }>;

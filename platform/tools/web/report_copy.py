@@ -127,7 +127,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "Inside the two-peak windows both peak times fall as β grows: K = 2, t₁ 54 → 48 and t₂ 1243 → 780 steps (β = 0.0005 → 0.05); K = 4, t₁ 32 → 27 and t₂ 515 → 295 steps (β = 0.001 → 0.15).",
                 "K = 4 is not more robust everywhere: at β = 0.0005 only K = 2 has two peaks, and in the ring-size scan at β = 0.02 two peaks appear from N = 58 for K = 2 but only from N = 72 for K = 4.",
                 "Route classes (Monte Carlo, 200 000 trajectories, N = 100, β = 0.01): every first-peak arrival used the shortcut; with K = 4 about 30% of them had also jumped over the target (a ±2 step across it) first, which is impossible with K = 2.",
-                "Valley depth, measured as f(t_v)/max(f(t₁), f(t₂)) (smaller is deeper): at β = 0.01 it is 0.15 for K = 4 and 0.34 for K = 2; from β ≈ 0.05 the order reverses (0.56 for K = 4, 0.52 for K = 2).",
+                "Valley depth, measured as f(tᵥ)/max(f(t₁), f(t₂)) (smaller is deeper): at β = 0.01 it is 0.15 for K = 4 and 0.34 for K = 2; from β ≈ 0.05 the order reverses (0.56 for K = 4, 0.52 for K = 2).",
                 "The tail decay rate γ = −ln λ_max rises with β from 0 to 0.2: from 3.3 × 10⁻⁴ to 8.5 × 10⁻⁴ per step for K = 2 and from 7.9 × 10⁻⁴ to 1.6 × 10⁻³ for K = 4.",
                 "For the ring-size scan β is fixed at β* = 0.01, the smallest scanned value meeting the report's selection rule (t₂/t₁ ≥ 10, valley ratio ≤ 0.6, second peak at least 5% of the first) for both K; two peaks then appear from N = 60 (K = 2) and N = 74 (K = 4), N = 50 to 300.",
             ],
@@ -163,7 +163,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "在双峰区间内，两个峰的时间都随 β 增大而提前：K = 2 时 t₁ 从 54 步到 48 步、t₂ 从 1243 步到 780 步（β 从 0.0005 到 0.05）；K = 4 时 t₁ 从 32 步到 27 步、t₂ 从 515 步到 295 步（β 从 0.001 到 0.15）。",
                 "K = 4 并非处处更稳健：β = 0.0005 时只有 K = 2 有两个峰；在 β = 0.02 的环长扫描中，K = 2 从 N = 58 起出现两个峰，K = 4 要到 N = 72 才出现。",
                 "路径分类（蒙特卡洛，20 万条轨迹，N = 100，β = 0.01）：第一个峰的到达全部走过捷径；K = 4 时其中约 30% 还先越过了目标（一步 ±2 跨过目标），K = 2 不可能出现这种情况。",
-                "谷深用 f(t_v)/max(f(t₁), f(t₂)) 衡量（越小越深）：β = 0.01 时 K = 4 为 0.15、K = 2 为 0.34；β 约为 0.05 起顺序反过来（K = 4 为 0.56，K = 2 为 0.52）。",
+                "谷深用 f(tᵥ)/max(f(t₁), f(t₂)) 衡量（越小越深）：β = 0.01 时 K = 4 为 0.15、K = 2 为 0.34；β 约为 0.05 起顺序反过来（K = 4 为 0.56，K = 2 为 0.52）。",
                 "尾部衰减率 γ = −ln λ_max 随 β 从 0 增大到 0.2 而上升：K = 2 从每步 3.3 × 10⁻⁴ 升到 8.5 × 10⁻⁴，K = 4 从 7.9 × 10⁻⁴ 升到 1.6 × 10⁻³。",
                 "环长扫描固定 β* = 0.01，这是所扫描的 β 中同时让两种 K 满足报告选取规则（t₂/t₁ ≥ 10、谷比 ≤ 0.6、第二峰不低于第一峰的 5%）的最小值；此时 N 取 50 到 300，K = 2 从 N = 60 起、K = 4 从 N = 74 起出现两个峰。",
             ],
@@ -204,12 +204,12 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 "The early-peak window of f(t) consists entirely of walkers that used the shortcut, for both K = 2 and K = 4.",
                 "In the late-peak window, walkers that never used the shortcut are the majority: about 85% for K = 2 and 93% for K = 4.",
                 "For K = 4, about a quarter of the late-peak window are walkers that stepped over the target without landing on it, a delay route that K = 2 does not have.",
-                "Over 81 threshold settings and five β values from 0.001 to 0.03, the two-peak test (which here also requires the valley to be at most 10%, 20% or 30% of the highest peak) passes 33% of cases for K = 2 and 60% for K = 4. Only the valley limit changes the outcome: at β = 0.01 K = 2 fails every setting, while K = 4 passes two of the three valley limits.",
+                "Over 81 threshold settings and five β values from 0.001 to 0.03, the two-peak test (which here also requires the valley to be at most 10%, 20% or 30% of the highest peak) passes 33% of cases for K = 2 and 60% for K = 4. Only the valley limit changes the outcome: at β = 0.01, K = 2 fails every setting, while K = 4 passes two of the three valley limits.",
             ],
         },
         "cn": {
             "teaser": "修订版（N = 100，β = 0.01）：每个峰由哪些路径构成（早峰窗口全是走过捷径的游走者，晚峰窗口多数从未走过捷径），并检验阈值、时间窗和蒙特卡洛误差的影响。",
-            "title": "环上懒惰随机游走：每个峰由哪些路径构成",
+            "title": "带捷径的环上懒惰随机游走：每个峰由哪些路径构成",
             "summary": (
                 "环长 N = 100、捷径强度 β = 0.01 时，环上懒惰随机游走的首达时间分布 f(t) 在两种步长规则下都有早峰、谷和晚峰："
                 "K = 2 时两个峰在第 53 步和第 1124 步，K = 4 时在第 32 步和第 495 步。蒙特卡洛轨迹给出每个时间窗口里到达的是哪类游走者："
@@ -605,7 +605,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "grid2d_bimodality": {
         "en": {
             "teaser": 'Three hand-built geometries on a 60 × 60 lattice (wrap-around drift, an edge corridor, a wall with one door and a sticky block) each give a fast and a slow route and two arrival peaks.',
-            "title": "Grid2D Bimodality Baseline",
+            "title": "2D Lattice: Bimodality Baseline",
             "summary": (
                 "On a 60 × 60 lattice (lazy walk with drift; periodic in x, reflecting in y), three hand-built geometries — "
                 "a drift that wraps around, an edge corridor with a local bias, and a wall with one door beside a small sticky block — each give a fast "
@@ -619,9 +619,9 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "defects — biased sites, walls with doors, sticky sites — change individual transitions."
                 ),
                 "method_overview": (
-                    "Exact recursion f(t) = rᵀQ^(t−1)p₀ as the baseline; generating function built from the defect-free "
+                    "Exact recursion f(t) = rᵀQᵗ⁻¹p₀ as the baseline; generating function built from the defect-free "
                     "propagator plus a correction for each local defect, inverted by Abate–Whitt; Monte Carlo with 30 000 "
-                    "walkers. Two peaks are found on f smoothed over 9 steps; valley ratio = f(t_v)/min(h₁, h₂), required to "
+                    "walkers. Two peaks are found on f smoothed over 9 steps; valley ratio = f(tᵥ)/min(h₁, h₂), required to "
                     "be at most 0.07."
                 ),
                 "result_overview": (
@@ -652,8 +652,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "整体漂移 (g_x, g_y) 改变四个方向的概率。局部缺陷——偏置格点、带门的墙、黏滞格点——改变个别转移概率。"
                 ),
                 "method_overview": (
-                    "以精确递推 f(t) = rᵀQ^(t−1)p₀ 为基准；生成函数由无缺陷传播子加上每个局部缺陷的修正构成，用 Abate–Whitt "
-                    "方法反演；蒙特卡洛 3 万条轨迹。在 9 步平滑后的 f 上找两个峰；谷比 = f(t_v)/min(h₁, h₂)，要求不超过 0.07。"
+                    "以精确递推 f(t) = rᵀQᵗ⁻¹p₀ 为基准；生成函数由无缺陷传播子加上每个局部缺陷的修正构成，用 Abate–Whitt "
+                    "方法反演；蒙特卡洛 3 万条轨迹。在 9 步平滑后的 f 上找两个峰；谷比 = f(tᵥ)/min(h₁, h₂)，要求不超过 0.07。"
                 ),
                 "result_overview": (
                     "情形 A（绕一圈的漂移）：峰在 t = 6 和 232。情形 B（带局部偏置的边缘走廊）：t = 33 和 473，在扫描的 6–14 格走廊长度中，只有 6 到 8 格能让谷低于 7%。"
@@ -671,7 +671,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "grid2d_reflecting_bimodality": {
         "en": {
             "teaser": 'With all walls reflecting (60 × 60 lattice), eight representative geometries keep two arrival peaks, each with the valley at most 7% of the smaller peak.',
-            "title": "Grid2D Reflecting-Boundary Bimodality",
+            "title": "2D Lattice: Reflecting-Boundary Bimodality",
             "summary": (
                 "With all four walls reflecting (60 × 60 lattice, lazy walk), eight representative geometries — detours, a "
                 "semi-permeable pore, a biased transport track, door arrays, a biased sticky belt along the walls and soft "
@@ -686,7 +686,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "method_overview": (
                     "Exact recursion as the baseline, Abate–Whitt inversion (L¹ difference at most 3.1 × 10⁻¹⁴) and Monte "
-                    "Carlo with 30 000 to 60 000 walkers. Valley ratio = f(t_v)/min(h₁, h₂) on f smoothed over 9 steps."
+                    "Carlo with 30 000 to 60 000 walkers. Valley ratio = f(tᵥ)/min(h₁, h₂) on f smoothed over 9 steps."
                 ),
                 "result_overview": (
                     "All eight representative cases keep two peaks under fully reflecting walls, with valley ratios from "
@@ -695,7 +695,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
             },
             "key_findings": [
                 "Eight cases keep two peaks with all walls reflecting, e.g. a geometric detour (t = 136 and 424) and a door array (t = 347 and 2160).",
-                "Valley ratios lie between 0.009 and 0.066, below the 0.07 threshold used across the Grid2D reports.",
+                "Valley ratios lie between 0.009 and 0.066, below the 0.07 threshold used across the 2D lattice reports.",
                 "A biased sticky belt along the walls, without any internal wall, is enough for two peaks (t = 6 and 642).",
                 "The share of walkers taking the fast route ranges from about 2% to 50% across the cases.",
             ],
@@ -715,7 +715,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "method_overview": (
                     "以精确递推为基准，Abate–Whitt 反演（L¹ 差不超过 3.1 × 10⁻¹⁴），蒙特卡洛 3 万到 6 万条轨迹。谷比 = "
-                    "f(t_v)/min(h₁, h₂)，在 9 步平滑后的 f 上计算。"
+                    "f(tᵥ)/min(h₁, h₂)，在 9 步平滑后的 f 上计算。"
                 ),
                 "result_overview": (
                     "八个代表情形在全反射边界下都保持两个峰，谷比在 0.009 到 0.066 之间。走快路径的概率随几何不同在 2% 到 50% 之间。"
@@ -732,7 +732,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "grid2d_blackboard_bimodality": {
         "en": {
             "teaser": 'Negative result: with the start and the target at the two ends of a walled corridor, f(t) has one peak and a long tail; the apparent late bump is an artefact of the time window.',
-            "title": "Grid2D Corridor-Endpoint Case (Negative Result)",
+            "title": "2D Lattice: Corridor-Endpoint Case (Negative Result)",
             "summary": (
                 "Negative result for reflecting-wall geometries in which the start and the target sit at the two ends of "
                 "a walled corridor (a 60 × 60 lattice and an 18 × 30 rectangle, lazy walk): f(t) has a single peak and a "
@@ -797,7 +797,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "grid2d_two_target_double_peak": {
         "en": {
             "teaser": 'Two targets on a 31 × 31 reflecting lattice, one reached by a fast corridor and one by a slow corridor: all four hand-built cases have two peaks, one per target.',
-            "title": "Grid2D Two-Target Double-Peak",
+            "title": "2D Lattice: Two-Target Double Peak",
             "summary": (
                 "Two absorbing targets on a 31 × 31 reflecting lattice, a near one reached by a fast biased corridor and a "
                 "far one by a slow corridor. The arrival-time distribution f(t) = f₁(t) + f₂(t) is computed exactly; all "
@@ -882,7 +882,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     "grid2d_rect_bimodality": {
         "en": {
             "teaser": 'Rectangular reflecting lattices: clear double peaks survive only in narrow strips, with no single critical width; with one target and a corridor, only for one global bias and widths 8 to 16.',
-            "title": "Grid2D Rectangle Bimodality",
+            "title": "2D Lattice: Bimodality in a Rectangle",
             "summary": (
                 "Rectangular lattices 60 sites long and W sites wide, with reflecting walls. With a target at each end and "
                 "a biased stream towards each, clear double peaks survive only in narrow strips (W = 5–6 for one start "
@@ -945,29 +945,29 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
     },
     "grid2d_membrane_near_target": {
         "en": {
-            "title": "Grid2D Corridor Membranes and a Target Near the Start",
-            "teaser": "A semi-permeable membrane on a corridor's walls: with equal permeability κ on both walls, two clear peaks persist for κ ≤ 0.0035, only weak ones remain up to κ = 0.02, and none from κ = 0.03 (W = 16); compared with a two-target setting.",
+            "title": "2D Lattice: Corridor Membranes and a Target Near the Start",
+            "teaser": "A semi-permeable membrane on a corridor's walls: with equal permeability κ on both walls, two clear peaks persist for κ ≤ 0.0035, only weak ones remain up to κ = 0.02, and none from κ = 0.03 (lattice width W = 16); compared with a two-target setting.",
             "summary": (
                 "Tests how a semi-permeable membrane on the walls of a corridor (the same permeability κ on both walls, or "
                 "different values on the two walls) changes the first-passage time to a single target, and compares this "
                 "with a two-target setting without a corridor in which one target sits near the start. With equal "
-                "permeability on both walls (W = 16), two clear peaks persist for κ ≤ 0.0035, only weak ones remain for "
+                "permeability on both walls (lattice width W = 16), two clear peaks persist for κ ≤ 0.0035, only weak ones remain for "
                 "0.0037 ≤ κ ≤ 0.02, and there is a single peak from κ = 0.03."
             ),
         },
         "cn": {
             "title": "二维格点：走廊半透膜与靠近起点的目标",
-            "teaser": '走廊墙上的半透膜：两侧渗透率 κ 相同时，κ ≤ 0.0035 仍有两个清晰的峰，到 κ = 0.02 只剩弱双峰，κ ≥ 0.03 时只有一个峰（W = 16）；并与一个双目标情形比较。',
+            "teaser": '走廊墙上的半透膜：两侧渗透率 κ 相同时，κ ≤ 0.0035 仍有两个清晰的峰，到 κ = 0.02 只剩弱双峰，κ ≥ 0.03 时只有一个峰（格点宽度 W = 16）；并与一个双目标情形比较。',
             "summary": (
                 "检验走廊墙上的半透膜（两侧墙渗透率 κ 相同，或两侧取不同值）如何改变到达单个目标的首达时间，并与一个没有走廊、"
-                "其中一个目标靠近起点的双目标情形比较。两侧渗透率相同（W = 16）时，κ ≤ 0.0035 仍有两个清晰的峰，0.0037 ≤ κ ≤ 0.02 只剩弱双峰，κ ≥ 0.03 时只有一个峰。"
+                "其中一个目标靠近起点的双目标情形比较。两侧渗透率相同（格点宽度 W = 16）时，κ ≤ 0.0035 仍有两个清晰的峰，0.0037 ≤ κ ≤ 0.02 只剩弱双峰，κ ≥ 0.03 时只有一个峰。"
             ),
         },
     },
     "grid2d_one_target_valley_peak_budget": {
         "en": {
             "teaser": 'Short report: in a walk with a membrane-walled corridor, late arrivals are late because they spend long stretches outside the corridor, not because they leave it earlier.',
-            "title": "Grid2D One Target: Where the Late Arrivals Spend Their Time",
+            "title": "2D Lattice, One Target: Where the Late Arrivals Spend Their Time",
             "summary": (
                 "Short report on a single-target walk with a corridor whose walls are a membrane of permeability κ. It "
                 "compares walkers arriving in the first peak, the valley and the second peak: late arrivals are late "
@@ -985,8 +985,35 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
         },
     },
     "grid2d_two_target_bias_radius": {
-        "en": {"title": "Grid2D Two-Target: Bias vs Near-Target Distance"},
+        "en": {"title": "2D Lattice, Two Targets: Bias vs Near-Target Distance"},
         "cn": {"title": "二维双目标：偏置强度与近目标距离"},
+    },
+    # Reports without a manuscript yet: titles only. The README headings use code
+    # names ("Grid2D One Target — Base"); these say what each report is about.
+    "grid2d_one_target_base": {
+        "en": {"title": "2D Lattice, One Target: Shared Setup"},
+        "cn": {"title": "二维单目标：共用的模型设定"},
+    },
+    "grid2d_one_target_exit_timing": {
+        "en": {"title": "2D Lattice, One Target: Exit Timing"},
+        "cn": {"title": "二维单目标：首次离开的时间"},
+    },
+    "grid2d_one_target_window_measures": {
+        "en": {"title": "2D Lattice, One Target: Measures Over Fixed Time Windows"},
+        "cn": {"title": "二维单目标：固定时间窗内的度量"},
+    },
+    "grid2d_one_two_target_gating": {
+        "en": {"title": "2D Lattice: One vs Two Targets — Blocking and Rerouting by a Second Target"},
+        "cn": {"title": "二维格点：单目标与双目标——第二个目标的拦截与分流"},
+    },
+    "encounter_reflecting_diagonal_decomp": {
+        "cn": {"title": "反射边界上两个游走者的相遇：按相遇位置分解"},
+    },
+    "encounter_reflecting_mean_validation": {
+        "cn": {"title": "反射边界上两个游走者的相遇：平均相遇时间的验证"},
+    },
+    "exact_recursion_method_guide": {
+        "cn": {"title": "精确递推：方法说明"},
     },
     "cross_luca_regime_map": {
         "en": {
@@ -1072,7 +1099,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                 ),
                 "method_overview": (
                     "One visual rule is used throughout. Let h₁ and h₂ be the heights of the two filtered local maxima of the first-passage "
-                    "curve f(t), and h_v the lowest value between them. A curve counts as a visible double peak when h_v / min(h₁, h₂) ≤ 0.8; "
+                    "curve f(t), and hᵥ the lowest value between them. A curve counts as a visible double peak when hᵥ / min(h₁, h₂) ≤ 0.8; "
                     "a stricter version uses 0.6. The case counts are the labels given by the peak classifier in each scan."
                 ),
                 "result_overview": (
@@ -1103,8 +1130,8 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "以及在近目标周围加一小块盆地的二维格点，盆地内有微弱的向内偏置，并让游走者多停留一会儿。"
                 ),
                 "method_overview": (
-                    "全文用同一条目视判据。设首达时间曲线 f(t) 滤波后的两个局部极大值高度为 h₁、h₂，两者之间的最低值为 h_v；"
-                    "当 h_v / min(h₁, h₂) ≤ 0.8 时算作看得见的双峰，更严的一档取 0.6。各情形数是每次扫描中峰分类器给出的标签。"
+                    "全文用同一条目视判据。设首达时间曲线 f(t) 滤波后的两个局部极大值高度为 h₁、h₂，两者之间的最低值为 hᵥ；"
+                    "当 hᵥ / min(h₁, h₂) ≤ 0.8 时算作看得见的双峰，更严的一档取 0.6。各情形数是每次扫描中峰分类器给出的标签。"
                 ),
                 "result_overview": (
                     "当两条到达路径都带有可见的概率、到达的时间尺度分得开、中间又留下足够低的谷时，就出现看得见的双峰。"
@@ -1159,8 +1186,8 @@ REPORT_DEFINITIONS: dict[str, list[dict[str, str]]] = {
         {
             "stage_en": "Peaks and valley",
             "stage_cn": "峰与谷",
-            "description_en": "t₁ and t₂ are the two peaks (strict local maxima of f with f ≥ 10⁻⁷ and at least 1% of the highest peak) and t_v is the lowest point between them; a smaller valley ratio means a deeper valley.",
-            "description_cn": "t₁、t₂ 是两个峰（f ≥ 10⁻⁷、且不低于最高峰 1% 的严格局部极大值），t_v 是二者之间的最低点；谷比越小，谷越深。",
+            "description_en": "t₁ and t₂ are the two peaks (strict local maxima of f with f ≥ 10⁻⁷ and at least 1% of the highest peak) and tᵥ is the lowest point between them; a smaller valley ratio means a deeper valley.",
+            "description_cn": "t₁、t₂ 是两个峰（f ≥ 10⁻⁷、且不低于最高峰 1% 的严格局部极大值），tᵥ 是二者之间的最低点；谷比越小，谷越深。",
             "latex": r"t_1<t_v<t_2,\qquad h_i=f(t_i),\qquad \text{valley ratio}=\frac{f(t_v)}{\max(h_1,h_2)}",
         },
         {

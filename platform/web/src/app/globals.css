@@ -332,7 +332,13 @@ ol {
   overflow-x: auto;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: #fff;
+  /* A shadow at an edge shows that the table scrolls sideways; it disappears at either end. */
+  background:
+    linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0)) left center / 24px 100% no-repeat local,
+    linear-gradient(to left, #fff 30%, rgba(255, 255, 255, 0)) right center / 24px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(26, 31, 29, 0.2), rgba(26, 31, 29, 0)) left center / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(26, 31, 29, 0.2), rgba(26, 31, 29, 0)) right center / 12px 100% no-repeat scroll,
+    #fff;
 }
 
 .theory-table {
@@ -1400,7 +1406,7 @@ button:hover {
   font-size: 1rem;
 }
 
-.talk-reveal-toolbar-brand span {
+.talk-reveal-toolbar-brand > span {
   color: #66717a;
   font-size: 0.9rem;
 }
@@ -2379,7 +2385,8 @@ button:hover {
 
   .talk-reveal-progress,
   .talk-reveal-toolbar-actions button,
-  .talk-reveal-toolbar-brand span {
+  /* The slide counter only: the title's no-wrap word spans must stay. */
+  .talk-reveal-toolbar-brand > span {
     display: none;
   }
 
@@ -3071,9 +3078,15 @@ li a,
 .card h3,
 .card h4,
 .card p,
-.badge,
 .figure-caption a {
   overflow-wrap: anywhere;
+}
+
+/* Badges break only between words, never inside one (also not between two Chinese characters). */
+.badge {
+  overflow-wrap: normal;
+  word-break: keep-all;
+  max-width: 100%;
 }
 
 select {
@@ -3289,4 +3302,46 @@ span.katex {
 .math-block .katex {
   max-width: none;
   overflow: visible;
+}
+
+/* Short equations and labels (K = 4, Fig. 1, 15 April 2026) stay on one line.
+   Ordinary spaces are used inside: a no-break space is wider than a normal
+   space in the body font and gave doubled gaps. */
+.keep-together {
+  white-space: nowrap;
+}
+
+/* Glossary formulas: one relation per line; a relation is never broken
+   inside and scrolls sideways when it is wider than the card. */
+.glossary-formula {
+  overflow-x: visible;
+}
+
+.glossary-formula-line {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+.glossary-formula-line + .glossary-formula-line {
+  margin-top: 0.3rem;
+}
+
+/* Formula cards: caption from the source section, long formulas on a full row. */
+.math-caption {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.grid-2 > .math-card-wide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 700px) {
+  .math-block-long {
+    font-size: 0.86em;
+  }
 }

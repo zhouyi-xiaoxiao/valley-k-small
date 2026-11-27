@@ -1,4 +1,4 @@
-import { displayTitle, isPlaceholderText } from '@/lib/atlas';
+import { displayTitle, isPlaceholderText, plainText } from '@/lib/atlas';
 import { loadIndex, loadReportMeta } from '@/lib/content';
 import { renderReportPage } from '@/lib/render-pages';
 
@@ -12,7 +12,7 @@ export function generateMetadata({ params }: { params: { reportId: string } }) {
   const summary = meta?.summary ?? '';
   return {
     title: displayTitle('cn', meta, metaEn, params.reportId),
-    description: isPlaceholderText(summary) ? undefined : summary.replace(/\*\*/g, '').slice(0, 220),
+    description: isPlaceholderText(summary) ? undefined : plainText(summary.replace(/\*\*/g, '')).slice(0, 220),
   };
 }
 

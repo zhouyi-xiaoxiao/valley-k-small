@@ -3,6 +3,7 @@
 import katex from 'katex';
 import { KATEX_MACROS } from '@/lib/latex';
 import type { Lang, TalkSlide } from '@/types';
+import { keepTogether } from '@/lib/typeset';
 
 function renderLatex(latex: string) {
   return katex.renderToString(latex, {
@@ -43,6 +44,11 @@ function localized(lang: Lang, en: string, cn: string) {
   return lang === 'cn' ? cn : en;
 }
 
+// Displayed text: short equations and labels stay on one line.
+function shown(lang: Lang, en: string, cn: string) {
+  return keepTogether(localized(lang, en, cn));
+}
+
 function slideTitle(lang: Lang, slide: TalkSlide) {
   return localized(lang, slide.title_en ?? slide.title, slide.title_cn ?? slide.title);
 }
@@ -60,21 +66,21 @@ export function TalkFormulaSlide({ slide, lang }: { slide: TalkSlide; lang: Lang
     <div className="talk-formula-shell">
       <div className="talk-formula-head">
         {slideKicker(lang, slide) ? (
-          <span className="talk-reveal-kicker">{slideKicker(lang, slide)}</span>
+          <span className="talk-reveal-kicker">{keepTogether(slideKicker(lang, slide))}</span>
         ) : null}
-        <h1>{slideTitle(lang, slide)}</h1>
-        <p>{slideSentence(lang, slide)}</p>
+        <h1>{keepTogether(slideTitle(lang, slide))}</h1>
+        <p>{keepTogether(slideSentence(lang, slide))}</p>
       </div>
 
       <div className="talk-formula-grid">
         {EQUATIONS.map((item) => (
           <section key={item.label_en} className="talk-formula-card">
-            <span className="talk-formula-label">{localized(lang, item.label_en, item.label_cn)}</span>
+            <span className="talk-formula-label">{shown(lang, item.label_en, item.label_cn)}</span>
             <div
               className="talk-formula-math"
               dangerouslySetInnerHTML={{ __html: renderLatex(item.latex) }}
             />
-            <p>{localized(lang, item.copy_en, item.copy_cn)}</p>
+            <p>{shown(lang, item.copy_en, item.copy_cn)}</p>
           </section>
         ))}
       </div>

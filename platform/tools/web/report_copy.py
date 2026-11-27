@@ -619,7 +619,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "defects — biased sites, walls with doors, sticky sites — change individual transitions."
                 ),
                 "method_overview": (
-                    "Exact recursion f(t) = rᵀQᵗ⁻¹p₀ as the baseline; generating function built from the defect-free "
+                    "Exact recursion for f(t) as the baseline; generating function built from the defect-free "
                     "propagator plus a correction for each local defect, inverted by Abate–Whitt; Monte Carlo with 30 000 "
                     "walkers. Two peaks are found on f smoothed over 9 steps; valley ratio = f(tᵥ)/min(h₁, h₂), required to "
                     "be at most 0.07, where h₁ and h₂ are the two peak heights and tᵥ is the step of the lowest point "
@@ -653,7 +653,7 @@ REPORT_TEXT_OVERRIDES: dict[str, dict[str, dict[str, Any]]] = {
                     "整体漂移 (g_x, g_y) 改变四个方向的概率。局部缺陷——偏置格点、带门的墙、黏滞格点——改变个别转移概率。"
                 ),
                 "method_overview": (
-                    "以精确递推 f(t) = rᵀQᵗ⁻¹p₀ 为基准；生成函数由无缺陷传播子加上每个局部缺陷的修正构成，用 Abate–Whitt "
+                    "以精确递推算出的 f(t) 为基准；生成函数由无缺陷传播子加上每个局部缺陷的修正构成，用 Abate–Whitt "
                     "方法反演；蒙特卡洛 3 万条轨迹。在 9 步平滑后的 f 上找两个峰；谷比 = f(tᵥ)/min(h₁, h₂)，要求不超过 0.07，其中 h₁、h₂ 是两个峰的高度，tᵥ 是两峰之间最低点所在的那一步。"
                 ),
                 "result_overview": (

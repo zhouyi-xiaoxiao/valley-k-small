@@ -169,6 +169,13 @@ p {
   margin: 0.45rem 0;
 }
 
+/* On the whole-book page the block sits inside a chapter card and needs its own padding. */
+.chapter-storyline:not(.card) {
+  margin: 0.9rem 0;
+  padding: 0.85rem 1rem 0.6rem;
+  border-radius: 0 12px 12px 0;
+}
+
 ul {
   margin: 0.35rem 0 0.6rem;
   padding-left: 1.2rem;

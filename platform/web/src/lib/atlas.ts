@@ -228,6 +228,7 @@ export function isLatexResidue(text: string): boolean {
     return true;
   }
   return (
+    /\(\s*[A-Za-z]\s+(?:[A-Za-z]|\d+)(?:\(t\))?\s*\)/.test(t) ||
     /\bq\s+i\b/i.test(t) ||
     /\b(?:p|q|f|r|Q|P)\s+t(?:\+?\d|\s|=)/.test(t) ||
     /\bt\s+valley\b/i.test(t) ||
@@ -236,6 +237,36 @@ export function isLatexResidue(text: string): boolean {
     /\bp\s+pass\b/.test(t) ||
     /(?:e-1|->|·)/.test(t) && /\b(?:alpha|lambda|max|Delta|tau|P|Q|R|f|F)\b/i.test(t)
   );
+}
+
+export function isGeneratedAssetDatasetPath(pathname: string): boolean {
+  return /(?:^|\/)series\/asset-size-profile\.json(?:$|[?#])/i.test(pathname.trim());
+}
+
+export function isGeneratedMechanismDatasetSnippet(text: string): boolean {
+  return /^(?:Mechanism dataset for .+|.+的机制数据集)[:：]\s*[A-Za-z0-9_.-]+\.?$/i.test(text.trim());
+}
+
+export function evidenceKindLabel(lang: Lang, kind: string): string {
+  const labels: Record<string, [string, string]> = {
+    section_summary: ['Section', '章节'],
+    math_block: ['Formula', '公式'],
+    dataset: ['Data', '数据'],
+    source_document: ['Source', '来源'],
+    figure: ['Figure', '图'],
+  };
+  const normalized = kind.trim().toLowerCase();
+  const label = labels[normalized];
+  if (label) {
+    return lang === 'cn' ? label[1] : label[0];
+  }
+  if (lang === 'cn') {
+    return '证据';
+  }
+  return kind
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase()) || 'Evidence';
 }
 
 function escapeRegExp(value: string): string {
@@ -270,9 +301,12 @@ export function displayEvidenceSnippet(
   reportTitle = '',
 ): string {
   const localized = cleanEvidenceSnippet(text, reportTitle);
+  if (isGeneratedMechanismDatasetSnippet(localized)) {
+    return '';
+  }
   if (lang === 'cn' && (isPlaceholderText(localized) || isLatexResidue(localized) || !localized)) {
     const english = cleanEvidenceSnippet(englishText, reportTitle);
-    return isPlaceholderText(english) || isLatexResidue(english) ? '' : english;
+    return isPlaceholderText(english) || isLatexResidue(english) || isGeneratedMechanismDatasetSnippet(english) ? '' : english;
   }
   return isPlaceholderText(localized) || isLatexResidue(localized) ? '' : localized;
 }

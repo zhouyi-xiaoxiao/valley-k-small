@@ -13,7 +13,16 @@ import {
   localizedText,
   prefixPath,
 } from '@/lib/content';
-import { displayEvidenceSnippet, isGeneratedAssetDataset, isLatexResidue, isPlaceholderText } from '@/lib/atlas';
+import {
+  displayEvidenceSnippet,
+  displayTitle,
+  evidenceKindLabel,
+  isGeneratedAssetDatasetPath,
+  isGeneratedMathStoryDescription,
+  isGeneratedMathStoryStage,
+  isLatexResidue,
+  isPlaceholderText,
+} from '@/lib/atlas';
 import { KATEX_MACROS } from '@/lib/latex';
 import type { BookChapter, Lang } from '@/types';
 
@@ -111,6 +120,7 @@ function visibleChapterEvidence(
   const reportTitle = loadReportMeta(claim.report_id, 'en')?.title ?? '';
   let previousKey = '';
   return claim.evidence
+    .filter((ev) => !isGeneratedAssetDatasetPath(ev.path))
     .map((ev) => ({
       ...ev,
       snippet: displayEvidenceSnippet(
@@ -120,6 +130,10 @@ function visibleChapterEvidence(
         reportTitle,
       ),
     }))
+    .map((ev) => {
+      const claimText = displayChapterClaimText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en);
+      return normalizeReaderText(ev.snippet) === normalizeReaderText(claimText) ? { ...ev, snippet: '' } : ev;
+    })
     .filter((ev) => {
       const key = `${ev.evidence_type}\u0000${ev.path}\u0000${ev.snippet}`;
       if (key === previousKey) {
@@ -128,6 +142,39 @@ function visibleChapterEvidence(
       previousKey = key;
       return true;
     });
+}
+
+function normalizeReaderText(text: string): string {
+  return text.replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function renderTheoryChainCard(
+  lang: Lang,
+  prefix: string,
+  item: BookChapter['theory_chain'][number],
+  key: string,
+) {
+  const rendered = renderLatex(item.latex);
+  const description = lang === 'cn' ? item.description_cn : item.description_en;
+  const generatedStage = isGeneratedMathStoryStage(item.stage);
+  const generatedDescription = isGeneratedMathStoryDescription(description);
+  const reportTitle = displayTitle(
+    lang,
+    loadReportMeta(item.report_id, lang),
+    loadReportMeta(item.report_id, 'en'),
+    item.report_id,
+  );
+  return (
+    <article key={key} className="card">
+      <p>
+        <Link href={prefixPath(prefix, `/reports/${item.report_id}`)}>{reportTitle}</Link>
+      </p>
+      {!generatedStage ? <h3>{lang === 'cn' ? item.label_cn : item.label_en}</h3> : null}
+      {!generatedDescription ? <p>{description}</p> : null}
+      <div className="math-block" dangerouslySetInnerHTML={{ __html: rendered.html }} />
+      {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
+    </article>
+  );
 }
 
 function shortLine(text: string, max = 260): string {
@@ -403,12 +450,12 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
   const storyline = chapterStoryline(chapter, lang, lang === 'cn' ? spine?.transition_to_next_cn : spine?.transition_to_next_en);
   const chapterPanels = chapter.interactive_panels.flatMap((panel) => {
     const meta = loadReportMeta(panel.report_id, lang);
-    const configuredDataset = (meta?.datasets || []).find((dataset) => dataset.series_id === panel.dataset_series_id);
-    if (configuredDataset && isGeneratedAssetDataset(configuredDataset)) {
+    const availableDatasets = (meta?.datasets || []).filter((dataset) => isReaderDataset(dataset));
+    const configuredDataset = availableDatasets.find((dataset) => dataset.series_id === panel.dataset_series_id);
+    if (!configuredDataset && availableDatasets.length === 0) {
       return [];
     }
-    const availableDatasets = (meta?.datasets || []).filter((dataset) => !isGeneratedAssetDataset(dataset));
-    const datasets = availableDatasets.filter((dataset) => dataset.series_id === panel.dataset_series_id);
+    const datasets = configuredDataset ? [configuredDataset] : [];
     const selectedDatasets = datasets.length > 0 ? datasets : availableDatasets.slice(0, 1);
     if (selectedDatasets.length === 0) {
       return [];
@@ -468,26 +515,7 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
       <section className="card section-enter" style={{ marginTop: '1rem' }}>
         <h2>{localizedText(lang, 'Theory Chain', '理论链')}</h2>
         <div className="grid grid-2">
-          {chapter.theory_chain.map((item, idx) => {
-            const rendered = renderLatex(item.latex);
-            return (
-              <article key={`${item.report_id}-${item.stage}-${idx}`} className="card">
-                <p>
-                  <span className="badge">{item.stage}</span>{' '}
-                  <span className="badge">{item.report_id}</span>
-                </p>
-                <h3>{lang === 'cn' ? item.label_cn : item.label_en}</h3>
-                <p>{lang === 'cn' ? item.description_cn : item.description_en}</p>
-                <div
-                  className="math-block"
-                  dangerouslySetInnerHTML={{
-                    __html: rendered.html,
-                  }}
-                />
-                {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
-              </article>
-            );
-          })}
+          {chapter.theory_chain.map((item, idx) => renderTheoryChainCard(lang, prefix, item, `${item.report_id}-${item.stage}-${idx}`))}
         </div>
       </section>
 
@@ -561,7 +589,7 @@ export function renderBookChapterPage(lang: Lang, prefix: string, chapterId: str
                 <ul>
                   {visibleChapterEvidence(claim, lang).map((ev, index) => (
                     <li key={`${claim.claim_id}-${ev.evidence_type}-${ev.path}-${index}`}>
-                      <code>{ev.evidence_type}</code> <code>{ev.path}</code>
+                      <span className="badge">{evidenceKindLabel(lang, ev.evidence_type)}</span>{' '}<code>{ev.path}</code>
                       {ev.snippet ? <p>{ev.snippet}</p> : null}
                     </li>
                   ))}
@@ -634,12 +662,12 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
         const storyline = chapterStoryline(chapter, lang, lang === 'cn' ? spineRow?.transition_to_next_cn : spineRow?.transition_to_next_en);
         const chapterPanels = chapter.interactive_panels.flatMap((panel) => {
           const panelMeta = loadReportMeta(panel.report_id, lang);
-          const configuredDataset = (panelMeta?.datasets || []).find((dataset) => dataset.series_id === panel.dataset_series_id);
-          if (configuredDataset && isGeneratedAssetDataset(configuredDataset)) {
+          const availableDatasets = (panelMeta?.datasets || []).filter((dataset) => isReaderDataset(dataset));
+          const configuredDataset = availableDatasets.find((dataset) => dataset.series_id === panel.dataset_series_id);
+          if (!configuredDataset && availableDatasets.length === 0) {
             return [];
           }
-          const availableDatasets = (panelMeta?.datasets || []).filter((dataset) => !isGeneratedAssetDataset(dataset));
-          const panelDatasets = availableDatasets.filter((dataset) => dataset.series_id === panel.dataset_series_id);
+          const panelDatasets = configuredDataset ? [configuredDataset] : [];
           const selectedDatasets = panelDatasets.length > 0 ? panelDatasets : availableDatasets.slice(0, 1);
           if (selectedDatasets.length === 0) {
             return [];
@@ -686,20 +714,9 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
                 {localizedText(lang, 'Open core derivation', '展开核心推导')} ({chapter.theory_chain.length})
               </summary>
               <div className="grid grid-2">
-                {chapter.theory_chain.map((item, theoryIdx) => {
-                  const rendered = renderLatex(item.latex);
-                  return (
-                    <article key={`${chapter.chapter_id}-${item.report_id}-${theoryIdx}`} className="card">
-                      <p>
-                        <span className="badge">{item.stage}</span>{' '}
-                        <span className="badge">{item.report_id}</span>
-                      </p>
-                      <p>{lang === 'cn' ? item.description_cn : item.description_en}</p>
-                      <div className="math-block" dangerouslySetInnerHTML={{ __html: rendered.html }} />
-                      {rendered.error ? renderMathFallbackNotice(lang, rendered.error) : null}
-                    </article>
-                  );
-                })}
+                {chapter.theory_chain.map((item, theoryIdx) =>
+                  renderTheoryChainCard(lang, prefix, item, `${chapter.chapter_id}-${item.report_id}-${theoryIdx}`),
+                )}
               </div>
             </details>
 
@@ -761,12 +778,12 @@ export function renderBookContinuousPage(lang: Lang, prefix: string) {
                     </p>
                     <p>{displayChapterClaimText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en)}</p>
                     <p className="muted">
-                      {localizedText(lang, 'Evidence items', '证据项')} {claim.evidence.length}
+                      {localizedText(lang, 'Evidence items', '证据项')} {claim.evidence.filter((ev) => !isGeneratedAssetDatasetPath(ev.path)).length}
                     </p>
                     <ul>
-                      {claim.evidence.slice(0, 2).map((ev) => (
+                      {claim.evidence.filter((ev) => !isGeneratedAssetDatasetPath(ev.path)).slice(0, 2).map((ev) => (
                         <li key={`ev-${claim.claim_id}-${ev.path}`}>
-                          <code>{ev.evidence_type}</code> <code>{ev.path}</code>
+                          <span className="badge">{evidenceKindLabel(lang, ev.evidence_type)}</span>{' '}<code>{ev.path}</code>
                         </li>
                       ))}
                     </ul>

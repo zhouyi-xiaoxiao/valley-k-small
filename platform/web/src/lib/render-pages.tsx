@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import katex from 'katex';
+import type { ReactNode } from 'react';
 import { AppShell } from '@/components/AppShell';
 import { ReportPlotPanel } from '@/components/ReportPlotPanel';
 import {
@@ -28,12 +29,14 @@ import {
   START_HERE,
   displayTitle,
   displayEvidenceSnippet,
+  evidenceKindLabel,
   familyLabel,
   familyNote,
   isPlaceholderText,
   isLatexResidue,
   isGeneratedMathStoryDescription,
   isGeneratedMathStoryStage,
+  isGeneratedAssetDatasetPath,
   isGenericMathStoryContext,
   isReaderDataset,
   reportFamily,
@@ -240,6 +243,19 @@ function displayReportText(lang: Lang, text: string, englishText = ''): string {
   return '';
 }
 
+function displayWipNoteText(lang: Lang, text: string, englishText = ''): string {
+  const own = text.trim();
+  const candidate = isPlaceholderText(own) || (isLatexResidue(own) && !/\$[^$]+\$/.test(own)) ? '' : own;
+  if (candidate) {
+    return candidate;
+  }
+  if (lang === 'cn') {
+    const english = englishText.trim();
+    return isPlaceholderText(english) || (isLatexResidue(english) && !/\$[^$]+\$/.test(english)) ? '' : english;
+  }
+  return '';
+}
+
 function localizeSectionCards(
   lang: Lang,
   cards: ReportMeta['section_cards'],
@@ -342,10 +358,11 @@ function renderConnectionReason(
     adjacent_in_track: boolean;
     shared_notion_ids: string[];
   },
+  hiddenBadges = new Set<string>(),
 ) {
   const reasonBadges: string[] = [];
   if (row.adjacent_in_track) {
-    reasonBadges.push(localizedText(lang, 'adjacent in track', '同轨道相邻'));
+    reasonBadges.push(localizedText(lang, 'next in this group', '同组相邻'));
   }
   const notionLabels = row.shared_notion_ids
     .slice(0, 3)
@@ -353,18 +370,84 @@ function renderConnectionReason(
     .filter(Boolean)
     .map((payload) => (lang === 'cn' ? payload.label_cn : payload.label_en));
   reasonBadges.push(...notionLabels);
-  if (reasonBadges.length === 0) {
+  const visibleBadges = reasonBadges.filter((badge) => !hiddenBadges.has(badge));
+  if (visibleBadges.length === 0) {
     return null;
   }
   return (
     <p style={{ marginTop: '0.25rem' }}>
-      {reasonBadges.map((badge) => (
+      {visibleBadges.map((badge) => (
         <span key={badge} className="badge" style={{ marginRight: '0.35rem' }}>
           {badge}
         </span>
       ))}
     </p>
   );
+}
+
+function repeatedConnectionBadges(
+  lang: Lang,
+  network: ReportNetwork,
+  rows: Array<{ adjacent_in_track: boolean; shared_notion_ids: string[] }>,
+): Set<string> {
+  if (rows.length < 2) {
+    return new Set<string>();
+  }
+  const badgeSets = rows.map((row) => {
+    const labels: string[] = [];
+    if (row.adjacent_in_track) {
+      labels.push(localizedText(lang, 'next in this group', '同组相邻'));
+    }
+    labels.push(
+      ...row.shared_notion_ids
+        .slice(0, 3)
+        .map((notionId) => network.notion_labels[notionId])
+        .filter(Boolean)
+        .map((payload) => (lang === 'cn' ? payload.label_cn : payload.label_en)),
+    );
+    return new Set(labels);
+  });
+  return new Set([...badgeSets[0]].filter((badge) => badgeSets.every((set) => set.has(badge))));
+}
+
+function normalizeReaderText(text: string): string {
+  return text.replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function renderInlineMarkdown(text: string): ReactNode[] {
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\$[^$]+\$)/g).filter(Boolean);
+  return parts.map((part, index) => {
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return <code key={`code-${index}`}>{part.slice(1, -1)}</code>;
+    }
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={`bold-${index}`}>{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('$') && part.endsWith('$')) {
+      const rendered = renderLatex(part.slice(1, -1), false);
+      return <span key={`math-${index}`} className="math-inline" dangerouslySetInnerHTML={{ __html: rendered.html }} />;
+    }
+    return <span key={`text-${index}`}>{part}</span>;
+  });
+}
+
+function renderWipNote(lang: Lang, prefix: string, text: string, network: ReportNetwork): ReactNode {
+  const cleanText = text.replace(/^\s*\[[ xX]\]\s*/, '');
+  const linkedId = cleanText.match(/^`?([a-z0-9]+(?:_[a-z0-9]+)+)`?\s+—\s+(.+)$/i);
+  const knownReport = linkedId && (
+    network.reports.some((row) => row.report_id === linkedId[1]) ||
+    loadIndex().reports.some((row) => row.report_id === linkedId[1])
+  );
+  if (linkedId && knownReport) {
+    return (
+      <>
+        <Link href={prefixPath(prefix, `/reports/${linkedId[1]}`)}>{lookupReportTitle(linkedId[1], lang, network)}</Link>
+        {' — '}
+        {renderInlineMarkdown(linkedId[2])}
+      </>
+    );
+  }
+  return <>{renderInlineMarkdown(cleanText)}</>;
 }
 
 function reportClaims(contentMap: ContentMap, reportId: string) {
@@ -663,10 +746,15 @@ function buildStageCoverageRows(contentMap: ContentMap, network: ReportNetwork) 
   return rows;
 }
 
-function buildNotionClaimDigests(map: ReturnType<typeof loadTheoryMap>, contentMap: ContentMap) {
+function buildNotionClaimDigests(map: ReturnType<typeof loadTheoryMap>, contentMap: ContentMap, lang: Lang) {
   return map.cards.map((card) => {
     const claims = contentMap.claims
       .filter((claim) => card.report_ids.includes(claim.report_id))
+      .map((claim) => ({
+        ...claim,
+        text: displayReportText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en),
+      }))
+      .filter((claim) => Boolean(claim.text))
       .sort((left, right) => {
         const stageDelta = CLAIM_STAGE_ORDER[left.stage] - CLAIM_STAGE_ORDER[right.stage];
         if (stageDelta !== 0) {
@@ -879,10 +967,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const visibleMathStory = isWip
     ? meta.math_story.filter(
         (item) =>
-          !/fallback/i.test(item.context) &&
-          !/^distribution setup$|^分布定义$/i.test(item.stage) &&
-          !/^defines first-passage probability objects used by later diagnostics\.?$/i.test(item.description) &&
-          !/^定义后续诊断所依赖的首达时间概率对象。?$/.test(item.description),
+          !/fallback/i.test(item.context),
       )
     : meta.math_story;
   const figures = visibleFigureRecords(loadFigures(reportId));
@@ -915,7 +1000,11 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
   const groupedAssets = groupAssets(meta.assets);
   const duplicateAssetCount = Math.max(0, meta.assets.length - groupedAssets.length);
   const localizedFindings = meta.key_findings
-    .map((finding, index) => displayReportText(lang, finding, metaEn?.key_findings[index] ?? ''))
+    .map((finding, index) =>
+      isWip
+        ? displayWipNoteText(lang, finding, metaEn?.key_findings[index] ?? '')
+        : displayReportText(lang, finding, metaEn?.key_findings[index] ?? ''),
+    )
     .filter(Boolean);
   const topFindings = localizedFindings.slice(0, 5);
   const extraFindings = localizedFindings.slice(5);
@@ -971,6 +1060,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
       text: displayReportText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en),
       originalEvidenceCount: claim.evidence.length,
       evidence: claim.evidence
+        .filter((ev) => !isGeneratedAssetDatasetPath(ev.path))
         .map((ev) => ({
           ...ev,
           snippet: displayEvidenceSnippet(
@@ -980,7 +1070,10 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             metaEn?.title ?? meta.title,
           ),
         }))
-        .filter((ev) => Boolean(ev.snippet)),
+        .map((ev) => {
+          const claimText = displayReportText(lang, lang === 'cn' ? claim.text_cn : claim.text_en, claim.text_en);
+          return normalizeReaderText(ev.snippet) === normalizeReaderText(claimText) ? { ...ev, snippet: '' } : ev;
+        }),
     }))
     .filter((claim) => Boolean(claim.text))
     .filter((claim) => {
@@ -1001,7 +1094,7 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
     : [];
   const hasClaimsBlock = visibleClaims.length > 0 || Boolean(guideObjective && guideObjective !== narrative.result_overview);
   const navItems = [
-    { id: 'findings', label: localizedText(lang, 'Findings', '结论'), show: topFindings.length > 0 },
+    { id: 'findings', label: isWip ? localizedText(lang, 'Notes so far', '目前的笔记') : localizedText(lang, 'Findings', '结论'), show: topFindings.length > 0 },
     { id: 'interactive', label: localizedText(lang, 'Interactive figures', '交互图'), show: visibleDatasets.length > 0 },
     { id: 'figures', label: localizedText(lang, 'Figures', '图'), show: figures.length > 0 },
     { id: 'math-chain', label: localizedText(lang, 'Mathematics', '数学'), show: visibleMathStory.length > 0 },
@@ -1093,18 +1186,22 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
 
       {topFindings.length > 0 ? (
         <section id="findings" className="card section-enter" style={{ marginTop: '1rem' }}>
-          <h3>{localizedText(lang, 'Key findings', '关键结论')}</h3>
+          <h3>{isWip ? localizedText(lang, 'Notes so far', '目前的笔记') : localizedText(lang, 'Key findings', '关键结论')}</h3>
           <ul>
             {topFindings.map((line) => (
-              <li key={line}>{line}</li>
+              <li key={line}>{isWip ? renderWipNote(lang, prefix, line, network) : line}</li>
             ))}
           </ul>
           {extraFindings.length > 0 ? (
             <details>
-              <summary>{localizedText(lang, 'Show remaining findings', '展开剩余结论')}</summary>
+              <summary>
+                {isWip
+                  ? localizedText(lang, 'Show remaining notes', '展开剩余笔记')
+                  : localizedText(lang, 'Show remaining findings', '展开剩余结论')}
+              </summary>
               <ul>
                 {extraFindings.map((line) => (
-                  <li key={`extra-${line}`}>{line}</li>
+                  <li key={`extra-${line}`}>{isWip ? renderWipNote(lang, prefix, line, network) : line}</li>
                 ))}
               </ul>
             </details>
@@ -1197,11 +1294,17 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             const rendered = renderLatex(item.latex);
             const generatedStage = isGeneratedMathStoryStage(item.stage);
             const generatedDescription = isGeneratedMathStoryDescription(item.description);
+            const formulaTitle = displayTitle(lang, meta, metaEn, reportId);
             const showContext = item.context && !/fallback/i.test(item.context)
               && !isGenericMathStoryContext(item.context)
               && !(lang === 'en' && /[\u3400-\u9fff]/.test(item.context));
             return (
               <article key={`${item.stage}-${idx}`} className="card">
+                {generatedStage || generatedDescription ? (
+                  <p>
+                    <Link href={prefixPath(prefix, `/reports/${reportId}`)}>{formulaTitle}</Link>
+                  </p>
+                ) : null}
                 {!generatedStage ? <h4>{item.stage}</h4> : null}
                 {!generatedDescription ? <p>{item.description}</p> : null}
                 <div
@@ -1332,14 +1435,18 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             <h4>{localizedText(lang, 'Same-Group Links', '同组强关联')}</h4>
             {networkNode && networkNode.same_group_links.length > 0 ? (
               <ul>
-                {networkNode.same_group_links.slice(0, 4).map((row) => (
-                  <li key={`same-${row.report_id}`}>
-                    <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
-                      {lookupReportTitle(row.report_id, lang, network)}
-                    </Link>
-                    {renderConnectionReason(lang, network, row)}
-                  </li>
-                ))}
+                {(() => {
+                  const rows = networkNode.same_group_links.slice(0, 4);
+                  const hiddenBadges = repeatedConnectionBadges(lang, network, rows);
+                  return rows.map((row) => (
+                    <li key={`same-${row.report_id}`}>
+                      <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
+                        {lookupReportTitle(row.report_id, lang, network)}
+                      </Link>
+                      {renderConnectionReason(lang, network, row, hiddenBadges)}
+                    </li>
+                  ));
+                })()}
               </ul>
             ) : (
               <p>{localizedText(lang, 'No same-group links detected.', '未检测到同组强关联。')}</p>
@@ -1350,14 +1457,18 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
             <h4>{localizedText(lang, 'Cross-Group Bridges', '跨组桥接')}</h4>
             {networkNode && networkNode.cross_group_links.length > 0 ? (
               <ul>
-                {networkNode.cross_group_links.slice(0, 4).map((row) => (
-                  <li key={`cross-${row.report_id}`}>
-                    <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
-                      {lookupReportTitle(row.report_id, lang, network)}
-                    </Link>
-                    {renderConnectionReason(lang, network, row)}
-                  </li>
-                ))}
+                {(() => {
+                  const rows = networkNode.cross_group_links.slice(0, 4);
+                  const hiddenBadges = repeatedConnectionBadges(lang, network, rows);
+                  return rows.map((row) => (
+                    <li key={`cross-${row.report_id}`}>
+                      <Link href={prefixPath(prefix, `/reports/${row.report_id}`)}>
+                        {lookupReportTitle(row.report_id, lang, network)}
+                      </Link>
+                      {renderConnectionReason(lang, network, row, hiddenBadges)}
+                    </li>
+                  ));
+                })()}
               </ul>
             ) : (
               <p>{localizedText(lang, 'No cross-group bridges detected.', '未检测到跨组桥接。')}</p>
@@ -1473,8 +1584,8 @@ export function renderReportPage(lang: Lang, prefix: string, reportId: string) {
                             <ul>
                               {claim.evidence.map((ev) => (
                                 <li key={`${claim.claim_id}-${ev.evidence_type}-${ev.path}`}>
-                                  <code>{ev.evidence_type}</code> <code>{ev.path}</code>
-                                  <p style={{ margin: '0.35rem 0 0' }}>{ev.snippet}</p>
+                                  <span className="badge">{evidenceKindLabel(lang, ev.evidence_type)}</span>{' '}<code>{ev.path}</code>
+                                  {ev.snippet ? <p style={{ margin: '0.35rem 0 0' }}>{ev.snippet}</p> : null}
                                 </li>
                               ))}
                             </ul>
@@ -1622,7 +1733,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
   const formulaPolicyRows = extractFormulaPolicyRows(map);
   const duplicationBuckets = extractDuplicationBuckets(map);
   const stageCoverageRows = buildStageCoverageRows(contentMap, network);
-  const notionDigests = buildNotionClaimDigests(map, contentMap);
+  const notionDigests = buildNotionClaimDigests(map, contentMap, lang);
   return (
     <AppShell lang={lang} prefix={prefix}>
       <section className="card section-enter">
@@ -1932,7 +2043,7 @@ export function renderTheoryPage(lang: Lang, prefix: string) {
                       <span className="badge">{stageLabel(lang, claim.stage)}</span>{' '}
                       <Link href={prefixPath(prefix, `/reports/${claim.report_id}`)}>{claim.report_id}</Link>{' '}
                       <span className="muted">({localizedText(lang, 'evidence', '证据')} {claim.evidence.length})</span>
-                      <div>{compactText(lang === 'cn' ? claim.text_cn : claim.text_en, 150)}</div>
+                      <div>{compactText(claim.text, 150)}</div>
                     </li>
                   ))}
                 </ul>

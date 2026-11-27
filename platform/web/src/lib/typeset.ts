@@ -14,7 +14,9 @@ const SYMBOL =
   '(?:[A-Za-zα-ωΑ-Ω](?:[₀-₉ₐ-ₜᵢ-ᵥ′ᵀ⁰-⁹¹²³⁻⁺]|_\\{?[A-Za-z0-9]+\\}?|\\^\\{?[A-Za-z0-9−-]+\\}?)*(?:\\([^()\\s]{1,12}\\))?' +
   '|\\([^()\\s]{1,12}\\)' +
   '|[−-]?\\d[\\d.,]*[⁰-⁹¹²³⁻]*)';
-const RHS = '[^\\s,;:。，；：、）)]{1,24}';
+// The right-hand side stops at Chinese characters and full-width punctuation, so that a
+// bracket of Chinese text after the value (K = 2（…）) stays outside the no-wrap span.
+const RHS = '[^\\s,;:)\\u3000-\\u303f\\u3400-\\u9fff\\uff00-\\uffef]{1,24}';
 // A run without spaces, Chinese characters or full-width punctuation.
 const WORD = '[^\\s\\u3000-\\u303f\\u3400-\\u9fff\\uff00-\\uffef]+';
 const OPERATOR = '(?:=|≈|≠|≤|≥|<|>|∈|→|×|±|−|\\+)';

@@ -33,7 +33,7 @@ export function renderAtlasHome(lang: Lang, prefix: string) {
           <p className="home-lede">
             {readerText(localizedText(
               lang,
-              'A walker wanders on a lattice until it first reaches a target. The time that takes, the first-passage time, usually has a single most likely value. Add one directed shortcut, for instance, and the distribution can split: an early hump from walkers that found the shortcut, a late one from walkers that went the long way round, and a valley between.',
+              'A walker wanders on a lattice until it first reaches a target. The time this takes, the first-passage time, usually has a single most likely value. Add one directed shortcut, for instance, and the distribution can split: an early hump from walkers that found the shortcut, a late one from walkers that went the long way round, and a valley between.',
               '游走者在格点上随机行走，直到第一次碰到目标。这段时间叫首达时间，它的分布通常只有一个最可能的值。比如加上一条有向捷径，分布就可能一分为二：找到捷径的游走者形成早到的峰，绕远路的形成晚到的峰，中间隔着一道谷。',
             ))}
           </p>

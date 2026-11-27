@@ -18,6 +18,7 @@ import {
   displayTitle,
   evidenceKindLabel,
   isGeneratedAssetDatasetPath,
+  isReaderDataset,
   isGeneratedMathStoryDescription,
   isGeneratedMathStoryStage,
   isLatexResidue,
